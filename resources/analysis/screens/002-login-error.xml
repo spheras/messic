@@ -1,0 +1,71 @@
+<mockup version="1.0" skin="sketch" fontFace="Balsamiq Sans" measuredW="936" measuredH="594" mockupW="451" mockupH="281">
+  <controls>
+    <control controlID="57" controlTypeID="__group__" x="485" y="313" w="273" h="281" measuredW="273" measuredH="281" zOrder="0" locked="false" isInGroup="-1">
+      <groupChildrenDescriptors>
+        <control controlID="0" controlTypeID="com.balsamiq.mockups::TitleWindow" x="0" y="0" w="273" h="281" measuredW="450" measuredH="400" zOrder="0" locked="false" isInGroup="57">
+          <controlProperties>
+            <text>Login</text>
+          </controlProperties>
+        </control>
+        <control controlID="1" controlTypeID="com.balsamiq.mockups::TextInput" x="25" y="141" w="134" h="-1" measuredW="71" measuredH="27" zOrder="1" locked="false" isInGroup="57">
+          <controlProperties>
+            <text>password</text>
+          </controlProperties>
+        </control>
+        <control controlID="2" controlTypeID="com.balsamiq.mockups::TextInput" x="25" y="81" w="134" h="-1" measuredW="41" measuredH="27" zOrder="2" locked="false" isInGroup="57">
+          <controlProperties>
+            <text>user</text>
+          </controlProperties>
+        </control>
+        <control controlID="3" controlTypeID="com.balsamiq.mockups::Label" x="25" y="60" w="134" h="-1" measuredW="29" measuredH="21" zOrder="3" locked="false" isInGroup="57">
+          <controlProperties>
+            <text>User</text>
+          </controlProperties>
+        </control>
+        <control controlID="4" controlTypeID="com.balsamiq.mockups::Label" x="25" y="120" w="134" h="-1" measuredW="56" measuredH="21" zOrder="4" locked="false" isInGroup="57">
+          <controlProperties>
+            <text>Password</text>
+          </controlProperties>
+        </control>
+        <control controlID="5" controlTypeID="com.balsamiq.mockups::Button" x="182" y="30" w="-1" h="-1" measuredW="84" measuredH="27" zOrder="5" locked="false" isInGroup="57">
+          <controlProperties>
+            <text>New%20User%21</text>
+          </controlProperties>
+        </control>
+        <control controlID="6" controlTypeID="com.balsamiq.mockups::Button" x="203" y="156" w="-1" h="-1" measuredW="55" measuredH="27" zOrder="6" locked="false" isInGroup="57">
+          <controlProperties>
+            <text>Enter</text>
+          </controlProperties>
+        </control>
+        <control controlID="7" controlTypeID="com.balsamiq.mockups::Label" x="8" y="198" w="256" h="-1" measuredW="219" measuredH="21" zOrder="7" locked="false" isInGroup="57">
+          <controlProperties>
+            <bold>true</bold>
+            <text>ERROR%3A%20incorrect%20user%20or%20password</text>
+          </controlProperties>
+        </control>
+        <control controlID="8" controlTypeID="com.balsamiq.mockups::Label" x="8" y="219" w="207" h="-1" measuredW="179" measuredH="21" zOrder="8" locked="false" isInGroup="57">
+          <controlProperties>
+            <bold>true</bold>
+            <text>Did%20you%20forgot%20the%20password%3F</text>
+          </controlProperties>
+        </control>
+        <control controlID="9" controlTypeID="com.balsamiq.mockups::Link" x="196" y="220" w="-1" h="-1" measuredW="69" measuredH="19" zOrder="9" locked="false" isInGroup="57">
+          <controlProperties>
+            <bold>true</bold>
+            <text>Remember</text>
+          </controlProperties>
+        </control>
+      </groupChildrenDescriptors>
+    </control>
+    <control controlID="59" controlTypeID="com.balsamiq.mockups::StickyNote" x="827" y="442" w="-1" h="-1" measuredW="109" measuredH="123" zOrder="1" locked="false" isInGroup="-1">
+      <controlProperties>
+        <text>System%20to%20remember%20passwords..%20or%20recover</text>
+      </controlProperties>
+    </control>
+    <control controlID="61" controlTypeID="com.balsamiq.mockups::Arrow" x="735" y="495" w="85" h="41" measuredW="150" measuredH="100" zOrder="2" locked="false" isInGroup="-1">
+      <controlProperties>
+        <direction>bottom</direction>
+      </controlProperties>
+    </control>
+  </controls>
+</mockup>
