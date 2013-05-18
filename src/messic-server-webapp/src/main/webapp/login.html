@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Messic Login</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+		<link href="css/kendoui/kendo.common.min.css" rel="stylesheet" />
+		<link href="css/kendoui/kendo.default.min.css" rel="stylesheet" />
+		
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/main.css">
+		
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="window">
+        	<form action="j_spring_security_check" method="POST">
+				<input id="username" name="j_username" type="text" value="joseUser"/>
+				<input id="password" name="j_password" type="text" value="audreyPass"/>
+				<input type="submit" value="login"/>
+			</form>
+		</div>
+		
+
+        <script src="js/vendor/jquery-1.9.1.min.js"></script>
+		<script src="js/vendor/kendoui/kendo.web.min.js"></script>
+
+        <script src="js/plugins.js"></script>
+        <script src="js/login.js"></script>
+    </body>
+</html>
