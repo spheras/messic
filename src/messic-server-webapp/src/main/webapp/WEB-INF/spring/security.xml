@@ -18,11 +18,12 @@
 		<intercept-url pattern="/**" access="isAuthenticated()" />
 
 		<access-denied-handler error-page="/denied" />
-
+                         
 		<logout invalidate-session="true" logout-success-url="/logout/success"
 			logout-url="/logout" />
 
 		<custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER" />
+		
 	</http>
 
 
@@ -44,7 +45,7 @@
 
 	<beans:bean id="securityLoginSuccessHandler"
 		class="org.messic.server.facade.logics.SecurityLoginSuccessHandler">
-		<beans:property name="defaultTargetUrl" value="/login.html" />
+		<beans:property name="defaultTargetUrl" value="/main.html" />
 	</beans:bean>
 
 	<beans:bean id="securityLoginFailureHandler"

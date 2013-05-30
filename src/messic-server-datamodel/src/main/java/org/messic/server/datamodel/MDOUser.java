@@ -2,130 +2,99 @@ package org.messic.server.datamodel;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Version;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
-public class MDOUser
-    implements Serializable, MDO
-{
-    private static final long serialVersionUID = -7500372633805690738L;
-
-    private Long sid;
-
-    private Integer version;
-
-    /** user */
-    private String username;
-
-    /** hash password */
-    private String hashpass;
-
-    /** current state of the user */
-    private String state;
-
-    /** picture */
-    private byte[] avatar;
+@Table(name = "USERS")
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING, length = 31)
+public class MDOUser implements MDO,Serializable {
 
     /**
-     * @return the sid
+     * 
      */
+    private static final long serialVersionUID = -295966654597222940L;
+    
     @Id
-    @GeneratedValue
-    public Long getSid()
-    {
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USERS")
+    @SequenceGenerator(name = "SEQ_USERS", sequenceName = "SEQ_USERS")
+    @Column(name = "SID", nullable = false, unique = true)
+    private Long sid;
+    
+    @Column(name = "NAME", nullable = false)
+    private String name;
+    
+    @Column(name = "LOGIN", nullable = false)
+    private String login;
+    
+    @Column(name = "PASSWORD", nullable = false)
+    private String password;
+    
+    @Column(name = "ADMINISTRATOR" , nullable = false)
+    private Boolean administrator;
+
+    /**
+     * @constructor
+     */
+    public MDOUser() {
+        super();
+    }
+    
+    public MDOUser(String name, String login, String password, Boolean administrator) {
+        this.name = name;
+        this.login = login;
+        this.password = password;
+        this.administrator = administrator;
+    }
+
+    public Long getSid() {
         return sid;
     }
 
-    /**
-     * @param sid the sid to set
-     */
-    public void setSid( Long sid )
-    {
+    public void setSid(Long sid) {
         this.sid = sid;
     }
 
-    /**
-     * @return the version
-     */
-    @Version
-    public Integer getVersion()
-    {
-        return version;
+    public String getName() {
+        return name;
     }
 
-    /**
-     * @param version the version to set
-     */
-    public void setVersion( Integer version )
-    {
-        this.version = version;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    /**
-     * @return the username
-     */
-    public String getUsername()
-    {
-        return username;
+    public String getLogin() {
+        return login;
     }
 
-    /**
-     * @param username the username to set
-     */
-    public void setUsername( String user )
-    {
-        this.username = user;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    /**
-     * @return the hashpass
-     */
-    public String getHashpass()
-    {
-        return hashpass;
+    public String getPassword() {
+        return password;
     }
 
-    /**
-     * @param hashpass the hashpass to set
-     */
-    public void setHashpass( String hashPass )
-    {
-        this.hashpass = hashPass;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    /**
-     * @return the state
-     */
-    public String getState()
-    {
-        return state;
+    public Boolean getAdministrator() {
+        return administrator;
     }
 
-    /**
-     * @param state the state to set
-     */
-    public void setState( String state )
-    {
-        this.state = state;
+    public void setAdministrator(Boolean administrator) {
+        this.administrator = administrator;
     }
-
-    /**
-     * @return the avatar
-     */
-    public byte[] getAvatar()
-    {
-        return avatar;
-    }
-
-    /**
-     * @param avatar the avatar to set
-     */
-    public void setAvatar( byte[] avatar )
-    {
-        this.avatar = avatar;
-    }
-
+    
 }
