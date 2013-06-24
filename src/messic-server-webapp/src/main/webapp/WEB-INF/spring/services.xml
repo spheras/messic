@@ -15,5 +15,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 	<context:annotation-config />
 	<!-- It allow @Component, @Service, @Controller, etc.. annotations. -->
 	<context:component-scan base-package="org.messic.server.facade.logics, org.messic.server.datamodel" />
-	
+	<!-- 	
+	<context:load-time-weaver/>
+	-->
 </beans>

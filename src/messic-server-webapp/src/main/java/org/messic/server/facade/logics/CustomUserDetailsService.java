@@ -39,11 +39,7 @@ public class CustomUserDetailsService
             MDOUser domainUser = userRepository.getUser( username );
             if ( domainUser == null )
             {
-                MDOUser newUser = new MDOUser();
-                newUser.setUsername( username );
-                newUser.setHashpass( "12345" );
-                userRepository.save( newUser );
-                domainUser=newUser;
+                domainUser = userRepository.createUser(username, "12345", "Usuario de pruebas", true);
                 //throw new UsernameNotFoundException( "user not found!" );
             }
 
@@ -52,7 +48,7 @@ public class CustomUserDetailsService
             boolean credentialsNonExpired = true;
             boolean accountNonLocked = true;
             User signedUser =
-                new User( domainUser.getUsername(), domainUser.getHashpass().toLowerCase(), enabled, accountNonExpired,
+                new User( domainUser.getLogin(), domainUser.getPassword(), enabled, accountNonExpired,
                           credentialsNonExpired, accountNonLocked, getAuthorities( 1 ) );
 
             return signedUser;

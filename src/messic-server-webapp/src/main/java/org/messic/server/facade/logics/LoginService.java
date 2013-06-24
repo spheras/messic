@@ -46,10 +46,10 @@ public class LoginService
     {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken( username, password );
-        MDOUser details = new MDOUser( );
-        details.setUsername( username );
-        details.setHashpass( password );
-        token.setDetails( details );
+//        MDOUser details = new MDOUser( );
+//        details.setLogin( username );
+//        details.setPassword( password );
+//        token.setDetails( details );
 
         try
         {
