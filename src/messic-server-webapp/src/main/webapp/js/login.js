@@ -30,7 +30,7 @@ function on_login()
         	{
 	        	if(data.success==true)
 	        	{
-	        		alert('ok');            	
+	        		$("body").load('main.html');
 	        	}
 	        	else
 	        	{
