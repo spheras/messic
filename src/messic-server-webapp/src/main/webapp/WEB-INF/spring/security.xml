@@ -44,14 +44,10 @@
 
 
 	<beans:bean id="securityLoginSuccessHandler"
-		class="org.messic.server.facade.logics.SecurityLoginSuccessHandler">
-		<beans:property name="defaultTargetUrl" value="/main.html" />
-	</beans:bean>
+		class="org.messic.server.facade.logics.SecurityLoginSuccessHandler"/>
 
 	<beans:bean id="securityLoginFailureHandler"
-		class="org.messic.server.facade.logics.SecurityLoginFailureHandler">
-		<beans:property name="defaultFailureUrl" value="/login/failure" />
-	</beans:bean>
+		class="org.messic.server.facade.logics.SecurityLoginFailureHandler"/>
 
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="customUserDetailsService">
