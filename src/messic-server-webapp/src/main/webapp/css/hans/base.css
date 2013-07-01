@@ -1,0 +1,78 @@
+
+
+#messic-playlist
+{
+    position: fixed;
+    bottom: 0px;
+    background: url("honey_im_subtle.png");
+    height: 150px;
+    width: 100%;
+}
+
+.messic-playlist-border
+{
+    background: url("playlist-border.png") repeat scroll 0 0 transparent;
+    height: 8px;
+    width: 100%;
+}
+
+#messic-playlist li
+{
+    /*border: thin dashed black;*/
+    float: left;
+    height: 89px;
+    margin-right: 20px;
+    padding: 0;
+    width: 87px;
+    border-bottom: 0px;
+}
+
+#messic-playlist .messic-jplayer-playlist-vinylbox {
+    background: url("vinyl-box-external.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 89px;
+    padding: 0;
+    width: 87px;
+    position: absolute;
+}
+
+#messic-playlist .messic-jplayer-playlist-vinylbox img{
+    margin-left: 6px;
+    margin-top: 6px;
+    width: 73px;
+    height:75px;
+}
+
+#messic-playlist .messic-jplayer-playlist-vinyl-play {
+    background: url("vinyl-play.png") no-repeat scroll 0 0 transparent;
+    height: 38px;
+    left: 28px;
+    position: absolute;
+    top: 24px;
+    width: 38px;
+
+   opacity: 0;
+   transition: opacity .45s ease-in-out;
+   -moz-transition: opacity .45s ease-in-out;
+   -webkit-transition: opacity .45s ease-in-out;
+}
+
+#messic-playlist .messic-jplayer-playlist-vinylbox:hover .messic-jplayer-playlist-vinyl-play {
+   opacity: 1;
+}
+
+#messic-playlist .messic-jplayer-playlist-vinyl {
+    background: url("vinyl.png") no-repeat scroll 0 0 transparent;
+    display: inline-block;
+    height: 78px;
+    margin-left: 20px;
+    margin-top: 4px;
+    position: absolute;
+    width: 77px;
+}
+
+
+#messic-playlist div.jp-title, #messic-playlist div.jp-playlist
+{
+    border: 0px;
+}

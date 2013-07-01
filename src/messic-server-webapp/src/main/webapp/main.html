@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Messic</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+		<link href="css/kendoui/kendo.common.min.css" rel="stylesheet" />
+		<link href="css/kendoui/kendo.default.min.css" rel="stylesheet" />
+		
+        <link rel="stylesheet" href="css/normalize.min.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/hans/base.css">
+
+        <link type="text/css" href="css/jplayer/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />		
+
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="jquery_jplayer" class="jp-jplayer"></div>
+        <div class="jp-audio" id="jquery_jplayer_content">
+            <div class="jp-type-playlist">
+              <div class="jp-gui jp-interface">
+                <ul class="jp-controls">
+                  <li><a tabindex="1" class="jp-play" href="javascript:;">play</a></li>
+                  <li><a tabindex="1" class="jp-pause" href="javascript:;" style="display: none;">pause</a></li>
+                  <li><a tabindex="1" class="jp-previous" href="javascript:;">previous</a></li>
+                  <li><a tabindex="1" class="jp-next" href="javascript:;">next</a></li>
+                </ul>
+                <div class="jp-progress">
+                  <div class="jp-seek-bar" style="width: 100%;">
+                    <div class="jp-play-bar" style="width: 0%;">
+                      <div class="jp-volume-marker"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="jp-volume-bar">
+                  <div class="jp-volume-bar-line">
+                    <div class="jp-volume-bar-value" style="width: 80%;"><div class="jp-volume-marker"></div></div>
+                  </div>
+                </div>
+                <div class="jp-time-holder"> <span class="jp-current-time">00:00</span>&nbsp;/&nbsp;<span class="jp-duration">04:27</span> </div>
+                <ul class="jp-toggles">
+                  <li><a title="random on" tabindex="1" class="jp-shuffle" href="javascript:;">random on</a></li>
+                  <li><a title="random off" tabindex="1" class="jp-shuffle-off" href="javascript:;" style="display: none;">random off</a></li>
+                  <li><a title="repeat on" tabindex="1" class="jp-repeat" href="javascript:;">repeat on</a></li>
+                  <li><a title="repeat off" tabindex="1" class="jp-repeat-off" href="javascript:;" style="display: none;">repeat off</a></li>
+                </ul>
+              </div>
+              
+              <div class="jp-no-solution" style="display: none;"> <span>Update Required</span> To play the media you will need to either update your browser to a recent version or update your <a target="_blank" href="http://get.adobe.com/flashplayer/">Flash plugin</a>. </div>
+            </div>
+          </div>
+
+        <div id="messic-playlist">
+            <div class="messic-playlist-border">
+            </div>
+            <div class="jp-playlist">
+                <ul>
+                    <li></li> <!-- Empty <li> so your HTML conforms with the W3C spec -->
+                </ul>
+            </div>
+        </div>
+
+	
+
+        <script src="js/vendor/jquery-1.9.1.min.js"></script>
+		<script src="js/vendor/kendoui/kendo.web.min.js"></script>
+        <script src="js/vendor/jplayer/jquery.jplayer.min.js"></script>
+        <script src="js/jplayer.playlist.messic.js"></script>
+
+        <script src="js/plugins.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+                playlist = new jPlayerPlaylist(
+                    {
+                        jPlayer: "#jquery_jplayer",
+                        cssSelectorAncestor: "#jquery_jplayer_content",
+                        cssSelectorPlaylist: "#messic-playlist .jp-playlist"
+                    },
+                    [],
+                    {
+                        swfPath: "js/vendor/jplayer",
+                        supplied: "oga, mp3",
+                        wmode: "window"
+                    }
+                ); 
+
+                //playlist.cssSelector.playlist="#messic-playlist .jp-playlist";
+                //playlist._createItemHandlers();
+
+
+                playlist.add({
+                    title:"Partir",
+                    mp3:"http://www.jplayer.org/audio/mp3/Miaow-09-Partir.mp3",
+                    author: "Autor",
+                    album: "Album",
+                    song: "Canción",
+                    boxart: "file:///home/spheras/desarrollo/proyectos/messic/git/src/messic-server-webapp/src/main/webapp/css/hans/box-art-example.png"
+                    });
+
+                for(var i=0;i<20;i++){
+                    playlist.add({
+                        title:"Thin Ice "+i,
+                        mp3:"http://www.jplayer.org/audio/mp3/Miaow-10-Thin-ice"+i+".mp3",
+                        author: "Autor",
+                        album: "Album",
+                        song: "Canción",
+                        boxart: "file:///home/spheras/desarrollo/proyectos/messic/git/src/messic-server-webapp/src/main/webapp/css/hans/box-art-example.png"
+                    });
+                }
+
+                $("#jquery_jplayer_content").kendoWindow({
+			                width: "600px",
+			                title: "Messic Player",
+                });
+
+            });
+       </script>
+
+    </body>
+</html>
