@@ -24,15 +24,18 @@
         <![endif]-->
 
         <div id="window">
-        	<form action="j_spring_security_check" method="POST">
+        	<form id="login_form">
 				<input id="username" name="j_username" type="text" value="joseUser"/>
 				<input id="password" name="j_password" type="text" value="audreyPass"/>
-				<input type="submit" value="login"/>
 			</form>
+			<button id="login" onClick="on_login()">Login</button>
 		</div>
 		
-
-        <script src="js/vendor/jquery-1.9.1.min.js"></script>
+        
+        <!--<script src="js/vendor/jquery-1.9.1.min.js"></script>-->
+        
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<script src="js/vendor/kendoui/kendo.web.min.js"></script>
 
         <script src="js/plugins.js"></script>
