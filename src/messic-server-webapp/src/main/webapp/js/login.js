@@ -1,16 +1,32 @@
 $(document).ready(function() {
 	var window = $("#window");
-
-	var onClose = function() {
-		alert('closing!');
+	var shadow = $("#shadow");
+	
+	
+	
+	window.draggable({
+	    drag: function(event, ui){
+	 		moveShadow();	 
+	    }
+	});
+	
+	function moveShadow(){	 
+	    logoX           =   parseInt(window.offset().left);
+	 	logoY           =   parseInt(window.offset().top);
+	 	shadowPosLeft   =   logoX + "px";
+	 	shadowPosTop    =   logoY + window.height() + "px";
+	 	shadow.css({ "left": shadowPosLeft, "top": shadowPosTop});	 
 	}
-
-	var win = $("#window").kendoWindow({
-		width: "600px",
-		title: "About Alvar Aalto",
-		close: onClose
-	}).data("kendoWindow").center();
-    		
+	
+	jQuery.fn.center = function () {
+		this.css("position","absolute");
+		this.css("top", ( $(document).height() - this.height() ) / 2+$(window).scrollTop() + "px");
+		this.css("left", ( $(document).width() - this.width() ) / 2+$(window).scrollLeft() + "px");
+		shadow.css({"width": window.width(), "height": "100px", "top": window.offset().top + window.height()  ,"left": window.offset().left });
+	}
+	// Ejecutamos la función
+	window.center();
+	
 });
 
 function on_login()
