@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" href="css/hans/base.css">
 
-        <link type="text/css" href="css/jplayer/blue.monday/jplayer.blue.monday.css" rel="stylesheet" />		
+        <link type="text/css" href="css/jplayer/messic.blue.monday/jplayer.blue.monday.css" rel="stylesheet" />		
 
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
@@ -61,9 +61,8 @@
             </div>
           </div>
 
-        <div id="messic-playlist">
-            <div class="messic-playlist-border">
-            </div>
+        <div id="messic-playlist-background">
+            <div id="messic-playlist-border"></div>
             <div class="jp-playlist">
                 <ul>
                     <li></li> <!-- Empty <li> so your HTML conforms with the W3C spec -->
@@ -109,7 +108,7 @@
                     boxart: "file:///home/spheras/desarrollo/proyectos/messic/git/src/messic-server-webapp/src/main/webapp/css/hans/box-art-example.png"
                     });
 
-                for(var i=0;i<20;i++){
+                for(var i=0;i<5 ;i++){
                     playlist.add({
                         title:"Thin Ice "+i,
                         mp3:"http://www.jplayer.org/audio/mp3/Miaow-10-Thin-ice"+i+".mp3",

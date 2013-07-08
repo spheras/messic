@@ -377,7 +377,7 @@ div.jp-video div.jp-duration {
 /* @end */
 
 /* @group playlist */
-
+/*
 div.jp-title {
 	font-weight:bold;
 	text-align:center;
@@ -394,6 +394,7 @@ div.jp-type-playlist div.jp-title,
 div.jp-type-single div.jp-playlist {
 	border-top:none;
 }
+*/
 div.jp-title ul,
 div.jp-playlist ul {
 	list-style-type:none;
@@ -401,7 +402,7 @@ div.jp-playlist ul {
 	padding:0 20px;
 	font-size:.72em;
 }
-
+/*
 div.jp-title li {
 	padding:5px 0;
 	font-weight:bold;
@@ -414,9 +415,9 @@ div.jp-playlist li {
 div.jp-playlist li div {
 	display:inline;
 }
-
+*/
 /* Note that the first-child (IE6) and last-child (IE6/7/8) selectors do not work on IE */
-
+/*
 div.jp-type-playlist div.jp-playlist li:last-child {
 	padding:5px 0 5px 20px;
 	border-bottom:none;
@@ -464,14 +465,14 @@ span.jp-artist {
 	font-size:.8em;
 	color:#666;
 }
-
+*/
 /* @end */
-
+/*
 div.jp-video-play {
 	width:100%;
-	overflow:hidden; /* Important for nested negative margins to work in modern browsers */
+	overflow:hidden; /* Important for nested negative margins to work in modern browsers *//*
 	cursor:pointer;
-	background-color:rgba(0,0,0,0); /* Makes IE9 work with the active area over the whole video area. IE6/7/8 only have the button as active area. */
+	background-color:rgba(0,0,0,0); /* Makes IE9 work with the active area over the whole video area. IE6/7/8 only have the button as active area. *//*
 }
 div.jp-video-270p div.jp-video-play {
 	margin-top:-270px;
@@ -516,7 +517,7 @@ div.jp-jplayer {
 	background-color: #000000;
 }
 
-
+*/
 
 
 

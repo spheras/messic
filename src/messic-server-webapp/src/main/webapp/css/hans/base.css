@@ -1,49 +1,98 @@
 
-
-#messic-playlist
+/** the background of the playlist */
+#messic-playlist-background
 {
-    position: fixed;
+    position: fixed; /** fixed at bottom */
     bottom: 0px;
-    background: url("honey_im_subtle.png");
+    background: url("honey_im_subtle.png") repeat scroll 0 0 transparent;
     height: 150px;
     width: 100%;
 }
 
-.messic-playlist-border
+/** the border of the playlist */
+#messic-playlist-border
 {
     background: url("playlist-border.png") repeat scroll 0 0 transparent;
     height: 8px;
     width: 100%;
 }
 
-#messic-playlist li
+/** each li from the playlist is a vinyl box */
+#messic-playlist-background li
 {
-    /*border: thin dashed black;*/
     float: left;
-    height: 89px;
-    margin-right: 20px;
+    margin-right: 10px;
+    margin-top: 20px;
     padding: 0;
-    width: 87px;
+    width: 77px;
+    height: 78px;
     border-bottom: 0px;
+    transition-property : margin-right; 
+    transition-duration : 0.5s;
 }
 
-#messic-playlist .messic-jplayer-playlist-vinylbox {
-    background: url("vinyl-box-external.png") no-repeat scroll 0 0 transparent;
-    display: inline-block;
-    height: 89px;
-    padding: 0;
-    width: 87px;
+/** container of the vinyl */
+.jplayer-playlist-vinyl-container {
+	width: 100%;
+    height: 100%;
+    position:relative;
+}
+
+.jplayer-playlist-vinylbox{
+    display:block;
+    background: none repeat scroll 0 0 #FF0000;
+	height: 100%;
+	width: 100%;
+	
+	    border: 2px solid #444444;
+		box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.8);
+	
+    -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+/** the base style of the vinyl */
+.jplayer-playlist-vinyl{
+    background: url("vinyl.png") no-repeat scroll 0 0 transparent;
+    height: 78px;
     position: absolute;
+    width: 79px;
+    top:5px;
+    z-index:-1;
+
+    transition-property : left; 
+    transition-duration : 0.5s;
 }
 
-#messic-playlist .messic-jplayer-playlist-vinylbox img{
-    margin-left: 6px;
-    margin-top: 6px;
-    width: 73px;
-    height:75px;
+/** the style of the vinyl while hide */
+.jplayer-playlist-vinylHide{
+    left:2px;
 }
 
-#messic-playlist .messic-jplayer-playlist-vinyl-play {
+/** the style of the vinyl hide, but showing an small portion of the vinyl */
+.jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinylHide{
+    left:35px;
+    transition-property : left; 
+    transition-duration : 0.5s; 			
+}
+
+
+/** the style of the vinyl hide, but showing an small portion of the vinyl */
+.jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinylPlay{
+   opacity: 1;
+}
+
+/** the style of the vinyl hide, but showing an small portion of the vinyl */
+#messic-playlist-background li:hover{
+    margin-right: 50px;
+    transition-property : margin-right; 
+    transition-duration : 0.5s;
+}
+
+
+
+.jplayer-playlist-vinylPlay {
     background: url("vinyl-play.png") no-repeat scroll 0 0 transparent;
     height: 38px;
     left: 28px;
@@ -56,21 +105,6 @@
    -moz-transition: opacity .45s ease-in-out;
    -webkit-transition: opacity .45s ease-in-out;
 }
-
-#messic-playlist .messic-jplayer-playlist-vinylbox:hover .messic-jplayer-playlist-vinyl-play {
-   opacity: 1;
-}
-
-#messic-playlist .messic-jplayer-playlist-vinyl {
-    background: url("vinyl.png") no-repeat scroll 0 0 transparent;
-    display: inline-block;
-    height: 78px;
-    margin-left: 20px;
-    margin-top: 4px;
-    position: absolute;
-    width: 77px;
-}
-
 
 #messic-playlist div.jp-title, #messic-playlist div.jp-playlist
 {
