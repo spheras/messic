@@ -21,8 +21,8 @@
 #messic-playlist-background li
 {
     float: left;
-    margin-right: 10px;
-    margin-top: 20px;
+    margin-right: 25px;
+    margin-top: 10px;
     padding: 0;
     width: 77px;
     height: 78px;
@@ -36,6 +36,21 @@
 	width: 100%;
     height: 100%;
     position:relative;
+
+    /** PERSPECTIVE
+    transform: perspective( 120px ) rotateY( -25deg );
+    -webkit-transform: perspective( 120px ) rotateY( -25deg );
+    -moz-transform: perspective( 120px ) rotateY( -25deg );
+    */
+}
+.jplayer-playlist-vinyl-container:hover {
+    /* PERSPECTIVE
+    transform: perspective( 120px ) rotateY( 0deg );
+    -webkit-transform: perspective( 120px ) rotateY( 0deg );
+    -moz-transform: perspective( 120px ) rotateY( 0deg );
+    transition-property : all; 
+    transition-duration : 0.5s;
+    */
 }
 
 .jplayer-playlist-vinylbox{
@@ -43,6 +58,7 @@
     background: none repeat scroll 0 0 #FF0000;
 	height: 100%;
 	width: 100%;
+    z-index:2;
 	
 	    border: 2px solid #444444;
 		box-shadow: 1px 2px 6px rgba(0, 0, 0, 0.8);
@@ -78,14 +94,79 @@
 }
 
 
-/** the style of the vinyl hide, but showing an small portion of the vinyl */
+/** the play button with hover */
 .jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinylPlay{
    opacity: 1;
+
+    animation-name: jplayer-playlist-vinylplay-pulse;
+	animation-duration: 0.5s;
+	animation-timing-function: ease;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+    -webkit-animation-name: jplayer-playlist-vinylplay-pulse;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-timing-function: ease;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+}
+
+
+.jplayer-playlist-vinylPlaying{
+    background: url("vinyl.png") no-repeat scroll 0 0 transparent;
+    height: 78px;
+    position: absolute;
+    width: 79px;
+    top:5px;
+    left:2px;
+
+    transition-property : left; 
+    transition-duration : 0.5s;
+
+    animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
+    animation-duration: 2s,0.5s;
+    animation-timing-function: ease,linear;
+    animation-iteration-count: 1,infinite;
+    animation-direction: normal,normal;
+    animation-delay: 0s, 2s;
+    -webkit-animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
+    -webkit-animation-duration: 2s,0.5s;
+    -webkit-animation-timing-function: ease,linear;
+    -webkit-animation-iteration-count: 1,infinite;
+    -webkit-animation-direction: normal,normal;
+    -webkit-animation-delay: 0s, 2s;
+
+    z-index:5;
+}
+@keyframes jplayer-playlist-vinylPlaying-animation {
+   0%  { left: 35px; z-index: 0;}
+   50% { left: 70px; z-index: 0;}
+   51% { z-index: 5;}
+   100% { left: 2px; z-index: 5;}
+}
+@-webkit-keyframes jplayer-playlist-vinylPlaying-animation /* Safari and Chrome */
+{
+   0%  { left: 35px; z-index: 0;}
+   50% { left: 70px; z-index: 0;}
+   51% { z-index: 5;}
+   100% { left: 2px; z-index: 5;}
+}
+@keyframes jplayer-playlist-vinylPlaying-rotate  {
+   from { transform: rotate(0deg); }
+   to   { transform: rotate(360deg); }
+}
+@-webkit-keyframes jplayer-playlist-vinylPlaying-rotate /* Safari and Chrome */
+{
+   from { -webkit-transform: rotate(0deg); }
+   to   { -webkit-transform: rotate(360deg); }
+}
+
+.jplayer-playlist-vinylPlay:hover{
+    cursor:pointer;
 }
 
 /** the style of the vinyl hide, but showing an small portion of the vinyl */
 #messic-playlist-background li:hover{
-    margin-right: 50px;
+    margin-right: 40px;
     transition-property : margin-right; 
     transition-duration : 0.5s;
 }
@@ -110,3 +191,57 @@
 {
     border: 0px;
 }
+
+@-webkit-keyframes jplayer-playlist-vinylplay-pulse {
+   from { -webkit-transform: scale(0.9); }
+   to   { -webkit-transform: scale(1.0); }
+}
+@keyframes jplayer-playlist-vinylplay-pulse {
+   from { transform: scale(0.9); }
+   to   { transform: scale(1.0); }
+}
+
+
+.jplayer-playlist-vinyl-song{
+    width:100%;
+    height:13px;
+    float: left;
+    color: #888888;
+    font: normal bold normal 1.0em Verdana, sans-serif;
+    text-align:center;
+    text-decoration:  none;
+}
+
+.jplayer-playlist-vinyl-song:hover{
+    color: #000000;
+    font: normal bold normal 1.2em Verdana, sans-serif;
+}
+
+.jplayer-playlist-vinyl-album{
+    width:100%;
+    height:13px;
+    float: left;
+    color: #AAAAAA;
+    font: normal bold normal 0.9em Verdana, sans-serif;
+    text-align:center;
+    text-decoration:  none;
+}
+.jplayer-playlist-vinyl-album:hover{
+    color: #000000;
+    font: normal bold normal 1.2em Verdana, sans-serif;
+}
+
+.jplayer-playlist-vinyl-author{
+    width:100%;
+    height:13px;
+    float: left;
+    color: #BBBBBB;
+    font: normal bold normal 0.8em Verdana, sans-serif;
+    text-align:center;
+    text-decoration:  none;
+}
+.jplayer-playlist-vinyl-author:hover{
+    color: #000000;
+    font: normal bold normal 1.2em Verdana, sans-serif;
+}
+

@@ -271,30 +271,12 @@
             listItem += "<div class='jplayer-playlist-vinyl-container'>";
 			listItem += "  <div class='jplayer-playlist-vinyl jplayer-playlist-vinylHide'></div>";
 			listItem += "  <img class='jplayer-playlist-vinylbox' src='"+media.boxart+"'>";
-            listItem += "    <div class='jplayer-playlist-vinylPlay'></div>";
+            listItem += "    <div class='jplayer-playlist-vinylPlay' onclick='this.parentNode.children[0].className =\"jplayer-playlist-vinylPlaying\"'></div>";
             listItem += "  </img>";
-            //fourth, artist
-			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.author +"</a>";
-            //fourth, album
-			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.album +"</a>";
-            //fifth, song
-			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.song +"</a>";
+			listItem += "<a href='javascript:;' class='jplayer-playlist-vinyl-song " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.song +"</a>";
+			listItem += "<a href='javascript:;' class='jplayer-playlist-vinyl-album " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.album +"</a>";
+			listItem += "<a href='javascript:;' class='jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.author +"</a>";
             listItem += "</div>";
-
-    /*
-                //first the base vinyl object
-                listItem += "<div class='messic-jplayer-playlist-vinyl'></div>";
-                //second, the exterior of the vinyl box
-                listItem += "<div class='messic-jplayer-playlist-vinylbox'>";
-                //third, the interior of the vinyl box, the box-art
-                listItem += "<div class='messic-jplayer-playlist-vinyl-play'></div><img class='messic-jplayer-playlist-vinylboxart' src='"+media.boxart+"'></img></div>";
-                //fourth, artist
-    			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.author +"</a>";
-                //fourth, album
-    			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.album +"</a>";
-                //fifth, song
-    			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.song +"</a>";
-*/
 			listItem += "</li>";
 
 			return listItem;
