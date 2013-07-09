@@ -240,7 +240,7 @@
 			var self = this;
 
 			// Wrap the <li> contents in a <div>
-			var listItem = "<li>";
+			var listItem = "<li class='jplayer-playlist-li'>";
 
             /* This is the original jplayer.playlist structure
 
@@ -269,14 +269,14 @@
             */
             //let's modify it for messic
             listItem += "<div class='jplayer-playlist-vinyl-container'>";
-			listItem += "  <div class='jplayer-playlist-vinyl jplayer-playlist-vinylHide'></div>";
-			listItem += "  <img class='jplayer-playlist-vinylbox' src='"+media.boxart+"'>";
-            listItem += "    <div class='jplayer-playlist-vinylPlay' onclick='this.parentNode.children[0].className =\"jplayer-playlist-vinylPlaying\"'></div>";
-            listItem += "  </img>";
-			listItem += "<a href='javascript:;' class='jplayer-playlist-vinyl-song " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.song +"</a>";
-			listItem += "<a href='javascript:;' class='jplayer-playlist-vinyl-album " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.album +"</a>";
-			listItem += "<a href='javascript:;' class='jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.author +"</a>";
-            listItem += "</div>";
+			listItem += "    <div class='jplayer-playlist-vinyl jplayer-playlist-vinylHide'></div>";
+			listItem += "    <div class='jplayer-playlist-vinylHand'></div>";
+			listItem += "    <img class='jplayer-playlist-vinylbox' src='"+media.boxart+"'></img>";
+            listItem += "    <div class='jplayer-playlist-vinylPlayButton' onclick='this.parentNode.parentNode.className =\"jplayer-playlist-li-expanding\";this.parentNode.children[0].className =\"jplayer-playlist-vinyl jplayer-playlist-vinylPlaying\";this.parentNode.children[1].className =\"jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying\";'></div>";
+			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-song " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.song +"</a>";
+			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-album " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.album +"</a>";
+			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.author +"</a>";
+            listItem += "  </div>";
 			listItem += "</li>";
 
 			return listItem;
