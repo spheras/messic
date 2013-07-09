@@ -22,7 +22,7 @@ public class SecurityLoginFailureHandler
     {
         if ( "XMLHttpRequest".equals( request.getHeader( "X-Requested-With" ) ) )
         {
-            response.getWriter().print( "{success:false, message: 'Username/Password are invalid'}" );
+            response.getWriter().print( "{\"success\":false, \"message\": \"Username/Password are invalid\"}" );
             response.getWriter().flush();
         }
         else

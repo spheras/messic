@@ -25,7 +25,7 @@ public class SecurityLoginSuccessHandler
     {
         if ( "XMLHttpRequest".equals( request.getHeader( "X-Requested-With" ) ) )
         {
-            response.getWriter().print( "{success:true, targetUrl : \'" + this.getTargetUrlParameter() + "\'}" );
+            response.getWriter().print( "{\"success\":true, \"targetUrl\" : \"" + this.getTargetUrlParameter() + "\"}" );
             response.getWriter().flush();
         }
         else
