@@ -109,9 +109,9 @@
 /** the vinyl disc parent style */
 .jplayer-playlist-vinyl{
     background: url("vinyl.png") no-repeat scroll 0 0 transparent;
-    height: 78px;
+    height: 85px;
     position: absolute;
-    width: 79px;
+    width: 85px;
     top:1px;
 
     transition-property : left; 
