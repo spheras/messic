@@ -26,6 +26,8 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
+        <input type="button" value="añadir canción" onclick="addsong()"/>	
+
         <div id="jquery_jplayer" class="jp-jplayer"></div>
         <div class="jp-audio" id="jquery_jplayer_content">
             <div class="jp-type-playlist">
@@ -63,14 +65,13 @@
 
         <div id="messic-playlist-background">
             <div id="messic-playlist-border"></div>
-            <div class="jp-playlist">
+            <div id="messic-playlist" class="jp-playlist">
                 <ul>
                     <li></li> <!-- Empty <li> so your HTML conforms with the W3C spec -->
                 </ul>
             </div>
         </div>
 
-	
 
         <script src="js/vendor/jquery-1.9.1.min.js"></script>
 		<script src="js/vendor/kendoui/kendo.web.min.js"></script>
@@ -80,25 +81,7 @@
         <script src="js/plugins.js"></script>
 
         <script type="text/javascript">
-            $(document).ready(function(){
-                playlist = new jPlayerPlaylist(
-                    {
-                        jPlayer: "#jquery_jplayer",
-                        cssSelectorAncestor: "#jquery_jplayer_content",
-                        cssSelectorPlaylist: "#messic-playlist .jp-playlist"
-                    },
-                    [],
-                    {
-                        swfPath: "js/vendor/jplayer",
-                        supplied: "oga, mp3",
-                        wmode: "window"
-                    }
-                ); 
-
-                //playlist.cssSelector.playlist="#messic-playlist .jp-playlist";
-                //playlist._createItemHandlers();
-
-
+            function addsong(){
                 playlist.add({
                     title:"Partir",
                     mp3:"http://www.jplayer.org/audio/mp3/Miaow-09-Partir.mp3",
@@ -107,23 +90,23 @@
                     song: "Canción de prueba",
                     boxart: "css/hans/box-art-example.png"
                     });
+            }
 
-                for(var i=0;i<5 ;i++){
-                    playlist.add({
-                        title:"Thin Ice "+i,
-                        mp3:"http://www.jplayer.org/audio/mp3/Miaow-10-Thin-ice"+i+".mp3",
-                        author: "Autor-"+i,
-                        album: "Album-"+i,
-                        song: "Canción-"+i,
-                        boxart: "css/hans/box-art-example.png"
-                    });
-                }
+            $(document).ready(function(){
+                playlist = new jPlayerPlaylist(
+                    {
+                        jPlayer: "#jquery_jplayer",
+                        cssSelectorAncestor: "#jquery_jplayer_content",
+                        cssSelectorPlaylist: "#messic-playlist-background",
 
-                $("#jquery_jplayer_content").kendoWindow({
-			                width: "600px",
-			                title: "Messic Player",
-                });
-
+                    },
+                    [],
+                    {
+                        wmode: "window",
+                        errorAlerts: true,
+                  		swfPath: "js/vendor/jplayer",
+                    }
+                ); 
             });
        </script>
 

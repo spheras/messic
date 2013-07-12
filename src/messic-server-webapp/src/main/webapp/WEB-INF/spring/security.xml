@@ -15,8 +15,13 @@
 		entry-point-ref="loginUrlAuthenticationEntryPoint">
 		<intercept-url pattern="/login.html" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
-		<intercept-url pattern="/**" access="isAuthenticated()" />
 
+		<!-- temporally, to debug, we allow everything 
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+		-->
+		<intercept-url pattern="/**" access="permitAll" />
+		
+		
 		<access-denied-handler error-page="/denied" />
                          
 		<logout invalidate-session="true" logout-success-url="/logout/success"
