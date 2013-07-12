@@ -1,3 +1,5 @@
+@import url('jplayer/messic.blue.monday/jplayer.blue.monday.css');
+
 /* some redefinition of the base playlist theme*/
 #messic-playlist div.jp-title, #messic-playlist div.jp-playlist
 {
@@ -10,7 +12,7 @@
     position: fixed; /** fixed at bottom */
     bottom: 0px;
     background: url("honey_im_subtle.png") repeat scroll 0 0 transparent;
-    height: 150px;
+    height: 120px;
     width: 100%;
     overflow: hidden;
 }
@@ -22,7 +24,7 @@
     height: 8px;
     width: 100%;
     position: relative;
-    z-index:20;
+    z-index:200;
 }
 /** ---------------------------------------- */
 /** each li from the playlist is a vinyl box */
@@ -89,6 +91,7 @@
 	width: 100%;
     height: 100%;
     position:relative;
+    z-index:10;
 
     /** PERSPECTIVE
     transform: perspective( 120px ) rotateY( -25deg );
@@ -97,6 +100,7 @@
     */
 }
 .jplayer-playlist-vinyl-container:hover {
+    z-index:100;
     /* PERSPECTIVE
     transform: perspective( 120px ) rotateY( 0deg );
     -webkit-transform: perspective( 120px ) rotateY( 0deg );
@@ -112,14 +116,14 @@
     height: 85px;
     position: absolute;
     width: 85px;
-    top:1px;
+    top:-2px;
 
     transition-property : left; 
     transition-duration : 0.5s;
 }
 /** the vinyl disc hided at the back*/
 .jplayer-playlist-vinylHide{
-    left:2px;
+    left:-2px;
     z-index:1;
 }
 /** the vinyl disc, when hover, showing an small portion of the disc */
@@ -131,7 +135,6 @@
 }
 /** the vinyl disc but playing music */
 .jplayer-playlist-vinylPlaying{
-    margin-left:2px;
     animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
     animation-duration: 2s,0.5s;
     animation-timing-function: ease,linear;
@@ -180,7 +183,7 @@
 	position:absolute;
 	left:65px;
 	top:-14px;
-	z-index:10;
+    z-index:10;
 
     transform-origin: 0 0 0;
     transform: rotate(-90deg);
@@ -311,45 +314,54 @@
 /* ################################################### */
 /* Song, Artist, And Album info style*/
 .jplayer-playlist-vinyl-song{
-    width:100%;
     height:13px;
+    width: 100%;
     float: left;
     color: #888888;
-    font: normal bold normal 1.0em Verdana, sans-serif;
+    font: normal bold normal 0.9em Verdana, sans-serif;
     text-align:center;
     text-decoration:  none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
 }
+.jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinyl-song{
+    width:auto;
+    overflow: inherit;
+    background: #FFFFFF;
+    font: normal bold normal 1.1em Verdana, sans-serif;
+    height:20px;
+    color: #AA4400;
 
-.jplayer-playlist-vinyl-song:hover{
-    color: #000000;
-    font: normal bold normal 1.2em Verdana, sans-serif;
+	    border: 1px dashed rgba(140, 140, 140, 0.8);
+
+    -webkit-border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	border-radius: 4px 4px 4px 4px;
+
+    z-index:50;
 }
 
 .jplayer-playlist-vinyl-album{
-    width:100%;
+    width:0px;
     height:13px;
     float: left;
     color: #AAAAAA;
     font: normal bold normal 0.9em Verdana, sans-serif;
     text-align:center;
     text-decoration:  none;
-}
-.jplayer-playlist-vinyl-album:hover{
-    color: #000000;
-    font: normal bold normal 1.2em Verdana, sans-serif;
+    opacity:0;
 }
 
 .jplayer-playlist-vinyl-author{
-    width:100%;
+    width:0px;
     height:13px;
     float: left;
     color: #BBBBBB;
     font: normal bold normal 0.8em Verdana, sans-serif;
     text-align:center;
     text-decoration:  none;
+    opacity:0;
 }
-.jplayer-playlist-vinyl-author:hover{
-    color: #000000;
-    font: normal bold normal 1.2em Verdana, sans-serif;
-}
+
 
