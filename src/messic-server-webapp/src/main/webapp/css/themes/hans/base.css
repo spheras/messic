@@ -12,7 +12,7 @@
     position: fixed; /** fixed at bottom */
     bottom: 0px;
     background: url("honey_im_subtle.png") repeat scroll 0 0 transparent;
-    height: 120px;
+    height: 140px;
     width: 100%;
     overflow: hidden;
 }
@@ -26,19 +26,48 @@
     position: relative;
     z-index:200;
 }
+
+/** ---------------------------------------- */
+/** configuration of the playlsit and ul to show scrolls bars */
+#messic-playlist{
+    overflow-x: scroll;
+    overflow-y: hidden;
+	height:100%;
+}
+#messic-playlist ul{
+	/* background:#FF0000; */
+	white-space:nowrap;
+	display:inline;
+}
+
 /** ---------------------------------------- */
 /** each li from the playlist is a vinyl box */
 .jplayer-playlist-li
 {
-    float: left;
+	display:inline-block;
+	list-style-type: none;
+	/* background:#00FF00; */
+
+    padding: 0;
     margin-right: 25px;
     margin-top: 10px;
-    padding: 0;
-    width: 77px; /** here we have the size of the vinyl */
+
+	width: 77px; /** here we have the size of the vinyl */
     height: 78px; /** here we have the size of the vinyl */
     border-bottom: 0px;
     transition-property : margin-right; 
     transition-duration : 0.5s;
+/*
+    float: left;
+    margin-right: 25px;
+    margin-top: 10px;
+    padding: 0;
+    width: 77px; /** here we have the size of the vinyl 
+    height: 78px; /** here we have the size of the vinyl 
+    border-bottom: 0px;
+    transition-property : margin-right; 
+    transition-duration : 0.5s;
+*/
 }
 /** when hover, we need more space to see a portionn of the vinyl disc */
 .jplayer-playlist-li:hover{
@@ -89,7 +118,7 @@
 /** container of all the elements of the vinyl*/
 .jplayer-playlist-vinyl-container {
 	width: 100%;
-    height: 100%;
+    height:100%;
     position:relative;
     z-index:10;
 
