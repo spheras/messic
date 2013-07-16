@@ -1,5 +1,58 @@
 @import url('jplayer/messic.blue.monday/jplayer.blue.monday.css');
 
+/* body of messic */
+/* ------------------------------------------------------------ */
+body{
+	padding:0px;
+	margin:0px;
+	width:100%;
+	height:100%;
+	display: block;
+    /* http://subtlepatterns.com/mocha-grunge/ */
+	background: url(mochaGrunge.png) repeat;
+}
+
+/* background with gradient to the image background of the body */
+/* ------------------------------------------------------------ */
+#messic-background{
+	width:100%;
+	height:100%;
+	display: block;
+	position:absolute;
+	
+	background: radial-gradient(ellipse at center center, rgba(250,250,250,0) 0%,rgba(50,50,50,0.8) 100%);
+
+    /* annimation to change the color of gradient */	
+	animation-name: messic-background-changeColor;
+	animation-duration:500s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+@keyframes messic-background-changeColor {
+	10%{ background: rgba(255, 125, 0, 0.1);}				 
+	20%{ background:  rgba(155, 225, 0, 0.3);}
+	40%{ background: rgba(100, 125, 200, 0.1);}				 
+	60%{ background:  rgba(155, 0, 255, 0.2);}
+	80%{ background:  rgba(0, 100, 50, 0.2);}
+	100%{background:  rgba(155, 200, 40, 0.1);}
+}
+@-webkit-keyframes messic-background-changeColor {
+	10%{ background: rgba(255, 125, 0, 0.1);}				 
+	20%{ background:  rgba(155, 225, 0, 0.3);}
+	40%{ background: rgba(100, 125, 200, 0.1);}				 
+	60%{ background:  rgba(155, 0, 255, 0.2);}
+	80%{ background:  rgba(0, 100, 50, 0.2);}
+	100%{background:  rgba(155, 200, 40, 0.1);}
+}
+
+#jquery_jplayer_content{
+    bottom: 120px;
+    left: 50%;
+    margin-left: -210px;
+    position: absolute;
+    z-index: 1000;
+}
+
 /* some redefinition of the base playlist theme*/
 #messic-playlist div.jp-title, #messic-playlist div.jp-playlist
 {
@@ -11,10 +64,19 @@
 {
     position: fixed; /** fixed at bottom */
     bottom: 0px;
-    background: url("honey_im_subtle.png") repeat scroll 0 0 transparent;
     height: 140px;
     width: 100%;
     overflow: hidden;
+
+    /** seen here: http://dev.opera.com/articles/view/beautiful-ui-styling-with-css3-text-shadow-box-shadow-and-border-radius/ */
+   padding: 0;
+   border: 1px solid rgba(0,0,0,0.5);
+   border-radius: 10px 10px 2px 2px;
+   background: rgba(255,255,255,0.15);
+   box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+   -o-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+   -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+   -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
 }
 /** ---------------------------------------- */
 /** the border of the playlist */
@@ -25,6 +87,19 @@
     width: 100%;
     position: relative;
     z-index:200;
+    opacity:0;
+    display:none;
+
+    background-color: #F3F3F3;
+    background-image: -moz-linear-gradient(center top , #F3F3F3 0%, #DDDDDD 50%, #D2D2D2 50%, #DFDFDF 100%);
+    border-bottom: 1px solid #B4B4B4;
+    border-radius: 14px 14px 14px 14px;
+    border-right: 1px solid #DFDFDF;
+    box-shadow: 0 1px 0 0 white inset, 0 1px 0 0 #D5D5D5, 0 -1px 2px 1px #EFEFEF;
+    color: #666666;
+    margin: 0;
+    padding: 3px 0;
+    text-shadow: 0 1px 1px #FFFFFF;
 }
 
 /** ---------------------------------------- */
@@ -57,17 +132,6 @@
     border-bottom: 0px;
     transition-property : margin-right; 
     transition-duration : 0.5s;
-/*
-    float: left;
-    margin-right: 25px;
-    margin-top: 10px;
-    padding: 0;
-    width: 77px; /** here we have the size of the vinyl 
-    height: 78px; /** here we have the size of the vinyl 
-    border-bottom: 0px;
-    transition-property : margin-right; 
-    transition-duration : 0.5s;
-*/
 }
 /** when hover, we need more space to see a portionn of the vinyl disc */
 .jplayer-playlist-li:hover{
@@ -77,11 +141,15 @@
 }
 
 .jplayer-playlist-li-expanding{
-    float: left;
+	display:inline-block;
+	list-style-type: none;
+	/* background:#00FF00; */
+
+    padding: 0;
     margin-right: 25px;
     margin-top: 10px;
-    padding: 0;
-    width: 77px; /** here we have the size of the vinyl */
+
+	width: 77px; /** here we have the size of the vinyl */
     height: 78px; /** here we have the size of the vinyl */
     border-bottom: 0px;
 
