@@ -102,6 +102,7 @@ body:before{
     overflow: hidden;
 
     /** seen here: http://dev.opera.com/articles/view/beautiful-ui-styling-with-css3-text-shadow-box-shadow-and-border-radius/ */
+/*
    padding: 0;
    border: 1px solid rgba(0,0,0,0.5);
    border-radius: 10px 10px 2px 2px;
@@ -110,6 +111,7 @@ body:before{
    -o-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
    -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
    -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+*/
 }
 /** ---------------------------------------- */
 /** the border of the playlist */
@@ -157,7 +159,7 @@ body:before{
 	/* background:#00FF00; */
 
     padding: 0;
-    margin-right: 25px;
+    margin-right: 8px;
     margin-top: 10px;
 
 	width: 77px; /** here we have the size of the vinyl */
@@ -368,20 +370,18 @@ body:before{
 /** ---------------------------------------- */
 /* box with the art, the picture of the vinyl box */
 .jplayer-playlist-vinylbox{
-    display:block;
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
-	height: 100%;
-	width: 100%;
-    z-index:2;
-    position:relative;
-	
-	    border: 1px dashed rgba(140, 140, 140, 0.8);
+    border: 1px solid rgba(10, 10, 10, 0.5);
+    display: block;
+    height: 100%;
+    position: relative;
+    width: 100%;
+    z-index: 2;
 
         -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.9);
         -moz-box-shadow:    0px 0px 4px rgba(0, 0, 0, 0.9);
         box-shadow:         0px 0px 4px rgba(0, 0, 0, 0.9);
 
-	
     -webkit-border-radius: 14px 4px 4px 4px;
 	-moz-border-radius: 14px 4px 4px 4px;
 	border-radius: 14px 4px 4px 4px;
