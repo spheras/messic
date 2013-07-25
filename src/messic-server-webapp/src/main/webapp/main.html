@@ -64,7 +64,10 @@
 
         <div id="messic-playlist-background">
             <div id="messic-playlist" class="jp-playlist">
-            	<ul id="messic-playlist-container"></ul>
+				<div class="viewport">
+		        	<ul id="messic-playlist-container" class="overview"><li></li></ul>
+					<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+				</div>
             </div>
         </div>
 
@@ -74,7 +77,7 @@
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
         <script src="js/vendor/jplayer/jquery.jplayer.min.js"></script>
         <script src="js/jplayer.playlist.messic.js"></script>
-        <script src="js/vendor/custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js"></script>
+        <script src="js/vendor/jquery.tinyscrollbar.js"></script>
         <script src="js/plugins.js"></script>
 
         <script type="text/javascript">
@@ -88,21 +91,13 @@
                     boxart: "css/themes/hans/box-art-example.png"
                     });
 
-				$("#messic-playlist").mCustomScrollbar("update");
+				$("#messic-playlist").tinyscrollbar_update('bottom');
             }
 
 			(function($){
-				$("#messic-playlist").mCustomScrollbar({
-					horizontalScroll:true,
-					advanced:{
-						autoExpandHorizontalScroll:true
-					},
-					scrollButtons:{
-						enable:true
-					},
-					scrollInertia:0,
-					theme:"light-thick"
-				});
+				var playlist=$("#messic-playlist");
+				playlist.tinyscrollbar({ axis: 'x'});
+				playlist.tinyscrollbar_update('bottom');
 			})(jQuery);
 
             $(document).ready(function(){
