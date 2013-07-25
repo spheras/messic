@@ -268,7 +268,7 @@
 			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='1'>" + media.title + (media.artist ? " <span class='jp-artist'>by " + media.artist + "</span>" : "") + "</a>";
             */
             //let's modify it for messic
-            listItem += "<div class='jplayer-playlist-vinyl-container'>";
+            listItem += "  <div class='jplayer-playlist-vinyl-container'>";
 			listItem += "    <div class='jplayer-playlist-vinyl jplayer-playlist-vinylHide'></div>";
 			listItem += "    <div class='jplayer-playlist-vinylHand'></div>";
 			listItem += "    <img class='jplayer-playlist-vinylbox' src='"+media.boxart+"'></img>";
@@ -278,7 +278,6 @@
 			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.author +"</a>";
             listItem += "  </div>";
 			listItem += "</li>";
-
 			return listItem;
 		},
 		_createItemHandlers: function() {

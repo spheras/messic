@@ -63,21 +63,19 @@
           </div>
 
         <div id="messic-playlist-background">
-            <div id="messic-playlist-border"></div>
             <div id="messic-playlist" class="jp-playlist">
-                <ul>
-                    <li class='jplayer-playlist-li'></li> <!-- Empty <li> so your HTML conforms with the W3C spec -->
-                </ul>
+            	<ul id="messic-playlist-container"></ul>
             </div>
         </div>
 
 
-        <script src="js/vendor/jquery-1.9.1.min.js"></script>
+        <script src="js/vendor/jquery/jquery-1.9.1.min.js"></script>
 		<script src="js/vendor/kendoui/kendo.web.min.js"></script>
-        <script src="js/plugins.js"></script>
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
         <script src="js/vendor/jplayer/jquery.jplayer.min.js"></script>
         <script src="js/jplayer.playlist.messic.js"></script>
+        <script src="js/vendor/custom-scrollbar-plugin/jquery.mCustomScrollbar.min.js"></script>
+        <script src="js/plugins.js"></script>
 
         <script type="text/javascript">
             function addsong(){
@@ -89,7 +87,23 @@
                     song: "Canción de prueba",
                     boxart: "css/themes/hans/box-art-example.png"
                     });
+
+				$("#messic-playlist").mCustomScrollbar("update");
             }
+
+			(function($){
+				$("#messic-playlist").mCustomScrollbar({
+					horizontalScroll:true,
+					advanced:{
+						autoExpandHorizontalScroll:true
+					},
+					scrollButtons:{
+						enable:true
+					},
+					scrollInertia:0,
+					theme:"light-thick"
+				});
+			})(jQuery);
 
             $(document).ready(function(){
                 playlist = new jPlayerPlaylist(

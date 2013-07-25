@@ -1,4 +1,6 @@
 @import url('jplayer/messic.blue.monday/jplayer.blue.monday.css');
+@import url('jquery.mCustomScrollbar/jquery.mCustomScrollbar.css');
+
 
 /* body of messic */
 /* ------------------------------------------------------------ */
@@ -68,6 +70,7 @@ body:before{
 	animation-name: messic-overground-anim;
 	animation-duration:10s;
 	animation-iteration-count: 1;
+
 }
 @keyframes messic-overground-anim {
 	from{opacity:0;}
@@ -79,7 +82,7 @@ body:before{
 }
 
 #jquery_jplayer_content{
-    bottom: 120px;
+    bottom: 100px;
     left: 50%;
     margin-left: -210px;
     position: absolute;
@@ -97,9 +100,10 @@ body:before{
 {
     position: fixed; /** fixed at bottom */
     bottom: 0px;
-    height: 140px;
+    height: 130px;
     width: 100%;
     overflow: hidden;
+	padding-bottom:10px;
 
     /** seen here: http://dev.opera.com/articles/view/beautiful-ui-styling-with-css3-text-shadow-box-shadow-and-border-radius/ */
 /*
@@ -113,42 +117,51 @@ body:before{
    -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
 */
 }
-/** ---------------------------------------- */
-/** the border of the playlist */
-#messic-playlist-border
-{
-    background: url("playlist-border.png") repeat scroll 0 0 transparent;
-    height: 8px;
-    width: 100%;
-    position: relative;
-    z-index:200;
-    opacity:0;
-    display:none;
-
-    background-color: #F3F3F3;
-    background-image: -moz-linear-gradient(center top , #F3F3F3 0%, #DDDDDD 50%, #D2D2D2 50%, #DFDFDF 100%);
-    border-bottom: 1px solid #B4B4B4;
-    border-radius: 14px 14px 14px 14px;
-    border-right: 1px solid #DFDFDF;
-    box-shadow: 0 1px 0 0 white inset, 0 1px 0 0 #D5D5D5, 0 -1px 2px 1px #EFEFEF;
-    color: #666666;
-    margin: 0;
-    padding: 3px 0;
-    text-shadow: 0 1px 1px #FFFFFF;
-}
 
 /** ---------------------------------------- */
 /** configuration of the playlsit and ul to show scrolls bars */
+/*
 #messic-playlist{
     overflow-x: scroll;
     overflow-y: hidden;
+
 	height:100%;
 }
-#messic-playlist ul{
-	/* background:#FF0000; */
+#messic-playlist-container{
 	white-space:nowrap;
 	display:inline;
 }
+*/
+#messic-playlist .mCSB_container{
+	overflow:visible;
+}
+
+#messic-playlist{
+	position:relative; 
+	margin:20px auto; 
+	width:100%; 
+	height:100%; 
+
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+	background:#333; 
+	-webkit-box-sizing:border-box; 
+	-moz-box-sizing:border-box; 
+	box-sizing:border-box;
+
+	border-top: 3px double #555555;
+
+}
+#messic-playlist-container{
+	overflow:hidden;
+
+	white-space:nowrap;
+	display:inline;
+	padding: 0 5px;
+}
+
+
 
 /** ---------------------------------------- */
 /** each li from the playlist is a vinyl box */
@@ -163,7 +176,7 @@ body:before{
     margin-top: 10px;
 
 	width: 77px; /** here we have the size of the vinyl */
-    height: 78px; /** here we have the size of the vinyl */
+    height: 125px; /** here we have the size of the vinyl */
     border-bottom: 0px;
     transition-property : margin-right; 
     transition-duration : 0.5s;
@@ -181,11 +194,11 @@ body:before{
 	/* background:#00FF00; */
 
     padding: 0;
-    margin-right: 25px;
+    margin-right: 8px;
     margin-top: 10px;
 
 	width: 77px; /** here we have the size of the vinyl */
-    height: 78px; /** here we have the size of the vinyl */
+    height: 125px; /** here we have the size of the vinyl */
     border-bottom: 0px;
 
     animation-name: jplayer-playlist-li-expanding-animation;
@@ -206,22 +219,22 @@ body:before{
 {
    0%  { margin-right: 40px;}
    20% { margin-right: 85px;}
-   40% { margin-right: 85px;}
-   100% { margin-right:25px;}
+   50% { margin-right: 85px;}
+   100% { margin-right:8px;}
 }
 @-webkit-keyframes jplayer-playlist-li-expanding-animation /* Safari and Chrome */
 {
    0%  { margin-right: 40px;}
    20% { margin-right: 85px;}
-   40% { margin-right: 85px;}
-   100% { margin-right:25px;}
+   50% { margin-right: 85px;}
+   100% { margin-right:8px;}
 }
 
 /** ---------------------------------------- */
 /** container of all the elements of the vinyl*/
 .jplayer-playlist-vinyl-container {
 	width: 100%;
-    height:100%;
+    height:75px;
     position:relative;
     z-index:10;
 
@@ -268,13 +281,13 @@ body:before{
 /** the vinyl disc but playing music */
 .jplayer-playlist-vinylPlaying{
     animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
-    animation-duration: 2s,0.5s;
+    animation-duration: 2s,1.3s; /*45 rpm*/
     animation-timing-function: ease,linear;
     animation-iteration-count: 1,infinite;
     animation-direction: normal,normal;
     animation-delay: 0s, 2s;
     -webkit-animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
-    -webkit-animation-duration: 2s,0.5s;
+    -webkit-animation-duration: 2s,1.3s; /* 45rpm*/
     -webkit-animation-timing-function: ease,linear;
     -webkit-animation-iteration-count: 1,infinite;
     -webkit-animation-direction: normal,normal;
@@ -317,18 +330,24 @@ body:before{
 	top:-14px;
     z-index:10;
 
+
+
+    z-index:10;
+
     transform-origin: 0 0 0;
     transform: rotate(-90deg);
     -webkit-transform-origin: 0 0 0;
     -webkit-transform: rotate(-90deg);
 }
 .jplayer-playlist-vinylHandPlaying{
+	animation-fill-mode: forwards;/** the end state of the animation is the final state of the style */
 	animation-name: jplayer-playlist-vinylhand-animation, jplayer-playlist-vinylhand-breakbeat;
 	animation-duration: 2s,3s;
 	animation-timing-function: ease,linear;
 	animation-iteration-count: 1,infinite;
 	animation-direction: alternate,alternate;
 	animation-delay: 1s,3s;
+	-webkit-animation-fill-mode: forwards; /** the end state of the animation is the final state of the style */
 	-webkit-animation-name: jplayer-playlist-vinylhand-animation, jplayer-playlist-vinylhand-breakbeat;
 	-webkit-animation-duration: 2s,3s;
 	-webkit-animation-timing-function: ease,linear;
@@ -337,8 +356,8 @@ body:before{
 	-webkit-animation-delay: 1s,3s;
 }
 @keyframes jplayer-playlist-vinylhand-animation {
-   from { transform-origin: 0 0 0; transform: rotate(-90deg); }
-   to   { transform-origin: 0 0 0; transform: rotate(0deg); }
+   from { transform-origin: 0 0 0; transform: rotate(-90deg); bottom:-100px;}
+   to   { transform-origin: 0 0 0; transform: rotate(0deg); bottom: -85px}
 }
 @-webkit-keyframes jplayer-playlist-vinylhand-animation {
    from { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(-90deg); }
@@ -356,7 +375,7 @@ body:before{
    100% { transform-origin: 0 0 0; transform: rotate(1deg); }
 }
 @-webkit-keyframes jplayer-playlist-vinylhand-breakbeat {
-   0% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(0deg); }
+    0% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(0deg); }
    25% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(2deg); }
    26% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(0deg); }
    65% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(4deg); }
@@ -371,20 +390,22 @@ body:before{
 /* box with the art, the picture of the vinyl box */
 .jplayer-playlist-vinylbox{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(10, 10, 10, 0.5);
+    border: 1px outset rgba(240, 240, 240, 0.3);
     display: block;
     height: 100%;
     position: relative;
     width: 100%;
     z-index: 2;
 
-        -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.9);
-        -moz-box-shadow:    0px 0px 4px rgba(0, 0, 0, 0.9);
-        box-shadow:         0px 0px 4px rgba(0, 0, 0, 0.9);
 
-    -webkit-border-radius: 14px 4px 4px 4px;
-	-moz-border-radius: 14px 4px 4px 4px;
-	border-radius: 14px 4px 4px 4px;
+        -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+        -moz-box-shadow:    0 0 2px rgba(0, 0, 0, 0.6);
+        box-shadow:         0 0 2px rgba(0, 0, 0, 0.6);
+
+
+    -webkit-border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	border-radius: 4px 4px 4px 4px;
 }
 
 /** ---------------------------------------- */
@@ -447,7 +468,7 @@ body:before{
     height:13px;
     width: 100%;
     float: left;
-    color: #888888;
+    color: #FFFFFF;
     font: normal bold normal 0.9em Verdana, sans-serif;
     text-align:center;
     text-decoration:  none;
@@ -459,8 +480,8 @@ body:before{
     width:auto;
     overflow: inherit;
     background: #FFFFFF;
-    font: normal bold normal 1.1em Verdana, sans-serif;
-    height:20px;
+    font: normal bold normal 0.9em Verdana, sans-serif;
+    height:13px;
     color: #AA4400;
 
 	    border: 1px dashed rgba(140, 140, 140, 0.8);
