@@ -1,6 +1,7 @@
 /*
  * ······················································
  * ·Fork of the jplayer.playlist for Messic requirements·
+ * ·following, the original version author:
  * ······················································
  *
  * Playlist Object for the jPlayer Plugin
@@ -267,9 +268,11 @@
 			// The title is given next in the HTML otherwise the float:right on the free media corrupts in IE6/7
 			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.itemClass + "' tabindex='1'>" + media.title + (media.artist ? " <span class='jp-artist'>by " + media.artist + "</span>" : "") + "</a>";
             */
+
             //let's modify it for messic
             listItem += "  <div class='jplayer-playlist-vinyl-container'>";
 			listItem += "    <div class='jplayer-playlist-vinyl jplayer-playlist-vinylHide'></div>";
+			listItem += "    <a href='javascript:;' class='jplayer-playlist-remove jp-playlist-item-remove'></a>";
 			listItem += "    <div class='jplayer-playlist-vinylHand'></div>";
 			listItem += "    <img class='jplayer-playlist-vinylbox' src='"+media.boxart+"'></img>";
             listItem += "    <div class='jplayer-playlist-vinylPlayButton' onclick='this.parentNode.parentNode.className =\"jplayer-playlist-li-expanding\";this.parentNode.children[0].className =\"jplayer-playlist-vinyl jplayer-playlist-vinylPlaying\";this.parentNode.children[1].className =\"jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying\";'></div>";

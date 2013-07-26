@@ -44,71 +44,58 @@ body{
 	width:100%;
 	height:100%;
 	display: block;
+
     /* http://subtlepatterns.com/mocha-grunge/ */
-	background: url(mochaGrunge.png) repeat;
-user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none;
+	background: radial-gradient(ellipse at center center , rgba(250, 250, 250, 0) 0%, rgba(50, 50, 50, 0.8) 100%) repeat scroll 0 0%, 
+                url("mochaGrunge.png") repeat scroll 0 0 transparent;
 }
 
-/* background with gradient to the image background of the body */
-/* ------------------------------------------------------------ */
-body:before{
-	content:'';
+/* background (over body) */
+/*----------------------------*/
+#messic-background{
+	background: rgba(250,250,0,0.0);
 	width:100%;
 	height:100%;
-	position:absolute;
-	left:0px;
-	top:0px;
-	z-index:-10000;
-
-	background: radial-gradient(ellipse at center center, rgba(250,250,250,0) 0%,rgba(50,50,50,0.8) 100%);
-
-    /* annimation to change the color of gradient */	
+}
+#messic-background-animated{
+   /* annimation to change the color of gradient */	
 	animation-name: messic-background-changeColor;
-	animation-duration:500s;
+	animation-duration:1000s;
 	animation-iteration-count: infinite;
 	animation-direction: alternate;
 }
+
 @keyframes messic-background-changeColor {
-	10%{ background: rgba(255, 125, 0, 0.1);}				 
-	20%{ background:  rgba(155, 225, 0, 0.3);}
-	40%{ background: rgba(100, 125, 200, 0.1);}				 
-	60%{ background:  rgba(155, 0, 255, 0.2);}
-	80%{ background:  rgba(0, 100, 50, 0.2);}
-	100%{background:  rgba(155, 200, 40, 0.1);}
+10%{ background: rgba(255, 125, 0, 0.1);}	
+20%{ background: rgba(155, 225, 0, 0.3);}
+40%{ background: rgba(100, 125, 200, 0.1);}	
+60%{ background: rgba(155, 0, 255, 0.2);}
+80%{ background: rgba(0, 100, 50, 0.2);}
+100%{background: rgba(155, 200, 40, 0.1);}
 }
 @-webkit-keyframes messic-background-changeColor {
-	10%{ background: rgba(255, 125, 0, 0.1);}				 
-	20%{ background:  rgba(155, 225, 0, 0.3);}
-	40%{ background: rgba(100, 125, 200, 0.1);}				 
-	60%{ background:  rgba(155, 0, 255, 0.2);}
-	80%{ background:  rgba(0, 100, 50, 0.2);}
-	100%{background:  rgba(155, 200, 40, 0.1);}
+10%{ background: rgba(255, 125, 0, 0.1);}	
+20%{ background: rgba(155, 225, 0, 0.3);}
+40%{ background: rgba(100, 125, 200, 0.1);}	
+60%{ background: rgba(155, 0, 255, 0.2);}
+80%{ background: rgba(0, 100, 50, 0.2);}
+100%{background: rgba(155, 200, 40, 0.1);}
 }
-
-#messic-background{
+#messic-background:before {
 	/* http://freepsdfiles.net/silhouettes/crowd-silhouettes-set/ */
-	background: url(people.png) repeat-x;
-	position:fixed;
+	background: url(people.png) bottom left repeat-x fixed;
+
 	bottom:0px;
 	width:100%;
 	height:446px;
-	opacity:0.8;
-	
-
-	animation-name: messic-overground-anim;
-	animation-duration:10s;
-	animation-iteration-count: 1;
-
+    content:"";
+    opacity:0.8;
+	position:absolute;
+	z-index:-1;
 }
-@keyframes messic-overground-anim {
-	from{opacity:0;}
-	to{opacity:0.8;}
-}
-@-webkit-keyframes messic-overground-anim {
-	from{opacity:0;}
-	to{opacity:0.8;}
-}
+/**************************************************/
 
+/* player content position - TODO maybe this should be done outside, at jplayer skin*/
 #jquery_jplayer_content{
     bottom: 100px;
     left: 50%;
@@ -150,18 +137,6 @@ body:before{
 
 /** ---------------------------------------- */
 /** configuration of the playlsit and ul to show scrolls bars */
-/*
-#messic-playlist{
-    overflow-x: scroll;
-    overflow-y: hidden;
-
-	height:100%;
-}
-#messic-playlist-container{
-	white-space:nowrap;
-	display:inline;
-}
-*/
 #messic-playlist .mCSB_container{
 	overflow:visible;
 }
@@ -175,14 +150,27 @@ body:before{
     overflow-x: scroll;
     overflow-y: hidden;
 
-	background:#333; 
+	/* idea from here: http://cssdeck.com/labs/pressable-css-buttons, http://creativecan.com/2013/02/css3-button/ */
+	background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.1));
+	background-color: #252525;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 0 rgba(255, 255, 255, 0.1) inset, 0 1.2em 0 rgba(255, 255, 255, 0.05) inset, 0 -0.2em 0 rgba(255, 255, 255, 0.1) inset, 0 -0.25em 0 rgba(0, 0, 0, 0.5) inset, 0 0.25em 0.25em rgba(0, 0, 0, 0.1);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25)
+
 	-webkit-box-sizing:border-box; 
 	-moz-box-sizing:border-box; 
 	box-sizing:border-box;
-
-	border-top: 3px double #555555;
-
 }
+#messic-playlist:before{
+	/* http://subtlepatterns.com/tag/noise/ */
+	background: url(broken_noise.png) repeat;
+	opacity:0.3;
+	width:100%;
+	height:100%;
+	position:absolute;
+	content: "";
+}
+
 #messic-playlist-container{
 	overflow:hidden;
 
@@ -437,6 +425,63 @@ body:before{
 	-moz-border-radius: 4px 4px 4px 4px;
 	border-radius: 4px 4px 4px 4px;
 }
+
+/** ---------------------------------------- */
+/* Remove button */
+.jplayer-playlist-remove {
+	background: url(remove-vinyl.png) no-repeat;
+	width:26px;
+	height:26px;
+	position:absolute;
+	top:-8px;
+	right: -8px;
+	z-index:3;
+
+   opacity: 0; /*by default we can't see it */
+	-webkit-transform: scale(0.8);
+	transform: scale(0.8);
+
+   transition: opacity .45s ease-in-out;
+   -moz-transition: opacity .45s ease-in-out;
+   -webkit-transition: opacity .45s ease-in-out;
+}
+.jplayer-playlist-vinyl-container:hover .jplayer-playlist-remove:hover {
+	opacity: 1;
+    animation-name: jplayer-playlist-remove-rotate;
+    animation-duration: 1s; /*45 rpm*/
+    animation-timing-function: ease;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-delay: 0s;
+    -webkit-animation-name: jplayer-playlist-remove-rotate;
+    -webkit-animation-duration: 1s; /*45 rpm*/
+    -webkit-animation-timing-function: ease;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-direction: normal;
+    -webkit-animation-delay: 0s;
+
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+/** the play button appears only when the mouse is hover the container */
+.jplayer-playlist-vinyl-container:hover .jplayer-playlist-remove{
+	opacity: 0.4;
+}
+
+/** ANIMATIONS */
+@keyframes jplayer-playlist-remove-rotate {
+  from { transform: rotate(0deg); }
+   to   { transform: rotate(1080deg); }
+}
+@-webkit-keyframes jplayer-playlist-remove-rotate /* Safari and Chrome */
+{
+   from { -webkit-transform: rotate(0deg); }
+   to   { -webkit-transform: rotate(1080deg); }
+}
+
+
+
+/*********************************************/
 
 /** ---------------------------------------- */
 /* The base of the vinyl Play button */
