@@ -6,20 +6,21 @@
                     http://www.springframework.org/schema/security 
                     http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-
+	<!-- resources will not need security -->
 	<http pattern="/css/**" security="none" />
 	<http pattern="/img/**" security="none" />
 	<http pattern="/js/**" security="none" />
 
 	<http auto-config="false" use-expressions="true"
 		entry-point-ref="loginUrlAuthenticationEntryPoint">
-		<intercept-url pattern="/login.html" access="permitAll" />
+		<intercept-url pattern="/login.do" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
 
 		<!-- temporally, to debug, we allow everything 
-		<intercept-url pattern="/**" access="isAuthenticated()" />
-		-->
 		<intercept-url pattern="/**" access="permitAll" />
+		-->
+		<intercept-url pattern="/**" access="isAuthenticated()" />
+		
 		
 		
 		<access-denied-handler error-page="/denied" />
@@ -34,7 +35,7 @@
 
 	<beans:bean id="loginUrlAuthenticationEntryPoint"
 		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-		<beans:property name="loginFormUrl" value="/login.html" />
+		<beans:property name="loginFormUrl" value="/login.do" />
 	</beans:bean>
 
 	<beans:bean id="authenticationFilter"

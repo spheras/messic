@@ -54,12 +54,23 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 		</dependency>
+		
 		<dependency>
 	      <groupId>log4j</groupId>
 	      <artifactId>log4j</artifactId>
-	      <version>1.2.14</version>
-	      <scope>runtime</scope>
 	   	</dependency>
+	   	
+		<!-- JSTL --> 
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+	 
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+		</dependency>	   	
+	   	
 	</dependencies>
 
 </project>

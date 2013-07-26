@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -19,15 +22,21 @@
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
+
+		<c:if test="${ message == null }">
+		    <fmt:setBundle basename="ResourceBundle" var="message" scope="application"/>
+		</c:if>
+		    
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 
+		<h1>EJEMPLO DE MENSAJE MULTILENGUAJE: <fmt:message key="welcome" bundle="${ message }"/></h1>
 		
 			<div id="window" class="login-container">
 				<div class="login-form-container">
 					<div class="text-container">
-						<label class="login-title">Sign-in to your account</label>
+						<label class="login-title">Sign-in to your account - ${msg}</label>
 						<div class="horizontal-separator">
 						</div>
 						
@@ -50,7 +59,7 @@
 						<label class="login-title">Create an account</label>
 						<div class="horizontal-separator">
 						</div>
-						<label>It´s necessary one account to enter. If you don´t have any account you can create a new one.</label>
+						<label>Itï¿½s necessary one account to enter. If you donï¿½t have any account you can create a new one.</label>
 						<label>Press 'Create New' to create a new user.</label>
 						<button id="newAccount" onSubmit="createAccount()" class="k-button">Create New</button>
 					</div>
