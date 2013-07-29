@@ -1,0 +1,593 @@
+@import url('jplayer/messic.blue.monday/jplayer.blue.monday.css');
+
+
+/* styles for the playlist scrollbar */
+/* ---------------------------------------------------------*/
+#messic-playlist .viewport { width: 100%; height: 100%; overflow: hidden; position: relative; }
+#messic-playlist .overview { list-style: none; position: absolute; left: 0; top: 0; }
+
+#messic-playlist .thumb .end, #messic-playlist .thumb { 	background: #AAAAAA; }
+#messic-playlist .thumb .end, #messic-playlist .thumb:hover { 	background: #FFFFFF; }
+#messic-playlist .thumb .end, #messic-playlist .thumb:active { 	background: #4488FF; }
+
+#messic-playlist .scrollbar { position: absolute; float: right; width: 15px; bottom:0px;  height:10px; margin-bottom:3px;}
+#messic-playlist .track { background-color: #D8EEFD; height: 100%; width:13px; position: relative; padding: 0 1px; background: #222222;}
+#messic-playlist .thumb { 
+	-moz-border-radius: 14px 14px 14px 14px;
+    border-radius: 14px 14px 14px 14px;
+    cursor: pointer;
+    height: 6px;
+    overflow: hidden;
+    position: absolute;
+    top: 2px;
+    width: 13px;
+}
+
+#messic-playlist .thumb .end { overflow: hidden; height: 5px; width: 13px; }
+#messic-playlist .end { display:none }
+#messic-playlist .disable{ display: none; }
+.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
+/*******************************************************************/
+
+/* body of messic */
+/* ------------------------------------------------------------ */
+html{
+	padding:0px;
+	margin:0px;
+	width:100%;
+	height:100%;
+}
+
+body{
+	padding:0px;
+	margin:0px;
+	width:100%;
+	height:100%;
+	display: block;
+
+    /* http://subtlepatterns.com/mocha-grunge/ */
+	background: radial-gradient(ellipse at center center , rgba(250, 250, 250, 0) 0%, rgba(50, 50, 50, 0.8) 100%) repeat scroll 0 0%, 
+                url("mochaGrunge.png") repeat scroll 0 0 transparent;
+}
+
+/* background (over body) */
+/*----------------------------*/
+#messic-background{
+	background: rgba(250,250,0,0.0);
+	width:100%;
+	height:100%;
+}
+#messic-background-animated{
+   /* annimation to change the color of gradient */	
+	animation-name: messic-background-changeColor;
+	animation-duration:1000s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+}
+
+@keyframes messic-background-changeColor {
+10%{ background: rgba(255, 125, 0, 0.1);}	
+20%{ background: rgba(155, 225, 0, 0.3);}
+40%{ background: rgba(100, 125, 200, 0.1);}	
+60%{ background: rgba(155, 0, 255, 0.2);}
+80%{ background: rgba(0, 100, 50, 0.2);}
+100%{background: rgba(155, 200, 40, 0.1);}
+}
+@-webkit-keyframes messic-background-changeColor {
+10%{ background: rgba(255, 125, 0, 0.1);}	
+20%{ background: rgba(155, 225, 0, 0.3);}
+40%{ background: rgba(100, 125, 200, 0.1);}	
+60%{ background: rgba(155, 0, 255, 0.2);}
+80%{ background: rgba(0, 100, 50, 0.2);}
+100%{background: rgba(155, 200, 40, 0.1);}
+}
+#messic-background:before {
+	/* http://freepsdfiles.net/silhouettes/crowd-silhouettes-set/ */
+	background: url(people.png) bottom left repeat-x fixed;
+
+	bottom:0px;
+	width:100%;
+	height:446px;
+    content:"";
+    opacity:0.8;
+	position:absolute;
+	z-index:-1;
+}
+/**************************************************/
+
+/* player content position - TODO maybe this should be done outside, at jplayer skin*/
+#jquery_jplayer_content{
+    bottom: 100px;
+    left: 50%;
+    margin-left: -210px;
+    position: absolute;
+    z-index: 1000;
+}
+
+/* some redefinition of the base playlist theme*/
+#messic-playlist div.jp-title, #messic-playlist div.jp-playlist
+{
+    border: 0px;
+}
+/** ---------------------------------------- */
+/** the background of the playlist */
+#messic-playlist-background
+{
+    position: fixed; /** fixed at bottom */
+    bottom: 0px;
+    height: 130px;
+    width: 100%;
+    overflow: hidden;
+	padding-bottom:10px;
+	/** important to avoid selection when the scrollbar start */
+	user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none;
+
+    /** seen here: http://dev.opera.com/articles/view/beautiful-ui-styling-with-css3-text-shadow-box-shadow-and-border-radius/ */
+/*
+   padding: 0;
+   border: 1px solid rgba(0,0,0,0.5);
+   border-radius: 10px 10px 2px 2px;
+   background: rgba(255,255,255,0.15);
+   box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+   -o-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+   -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+   -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
+*/
+}
+
+/** ---------------------------------------- */
+/** configuration of the playlsit and ul to show scrolls bars */
+#messic-playlist .mCSB_container{
+	overflow:visible;
+}
+
+#messic-playlist{
+	position:relative; 
+	margin:20px auto; 
+	width:100%; 
+	height:100%; 
+
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+	/* idea from here: http://cssdeck.com/labs/pressable-css-buttons, http://creativecan.com/2013/02/css3-button/ */
+	background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.1));
+	background-color: #252525;
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 0 rgba(255, 255, 255, 0.1) inset, 0 1.2em 0 rgba(255, 255, 255, 0.05) inset, 0 -0.2em 0 rgba(255, 255, 255, 0.1) inset, 0 -0.25em 0 rgba(0, 0, 0, 0.5) inset, 0 0.25em 0.25em rgba(0, 0, 0, 0.1);
+    color: #FFFFFF;
+    text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.25)
+
+	-webkit-box-sizing:border-box; 
+	-moz-box-sizing:border-box; 
+	box-sizing:border-box;
+}
+#messic-playlist:before{
+	/* http://subtlepatterns.com/tag/noise/ */
+	background: url(broken_noise.png) repeat;
+	opacity:0.3;
+	width:100%;
+	height:100%;
+	position:absolute;
+	content: "";
+}
+
+#messic-playlist-container{
+	overflow:hidden;
+
+	white-space:nowrap;
+	display:inline;
+	padding: 0 5px;
+}
+
+
+
+/** ---------------------------------------- */
+/** each li from the playlist is a vinyl box */
+.jplayer-playlist-li
+{
+	display:inline-block;
+	list-style-type: none;
+	/* background:#00FF00; */
+
+    padding: 0;
+    margin-right: 8px;
+    margin-top: 10px;
+
+	width: 77px; /** here we have the size of the vinyl */
+    height: 125px; /** here we have the size of the vinyl */
+    border-bottom: 0px;
+    transition-property : margin-right; 
+    transition-duration : 0.5s;
+}
+/** when hover, we need more space to see a portionn of the vinyl disc */
+.jplayer-playlist-li:hover{
+    margin-right: 40px;
+    transition-property : margin-right; 
+    transition-duration : 0.5s;
+}
+
+.jplayer-playlist-li-expanding{
+	display:inline-block;
+	list-style-type: none;
+	/* background:#00FF00; */
+
+    padding: 0;
+    margin-right: 8px;
+    margin-top: 10px;
+
+	width: 77px; /** here we have the size of the vinyl */
+    height: 125px; /** here we have the size of the vinyl */
+    border-bottom: 0px;
+
+    animation-name: jplayer-playlist-li-expanding-animation;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-delay: 0s;
+    -webkit-animation-name: jplayer-playlist-li-expanding-animation;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-direction: normal;
+    -webkit-animation-delay: 0s;
+}
+
+@keyframes jplayer-playlist-li-expanding-animation
+{
+   0%  { margin-right: 40px;}
+   20% { margin-right: 85px;}
+   50% { margin-right: 85px;}
+   100% { margin-right:8px;}
+}
+@-webkit-keyframes jplayer-playlist-li-expanding-animation /* Safari and Chrome */
+{
+   0%  { margin-right: 40px;}
+   20% { margin-right: 85px;}
+   50% { margin-right: 85px;}
+   100% { margin-right:8px;}
+}
+
+/** ---------------------------------------- */
+/** container of all the elements of the vinyl*/
+.jplayer-playlist-vinyl-container {
+	width: 100%;
+    height:75px;
+    position:relative;
+    z-index:10;
+
+    /** PERSPECTIVE
+    transform: perspective( 120px ) rotateY( -25deg );
+    -webkit-transform: perspective( 120px ) rotateY( -25deg );
+    -moz-transform: perspective( 120px ) rotateY( -25deg );
+    */
+}
+.jplayer-playlist-vinyl-container:hover {
+    z-index:100;
+    /* PERSPECTIVE
+    transform: perspective( 120px ) rotateY( 0deg );
+    -webkit-transform: perspective( 120px ) rotateY( 0deg );
+    -moz-transform: perspective( 120px ) rotateY( 0deg );
+    transition-property : all; 
+    transition-duration : 0.5s;
+    */
+}
+/** ---------------------------------------- */
+/** the vinyl disc parent style */
+.jplayer-playlist-vinyl{
+    background: url("vinyl.png") no-repeat scroll 0 0 transparent;
+    height: 85px;
+    position: absolute;
+    width: 85px;
+    top:-2px;
+
+    transition-property : left; 
+    transition-duration : 0.5s;
+}
+/** the vinyl disc hided at the back*/
+.jplayer-playlist-vinylHide{
+    left:-2px;
+    z-index:1;
+}
+/** the vinyl disc, when hover, showing an small portion of the disc */
+.jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinylHide{
+    left:35px;
+    transition-property : left; 
+    transition-duration : 0.5s; 			
+    z-index:1;
+}
+/** the vinyl disc but playing music */
+.jplayer-playlist-vinylPlaying{
+    animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
+    animation-duration: 2s,1.3s; /*45 rpm*/
+    animation-timing-function: ease,linear;
+    animation-iteration-count: 1,infinite;
+    animation-direction: normal,normal;
+    animation-delay: 0s, 2s;
+    -webkit-animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
+    -webkit-animation-duration: 2s,1.3s; /* 45rpm*/
+    -webkit-animation-timing-function: ease,linear;
+    -webkit-animation-iteration-count: 1,infinite;
+    -webkit-animation-direction: normal,normal;
+    -webkit-animation-delay: 0s, 2s;
+
+    z-index:5; /* Now, it's at the front */
+}
+/** ANIMATIONS */
+@keyframes jplayer-playlist-vinylPlaying-animation {
+   0%  { left: 35px; z-index: 0;}
+   50% { left: 80px; z-index: 0;}
+   51% { z-index: 5;}
+   100% { left: 2px; z-index: 5;}
+}
+@-webkit-keyframes jplayer-playlist-vinylPlaying-animation /* Safari and Chrome */
+{
+   0%  { left: 35px; z-index: 0;}
+   50% { left: 80px; z-index: 0;}
+   51% { z-index: 5;}
+   10	0% { left: 2px; z-index: 5;}
+}
+@keyframes jplayer-playlist-vinylPlaying-rotate  {
+   from { transform: rotate(0deg); }
+   to   { transform: rotate(360deg); }
+}
+@-webkit-keyframes jplayer-playlist-vinylPlaying-rotate /* Safari and Chrome */
+{
+   from { -webkit-transform: rotate(0deg); }
+   to   { -webkit-transform: rotate(360deg); }
+}
+
+/** ---------------------------------------- */
+/* The hand of the vinyl, aguja to play */
+.jplayer-playlist-vinylHand{
+	width:19px;
+	height:57px;
+    background: url("vinyl-hand.png") no-repeat scroll 0 0 transparent;
+	position:absolute;
+	left:65px;
+	top:-14px;
+    z-index:10;
+
+
+
+    z-index:10;
+
+    transform-origin: 0 0 0;
+    transform: rotate(-90deg);
+    -webkit-transform-origin: 0 0 0;
+    -webkit-transform: rotate(-90deg);
+}
+.jplayer-playlist-vinylHandPlaying{
+	animation-fill-mode: forwards;/** the end state of the animation is the final state of the style */
+	animation-name: jplayer-playlist-vinylhand-animation, jplayer-playlist-vinylhand-breakbeat;
+	animation-duration: 2s,3s;
+	animation-timing-function: ease,linear;
+	animation-iteration-count: 1,infinite;
+	animation-direction: alternate,alternate;
+	animation-delay: 1s,3s;
+	-webkit-animation-fill-mode: forwards; /** the end state of the animation is the final state of the style */
+	-webkit-animation-name: jplayer-playlist-vinylhand-animation, jplayer-playlist-vinylhand-breakbeat;
+	-webkit-animation-duration: 2s,3s;
+	-webkit-animation-timing-function: ease,linear;
+	-webkit-animation-iteration-count: 1,infinite;
+	-webkit-animation-direction: alternate,alternate;
+	-webkit-animation-delay: 1s,3s;
+}
+@keyframes jplayer-playlist-vinylhand-animation {
+   from { transform-origin: 0 0 0; transform: rotate(-90deg); bottom:-100px;}
+   to   { transform-origin: 0 0 0; transform: rotate(0deg); bottom: -85px}
+}
+@-webkit-keyframes jplayer-playlist-vinylhand-animation {
+   from { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(-90deg); }
+   to   { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(0deg); }
+}
+@keyframes jplayer-playlist-vinylhand-breakbeat {
+   0% { transform-origin: 0 0 0; transform: rotate(0deg); }
+   25% { transform-origin: 0 0 0; transform: rotate(2deg); }
+   26% { transform-origin: 0 0 0; transform: rotate(0deg); }
+   65% { transform-origin: 0 0 0; transform: rotate(4deg); }
+   66% { transform-origin: 0 0 0; transform: rotate(8deg); }
+   67% { transform-origin: 0 0 0; transform: rotate(4deg); }
+   95% { transform-origin: 0 0 0; transform: rotate(2deg); }
+   96% { transform-origin: 0 0 0; transform: rotate(0deg); }
+   100% { transform-origin: 0 0 0; transform: rotate(1deg); }
+}
+@-webkit-keyframes jplayer-playlist-vinylhand-breakbeat {
+    0% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(0deg); }
+   25% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(2deg); }
+   26% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(0deg); }
+   65% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(4deg); }
+   66% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(8deg); }
+   67% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(4deg); }
+   95% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(2deg); }
+   96% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(0deg); }
+   100% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(1deg); }
+}
+
+/** ---------------------------------------- */
+/* box with the art, the picture of the vinyl box */
+.jplayer-playlist-vinylbox{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.2);
+    border: 1px outset rgba(240, 240, 240, 0.3);
+    display: block;
+    height: 100%;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+
+
+        -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+        -moz-box-shadow:    0 0 2px rgba(0, 0, 0, 0.6);
+        box-shadow:         0 0 2px rgba(0, 0, 0, 0.6);
+
+
+    -webkit-border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	border-radius: 4px 4px 4px 4px;
+}
+
+/** ---------------------------------------- */
+/* Remove button */
+.jplayer-playlist-remove {
+	background: url(remove-vinyl.png) no-repeat;
+	width:26px;
+	height:26px;
+	position:absolute;
+	top:-8px;
+	right: -8px;
+	z-index:3;
+
+   opacity: 0; /*by default we can't see it */
+	-webkit-transform: scale(0.8);
+	transform: scale(0.8);
+
+   transition: opacity .45s ease-in-out;
+   -moz-transition: opacity .45s ease-in-out;
+   -webkit-transition: opacity .45s ease-in-out;
+}
+.jplayer-playlist-vinyl-container:hover .jplayer-playlist-remove:hover {
+	opacity: 1;
+    animation-name: jplayer-playlist-remove-rotate;
+    animation-duration: 1s; /*45 rpm*/
+    animation-timing-function: ease;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-delay: 0s;
+    -webkit-animation-name: jplayer-playlist-remove-rotate;
+    -webkit-animation-duration: 1s; /*45 rpm*/
+    -webkit-animation-timing-function: ease;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-direction: normal;
+    -webkit-animation-delay: 0s;
+
+	-webkit-transform: scale(1);
+	transform: scale(1);
+}
+/** the play button appears only when the mouse is hover the container */
+.jplayer-playlist-vinyl-container:hover .jplayer-playlist-remove{
+	opacity: 0.4;
+}
+
+/** ANIMATIONS */
+@keyframes jplayer-playlist-remove-rotate {
+  from { transform: rotate(0deg); }
+   to   { transform: rotate(1080deg); }
+}
+@-webkit-keyframes jplayer-playlist-remove-rotate /* Safari and Chrome */
+{
+   from { -webkit-transform: rotate(0deg); }
+   to   { -webkit-transform: rotate(1080deg); }
+}
+
+
+
+/*********************************************/
+
+/** ---------------------------------------- */
+/* The base of the vinyl Play button */
+.jplayer-playlist-vinylPlayButton {
+    background: url("vinyl-play.png") no-repeat scroll 0 0 transparent;
+    height: 38px;
+    left: 24px;
+    position: absolute;
+    top: 24px;
+    width: 38px;
+    z-index:3;
+ 
+   opacity: 0; /*by default we can't see it */
+   transition: opacity .45s ease-in-out;
+   -moz-transition: opacity .45s ease-in-out;
+   -webkit-transition: opacity .45s ease-in-out;
+}
+/** the play button appears only when the mouse is hover the container */
+.jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinylPlayButton{
+    opacity: 1;
+
+    animation-name: jplayer-playlist-vinylplayButton-pulse;
+	animation-duration: 0.5s;
+	animation-timing-function: ease;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+    -webkit-animation-name: jplayer-playlist-vinylplayButton-pulse;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-timing-function: ease;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
+}
+.jplayer-playlist-vinylPlayButton:hover{
+    cursor:pointer; /** pointer when hover the play picture */
+}
+@-webkit-keyframes jplayer-playlist-vinylplayButton-pulse {
+   from { -webkit-transform: scale(0.9); }
+   to   { -webkit-transform: scale(1.0); }
+}
+@keyframes jplayer-playlist-vinylplayButton-pulse {
+   from { transform: scale(0.9); }
+   to   { transform: scale(1.0); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* ################################################### */
+/* Song, Artist, And Album info style*/
+.jplayer-playlist-vinyl-song{
+    height:13px;
+    width: 100%;
+    float: left;
+    color: #FFFFFF;
+    font: normal bold normal 0.9em Verdana, sans-serif;
+    text-align:center;
+    text-decoration:  none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space:nowrap;
+}
+.jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinyl-song{
+    width:auto;
+    overflow: inherit;
+    background: #FFFFFF;
+    font: normal bold normal 0.9em Verdana, sans-serif;
+    height:13px;
+    color: #AA4400;
+
+	    border: 1px dashed rgba(140, 140, 140, 0.8);
+
+    -webkit-border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	border-radius: 4px 4px 4px 4px;
+
+    z-index:50;
+}
+
+.jplayer-playlist-vinyl-album{
+    width:0px;
+    height:13px;
+    float: left;
+    color: #AAAAAA;
+    font: normal bold normal 0.9em Verdana, sans-serif;
+    text-align:center;
+    text-decoration:  none;
+    opacity:0;
+}
+
+.jplayer-playlist-vinyl-author{
+    width:0px;
+    height:13px;
+    float: left;
+    color: #BBBBBB;
+    font: normal bold normal 0.8em Verdana, sans-serif;
+    text-align:center;
+    text-decoration:  none;
+    opacity:0;
+}
+
+

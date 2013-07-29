@@ -1,8 +1,6 @@
 $(document).ready(function() {
-	var window = $("#window");
-	var shadow = $("#shadow");
-	
-	
+	var window = $("#messic-login-window");
+	var shadow = $("#messic-login-shadow");
 	
 	window.draggable({
 	    drag: function(event, ui){
@@ -31,7 +29,7 @@ $(document).ready(function() {
 
 function on_login()
 {
-	info = $("#login_form").serialize();
+	info = $("#messic-login-form").serialize();
 	console.log(info);
 	$.ajax({
         type: "POST",
@@ -50,7 +48,7 @@ function on_login()
 	        	}
 	        	else
 	        	{
-	        		$("#window").parent().effect("shake");
+	        		$("#messic-login-window").parent().effect("shake");
 	        	}
         	}
       });
