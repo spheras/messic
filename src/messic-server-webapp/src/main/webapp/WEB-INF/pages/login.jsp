@@ -24,6 +24,7 @@
 		<!-- Theme Style -->
         <link rel="stylesheet" href="css/themes/hans/base.css">
         <link rel="stylesheet" href="css/themes/hans/login.css">
+        <link rel="stylesheet" href="css/themes/hans/playlist.css">
 		
 		<!-- modernizr -->
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
@@ -37,6 +38,9 @@
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
+	
+		<div id="messic-logo1"></div>
+		<div id="messic-logo2"></div>
 
 			<div id="messic-login-window" >
 				<div class="messic-login-form-container">
@@ -45,9 +49,9 @@
 						<a href="/restpassword"><fmt:message key="login-forgot" bundle="${ message }"/></a>
 						<form id="messic-login-form" class="login-form-style">
 							<label for="username" class="login-form-label"><fmt:message key="login-username" bundle="${ message }"/></label>
-							<input id="username" name="j_username" type="text" value="joseUser${msg}"/>
+							<input id="username" name="j_username" type="text" value="joseUser"/>
 							<label for="password" class="login-form-label"><fmt:message key="login-password" bundle="${ message }"/></label>
-							<input id="password" name="j_password" type="text" value="audreyPass"/>
+							<input id="password" name="j_password" type="text" value="12345"/>
 						</form>
 						<button id="messic-login-button" class="button play"><fmt:message key="login-button" bundle="${ message }"/></button>
 						<div id="messic-login-logo"></div>
@@ -62,16 +66,17 @@
 					</div>
 				</div>			
 			</div>
-			
-			<div id="messic-login-shadow" style="position:absolute">
-				hola
-			</div>
+			<div id="messic-login-shadow" style="position:absolute"></div>
 		
 
         <script src="js/vendor/jquery/jquery-1.9.1.min.js"></script>
 		<script src="js/vendor/jquery/jquery-ui.js"></script>
 		<script src="js/vendor/kendoui/kendo.web.min.js"></script>
+        <script src="js/vendor/jplayer/jquery.jplayer.min.js"></script>
+        <script src="js/vendor/jquery.tinyscrollbar.js"></script>
+        <script src="js/jplayer.playlist.messic.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/login.js"></script>
+        <script src="js/main.js"></script>
     </body>
 </html>

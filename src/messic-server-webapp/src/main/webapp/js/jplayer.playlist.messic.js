@@ -239,7 +239,7 @@
 		},
 		_createListItem: function(media) {
 			var self = this;
-
+			var index = $(this).parent().parent().index();
 			// Wrap the <li> contents in a <div>
 			var listItem = "<li class='jplayer-playlist-li'>";
 
@@ -275,18 +275,31 @@
 			listItem += "    <a href='javascript:;' class='jplayer-playlist-remove jp-playlist-item-remove'></a>";
 			listItem += "    <div class='jplayer-playlist-vinylHand'></div>";
 			listItem += "    <img class='jplayer-playlist-vinylbox' src='"+media.boxart+"'></img>";
-            listItem += "    <div class='jplayer-playlist-vinylPlayButton' onclick='this.parentNode.parentNode.className =\"jplayer-playlist-li-expanding\";this.parentNode.children[0].className =\"jplayer-playlist-vinyl jplayer-playlist-vinylPlaying\";this.parentNode.children[1].className =\"jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying\";'></div>";
+            listItem += "    <div class='jplayer-playlist-vinylPlayButton' onclick='playVinyl($(this).parent().parent().index());'></div>";
 			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-song " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.song +"</a>";
 			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-album " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.album +"</a>";
 			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.author +"</a>";
             listItem += "  </div>";
 			listItem += "</li>";
+			//  this.parentNode.parentNode.className =\"jplayer-playlist-li-expanding\";this.parentNode.children[0].className =\"jplayer-playlist-vinyl jplayer-playlist-vinylPlaying\";this.parentNode.children[1].className =\"jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying\";
 			return listItem;
 		},
 		_createItemHandlers: function() {
 			var self = this;
 			// Create live handlers for the playlist items
 			$(this.cssSelector.playlist).off("click", "a." + this.options.playlistOptions.itemClass).on("click", "a." + this.options.playlistOptions.itemClass, function() {
+				var index = $(this).parent().parent().index();
+				if(self.current !== index) {
+					self.play(index);
+				} else {
+					$(self.cssSelector.jPlayer).jPlayer("play");
+				}
+				$(this).blur();
+				return false;
+			});
+
+			//messic modification. Play button funcitonality
+			$(this.cssSelector.playlist).on("click", "div.jplayer-playlist-vinylPlayButton", function() {
 				var index = $(this).parent().parent().index();
 				if(self.current !== index) {
 					self.play(index);
@@ -411,6 +424,7 @@
 			index = (index < 0) ? this.original.length + index : index; // Negative index relates to end of array.
 			if(0 <= index && index < this.playlist.length) {
 				this.current = index;
+				playVinyl(index);
 				this._highlight(index);
 				$(this.cssSelector.jPlayer).jPlayer("setMedia", this.playlist[this.current]);
 			} else {

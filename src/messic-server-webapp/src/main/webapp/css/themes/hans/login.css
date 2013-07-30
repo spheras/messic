@@ -3,14 +3,14 @@
 #messic-login-window{
 
 
-background: #ffffff; /* Old browsers */
-background: -moz-linear-gradient(top, #ffffff 0%, #fcfcfc 47%, #dddddd 63%, #b2b2b2 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#fcfcfc), color-stop(63%,#dddddd), color-stop(100%,#b2b2b2)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, #ffffff 0%,#fcfcfc 47%,#dddddd 63%,#b2b2b2 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, #ffffff 0%,#fcfcfc 47%,#dddddd 63%,#b2b2b2 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, #ffffff 0%,#fcfcfc 47%,#dddddd 63%,#b2b2b2 100%); /* IE10+ */
-background: linear-gradient(to bottom, #ffffff 0%,#fcfcfc 47%,#dddddd 63%,#b2b2b2 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#b2b2b2',GradientType=0 ); /* IE6-9 */
+	background: #ffffff; /* Old browsers */
+	background: -moz-linear-gradient(top, #ffffff 0%, #fcfcfc 47%, #dddddd 63%, #b2b2b2 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#fcfcfc), color-stop(63%,#dddddd), color-stop(100%,#b2b2b2)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #ffffff 0%,#fcfcfc 47%,#dddddd 63%,#b2b2b2 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #ffffff 0%,#fcfcfc 47%,#dddddd 63%,#b2b2b2 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #ffffff 0%,#fcfcfc 47%,#dddddd 63%,#b2b2b2 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #ffffff 0%,#fcfcfc 47%,#dddddd 63%,#b2b2b2 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#b2b2b2',GradientType=0 ); /* IE6-9 */
 
 
 	height: 270px;
@@ -23,7 +23,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 	border-width: 1px;
 	border-color: #b7b7b7;
 }
-
+#messic-login-shadow{
+	background: url("login-shadow.png") no-repeat scroll 0 0 transparent;
+	width:574px;
+	height:99px;
+}
 
 
 /* login panel at left */ 

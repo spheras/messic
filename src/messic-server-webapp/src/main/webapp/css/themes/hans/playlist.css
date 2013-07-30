@@ -133,7 +133,35 @@ body{
    -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
    -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
 */
+
+
+    animation-name: messic-playlist-background-anim;
+    animation-duration: 2s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-delay: 0s;
+    -webkit-animation-name: messic-playlist-background-anim;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: ease-in;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-direction: normal;
+    -webkit-animation-delay: 0s;
+
 }
+
+@keyframes messic-playlist-background-anim
+{
+   0%  { bottom: -130px;}
+   100% { bottom:0px;}
+}
+@-webkit-keyframes messic-playlist-background-anim /* Safari and Chrome */
+{
+   0%  { bottom: -130px;}
+   100% { bottom:0px;}
+}
+
+
 
 /** ---------------------------------------- */
 /** configuration of the playlsit and ul to show scrolls bars */
@@ -434,7 +462,7 @@ body{
 	height:26px;
 	position:absolute;
 	top:-8px;
-	right: -8px;
+	left: -8px;
 	z-index:3;
 
    opacity: 0; /*by default we can't see it */

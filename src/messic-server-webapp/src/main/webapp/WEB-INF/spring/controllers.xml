@@ -8,6 +8,7 @@
 
 	<!--  List of controllers beans -->	
 		<bean name="/login.do" class="org.messic.server.facade.controllers.LoginController" />
+		<bean name="/main.do" class="org.messic.server.facade.controllers.MainController" />
 	<!-- ************************** -->
 
 	<!-- resolver of jsp pages -->
