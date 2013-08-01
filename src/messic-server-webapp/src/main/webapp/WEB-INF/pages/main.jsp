@@ -14,6 +14,15 @@
 		<div id="content">
 	        <div id="messic-background"></div>
 
+			<input type="text" id="messic-search"></input>
+
+			<lu id="messic-menu">
+				<li id="messic-menu-home"></li>
+				<li id="messic-menu-home"></li>
+				<li id="messic-menu-home"></li>
+				<li id="messic-menu-home"></li>
+			</lu>
+
 			<input type="button" value="add song" onclick="addsong()"/>	
 
 			<div id="jquery_jplayer" class="jp-jplayer"></div>

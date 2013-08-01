@@ -383,4 +383,37 @@ a:visited{
 	z-index:-999;
 }
 
+#messic-menu {
+	display: block;
+	position:fixed;
+	top:0px;
+	left:50%;
+	margin-left: -150px;
+}
 
+#messic-menu li{
+	background: url("mainmenu-button-99x99.png") no-repeat scroll 0 0 transparent;
+	width:99px;
+	height:99px;
+	float:left;
+	list-style-type: none;
+}
+
+#messic-menu > li:hover{
+	background: url("mainmenu-button-99x99.png") no-repeat scroll -99px 0px transparent;
+	width:99px;
+	height:99px;
+}
+
+#messic-menu > li:active{
+	background: url("mainmenu-button-99x99.png") no-repeat scroll -198px 0px transparent;
+	width:99px;
+	height:99px;
+}
+#messic-menu-home:before{
+    background: url("mainmenu-buttons-icons.png") no-repeat scroll 0 0 transparent;
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+}
