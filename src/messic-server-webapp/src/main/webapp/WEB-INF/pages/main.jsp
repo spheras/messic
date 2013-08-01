@@ -17,12 +17,15 @@
 			<input type="text" id="messic-search"></input>
 
 			<lu id="messic-menu">
-				<li id="messic-menu-home"></li>
-				<li id="messic-menu-home"></li>
-				<li id="messic-menu-home"></li>
-				<li id="messic-menu-home"></li>
+				<li id="messic-menu-home" class="messic-menu-icon"><div>Start Page</div></li>
+				<li id="messic-menu-explore" class="messic-menu-icon"><div>Explore Music</div></li>
+				<li id="messic-menu-playlist" class="messic-menu-icon"><div>Playlist</div></li>
+				<li id="messic-menu-radio" class="messic-menu-icon"><div>Radio Player</div></li>
+				<li id="messic-menu-settings" class="messic-menu-icon"><div>Settings</div></li>
+				<li id="messic-menu-upload" class="messic-menu-icon"><div>Upload Music</div></li>
 			</lu>
 
+            <br/>
 			<input type="button" value="add song" onclick="addsong()"/>	
 
 			<div id="jquery_jplayer" class="jp-jplayer"></div>

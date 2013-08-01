@@ -46,7 +46,9 @@ $(document).ready(function() {
 			    	if(data.success==true)
 			    	{
 						//let's hide and remove the login window!
-						$("#messic-login-shadow").fadeOut(500);
+						$("#messic-login-shadow").fadeOut(500,function(){ 
+							$(this).remove();
+                        });
 						$("#messic-login-window").fadeOut(1000,function(){ 
 							$(this).remove();
 						});
