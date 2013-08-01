@@ -439,6 +439,16 @@ a:visited{
     top:0px;
     position:absolute;
 }
+#messic-menu > li:hover.messic-menu-icon:after{
+    transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+    transition-duration: 0.3s;
+    transition-property: transform;
+}
+
+#messic-menu > li:active.messic-menu-icon:after{
+    top:3px;
+}
 #messic-menu-home:after{
     background: url("mainmenu-buttons-icons.png") no-repeat scroll 0 0 transparent;
 }
@@ -489,6 +499,7 @@ a:visited{
     opacity:0;
     transition-property : opacity; 
     transition-duration : 0.8s;
+    transition-delay: 0.3s;
     visibility:hidden;
 }
 #messic-menu li:hover>div{

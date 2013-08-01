@@ -25,8 +25,7 @@
 				<li id="messic-menu-upload" class="messic-menu-icon"><div>Upload Music</div></li>
 			</lu>
 
-            <br/>
-			<input type="button" value="add song" onclick="addsong()"/>	
+			<button value="click to add song" onclick="addsong()" style="height: 30px; width: 150px; z-index: 5; position: absolute;">Add Test Song!</button>	
 
 			<div id="jquery_jplayer" class="jp-jplayer"></div>
 			<div class="jp-audio" id="jquery_jplayer_content">
