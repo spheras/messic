@@ -10,8 +10,23 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Messic</title>
-        <meta name="description" content="">
+        <meta name="description" content="Messic for the music mess">
         <meta name="viewport" content="width=device-width">
+
+		<link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+		<!-- For third-generation iPad with high-resolution Retina display: -->
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/apple-touch-icon-144x144-precomposed.png">
+		<!-- For iPhone with high-resolution Retina display running iOS ≥ 7: -->
+		<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/img/apple-touch-icon-120x120-precomposed.png">
+		<!-- For iPhone with high-resolution Retina display running iOS ≤ 6: -->
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/apple-touch-icon-114x114-precomposed.png">
+		<!-- For first- and second-generation iPad: -->
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/apple-touch-icon-72x72-precomposed.png">
+		<!-- for non-Retina iPhone and iPod Touch: -->
+		<link rel="apple-touch-icon-precomposed" sizes="57x57" href="/img/apple-touch-icon-52x52-precomposed.png">
+		<!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+		<link rel="apple-touch-icon-precomposed" href="/img/apple-touch-icon-precomposed.png">
+
 
 		<!-- Kendo styles -->
 		<link href="css/kendoui/kendo.common.min.css" rel="stylesheet" />

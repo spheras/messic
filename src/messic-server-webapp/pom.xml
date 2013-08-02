@@ -13,6 +13,45 @@
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
 
+	<build>
+		<plugins>
+			<!-- jrebel plugin to easily develop -->
+			<plugin>
+				<groupId>org.zeroturnaround</groupId>
+				<artifactId>jrebel-maven-plugin</artifactId>
+				<version>1.1.5</version>
+				<executions>
+					<execution>
+						<id>generate-rebel-xml</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<packaging>war</packaging>
+					<classpath>
+						<fallback>default</fallback>
+						<resources>
+							<resource>
+								<directory>
+									${basedir}/../messic-server-logics/target/classes
+								</directory>
+							</resource>
+							<resource>
+								<directory>
+									${basedir}/../messic-server-datamodel/target/classes
+								</directory>
+							</resource>
+						</resources>
+					</classpath>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>org.messic</groupId>
@@ -54,23 +93,23 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 		</dependency>
-		
+
 		<dependency>
-	      <groupId>log4j</groupId>
-	      <artifactId>log4j</artifactId>
-	   	</dependency>
-	   	
-		<!-- JSTL --> 
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+		</dependency>
+
+		<!-- JSTL -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
-	 
+
 		<dependency>
 			<groupId>taglibs</groupId>
 			<artifactId>standard</artifactId>
-		</dependency>	   	
-	   	
+		</dependency>
+
 	</dependencies>
 
 </project>

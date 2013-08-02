@@ -10,6 +10,10 @@
 	<http pattern="/css/**" security="none" />
 	<http pattern="/img/**" security="none" />
 	<http pattern="/js/**" security="none" />
+	<http pattern="/humans.txt" security="none" />
+	<http pattern="/robots.txt" security="none" />
+	<http pattern="/crossdomain.xml" security="none" />
+	<http pattern="/404.html" security="none" />
 
 	<http auto-config="false" use-expressions="true"
 		entry-point-ref="loginUrlAuthenticationEntryPoint">
