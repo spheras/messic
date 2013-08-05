@@ -2,7 +2,6 @@
 /* ---------------------------------------- */
 #messic-login-window{
 
-
 	background: #ffffff; /* Old browsers */
 	background: -moz-linear-gradient(top, #ffffff 0%, #fcfcfc 47%, #dddddd 63%, #b2b2b2 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#fcfcfc), color-stop(63%,#dddddd), color-stop(100%,#b2b2b2)); /* Chrome,Safari4+ */

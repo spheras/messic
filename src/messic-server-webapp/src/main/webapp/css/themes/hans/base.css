@@ -174,12 +174,10 @@ body{
 	margin:0px;
 	width:100%;
 	height:100%;
-	display: block;
 
     /* http://subtlepatterns.com/mocha-grunge/ */
-	background: radial-gradient(ellipse at center center , rgba(250, 250, 250, 0) 0%, rgba(50, 50, 50, 0.8) 100%) repeat scroll 0 0%, 
-                url("mochaGrunge.png") repeat scroll 0 0 transparent;
-	background-attachment:fixed,fixed;
+	background:  radial-gradient(ellipse at center center , rgba(250, 250, 250, 0) 0%, rgba(50, 50, 50, 0.8) 100%) repeat 0 0 fixed, 
+                 url("mochaGrunge.png") repeat 0 0 fixed;
 }
 
 label {
@@ -301,49 +299,16 @@ a:visited{
 	margin: 10px;
 }
 
-
-/* background (over body) */
-/*----------------------------*/
-/*
-#messic-background{
-	background: rgba(250,250,0,0.0);
-	width:100%;
-	height:100%;
-}
-#messic-background-animated{
-	animation-name: messic-background-changeColor;
-	animation-duration:1000s;
-	animation-iteration-count: infinite;
-	animation-direction: alternate;
-}
-
-@keyframes messic-background-changeColor {
-10%{ background: rgba(255, 125, 0, 0.1);}	
-20%{ background: rgba(155, 225, 0, 0.3);}
-40%{ background: rgba(100, 125, 200, 0.1);}	
-60%{ background: rgba(155, 0, 255, 0.2);}
-80%{ background: rgba(0, 100, 50, 0.2);}
-100%{background: rgba(155, 200, 40, 0.1);}
-}
-@-webkit-keyframes messic-background-changeColor {
-10%{ background: rgba(255, 125, 0, 0.1);}	
-20%{ background: rgba(155, 225, 0, 0.3);}
-40%{ background: rgba(100, 125, 200, 0.1);}	
-60%{ background: rgba(155, 0, 255, 0.2);}
-80%{ background: rgba(0, 100, 50, 0.2);}
-100%{background: rgba(155, 200, 40, 0.1);}
-}
-*/
 #messic-background {
 	/* http://freepsdfiles.net/silhouettes/crowd-silhouettes-set/ */
-	background: url(people.png) bottom left repeat-x fixed;
+	background: url(people.png) bottom left repeat-x;
 
-	bottom:0px;
+	bottom:-67px;
 	width:100%;
 	height:446px;
     content:"";
-    opacity:0.8;
-	position:absolute;
+    opacity:1;
+	position:fixed;
 	z-index:-1;
 
 	animation-name: fadein;
@@ -366,7 +331,22 @@ a:visited{
     transition-property : opacity; 
     transition-duration : 0.5s;
 	z-index:0;
+
 }
+
+#messic-logo1.messic-main{
+    transform: scale(0.6);
+    right: -50px;
+    top: -14px;
+    z-index: 18;
+}
+
+#messic-logo2.messic-main{
+    transition-property: opacity;
+    transition-duration: 0.5s;
+    opacity:0;
+}
+
 #messic-logo1:hover{
 	opacity:1;
 }
@@ -393,6 +373,7 @@ a:visited{
 	top:0px;
 	left:50%;
 	margin-left: -260px;
+    z-index:999;
 }
 
 #messic-menu li{
@@ -469,7 +450,7 @@ a:visited{
 }
 /* The help info over the buttons */
 #messic-menu div:after{
-    border-color: rgba(255, 255, 255, 0.2) transparent;
+    border-color: rgba(0, 200, 200, 0.2) transparent;
     border-width: 0 10px 10px;
     bottom: auto;
     left: 50%;
@@ -484,22 +465,21 @@ a:visited{
 }
 
 #messic-menu div{
-    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.57);
+    background: none repeat scroll 0 0 rgba(0, 200, 200, 0.57);
     border-radius: 10px 10px 10px 10px;
-    color: #000000;
+    color: #FFFFFF;
     padding: 4px;
     position: relative;
     text-align:center;
-    -webkit-box-shadow:  0 0 14px #FFFFFF;
-    -moz-box-shadow:     0 0 14px #FFFFFF;
-    box-shadow:          0 0 14px #FFFFFF;
-    color: #666666;
+    -webkit-box-shadow:  0 0 14px #00baba;
+    -moz-box-shadow:     0 0 14px #00baba;
+    box-shadow:          0 0 14px #00baba;
     font-family: Amaranth;
     font-size: 0.8em;
     opacity:0;
     transition-property : opacity; 
     transition-duration : 0.8s;
-    transition-delay: 0.3s;
+    transition-delay: 1s;
     visibility:hidden;
 }
 #messic-menu li:hover>div{
@@ -510,9 +490,45 @@ a:visited{
 
 
 #messic-search{
-    position:fixed;
-    left:10px;
-    top:10px;
-    width:100px;
-    height:20px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 25px 25px 25px 25px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) inset;
+    height: 20px;
+    left: 10px;
+    position: fixed;
+    top: 10px;
+    width: 200px;
+}
+
+
+#messic-page-border{
+	border-color: transparent;
+	border-image: url("page-border.png") 130 130 4 138 repeat repeat;
+	border-style: solid;
+	border-width: 100px;
+	height: 100%;
+	margin: 100px auto 0;
+	position: relative;
+	width: 920px;		
+}
+#messic-page-content{
+	background: none repeat scroll 0 0 #FFFFFF;
+	height: 100%;
+	margin-left: -60px;
+	margin-top: -40px;
+	padding-right: 40px;
+	width: 1000px;
+	padding-bottom: 40px;
+}
+
+#messic-top{
+    background: none repeat scroll 0 0 #555555;
+    border-bottom: 1px solid #333333;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    display: block;
+    height: 50px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 8;    
 }

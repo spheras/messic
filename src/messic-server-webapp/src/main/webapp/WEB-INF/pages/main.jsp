@@ -14,7 +14,10 @@
 		<div id="content">
 	        <div id="messic-background"></div>
 
-			<input type="text" id="messic-search"></input>
+            <div id="messic-top">
+    			<input type="text" id="messic-search"></input>
+            </div>
+
 
 			<lu id="messic-menu">
 				<li id="messic-menu-home" class="messic-menu-icon"><div>Start Page</div></li>
@@ -25,7 +28,11 @@
 				<li id="messic-menu-upload" class="messic-menu-icon"><div>Upload Music</div></li>
 			</lu>
 
-			<button value="click to add song" onclick="addsong()" style="height: 30px; width: 150px; z-index: 5; position: absolute;">Add Test Song!</button>	
+            <div id="messic-page-border">
+                <div id="messic-page-content">
+        			<button value="click to add song" onclick="addsong()" style="height: 30px; width: 150px; z-index: 5; position: absolute;">Add Test Song!</button>	
+                </div>
+            </div>
 
 			<div id="jquery_jplayer" class="jp-jplayer"></div>
 			<div class="jp-audio" id="jquery_jplayer_content">

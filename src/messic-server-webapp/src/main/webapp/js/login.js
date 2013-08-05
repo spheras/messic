@@ -45,18 +45,22 @@ $(document).ready(function() {
 		    	{
 			    	if(data.success==true)
 			    	{
-						//let's hide and remove the login window!
-						$("#messic-login-shadow").fadeOut(500,function(){ 
-							$(this).remove();
-                        });
-						$("#messic-login-window").fadeOut(1000,function(){ 
-							$(this).remove();
-						});
 
 						$.get("main.do #content", function(data){ 
-							var posts = $($.parseHTML(data)).filter('#content').children();
-							$("body").append(posts);
-							initMain();
+    						$("#messic-logo1").attr("class","messic-main");
+    						$("#messic-logo2").attr("class","messic-main");
+
+						    //let's hide and remove the login window!
+						    $("#messic-login-shadow").fadeOut(500,function(){ 
+							    $(this).remove();
+                            });
+						    $("#messic-login-window").fadeOut(1000,function(){ 
+							    $(this).remove();
+							    var posts = $($.parseHTML(data)).filter('#content').children();
+							    $("body").append(posts);
+							    initMain();
+						    });
+ 
 						});
 			    	}
 			    	else
