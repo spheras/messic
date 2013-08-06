@@ -1,0 +1,95 @@
+#messic-about-tape{
+    /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
+    animation: 1.5s ease 0s normal none 1 messic-about-tape-comein;
+    background: url("tape.png") repeat scroll 0 0 transparent;
+    height: 342px;
+    left: -73px;
+    position: relative;
+    top: -134px;
+    transform: scale(0.8);
+    width: 546px;
+    z-index: 2;
+
+/*
+	background:url(tape.png);
+	width:546px;
+	height:342px;
+    left:-83px;
+    top:-83px;
+    position:relative;
+	transform:scale(0.5);
+	animation: messic-about-tape-comein 1.5s;
+	animation-timing-function: easy-in;
+	z-index:2;
+*/
+}
+
+#messic-about-window{
+    overflow: hidden;
+    /* http://subtlepatterns.com/honey-im-subtle/ */
+    background: url("honey_im_subtle.png") repeat;
+}
+
+@keyframes messic-about-tape-comein{
+	from { transform:scale(3.5); opacity:0;}
+	to { transform: scale(0.8); opacity:1;}
+}
+
+
+#messic-about-tape .messic-tape-wheel{
+	width: 58px;
+	height: 58px;
+	position: absolute;
+}
+
+#messic-about-tape #messic-tape-leftwheel{
+    /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
+	background: url("tape-left-wheel.png") repeat scroll 0 0 transparent;
+	left: 125px;
+	top: 125px;
+	animation: tape-wheel-anim 1.5s infinite;
+	animation-timing-function: linear;
+}
+#messic-about-tape #messic-tape-rightwheel{
+    /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
+    background: url("tape-right-wheel.png") repeat scroll 0 0 transparent;
+	left: 350px;
+	top: 125px;
+	animation: tape-wheel-anim 2s infinite;
+	animation-timing-function: linear;
+}
+
+@keyframes tape-wheel-anim{
+	from { transform:rotate(0deg);}
+	to { transform: rotate(360deg);}
+}
+
+#messic-about-page{
+	height: 200px;
+	left: 0px;
+    top:-83px;
+	margin-top: -86px;
+	overflow-x: hidden;
+    overflow-y: scroll;
+	position: relative;
+	width: 100%;
+	z-index:1;
+}
+#messic-about-page-content{
+	width:100%;
+	position:relative;
+	animation: messic-about-page-scroll 1400s infinite, messic-about-page-fadein 1s;
+	animation-timing-function: linear, easy-in;
+	animation-delay:1.5s,1s;
+	opacity:0;
+    border-radius: 14px 14px 14px 14px;
+}
+@keyframes messic-about-page-fadein{
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+@keyframes messic-about-page-scroll{
+	from { opacity:1; top:0px;}
+	to { opacity:1; top: -10000px;}
+}
+
