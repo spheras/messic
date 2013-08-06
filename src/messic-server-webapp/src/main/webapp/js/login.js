@@ -71,6 +71,31 @@ $(document).ready(function() {
 		    	}
 			});
  	});
+
+    //show the about page on logo1 click
+    $("#messic-logo1").click(function(){
+		$.get("about.do", function(data){ 
+	        var posts = $($.parseHTML(data)).filter('#content').children();
+	        $("body").append(posts);
+
+            var window = $("#messic-about-window");
+            window.kendoWindow({
+                            width: "410px",
+                            height: "400px",
+                            title: "About Messic",
+                            modal: true,
+                            actions: [
+                                "Close"
+                            ],
+                            deactivate: function() {
+                                this.destroy();                                           
+                            }
+                        });
+            var kendoWindow = $("#messic-about-window").data("kendoWindow");
+            kendoWindow.center();
+        });
+    });
+
 });
 
 

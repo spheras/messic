@@ -21,6 +21,7 @@ function initMain(){
       		swfPath: "js/vendor/jplayer",
         }
     ); 
+    
 }
 
 function playVinyl(index){

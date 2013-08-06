@@ -40,6 +40,7 @@
         <link rel="stylesheet" href="css/themes/hans/base.css">
         <link rel="stylesheet" href="css/themes/hans/login.css">
         <link rel="stylesheet" href="css/themes/hans/playlist.css">
+        <link rel="stylesheet" href="css/themes/hans/about.css">
 		
 		<!-- modernizr -->
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>

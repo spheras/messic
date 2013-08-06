@@ -17,6 +17,7 @@
 
 	<http auto-config="false" use-expressions="true"
 		entry-point-ref="loginUrlAuthenticationEntryPoint">
+		<intercept-url pattern="/about.do" access="permitAll" />
 		<intercept-url pattern="/login.do" access="permitAll" />
 		<intercept-url pattern="/logout" access="permitAll" />
 
