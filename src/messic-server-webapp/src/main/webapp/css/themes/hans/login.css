@@ -41,8 +41,14 @@
 /* titles */
 /* ---------------------------------------- */
 #messic-login-window h1{
-   border-bottom: 1px double;
-   padding-bottom: 10px;
+	border-bottom: 1px double;
+	padding-bottom: 10px;
+
+    color: #555555;
+    font-family: 'Helvetica' !important;
+    font-size: 1.1em;
+    font-weight: bold;
+
 }
 
 /* forgot password option */

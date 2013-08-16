@@ -20,7 +20,16 @@ function initMain(){
             errorAlerts: true,
       		swfPath: "js/vendor/jplayer",
         }
-    ); 
+    );
+ 
+
+	$("#messic-menu-upload").click(function(){
+		$.get("upload.do", function(data){ 
+			$("#messic-page-content").empty();
+		    var posts = $($.parseHTML(data)).filter('#content').children();
+		    $("#messic-page-content").append(posts);
+		});
+	});
     
 }
 

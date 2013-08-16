@@ -81,6 +81,18 @@
 	src: url(Roboto-Black-webfont.woff);
 }
 
+
+/*  
+Google font
+http://www.google.com/fonts/specimen/Sigmar+One
+*/
+@font-face {
+  font-family: 'Sigmar One';
+  font-style: normal;
+  font-weight: 400;
+  src: url(SigmarOne.woff) format('woff');
+}
+
 /* Icons based on texts */
 /* http://www.paulund.co.uk/css-buttons-with-icons-but-no-images */
 /* Hexadecimal entities for the icons */
@@ -188,9 +200,11 @@ label {
 }
 
 h1{
-	font-family:myFirstFont;
-	font-size:1em;
-	color:#7a7a7a;
+	font-family:'Sigmar One' !important;
+	font-size:2.2em;
+	color:#555555;
+	margin:0px;
+	text-align: right;
 }
 
 input[type="text"] {
@@ -515,7 +529,7 @@ a:visited{
 	background: none repeat scroll 0 0 #FFFFFF;
 	height: 100%;
 	margin-left: -60px;
-	margin-top: -40px;
+	margin-top: -50px;
 	padding-right: 40px;
 	width: 1000px;
 	padding-bottom: 40px;

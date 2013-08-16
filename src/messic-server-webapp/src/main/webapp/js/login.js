@@ -46,7 +46,7 @@ $(document).ready(function() {
 			    	if(data.success==true)
 			    	{
 
-						$.get("main.do #content", function(data){ 
+						$.get("main.do", function(data){ 
     						$("#messic-logo1").attr("class","messic-main");
     						$("#messic-logo2").attr("class","messic-main");
 

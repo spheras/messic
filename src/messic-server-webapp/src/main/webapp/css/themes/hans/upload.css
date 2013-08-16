@@ -1,0 +1,99 @@
+
+/* The upload box to drop files */
+#messic-upload-zone{
+    background: none repeat scroll 0 0 #F0F0F0;
+    border: 4px dashed #333333;
+    border-radius: 10px 10px 10px 10px;
+    min-height: 100px;
+    text-align: center;
+    width: 100%;
+
+	font-family:'Sigmar One' !important;
+	font-size:2.2em;
+	color:#00BABA;
+	vertical-align:middle
+	text-align: center;
+	line-height:100px;
+
+	margin-bottom:50px;
+}
+
+
+input[type=checkbox] {
+ display:none;
+}
+
+.checkboxFive {
+	height:25px;
+	position: relative;
+}
+
+/**
+ * Create the box for the checkbox
+ */
+.checkboxFive label.checkboxFiveTick {
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+	top: 0;
+  	left: 0;
+	background: #eee;
+	border:2px solid #ddd;
+	border-radius:4px;
+	float:left;
+}
+
+/**
+ * Display the tick inside the checkbox
+ */
+.checkboxFive label.checkboxFiveTick:after {
+    content: "";
+
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 transparent;
+    border-color: -moz-use-text-color -moz-use-text-color #333333 #333333;
+    border-image: none;
+    border-style: none none solid solid;
+    border-width: medium medium 5px 5px;
+
+    width: 14px;
+    height: 5px;
+    top: 0px;
+    left: 2px;
+
+    opacity: 0;
+    position: absolute;
+	right-margin:5px;
+
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+
+    transition-property : opacity; 
+    transition-duration : 0.5s;
+
+}
+
+/**
+ * Create the hover event of the tick
+ */
+.checkboxFive label:hover::after {
+	opacity: 0.2;
+}
+/**
+ * Create the checkbox state for the tick
+ */
+.checkboxFive input[type=checkbox]:checked + label.checkboxFiveTick:after {
+	opacity: 1;
+	border-color: #00BABA;
+}
+
+.checkboxFive label.checkboxFiveLabel{
+	float:left;
+	margin-left:5px;
+}

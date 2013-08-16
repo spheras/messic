@@ -10,6 +10,7 @@
 		<bean name="/login.do" class="org.messic.server.facade.controllers.LoginController" />
 		<bean name="/main.do" class="org.messic.server.facade.controllers.MainController" />
 		<bean name="/about.do" class="org.messic.server.facade.controllers.AboutController" />
+		<bean name="/upload.do" class="org.messic.server.facade.controllers.UploadController" />
 	<!-- ************************** -->
 
 	<!-- resolver of jsp pages -->
