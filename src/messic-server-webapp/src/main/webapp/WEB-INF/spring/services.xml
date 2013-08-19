@@ -14,7 +14,7 @@ http://www.springframework.org/schema/util/spring-util-3.0.xsd">
     <!-- It allow us to use @Autowire, @Required and @Qualifier annotations.-->
 	<context:annotation-config />
 	<!-- It allow @Component, @Service, @Controller, etc.. annotations. -->
-	<context:component-scan base-package="org.messic.server.facade.logics, org.messic.server.datamodel" />
+	<context:component-scan base-package="org.messic.server.facade.logics,org.messic.server.facade.controllers,org.messic.server.datamodel" />
 	<!-- 	
 	<context:load-time-weaver/>
 	-->
