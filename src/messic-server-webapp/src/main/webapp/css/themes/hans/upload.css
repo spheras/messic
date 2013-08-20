@@ -15,19 +15,43 @@
 	text-align: center;
 	line-height:100px;
 
-	margin-bottom:50px;
+	margin-bottom:40px;
+}
+/** when the user is draggin something over the zone */
+#messic-upload-zone.messic-upload-zone-over{
+	border: 4px dashed #00BABA;
 }
 
+
+#messic-upload-manual-fieldset{
+	margin-top:20px;
+}
+
+.messic-upload-zone-file{
+	width:50px;
+	height:100px;
+	background: #FFFFFF;
+}
 
 input[type=checkbox] {
  display:none;
 }
 
+fieldset {
+    border: 2px dashed #888888;
+    border-radius: 10px 10px 10px 10px;
+    margin: 0;
+    padding: 15px;
+}
+
+/** 
+   	Checkbox style.. based on this article http://css.dzone.com/articles/how-style-checkbox-css 
+    -------------------------------------------------------------------------------------------
+*/
 .checkboxFive {
 	height:25px;
 	position: relative;
 }
-
 /**
  * Create the box for the checkbox
  */
@@ -96,4 +120,5 @@ input[type=checkbox] {
 .checkboxFive label.checkboxFiveLabel{
 	float:left;
 	margin-left:5px;
+	font-size: 1em;
 }

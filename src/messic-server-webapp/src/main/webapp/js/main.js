@@ -28,6 +28,7 @@ function initMain(){
 			$("#messic-page-content").empty();
 		    var posts = $($.parseHTML(data)).filter('#content').children();
 		    $("#messic-page-content").append(posts);
+			initUpload();
 		});
 	});
     

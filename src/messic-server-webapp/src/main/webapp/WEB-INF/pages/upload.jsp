@@ -13,7 +13,7 @@
 		    
 		<div id="content">
 			<h1>Upload</h1>
-			<div id="messic-upload-zone">- Drop Files Here -</div>
+			<div id="messic-upload-zone" ondragover="return false"><!-- ondragover for firefox -->- Drop Files Here -</div>
 
 			<div class="checkboxFive">
 		  		<input type="checkbox" value="1" id="messic-upload-automtatic" name="" />
@@ -22,20 +22,23 @@
 		  	</div>
 			
 
-			<fieldset>
+			<fieldset id="messic-upload-manual-fieldset">
 				<legend>Manual</legend>
 
 				<label>Album</label>
-				<input type="text" id="messic-album-manual"></input>
+				<input type="text" id="messic-upload-album"></input>
 				<label>Author</label>
-				<input type="text" id="messic-author-manual"></input>
+				<input type="text" id="messic-upload-author"></input>
 				<label>Year</label>
-				<input type="text" id="messic-year-manual"></input>
+				<input type="text" id="messic-upload-author"></input>
 				<label>Comments</label>
-				<input type="text" id="messic-comments-manual"></input>
+				<input type="text" id="messic-upload-comments"></input>
 				<label>Genre</label>
-				<input type="text" id="messic-genre-manual"></input>
+				<input type="text" id="messic-upload-genre"></input>
 			</fieldset>
+
+			<div class="messic-content-last-fill"></div>
+
 		</div>
     </body>
 </html>

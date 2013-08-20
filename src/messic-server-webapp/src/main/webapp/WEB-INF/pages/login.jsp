@@ -95,5 +95,6 @@
         <script src="js/plugins.js"></script>
         <script src="js/login.js"></script>
         <script src="js/main.js"></script>
+        <script src="js/upload.js"></script>
     </body>
 </html>
