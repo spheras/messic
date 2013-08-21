@@ -28,10 +28,40 @@
 }
 
 .messic-upload-zone-file{
-	width:50px;
-	height:100px;
+	width:44px;
+	height:53px;
+	float:left;
 	background: #FFFFFF;
 }
+
+.messic-upload-zone-file-music{
+	background:url("file-music.png");
+}
+
+.messic-upload-zone-file-image{
+	background:url("file-image.png");
+}
+
+.messic-upload-zone-file-unknown{
+	background:url("file-unknown.png");
+}
+
+/* info to the upload music, hidden before any file is added */
+.messic-upload-info-before{
+	overflow: hidden;
+	height:0px;
+    transition-property : height; 
+    transition-duration : 0.5s;
+}
+
+/* info to the upload music, showed after some file are added */
+.messic-upload-info-after{
+	overflow: hidden;
+	height:auto;
+    transition-property : height; 
+    transition-duration : 0.5s;
+}
+
 
 input[type=checkbox] {
  display:none;

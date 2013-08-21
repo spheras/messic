@@ -1,2 +1,3 @@
 target/
 /.project
+src/messic-server-webapp/src/main/resources/rebel.xml
