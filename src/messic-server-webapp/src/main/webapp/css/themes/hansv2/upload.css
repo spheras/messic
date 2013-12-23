@@ -1,16 +1,92 @@
-#messic-upload-album-container
-{
+.messic-upload-container-border{
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #EEEEEE;
-    border-radius: 5px;
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.25);
+    width: 275px;
+    height: auto;
+    overflow: visible;
+    padding: 3px;
+    width:404px;
     float: left;
-    font-family: Arial,Helvetica,sans-serif;
-    font-size: 0.8em;
-    margin-right: 20px;
-    min-width: 200px;
-    padding: 10px;
+    margin-right: 30px;
 }
+.messic-upload-container
+{
+    background: #FFFFFF;
+    border: 1px dashed #DDDDDD;
+    font-family: Roboto-black;
+    font-size: 0.8em;
+    padding: 0px 10px 10px 55px;
+    position: relative;
+    width: auto;
+}
+
+.messic-upload-container:before{
+    width: 41px;
+    height: 48px;
+    position: absolute;
+    left: 5px;
+    top:-5px;
+    content: ' ';
+}
+
+#messic-upload-container-album-container-border .messic-upload-container:before{
+    background: url("upload/ribbon-vinyl.png") no-repeat;
+}
+#messic-upload-container-song-container-border .messic-upload-container:before{
+    background: url("upload/ribbon-music.png") no-repeat;
+}
+
+
+                .k-textbox {
+                    width: 11.8em;
+                }
+
+                #messic-upload-album-container h3 {
+                    font-weight: normal;
+                    font-size: 1.4em;
+                    border-bottom: 1px solid #ccc;
+                    margin-top: 5px;
+                    font-family: roboto-black;
+                    text-shadow: 0 0 1px rgba(0,88,55,0.5);
+                    color: #0088FF;
+                }
+
+                #messic-upload-album-container ul {
+                    list-style-type: none;
+                    margin-left: -55px;
+                    padding: 0;
+                }
+                #messic-upload-album-container li {
+                    margin: 10px 0 0 0;
+                }
+
+                #messic-upload-album-container label {
+                    display: inline-block;
+                    width: 90px;
+                    text-align: right;
+                }
+
+                .required {
+                    font-weight: bold;
+                }
+
+                .accept, .status {
+                    padding-left: 90px;
+                }
+
+                .valid {
+                    color: green;
+                }
+
+                .invalid {
+                    color: red;
+                }
+                span.k-tooltip {
+                    margin-left: 6px;
+                }
+
+
+
 
 
 

@@ -14,7 +14,7 @@ $(document).ready(function() {
 	    logoX           =   parseInt(window.offset().left);
 	 	logoY           =   parseInt(window.offset().top);
 	 	shadowPosLeft   =   logoX + "px";
-	 	shadowPosTop    =   logoY + window.height() + "px";
+	 	shadowPosTop    =   logoY + (window.height()+1) + "px";
 	 	shadow.css({ "left": shadowPosLeft, "top": shadowPosTop});	 
 	}
 	
@@ -23,7 +23,7 @@ $(document).ready(function() {
 		this.css("position","absolute");
 		this.css("top", ( $(document).height() - this.height() ) / 2+$(window).scrollTop() + "px");
 		this.css("left", ( $(document).width() - this.width() ) / 2+$(window).scrollLeft() + "px");
-		shadow.css({"width": window.width(), "height": "100px", "top": window.offset().top + window.height()  ,"left": window.offset().left });
+		shadow.css({"top": window.offset().top + window.height() +1 ,"left": window.offset().left });
 	}
 	window.center();
 	

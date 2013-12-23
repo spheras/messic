@@ -86,7 +86,11 @@
     position: relative;
 }
 
-
+#messic-login-button {
+	
+	position: absolute;
+	bottom: 30px;
+}
 
 
 

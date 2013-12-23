@@ -276,9 +276,9 @@
 			listItem += "    <div class='jplayer-playlist-vinylHand'></div>";
 			listItem += "    <img class='jplayer-playlist-vinylbox' src='"+media.boxart+"'></img>";
             listItem += "    <div class='jplayer-playlist-vinylPlayButton' onclick='playVinyl($(this).parent().parent().index());'></div>";
+			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.author +"</a>";
 			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-song " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.song +"</a>";
 			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-album " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.album +"</a>";
-			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.author +"</a>";
             listItem += "  </div>";
 			listItem += "</li>";
 			//  this.parentNode.parentNode.className =\"jplayer-playlist-li-expanding\";this.parentNode.children[0].className =\"jplayer-playlist-vinyl jplayer-playlist-vinylPlaying\";this.parentNode.children[1].className =\"jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying\";

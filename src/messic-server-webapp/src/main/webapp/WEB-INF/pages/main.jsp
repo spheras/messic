@@ -13,20 +13,28 @@
 		    
 		<div id="content">
 	        <div id="messic-background"></div>
+	        <div id="messic-decorator1"></div>
+	        <div id="messic-decorator2"></div>
 
             <div id="messic-top">
-    			<input type="text" id="messic-search"></input>
+            	<div id="messic-top-background">
+					<form id="messic-search-form">
+		    			<input type="text" id="messic-search-text" placeholder="<fmt:message key="main-search" bundle="${ message }"/>"></input>
+		    			<a href="#" id="messic-search-do"></a>
+		    		</form>
+	    			<div id="messic-top-logo"></div>
+            	</div>
+				<lu id="messic-menu">
+					<li id="messic-menu-home" class="messic-menu-icon"><div><fmt:message key="main-button-startpage" bundle="${ message }"/></div></li>
+					<li id="messic-menu-explore" class="messic-menu-icon"><div><fmt:message key="main-button-exploremusic" bundle="${ message }"/></div></li>
+					<li id="messic-menu-playlist" class="messic-menu-icon"><div><fmt:message key="main-button-playlist" bundle="${ message }"/></div></li>
+					<li id="messic-menu-radio" class="messic-menu-icon"><div><fmt:message key="main-button-radioplayer" bundle="${ message }"/></div></li>
+					<li id="messic-menu-settings" class="messic-menu-icon"><div><fmt:message key="main-button-settings" bundle="${ message }"/></div></li>
+					<li id="messic-menu-upload" class="messic-menu-icon"><div><fmt:message key="main-button-uploadmusic" bundle="${ message }"/></div></li>
+				</lu>
             </div>
 
 
-			<lu id="messic-menu">
-				<li id="messic-menu-home" class="messic-menu-icon"><div>Start Page</div></li>
-				<li id="messic-menu-explore" class="messic-menu-icon"><div>Explore Music</div></li>
-				<li id="messic-menu-playlist" class="messic-menu-icon"><div>Playlist</div></li>
-				<li id="messic-menu-radio" class="messic-menu-icon"><div>Radio Player</div></li>
-				<li id="messic-menu-settings" class="messic-menu-icon"><div>Settings</div></li>
-				<li id="messic-menu-upload" class="messic-menu-icon"><div>Upload Music</div></li>
-			</lu>
 
             <div id="messic-page-border">
                 <div id="messic-page-content">

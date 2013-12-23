@@ -19,7 +19,7 @@
 	/* Designed by:	Gesine Todt */
 	/* http://www.gesine-todt.de/ */
 	font-family: Amaranth;
-	src: url(Amaranth-webfont.woff);
+	src: url(fonts/Amaranth-webfont.woff);
 }
 @font-face
 {
@@ -27,7 +27,7 @@
 	/* Designed by:	Gesine Todt */
 	/* http://www.gesine-todt.de/ */
 	font-family: Amaranth-bold;
-	src: url(Amaranth-Bold-webfont.woff);
+	src: url(fonts/Amaranth-Bold-webfont.woff);
 }
 @font-face
 {
@@ -35,7 +35,7 @@
 	/* Designed by:	Gesine Todt */
 	/* http://www.gesine-todt.de/ */
 	font-family: Amaranth-italic;
-	src: url(Amaranth-Italic-webfont.woff);
+	src: url(fonts/Amaranth-Italic-webfont.woff);
 }
 @font-face
 {
@@ -43,7 +43,7 @@
 	/* Designed by:	Gesine Todt */
 	/* http://www.gesine-todt.de/ */
 	font-family: Amaranth-bold-italic;
-	src: url(Amaranth-BoldItalic-webfont.woff);
+	src: url(fonts/Amaranth-BoldItalic-webfont.woff);
 }
 
 
@@ -57,28 +57,28 @@
     /*http://www.fontsquirrel.com/fonts/roboto?q=roboto*/
 	/* Designed by:	Christian Robertson */
 	font-family: Roboto;
-	src: url(Roboto-Regular-webfont.woff);
+	src: url(fonts/Roboto-Regular-webfont.woff);
 }
 @font-face
 {
     /*http://www.fontsquirrel.com/fonts/roboto?q=roboto*/
 	/* Designed by:	Christian Robertson */
 	font-family: Roboto-bold;
-	src: url(Roboto-Bold-webfont.woff);
+	src: url(fonts/Roboto-Bold-webfont.woff);
 }
 @font-face
 {
     /*http://www.fontsquirrel.com/fonts/roboto?q=roboto*/
 	/* Designed by:	Christian Robertson */
 	font-family: Roboto-italic;
-	src: url(Roboto-Italic-webfont.woff);
+	src: url(fonts/Roboto-Italic-webfont.woff);
 }
 @font-face
 {
     /*http://www.fontsquirrel.com/fonts/roboto?q=roboto*/
 	/* Designed by:	Christian Robertson */
 	font-family: Roboto-black;
-	src: url(Roboto-Black-webfont.woff);
+	src: url(fonts/Roboto-Black-webfont.woff);
 }
 
 
@@ -87,10 +87,10 @@ Google font
 http://www.google.com/fonts/specimen/Sigmar+One
 */
 @font-face {
-  font-family: 'Sigmar One';
+  font-family: Sigmar One;
   font-style: normal;
   font-weight: 400;
-  src: url(SigmarOne.woff) format('woff');
+  src: url(fonts/SigmarOne.woff) format('woff');
 }
 
 /* Icons based on texts */
@@ -187,9 +187,8 @@ body{
 	width:100%;
 	height:100%;
 
-    /* http://subtlepatterns.com/mocha-grunge/ */
-	background:  radial-gradient(ellipse at center center , rgba(250, 250, 250, 0) 0%, rgba(50, 50, 50, 0.8) 100%) repeat 0 0 fixed, 
-                 url("mochaGrunge.png") repeat 0 0 fixed;
+    /* http://subtlepatterns.com/dotnoise-light-grey/ */
+	background:  url("textures/bgnoise_lg.png") repeat 0 0 fixed;
 }
 
 label {
@@ -213,26 +212,25 @@ input[type="text"] {
     border-radius: 3px 3px 3px 3px;
     padding: 3px 0 3px 4px;
 	font-family:Roboto;
-	font-size:1em;
+	font-size:0.8em;
 	border-style: solid;
     border-width: 1px;
 	outline: 0 none;
 	line-height: normal;
-
-    color: ##005a5a;
-    font-family: dialog;
-    font-size: 0.8em;
+    color: #444444;
 }
 
 input[type="text"]:focus {
     border-color: #AAAAAA;
     border-style: dashed;
     border-width: 1px;
+    color: #00BABA;
 }
 input[type="text"]:hover {
-    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
-    -moz-box-shadow:    0 0 2px rgba(0, 0, 0, 0.4);
-    box-shadow:         0 0 2px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0 0 3px rgba(0, 139, 139, 0.4);
+    -moz-box-shadow:    0 0 3px rgba(0, 139, 139, 0.4);
+    box-shadow:         0 0 3px rgba(0, 139, 139, 0.4);
+    border-color: rgba(0,139,139,0.5);
 }
 
 
@@ -250,7 +248,7 @@ button {
     color: #5C5C5C;
     font-family: Roboto;
     font-size: 13px;
-    padding: 2px 25px;
+    padding: 1px 11px 0px 8px;
     text-decoration: none;
 	line-height: 30px;
 
@@ -273,7 +271,7 @@ button:before
 	width: 1em;
 	text-align: center;
 	font-size: 1.7em;
-	margin: 0 0.5em 0 -1em;
+	margin: 0px;
 	padding: 0 .2em;
 	pointer-events: none;
     transition-property : color; 
@@ -309,19 +307,33 @@ form ul {
     padding: 0;
 }
 form li {
-    margin: 10px 0 0 0;
+    margin: 7px 0 0 0;
 }
 
+.messic-form {
+    position:relative;
+    display: block;
+    bottom: 0;
+    top:0;
+    left: 0;
+    right: 0;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
 /* ----------------------------------------------------------------- */
 
-/** text container */ 
-.messic-text-container{
-	margin: 10px;
-}
+
+
+
+
+
+
 
 #messic-background {
 	/* http://freepsdfiles.net/silhouettes/crowd-silhouettes-set/ */
-	background: url(people.png) bottom left repeat-x;
+	background: url("base/people.png") bottom left repeat-x;
 
 	bottom:-67px;
 	width:100%;
@@ -339,73 +351,41 @@ form li {
 	-webkit-animation-iteration-count: 1;
 }
 
-/**************************************************/
-#messic-logo1{
-	background: url("logo-messic-b&w.png") no-repeat scroll 0 0 transparent;
-	width:292px;
-	height:79px;
-	position:fixed;
-	right:10px;
-	top:10px;
-	opacity:0.6;
-    transition-property : opacity; 
-    transition-duration : 0.5s;
-	z-index:0;
-
+#messic-decorator1 {
+    background: url("base/holes.png");
+    width:267px;
+    height:492px;
+    position:fixed;
+    top:0px;
+    z-index:-2;
+    animation-name: fadein;
+    animation-duration:2s;
+    animation-iteration-count: 1;
+    -webkit-animation-name: fadein;
+    -webkit-animation-duration:2s;
+    -webkit-animation-iteration-count: 1;
 }
 
-#messic-logo1.messic-main{
-    transform: scale(0.6);
-    right: -50px;
-    top: -59px;
-    z-index: 18;
-    transition-property: top;
-    transition-duration: 0.5s;
+
+#messic-top{
+    height: 80px;
+    position: fixed;
+    top: -52px;
+    width: 100%;
+    z-index: 8;    
+    transition-property:top;
+    transition-duration:0.5s;
+}
+#messic-top-background{
+    background: linear-gradient(#8f8f8f, #696969) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-bottom: 16px solid #474747;
+    display: block;
+    height: 52px;
+    width: 100%;
 }
 
-#messic-top-logo{
-    background: url("logo-messic-b&w.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-    height: 79px;
-    opacity: 0.6;
-    position: absolute;
-    right: -48px;
-    top: -16px;
-    transform: scale(0.6);
-    transition-duration: 0.2s;
-    transition-property: opacity, transform;
-    width: 292px;
-    z-index: 0;
-}
-#messic-top-logo:hover{
-	opacity: 1;
-	transform: scale(0.65);
-}
-#messic-top-logo:active{
-	opacity: 1;
-    transition-duration: 0s;
-	transform: scale(0.6);
-}
-
-#messic-logo2.messic-main{
-    transition-property: opacity;
-    transition-duration: 0.5s;
-    opacity:0;
-}
-
-#messic-logo1:hover{
-	opacity:1;
-}
-#messic-logo2{
-	/* based on the free psd retro audio tape made by freepsdfiles*/
-	/* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
-	background: url("cassette.png") no-repeat scroll 0 0 transparent;
-	width:343px;
-	height:405px;
-	position:fixed;
-	left:0px;
-	top:0px;
-	opacity:1;
-	z-index:0;
+#messic-top:hover{
+    top:0px;
 }
 
 
@@ -422,7 +402,7 @@ form li {
 }
 
 #messic-menu li{
-	background: url("mainmenu-button-99x99.png") no-repeat scroll 0 0 transparent;
+	background: url("base/mainmenu-button-99x99.png") no-repeat scroll 0 0 transparent;
 	width:99px;
 	height:99px;
 	float:left;
@@ -431,7 +411,7 @@ form li {
 }
 
 #messic-menu > li:before{
-	background: url("mainmenu-button-99x99.png") no-repeat scroll -99px 0px transparent;
+	background: url("base/mainmenu-button-99x99.png") no-repeat scroll -99px 0px transparent;
     content: "";
     display: block;
     height: 100%;
@@ -449,7 +429,7 @@ form li {
 }
 
 #messic-menu > li:active{
-	background: url("mainmenu-button-99x99.png") no-repeat scroll -198px 0px transparent;
+	background: url("base/mainmenu-button-99x99.png") no-repeat scroll -198px 0px transparent;
 	width:99px;
 	height:99px;
 }
@@ -476,22 +456,22 @@ form li {
     top:3px;
 }
 #messic-menu-home:after{
-    background: url("mainmenu-buttons-icons.png") no-repeat scroll 0 0 transparent;
+    background: url("base/mainmenu-buttons-icons.png") no-repeat scroll 0 0 transparent;
 }
 #messic-menu-explore:after{
-    background: url("mainmenu-buttons-icons.png") no-repeat scroll -99px 0 transparent;
+    background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -99px 0 transparent;
 }
 #messic-menu-playlist:after{
-    background: url("mainmenu-buttons-icons.png") no-repeat scroll -198px 0 transparent;
+    background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -198px 0 transparent;
 }
 #messic-menu-radio:after{
-    background: url("mainmenu-buttons-icons.png") no-repeat scroll 0px -99px transparent;
+    background: url("base/mainmenu-buttons-icons.png") no-repeat scroll 0px -99px transparent;
 }
 #messic-menu-settings:after{
-    background: url("mainmenu-buttons-icons.png") no-repeat scroll -99px -99px transparent;
+    background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -99px -99px transparent;
 }
 #messic-menu-upload:after{
-    background: url("mainmenu-buttons-icons.png") no-repeat scroll -198px -99px transparent;
+    background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -198px -99px transparent;
 }
 /* The help info over the buttons */
 #messic-menu div:after{
@@ -534,48 +514,82 @@ form li {
 /* ------------------------------------------------ */
 
 
-#messic-search{
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    border-radius: 25px 25px 25px 25px;
-    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) inset;
-    height: 20px;
+#messic-search-text{
+    background: url("base/search-box.png") no-repeat;
+    width:260px;
+    height: 39px;
     left: 10px;
     position: relative;
-    top: 10px;
-    width: 200px;
-    
+    top: 3px;
+    border:none;
+    padding-left: 18px;
+    padding-right: 55px;
+}
+
+#messic-search-text:hover{
+    box-shadow: none;
+}
+
+#messic-search-do {
+    background: url("base/search-icon.png") no-repeat;
+    background-position: 0px 0px;
+    height: 46px;
+    left: 300px;
+    position: absolute;
+    top: 8px;
+    width: 56px;
+}
+
+#messic-search-do:hover {
+    width: 100px;
+    background-position: -55px 0px;
+}
+
+#messic-search:hover{
+    border:none;
+    box-shadow: none;
 }
 
 
 #messic-page-border{
 	border-color: transparent;
-	border-image: url("page-border.png") 130 130 4 138 repeat repeat;
+	border-image: url("base/page-border.png") 150 150 150 150 repeat repeat;
 	border-style: solid;
-	border-width: 100px;
-	height: auto;
+	border-width: 150px;
+	height: 100%;
 	min-height:500px;
 	margin: 50px auto 0;
 	position: relative;
 	width: 920px;		
 }
+#messic-page-border:after{
+    background: url("base/page-ribbon.png") no-repeat;
+    width:191px;
+    height: 197px;
+    right: -189px;
+    top: -188px;
+    content: ' ';
+    position: absolute;
+}
+/* To fill the content of the page */
+#messic-page-border:before{
+    content:' ';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background: #F9F9F9;
+}
+#messic-page-content{
+    height: auto;
+    width: 1100px;
+    position: absolute;
+    left: -83px;
+    top: -85px;
+}
+
 #messic-page-content h1{
     margin-bottom: 25px;
     margin-right: 32px;
-}
-#messic-page-content{
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 2px solid #CCCCCC;
-    border-radius: 79px;
-    height: auto;
-    margin-left: -74px;
-    margin-top: -86px;
-    min-height: 500px;
-    overflow: hidden;
-    padding-bottom: 40px;
-    padding-right: 20px;
-    padding-left: 20px;
-    padding-top: 20px;
-    width: 1024px;
 }
 /** fill for the content... the bottom part is the player, 
 so we need space enough to show the last content.. 
@@ -585,24 +599,3 @@ this fill enables enough scroll to show the last element */
 	height:200px;
 }
 
-#messic-top{
-    height: 80px;
-    position: fixed;
-    top: -38px;
-    width: 100%;
-    z-index: 8;    
-    transition-property:top;
-    transition-duration:0.5s;
-}
-#messic-top-background{
-    background: linear-gradient(#FFFFFF, #AAAAAA) repeat scroll 0 0 rgba(0, 0, 0, 0);
-    border-bottom: 1px solid #333333;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 0 rgba(255, 255, 255, 0.1) inset, 0 1.2em 0 rgba(255, 255, 255, 0.05) inset, 0 -0.2em 0 rgba(255, 255, 255, 0.1) inset, 0 -0.25em 0 rgba(0, 0, 0, 0.5) inset, 0 0.25em 0.25em rgba(0, 0, 0, 0.1);
-    display: block;
-    height: 50px;
-    width: 100%;
-}
-
-#messic-top:hover{
-	top:0;
-}
