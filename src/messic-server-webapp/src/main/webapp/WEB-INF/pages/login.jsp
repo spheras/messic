@@ -37,11 +37,11 @@
         <link rel="stylesheet" href="css/main.css">
 
 		<!-- Theme Style -->
-        <link rel="stylesheet" href="css/themes/hans/base.css">
-        <link rel="stylesheet" href="css/themes/hans/login.css">
-        <link rel="stylesheet" href="css/themes/hans/playlist.css">
-        <link rel="stylesheet" href="css/themes/hans/about.css">
-        <link rel="stylesheet" href="css/themes/hans/upload.css">
+        <link rel="stylesheet" href="css/themes/hansv2/base.css">
+        <link rel="stylesheet" href="css/themes/hansv2/login.css">
+        <link rel="stylesheet" href="css/themes/hansv2/playlist.css">
+        <link rel="stylesheet" href="css/themes/hansv2/about.css">
+        <link rel="stylesheet" href="css/themes/hansv2/upload.css">
 		
 		<!-- modernizr -->
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
@@ -56,26 +56,29 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 	
-		<div id="messic-logo1"></div>
-		<div id="messic-logo2"></div>
-
 			<div id="messic-login-window" >
 				<div class="messic-login-form-container">
-					<div class="messic-text-container">
+					<div class="messic-form">
 						<h1><fmt:message key="login-welcome" bundle="${ message }"/></h1>
 						<a href="/restpassword"><fmt:message key="login-forgot" bundle="${ message }"/></a>
 						<form id="messic-login-form" class="login-form-style">
-							<label for="username" class="login-form-label"><fmt:message key="login-username" bundle="${ message }"/></label>
-							<input id="username" name="j_username" type="text" value="joseUser"/>
-							<label for="password" class="login-form-label"><fmt:message key="login-password" bundle="${ message }"/></label>
-							<input id="password" name="j_password" type="text" value="12345"/>
+				            <ul>
+				                <li>
+									<label for="username" class="login-form-label"><fmt:message key="login-username" bundle="${ message }"/></label>
+									<input id="username" name="j_username" type="text" value="joseUser"/>
+								</li>
+								<li>
+									<label for="password" class="login-form-label"><fmt:message key="login-password" bundle="${ message }"/></label>
+									<input id="password" name="j_password" type="text" value="12345"/>
+								</li>
+							</ul>
 						</form>
 						<button id="messic-login-button" class="button play"><fmt:message key="login-button" bundle="${ message }"/></button>
 						<div id="messic-login-logo"></div>
 					</div>
 				</div>
 				<div class="messic-login-new-account-container">
-					<div class="messic-text-container">
+					<div class="messic-form">
 						<h1><fmt:message key="login-newaccount" bundle="${ message }"/></h1>
 						<label><fmt:message key="login-newaccount-explanation1" bundle="${ message }"/></label>
 						<label><fmt:message key="login-newaccount-explanation2" bundle="${ message }"/></label>
@@ -92,6 +95,7 @@
         <script src="js/vendor/jplayer/jquery.jplayer.min.js"></script>
         <script src="js/vendor/jquery.tinyscrollbar.js"></script>
         <script src="js/jplayer.playlist.messic.js"></script>
+        <script src="js/utils.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/login.js"></script>
         <script src="js/main.js"></script>
