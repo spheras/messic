@@ -42,6 +42,8 @@
                 </div>
             </div>
 
+			<div id="messic-playlist-background">
+
 			<div id="jquery_jplayer" class="jp-jplayer"></div>
 			<div class="jp-audio" id="jquery_jplayer_content">
 			    <div class="jp-type-playlist">
@@ -77,7 +79,7 @@
 			    </div>
 			  </div>
 
-			<div id="messic-playlist-background">
+
 			    <div id="messic-playlist" class="jp-playlist">
 					<div class="viewport">
 						<ul id="messic-playlist-container" class="overview"><li></li></ul>
@@ -85,6 +87,8 @@
 					</div>
 			    </div>
 			</div>
+
+
 		</div>
     </body>
 </html>

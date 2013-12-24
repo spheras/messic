@@ -35,7 +35,7 @@ function initMain(){
 }
 
 function playVinyl(index){
-	var newli=$("#messic-playlist-background li:nth-child(" + (index + 1) + ")");
+	var newli=$("#messic-playlist-container li:nth-child(" + (index + 1) + ")");
 	var oldli=$(".jp-playlist-current");
 
 	//first, remove the current player	

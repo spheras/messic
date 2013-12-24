@@ -191,11 +191,11 @@
 #messic-upload-song-content-songs li{
     border-bottom: 1px solid #DDDDDD;
     padding: 6px 0 4px;
-    line-height: 20px;
+    line-height: 24px;
 }
 #messic-upload-song-content-songs li.messic-upload-song-content-songs-image{
     border-bottom: 1px solid #DDDDDD;
-    padding: 8px;
+    padding: 6px 0px 4px;
     line-height: 40px;
     background: #fdffe8;
 }
@@ -266,7 +266,7 @@ li.messic-upload-song-content-songs-filedelete a:hover {
     width: 40px;
 }
 .messic-upload-song-content-unknown{
-	background: url("file-unknown.png") no-repeat scroll 0 0 / 35px 40px rgba(0, 0, 0, 0);	
+	background: url("upload/file-unknown.png") no-repeat scroll 0 0 / 35px 40px rgba(0, 0, 0, 0);	
 }
 .messic-upload-song-content-header-tracknumber{
     border: 1px dashed #CCCCCC;
