@@ -85,36 +85,10 @@
 							<div class="messic-upload-song-content-header-filesize"><fmt:message key="upload-songs-size" bundle="${message}"/></div>
 						</div>
 					<div class="messic-upload-song-separator"></div>
-					<ul id="messic-upload-song-content-songs" ondragover="return false"><span><fmt:message key="upload-songs-drop" bundle="${message}"/></span></ul>
-					<div class="messic-upload-song-separator"></div>
-						<div class="messic-upload-song-content-footer">
-							<div class="messic-upload-song-content-header-filename">
-								<span></span>
-							</div>
-							<div class="messic-upload-song-content-header-fileaction"></div>
-							<div class="messic-upload-song-content-header-filestatus"><span class="messic-upload-song-filelist-totalstatus">0%</span></div>
-							<div class="messic-upload-song-content-header-filesize"><span class="messic-upload-zone-filelist-totalfilesize">0 b</span></div>
-							<div class="messic-upload-song-content-footer-progress">
-								<div class="messic-upload-song-content-footer-progress-container">
-									<div class="messic-upload-zone-progress-bar"></div>
-								</div>
-							</div>
-						</div>
-					<div class="messic-upload-song-separator"></div>
 
-					<!--
-					<div id="messic-upload-song-content">
-						<div class="messic-upload-song-content-header">
-							<div class="messic-upload-song-content-header-track"><fmt:message key="upload-songs-track" bundle="${message}"/></div>
-							<div class="messic-upload-song-content-header-filename"><fmt:message key="upload-songs-name" bundle="${message}"/></div>
-							<div class="messic-upload-song-content-header-fileaction">&nbsp;</div>
-							<div class="messic-upload-song-content-header-filestatus"><span><fmt:message key="upload-songs-status" bundle="${message}"/></span></div>
-							<div class="messic-upload-song-content-header-filesize"><fmt:message key="upload-songs-size" bundle="${message}"/></div>
-							<div class="messic-upload-song-content-header-clearer">&nbsp;</div>
-						</div>
-						<ul id="messic-upload-song-content-songs" ondragover="return false">
-							<fmt:message key="upload-songs-drop" bundle="${message}"/>
-						</ul>
+					<ul id="messic-upload-song-content-songs" ondragover="return false"><span><fmt:message key="upload-songs-drop" bundle="${message}"/></span></ul>
+					
+					<div class="messic-upload-song-separator"></div>
 						<div class="messic-upload-song-content-footer">
 							<div class="messic-upload-song-content-header-filename">
 								<span></span>
@@ -127,10 +101,8 @@
 									<div class="messic-upload-zone-progress-bar"></div>
 								</div>
 							</div>
-							<div class="divclearer"></div>
 						</div>
-					</div>
-					-->
+					<div class="messic-upload-song-separator"></div>
 				</div>
 			</div>
 		</div>

@@ -34,8 +34,23 @@
     bottom: 100px;
     left: 50%;
     margin-left: -210px;
-    position: fixed;
+    position: absolute;
     z-index: 1000;
+
+    animation-name: messic-jplayer-fadeout-anim;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: 1;
+    animation-direction: ease-in;
+    animation-delay: 0s;
+    -webkit-animation-name: messic-jplayer-fadeout-anim;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-timing-function: ease-in;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-direction: ease-in;
+    -webkit-animation-delay: 0s;
+    opacity: 0;
+    display: none;
 }
 
 /* some redefinition of the base playlist theme*/
@@ -48,35 +63,62 @@
 /** ---------------------------------------- */
 
 
+/* player and playlist visible when mouse hover playlist */ 
+#messic-playlist-background:hover  #jquery_jplayer_content{
+    animation-name: messic-jplayer-fadein-anim;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-in;
+    animation-iteration-count: 1;
+    animation-direction: ease-in;
+    animation-delay: 0s;
+    -webkit-animation-name: messic-jplayer-fadein-anim;
+    -webkit-animation-duration: 0.5s;
+    -webkit-animation-timing-function: ease-in;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-direction: ease-in;
+    -webkit-animation-delay: 0s;
+    opacity: 1;
+    display: block;
+}
+@keyframes messic-jplayer-fadein-anim
+{
+   0%  { opacity:0;}
+   100% { opacity:1;}
+}
+@-webkit-keyframes messic-jplayer-fadein-anim /* Safari and Chrome */
+{
+   0%  { opacity:0;}
+   100% { opacity:1;}
+}
+@keyframes messic-jplayer-fadeout-anim
+{
+   0%  { opacity:1;}
+   100% { opacity: 0; display: none;}
+}
+@-webkit-keyframes messic-jplayer-fadeout-anim /* Safari and Chrome */
+{
+   0%  { opacity:1;}
+   100% { opacity:0; display: none;}
+}
 
 
-
-
-
+#messic-playlist-background:hover{
+    bottom: 0px;
+}
 
 /** the background of the playlist */
 #messic-playlist-background
 {
     position: fixed; /** fixed at bottom */
-    bottom: 0px;
-    height: 145px;
+    bottom: -119px;
+    height: 144px;
     width: 100%;
-    overflow: hidden;
-	  padding-bottom:10px; 
+    overflow: visible;
+	  padding-bottom:10px;
+    transition-property: bottom;
+    transition-duration : 0.5s;
    	/** important to avoid selection when the scrollbar start */
 	  user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none;
-
-    /** seen here: http://dev.opera.com/articles/view/beautiful-ui-styling-with-css3-text-shadow-box-shadow-and-border-radius/ */
-    /*
-       padding: 0;
-       border: 1px solid rgba(0,0,0,0.5);
-       border-radius: 10px 10px 2px 2px;
-       background: rgba(255,255,255,0.15);
-       box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-       -o-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-       -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-       -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.5), inset 0 1px rgba(255,255,255,0.3), inset 0 10px rgba(255,255,255,0.2), inset 0 10px 20px rgba(255,255,255,0.25), inset 0 -15px 30px rgba(0,0,0,0.3);
-    */
 
 
     animation-name: messic-playlist-background-anim;
@@ -96,13 +138,13 @@
 
 @keyframes messic-playlist-background-anim
 {
-   0%  { bottom: -130px;}
-   100% { bottom:0px;}
+   0%  { bottom: 0px;}
+   100% { bottom:-119px;}
 }
 @-webkit-keyframes messic-playlist-background-anim /* Safari and Chrome */
 {
-   0%  { bottom: -130px;}
-   100% { bottom:0px;}
+   0%  { bottom: 0px;}
+   100% { bottom:-119px;}
 }
 
 

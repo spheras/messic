@@ -21,7 +21,6 @@ function initUpload(){
 	// Drop the item in the drop box.
 	jQuery.event.props.push('dataTransfer');
 	$('#messic-upload-song-content-songs').bind('drop', function(e) {
-		alert('antes de');
 		e.originalEvent.stopPropagation();
 		e.originalEvent.preventDefault();
 
@@ -32,84 +31,6 @@ function initUpload(){
 
 }
 
-
-function uploadsongOrderAll(){
-	//document.getElementById('messic-upload-song-content-songs').innerHTML="";
-	var divContent=$("#messic-upload-song-content-songs");
-	divContent.empty();
-	for(var i=0;i<audioResources.length;i++)
-	{
-		//audioResources[i].alert();
-		divContent.append(audioResources[i].domElement);
-	}
-	for(var i=0;i<imageResources.length;i++)
-	{
-		divContent.append(imageResources[i].domElement);
-	}
-	for(var i=0;i<otherResources.length;i++)
-	{
-		divContent.append(otherResources[i].domElement);
-	}
-}
-
-/* remove a resource from the list of resources */
-function uploadsongRemoveElement(resource){
-
-	$(resource.domElement).remove();
-
-	for(var i=0;i<audioResources.length;i++)
-	{
-		if(resource==audioResources[i]){
-			audioResources.splice(i,1);
-		}
-	}
-	for(var i=0;i<imageResources.length;i++)
-	{
-		if(resource==imageResources[i]){
-			imageResources.splice(i,1);
-		}
-	}
-	for(var i=0;i<otherResources.length;i++)
-	{
-		if(resource==otherResources[i]){
-			otherResources.splice(i,1);
-		}
-	}
-}
-
-/* check if the file is already selected to be uploaded.
-   if remove=True then it is removed from the list in order to add the new one */
-function uploadsongExistFile(file,remove){
-	for(var i=0;i<audioResources.length;i++)
-	{
-		if(audioResources[i].file.name==file.name && audioResources[i].file.size==file.size){
-			if(remove){
-				audioResources.splice(i,1);
-			}
-			return true;
-		}
-	}
-	for(var i=0;i<imageResources.length;i++)
-	{
-		if(imageResources[i].file.name==file.name && imageResources[i].file.size==file.size){
-			if(remove){
-				imageResources.splice(i,1);
-			}
-			return true;
-		}
-	}
-	for(var i=0;i<otherResources.length;i++)
-	{
-		if(otherResources[i].file.name==file.name && otherResources[i].file.size==file.size){
-			if(remove){
-				otherResources.splice(i,1);
-			}
-			return true;
-		}
-	}
-
-	return false;
-}
 
 /* Add Files to the  uploadBox */
 function uploadsongAddFiles(files){
@@ -215,6 +136,86 @@ function uploadsongAddFiles(files){
 	    }
 		uploadsongOrderAll();
 }
+
+
+function uploadsongOrderAll(){
+	//document.getElementById('messic-upload-song-content-songs').innerHTML="";
+	var divContent=$("#messic-upload-song-content-songs");
+	divContent.empty();
+	for(var i=0;i<audioResources.length;i++)
+	{
+		//audioResources[i].alert();
+		divContent.append(audioResources[i].domElement);
+	}
+	for(var i=0;i<imageResources.length;i++)
+	{
+		divContent.append(imageResources[i].domElement);
+	}
+	for(var i=0;i<otherResources.length;i++)
+	{
+		divContent.append(otherResources[i].domElement);
+	}
+}
+
+/* remove a resource from the list of resources */
+function uploadsongRemoveElement(resource){
+
+	$(resource.domElement).remove();
+
+	for(var i=0;i<audioResources.length;i++)
+	{
+		if(resource==audioResources[i]){
+			audioResources.splice(i,1);
+		}
+	}
+	for(var i=0;i<imageResources.length;i++)
+	{
+		if(resource==imageResources[i]){
+			imageResources.splice(i,1);
+		}
+	}
+	for(var i=0;i<otherResources.length;i++)
+	{
+		if(resource==otherResources[i]){
+			otherResources.splice(i,1);
+		}
+	}
+}
+
+/* check if the file is already selected to be uploaded.
+   if remove=True then it is removed from the list in order to add the new one */
+function uploadsongExistFile(file,remove){
+	for(var i=0;i<audioResources.length;i++)
+	{
+		if(audioResources[i].file.name==file.name && audioResources[i].file.size==file.size){
+			if(remove){
+				audioResources.splice(i,1);
+			}
+			return true;
+		}
+	}
+	for(var i=0;i<imageResources.length;i++)
+	{
+		if(imageResources[i].file.name==file.name && imageResources[i].file.size==file.size){
+			if(remove){
+				imageResources.splice(i,1);
+			}
+			return true;
+		}
+	}
+	for(var i=0;i<otherResources.length;i++)
+	{
+		if(otherResources[i].file.name==file.name && otherResources[i].file.size==file.size){
+			if(remove){
+				otherResources.splice(i,1);
+			}
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 /*
 * Class UploadSongResource
