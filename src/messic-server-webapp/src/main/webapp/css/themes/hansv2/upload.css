@@ -8,6 +8,7 @@
     width:404px;
     float: left;
     margin-right: 30px;
+    box-shadow: 0px 2px 2px rgba(0,0,0,0.5);
 }
 .messic-upload-container
 {
@@ -29,11 +30,28 @@
     content: ' ';
 }
 
-#messic-upload-container-album-container-border .messic-upload-container:before{
+#messic-upload-album-container .messic-upload-container:before{
     background: url("upload/ribbon-vinyl.png") no-repeat;
 }
-#messic-upload-container-song-container-border .messic-upload-container:before{
+#messic-upload-song-container .messic-upload-container:before{
     background: url("upload/ribbon-music.png") no-repeat;
+}
+
+.messic-upload-container h3 {
+    font-weight: normal;
+    font-size: 1.4em;
+    border-bottom: 1px solid #ccc;
+    margin-top: 5px;
+    font-family: roboto-black;
+    text-shadow: 0 0 1px rgba(0,88,55,0.5);
+    color: #0088FF;
+}
+.messic-upload-container h4 {
+    font-weight: normal;
+    font-size: 0.9em;
+    margin-top: -16px;
+    font-family: roboto;
+    color: #AAAAAA;
 }
 
 
@@ -41,15 +59,6 @@
                     width: 11.8em;
                 }
 
-                #messic-upload-album-container h3 {
-                    font-weight: normal;
-                    font-size: 1.4em;
-                    border-bottom: 1px solid #ccc;
-                    margin-top: 5px;
-                    font-family: roboto-black;
-                    text-shadow: 0 0 1px rgba(0,88,55,0.5);
-                    color: #0088FF;
-                }
 
                 #messic-upload-album-container ul {
                     list-style-type: none;
@@ -87,88 +96,69 @@
 
 
 
-
-
-
-
-
-
-#messic-upload-song-container
-{
-	font: normal 11px Verdana,sans-serif;
-	min-width:400px;
-	float:left;
-	padding:0px;
-	
-	-webkit-border-radius: 7px;
-	-moz-border-radius: 7px;
-	border-radius: 7px;
-	overflow:hidden;
-	box-shadow:0px 0px 8px rgba(0,0,0,0.5)
+.messic-upload-song-separator{
+    height: 0px;
+    border-bottom: 1px dashed #AAAAAA;
+    margin-left: -43px;
+    margin-top:10px;
+    margin-bottom: 10px;
 }
 
-.divclearer{
-	clear:both;
-	height:0px;
-	content:&nbsp;
+#messic-upload-song-content-songs {
+    min-height: 200px;
+    margin:0px 0px 0px -48px;
+    padding:0px;
+    background: #FCFCFC;
+    list-style-type: none;
+    margin-top: -10px;
 }
+#messic-upload-song-content-songs span{
+    font-size: 1.5em;
+    font-family: Roboto-black;
+    color: #DDDDDD;
+    padding-left: 20px;
+    padding-right: 20px;
+    position: absolute;
+    text-align: center;
+    top:50%;
 
-.messic-upload-song-header{
-	background: url("backgrounds.gif") repeat-x scroll 0 0 #2A2C2E;
-    min-height: 56px;
-    color: #FFFFFF;
 }
-
-#messic-upload-song-container #messic-upload-song-header-addbutton{
-    background: none repeat scroll 0 0 #DFDFDF;
-    border-radius: 47px;
-    float: left;
-    height: 36px;
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 10px;
-    width: 36px;
-    content:'+';
+#messic-upload-song-addbutton{
+    width: 31px;
+    height: 31px;
+    background: url("upload/upload-buttonadd.png");
+    left: 10px;
+    top:43px;
+    position: absolute;
 }
-
-#messic-upload-song-container #messic-upload-song-header-addinput{
-	display:none;
+#messic-upload-song-addbutton:hover{
+    background: url("upload/upload-buttonadd.png") no-repeat scroll -31px 0px;
 }
-
-#messic-upload-song-container #messic-upload-song-header-addbutton:hover{
-    background: none repeat scroll 0 0 #FFFFFF;
+#messic-upload-song-addbutton:active{
+    background: url("upload/upload-buttonadd.png") no-repeat scroll -62px 0px;
 }
-
-.messic-upload-song-header-title{
-	float:left;
-	width: 500px;
+#messic-upload-song-addinput{
+    display:none;
 }
-
-.messic-upload-song-header-titlea{
-    font: 18px sans-serif;
-    padding: 6px 0 3px;
-}
-
-.messic-upload-song-header-titleb{
-	width:100%;
-	font: 12px sans-serif;
+.messic-upload-song-content-header{
+    margin-bottom: 14px;
 }
 .messic-upload-song-content-header, .messic-upload-song-content-footer{
-    background: none repeat scroll 0 0 #DFDFDF;
-    color: #42454A;
-    padding: 8px 20px 8px 8px;
+    color: #555555;
+    padding: 8px 0px 8px 8px;
+    margin-top: -12px;
+    margin-left: -53px;
 }
-
 .messic-upload-song-content-header-filename,
 .messic-upload-song-content-header-track{
     float: left;
     overflow: visible;
 }
 .messic-upload-song-content-header-track{
-	margin-right:10px;
-	width:40px;
-	vertical-align: center;
-	text-align: center;
+    margin-right:10px;
+    width:40px;
+    vertical-align: center;
+    text-align: center;
 }
 .messic-upload-song-content-header-filesize, 
 .messic-upload-song-content-header-filestatus, 
@@ -185,28 +175,22 @@
 .messic-upload-song-content-header-filestatus, 
 .messic-upload-song-content-header-progress {
     float: right;
-    width: 80px;
+    width: 38px;
 }
+
 .messic-upload-song-content-footer {
     border-top: 1px solid #FFFFFF;
     vertical-align: middle;
+    margin-top: -16px;
 }
-#messic-upload-song-content-songs {
-    background: none repeat scroll 0 0 #FCFCFC;
-    height: 200px;
-    overflow-y: scroll;
-	margin:0px;
-	padding:0px;
-	/*
-	text-align:center;
-	line-height: 200px;
-	font-size: 2em;
-	*/
-}
+
+
+
+
 
 #messic-upload-song-content-songs li{
     border-bottom: 1px solid #DDDDDD;
-    padding: 8px;
+    padding: 6px 0 4px;
     line-height: 20px;
 }
 #messic-upload-song-content-songs li.messic-upload-song-content-songs-image{
@@ -233,16 +217,19 @@
 
 #messic-upload-song-content-songs input[type="text"]{
 	border: 1px dashed #CCCCCC;
-	width:350px;
+	width:178px;
 	font:11px Verdana,sans-serif;
 }
 
 li.messic-upload-song-content-songs-filedelete a {
-    background: url("delete.gif") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: url("upload/delete.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
     text-decoration: none;
     float:left;
     width:16px;
     height:16px;
+}
+li.messic-upload-song-content-songs-filedelete a:hover {
+    background: url("upload/delete-hover.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 .messic-upload-song-content-songs-move{
     background: none repeat scroll 0 0 #0000FF;

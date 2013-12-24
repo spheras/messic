@@ -7,11 +7,11 @@ function initUpload(){
 	filesToUpload=[];
 
 	//link de click button with the hidden addinput (input type file)
-	$("#messic-upload-song-header-addbutton").click(function(){
-		$("#messic-upload-song-header-addinput").click();
+	$("#messic-upload-song-addbutton").click(function(){
+		$("#messic-upload-song-addinput").click();
 	});
 	//event change for the input type file hidden 
-	$("#messic-upload-song-header-addinput").change(function(evt){
+	$("#messic-upload-song-addinput").change(function(evt){
 		var files = evt.target.files; // FileList object
 		uploadsongAddFiles(files);
 	});
@@ -21,6 +21,7 @@ function initUpload(){
 	// Drop the item in the drop box.
 	jQuery.event.props.push('dataTransfer');
 	$('#messic-upload-song-content-songs').bind('drop', function(e) {
+		alert('antes de');
 		e.originalEvent.stopPropagation();
 		e.originalEvent.preventDefault();
 
