@@ -95,6 +95,16 @@ $(document).ready(function() {
             kendoWindow.center();
         });
     });
+    
+    
+    //show the new user window
+    $("#newAccount").click(function(){
+		$.get("user/show/create.do", function(data){ 
+	        $("body").html(data);
+            initUser();
+        });
+    });
+    
 
 });
 
