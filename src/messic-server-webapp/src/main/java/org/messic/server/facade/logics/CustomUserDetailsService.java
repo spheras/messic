@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.messic.server.business.BUser;
+import org.messic.server.business.vo.UserVO;
 import org.messic.server.datamodel.MDOUser;
-import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,7 +26,7 @@ public class CustomUserDetailsService
 {
 
     @Autowired
-    private DAOUser userRepository;
+    private BUser userRepository;
 
     /**
      * Returns a populated {@link UserDetails} object. The username is first retrieved from the database and then mapped
@@ -39,7 +40,16 @@ public class CustomUserDetailsService
             MDOUser domainUser = userRepository.getUser( username );
             if ( domainUser == null )
             {
-                domainUser = userRepository.createUser(username, "12345", "Usuario de pruebas", true);
+            	UserVO uservo = new UserVO();
+            	uservo.setLogin(username);
+            	uservo.setPassword("12345");
+            	uservo.setName("Usuario de pruebas");
+            	uservo.setAvatar(new byte[]{});
+            	uservo.setName("test");
+            	uservo.setEmail("test@a.com");
+            	uservo.setAdministrator(true);
+            	
+                domainUser = userRepository.createUser(uservo);
                 //throw new UsernameNotFoundException( "user not found!" );
             }
 
