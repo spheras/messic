@@ -1,5 +1,6 @@
 package org.messic.server.business;
 
+import org.messic.server.business.vo.UserVO;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,16 @@ public class BUser {
 		return userRepository.getUser(user);
 	}
 	
-	public MDOUser createUser(String login, String password, String name,
-			boolean administrator) {
-		return userRepository.createUser(login, password, name, administrator);
+	public MDOUser createUser(UserVO uservo) {
+		
+		boolean existAdministrator = userRepository.existUsers();
+		if(!existAdministrator)
+		{
+			uservo.setAdministrator(Boolean.TRUE);
+		}
+		
+		// TODO CREAR EL REPOSITORIO DEL USUARIO
+		return userRepository.createUser(uservo.getLogin(), uservo.getPassword(), uservo.getName(), uservo.getEmail(), uservo.getAvatar(), uservo.getAdministrator());
 	}
-	
+		
 }
