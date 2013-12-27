@@ -84,7 +84,7 @@
 				    	
 				    		<div class="messic-user-password-container">
 					    		<label>Usuario</label>
-					    		<input id="user" name="user" type="text" class="messic-input-max-width"></input>
+					    		<input id="user" name="login" type="text" class="messic-input-max-width"></input>
 					    		
 					    		<label>Password</label>
 					    		<input id="password" name="password" type="text" class="messic-input-max-width"></input>
