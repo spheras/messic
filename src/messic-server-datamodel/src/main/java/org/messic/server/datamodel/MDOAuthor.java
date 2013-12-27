@@ -6,9 +6,6 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,10 +21,6 @@ public class MDOAuthor extends MDOPhysicalResource implements
     @Column(name = "NAME", nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PHYSICAL_RESOURCE", nullable = false)
-    private MDOPhysicalResource physicalResource; 
-    
     @OneToMany(mappedBy = "author")
     private Set<MDOAlbum> albums;
     
@@ -56,14 +49,6 @@ public class MDOAuthor extends MDOPhysicalResource implements
 
     public void setAlbums(Set<MDOAlbum> albums) {
         this.albums = albums;
-    }
-
-    public MDOPhysicalResource getPhysicalResource() {
-        return physicalResource;
-    }
-
-    public void setPhysicalResource(MDOPhysicalResource physicalResource) {
-        this.physicalResource = physicalResource;
     }
         
 }
