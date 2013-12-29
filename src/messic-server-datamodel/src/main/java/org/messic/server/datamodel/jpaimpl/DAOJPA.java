@@ -45,7 +45,7 @@ public class DAOJPA<T extends MDO>
     @Transactional( readOnly = true )
     public List<T> getAll()
     {
-        return entityManager.createQuery( "select o from " + type.getName() + "o" ).getResultList();
+        return entityManager.createQuery( "from " + type.getName() ).getResultList();
     }
 
     public void save( T object )

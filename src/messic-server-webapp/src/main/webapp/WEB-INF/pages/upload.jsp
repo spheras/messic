@@ -18,54 +18,37 @@
 
 			<div id="messic-upload-album-container" class="messic-upload-container-border">
 				<div class="messic-upload-container">
-					<!-- 
-					<input id="messic-upload-album-title" type="text"/>
-					<label><fmt:message key="upload-artist" bundle="${message}"/></label>
-
-					<input id="messic-upload-album-artist" type="text" />
-					<label><fmt:message key="upload-year" bundle="${message}"/></label>
-
-					<input id="messic-upload-album-year" type="text" />
-					<label><fmt:message key="upload-genre" bundle="${message}"/></label>
-
-					<input id="messic-upload-album-genre" type="text"/>
-					<label><fmt:message key="upload-comments" bundle="${message}"/></label>
-
-					<input id="messic-upload-album-comment" type="text" />
-					<div id="messic-upload-album-cover"></div>
-	 				-->
 					<h3><fmt:message key="upload-album-head" bundle="${message}"/></h3>
+					<div id="messic-upload-album-editnew"><fmt:message key="upload-album-new" bundle="${message}"/></div>
+					<div class="messic-upload-album-new-warning"><fmt:message key="upload-album-new-warning" bundle="${message}"/></div>
+					<div id="messic-upload-album-cover"></div>
 		            <ul>
+		                <li>
+							<label for="messic-upload-album-author" class="required"><fmt:message key="upload-author" bundle="${message}"/></label>
+		                    <input type="text" id="messic-upload-album-author" name="messic-upload-album-author" class="k-textbox" required validationMessage="Please enter {0}" />
+		                </li>
 		                <li>
 							<label for="messic-upload-album-title" class="required"><fmt:message key="upload-title" bundle="${message}"/></label>
 		                    <input type="text" id="messic-upload-album-title" name="messic-upload-album-title" class="k-textbox" placeholder="Album Title" required validationMessage="Please enter {0}" />
 		                </li>
 		                <li>
-							<label for="messic-upload-album-author" class="required"><fmt:message key="upload-author" bundle="${message}"/></label>
-		                    <input type="text" id="messic-upload-album-author" name="messic-upload-album-author" class="k-textbox" placeholder="Album Author" required validationMessage="Please enter {0}" />
+		                    <label for="messic-upload-album-year"><fmt:message key="upload-year" bundle="${message}"/></label>
+		                    <input id="messic-upload-album-year" name="messic-upload-album-year" type="text" value="1990"  />
 		                </li>
 		                <li>
-		                    <label for="messic-upload-album-year">Year</label>
-		                    <input id="messic-upload-album-year" name="messic-upload-album-year" type="text" min="1500" max="2100" value="1990" required data-max-msg="Enter value between 1500 and 2100" />
-		                    <span class="k-invalid-msg" data-for="messic-upload-album-year"></span>
+							<label for="messic-upload-album-genre" class="required"><fmt:message key="upload-genre" bundle="${message}"/></label>
+		                    <input type="text" id="messic-upload-album-genre" name="messic-upload-album-genre" class="k-textbox" required validationMessage="Please enter {0}" />
 		                </li>
 		                <li>
-		                    <label for="messic-upload-album-genre">Genre</label>
-		                    <select name="messic-upload-album-genre" id="messic-upload-album-genre" required data-required-msg="Select genre">
-		                        <option>RAP</option>
-		                        <option>Rock</option>
-		                        <option>Soul</option>
-		                        <option>Classical</option>
-		                    </select>
-		                    <span class="k-invalid-msg" data-for="messic-upload-album-genre"></span>
-		                </li>
-		                <li>
-							<label for="messic-upload-album-comments" class="required"><fmt:message key="upload-comments" bundle="${message}"/></label>
-		                    <input type="text" id="messic-upload-album-comments" name="messic-upload-album-comments" class="k-textbox" placeholder="Album Title" required validationMessage="Please enter {0}" />
+							<label id="messic-upload-album-comments-label" for="messic-upload-album-comments"><fmt:message key="upload-comments" bundle="${message}"/></label>
+		                    <textarea id="messic-upload-album-comments" name="messic-upload-album-comments" class="k-textbox" placeholder="Insert comments here" />
 		                </li>
 		                <li class="status">
 		                </li>
 		            </ul>
+					<div class="messic-upload-song-separator"></div>
+					<button id="messic-upload-algum-wizard">Wizard</button>
+					<button id="messic-upload-album-send">Send</button>
 		        </div>
 			</div>
 			

@@ -1,7 +1,6 @@
 package org.messic.server.datamodel;
 
 import java.io.Serializable;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -9,7 +8,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -29,9 +27,6 @@ public class MDOPhysicalResource extends MDOResource implements
     @Column(name = "LOCATION")
     private String location;    
 
-    @OneToMany(mappedBy = "physicalResource")
-    private Set<MDOAuthor> authors;
-    
     public MDOPhysicalResource ()
     {
         super();
@@ -49,14 +44,6 @@ public class MDOPhysicalResource extends MDOResource implements
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Set<MDOAuthor> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(Set<MDOAuthor> authors) {
-        this.authors = authors;
     }
     
 }

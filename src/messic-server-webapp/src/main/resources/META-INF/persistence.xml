@@ -10,6 +10,8 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 		
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		
+		<class>org.messic.server.datamodel.MDOMessicSettings</class>
+		<class>org.messic.server.datamodel.MDOGenre</class>
 		<class>org.messic.server.datamodel.MDOUser</class>
 		<class>org.messic.server.datamodel.MDOUserPermission</class>
 		<class>org.messic.server.datamodel.MDOResource</class>

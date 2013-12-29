@@ -42,6 +42,9 @@ public class MDOUser implements MDO,Serializable {
     
     @Column(name = "ADMINISTRATOR" , nullable = false)
     private Boolean administrator;
+    
+    @Column(name = "STOREPATH", nullable = true)
+    private String storePath;
 
     /**
      * @constructor
@@ -96,5 +99,13 @@ public class MDOUser implements MDO,Serializable {
     public void setAdministrator(Boolean administrator) {
         this.administrator = administrator;
     }
+
+	public String getStorePath() {
+		return storePath;
+	}
+
+	public void setStorePath(String storePath) {
+		this.storePath = storePath;
+	}
     
 }

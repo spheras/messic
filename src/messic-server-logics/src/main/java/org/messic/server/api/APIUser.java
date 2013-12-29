@@ -1,4 +1,4 @@
-package org.messic.server.business;
+package org.messic.server.api;
 
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOUser;
@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Component
-public class BUser {
+public class APIUser {
 
 	@Autowired
     private DAOUser userRepository;

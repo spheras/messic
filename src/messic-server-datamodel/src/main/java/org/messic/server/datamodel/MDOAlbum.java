@@ -2,7 +2,6 @@ package org.messic.server.datamodel;
 
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -26,26 +25,36 @@ public class MDOAlbum extends MDOPhysicalResource implements
     @Column(name = "NAME", nullable = false)
     private String name;
     
-    @Column(name = "XDATE", nullable = false)
-    private Date date;
+    @Column(name = "YEAR", nullable = true)
+    private Integer year;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "AUTHOR", nullable = false)
-    private MDOAuthor author;   
-    
+    private MDOAuthor author;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "GENRE", nullable = true)
+    private MDOGenre genre;   
+
     @OneToMany(mappedBy = "album")
     private Set<MDOSong> songs;
-    
+
+    @Column(name = "COMMENTS", nullable = true)
+    private String comments;
+
     public MDOAlbum ()
     {
         super();
     }
     
-    public MDOAlbum (MDOUser user, String location, String name, Date date)
+    public MDOAlbum (MDOUser user, String location, String name, Integer year, MDOAuthor author, MDOGenre genre, String comments)
     {
         super(user,location);
         this.name = name;
-        this.date = date;        
+        this.year = year;
+        this.genre= genre;
+        this.author=author;
+        this.comments=comments;
     }
 
     public String getName() {
@@ -56,12 +65,12 @@ public class MDOAlbum extends MDOPhysicalResource implements
         this.name = name;
     }
 
-    public Date getDate() {
-        return date;
+    public Integer getYear() {
+        return year;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public Set<MDOSong> getSongs() {
@@ -82,6 +91,22 @@ public class MDOAlbum extends MDOPhysicalResource implements
     
     public String getAbsolutePath() {
 		return getAuthor().getLocation().concat("/").concat(getLocation()) ;
+	}
+
+	public MDOGenre getGenre() {
+		return genre;
+	}
+
+	public void setGenre(MDOGenre genre) {
+		this.genre = genre;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
 	}
 
         
