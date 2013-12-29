@@ -29,8 +29,10 @@
 
 
 		<!-- Kendo styles -->
+		<!--
 		<link href="css/kendoui/kendo.common.min.css" rel="stylesheet" />
 		<link href="css/kendoui/kendo.default.min.css" rel="stylesheet" />
+		-->
 		
 		<!-- normalization -->
         <link rel="stylesheet" href="css/normalize.min.css">
@@ -38,6 +40,7 @@
 
 		<!-- Theme Style -->
         <link rel="stylesheet" href="css/themes/hansv2/base.css">
+        <link rel="stylesheet" href="css/themes/hansv2/kendo.css">
         <link rel="stylesheet" href="css/themes/hansv2/login.css">
         <link rel="stylesheet" href="css/themes/hansv2/playlist.css">
         <link rel="stylesheet" href="css/themes/hansv2/about.css">
@@ -95,6 +98,7 @@
         <script src="js/vendor/jplayer/jquery.jplayer.min.js"></script>
         <script src="js/vendor/jquery.tinyscrollbar.js"></script>
         <script src="js/jplayer.playlist.messic.js"></script>
+        <script src="lang.do"></script>
         <script src="js/utils.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/login.js"></script>

@@ -24,7 +24,7 @@ import javax.persistence.Table;
 public class MDOResource implements MDO, Serializable {
 
     /**
-     * 
+     * serializable
      */
     private static final long serialVersionUID = -2753653453731805880L;
 
@@ -42,11 +42,9 @@ public class MDOResource implements MDO, Serializable {
     @JoinColumn(name = "OWNER", nullable = false)
     private MDOUser owner;
     
-    /**
-     * @constructor
-     */
-    public MDOResource() {
-        super();
+    public MDOResource()
+    {
+    	
     }
 
     public MDOResource(MDOUser owner)

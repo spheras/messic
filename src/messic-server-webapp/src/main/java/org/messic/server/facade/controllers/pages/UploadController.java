@@ -1,4 +1,4 @@
-package org.messic.server.facade.controllers;
+package org.messic.server.facade.controllers.pages;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,15 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class LoginController
+public class UploadController
 {
 
-	@RequestMapping("/login.do")
-    protected ModelAndView login( HttpServletRequest arg0, HttpServletResponse arg1 )
+    @RequestMapping("/upload.do")
+    protected ModelAndView upload( HttpServletRequest arg0, HttpServletResponse arg1 )
         throws Exception
     {
-        ModelAndView model = new ModelAndView( "login" );
-        model.addObject( "msg", "hello world2" );
+        ModelAndView model = new ModelAndView( "upload" );
 
         return model;
     }

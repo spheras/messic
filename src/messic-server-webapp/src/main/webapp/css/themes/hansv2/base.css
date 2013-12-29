@@ -8,6 +8,16 @@
    0%  { opacity:0;}
    100%  { opacity:1;}
 }
+@keyframes fadeout
+{
+   0%  { opacity:1;}
+   100%  { opacity:0;}
+}
+@-webkit-keyframes fadeout
+{
+   0%  { opacity:1;}
+   100%  { opacity:0;}
+}
 /* -------------------------------*/
 /* FONTS AMARANTH */
 /* Designed by:	Gesine Todt */
@@ -196,6 +206,7 @@ label {
     display: block;
     font-family: Roboto;
     font-size: 0.8em;
+    font-weight: bold;
 }
 
 h1{
@@ -206,11 +217,12 @@ h1{
 	text-align: right;
 }
 
-input[type="text"] {
+input[type="text"], textarea {
     background: none repeat scroll 0 0 #FFFFFF;
     border-color: #CCCCCC;
     border-radius: 3px 3px 3px 3px;
-    padding: 3px 0 3px 4px;
+    padding: 3px 0 3px 0px;
+    text-indent: 4px;
 	font-family:Roboto;
 	font-size:0.8em;
 	border-style: solid;
@@ -327,11 +339,49 @@ form li {
     height:0px;
     content:&nbsp;
 }
+.messic-smallinfo{
+    background: none repeat scroll 0 0 rgba(0, 203, 203, 0.6);
+    border-radius: 8px;
+    box-shadow: 0 0 2px #00BABA;
+    color: #FFFFFF;
+    font-family: Roboto-black;
+    font-size: 0.8em;
+    left: 50%;
+    margin-left: -60px;
+    max-width: 400px;
+    padding: 5px;
+    position: fixed;
+    top: 50%;
+    z-index: 99999;
+
+    animation-name: messic-smallinfo-fadeinout;
+    animation-duration:1.5s;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-direction: normal;
+
+    -webkit-animation-name: messic-smallinfo-fadeinout;
+    -webkit-animation-duration:1.5s;
+    -webkit-animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-direction: normal;
+    opacity: 0;    
+}
+
+@keyframes messic-smallinfo-fadeinout
+{
+   0%  { opacity:0;}
+   10% { opacity:1;}
+   90% { opacity:1;}
+   100%  { opacity:0;}
+}
+@-webkit-keyframes messic-smallinfo-fadeinout
+{
+   0%  { opacity:1;}
+   100%  { opacity:0;}
+}
+
 /* ----------------------------------------------------------------- */
-
-
-
-
 
 
 

@@ -1,6 +1,5 @@
 package org.messic.server.facade.logics;
 
-import org.messic.server.datamodel.MDOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;

@@ -23,6 +23,9 @@ public class MDOSong extends MDOPhysicalResource implements
 
     @Column(name = "NAME", nullable = false)
     private String name;    
+    
+    @Column(name = "TRACK", nullable = false)
+    private Integer track;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ALBUM", nullable = false)
@@ -46,6 +49,10 @@ public class MDOSong extends MDOPhysicalResource implements
         return name;
     }
 
+    public Integer getTrack() {
+        return track;
+    }
+
     public MDOAlbum getAlbum() {
         return album;
     }
@@ -64,6 +71,14 @@ public class MDOSong extends MDOPhysicalResource implements
 
 	public String getAbsolutePath() {
 		return getAlbum().getAuthor().getLocation().concat("/").concat(getAlbum().getLocation()).concat("/").concat(getLocation()) ;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setTrack(Integer track) {
+		this.track = track;
 	}
         
 }
