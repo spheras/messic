@@ -82,7 +82,7 @@ public class DAOJPAUser
 
 	@Override
 	@Transactional
-	public MDOUser createUser(String login, String password, String name,
+	public MDOUser createUser(String login, String password, String name, String email, byte[] avatar,
 			boolean administrator) {
 		String pass;
 		MessageDigest md;
@@ -105,7 +105,7 @@ public class DAOJPAUser
 			pass = password;
 		}
 		
-		MDOUser newUser = new MDOUser(name, login, pass, administrator);
+		MDOUser newUser = new MDOUser(name, email, avatar, login, pass, administrator);
 		save(newUser);
 		return newUser;
 	}
@@ -120,9 +120,11 @@ public class DAOJPAUser
 
 	@Override
 	@Transactional
-	public MDOUser updateUserData(Long userSid, String name) {
+	public MDOUser updateUserData(Long userSid, String name, String email, byte[] avatar) {
 		MDOUser user = get(userSid);
 		user.setName(name);
+		user.setEmail(email);
+		user.setAvatar(avatar);
 		save(user);
 		return user;
 	}
@@ -132,6 +134,20 @@ public class DAOJPAUser
 	public void removeUser(Long userSid) {
 		MDOUser user = get(userSid);
 		remove(user);
+	}
+
+	@Override
+	public boolean existUsers() {
+		Query query = entityManager.createQuery("SELECT COUNT(sid) FROM MDOUser");
+		Long usersCount = (Long)query.getSingleResult();
+	    if(usersCount!=null && usersCount.equals(0L))
+	    {
+	    	return false;
+	    }
+	    else
+	    {
+	    	return true;
+	    }
 	}
 
 }

@@ -49,5 +49,4 @@ public class MDOAuthor extends MDOPhysicalResource implements
     public void setAlbums(Set<MDOAlbum> albums) {
         this.albums = albums;
     }
-
 }
