@@ -17,9 +17,16 @@ public class APIUser {
 		return userRepository.getUser(user);
 	}
 	
-	public MDOUser createUser(String login, String password, String name,
-			boolean administrator) {
-		return userRepository.createUser(login, password, name, administrator);
+	public MDOUser createUser(MDOUser user) {
+		
+		boolean existAdministrator = userRepository.existUsers();
+		if(!existAdministrator)
+		{
+			user.setAdministrator(Boolean.TRUE);
+		}
+		
+		// TODO CREAR EL REPOSITORIO DEL USUARIO
+		return userRepository.createUser(user.getLogin(), user.getPassword(), user.getName(), user.getEmail(), user.getAvatar(), user.getAdministrator());
 	}
-	
+		
 }

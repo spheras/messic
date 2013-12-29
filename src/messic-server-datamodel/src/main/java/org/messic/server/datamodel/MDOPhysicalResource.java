@@ -26,7 +26,7 @@ public class MDOPhysicalResource extends MDOResource implements
 
     @Column(name = "LOCATION")
     private String location;    
-
+    
     public MDOPhysicalResource ()
     {
         super();
@@ -45,5 +45,4 @@ public class MDOPhysicalResource extends MDOResource implements
     public void setLocation(String location) {
         this.location = location;
     }
-    
 }

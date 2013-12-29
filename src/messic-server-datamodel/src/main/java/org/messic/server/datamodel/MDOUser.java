@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -34,6 +35,13 @@ public class MDOUser implements MDO,Serializable {
     @Column(name = "NAME", nullable = false)
     private String name;
     
+    @Lob
+    @Column(name = "AVATAR", nullable=false)
+    private byte[] avatar;
+    
+    @Column(name = "EMAIL", nullable = false)
+    private String email;
+    
     @Column(name = "LOGIN", nullable = false)
     private String login;
     
@@ -53,8 +61,10 @@ public class MDOUser implements MDO,Serializable {
         super();
     }
     
-    public MDOUser(String name, String login, String password, Boolean administrator) {
+    public MDOUser(String name, String email, byte[] avatar, String login, String password, Boolean administrator) {
         this.name = name;
+        this.email = email;
+        this.avatar = avatar;
         this.login = login;
         this.password = password;
         this.administrator = administrator;
@@ -75,8 +85,24 @@ public class MDOUser implements MDO,Serializable {
     public void setName(String name) {
         this.name = name;
     }
+    
+    public String getEmail() {
+        return email;
+    }
 
-    public String getLogin() {
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public byte[] getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(byte[] avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getLogin() {
         return login;
     }
 
