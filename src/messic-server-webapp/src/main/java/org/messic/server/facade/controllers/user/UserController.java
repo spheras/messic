@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.messic.server.business.BUser;
-import org.messic.server.business.vo.UserVO;
+import org.messic.server.api.APIUser;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class UserController
 	final String avatar_session_id = "avatar";
 	
 	@Autowired
-	private BUser buser;
+	private APIUser userAPI;
 	
 	@RequestMapping("/show/create.do")
 	/**
@@ -99,29 +99,29 @@ public class UserController
 	@ResponseBody
 	/**
 	 * This controller processes the user creation request
-	 * @param uservo
+	 * @param user
 	 * @param session
 	 * @param arg0
 	 * @param arg1
 	 * @return
 	 * @throws Exception
 	 */
-    protected MDOUser create(UserVO uservo, HttpSession session, HttpServletRequest arg0, HttpServletResponse arg1 )
+    protected MDOUser create(User user, HttpSession session, HttpServletRequest arg0, HttpServletResponse arg1 )
         throws Exception
     {
         
 		if(session.getAttribute(avatar_session_id)!=null)
 		{
-			uservo.setAvatar((byte[])session.getAttribute(avatar_session_id));
+			user.setAvatar((byte[])session.getAttribute(avatar_session_id));
 		}
 		else
 		{
 			//TODO recuperar el avatar por defecto
 		}
 		
-		MDOUser user = buser.createUser(uservo);
+		MDOUser mdoUser = userAPI.createUser(user);
 		
-		return user;
+		return mdoUser;
 		
     }
 	

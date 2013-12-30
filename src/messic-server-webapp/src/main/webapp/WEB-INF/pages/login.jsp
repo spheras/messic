@@ -54,7 +54,8 @@
 		<c:if test="${ message == null }">
 		    <fmt:setBundle basename="ResourceBundle" var="message" scope="application"/>
 		</c:if>
-		    
+
+
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -104,5 +105,7 @@
         <script src="js/login.js"></script>
         <script src="js/main.js"></script>
         <script src="js/upload.js"></script>
+
+		<div id="messic-wait"><div id="messic-wait-box"><p>Enviando ficheros de música, por favor espere</p></div></div>
     </body>
 </html>

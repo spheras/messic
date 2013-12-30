@@ -1,13 +1,25 @@
+/* image, audio and other resources */
 var imageResources=new Array();
 var audioResources=new Array();
 var otherResources=new Array();
+/* cover Image resource */
 var coverImageResource;
+/* flag to how many songs rest to be uploaded during the upload process*/
+var uploadSongsToUpload=0;
+/* flag to known if songs have been uploaded */
+var uploadsongUploaded=false;
 
 /* init the upload page */
 function initUpload(){
 	filesToUpload=[];
+	uploadSongsToUpload=0;
+	imageResources=new Array();
+	audioResources=new Array();
+	otherResources=new Array();
+	uploadsongUploaded=false;
 
-		$("#messic-upload-algum-wizard").click(wizard);
+		$("#messic-upload-album-wizard").click(uploadsongWizard);
+		$("#messic-upload-album-send").click(uploadsongSend);
 
         $("#selector").kendoDropDownList({
             change: function () {
@@ -172,35 +184,45 @@ function initUpload(){
 
 }
 
-var uploadSongsToUpload=0;
+function uploadsongSend(){
 
-function wizardDataObtained(){
-	showInfo('Yeah! we have a wizard')
 }
 
-function wizardSongUploaded(){
+/* function executed when the song have been uploaded correctly to the server (to the wizard purposes) */
+function uploadsongWizardSongUploaded(){
 	uploadSongsToUpload=uploadSongsToUpload-1;
 	if(uploadSongsToUpload==0){
-		UtilShowInfo('songs Uploaded');
+		$.getJSON( "services/album/wizard", function( data ) {
+			if(data.author.name){
+				$("#messic-upload-album-author").data("kendoComboBox").text(data.author.name);
+			}
+			if(data.name){
+				$("#messic-upload-album-title").data("kendoComboBox").text(data.name);
+			}
+			if(data.genre.name){
+    			$("#messic-upload-album-genre").data("kendoComboBox").text(data.genre.name);
+			}
+			if(data.comments){
+				$("#messic-upload-album-comments").text(data.comments);	
+			}
+       		if(data.year){
+	       		$("#messic-upload-album-year").data("kendoNumericTextBox").value(data.year);	
+       		}
+			
+		});
 
-	    $.ajax({
-	        url: 'services/album/wizard',  //Server script to process data
-	        type: 'GET',
-	        //Ajax events
-	        success: wizardDataObtained,
-	        /*
-	        error: errorHandler,
-			*/
-	        processData: false
-	    });
+		UtilHideWait();
+
 	}
 }
-function wizardSongUploadedError(){
-	UtilShowInfo('songs Error!');
+
+/* function executed when the upload song (for the wizard upload) have an error */
+function uploadsongWizardSongUploadedError(){
 	uploadSongsToUpload=uploadSongsToUpload-1;
 }
 
-function wizardAddAllResources(){
+/* function to upload the audio resources to the server, to obtain wizard tag information from tracks */
+function uploadsongWizardAddAllResources(){
 	uploadSongsToUpload=audioResources.length;
 	for(var i=0;i<audioResources.length;i++){
 		var theFile=audioResources[i].file;
@@ -217,26 +239,11 @@ function wizardAddAllResources(){
 						        url: 'services/album/wizard',  //Server script to process data
 						        type: 'PUT',
 						        //Ajax events
-						        success: wizardSongUploaded,
-						        error: wizardSongUploadedError,
+						        success: uploadsongWizardSongUploaded,
+						        error: uploadsongWizardSongUploadedError,
 						        processData: false,
 						        data: bin
 						    });
-
-						     /*
-							var xhr = new XMLHttpRequest();
-							xhr.open("PUT", "services/album/wizard");
-							xhr.overrideMimeType('text/plain; charset=x-user-defined-binary');
-							xhr.sendAsBinary(bin);
-
-							xhr.upload.addEventListener("progress", function(e) {
-								if (e.lengthComputable) {
-								    var percentage = Math.round((e.loaded * 100) / e.total);
-								    showInfo(""+percentage)
-								}
-							}, false);
-							*/
-
 			        };
 			    })(theFile);
 				// Read in the image file as a data URL.
@@ -246,20 +253,22 @@ function wizardAddAllResources(){
 }
 
 /* Wizard function to try to obtain information from the audio resources to upload */
-function wizard(){
+function uploadsongWizard(){
 	if(audioResources.length>0){
+		UtilShowWait(messicLang.uploadAlbumUploadWizard);
+
 	    $.ajax({
 	        url: 'services/album/wizard/reset',  //Server script to process data
 	        type: 'GET',
 	        //Ajax events
-	        success: wizardAddAllResources,
+	        success: uploadsongWizardAddAllResources,
 	        /*
 	        error: errorHandler,
 			*/
 	        processData: false
 	    });
 	}else{
-		UtilShowInfo("No audio tracks to extract information!");
+		UtilShowInfo(messicLang.uploadAlbumNotracks);
 	}
 }
 
@@ -415,7 +424,7 @@ function uploadsongAddFiles(receivedFiles){
 		uploadsongOrderAll();
 }
 
-
+/* order in the list all the resources that user wants to upload */
 function uploadsongOrderAll(){
 	var divContent=$("#messic-upload-song-content-songs");
 	divContent.empty();
