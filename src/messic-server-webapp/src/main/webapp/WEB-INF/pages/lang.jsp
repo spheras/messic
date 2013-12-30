@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page contentType="text/javascript" %>
 
 <c:if test="${ message == null }">
     <fmt:setBundle basename="ResourceBundle" var="message" scope="application"/>
@@ -16,5 +17,6 @@ messicLang = {
 	uploadGenrePlaceholder : '<fmt:message key="js-upload-genre-placeholder" bundle="${message}"/>',
 	uploadAlbumEdit : '<fmt:message key="js-upload-album-edit" bundle="${message}"/>',
 	uploadAlbumNew : '<fmt:message key="js-upload-album-new" bundle="${message}"/>',
-
+	uploadAlbumNotracks : '<fmt:message key="js-upload-album-notracks" bundle="${message}"/>',
+	uploadAlbumUploadWizard: '<fmt:message key="js-upload-album-upload-wizard" bundle="${message}"/>',
 }

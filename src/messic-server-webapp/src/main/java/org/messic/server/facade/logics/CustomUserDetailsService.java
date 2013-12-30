@@ -25,7 +25,7 @@ public class CustomUserDetailsService
 {
 
     @Autowired
-    private APIUser userRepository;
+    private APIUser userAPI;
 
     /**
      * Returns a populated {@link UserDetails} object. The username is first retrieved from the database and then mapped
@@ -36,10 +36,10 @@ public class CustomUserDetailsService
     {
         try
         {
-            MDOUser domainUser = userRepository.getUser( username );
+            MDOUser domainUser = userAPI.getUser( username );
             if ( domainUser == null )
             {
-            	MDOUser user = new MDOUser();
+            	org.messic.server.api.datamodel.User user = new org.messic.server.api.datamodel.User();
             	user.setLogin(username);
             	user.setPassword("12345");
             	user.setName("Usuario de pruebas");
@@ -48,7 +48,7 @@ public class CustomUserDetailsService
             	user.setEmail("test@a.com");
             	user.setAdministrator(true);
             	
-                domainUser = userRepository.createUser(user);
+                domainUser = userAPI.createUser(user);
                 //throw new UsernameNotFoundException( "user not found!" );
             }
 

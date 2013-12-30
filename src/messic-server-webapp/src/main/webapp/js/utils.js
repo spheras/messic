@@ -18,11 +18,20 @@ function UtilGetFileNameWithoutExtension(filename){
 	return name;
 }
 
+function UtilShowWait(message){
+	$("#messic-wait").css({display:"block"});
+	$("#messic-wait p").text(message);
+}
+function UtilHideWait(){
+	$("#messic-wait").css({display:"none"});
+}
+
 function UtilShowInfo(info){
 	UtilShowInfoDelay(info,1500);
 }
 
 function UtilShowInfoDelay(info, delay){
+	$('.messic-smallinfo').stop();
 	$('.messic-smallinfo').remove(); 
 	var code="<div class='messic-smallinfo'>"+info+"</div>";
 	$('body').append($(code));

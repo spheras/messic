@@ -1,35 +1,36 @@
 $(document).ready(function() {
-	var window = $("#messic-login-window");
-	var shadow = $("#messic-login-shadow");
-	
+	var loginWindow = $("#messic-login-window");
+	var loginShadow = $("#messic-login-shadow");
+
 	//make the window dragablle
-	window.draggable({
+	loginWindow.draggable({
 	    drag: function(event, ui){
 	 		moveShadow();	 
 	    }
 	});
 	
-	//the shadow of the window will move at the same time as the window
+	//the loginShadow of the window will move at the same time as the loginWindow
 	function moveShadow(){	 
-	    logoX           =   parseInt(window.offset().left);
-	 	logoY           =   parseInt(window.offset().top);
+	    logoX           =   parseInt(loginWindow.offset().left);
+	 	logoY           =   parseInt(loginWindow.offset().top);
 	 	shadowPosLeft   =   logoX + "px";
-	 	shadowPosTop    =   logoY + (window.height()+1) + "px";
-	 	shadow.css({ "left": shadowPosLeft, "top": shadowPosTop});	 
+	 	shadowPosTop    =   logoY + (loginWindow.height()+1) + "px";
+	 	loginShadow.css({ "left": shadowPosLeft, "top": shadowPosTop});	 
 	}
 	
-	//centering the window
+	//centering the loginWindow
 	jQuery.fn.center = function () {
 		this.css("position","absolute");
-		this.css("top", ( $(document).height() - this.height() ) / 2+$(window).scrollTop() + "px");
-		this.css("left", ( $(document).width() - this.width() ) / 2+$(window).scrollLeft() + "px");
-		shadow.css({"top": window.offset().top + window.height() +1 ,"left": window.offset().left });
+		this.css("top", ( $(document).height() - this.height() ) / 2+$(loginWindow).scrollTop() + "px");
+		this.css("left", ( $(document).width() - this.width() ) / 2+$(loginWindow).scrollLeft() + "px");
+		loginShadow.css({"top": loginWindow.offset().top + loginWindow.height() +1 ,"left": loginWindow.offset().left });
 	}
-	window.center();
+	loginWindow.center();
 	
 
 	//add the login button functionality
 	$("#messic-login-button").click(function(){
+		kendoAlert("hola?");
 		info = $("#messic-login-form").serialize();
 		console.log(info);
 		$.ajax({

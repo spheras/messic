@@ -1,5 +1,6 @@
 package org.messic.server.api;
 
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class APIUser {
 		return userRepository.getUser(user);
 	}
 	
-	public MDOUser createUser(MDOUser user) {
+	public MDOUser createUser(User user) {
 		
 		boolean existAdministrator = userRepository.existUsers();
 		if(!existAdministrator)
