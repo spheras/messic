@@ -40,4 +40,17 @@ public class DAOJPAAuthor
         return results;
 	}
 
+	public MDOAuthor getByName(String authorName, String username){
+        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.name = :authorName) AND (a.owner.login = :userName)" );
+        query.setParameter( "userName", username);
+        query.setParameter( "authorName", authorName);
+		
+        @SuppressWarnings( "unchecked" )
+        List<MDOAuthor> results = query.getResultList();
+        if(results!=null && results.size()>0){
+        	return results.get(0);
+        }
+        return null;
+	}
+
 }

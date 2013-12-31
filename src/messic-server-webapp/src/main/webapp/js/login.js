@@ -26,11 +26,9 @@ $(document).ready(function() {
 		loginShadow.css({"top": loginWindow.offset().top + loginWindow.height() +1 ,"left": loginWindow.offset().left });
 	}
 	loginWindow.center();
-	
 
 	//add the login button functionality
 	$("#messic-login-button").click(function(){
-		kendoAlert("hola?");
 		info = $("#messic-login-form").serialize();
 		console.log(info);
 		$.ajax({

@@ -67,6 +67,21 @@ public class DAOJPAAlbum
 	}
 
 	@Override
+	public MDOAlbum getByName(String authorName, String albumName, String username){
+        Query query = entityManager.createQuery( "from MDOAlbum as a where (a.name = :albumName) AND (a.owner.login = :userName) AND (a.author.name = :authorName)" );
+        query.setParameter( "albumName", "'" + albumName + "'");
+        query.setParameter( "userName", username);
+        query.setParameter( "authorName", authorName);
+		
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbum> results = query.getResultList();
+        if(results!=null && results.size()>0){
+        	return results.get(0);
+        }
+        return null;
+	}
+	
+	@Override
 	public List<MDOAlbum> findSimilarAlbums(int authorSid, String albumName,
 			String username) {
         Query query = entityManager.createQuery( "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName) AND (a.author.sid = :authorSid)" );

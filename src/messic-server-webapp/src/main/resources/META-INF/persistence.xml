@@ -17,8 +17,11 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 		<class>org.messic.server.datamodel.MDOResource</class>
 		<class>org.messic.server.datamodel.MDOPhysicalResource</class>
 		<class>org.messic.server.datamodel.MDOAuthor</class>
+		<class>org.messic.server.datamodel.MDOAlbumResource</class>
 		<class>org.messic.server.datamodel.MDOAlbum</class>
 		<class>org.messic.server.datamodel.MDOSong</class>
+		<class>org.messic.server.datamodel.MDOArtworkResource</class>
+		<class>org.messic.server.datamodel.MDOOtherResource</class>
 		<class>org.messic.server.datamodel.MDOPlaylist</class>
 		
 		<properties>

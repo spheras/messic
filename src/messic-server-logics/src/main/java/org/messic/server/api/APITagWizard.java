@@ -7,7 +7,6 @@ import org.apache.commons.io.FileUtils;
 import org.messic.server.Util;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.datamodel.MDOUser;
-import org.messic.server.datamodel.dao.DAOAlbum;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Component
 public class APITagWizard {
-    @Autowired
-    private DAOAlbum daoAlbum;
     @Autowired
     private DAOUser daoUser;
     @Autowired
@@ -54,6 +51,7 @@ public class APITagWizard {
         
         basePath.mkdirs();
 	}
+
 
 	/**
 	 * add a song to the temporal folder for the wizard.. This is done to wait all the songs after do a wizard over the songs and discover the tags for the album information

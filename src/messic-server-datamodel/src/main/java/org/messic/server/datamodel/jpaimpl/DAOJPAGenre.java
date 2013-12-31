@@ -46,4 +46,16 @@ public class DAOJPAGenre
         }
 	}
 
+	public MDOGenre getByName(String genreName){
+        Query query = entityManager.createQuery("from MDOGenre as a where (a.name = :genreName)");
+        query.setParameter( "genreName", genreName);
+		
+        @SuppressWarnings( "unchecked" )
+        List<MDOGenre> results = query.getResultList();
+        if(results!=null && results.size()>0){
+        	return results.get(0);
+        }
+        return null;
+	}
+
 }

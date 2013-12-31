@@ -26,4 +26,12 @@ public interface DAOGenre extends DAO<MDOGenre>
 	 */
 	MDOGenre getGenre(String genreName);
 
+	/**
+	 * Find a genre with name equals to the param
+	 * @param genreName {@link String} genre name
+	 * @param username {@link String} user scope
+	 * @return {@link MDOGenre} found, null if none
+	 */
+	MDOGenre getByName(String genreName);
+
 }

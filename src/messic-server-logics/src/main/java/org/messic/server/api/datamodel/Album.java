@@ -16,6 +16,8 @@ public class Album {
 	private Integer year;
 	private Author author;
 	private List<Song> songs;
+	private List<File> artworks;
+	private List<File> others;
 	private Genre genre;
 	private String comments;
 
@@ -135,6 +137,32 @@ public class Album {
 			this.songs=new ArrayList<Song>();
 		}
 		this.songs.add(song);
+	}
+	public final List<File> getArtworks() {
+		return artworks;
+	}
+	public final void setArtworks(List<File> artworks) {
+		this.artworks = artworks;
+	}
+	
+	public final void addArtwork(File artwork){
+		if(this.artworks==null){
+			this.artworks=new ArrayList<File>();
+		}
+		this.artworks.add(artwork);
+	}
+	public final List<File> getOthers() {
+		return others;
+	}
+	public final void setOthers(List<File> others) {
+		this.others = others;
+	}
+	
+	public final void addOther(File other){
+		if(this.others==null){
+			this.others=new ArrayList<File>();
+		}
+		this.others.add(other);
 	}
 
 	public Genre getGenre() {

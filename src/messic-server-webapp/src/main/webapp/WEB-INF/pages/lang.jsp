@@ -17,6 +17,12 @@ messicLang = {
 	uploadGenrePlaceholder : '<fmt:message key="js-upload-genre-placeholder" bundle="${message}"/>',
 	uploadAlbumEdit : '<fmt:message key="js-upload-album-edit" bundle="${message}"/>',
 	uploadAlbumNew : '<fmt:message key="js-upload-album-new" bundle="${message}"/>',
-	uploadAlbumNotracks : '<fmt:message key="js-upload-album-notracks" bundle="${message}"/>',
+	uploadAlbumWizardNotracks : '<fmt:message key="js-upload-album-wizard-notracks" bundle="${message}"/>',
 	uploadAlbumUploadWizard: '<fmt:message key="js-upload-album-upload-wizard" bundle="${message}"/>',
+	uploadAlbumSendConfirmationTitle: '<fmt:message key="js-upload-album-send-confirmation-title" bundle="${message}"/>',
+	uploadAlbumSendConfirmationMessage: '<fmt:message key="js-upload-album-send-confirmation-message" bundle="${message}"/>',
+	uploadAlbumSendCancel: '<fmt:message key="js-upload-album-send-cancel" bundle="${message}"/>',
+	confirmationYes: '<fmt:message key="js-confirmation-yes" bundle="${message}"/>',
+	confirmationNo: '<fmt:message key="js-confirmation-no" bundle="${message}"/>',
+	
 }

@@ -2,7 +2,8 @@ package org.messic.server.datamodel;
 
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -37,8 +38,15 @@ public class MDOAlbum extends MDOPhysicalResource implements
     private MDOGenre genre;   
 
     @OneToMany(mappedBy = "album")
-    private Set<MDOSong> songs;
+    private List<MDOSong> songs;
 
+    @OneToMany(mappedBy = "album")
+    private List<MDOAlbumResource> artworks;
+    
+    @OneToMany(mappedBy = "album")
+    private List<MDOAlbumResource> others;
+    
+    
     @Column(name = "COMMENTS", nullable = true)
     private String comments;
 
@@ -73,12 +81,37 @@ public class MDOAlbum extends MDOPhysicalResource implements
         this.year = year;
     }
 
-    public Set<MDOSong> getSongs() {
+    public List<MDOSong> getSongs() {
+    	if(songs==null){
+    		songs=new ArrayList<MDOSong>();
+    	}
         return songs;
     }
 
-    public void setSongs(Set<MDOSong> songs) {
+    public void setSongs(List<MDOSong> songs) {
         this.songs = songs;
+    }
+
+    public List<MDOAlbumResource> getArtworks() {
+    	if(artworks==null){
+    		artworks=new ArrayList<MDOAlbumResource>();
+    	}
+        return artworks;
+    }
+
+    public void setArtworks(List<MDOAlbumResource> artworks) {
+        this.artworks = artworks;
+    }
+
+    public List<MDOAlbumResource> getOthers() {
+    	if(others==null){
+    		others=new ArrayList<MDOAlbumResource>();
+    	}
+        return others;
+    }
+
+    public void setOthers(List<MDOAlbumResource> others) {
+        this.others = others;
     }
 
     public MDOAuthor getAuthor() {

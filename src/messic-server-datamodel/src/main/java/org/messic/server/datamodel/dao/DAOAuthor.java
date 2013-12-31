@@ -26,4 +26,12 @@ public interface DAOAuthor extends DAO<MDOAuthor>
 	 * @return
 	 */
 	List<MDOAuthor> getAll(String username);
+	
+	/**
+	 * Find an author with name equals to the param authorName
+	 * @param authorName {@link String} author name
+	 * @param username {@link String} user scope
+	 * @return {@link MDOAuthor} found, null if none
+	 */
+	MDOAuthor getByName(String authorName, String username);
 }
