@@ -6,17 +6,16 @@ import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOSong;
 
 @XmlRootElement
-public class Song {
+public class Song extends File{
 	private long sid;
 	private int track;
 	private String name;
-	private Album album;
 	
 	/**
 	 * default constructor
 	 */
 	public Song(){
-		
+		super();
 	}
 	
 	/**
@@ -55,11 +54,4 @@ public class Song {
 		this.name = name;
 	}
 
-	public final Album getAlbum() {
-		return album;
-	}
-
-	public final void setAlbum(Album album) {
-		this.album = album;
-	}
 }

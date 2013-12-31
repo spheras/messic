@@ -14,8 +14,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "SONGS")
-@DiscriminatorValue(MDOPhysicalResource.SONG)
-
+@DiscriminatorValue(MDOAlbumResource.SONG)
 public class MDOSong extends MDOPhysicalResource implements
         MDO, Serializable {
     
@@ -26,14 +25,15 @@ public class MDOSong extends MDOPhysicalResource implements
     
     @Column(name = "TRACK", nullable = false)
     private Integer track;
+    
+    @ManyToMany(mappedBy="songs")
+    private Set<MDOPlaylist> playlists;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ALBUM", nullable = false)
     private MDOAlbum album;   
-    
-    @ManyToMany(mappedBy="songs")
-    private Set<MDOPlaylist> playlists;
-    
+
+
     public MDOSong ()
     {
         super();
@@ -53,13 +53,6 @@ public class MDOSong extends MDOPhysicalResource implements
         return track;
     }
 
-    public MDOAlbum getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(MDOAlbum album) {
-        this.album = album;
-    }
 
     public Set<MDOPlaylist> getPlaylists() {
         return playlists;
@@ -80,5 +73,14 @@ public class MDOSong extends MDOPhysicalResource implements
 	public void setTrack(Integer track) {
 		this.track = track;
 	}
-        
+
+    public MDOAlbum getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(MDOAlbum album) {
+        this.album = album;
+    }
+
+
 }

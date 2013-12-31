@@ -322,6 +322,10 @@ form li {
     margin: 7px 0 0 0;
 }
 
+p strong{
+    font-weight: bold;
+}
+
 .messic-form {
     position:relative;
     display: block;

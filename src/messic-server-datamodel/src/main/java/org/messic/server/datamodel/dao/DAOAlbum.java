@@ -43,4 +43,13 @@ public interface DAOAlbum extends DAO<MDOAlbum>
 	 * @return {@link List}<MDOAlbum/> list of similar albums
 	 */
 	List<MDOAlbum> findSimilarAlbums(int authorSid, String albumName, String username);
+	
+	/**
+	 * Find an album with name and author name equals to the param
+	 * @param authorName {@link String} author name
+	 * @param albumName {@link String} album Name
+	 * @param username {@link String} user scope
+	 * @return {@link MDOAlbum} found, null if none
+	 */
+	MDOAlbum getByName(String authorName, String albumName, String username);
 }

@@ -40,11 +40,12 @@
 
 		<!-- Theme Style -->
         <link rel="stylesheet" href="css/themes/hansv2/base.css">
-        <link rel="stylesheet" href="css/themes/hansv2/kendo.css">
         <link rel="stylesheet" href="css/themes/hansv2/login.css">
         <link rel="stylesheet" href="css/themes/hansv2/playlist.css">
         <link rel="stylesheet" href="css/themes/hansv2/about.css">
         <link rel="stylesheet" href="css/themes/hansv2/upload.css">
+        <link rel="stylesheet" href="css/themes/hansv2/kendo.css">
+        <link rel="stylesheet" href="css/themes/hansv2/jquery.confirm.css">
 		
 		<!-- modernizr -->
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
@@ -92,6 +93,7 @@
 			</div>
 			<div id="messic-login-shadow" style="position:absolute"></div>
 		
+			<div id="messic-wait"><div id="messic-wait-box"><p></p></div></div>
 
         <script src="js/vendor/jquery/jquery-1.9.1.min.js"></script>
 		<script src="js/vendor/jquery/jquery-ui.js"></script>
@@ -105,7 +107,7 @@
         <script src="js/login.js"></script>
         <script src="js/main.js"></script>
         <script src="js/upload.js"></script>
+        <script src="js/jquery.confirm.js"></script>
 
-		<div id="messic-wait"><div id="messic-wait-box"><p>Enviando ficheros de música, por favor espere</p></div></div>
     </body>
 </html>

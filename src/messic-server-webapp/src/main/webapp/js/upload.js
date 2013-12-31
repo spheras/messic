@@ -185,7 +185,55 @@ function initUpload(){
 }
 
 function uploadsongSend(){
+	if(audioResources.length>0){
+	    $.confirm({
+	        'title'		: messicLang.uploadAlbumSendConfirmationTitle,
+	        'message'	: messicLang.uploadAlbumSendConfirmationMessage,
+	        'buttons'	: {
+	            'Yes'	: {
+	            	'title' : messicLang.confirmationYes,
+	                'class'	: 'blue',
+	                'action': function(){
+	                		var albumData=JSON.stringify({
+	                			sid: 0,
+	                			name: 'prueba',
+	                			year: '1990',
+	                			author: {
+	                				sid: 5,
+	                				name: 'Kubelik'
+	                			},
+	                			songs: [{track:1,name:'cancionn1',fileName:'fichero1.mp3'},{track:2,name:'cancionn2',fileName:'fichero2.mp3'},{track:3,name:'cancionn3',fileName:'fichero3.mp3'}],
+	                			artworks: [{fileName:'cover.jpg'},{fileName:'back.jpg'}],
+	                			others: [{fileName:'lyrics.txt'}],
+	                			genre: {sid:3, name:'Rock'},
+	                			comments: ''
+	                		});
 
+						     $.ajax({
+						        url: 'services/album',  //Server script to process data
+						        type: 'POST',
+						        success: function(){alert('send sucess!')},
+						        error: function(e){
+						        	alert('send error!')
+						        },
+						        processData: false,
+						        data: albumData,
+						        contentType: "application/json"
+						    });
+	                }
+	            },
+	            'No'	: {
+	            	'title' : messicLang.confirmationNo,
+	                'class'	: 'gray',
+	                'action': function(){
+	                			UtilShowInfo(messicLang.uploadAlbumSendCancel);
+	                }	// Nothing to do in this case. You can as well omit the action property.
+	            }
+	        }
+	    });
+	}else{
+		UtilShowInfo(messicLang.uploadAlbumWizardNotracks);
+	}
 }
 
 /* function executed when the song have been uploaded correctly to the server (to the wizard purposes) */

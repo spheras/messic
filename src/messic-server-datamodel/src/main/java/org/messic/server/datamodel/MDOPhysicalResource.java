@@ -22,7 +22,7 @@ public class MDOPhysicalResource extends MDOResource implements
 	
     public static final String AUTHOR = "AUTHOR";
     public static final String ALBUM = "ALBUM";
-    public static final String SONG = "SONG";
+    public static final String ALBUM_RESOURCE = "ALBUM_RESOURCE";
 
     @Column(name = "LOCATION")
     private String location;    
