@@ -29,4 +29,4 @@ The aim for the project is to convert this mess of music in a real ordered music
 * It will be multiuser, where the share concept is a central point.
 * It's focused at home catalog music. We want to order and listen to our own catalog of music.
 
-This project is still very young, it was born in our minds on the second week of march on 2013.. so.. the time now is for contributors to finish the first alpha version.  We hope see you ass son as possible using this software, but for the moment it's the time for contributors.  We are doing our best to do this project and we hope you will understand and collaborate with us.
+This project is still very young, it was born in our minds on the second week of march on 2013.. so.. the time now is for contributors to finish the first alpha version.  We hope see you as son as possible using this software, but for the moment it's the time for contributors.  We are doing our best to do this project and we hope you will understand and collaborate with us.
