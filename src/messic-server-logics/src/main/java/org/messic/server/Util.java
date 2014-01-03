@@ -8,20 +8,40 @@ import org.messic.server.datamodel.MDOMessicSettings;
 import org.messic.server.datamodel.MDOUser;
 
 public class Util {
+	
 	/** variable to define that the store path is the generic one (from settings) */
 	public static final String GENERIC_BASE_STORE_PATH_VAR="$(generic)";
-	public static final String WIZARD_FOLDER=".tmp"+File.separatorChar+"wizard";
-
+	public static final String TEMPORAL_FOLDER=".tmp"+File.separatorChar+"resources";
 
 	/**
-	 * Obtain  the path to the temporal folder for the wizard (to obtain album information from tags and so on)
+	 * Fill at the left with zeros... example: leftZeroPadding("5",3)  will return "005"
+	 * @param number int an integer that will be filled with zeros until complete the desired characters
+	 * @param howManyChar int how many chars will have the returned value
+	 * @return String filled
+	 */
+	public static String leftZeroPadding(int number,int howManyChar){
+		return String.format("%0"+howManyChar+"d", number);		
+	}
+	
+	/**
+	 * Return a valid location to a file path
+	 * @param filename {@link String} location to convert
+	 * @return a valid location
+	 */
+	public static String getValidLocation(String location){
+		return location; //TODO
+	}
+	
+	/**
+	 * Obtain  the path to the temporal folder for uploaded resources
 	 * @param user {@link MDOUser} user scope
 	 * @param settings {@link MDOMessicSettings} settings
-	 * @return {@link String} temporal path for the wizard
+	 * @param albumCode {@link String} code for the album to upload
+	 * @return {@link String} temporal path for uploaded
 	 */
-	public static String getWizardTmpPath(MDOUser user, MDOMessicSettings settings){
+	public static String getTmpPath(MDOUser user, MDOMessicSettings settings, String albumCode){
 	        String path=Util.getRealBaseStorePath(user, settings);
-	        path=path+File.separator+WIZARD_FOLDER;
+	        path=path+File.separator+TEMPORAL_FOLDER+File.separatorChar+albumCode;
 	        return path;
 	}
 	

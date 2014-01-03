@@ -1,6 +1,6 @@
+<%@ page contentType="text/javascript" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page contentType="text/javascript" %>
 
 <c:if test="${ message == null }">
     <fmt:setBundle basename="ResourceBundle" var="message" scope="application"/>

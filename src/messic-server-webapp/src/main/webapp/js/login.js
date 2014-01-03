@@ -30,7 +30,6 @@ $(document).ready(function() {
 	//add the login button functionality
 	$("#messic-login-button").click(function(){
 		info = $("#messic-login-form").serialize();
-		console.log(info);
 		$.ajax({
 		    type: "POST",
 		    url: "j_spring_security_check",

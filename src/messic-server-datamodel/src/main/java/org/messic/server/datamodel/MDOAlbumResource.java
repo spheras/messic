@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ALBUM_RESOURCEs")
+@Table(name = "ALBUM_RESOURCES")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn
 @DiscriminatorValue(MDOPhysicalResource.ALBUM_RESOURCE)

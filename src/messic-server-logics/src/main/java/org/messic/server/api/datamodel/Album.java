@@ -12,6 +12,7 @@ import org.messic.server.datamodel.MDOSong;
 @XmlRootElement
 public class Album {
 	private long sid;
+	private String code;
 	private String name;
 	private Integer year;
 	private Author author;
@@ -181,5 +182,15 @@ public class Album {
 
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+
+	public String getCode() {
+		return code;
+	}
+
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }

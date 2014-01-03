@@ -11,6 +11,7 @@
 	<http pattern="/img/**" security="none" />
 	<http pattern="/js/**" security="none" />
 	<http pattern="/humans.txt" security="none" />
+	<http pattern="/lang.do" security="none" />
 	<http pattern="/robots.txt" security="none" />
 	<http pattern="/crossdomain.xml" security="none" />
 	<http pattern="/404.html" security="none" />

@@ -582,6 +582,7 @@ p strong{
 #messic-menu li:hover>div{
     opacity:1;
     visibility:visible;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.67);
 }
 /* ------------------------------------------------ */
 
@@ -628,11 +629,12 @@ p strong{
 	border-image: url("base/page-border.png") 150 150 150 150 repeat repeat;
 	border-style: solid;
 	border-width: 150px;
-	height: 100%;
+	height: auto;
 	min-height:500px;
 	margin: 50px auto 0;
 	position: relative;
-	width: 920px;		
+	width: 920px;
+    padding-bottom: 300px;
 }
 #messic-page-border:after{
     background: url("base/page-ribbon.png") no-repeat;
@@ -654,7 +656,7 @@ p strong{
 #messic-page-content{
     height: auto;
     width: 1100px;
-    position: absolute;
+    position: relative;
     left: -83px;
     top: -85px;
 }

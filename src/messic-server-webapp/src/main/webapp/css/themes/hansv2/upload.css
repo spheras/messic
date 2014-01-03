@@ -1,3 +1,7 @@
+#messic-upload-content{
+    background: #FF0000;
+    clear:left;
+}
 .messic-upload-container-border{
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #EEEEEE;
@@ -68,7 +72,6 @@
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px dashed #AAAAAA;
     height: 120px;
-    position: absolute;
     right: 10px;
     width: 120px;
 }
@@ -388,4 +391,140 @@ li.messic-upload-song-content-songs-filedelete a:hover {
 #messic-upload-album-container button{
     float: right;
     margin-left: 20px;    
+}
+
+
+
+/** FINISHBOX **/
+.messic-upload-finishbox{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #EEEEEE;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+    float: left;
+    height: auto;
+    margin-bottom: 20px;
+    overflow: visible;
+    padding: 3px;
+    transition-duration: 1s;
+    transition-property: height;
+    width: auto;
+    margin-right: 29px;
+}
+.messic-upload-finishbox-content:before{
+    content: " ";
+    height: 48px;
+    left: 5px;
+    position: absolute;
+    top: -5px;
+    width: 41px;
+}
+.messic-upload-finishbox-content{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px dashed #DDDDDD;
+    float: left;
+    font-family: Roboto-black;
+    font-size: 0.8em;
+    min-height: 150px;
+    padding: 10px;
+    position: relative;
+    width: auto;
+}
+.messic-upload-finishbox-cover-content{
+    float: left;
+    height: auto;
+    margin-left: 5px;
+    margin-right: 9px;
+    margin-top: 1px;
+    overflow: hidden;
+    width: 102px;
+}
+.messic-upload-finishbox-cover{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px dashed #EEEEEE;
+    height: 100px;
+    left: 10px;
+    position: absolute;
+    top: 8px;
+    width: 100px;
+    z-index: 1;
+}
+.messic-upload-finishbox-cover.messic-upload-finishbox-ok:before{
+    content:"";
+    width: 20px;
+    height: 20px;
+    background: #FF0000;
+}
+.messic-upload-finishbox-cover img{
+    background-size: 100px 100px;
+    height: 100%;
+    width: 100%;
+}
+.messic-upload-finishbox-albumtitle{
+    font-family: roboto;
+    font-size: 0.8em;
+    left: 10px;
+    max-width: 100px;
+    overflow: hidden;
+    top: 111px;
+    z-index: 1;
+}
+.messic-upload-finishbox-authortitle{
+    font-family: roboto;
+    font-size: 0.7em;
+    left: 10px;
+    max-width: 100px;
+    overflow: hidden;
+    z-index: 1;
+}
+.messic-upload-finishbox-resource{
+    background: none repeat scroll 0 0 #EEEEEE;
+    border-bottom: 1px dashed #E0E0E0;
+    color: #444444;
+    height: 25px;
+    line-height: 22px;
+    margin-bottom: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+    min-width: 291px;
+}
+.messic-upload-finishbox-resource-status{
+    background: url("upload/4-1.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    float: left;
+    height: 20px;
+    margin-right: 10px;
+    position: relative;
+    top: 3px;
+    vertical-align: middle;
+    width: 20px;
+}
+.messic-upload-finishbox-resource-status.messic-upload-finished{
+    background: url("upload/ok-icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-upload-finishbox-resource-status.messic-upload-failed{
+    background: url("upload/error-small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.messic-upload-finishbox-resource-progress{
+    border: 1px solid #CFCFCF;
+    border-radius: 7px;
+    float: left;
+    height: 13px;
+    margin-left: 10px;
+    margin-top: 2px;
+    padding: 2px;
+    width: 100px;
+}
+.messic-upload-finishbox-resource-progressbar{
+    background: linear-gradient(#00BABA, #00CACA) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    height: 100%;
+
+    transition-property:width;
+    transition-duration:0.5s;
+}
+.messic-upload-finishbox-resource-filename{
+    float:left;
+    width: auto;
+    height: 100%;
 }

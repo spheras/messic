@@ -26,24 +26,24 @@ public class AuthorController
 	
 	@RequestMapping(value="/{authorName}",method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-    protected List<Author> findAuthor(@PathVariable  String authorName)
+    protected MessicResponse findAuthor(@PathVariable  String authorName)
         throws Exception
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         MDOUser mdouser=userDAO.getUser(auth.getName());
 		List<Author> authors=authorAPI.findSimilar(mdouser, authorName);
-		return authors;
+		return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, authors);
     }
 
 	@RequestMapping(value="",method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-    protected List<Author> getAll()
+    protected MessicResponse getAll()
         throws Exception
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         MDOUser mdouser=userDAO.getUser(auth.getName());
 		List<Author> authors=authorAPI.getAll(mdouser);
-		return authors;
+		return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, authors);
     }
 
 }

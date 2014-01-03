@@ -19,11 +19,11 @@ public class GenreController
 	
 	@RequestMapping(value="",method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-    protected List<Genre> getAll()
+    protected MessicResponse getAll()
         throws Exception
     {
 		List<Genre> genres=genreAPI.getAll();
-		return genres;
+		return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, genres);
     }
 
 }

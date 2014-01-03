@@ -186,4 +186,23 @@
     background: #00BABA;
  }
 
- 
+ .k-tooltip-validation {
+    background: none repeat scroll 0 0 #FFFF99;
+    color: #444444;
+    display: block;
+    overflow: visible;
+    padding-bottom: 1px;
+    padding-right: 1px;
+    padding-top: 1px;
+    text-indent: 24px;
+    text-shadow: 0 0 1px #FFFFFF;
+    width: 100%;
+ }
+
+ .k-icon.k-warning {
+    background: url("upload/dialog_warning.png") no-repeat scroll 0 0 / 18px auto rgba(0, 0, 0, 0);
+    height: 100px;
+    left: 1px;
+    position: absolute;
+    width: 100px;
+ }

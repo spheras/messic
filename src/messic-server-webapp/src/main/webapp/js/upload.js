@@ -1,31 +1,20 @@
+
+//Existing upload processes
+var uploadProcesses=new Array();
+//new resources to upload
 /* image, audio and other resources */
-var imageResources=new Array();
-var audioResources=new Array();
-var otherResources=new Array();
-/* cover Image resource */
-var coverImageResource;
-/* flag to how many songs rest to be uploaded during the upload process*/
-var uploadSongsToUpload=0;
-/* flag to known if songs have been uploaded */
-var uploadsongUploaded=false;
+var uploadAlbum;
+/* kendo validator for the form */
+var uploadValidator;
+
 
 /* init the upload page */
 function initUpload(){
-	filesToUpload=[];
-	uploadSongsToUpload=0;
-	imageResources=new Array();
-	audioResources=new Array();
-	otherResources=new Array();
-	uploadsongUploaded=false;
+		uploadAlbum=new UploadAlbum();
+		uploadValidator = $("#messic-upload-album-container").kendoValidator().data("kendoValidator");
 
-		$("#messic-upload-album-wizard").click(uploadsongWizard);
-		$("#messic-upload-album-send").click(uploadsongSend);
-
-        $("#selector").kendoDropDownList({
-            change: function () {
-                tooltip.show($("#target" + this.value()));
-            }
-        });
+		$("#messic-upload-album-wizard").click(function(){uploadAlbum.wizard();});
+		$("#messic-upload-album-send").click(uploadSend);
 
 	    $("#messic-upload-album-author").kendoComboBox({
 	        placeholder: messicLang.uploadAuthorPlaceholder,
@@ -67,7 +56,13 @@ function initUpload(){
           				type: "GET",
             			dataType: "json"
 			        }
-			    }
+			    },
+			    schema: {
+					data: function(response) {
+						return response.content; // messicresponse response is { code: XX, message: XX, content: [ /* results */ ] }
+					},
+					model: { id: "sid" }
+				}
 	        }
 	    });
 
@@ -99,8 +94,8 @@ function initUpload(){
 	            		authorCombo.value(selectedData.author.sid);
 	            		authorCombo.text(selectedData.author.name);
                 		var genreCombo = $("#messic-upload-album-genre").data("kendoComboBox");
-	            		authorCombo.value(selectedData.genre.sid);
-	            		authorCombo.text(selectedData.genre.name);
+	            		genreCombo.value(selectedData.genre.sid);
+	            		genreCombo.text(selectedData.genre.name);
 
 	            		if(selectedData.comments){
 		            		$("#messic-upload-album-comments").text(selectedData.comments);
@@ -122,7 +117,6 @@ function initUpload(){
 	            		//TODO, fill year, genre comments, and cover?
 	            	}else{
 						$("#messic-upload-album-editnew").get(0).lastChild.nodeValue = messicLang.uploadAlbumNew;
-	            		//$("#messic-upload-album-editnew").text("New Album");
 	            		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-new');
 	            	}
 	            },
@@ -136,7 +130,13 @@ function initUpload(){
           				type: "GET",
             			dataType: "json"
 			        }
-			    }
+			    },
+			    schema: {
+					data: function(response) {
+						return response.content; // messicrsponse response is { code: XX, message: XX, content: [ /* results */ ] }
+					},
+					model: { id: "sid" }
+				}
 	        }
 	    });
 
@@ -154,7 +154,13 @@ function initUpload(){
           				type: "GET",
             			dataType: "json"
 			        }
-			    }
+			    },
+			    schema: {
+					data: function(response) {
+						return response.content; // messicrsponse response is { code: XX, message: XX, content: [ /* results */ ] }
+					},
+					model: { id: "sid" }
+				}
 	        }
 	    });
 
@@ -166,7 +172,7 @@ function initUpload(){
 	//event change for the input type file hidden 
 	$("#messic-upload-song-addinput").change(function(evt){
 		var files = evt.target.files; // FileList object
-		uploadsongAddFiles(files);
+		uploadAlbum.addFiles(files);
 	});
 
 	//For the drop files area
@@ -179,13 +185,20 @@ function initUpload(){
 
 		// This variable represents the files that have been dragged into the drop area
 		var transferFiles = e.dataTransfer.files;
-		uploadsongAddFiles(transferFiles);
+		uploadAlbum.addFiles(transferFiles);
 	});	
 
 }
 
-function uploadsongSend(){
-	if(audioResources.length>0){
+/* Validate all the information */
+function uploadValidate(){
+	return (uploadAlbum.validate() && uploadValidator.validate());
+}
+
+
+/* Sends all the album information and songs to the server */
+function uploadSend(){
+	if(uploadValidate()){
 	    $.confirm({
 	        'title'		: messicLang.uploadAlbumSendConfirmationTitle,
 	        'message'	: messicLang.uploadAlbumSendConfirmationMessage,
@@ -194,32 +207,9 @@ function uploadsongSend(){
 	            	'title' : messicLang.confirmationYes,
 	                'class'	: 'blue',
 	                'action': function(){
-	                		var albumData=JSON.stringify({
-	                			sid: 0,
-	                			name: 'prueba',
-	                			year: '1990',
-	                			author: {
-	                				sid: 5,
-	                				name: 'Kubelik'
-	                			},
-	                			songs: [{track:1,name:'cancionn1',fileName:'fichero1.mp3'},{track:2,name:'cancionn2',fileName:'fichero2.mp3'},{track:3,name:'cancionn3',fileName:'fichero3.mp3'}],
-	                			artworks: [{fileName:'cover.jpg'},{fileName:'back.jpg'}],
-	                			others: [{fileName:'lyrics.txt'}],
-	                			genre: {sid:3, name:'Rock'},
-	                			comments: ''
-	                		});
-
-						     $.ajax({
-						        url: 'services/album',  //Server script to process data
-						        type: 'POST',
-						        success: function(){alert('send sucess!')},
-						        error: function(e){
-						        	alert('send error!')
-						        },
-						        processData: false,
-						        data: albumData,
-						        contentType: "application/json"
-						    });
+	                	var process=new UploadAlbumProcess(uploadAlbum);
+	                	uploadProcesses.push(process);
+	                	process.start();
 	                }
 	            },
 	            'No'	: {
@@ -232,399 +222,6 @@ function uploadsongSend(){
 	        }
 	    });
 	}else{
-		UtilShowInfo(messicLang.uploadAlbumWizardNotracks);
+		UtilShowInfo('Validation error!');
 	}
 }
-
-/* function executed when the song have been uploaded correctly to the server (to the wizard purposes) */
-function uploadsongWizardSongUploaded(){
-	uploadSongsToUpload=uploadSongsToUpload-1;
-	if(uploadSongsToUpload==0){
-		$.getJSON( "services/album/wizard", function( data ) {
-			if(data.author.name){
-				$("#messic-upload-album-author").data("kendoComboBox").text(data.author.name);
-			}
-			if(data.name){
-				$("#messic-upload-album-title").data("kendoComboBox").text(data.name);
-			}
-			if(data.genre.name){
-    			$("#messic-upload-album-genre").data("kendoComboBox").text(data.genre.name);
-			}
-			if(data.comments){
-				$("#messic-upload-album-comments").text(data.comments);	
-			}
-       		if(data.year){
-	       		$("#messic-upload-album-year").data("kendoNumericTextBox").value(data.year);	
-       		}
-			
-		});
-
-		UtilHideWait();
-
-	}
-}
-
-/* function executed when the upload song (for the wizard upload) have an error */
-function uploadsongWizardSongUploadedError(){
-	uploadSongsToUpload=uploadSongsToUpload-1;
-}
-
-/* function to upload the audio resources to the server, to obtain wizard tag information from tracks */
-function uploadsongWizardAddAllResources(){
-	uploadSongsToUpload=audioResources.length;
-	for(var i=0;i<audioResources.length;i++){
-		var theFile=audioResources[i].file;
-
-				//reading the file to show the image
-	    		var reader = new FileReader();
-				// Closure to capture the file information.
-				reader.onload = (function(theFile) {
-		        	return function(e) {
-						    var bin = e.target.result;
-
-
-						     $.ajax({
-						        url: 'services/album/wizard',  //Server script to process data
-						        type: 'PUT',
-						        //Ajax events
-						        success: uploadsongWizardSongUploaded,
-						        error: uploadsongWizardSongUploadedError,
-						        processData: false,
-						        data: bin
-						    });
-			        };
-			    })(theFile);
-				// Read in the image file as a data URL.
-				reader.readAsArrayBuffer(theFile);
-
-	}
-}
-
-/* Wizard function to try to obtain information from the audio resources to upload */
-function uploadsongWizard(){
-	if(audioResources.length>0){
-		UtilShowWait(messicLang.uploadAlbumUploadWizard);
-
-	    $.ajax({
-	        url: 'services/album/wizard/reset',  //Server script to process data
-	        type: 'GET',
-	        //Ajax events
-	        success: uploadsongWizardAddAllResources,
-	        /*
-	        error: errorHandler,
-			*/
-	        processData: false
-	    });
-	}else{
-		UtilShowInfo(messicLang.uploadAlbumNotracks);
-	}
-}
-
-/* Add Files to the  uploadBox */
-function uploadsongAddFiles(receivedFiles){
-		coverImageResource=null;
-		$('#messic-upload-song-content-songs').empty();
-
-		var files=[];
-	    // receivedFiles is a FileList of File objects
-	    for (var i = 0, f; f = receivedFiles[i]; i++) {
-	    	files.push(f);
-	    }
-
-	    //Deleting the existing files
-	    for (var i = 0, f; f = files[i]; i++) {
-			uploadsongExistFile(f,true);
-		}
-
-		//adding the remaining files
-		for(var i=0;i<audioResources.length;i++)
-		{
-			files.push(audioResources[i].file);
-		}
-		audioResources=new Array();
-		//adding image resources
-		for(var i=0;i<imageResources.length;i++)
-		{
-			files.push(imageResources[i].file);
-		}
-		imageResources=new Array();
-		for(var i=0;i<otherResources.length;i++)
-		{
-			files.push(otherResources[i].file);
-		}
-		otherResources=new Array();
-
-
-	    for (var i = 0, f; f = files[i]; i++) {
-	    	var code="";
-	    	var lastTrack=audioResources.length;
-			var lastElement=audioResources.length+imageResources.length+otherResources.length;
-			var newID="messic-upload-song-content-songs-file"+lastElement;
-    		//alert("filetype;"+f.type);
-	    	if(f.type.match('image*')){
-				//construct the code
-				code="";
-				code=code+'<li id="'+newID+'" class="messic-upload-song-content-songs-filedelete messic-upload-song-content-songs-image">';
-				code=code+'  <div class="messic-upload-song-content-images" title="' + f.name+'"></div>';
-		    	code=code+'  <div class="messic-upload-song-content-header-filename">'+f.name+'</div>';
-				code=code+'  <div class="messic-upload-song-content-header-fileaction">';
-				code=code+'    <a href="#">&nbsp;</a>';
-				code=code+'  </div>';
-				code=code+'  <div class="messic-upload-song-content-header-filestatus">0%</div>';
-				code=code+'  <div class="messic-upload-song-content-header-filesize">'+Math.round(f.size/1024,2)+' Kb</div>';
-				code=code+'  <div class="messic-upload-song-content-header-clearer">&nbsp;</div>';
-				code=code+'</li>';
-
-				//create the resource
-				var iresource=new UploadSongResource(2,f,$(code));
-				imageResources.push(iresource);
-				var ir=imageResources.length;
-
-				//Remove element function
-				var removeFunction=function(iresource){
-					var dofunction=function(event){
-						uploadsongRemoveElement(iresource);
-						UtilShowInfo(messicLang.uploadImageRemoved);
-					}
-
-					return dofunction;
-				}
-				iresource.domElement.find("a").click(removeFunction(iresource));
-
-				//select image as a cover function
-				var coverFunction=function(iresource){
-					var dofunction=function(event){
-						uploadsongSelectImageAsCover(iresource);
-						UtilShowInfo(messicLang.uploadCoverSelected);
-					}
-					return dofunction;
-				}
-				iresource.domElement.find(".messic-upload-song-content-images").click(coverFunction(iresource));
-
-				//reading the file to show the image
-	    		var reader = new FileReader();
-				// Closure to capture the file information.
-				reader.onload = (function(theFile,ir) {
-		        	return function(e) {
-		        		// Create a new image.
-						    var img = new Image();
-						    // Set the img src property using the data URL.
-						    img.src = e.target.result;
-						    // Add the image to the page.
-							imageResources[ir-1].domElement.find(".messic-upload-song-content-images").append(img);
-			        };
-			    })(f,ir);
-				// Read in the image file as a data URL.
-				reader.readAsDataURL(f);
-	    	}else if(f.type.match('audio.*')){
-		    	code=code+'<li id="'+newID+'" class="messic-upload-song-content-songs-filedelete">';
-		    	code=code+'  <div class="messic-upload-song-content-header-track">';
-		    	code=code+'    <input type="number" value="'+(lastTrack+1)+'" class="messic-upload-song-content-header-tracknumber"/>';
-		    	code=code+'  </div>';
-		    	code=code+'  <input type="text" class="messic-upload-song-content-header-filename" value="'+UtilGetFileNameWithoutExtension(f.name)+'"/>';
-		    	code=code+'  <div class="messic-upload-song-content-header-fileaction">';
-		    	code=code+'    <a href="#">&nbsp;</a>';
-		    	code=code+'  </div>';
-		    	code=code+'  <div class="messic-upload-song-content-header-filestatus">0%</div>';
-				code=code+'  <div class="messic-upload-song-content-header-filesize">'+Math.round(f.size/1024,2)+' Kb</div>';
-				code=code+'  <div class="messic-upload-song-content-header-clearer">&nbsp;</div>';
-				code=code+'</li>';
-				var resource=new UploadSongResource(1,f,$(code));
-				audioResources.push(resource);
-
-				var removeFunction=function(resource){
-					var dofunction=function(event){
-						uploadsongRemoveElement(resource);
-						UtilShowInfo(messicLang.uploadTrackRemoved);
-					}
-
-					return dofunction;
-				}
-				resource.domElement.find("a").click(removeFunction(resource));
-
-				//document.getElementById('messic-upload-song-content-songs').innerHTML += code;
-	    	}else{
-				code="";
-		    	code=code+'<li id="'+newID+'" class="messic-upload-song-content-songs-filedelete messic-upload-song-content-songs-image">';
-				code=code+'  <div class="messic-upload-song-content-unknown"></div>';
-		    	code=code+'  <div class="messic-upload-song-content-header-filename">'+f.name+'</div>';
-		    	code=code+'  <div class="messic-upload-song-content-header-fileaction">';
-		    	code=code+'    <a href="#">&nbsp;</a>';
-		    	code=code+'  </div>';
-		    	code=code+'  <div class="messic-upload-song-content-header-filestatus">0%</div>';
-				code=code+'  <div class="messic-upload-song-content-header-filesize">'+Math.round(f.size/1024,2)+' Kb</div>';
-				code=code+'  <div class="messic-upload-song-content-header-clearer">&nbsp;</div>';
-				code=code+'</li>';
-				var resource=new UploadSongResource(3,f,$(code));
-				otherResources.push(resource);
-
-				var removeFunction=function(resource){
-					var dofunction=function(event){
-						uploadsongRemoveElement(resource);
-						UtilShowInfo(messicLang.uploadResourceRemoved);
-					}
-
-					return dofunction;
-				}
-				resource.domElement.find("a").click(removeFunction(resource));
-	    	}
-	    }
-		uploadsongOrderAll();
-}
-
-/* order in the list all the resources that user wants to upload */
-function uploadsongOrderAll(){
-	var divContent=$("#messic-upload-song-content-songs");
-	divContent.empty();
-
-	//adding audio resources
-	for(var i=0;i<audioResources.length;i++)
-	{
-		divContent.append(audioResources[i].domElement);
-	}
-	//adding image resources
-	for(var i=0;i<imageResources.length;i++)
-	{
-		divContent.append(imageResources[i].domElement);
-	}
-
-	//if there are image resources then we must select a cover
-	coverImageResource=null;
-	if(imageResources.length>0){
-		for(var i=0;i<imageResources.length;i++)
-		{
-			var isCover=uploadsongIsCoverImage(imageResources[i].file);
-			if(isCover){
-				uploadsongSelectImageAsCover(imageResources[i]);
-			}
-		}
-		if(!coverImageResource){
-			uploadsongSelectImageAsCover(imageResources[0]);
-		}
-	}
-
-	//adding other resources
-	for(var i=0;i<otherResources.length;i++)
-	{
-		divContent.append(otherResources[i].domElement);
-	}
-}
-
-/* put an image as cover for the album */
-function uploadsongSelectImageAsCover(theImageResource){
-		//first we put the new image cover
-		var reader = new FileReader();
-		reader.onload = (function(theFile) {
-        	return function(e) {
-	    		// Create a new image
-			    var img = new Image();
-			    // Set the img src property using the data URL.
-			    img.src = e.target.result;
-			    // Add the image to the page.
-			    $("#messic-upload-album-cover").empty();
-				$("#messic-upload-album-cover").append(img);
-	        };
-	    })(theImageResource.file);
-		// Read in the image file as a data URL.
-		reader.readAsDataURL(theImageResource.file);
-
-		//after we remove the cover from the old resource
-		if(coverImageResource){
-			$(coverImageResource.domElement).removeClass("messic-upload-song-content-images-cover");
-		}
-		//we put the new class to the selected cover
-		$(theImageResource.domElement).addClass("messic-upload-song-content-images-cover");
-
-		//we save the new image resource selected
-		coverImageResource=theImageResource;
-}
-
-/* Determine if a file is a cover for the album */
-function uploadsongIsCoverImage(theFile){
-		var fileName=theFile.name;
-		if(fileName.indexOf('cover')>0 || fileName.indexOf('front')>0)
-			return true;
-		else
-			return false;
-}
-
-/* remove a resource from the list of resources */
-function uploadsongRemoveElement(resource){
-
-	$(resource.domElement).remove();
-
-	for(var i=0;i<audioResources.length;i++)
-	{
-		if(resource==audioResources[i]){
-			audioResources.splice(i,1);
-		}
-	}
-	for(var i=0;i<imageResources.length;i++)
-	{
-		if(resource==imageResources[i]){
-			imageResources.splice(i,1);
-		}
-	}
-	for(var i=0;i<otherResources.length;i++)
-	{
-		if(resource==otherResources[i]){
-			otherResources.splice(i,1);
-		}
-	}
-}
-
-/* check if the file is already selected to be uploaded.
-   if remove=True then it is removed from the list in order to add the new one */
-function uploadsongExistFile(file,remove){
-	for(var i=0;i<audioResources.length;i++)
-	{
-		if(audioResources[i].file.name==file.name && audioResources[i].file.size==file.size){
-			if(remove){
-				audioResources.splice(i,1);
-			}
-			return true;
-		}
-	}
-	for(var i=0;i<imageResources.length;i++)
-	{
-		if(imageResources[i].file.name==file.name && imageResources[i].file.size==file.size){
-			if(remove){
-				imageResources.splice(i,1);
-			}
-			return true;
-		}
-	}
-	for(var i=0;i<otherResources.length;i++)
-	{
-		if(otherResources[i].file.name==file.name && otherResources[i].file.size==file.size){
-			if(remove){
-				otherResources.splice(i,1);
-			}
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-/*
-* Class UploadSongResource
-* constructor
-* type int, type of resource (1:music, 2:graphic, 3:other)
-*/
-var UploadSongResource=function (type,file,domElement){
-	//resource Type, 1->music, 2->bitmap, 3->other
-	this.type=type;
-	//Resource File associated
-	this.file=file;
-	//track, only valid for songs
-	this.track=0;
-	//the DOM element
-	this.domElement=domElement;
-	
-	this.alert=function(){
-		alert("UploadResource, type:"+this.type+", track:"+this.track);
-	}
-}
-

@@ -2,12 +2,15 @@ package org.messic.server.facade.controllers.rest;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.messic.server.api.APIAlbum;
 import org.messic.server.api.datamodel.Album;
-import org.messic.server.api.datamodel.MessicResponse;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,7 +19,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
+
+/**
+ * 	RequestMapping(value="/{albumName}",method=RequestMethod.GET, produces="application/json")
+ *  RequestMapping(value="/{authorSid}/{albumName}",method=RequestMethod.GET, produces="application/json")
+ *  RequestMapping(value="",method=RequestMethod.GET, produces="application/json")
+ *  
+ *  RequestMapping(value="/reset/{albumCode}",method=RequestMethod.POST, produces="application/json")
+ *  RequestMapping(value="",method=RequestMethod.POST, produces="application/json")
+ *  
+ *  RequestMapping(value = "/{albumCode}/{resourceCode}/{fileName:.+}", method = RequestMethod.PUT) 
+ *  
+ * @author spheras
+ *
+ */
 @Controller
 @RequestMapping("/album")
 public class AlbumController
@@ -28,35 +46,35 @@ public class AlbumController
 	
 	@RequestMapping(value="/{albumName}",method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-    protected List<Album> findAuthor(@PathVariable  String albumName)
+    protected MessicResponse findAlbum(@PathVariable  String albumName)
         throws Exception
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         MDOUser mdouser=userDAO.getUser(auth.getName());
 		List<Album> albums=albumAPI.findSimilar(mdouser, albumName);
-		return albums;
+		return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, albums);
     }
 
 	@RequestMapping(value="/{authorSid}/{albumName}",method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-    protected List<Album> findAuthor(@PathVariable  Integer authorSid, @PathVariable  String albumName)
+    protected MessicResponse findAlbum(@PathVariable  Integer authorSid, @PathVariable  String albumName)
         throws Exception
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         MDOUser mdouser=userDAO.getUser(auth.getName());
 		List<Album> albums=albumAPI.findSimilar(mdouser, authorSid, albumName);
-		return albums;
+		return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, albums);
     }
 
 	@RequestMapping(value="",method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-    protected List<Album> getAll()
+    protected MessicResponse getAll()
         throws Exception
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         MDOUser mdouser=userDAO.getUser(auth.getName());
 		List<Album> albums=albumAPI.getAll(mdouser);
-		return albums;
+		return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, albums);
     }
 
 	@RequestMapping(value="",method=RequestMethod.POST, produces="application/json")
@@ -67,5 +85,22 @@ public class AlbumController
         albumAPI.saveAlbum(album);
         return new MessicResponse(200,"OK",null);
     }
+
+	@RequestMapping(value = "/{albumCode}/{resourceCode}/{fileName:.+}", method = RequestMethod.PUT)
+	@ResponseBody
+	protected MessicResponse uploadResource(HttpEntity<byte[]> requestEntity,
+			HttpServletResponse response, HttpSession session,@PathVariable  String albumCode, @PathVariable  String resourceCode, @PathVariable  String fileName) throws Exception {
+		byte[] payload = requestEntity.getBody();
+		albumAPI.uploadResource(albumCode, resourceCode, HtmlUtils.htmlUnescape(fileName), payload);
+		//return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, null); //it fails, TODO
+		return null;
+	}
+	
+	@RequestMapping(value="/reset/{albumCode}",method=RequestMethod.POST, produces="application/json")
+	@ResponseBody
+    protected MessicResponse reset(@PathVariable  String albumCode) throws Exception{
+		albumAPI.resetUploaded(albumCode);
+		return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, null);
+	}
 
 }

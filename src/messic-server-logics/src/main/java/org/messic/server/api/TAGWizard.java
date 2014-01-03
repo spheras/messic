@@ -58,6 +58,9 @@ public class TAGWizard {
 		// first, obtain the tags
 		ArrayList<TagInfo> tags = new ArrayList<TAGWizard.TagInfo>();
 		for (int i = 0; i < f.length; i++) {
+			if(f[i].getName().equals(".index")){
+				continue;
+			}
 			TagInfo ti = new TAGWizard.TagInfo();
 			AudioFile audioFile = AudioFileIO.read(f[i]);
 			Tag tag = audioFile.getTag();

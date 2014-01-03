@@ -8,6 +8,7 @@ import org.messic.server.datamodel.MDOSong;
 
 @XmlRootElement
 public class File {
+	private String code;
 	private String fileName;
 	private Album album;
 	
@@ -42,5 +43,13 @@ public class File {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }
