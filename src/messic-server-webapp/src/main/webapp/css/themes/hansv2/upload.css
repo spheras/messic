@@ -74,6 +74,7 @@
     height: 120px;
     right: 10px;
     width: 120px;
+    position: absolute;
 }
 #messic-upload-album-cover img{
     width: 100%;
@@ -443,7 +444,6 @@ li.messic-upload-song-content-songs-filedelete a:hover {
     border: 1px dashed #EEEEEE;
     height: 100px;
     left: 10px;
-    position: absolute;
     top: 8px;
     width: 100px;
     z-index: 1;

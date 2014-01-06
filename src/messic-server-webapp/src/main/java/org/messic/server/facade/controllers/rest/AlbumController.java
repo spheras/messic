@@ -11,6 +11,10 @@ import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -101,6 +105,14 @@ public class AlbumController
     protected MessicResponse reset(@PathVariable  String albumCode) throws Exception{
 		albumAPI.resetUploaded(albumCode);
 		return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, null);
+	}
+
+	@RequestMapping(value="/{albumSid}/cover",method=RequestMethod.GET)
+	public ResponseEntity<byte[]> getAlbumCover(@PathVariable Long albumSid) throws Exception {
+	   byte[] content = albumAPI.getAlbumCover(albumSid);
+	   HttpHeaders headers = new HttpHeaders();
+	   headers.setContentType(MediaType.IMAGE_JPEG);
+	   return new ResponseEntity<byte[]>(content, headers, HttpStatus.OK);
 	}
 
 }

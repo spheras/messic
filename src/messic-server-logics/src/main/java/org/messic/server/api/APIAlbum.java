@@ -115,6 +115,20 @@ public class APIAlbum {
         fos.close();
 	}	
 
+	public byte[] getAlbumCover(Long albumSid) throws Exception {
+		MDOAlbum album=daoAlbum.get(albumSid);
+		if(album!=null){
+	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	        MDOUser mdouser=daoUser.getUser(auth.getName());
+			MDOAlbumResource resource=album.getCover();
+			if(resource!=null){
+				String basePath=Util.getRealBaseStorePath(mdouser, daoSettings.getSettings());
+				return Util.readFile(basePath+File.separatorChar+resource.getRelativeLocation());
+			}
+		}
+		
+		return null;
+	}
 
 	public void saveAlbum(Album album) throws Exception {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -171,7 +185,7 @@ public class APIAlbum {
         	for (Song song : songs) {
 				MDOSong mdoSong=new MDOSong();
 				mdoSong.setName(song.getName());
-				mdoSong.setLocation(Util.getValidLocation(song.getFileName()));
+				mdoSong.setLocation(Util.getValidLocation(Util.leftZeroPadding(song.getTrack(),2)+"-"+song.getName()));
 				mdoSong.setOwner(mdouser);
 				mdoSong.setTrack(song.getTrack());
 				mdoSong.setAlbum(mdoAlbum);
@@ -180,7 +194,10 @@ public class APIAlbum {
 				//moving resource to the new location
 				String tmpPath=Util.getTmpPath(mdouser, daoSettings.getSettings(), album.getCode());
 				File tmpRes=new File(tmpPath+File.separatorChar+song.getFileName());
-				File newFile=new File(albumBasePath+File.separatorChar+Util.getValidLocation(Util.leftZeroPadding(song.getTrack(),2)+"-"+song.getName()));
+				File newFile=new File(albumBasePath+File.separatorChar+mdoSong.getLocation());
+				if(newFile.exists()){
+					newFile.delete();
+				}
 				FileUtils.moveFile(tmpRes, newFile);
 			}
         }
@@ -194,9 +211,22 @@ public class APIAlbum {
 				daoPhysicalResource.save(mdopr);
 				mdoAlbum.getArtworks().add(mdopr);
 				
+				if(file.getFileName().equals(album.getCover().getFileName())){
+					MDOAlbumResource mdopr2=new MDOAlbumResource();
+					mdopr2.setLocation(Util.getValidLocation(file.getFileName()));
+					mdopr2.setOwner(mdouser);
+					mdopr2.setAlbum(mdoAlbum);
+					daoPhysicalResource.save(mdopr2);
+					mdoAlbum.setCover(mdopr2);
+				}
+				
 				//moving resource to the new location
 				String tmpPath=Util.getTmpPath(mdouser, daoSettings.getSettings(), album.getCode());
 				File tmpRes=new File(tmpPath+File.separatorChar+file.getFileName());
+				File newFile=new File(albumDir.getAbsolutePath()+File.separatorChar+file.getFileName());
+				if(newFile.exists()){
+					newFile.delete();
+				}
 				FileUtils.moveFileToDirectory(tmpRes, albumDir , false);
 			}
         	daoAlbum.save(mdoAlbum);
@@ -214,6 +244,10 @@ public class APIAlbum {
 				//moving resource to the new location
 				String tmpPath=Util.getTmpPath(mdouser, daoSettings.getSettings(), album.getCode());
 				File tmpRes=new File(tmpPath+File.separatorChar+file.getFileName());
+				File newFile=new File(albumDir.getAbsolutePath()+File.separatorChar+file.getFileName());
+				if(newFile.exists()){
+					newFile.delete();
+				}
 				FileUtils.moveFileToDirectory(tmpRes, albumDir , false);
 			}
         	

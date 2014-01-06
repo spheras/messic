@@ -1,5 +1,6 @@
 package org.messic.server.datamodel;
 
+import java.io.File;
 import java.io.Serializable;
 
 import javax.persistence.DiscriminatorColumn;
@@ -49,6 +50,14 @@ public class MDOAlbumResource extends MDOPhysicalResource implements
 
     public void setAlbum(MDOAlbum album) {
         this.album = album;
+    }
+
+    /**
+     * Return the relative location to this resource
+     * @return String
+     */
+    public String getRelativeLocation(){
+    	return getAlbum().getAuthor().getLocation()+File.separatorChar+getAlbum().getLocation()+File.separatorChar+getLocation();
     }
 
 }

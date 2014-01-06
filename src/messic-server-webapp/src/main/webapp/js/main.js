@@ -1,4 +1,4 @@
-function initMain(){
+function initMessic(){
 	(function($){
 		var playlist=$("#messic-playlist");
 		playlist.tinyscrollbar({ axis: 'x'});
@@ -22,6 +22,9 @@ function initMain(){
         }
     );
  
+	$("#messic-menu-home").click(mainCreateRandomLists);
+    mainCreateRandomLists();
+
 
 	$("#messic-menu-upload").click(function(){
 		$.get("upload.do", function(data){ 
@@ -31,7 +34,63 @@ function initMain(){
 			initUpload();
 		});
 	});
+
     
+}
+
+function mainCreateRandomLists(){
+		$("#messic-page-content").empty();
+
+		$.getJSON( "services/randomlists", function( data ) {
+			var randomlists=data.content;
+			for(var i=0;i<randomlists.length;i++){
+				var randomlist=randomlists[i];
+				var code="<div class='messic-main-randomlist'>";
+				code=code+"  <div class='messic-main-randomlist-title'>"+"Random"+"</div>";
+				code=code+"  <div class='messic-main-randomlist-songs'>";
+				for(var j=0;j<randomlist.length;j++){
+					var song=randomlist[j];
+					code=code+"<div class='messic-main-randomlist-song'>";
+            		code=code+"    <div class='messic-main-randomlist-albumcover'>";
+            		code=code+"        <div class='messic-main-randomlist-add' onclick='addSong(\"raro\",";
+
+            		code=code+"\""+song.album.author.name+"\",";
+            		code=code+song.album.sid+",";
+            		code=code+"\""+song.album.name+"\",";
+            		code=code+song.sid+",";
+            		code=code+"\""+song.name+"\");'></div>";
+
+					code=code+"        <img  src='services/album/"+song.album.sid+"/cover/'></img>";
+            		code=code+"        <div class='messic-main-randomlist-vinyl'></div>";
+					code=code+"    </div>"
+					code=code+"    <div class='messic-main-randomlist-albumauthor'>"+song.album.author.name+"</div>";
+					code=code+"    <div class='messic-main-randomlist-albumtitle'>"+song.name+"</div>";
+					code=code+"</div>";
+				}
+				code=code+"  </div>";
+				code=code+"</div>";
+			    $("#messic-page-content").append($(code));
+			}
+
+			$(".messic-main-randomlist-add").hover(function(){
+				$("#messic-playlist-background").addClass("interesting");
+			},function(){
+				$("#messic-playlist-background").removeClass("interesting");
+			});
+
+		});
+}
+
+function addSong(titleA,authorName,albumSid,albumName,songSid,songName){
+		    playlist.add({
+		        title:titleA,
+		        mp3:"services/song/"+songSid+"/audio",
+		        author: authorName,
+		        album: albumName,
+		        song: songName,
+		        boxart: "services/album/"+albumSid+"/cover/"
+			});
+			$("#messic-playlist").tinyscrollbar_update('bottom');
 }
 
 function playVinyl(index){

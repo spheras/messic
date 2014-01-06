@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -49,6 +50,10 @@ public class MDOAlbum extends MDOPhysicalResource implements
     
     @Column(name = "COMMENTS", nullable = true)
     private String comments;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ALBUM", nullable = true)
+    private MDOAlbumResource cover;
 
     public MDOAlbum ()
     {
@@ -140,6 +145,14 @@ public class MDOAlbum extends MDOPhysicalResource implements
 
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+	public MDOAlbumResource getCover() {
+		return cover;
+	}
+
+	public void setCover(MDOAlbumResource cover) {
+		this.cover = cover;
 	}
 
         

@@ -56,7 +56,7 @@ $(document).ready(function() {
 							    $(this).remove();
 							    var posts = $($.parseHTML(data)).filter('#content').children();
 							    $("body").append(posts);
-							    initMain();
+							    initMessic();
 						    });
  
 						});

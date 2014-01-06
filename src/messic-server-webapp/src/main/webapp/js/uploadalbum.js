@@ -34,6 +34,10 @@ var UploadAlbum=function(){
     		code: this.code,
     		name: titleCombo.text(),
     		year: yearEdit.value(),
+    		cover:{
+    			code:'',
+    			fileName:''
+    		},
     		author: {
     			sid: authorSid,
     			name: authorCombo.text(),
@@ -47,6 +51,12 @@ var UploadAlbum=function(){
 			},
 			comments: $("#messic-upload-album-comments").text()
     	};
+
+    	if(this.coverImageResource){
+	    	albumData.cover.code=this.coverImageResource.code;
+	    	albumData.cover.fileName=this.coverImageResource.file.name;
+    	}
+
     	for(var i=0;i<this.audioResources.length;i++){
     		albumData.songs.push({
     			code: this.audioResources[i].code,

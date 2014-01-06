@@ -28,6 +28,20 @@ public class Song extends File{
 		setTrack(mdosong.getTrack());
 		setName(mdosong.getName());
 		setAlbum(album);
+		setFileName(mdosong.getLocation());
+	}
+
+	/**
+	 * copy constructor
+	 * @param mdosong {@link MDOSong}
+	 */
+	public Song(MDOSong mdosong){
+		setSid(mdosong.getSid());
+		setTrack(mdosong.getTrack());
+		setName(mdosong.getName());
+		Album album=new Album(mdosong.getAlbum(),true,false);
+		setAlbum(album);
+		setFileName(mdosong.getLocation());
 	}
 
 	public final long getSid() {

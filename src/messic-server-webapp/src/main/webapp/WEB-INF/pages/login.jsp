@@ -40,6 +40,7 @@
 
 		<!-- Theme Style -->
         <link rel="stylesheet" href="css/themes/hansv2/base.css">
+        <link rel="stylesheet" href="css/themes/hansv2/home.css">
         <link rel="stylesheet" href="css/themes/hansv2/login.css">
         <link rel="stylesheet" href="css/themes/hansv2/playlist.css">
         <link rel="stylesheet" href="css/themes/hansv2/about.css">

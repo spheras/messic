@@ -1,6 +1,9 @@
 package org.messic.server;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
@@ -13,6 +16,26 @@ public class Util {
 	public static final String GENERIC_BASE_STORE_PATH_VAR="$(generic)";
 	public static final String TEMPORAL_FOLDER=".tmp"+File.separatorChar+"resources";
 
+	/**
+	 * Read a binary file
+	 * @param filePath
+	 * @return
+	 * @throws IOException
+	 */
+	public static byte[] readFile(String filePath) throws IOException{
+		ByteArrayOutputStream baos=new ByteArrayOutputStream();
+		FileInputStream fis=new FileInputStream(new File(filePath));
+		byte[] buffer=new byte[1024];
+		int cant=fis.read(buffer);
+		while(cant>0){
+			baos.write(buffer, 0, cant);
+			cant=fis.read(buffer);
+		}
+		fis.close();
+		return baos.toByteArray();
+		
+	}
+	
 	/**
 	 * Fill at the left with zeros... example: leftZeroPadding("5",3)  will return "005"
 	 * @param number int an integer that will be filled with zeros until complete the desired characters

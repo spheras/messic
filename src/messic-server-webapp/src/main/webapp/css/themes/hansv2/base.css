@@ -654,11 +654,18 @@ p strong{
     background: #F9F9F9;
 }
 #messic-page-content{
+    /*
     height: auto;
     width: 1100px;
     position: relative;
     left: -83px;
     top: -85px;
+    */
+    height: auto;
+    left: -109px;
+    position: relative;
+    top: -85px;
+    width: 1144px;
 }
 
 #messic-page-content h1{

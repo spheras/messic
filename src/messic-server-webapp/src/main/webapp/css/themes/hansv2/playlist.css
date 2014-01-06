@@ -102,19 +102,19 @@
 }
 
 
-#messic-playlist-background:hover{
+#messic-playlist-background:hover,#messic-playlist-background.interesting{
     bottom: 0px;
 }
-
 /** the background of the playlist */
 #messic-playlist-background
 {
     position: fixed; /** fixed at bottom */
-    bottom: -119px;
-    height: 144px;
+    bottom: -122px;
+    height: 148px;
     width: 100%;
     overflow: visible;
 	  padding-bottom:10px;
+    z-index: 100;
     transition-property: bottom;
     transition-duration : 0.5s;
    	/** important to avoid selection when the scrollbar start */
@@ -493,9 +493,9 @@
 .jplayer-playlist-vinylPlayButton {
     background: url("playlist/vinyl-play.png") no-repeat scroll 0 0 transparent;
     height: 38px;
-    left: 24px;
+    left: 18px;
     position: absolute;
-    top: 24px;
+    top: 20px;
     width: 38px;
     z-index:3;
  
@@ -555,29 +555,30 @@
     text-overflow: ellipsis;
     overflow: hidden;
     white-space:nowrap;
+    margin-top:0px;
+
 }
 .jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinyl-song{
-    width:auto;
-    overflow: inherit;
-    background: #FFFFFF;
-    font: normal bold normal 0.9em Verdana, sans-serif;
-    height:13px;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.5);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     color: #00BABA;
+    font: bold 0.9em Verdana,sans-serif;
+    height: 13px;
+    margin-top: 0;
+    overflow: inherit;
     text-decoration: none;
-
-
-    z-index:50;
+    z-index: 50;
 }
 .jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinyl-author{
-    width:auto;
-    overflow: inherit;
-    background: #FFFFFF;
-    font: normal bold normal 0.9em Verdana, sans-serif;
-    height:13px;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.5);
     color: #007676;
-
-    z-index:50;
+    font: bold 0.9em Verdana,sans-serif;
+    height: 13px;
+    margin-top: 0;
+    overflow: inherit;
     text-decoration: none;
+    z-index: 50;
 }
 
 .jplayer-playlist-vinyl-album{
@@ -600,5 +601,6 @@
     text-align:center;
     text-decoration:  none;
     overflow: hidden;
+    margin-top:0px;
 }
 

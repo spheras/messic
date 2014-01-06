@@ -16,6 +16,7 @@ public class Album {
 	private String name;
 	private Integer year;
 	private Author author;
+	private File cover;
 	private List<Song> songs;
 	private List<File> artworks;
 	private List<File> others;
@@ -192,5 +193,15 @@ public class Album {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+
+	public File getCover() {
+		return cover;
+	}
+
+
+	public void setCover(File cover) {
+		this.cover = cover;
 	}
 }
