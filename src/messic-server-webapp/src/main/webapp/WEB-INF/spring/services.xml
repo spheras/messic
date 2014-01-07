@@ -17,6 +17,10 @@
 	<!-- declares explicit support for annotation-driven MVC controllers (i.e. @RequestMapping, @Controller, although support for those is the default behaviour), as well as adding support for declrative validation via @Valid and message body marshalling with @RequestBody/ResponseBody. -->
 	<!-- http://www.alex-arriaga.com/solving-the-matching-wildcard-is-strict-but-no-declaration-can-be-found-for-element-mvcannotation-driven/ -->
     <mvc:annotation-driven/>
+
+	<mvc:interceptors>
+		<bean class="org.messic.server.facade.controllers.SetCharacterEncodingInterceptor"/>
+	</mvc:interceptors>
         
     <!-- http://renidev.wordpress.com/2009/02/02/how-to-use-springs-context-component-scan-and-annotation/ -->
     <!-- It allow us to use @Autowire, @Required and @Qualifier annotations.-->

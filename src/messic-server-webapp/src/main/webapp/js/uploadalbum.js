@@ -113,7 +113,7 @@ var UploadAlbum=function(){
 	/* Determine if a file is a cover for the album */
 	var isCoverImage=function (theFile){
 		var fileName=theFile.name;
-		if(fileName.indexOf('cover')>0 || fileName.indexOf('front')>0)
+		if(fileName.indexOf('cover')>=0 || fileName.indexOf('front')>=0)
 			return true;
 		else
 			return false;
@@ -243,7 +243,7 @@ var UploadAlbum=function(){
 			    	code=code+'  <div class="messic-upload-song-content-header-track">';
 			    	code=code+'    <input type="number" value="'+(this.audioResources.length+1)+'" class="messic-upload-song-content-header-tracknumber"/>';
 			    	code=code+'  </div>';
-			    	code=code+'  <input type="text" class="messic-upload-song-content-header-filename" value="'+UtilGetFileNameWithoutExtension(f.name)+'"/>';
+			    	code=code+'  <input type="text" class="messic-upload-song-content-header-filename" value="'+UtilRemoveTrackNumberFromFileName(f.name)+'"/>';
 			    	code=code+'  <div class="messic-upload-song-content-header-fileaction">';
 			    	code=code+'    <a href="#">&nbsp;</a>';
 			    	code=code+'  </div>';
@@ -321,7 +321,7 @@ var UploadAlbum=function(){
 				}
 			}
 			if(!this.coverImageResource){
-				selectImageAsCover,call(this,this.imageResources[0]);
+				selectImageAsCover.call(this,this.imageResources[0]);
 			}
 		}
 
@@ -413,7 +413,7 @@ var UploadAlbum=function(){
 
 							    //code for audio resources: 1000-1999
 							     $.ajax({
-							        url: 'services/album/'+albumCode+"/"+audioResource.code+"/"+escape(theFile.name),
+							        url: 'services/album/'+albumCode+"/"+audioResource.code+"?fileName="+escape(theFile.name),
 							        type: 'PUT',
 							        //Ajax events
 							        success: (function(it, audioResource){
@@ -437,6 +437,21 @@ var UploadAlbum=function(){
 													if(data.content.year){
 														$("#messic-upload-album-year").data("kendoNumericTextBox").value(data.content.year);	
 													}
+
+													/*	
+													TODO see if the album is new or we are editing an existing one
+						                        	var autorCombo = $("#messic-upload-album-author").data("kendoComboBox");
+						                        	var titleCombo = $("#messic-upload-album-title").data("kendoComboBox");
+						                        	var autorValue=autorCombo.value();
+						                        	var autorText=autorCombo.text();
+									            	var titleValue=titleCombo.value();
+									            	var titleText=titleCombo.text();
+									            	if(autorValue!=autorText && titleValue!=titleText){
+														$("#messic-upload-album-editnew").get(0).lastChild.nodeValue = messicLang.uploadAlbumEdit;
+									            		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-edit');
+									            	}
+									            	*/
+
 													UtilHideWait();
 												});
 												UtilHideWait();

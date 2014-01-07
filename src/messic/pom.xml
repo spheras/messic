@@ -12,8 +12,8 @@
 
 	<!-- Shared version number properties -->
 	<properties>
-		<org.springframework.version>3.2.2.RELEASE</org.springframework.version>
-		<org.springframework.security.version>3.1.4.RELEASE</org.springframework.security.version>
+		<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
+		<org.springframework.security.version>3.2.0.RELEASE</org.springframework.security.version>
 	</properties>
 
 	<modules>
@@ -23,6 +23,20 @@
 	</modules>
 
 	<dependencies>
+	<!-- 
+	Problem with spring 4.0.0 dependency
+	https://jira.springsource.org/browse/SPR-11248
+	According to a reported issue at springsource, aspectjweaver is "basically identical to AspectJ 1.7" except that it has early support for Java 8.
+	As I don't need Java 8 support, I basically added a compile dependency to the latest release version of aspectweaver:
+	This ensures that the 1.7.4 is used instead of the milestone release, and is an acceptable workaround for me, for the time being.
+	 -->
+		<dependency>
+		  <groupId>org.aspectj</groupId>
+		  <artifactId>aspectjweaver</artifactId>
+		  <version>1.7.4</version>
+		</dependency>
+
+	
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

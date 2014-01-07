@@ -10,9 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -23,27 +23,25 @@ public class AuthorController
 	public APIAuthor authorAPI;
 	@Autowired
 	public DAOUser userDAO;
-	
-	@RequestMapping(value="/{authorName}",method=RequestMethod.GET, produces="application/json")
-	@ResponseBody
-    protected MessicResponse findAuthor(@PathVariable  String authorName)
-        throws Exception
-    {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        MDOUser mdouser=userDAO.getUser(auth.getName());
-		List<Author> authors=authorAPI.findSimilar(mdouser, authorName);
-		return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, authors);
-    }
 
 	@RequestMapping(value="",method=RequestMethod.GET, produces="application/json")
 	@ResponseBody
-    protected MessicResponse getAll()
+    protected MessicResponse find(@RequestParam(value="authorName",required=false) String authorName)
         throws Exception
     {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         MDOUser mdouser=userDAO.getUser(auth.getName());
-		List<Author> authors=authorAPI.getAll(mdouser);
-		return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, authors);
+        
+		if(authorName==null || authorName.length()==0){
+			List<Author> authors=authorAPI.getAll(mdouser);
+			return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, authors);
+		}else {
+			List<Author> authors=authorAPI.findSimilar(mdouser,authorName);
+			return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, authors);
+		}
+		
+
     }
+
 
 }

@@ -102,6 +102,8 @@
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.37);
     width: 100%;
     text-align: center;
+    max-width: 100px;
+    overflow: hidden;
 }
 .messic-main-randomlist-albumtitle{
     color: #0096FF;
@@ -110,6 +112,10 @@
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
     width: 100%;
     text-align: center;
+    max-width: 100px;
+    overflow: hidden;
+    max-width: 100px;
+    overflow: hidden;
 }
 
 .messic-main-randomlist-song:hover .messic-main-randomlist-vinyl{

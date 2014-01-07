@@ -54,11 +54,11 @@ function mainCreateRandomLists(){
             		code=code+"    <div class='messic-main-randomlist-albumcover'>";
             		code=code+"        <div class='messic-main-randomlist-add' onclick='addSong(\"raro\",";
 
-            		code=code+"\""+song.album.author.name+"\",";
+            		code=code+"\""+UtilEscapeQuotes(song.album.author.name)+"\",";
             		code=code+song.album.sid+",";
-            		code=code+"\""+song.album.name+"\",";
+            		code=code+"\""+UtilEscapeQuotes(song.album.name)+"\",";
             		code=code+song.sid+",";
-            		code=code+"\""+song.name+"\");'></div>";
+            		code=code+"\""+UtilEscapeQuotes(song.name)+"\");'></div>";
 
 					code=code+"        <img  src='services/album/"+song.album.sid+"/cover/'></img>";
             		code=code+"        <div class='messic-main-randomlist-vinyl'></div>";

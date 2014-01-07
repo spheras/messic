@@ -1,3 +1,9 @@
+/* function to escape quotes in string variables, useful when are inserted in html/javascript code */
+function UtilEscapeQuotes(str){
+	var tmp= str.replace(/"/g, '&quot;');
+	return tmp.replace(/'/g, "&apos;");
+}
+
 /* Obtain a GUID - globally unique identifier */
 function UtilGetGUID() {
   return UtilS4() + UtilS4() + '-' + UtilS4() + '-' + UtilS4() + '-' +
@@ -16,6 +22,22 @@ function UtilGetFileExtension(filename){
 	    return "";
 	}
 	return a.pop(); 
+}
+
+/* Obtain the name of the track from the filename, trying to identify if there is a pattern for the track number, and removing it */
+function UtilRemoveTrackNumberFromFileName(filename){
+	filename=UtilGetFileNameWithoutExtension(filename);
+	if(filename.indexOf('-')>0 || fileName.indexOf('.')>0){
+		var where=filename.indexOf('-');
+		if(where<0){
+			where=filename.indexOf('.');
+		}
+		if(where<4){
+			return filename.substring(where+1).trim();
+		}
+	}
+
+	return filename.trim();
 }
 
 /* Obtain the file name without the extension */

@@ -210,6 +210,7 @@ function uploadSend(){
 	                	var process=new UploadAlbumProcess(uploadAlbum);
 	                	uploadProcesses.push(process);
 	                	process.start();
+	                	uploadAlbum=new UploadAlbum();
 	                }
 	            },
 	            'No'	: {

@@ -61,31 +61,33 @@ public class TAGWizard {
 			if(f[i].getName().equals(".index")){
 				continue;
 			}
-			TagInfo ti = new TAGWizard.TagInfo();
 			AudioFile audioFile = AudioFileIO.read(f[i]);
 			Tag tag = audioFile.getTag();
 
-			String artist = tag.getFirst(FieldKey.ARTIST);
-			String composer = tag.getFirst(FieldKey.COMPOSER);
-			if (artist.length() < composer.length()) {
-				ti.tags.put(ARTIST, new ITag(composer));
-			} else {
-				ti.tags.put(ARTIST, new ITag(artist));
+			if(tag!=null){
+				TagInfo ti = new TAGWizard.TagInfo();
+				String artist = tag.getFirst(FieldKey.ARTIST);
+				String composer = tag.getFirst(FieldKey.COMPOSER);
+				if (artist.length() < composer.length()) {
+					ti.tags.put(ARTIST, new ITag(composer));
+				} else {
+					ti.tags.put(ARTIST, new ITag(artist));
+				}
+				ti.tags.put(ALBUM, new ITag(tag.getFirst(FieldKey.ALBUM)));
+				ti.tags.put(YEAR, new ITag(tag.getFirst(FieldKey.YEAR)));
+				ti.tags.put(COMMENT, new ITag(tag.getFirst(FieldKey.COMMENT)));
+				ti.tags.put(GENRE, new ITag(tag.getFirst(FieldKey.GENRE)));
+
+				Artwork artwork = tag.getFirstArtwork();
+				if (artwork != null) {
+					ti.coverArt = artwork.getBinaryData();
+				}
+
+				ti.track = tag.getFirst(FieldKey.TRACK);
+				ti.title = tag.getFirst(FieldKey.TITLE);
+
+				tags.add(ti);
 			}
-			ti.tags.put(ALBUM, new ITag(tag.getFirst(FieldKey.ALBUM)));
-			ti.tags.put(YEAR, new ITag(tag.getFirst(FieldKey.YEAR)));
-			ti.tags.put(COMMENT, new ITag(tag.getFirst(FieldKey.COMMENT)));
-			ti.tags.put(GENRE, new ITag(tag.getFirst(FieldKey.GENRE)));
-
-			Artwork artwork = tag.getFirstArtwork();
-			if (artwork != null) {
-				ti.coverArt = artwork.getBinaryData();
-			}
-
-			ti.track = tag.getFirst(FieldKey.TRACK);
-			ti.title = tag.getFirst(FieldKey.TITLE);
-
-			tags.add(ti);
 		}
 
 		// second, try to obtain the best results for the album tags
