@@ -25,4 +25,18 @@ messicLang = {
 	confirmationYes: '<fmt:message key="js-confirmation-yes" bundle="${message}"/>',
 	confirmationNo: '<fmt:message key="js-confirmation-no" bundle="${message}"/>',
 	
+	search: function(what){
+		if(what=='RandomListName-Random'){
+			return '<fmt:message key="js-randomlistname-random" bundle="${message}"/>';
+		}
+		if(what=='RandomListTitle-Random'){
+			return '<fmt:message key="js-randomlisttitle-random" bundle="${message}"/>';
+		}
+		if(what=='RandomListName-Author'){
+			return '<fmt:message key="js-randomlistname-author" bundle="${message}"/>';
+		}
+		if(what=='RandomListTitle-Author'){
+			return '<fmt:message key="js-randomlisttitle-author" bundle="${message}"/>';
+		}
+	}
 }

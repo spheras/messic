@@ -31,7 +31,7 @@ public class APIRandomLists {
 		
 	    	List<MDOSong> songs=daoSong.getAll();
 	    	if(songs.size()>0){
-		    	RandomList rl=new RandomList("Random","Random songs is always funny");
+		    	RandomList rl=new RandomList("RandomListName-Random","RandomListTitle-Random");
 		    	long seed = System.nanoTime();
 		    	Collections.shuffle(songs, new Random(seed));
 		
@@ -44,7 +44,7 @@ public class APIRandomLists {
 	    	
 	    	List<MDOAuthor> randomAuthorList=daoAuthor.getRandomAuthors(1);
 	    	if(randomAuthorList!=null && randomAuthorList.size()>0){
-		    	RandomList rl=new RandomList("Author", "Author songs");
+		    	RandomList rl=new RandomList("RandomListName-Author","RandomListTitle-Author");
 		    	rl.addDetail(randomAuthorList.get(0).getName());
 		    	Iterator<MDOAlbum> albumsit=randomAuthorList.get(0).getAlbums().iterator();
 		    	while(albumsit.hasNext()){

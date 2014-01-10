@@ -54,7 +54,7 @@ function mainCreateRandomLists(){
 					titleType=UtilGetRandom(1,7);
 				}
 				lastTitleType=titleType;
-								
+
 				switch(titleType){
 					case 1:
 						code=code+"blue";
@@ -79,9 +79,9 @@ function mainCreateRandomLists(){
 						break;
 				}
 
-				code=code+ "'>"+randomlist.name+"</div>";
+				code=code+ "'>"+messicLang.search(randomlist.name)+"</div>";
 				code=code+"  <div class='messic-main-randomlist-title-container'>";
-				code=code+"     <div class='messic-main-randomlist-title'>"+randomlist.title+"</div>";
+				code=code+"     <div class='messic-main-randomlist-title'>"+messicLang.search(randomlist.title)+"</div>";
 				code=code+"     <div class='messic-main-randomlist-details'>";
 				if(randomlist.details){
 					for(var k=0;k<randomlist.details.length;k++){
