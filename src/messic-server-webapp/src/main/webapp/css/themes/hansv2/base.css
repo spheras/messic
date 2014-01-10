@@ -153,6 +153,7 @@ http://www.google.com/fonts/specimen/Sigmar+One
 .button.star:before{ content: "\2605";}
 .button.spark:before{ content: "\2737";}
 .button.play:before{  line-height: 25px; content: "\25B6";}
+.button.back:before{  line-height: 25px; content: "\25C0";}
 .button.blacksun:before { content: "\2600"; }
 .button.cloud:before { content: "\2601"; }
 .button.umbrella:before { content: "\2602"; }

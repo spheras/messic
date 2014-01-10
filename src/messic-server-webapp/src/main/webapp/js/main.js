@@ -43,34 +43,89 @@ function mainCreateRandomLists(){
 
 		$.getJSON( "services/randomlists", function( data ) {
 			var randomlists=data.content;
+			var lastTitleType=0;
 			for(var i=0;i<randomlists.length;i++){
 				var randomlist=randomlists[i];
 				var code="<div class='messic-main-randomlist'>";
-				code=code+"  <div class='messic-main-randomlist-title'>"+"Random"+"</div>";
-				code=code+"  <div class='messic-main-randomlist-songs'>";
-				for(var j=0;j<randomlist.length;j++){
-					var song=randomlist[j];
-					code=code+"<div class='messic-main-randomlist-song'>";
-            		code=code+"    <div class='messic-main-randomlist-albumcover'>";
-            		code=code+"        <div class='messic-main-randomlist-add' onclick='addSong(\"raro\",";
+				code=code+"  <div class='messic-main-randomlist-name ";
 
-            		code=code+"\""+UtilEscapeQuotes(song.album.author.name)+"\",";
-            		code=code+song.album.sid+",";
-            		code=code+"\""+UtilEscapeQuotes(song.album.name)+"\",";
-            		code=code+song.sid+",";
-            		code=code+"\""+UtilEscapeQuotes(song.name)+"\");'></div>";
-
-					code=code+"        <img  src='services/album/"+song.album.sid+"/cover/'></img>";
-            		code=code+"        <div class='messic-main-randomlist-vinyl'></div>";
-					code=code+"    </div>"
-					code=code+"    <div class='messic-main-randomlist-albumauthor'>"+song.album.author.name+"</div>";
-					code=code+"    <div class='messic-main-randomlist-albumtitle'>"+song.name+"</div>";
-					code=code+"</div>";
+				var titleType=UtilGetRandom(1,7);
+				while(titleType==lastTitleType){
+					titleType=UtilGetRandom(1,7);
 				}
+				lastTitleType=titleType;
+								
+				switch(titleType){
+					case 1:
+						code=code+"blue";
+						break;
+					case 2:
+						code=code+"green";
+						break;
+					case 3:
+						code=code+"orange";
+						break;
+					case 4:
+						code=code+"pink";
+						break;
+					case 5:
+						code=code+"purple";
+						break;
+					case 6:
+						code=code+"red";
+						break;
+					case 7:
+						code=code+"yellow";
+						break;
+				}
+
+				code=code+ "'>"+randomlist.name+"</div>";
+				code=code+"  <div class='messic-main-randomlist-title-container'>";
+				code=code+"     <div class='messic-main-randomlist-title'>"+randomlist.title+"</div>";
+				code=code+"     <div class='messic-main-randomlist-details'>";
+				if(randomlist.details){
+					for(var k=0;k<randomlist.details.length;k++){
+						var detail=randomlist.details[k];
+						code=code+"        <div class='messic-main-randomlist-detail'>"+detail+"</div>";
+					}
+				}
+				code=code+"     </div>";
 				code=code+"  </div>";
+				code=code+"  <a class='buttons prev' href='#'></a>";
+				code=code+"  <div class='viewport'>";
+				code=code+"      <ul class='overview'>";
+
+						for(var j=0;j<randomlist.songs.length;j++){
+							var song=randomlist.songs[j];
+							code=code+"<li>";
+		            		code=code+"    <div class='messic-main-randomlist-albumcover'>";
+		            		code=code+"        <div class='messic-main-randomlist-add' onclick='addSong(\"raro\",";
+
+		            		code=code+"\""+UtilEscapeQuotes(song.album.author.name)+"\",";
+		            		code=code+song.album.sid+",";
+		            		code=code+"\""+UtilEscapeQuotes(song.album.name)+"\",";
+		            		code=code+song.sid+",";
+		            		code=code+"\""+UtilEscapeQuotes(song.name)+"\");'></div>";
+
+							code=code+"        <img  src='services/album/"+song.album.sid+"/cover/'></img>";
+		            		code=code+"        <div class='messic-main-randomlist-vinyl'></div>";
+							code=code+"    </div>"
+							code=code+"    <div class='messic-main-randomlist-albumauthor'>"+song.album.author.name+"</div>";
+							code=code+"    <div class='messic-main-randomlist-albumtitle'>"+song.name+"</div>";
+							code=code+"</li>";
+						}
+
+							//at the end we put an empty box, only to make sure it's enough space
+							code=code+"<li> <div></div> </li>";
+
+				code=code+"      </ul>";
+				code=code+"  </div>";
+				code=code+"  <a class='buttons next' href='#'></a>";
 				code=code+"</div>";
 			    $("#messic-page-content").append($(code));
 			}
+
+			$(".messic-main-randomlist").tinycarousel({display:9,duration:800});
 
 			$(".messic-main-randomlist-add").hover(function(){
 				$("#messic-playlist-background").addClass("interesting");

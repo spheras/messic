@@ -1,3 +1,6 @@
+function UtilGetRandom(from,to){
+	return Math.floor(Math.random() * to) + from;
+}
 /* function to escape quotes in string variables, useful when are inserted in html/javascript code */
 function UtilEscapeQuotes(str){
 	var tmp= str.replace(/"/g, '&quot;');

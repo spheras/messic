@@ -92,8 +92,15 @@ public class AlbumController
 	protected MessicResponse uploadResource(HttpEntity<byte[]> requestEntity,
 			HttpServletResponse response, HttpSession session,@PathVariable  String albumCode, @PathVariable  String resourceCode, @RequestParam("fileName") String fileName) throws Exception {
 		byte[] payload = requestEntity.getBody();
+		System.out.println("###############################");
+		System.out.println("###############################");
+		System.out.println("###############################");
+		System.out.println("#### --> " + fileName);
+		System.out.println("###############################");
+		System.out.println("###############################");
+		System.out.println("###############################");
 		albumAPI.uploadResource(albumCode, resourceCode, HtmlUtils.htmlUnescape(fileName), payload);
-		//return new MessicResponse(MessicResponse.CODE_OK, MessicResponse.MESSAGE_OK, null); //it fails, TODO
+		
 		return null;
 	}
 

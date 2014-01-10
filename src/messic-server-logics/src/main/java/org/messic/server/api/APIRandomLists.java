@@ -31,30 +31,31 @@ public class APIRandomLists {
 		
 	    	List<MDOSong> songs=daoSong.getAll();
 	    	if(songs.size()>0){
-		    	RandomList rl=new RandomList();
+		    	RandomList rl=new RandomList("Random","Random songs is always funny");
 		    	long seed = System.nanoTime();
 		    	Collections.shuffle(songs, new Random(seed));
 		
 		    	for (MDOSong mdoSong : songs) {
 					Song song=new Song(mdoSong);
-					rl.add(song);
+					rl.addSong(song);
 				}
 		    	result.add(rl);
 	    	}
 	    	
 	    	List<MDOAuthor> randomAuthorList=daoAuthor.getRandomAuthors(1);
 	    	if(randomAuthorList!=null && randomAuthorList.size()>0){
-		    	RandomList rl=new RandomList();
+		    	RandomList rl=new RandomList("Author", "Author songs");
+		    	rl.addDetail(randomAuthorList.get(0).getName());
 		    	Iterator<MDOAlbum> albumsit=randomAuthorList.get(0).getAlbums().iterator();
 		    	while(albumsit.hasNext()){
 		    		MDOAlbum album=albumsit.next();
 			    	for (MDOSong mdoSong : album.getSongs()) {
 						Song song=new Song(mdoSong);
-						rl.add(song);
+						rl.addSong(song);
 					}
 		    	}
 		    	long seed = System.nanoTime();
-		    	Collections.shuffle(rl,new Random(seed));
+		    	Collections.shuffle(rl.getSongs(),new Random(seed));
 		    	result.add(rl);
 	    	}
     	

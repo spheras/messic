@@ -1,6 +1,25 @@
-
-.messic-main-randomlist-title{
+.messic-main-randomlist-name.blue{
     background: url("home/ribbon-blue.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.green{
+    background: url("home/ribbon-green.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.orange{
+    background: url("home/ribbon-orange.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.pink{
+    background: url("home/ribbon-pink.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.purple{
+    background: url("home/ribbon-purple.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.red{
+    background: url("home/ribbon-red.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.yellow{
+    background: url("home/ribbon-yellow.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name{
     color: #FFFFFF;
     font-family: Roboto-bold;
     height: 75px;
@@ -13,45 +32,70 @@
     width: 121px;
     z-index: 1;
 }
-.messic-main-randomlist-songs:before{
-    background: url("home/dash.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
-    content: "";
-    display: block;
-    height: 3px;
-    position: relative;
-    width: 100%;
+.messic-main-randomlist { 
+    height: 225px;
+    margin-bottom: 17px;    
 }
-.messic-main-randomlist-songs:after{
-    background: url("home/dash.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
-    bottom: 0;
-    content: "";
-    display: block;
-    height: 3px;
-    position: absolute;
-    width: 100%;
-}
-.messic-main-randomlist-songs{
-    background: none repeat scroll 0 0 #FFFFFF;
-    height: auto;
-    margin-top: -22px;
+.messic-main-randomlist .viewport { 
+    float: left;
+    height: 155px;
+    margin-top: -75px;
     overflow: hidden;
     position: relative;
-    white-space: nowrap;
-    width: auto;
+    width: 1077px;
+
 }
-.messic-main-randomlist-song{
-    display: inline-block;
-    height: 144px;
-    margin-bottom: 10px;
-    margin-right: 20px;
-    margin-top: 10px;
-    width: auto;
-    transition-property:margin-right;
-    transition-duration: 0.3s;
+.messic-main-randomlist .buttons:hover {
+    /*
+    box-shadow: 0px 0px 10px rgba(20,100,255,1);
+    */
 }
-.messic-main-randomlist-song:hover{
-    margin-right: 40px;
+.messic-main-randomlist .buttons:active {
+    box-shadow: 0px 0px 10px rgba(20,100,255,1);
+} 
+.messic-main-randomlist .buttons.prev:before {
+    content: "\25C0";
+    line-height: 50px;
+    margin-left: -5px;
 }
+.messic-main-randomlist .buttons:before {
+    content: "\25B6";
+    line-height: 50px;
+    margin-left: -3px;
+}
+.messic-main-randomlist .buttons { 
+    background: none repeat scroll 0 0 rgba(10, 100, 255, 0.51);
+    border-color: rgba(0, 0, 0, 0.4);
+    border-image: none;
+    border-radius: 50px;
+    border-style: solid;
+    border-width: 1px 1px 3px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    height: 54px;
+    margin: -44px 6px 0 -6px;
+    padding: 10px;
+    top: 23px;
+    width: 6px;
+    text-decoration: none;
+    font-family: Roboto;
+    font-size: 1.1em;
+}
+.messic-main-randomlist .next { 
+    margin: -40px 0 0 11px;
+}
+.messic-main-randomlist .disable { visibility: hidden; }
+.messic-main-randomlist .overview { 
+    list-style: none; 
+    position: absolute; 
+    padding: 0; 
+    left: 0; 
+    top: 0; 
+    margin-top:0px;
+}
+                    
 .messic-main-randomlist-albumcover{
     background: none repeat scroll 0 0 / 100px auto rgba(0, 0, 0, 0);
     border: 1px solid rgba(0, 0, 0, 0.44);
@@ -61,14 +105,54 @@
     overflow: visible;
     width: 100px;
 }
-.messic-main-randomlist-albumcover img{
+.messic-main-randomlist .viewport:before{
+    background: url("home/dash.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 3px;
+    position: relative;
+    width: 100%;
+}
+.messic-main-randomlist .viewport:after{
+    background: url("home/dash.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 3px;
+    position: absolute;
+    width: 100%;
+}
+
+.messic-main-randomlist .overview ul{
+    margin-bottom: 0px;
+}
+
+.messic-main-randomlist .overview li.empty:hover{
+    margin-right: 12px;
+}
+.messic-main-randomlist .overview li{
+    float: left;
+    height: 144px;
+    margin-bottom: 0px;
+    margin-right: 12px;
+    margin-top: 10px;
+    width: 111px;
+    transition-property:margin-right;
+    transition-duration: 0.3s;
+}
+.messic-main-randomlist .overview li:hover{
+    margin-right: 40px;
+}
+
+
+.messic-main-randomlist li img{
     height: 100%;
     margin-top: -22px;
     width: 100%;
     z-index: 1;
     position: relative;
 }
-.messic-main-randomlist-vinyl{
+.messic-main-randomlist .messic-main-randomlist-vinyl{
     background: url("playlist/vinyl.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 85px;
     margin-left: 25px;
@@ -79,6 +163,10 @@
     transition-property:margin-left;
     transition-duration:0.3s;
 }
+.messic-main-randomlist li:hover .messic-main-randomlist-vinyl{
+    margin-left: 40px;
+}
+
 .messic-main-randomlist-albumcover:hover .messic-main-randomlist-add{
     opacity: 1;
 }
@@ -96,6 +184,7 @@
     cursor: pointer;
     z-index: 2;
  }
+
 .messic-main-randomlist-albumauthor{
     font-family: Roboto-bold;
     font-size: 0.8em;
@@ -104,6 +193,7 @@
     text-align: center;
     max-width: 100px;
     overflow: hidden;
+    white-space: nowrap;
 }
 .messic-main-randomlist-albumtitle{
     color: #0096FF;
@@ -116,17 +206,74 @@
     overflow: hidden;
     max-width: 100px;
     overflow: hidden;
+    white-space: nowrap;
 }
 
-.messic-main-randomlist-song:hover .messic-main-randomlist-vinyl{
-    margin-left: 40px;
-}
 
-.messic-main-randomlist-song:hover .messic-main-randomlist-albumauthor{
+.messic-main-randomlist li:hover .messic-main-randomlist-albumauthor{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
 }
-.messic-main-randomlist-song:hover .messic-main-randomlist-albumtitle{
+.messic-main-randomlist li:hover .messic-main-randomlist-albumtitle{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
+}
+
+.messic-main-randomlist-title-container{
+    height: 47px;
+    left: 66px;
+    position: relative;
+    top: -79px;
+    width: 1036px;
+}
+.messic-main-randomlist-title-container:before{
+    background: url("home/mark.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    height: 47px;
+    position: absolute;
+    width: 17px;
+}
+.messic-main-randomlist-title-container:after{
+    background: linear-gradient(to right, #CCCCCC, #FFFFFF) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    height: 1px;
+    margin-left: 20px;
+    margin-top: -27px;
+    position: absolute;
+    width: 100%;
+}
+.messic-main-randomlist-title{
+    color: #777777;
+    font-family: roboto-bold;
+    height: 20px;
+    margin-left: 20px;
+    text-shadow: 1px 0 1px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+.messic-main-randomlist-details{
+    height: 26px;
+    margin-left: 20px;
+    width: 100%;
+}
+.messic-main-randomlist-detail:after{
+    background: url("home/tagbase.png") no-repeat scroll -588px 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: inline-block;
+    height: 25px;
+    position: absolute;
+    width: 11px;
+}
+.messic-main-randomlist-detail{
+    background: url("home/tagbase.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #555555;
+    display: inline-block;
+    font-family: Amaranth;
+    font-size: 0.8em;
+    height: 25px;
+    line-height: 21px;
+    margin-top: 2px;
+    padding-right: 3px;
+    text-indent: 24px;
+    text-shadow: 0 1px 2px #C8C864;
+    width: auto;
 }
