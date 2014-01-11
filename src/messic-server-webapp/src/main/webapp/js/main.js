@@ -35,17 +35,38 @@ function initMessic(){
 		});
 	});
 
+	$("#messic-search-text").keypress(function (e) {
+	  if (e.which == 13) {
+	    mainSearch();
+	  }
+	});
+
+	$("#messic-search-do").click(function(){
+	    mainSearch();
+	});
     
 }
 
-function mainCreateRandomLists(){
-		$("#messic-page-content").empty();
+function mainSearch(){
+	var content=$("#messic-search-text").val();
+	$.getJSON( "services/search?content="+content, function( data ) {
+		if(data.content){
+			var code=mainCreateRandomList(data.content);
+		    $("#messic-page-content").prepend($(code));
+			$(".messic-main-randomlist").tinycarousel({display:9,duration:800});
 
-		$.getJSON( "services/randomlists", function( data ) {
-			var randomlists=data.content;
-			var lastTitleType=0;
-			for(var i=0;i<randomlists.length;i++){
-				var randomlist=randomlists[i];
+			$(".messic-main-randomlist-add").hover(function(){
+				$("#messic-playlist-background").addClass("interesting");
+			},function(){
+				$("#messic-playlist-background").removeClass("interesting");
+			});
+		}else{
+			UtilShowInfo("We haven't found anything");
+		}
+	});
+}
+
+function mainCreateRandomList(randomlist, lastTitleType){
 				var code="<div class='messic-main-randomlist'>";
 				code=code+"  <div class='messic-main-randomlist-name ";
 
@@ -95,7 +116,8 @@ function mainCreateRandomLists(){
 				code=code+"  <div class='viewport'>";
 				code=code+"      <ul class='overview'>";
 
-						for(var j=0;j<randomlist.songs.length;j++){
+
+						for(var j=0;randomlist.songs && j<randomlist.songs.length;j++){
 							var song=randomlist.songs[j];
 							code=code+"<li>";
 		            		code=code+"    <div class='messic-main-randomlist-albumcover'>";
@@ -122,6 +144,18 @@ function mainCreateRandomLists(){
 				code=code+"  </div>";
 				code=code+"  <a class='buttons next' href='#'></a>";
 				code=code+"</div>";
+				return code;
+}
+
+function mainCreateRandomLists(){
+		$("#messic-page-content").empty();
+
+		$.getJSON( "services/randomlists", function( data ) {
+			var randomlists=data.content;
+			var lastTitleType=0;
+			for(var i=0;i<randomlists.length;i++){
+				var randomlist=randomlists[i];
+				var code=mainCreateRandomList(randomlist,lastTitleType);
 			    $("#messic-page-content").append($(code));
 			}
 

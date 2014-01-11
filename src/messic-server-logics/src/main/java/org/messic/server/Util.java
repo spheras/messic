@@ -17,6 +17,19 @@ public class Util {
 	public static final String TEMPORAL_FOLDER=".tmp"+File.separatorChar+"resources";
 
 	/**
+	 * Check if the string is an integer
+	 * @param str {@link String}
+	 * @return boolean true->is an integer
+	 */
+    public static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException nfe) {}
+        return false;
+    }
+    
+	/**
 	 * Read a binary file
 	 * @param filePath
 	 * @return
