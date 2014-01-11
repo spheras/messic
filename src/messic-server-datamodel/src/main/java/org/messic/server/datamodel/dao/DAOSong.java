@@ -14,9 +14,9 @@ public interface DAOSong extends DAO<MDOSong>
 	/**
 	 * Find songs by a generic search. It searchs everything by songs, authors, etc..
 	 * @param username {@link String} user scope
-	 * @param content String a list of words separated by spaces that can be searched 
+	 * @param List<String/> searches a list of contents related with songs 
 	 * @return {@link List}<MDOSong/> List of songs that match to the search
 	 */
-    List<MDOSong> genericFind(String username, String content);
+    List<MDOSong> genericFind(String username, List<String> searches);
 	
 }

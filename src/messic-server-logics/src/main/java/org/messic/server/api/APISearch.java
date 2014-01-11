@@ -23,11 +23,20 @@ public class APISearch {
     public RandomList search(String userName, String content){
     	RandomList rl=new RandomList("RandomListName-Search","RandomListTitle-Search");
 		String[] details=content.split(" ");
-		for (String detail : details) {
-			rl.addDetail(detail);
+		for(int i=0;i<details.length;i++){
+			if(details[i].startsWith("\"")){
+				String contentDetail=details[i];
+				while(!contentDetail.endsWith("\"") && i<details.length){
+					i++;
+					contentDetail=contentDetail+" " +details[i];
+				}
+				rl.addDetail(contentDetail.substring(1, contentDetail.length()-1));
+			}else{
+				rl.addDetail(details[i]);
+			}
 		}
 		
-		List<MDOSong> songs=daoSong.genericFind(userName, content);
+		List<MDOSong> songs=daoSong.genericFind(userName, rl.getDetails());
 		for (MDOSong mdoSong : songs) {
 			Song song=new Song(mdoSong);
 			rl.addSong(song);

@@ -23,42 +23,17 @@ public class DAOJPASong
     }
 
     @Override
-    public List<MDOSong> genericFind(String username, String content){
-    	String[] contents=content.split(" ");
+    public List<MDOSong> genericFind(String username, List<String> searches){
     	HashMap<Long, MDOSong> finalResult=new HashMap<Long, MDOSong>();
-    	for(int i=0;i<contents.length;i++){
-    		if(contents[i].startsWith("\"") && contents[i].endsWith("\"")){
-        		String sql="from MDOSong as a WHERE (a.owner.login = :userName) AND (";
-        		sql=sql+"(UPPER(a.name) = :what) OR ";
-        		sql=sql+"(UPPER(a.album.name) = :what) OR ";
-        		sql=sql+"(UPPER(a.album.genre.name) = :what) OR ";
-                try {
-                    Integer.parseInt(contents[i]);
-            		sql=sql+"(a.album.year = :what) OR ";
-                } catch (NumberFormatException nfe) {}
-        		sql=sql+"(UPPER(a.album.comments) = :what) OR ";
-        		sql=sql+"(UPPER(a.album.author.name) = :what)";
-        		sql=sql+")";
+    	for(int i=0;i<searches.size();i++){
+    		String content=searches.get(i);
 
-        		
-                Query query = entityManager.createQuery( sql );
-                query.setParameter( "userName", username);
-                String strContent=contents[i].toUpperCase().substring(1, contents[i].length()-1);
-                query.setParameter("what", strContent);
-                
-                @SuppressWarnings( "unchecked" )
-                List<MDOSong> results = query.getResultList();
-        		for (MDOSong mdoSong : results) {
-    				finalResult.put(mdoSong.getSid(), mdoSong);
-    			}
-    			
-    		}else{
-        		String sql="from MDOSong as a WHERE (a.owner.login = :userName) AND (";
+    		 String sql="from MDOSong as a WHERE (a.owner.login = :userName) AND (";
         		sql=sql+"(UPPER(a.name) LIKE :what) OR ";
         		sql=sql+"(UPPER(a.album.name) LIKE :what) OR ";
         		sql=sql+"(UPPER(a.album.genre.name) LIKE :what) OR ";
                 try {
-                    Integer.parseInt(contents[i]);
+                    Integer.parseInt(content);
             		sql=sql+"(a.album.year LIKE :what) OR ";
                 } catch (NumberFormatException nfe) {}
         		sql=sql+"(UPPER(a.album.comments) LIKE :what) OR ";
@@ -68,7 +43,7 @@ public class DAOJPASong
         		
                 Query query = entityManager.createQuery( sql );
                 query.setParameter( "userName", username);
-                query.setParameter("what","%"+contents[i].toUpperCase()+"%");
+                query.setParameter("what","%"+content.toUpperCase()+"%");
                 
                 @SuppressWarnings( "unchecked" )
                 List<MDOSong> results = query.getResultList();
@@ -76,7 +51,6 @@ public class DAOJPASong
     				finalResult.put(mdoSong.getSid(), mdoSong);
     			}
     		}
-    	}
     	
     	ArrayList<MDOSong> result=new ArrayList<MDOSong>();
     	Iterator<MDOSong> songsit=finalResult.values().iterator();

@@ -38,6 +38,7 @@ function initMessic(){
 	$("#messic-search-text").keypress(function (e) {
 	  if (e.which == 13) {
 	    mainSearch();
+	    e.preventDefault();
 	  }
 	});
 
