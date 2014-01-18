@@ -2,17 +2,28 @@ package org.messic.server.api.datamodel;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 import org.messic.server.datamodel.MDOUser;
 
 @XmlRootElement
+@ApiObject(name="User", description="User of Messic")
 public class User {
+	@ApiObjectField(description="identification number of the user")
     private Long sid;
+	@ApiObjectField(description="name of the user")
     private String name;
+	@ApiObjectField(description="binary image for the avatar")
     private byte[] avatar;
+	@ApiObjectField(description="email of the user")
     private String email;
+	@ApiObjectField(description="username of the user")
     private String login;
+	@ApiObjectField(description="password of the user")
     private String password;
+	@ApiObjectField(description="flag to know if the user is an administrator")
     private Boolean administrator;
+	@ApiObjectField(description="Path to store their songs")
     private String storePath;
     
     /**

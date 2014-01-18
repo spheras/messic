@@ -3,10 +3,18 @@ package org.messic.server.api.datamodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 import org.messic.server.datamodel.MDOGenre;
 
+@XmlRootElement
+@ApiObject(name="Genre", description="Genre of an album")
 public class Genre {
+	@ApiObjectField(description="identificator of a genre")
 	private Long sid;
+	@ApiObjectField(description="name of a genre")
 	private String name;
 	
 	public Genre(){

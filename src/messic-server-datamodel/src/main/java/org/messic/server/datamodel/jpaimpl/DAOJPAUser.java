@@ -36,6 +36,13 @@ public class DAOJPAUser
         List<MDOUser> results = query.getResultList();
         if ( results == null || results.size() <= 0 )
         {
+        	//ONLY FOR DEBUG! TODO
+            Query query2 = entityManager.createQuery( "from MDOUser as p" );
+            @SuppressWarnings( "unchecked" )
+            List<MDOUser> results2 = query2.getResultList();
+            if(results2!=null && results2.size()>0){
+                return results2.get(0);
+            }
             return null;
         }
         else

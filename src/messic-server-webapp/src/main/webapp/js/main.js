@@ -51,8 +51,8 @@ function initMessic(){
 function mainSearch(){
 	var content=$("#messic-search-text").val();
 	$.getJSON( "services/search?content="+content, function( data ) {
-		if(data.content){
-			var code=mainCreateRandomList(data.content);
+		if(data){
+			var code=mainCreateRandomList(data);
 		    $("#messic-page-content").prepend($(code));
 			$(".messic-main-randomlist").tinycarousel({display:9,duration:800});
 
@@ -130,7 +130,7 @@ function mainCreateRandomList(randomlist, lastTitleType){
 		            		code=code+song.sid+",";
 		            		code=code+"\""+UtilEscapeQuotes(song.name)+"\");'></div>";
 
-							code=code+"        <img  src='services/album/"+song.album.sid+"/cover/'></img>";
+							code=code+"        <img  src='services/albums/"+song.album.sid+"/cover/'></img>";
 		            		code=code+"        <div class='messic-main-randomlist-vinyl'></div>";
 							code=code+"    </div>"
 							code=code+"    <div class='messic-main-randomlist-albumauthor'>"+song.album.author.name+"</div>";
@@ -152,7 +152,7 @@ function mainCreateRandomLists(){
 		$("#messic-page-content").empty();
 
 		$.getJSON( "services/randomlists", function( data ) {
-			var randomlists=data.content;
+			var randomlists=data;
 			var lastTitleType=0;
 			for(var i=0;i<randomlists.length;i++){
 				var randomlist=randomlists[i];
@@ -174,11 +174,11 @@ function mainCreateRandomLists(){
 function addSong(titleA,authorName,albumSid,albumName,songSid,songName){
 		    playlist.add({
 		        title:titleA,
-		        mp3:"services/song/"+songSid+"/audio",
+		        mp3:"services/songs/"+songSid+"/audio",
 		        author: authorName,
 		        album: albumName,
 		        song: songName,
-		        boxart: "services/album/"+albumSid+"/cover/"
+		        boxart: "services/albums/"+albumSid+"/cover/"
 			});
 			$("#messic-playlist").tinyscrollbar_update('bottom');
 }

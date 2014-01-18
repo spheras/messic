@@ -14,10 +14,11 @@ public interface DAOAuthor extends DAO<MDOAuthor>
 	
 	/**
 	 * Return a list of random authors. The result is limited by the number
+	 * @param username String user scope
 	 * @param number int number of limited results
 	 * @return {@link List}<MDOAuthor/>
 	 */
-    List<MDOAuthor> getRandomAuthors(int number);
+    List<MDOAuthor> getRandomAuthors(String username, int number);
 
 
 	/**

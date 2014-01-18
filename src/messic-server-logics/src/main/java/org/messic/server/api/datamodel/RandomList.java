@@ -5,11 +5,19 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
+
 @XmlRootElement
+@ApiObject(name="RandomList", description="List with songs")
 public class RandomList{
+	@ApiObjectField(description="name of the list")
 	private String name;
+	@ApiObjectField(description="title of the list")
 	private String title;
+	@ApiObjectField(description="List of details tags that are interesting to consider in the construction of the list")
 	private List<String> details;
+	@ApiObjectField(description="List of songs of the list")
 	private List<Song> songs;
 
 	/**

@@ -22,6 +22,30 @@ public class DAOJPASong
         super( MDOSong.class );
     }
 
+	@Override
+	public MDOSong get(String username, long sid) {
+        Query query = entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName AND a.sid = :songSid)" );
+        query.setParameter( "userName", username);
+        query.setParameter( "songSid",sid);
+        
+        @SuppressWarnings( "unchecked" )
+        List<MDOSong> results = query.getResultList();
+        if(results!=null && results.size()>0){
+        	return results.get(0);
+        }
+        return null;
+	}
+
+	@Override
+	public List<MDOSong> getAll(String username) {
+        Query query = entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName)" );
+        query.setParameter( "userName", username);
+        
+        @SuppressWarnings( "unchecked" )
+        List<MDOSong> results = query.getResultList();
+        return results;
+	}
+    
     @Override
     public List<MDOSong> genericFind(String username, List<String> searches){
     	HashMap<Long, MDOSong> finalResult=new HashMap<Long, MDOSong>();

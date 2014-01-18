@@ -45,8 +45,8 @@ public class DAOJPAAlbum
 	}
 
 	@Override
-	public List<MDOAlbum> getAll(int authorSid, String username) {
-        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName) AND (a.author.sid = :authorSid)" );
+	public List<MDOAlbum> getAll(long authorSid, String username) {
+        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName) AND (a.sid = :authorSid)" );
         query.setParameter( "userName", username);
         query.setParameter( "authorSid", authorSid);
         
@@ -82,7 +82,7 @@ public class DAOJPAAlbum
 	}
 	
 	@Override
-	public List<MDOAlbum> findSimilarAlbums(int authorSid, String albumName,
+	public List<MDOAlbum> findSimilarAlbums(long authorSid, String albumName,
 			String username) {
         Query query = entityManager.createQuery( "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName) AND (a.author.sid = :authorSid)" );
         query.setParameter( "albumName", "%" + albumName + "%");

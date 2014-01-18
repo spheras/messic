@@ -9,6 +9,9 @@ import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
 import org.messic.server.datamodel.MDOMessicSettings;
 import org.messic.server.datamodel.MDOUser;
+import org.messic.server.datamodel.dao.DAOUser;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class Util {
 	
@@ -16,6 +19,19 @@ public class Util {
 	public static final String GENERIC_BASE_STORE_PATH_VAR="$(generic)";
 	public static final String TEMPORAL_FOLDER=".tmp"+File.separatorChar+"resources";
 
+	/**
+	 * Temporal method to DEBUG without login 
+	 * TODO remove!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	 * @param userDAO
+	 * @return
+	 */
+	public static MDOUser getAuthentication(DAOUser userDAO){
+		MDOUser mdouser=null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        mdouser=userDAO.getUser((auth!=null?auth.getName():""));
+        return mdouser;
+	}
+	
 	/**
 	 * Check if the string is an integer
 	 * @param str {@link String}

@@ -2,13 +2,19 @@ package org.messic.server.api.datamodel;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOSong;
 
 @XmlRootElement
+@ApiObject(name="Song", description="A song of an album")
 public class Song extends File{
+	@ApiObjectField(description="identificator of the song")
 	private long sid;
+	@ApiObjectField(description="track of the song")
 	private int track;
+	@ApiObjectField(description="name of the song")
 	private String name;
 	
 	/**

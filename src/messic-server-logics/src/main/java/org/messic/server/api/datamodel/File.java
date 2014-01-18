@@ -2,14 +2,20 @@ package org.messic.server.api.datamodel;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOPhysicalResource;
 import org.messic.server.datamodel.MDOSong;
 
 @XmlRootElement
+@ApiObject(name="File", description="Resource of an album")
 public class File {
+	@ApiObjectField(description="temporal code for the resource")
 	private String code;
+	@ApiObjectField(description="fileName for the resource")
 	private String fileName;
+	@ApiObjectField(description="Owner album of the resource")
 	private Album album;
 	
 	/**

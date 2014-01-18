@@ -86,7 +86,6 @@
 		</pluginManagement>
 	</build>
 
-
 	<dependencies>
 		<dependency>
 			<groupId>org.messic</groupId>

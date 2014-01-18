@@ -376,7 +376,7 @@ var UploadAlbum=function(){
 
 			//first, we reset any previos uploaded info
 		    $.ajax({
-		        url: 'services/album/reset/'+this.code,  //Server script to process data
+		        url: 'services/albums/clear',  //Server script to process data
 		        type: 'POST',
 		        //Ajax events
 		        success: (function(self){
@@ -413,29 +413,29 @@ var UploadAlbum=function(){
 
 							    //code for audio resources: 1000-1999
 							     $.ajax({
-							        url: 'services/album/'+albumCode+"/"+audioResource.code+"?fileName="+escape(theFile.name),
-							        type: 'PUT',
+							        url: 'services/albums/'+albumCode+"?fileName="+escape(theFile.name),
+							        type: 'POST',
 							        //Ajax events
 							        success: (function(it, audioResource){
 							        	var myfunction=function(){
 											it.uploadResourcesRest=it.uploadResourcesRest-1;
 											audioResource.uploaded=true;
 											if(it.uploadResourcesRest==0){
-												$.getJSON( "services/album/wizard/"+albumCode, function( data ) {
-													if(data.content.author.name){
-														$("#messic-upload-album-author").data("kendoComboBox").text(data.content.author.name);
+												$.getJSON( "services/albums/"+albumCode+"/wizard", function( data ) {
+													if(data.author.name){
+														$("#messic-upload-album-author").data("kendoComboBox").text(data.author.name);
 													}
-													if(data.content.name){
-														$("#messic-upload-album-title").data("kendoComboBox").text(data.content.name);
+													if(data.name){
+														$("#messic-upload-album-title").data("kendoComboBox").text(data.name);
 													}
-													if(data.content.genre.name){
-														$("#messic-upload-album-genre").data("kendoComboBox").text(data.content.genre.name);
+													if(data.genre.name){
+														$("#messic-upload-album-genre").data("kendoComboBox").text(data.genre.name);
 													}
-													if(data.content.comments){
-														$("#messic-upload-album-comments").text(data.content.comments);	
+													if(data.comments){
+														$("#messic-upload-album-comments").text(data.comments);	
 													}
-													if(data.content.year){
-														$("#messic-upload-album-year").data("kendoNumericTextBox").value(data.content.year);	
+													if(data.year){
+														$("#messic-upload-album-year").data("kendoNumericTextBox").value(data.year);	
 													}
 
 													/*	

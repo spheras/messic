@@ -1,16 +1,16 @@
 package org.messic.server.api;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.PrintWriter;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.messic.server.Util;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Song;
+import org.messic.server.api.exceptions.ResourceNotFoundMessicException;
+import org.messic.server.api.exceptions.SidNotFoundMessicException;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOAlbumResource;
 import org.messic.server.datamodel.MDOAuthor;
@@ -23,10 +23,7 @@ import org.messic.server.datamodel.dao.DAOGenre;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOPhysicalResource;
 import org.messic.server.datamodel.dao.DAOSong;
-import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,8 +38,6 @@ public class APIAlbum {
     private DAOAuthor daoAuthor;
     @Autowired
     private DAOGenre daoGenre;
-    @Autowired
-    private DAOUser daoUser;
     @Autowired
     private DAOSong daoSong;
     @Autowired
@@ -74,16 +69,19 @@ public class APIAlbum {
     }
 	
 	/**
-	 * Reset the temporal folder.  It removes all the temporal files. 
+	 * Reset the temporal folder.  It removes all the temporal files. if albumCode exists, remove only these temporal files for the code album, if not, remove everything.
 	 * This is useful when the user wants to upload new songs
 	 * @param albumCode String code for the album to reset
-	 * @throws Exception
+	 * @throws IOException 
 	 */
-    public void resetUploaded(String albumCode) throws Exception{
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        MDOUser mdouser=daoUser.getUser(auth.getName());
-        File basePath=new File(Util.getTmpPath(mdouser, daoSettings.getSettings(),albumCode));
-        
+    public void clearTemporal(MDOUser mdouser, String albumCode) throws IOException{
+    	File basePath=null;
+    	if(albumCode!=null && albumCode.length()>0){
+            basePath=new File(Util.getTmpPath(mdouser, daoSettings.getSettings(),albumCode));
+    	}else{
+            basePath=new File(Util.getTmpPath(mdouser, daoSettings.getSettings(),""));
+    	}
+            
         if(basePath.exists()){
             FileUtils.deleteDirectory(basePath);
         }
@@ -95,44 +93,47 @@ public class APIAlbum {
 	/**
 	 * Add a resource to the temporal folder.  This is necessary to do after things like, wizard, or create album, .. 
 	 * @param albumCode {@link String} album code for the resources to upload
-	 * @param resourceCode String code for the filename, the way it will be referenced in the future
 	 * @param fileName String file name uploaded
 	 * @param payload byte[] bytes of the track
+	 * @throws IOException 
 	 * @throws Exception
 	 */
-	public void uploadResource(String albumCode, String resourceCode, String fileName, byte[] payload) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        MDOUser mdouser=daoUser.getUser(auth.getName());
+	public void uploadResource(MDOUser mdouser, String albumCode, String fileName, byte[] payload) throws IOException {
         File basePath=new File(Util.getTmpPath(mdouser, daoSettings.getSettings(), albumCode));
         basePath.mkdirs();
 
+        /*
         PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(new File(basePath.getAbsolutePath() + File.separatorChar + ".index"), true)));
         	out.println(resourceCode+":[#]:"+fileName);
         out.close();
+        */
         
         FileOutputStream fos=new FileOutputStream(new File(basePath.getAbsolutePath() + File.separatorChar + fileName));
         fos.write(payload);
         fos.close();
 	}	
 
-	public byte[] getAlbumCover(Long albumSid) throws Exception {
+	public byte[] getAlbumCover(MDOUser mdouser, Long albumSid) throws SidNotFoundMessicException, ResourceNotFoundMessicException, IOException{
 		MDOAlbum album=daoAlbum.get(albumSid);
 		if(album!=null){
-	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	        MDOUser mdouser=daoUser.getUser(auth.getName());
 			MDOAlbumResource resource=album.getCover();
 			if(resource!=null){
 				String basePath=Util.getRealBaseStorePath(mdouser, daoSettings.getSettings());
-				return Util.readFile(basePath+File.separatorChar+resource.getRelativeLocation());
+				File ftor=new File(basePath+File.separatorChar+resource.getRelativeLocation());
+				if(ftor.exists()){
+					return Util.readFile(basePath+File.separatorChar+resource.getRelativeLocation());
+				}else{
+					throw new ResourceNotFoundMessicException(basePath+File.separatorChar+resource.getRelativeLocation());
+				}
 			}
+		}else{
+			throw new SidNotFoundMessicException(); 
 		}
 		
 		return null;
 	}
 
-	public void saveAlbum(Album album) throws Exception {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        MDOUser mdouser=daoUser.getUser(auth.getName());
+	public void createOrUpdateAlbum(MDOUser mdouser, Album album) throws IOException {
 
         MDOGenre mdoGenre=null;
         MDOAlbum mdoAlbum=null;
@@ -155,7 +156,7 @@ public class APIAlbum {
         	mdoAuthor=new MDOAuthor();
         	mdoAuthor.setName(album.getAuthor().getName());
         	mdoAuthor.setOwner(mdouser);
-        	mdoAuthor.setLocation(Util.getValidLocation(album.getAuthor().getName())); //TODO
+        	mdoAuthor.setLocation(Util.getValidLocation(album.getAuthor().getName()));
         }
         if(mdoAlbum==null){
         	mdoAlbum=new MDOAlbum();
@@ -253,8 +254,6 @@ public class APIAlbum {
         	
         	daoAlbum.save(mdoAlbum);
         }
-
-        
 	}
 
 }

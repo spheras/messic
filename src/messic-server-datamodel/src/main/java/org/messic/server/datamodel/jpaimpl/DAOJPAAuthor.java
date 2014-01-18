@@ -20,8 +20,9 @@ public class DAOJPAAuthor
     }
 
 	@Override
-    public List<MDOAuthor> getRandomAuthors(int number){
-    	Query query= entityManager.createQuery("from MDOAuthor as a where 1=1 order by rand()");
+    public List<MDOAuthor> getRandomAuthors(String username, int number){
+    	Query query= entityManager.createQuery("from MDOAuthor as a where (1=1 AND a.owner.login= :userName) order by rand()");
+        query.setParameter( "userName", username);
     	query.setMaxResults(5);
         @SuppressWarnings( "unchecked" )
     	List<MDOAuthor> results=query.getResultList();

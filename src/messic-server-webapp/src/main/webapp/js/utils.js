@@ -30,7 +30,7 @@ function UtilGetFileExtension(filename){
 /* Obtain the name of the track from the filename, trying to identify if there is a pattern for the track number, and removing it */
 function UtilRemoveTrackNumberFromFileName(filename){
 	filename=UtilGetFileNameWithoutExtension(filename);
-	if(filename.indexOf('-')>0 || fileName.indexOf('.')>0){
+	if(filename.indexOf('-')>0 || filename.indexOf('.')>0){
 		var where=filename.indexOf('-');
 		if(where<0){
 			where=filename.indexOf('.');

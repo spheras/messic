@@ -89,8 +89,8 @@ var UploadAlbumProcess=function (album){
 		        	return function(e) {
 						    var bin = e.target.result;
 						     $.ajax({
-						        url: 'services/album/'+album.code+"/"+resource.code+"?fileName="+escape(resource.file.name),
-						        type: 'PUT',
+						        url: 'services/albums/'+album.code+"?fileName="+escape(resource.file.name),
+						        type: 'POST',
 						        //Ajax success
 						        success: function(){
 									resource.domElement.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-finished');
@@ -152,7 +152,7 @@ var UploadAlbumProcess=function (album){
 
 	function ending(){
 		$.ajax({
-			url: 'services/album',  //Server script to process data
+			url: 'services/albums',  //Server script to process data
 			type: 'POST',
 			success: function(){
 				domElement.find('.messic-upload-finishbox-cover').addClass("messic-upload-finishbox-ok");

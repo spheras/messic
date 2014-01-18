@@ -20,12 +20,12 @@ public interface DAOAlbum extends DAO<MDOAlbum>
 	List<MDOAlbum> getAll(String username);
 
 	/**
-	 * return all the albums of an author
+	 * return all the albums of an author, null if author not found
 	 * @param authorSid int sid of the author scope
 	 * @param username {@link String} user scope
 	 * @return {@link List}<MDOAlbum/> list of albums of the author
 	 */
-	List<MDOAlbum> getAll(int authorSid, String username);
+	List<MDOAlbum> getAll(long authorSid, String username);
 
 	/**
 	 * Find similar albums with the name passed.
@@ -42,7 +42,7 @@ public interface DAOAlbum extends DAO<MDOAlbum>
 	 * @param username {@link String} username scope
 	 * @return {@link List}<MDOAlbum/> list of similar albums
 	 */
-	List<MDOAlbum> findSimilarAlbums(int authorSid, String albumName, String username);
+	List<MDOAlbum> findSimilarAlbums(long authorSid, String albumName, String username);
 	
 	/**
 	 * Find an album with name and author name equals to the param

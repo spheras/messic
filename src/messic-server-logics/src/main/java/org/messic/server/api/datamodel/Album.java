@@ -6,21 +6,35 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOSong;
 
 @XmlRootElement
+@ApiObject(name = "Album", description="Album of music")
 public class Album {
+	@ApiObjectField(description="identificator for the entity")
 	private long sid;
+	@ApiObjectField(description="temporal code that have the album")
 	private String code;
+	@ApiObjectField(description="name of the album")
 	private String name;
+	@ApiObjectField(description="year of publication")
 	private Integer year;
+	@ApiObjectField(description="Author of the Album")
 	private Author author;
+	@ApiObjectField(description="Cover image for the album")
 	private File cover;
+	@ApiObjectField(description="List of songs of the album")
 	private List<Song> songs;
+	@ApiObjectField(description="List of artworks for the album")
 	private List<File> artworks;
+	@ApiObjectField(description="Other resources of the album")
 	private List<File> others;
+	@ApiObjectField(description="Genre of the album")
 	private Genre genre;
+	@ApiObjectField(description="Comments of the album")
 	private String comments;
 
 	/**

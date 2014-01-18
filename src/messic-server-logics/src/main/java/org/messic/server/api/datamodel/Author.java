@@ -6,13 +6,19 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jsondoc.core.annotation.ApiObject;
+import org.jsondoc.core.annotation.ApiObjectField;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOAuthor;
+
 @XmlRootElement
+@ApiObject(name="Author", description="Author of albums")
 public class Author {
-	
+	@ApiObjectField(description="identification number for the author")
 	private long sid;
+	@ApiObjectField(description="name of the author")
 	private String name;
+	@ApiObjectField(description="list of albums of the author")
 	private List<Album> albums;
 	
 	/**

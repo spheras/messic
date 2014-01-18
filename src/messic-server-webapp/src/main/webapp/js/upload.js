@@ -52,14 +52,14 @@ function initUpload(){
 	        dataSource: {
 			   transport: {
         			read: {
-            			url: "services/author",
+            			url: "services/authors",
           				type: "GET",
             			dataType: "json"
 			        }
 			    },
 			    schema: {
 					data: function(response) {
-						return response.content; // messicresponse response is { code: XX, message: XX, content: [ /* results */ ] }
+						return response; 
 					},
 					model: { id: "sid" }
 				}
@@ -126,14 +126,14 @@ function initUpload(){
 				},
 			    transport: {
         			read: {
-            			url: "services/album",
+            			url: "services/albums",
           				type: "GET",
             			dataType: "json"
 			        }
 			    },
 			    schema: {
 					data: function(response) {
-						return response.content; // messicrsponse response is { code: XX, message: XX, content: [ /* results */ ] }
+						return response; 
 					},
 					model: { id: "sid" }
 				}
@@ -150,14 +150,14 @@ function initUpload(){
 	        dataSource: {
 			   transport: {
         			read: {
-            			url: "services/genre",
+            			url: "services/genres",
           				type: "GET",
             			dataType: "json"
 			        }
 			    },
 			    schema: {
 					data: function(response) {
-						return response.content; // messicrsponse response is { code: XX, message: XX, content: [ /* results */ ] }
+						return response; 
 					},
 					model: { id: "sid" }
 				}

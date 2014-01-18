@@ -1,6 +1,7 @@
 package org.messic.server.api;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,8 +11,12 @@ import java.util.List;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
+import org.jaudiotagger.tag.TagException;
 import org.jaudiotagger.tag.images.Artwork;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Author;
@@ -53,7 +58,7 @@ public class TAGWizard {
 		new TAGWizard().getAlbumWizard(fpath.listFiles());
 	}
 
-	public Album getAlbumWizard(File[] f) throws Exception {
+	public Album getAlbumWizard(File[] f) throws CannotReadException, IOException, ReadOnlyFileException{
 
 		// first, obtain the tags
 		ArrayList<TagInfo> tags = new ArrayList<TAGWizard.TagInfo>();
@@ -61,8 +66,14 @@ public class TAGWizard {
 			if(f[i].getName().equals(".index")){
 				continue;
 			}
-			AudioFile audioFile = AudioFileIO.read(f[i]);
-			Tag tag = audioFile.getTag();
+			AudioFile audioFile=null;
+			Tag tag=null;
+			try {
+				audioFile = AudioFileIO.read(f[i]);
+				tag = audioFile.getTag();
+			} catch (TagException e) {
+			} catch (InvalidAudioFrameException e) {
+			}
 
 			if(tag!=null){
 				TagInfo ti = new TAGWizard.TagInfo();
@@ -117,7 +128,7 @@ public class TAGWizard {
 		try {
 			album.setYear(Integer.valueOf(getMostValued(tags, YEAR)));
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			album.setYear(1900);
 		}
 		album.setGenre(getBestGenre(getMostValued(tags, GENRE)));
@@ -215,21 +226,25 @@ public class TAGWizard {
 	 */
 	private static String getMostValued(ArrayList<TagInfo> tags,
 			final String key) {
-		Collections.sort(tags, new Comparator<TagInfo>() {
-			@Override
-			public int compare(TagInfo o1, TagInfo o2) {
-				int o1p = o1.tags.get(key).puntuation;
-				int o2p = o2.tags.get(key).puntuation;
-				if (o1p == o2p) {
-					return 0;
-				} else if (o1p < o2p) {
-					return -1;
-				} else {
-					return 1;
+		if(tags!=null && tags.size()>0){
+			Collections.sort(tags, new Comparator<TagInfo>() {
+				@Override
+				public int compare(TagInfo o1, TagInfo o2) {
+					int o1p = o1.tags.get(key).puntuation;
+					int o2p = o2.tags.get(key).puntuation;
+					if (o1p == o2p) {
+						return 0;
+					} else if (o1p < o2p) {
+						return -1;
+					} else {
+						return 1;
+					}
 				}
-			}
-		});
-		return tags.get(0).tags.get(key).value;
+			});
+			return tags.get(0).tags.get(key).value;
+		}else{
+			return "";
+		}
 	}
 
 	/**

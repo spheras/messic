@@ -11,6 +11,7 @@ import org.messic.server.api.datamodel.Song;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOAuthor;
 import org.messic.server.datamodel.MDOSong;
+import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOAuthor;
 import org.messic.server.datamodel.dao.DAOSong;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,11 @@ public class APIRandomLists {
     private DAOAuthor daoAuthor;
     
 	@Transactional
-    public List<RandomList> getAllLists(){
+    public List<RandomList> getAllLists(MDOUser mdouser){
 		ArrayList<RandomList> result=new ArrayList<RandomList>();
 		
-	    	List<MDOSong> songs=daoSong.getAll();
+			//first list, getting all the songs shuffled
+	    	List<MDOSong> songs=daoSong.getAll(mdouser.getLogin());
 	    	if(songs.size()>0){
 		    	RandomList rl=new RandomList("RandomListName-Random","RandomListTitle-Random");
 		    	long seed = System.nanoTime();
@@ -42,7 +44,8 @@ public class APIRandomLists {
 		    	result.add(rl);
 	    	}
 	    	
-	    	List<MDOAuthor> randomAuthorList=daoAuthor.getRandomAuthors(1);
+	    	//second list, getting all the songs of an author
+	    	List<MDOAuthor> randomAuthorList=daoAuthor.getRandomAuthors(mdouser.getLogin(),1);
 	    	if(randomAuthorList!=null && randomAuthorList.size()>0){
 		    	RandomList rl=new RandomList("RandomListName-Author","RandomListTitle-Author");
 		    	rl.addDetail(randomAuthorList.get(0).getName());
