@@ -35,12 +35,12 @@ public class SearchController
 	@Autowired
 	public DAOUser userDAO;
 	
-	@ApiMethod(path = "/search", verb = ApiVerb.GET, description = "Search at messic by everything", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ApiMethod(path = "/search?content=xxxx", verb = ApiVerb.GET, description = "Search at messic by everything", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ApiErrors(apierrors = { @ApiError(code = UnknownMessicRESTException.VALUE, description = "Unknown error"), @ApiError(code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access")})
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody @ApiResponseObject
-    protected RandomList find(
+    public RandomList find(
     		@ApiParam(name = "content", description = "content to search. This content will be used to compare with a lot of things.  The content will be separated by spaces, allowing multiple searches.  If some words are quoted, then the search will be the whole quoted phrase.", paramType=ApiParamType.QUERY, required=true)
     		@RequestParam(value="content", required=true)
     		String content

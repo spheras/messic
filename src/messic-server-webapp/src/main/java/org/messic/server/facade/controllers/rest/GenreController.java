@@ -38,7 +38,7 @@ public class GenreController
 	public DAOUser userDAO;
 
 	
-	@ApiMethod(path = "/genres", verb = ApiVerb.GET, description = "Get all genres", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ApiMethod(path = "/genres?filterName=xxxx", verb = ApiVerb.GET, description = "Get all genres", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ApiErrors(apierrors = { @ApiError(code = UnknownMessicRESTException.VALUE, description = "Unknown error"), @ApiError(code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access")})
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)

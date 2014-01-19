@@ -47,6 +47,7 @@
         <link rel="stylesheet" href="css/themes/hansv2/upload.css">
         <link rel="stylesheet" href="css/themes/hansv2/kendo.css">
         <link rel="stylesheet" href="css/themes/hansv2/jquery.confirm.css">
+        <link rel="stylesheet" href="css/themes/hansv2/api.css">
 		
 		<!-- modernizr -->
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>

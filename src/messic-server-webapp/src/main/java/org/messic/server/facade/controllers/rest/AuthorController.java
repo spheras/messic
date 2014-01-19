@@ -37,7 +37,7 @@ public class AuthorController
 	@Autowired
 	public DAOUser userDAO;
 
-	@ApiMethod(path = "/authors", verb = ApiVerb.GET, description = "Get all authors", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ApiMethod(path = "/authors?filterName=xxxx", verb = ApiVerb.GET, description = "Get all authors", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ApiErrors(apierrors = { @ApiError(code = UnknownMessicRESTException.VALUE, description = "Unknown error"), @ApiError(code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access")})
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)

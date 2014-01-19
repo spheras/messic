@@ -24,7 +24,7 @@ public class JSONDocController {
 	
 	public JSONDocController(){
 		setVersion("1.0");
-		setBasePath("http://localhost:8080/messic");
+		setBasePath("http://localhost:8080/messic/services");
 	}
 
 	public void setVersion(String version) {

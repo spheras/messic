@@ -64,7 +64,7 @@ public class AlbumController
 	public APITagWizard wizardAPI;
 	
 
-	@ApiMethod(path = "/albums", verb = ApiVerb.GET, description = "Get all albums", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
+	@ApiMethod(path = "/albums?filterAuthorSid=xxxx&filterName=xxxx", verb = ApiVerb.GET, description = "Get all albums", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
 	@ApiErrors(apierrors = { @ApiError(code = UnknownMessicRESTException.VALUE, description = "Unknown error"), @ApiError(code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access")})
 	@RequestMapping(value="",method=RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
@@ -173,7 +173,7 @@ public class AlbumController
 		}
     }
 
-	@ApiMethod(path = "/albums/{albumCode}", verb = ApiVerb.POST, description = "Upload a resource for an album. This resources are stored at the temporal folder, waiting until save Album process. The client must post the binary content of the resource.", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, consumes={ MediaType.APPLICATION_OCTET_STREAM_VALUE})
+	@ApiMethod(path = "/albums/{albumCode}?fileName=xxxxx", verb = ApiVerb.POST, description = "Upload a resource for an album. This resources are stored at the temporal folder, waiting until save Album process. The client must post the binary content of the resource.", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, consumes={ MediaType.APPLICATION_OCTET_STREAM_VALUE})
 	@ApiErrors(apierrors = { 
 			@ApiError(code = UnknownMessicRESTException.VALUE, description = "Unknown error"), 
 			@ApiError(code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access"),
@@ -213,7 +213,7 @@ public class AlbumController
 		return new HttpEntity<HttpStatus>(HttpStatus.OK);
 	}
 
-	@ApiMethod(path = "/albums/clear", verb = ApiVerb.POST, description = "Clear all the temporal files that have been uploaded previously", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@ApiMethod(path = "/albums/clear?albumCode=xxxx", verb = ApiVerb.POST, description = "Clear all the temporal files that have been uploaded previously", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 	@ApiErrors(apierrors = { 
 			@ApiError(code = UnknownMessicRESTException.VALUE, description = "Unknown error"), 
 			@ApiError(code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access"),
