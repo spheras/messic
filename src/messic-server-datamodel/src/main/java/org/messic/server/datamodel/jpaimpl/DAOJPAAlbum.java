@@ -67,6 +67,20 @@ public class DAOJPAAlbum
 	}
 
 	@Override
+	public MDOAlbum getAlbum(long albumSid, String username) {
+        Query query = entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) AND (a.sid = :albumSid)" );
+        query.setParameter( "userName", username);
+        query.setParameter( "albumSid", albumSid);
+        
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbum> results = query.getResultList();
+        if(results!=null && results.size()>0){
+    		return results.get(0);
+        }
+        return null;
+	}
+
+	@Override
 	public MDOAlbum getByName(String authorName, String albumName, String username){
         Query query = entityManager.createQuery( "from MDOAlbum as a where (a.name = :albumName) AND (a.owner.login = :userName) AND (a.author.name = :authorName)" );
         query.setParameter( "albumName", "'" + albumName + "'");

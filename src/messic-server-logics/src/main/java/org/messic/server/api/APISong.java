@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.messic.server.Util;
 import org.messic.server.datamodel.MDOSong;
 import org.messic.server.datamodel.MDOUser;
+import org.messic.server.datamodel.dao.DAOAuthor;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOSong;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,9 @@ public class APISong {
     private DAOMessicSettings daoSettings;
     @Autowired
     private DAOSong daoSong;
-    
+    @Autowired
+    private DAOAuthor daoAuthor;
+        
     public byte[] getAudioSong(MDOUser mdouser, long sid) throws IOException{
     	MDOSong song=daoSong.get(mdouser.getLogin(), sid);
     	if(song!=null){

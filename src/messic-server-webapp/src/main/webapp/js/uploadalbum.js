@@ -414,7 +414,7 @@ var UploadAlbum=function(){
 							    //code for audio resources: 1000-1999
 							     $.ajax({
 							        url: 'services/albums/'+albumCode+"?fileName="+escape(theFile.name),
-							        type: 'POST',
+							        type: 'PUT',
 							        //Ajax events
 							        success: (function(it, audioResource){
 							        	var myfunction=function(){

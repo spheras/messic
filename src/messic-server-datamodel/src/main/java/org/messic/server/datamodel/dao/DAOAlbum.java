@@ -28,6 +28,14 @@ public interface DAOAlbum extends DAO<MDOAlbum>
 	List<MDOAlbum> getAll(long authorSid, String username);
 
 	/**
+	 * Return an album with id equals to albumSid param
+	 * @param albumSid long sid of the album to get
+	 * @param username {@link String} username scope
+	 * @return {@link MDOAlbum} album with sid equal to albumSid param
+	 */
+	MDOAlbum getAlbum(long albumSid, String username);
+
+	/**
 	 * Find similar albums with the name passed.
 	 * @param albumName
 	 * @param username

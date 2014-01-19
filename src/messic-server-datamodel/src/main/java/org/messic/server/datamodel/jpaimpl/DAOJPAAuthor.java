@@ -40,6 +40,20 @@ public class DAOJPAAuthor
 	}
 
 	@Override
+	public MDOAuthor get(String username, long authorSid) {
+        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName) AND (a.sid = :authorSid)" );
+        query.setParameter( "userName", username);
+        query.setParameter( "authorSid", authorSid);
+        
+        @SuppressWarnings( "unchecked" )
+        List<MDOAuthor> results = query.getResultList();
+        if(results!=null && results.size()>0){
+        	return results.get(0);
+        }
+        return null;
+	}
+
+	@Override
 	public List<MDOAuthor> findSimilarAuthors(String authorName, String username) {
         Query query = entityManager.createQuery( "from MDOAuthor as a where (a.name LIKE :authorName) AND (a.owner.login = :userName)" );
         query.setParameter( "authorName", "%" + authorName + "%");

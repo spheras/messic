@@ -43,4 +43,12 @@ public interface DAOAuthor extends DAO<MDOAuthor>
 	 * @return {@link MDOAuthor} found, null if none
 	 */
 	MDOAuthor getByName(String authorName, String username);
+	
+	/**
+	 * Find an author by sid.
+	 * @param username {@link String} userscope
+	 * @param authorSid long sid of the author to get
+	 * @return {@link MDOAuthor} author found, null if not
+	 */
+	MDOAuthor get(String username, long authorSid);
 }

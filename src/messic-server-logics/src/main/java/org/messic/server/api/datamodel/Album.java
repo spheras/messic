@@ -41,20 +41,33 @@ public class Album {
 	 * Transform a {@link List} of {@link MDOAlbum} to a {@link List} of {@link Album}
 	 * @param mdoalbums {@link List}<MDOAlbum/> to convert
 	 * @param author Author the Author of these albums, to avoid cross references
+	 * @param copyAuthor boolean indicates if it's necessary to copy the author of the album reference
 	 * @param copySongs boolean indicates if it's necessary to copy the songs of the album
 	 * @return {@link List}<Album/> converted
 	 */
-	public static List<Album> transform(List<MDOAlbum> mdoalbums, boolean copySongs){
+	public static List<Album> transform(List<MDOAlbum> mdoalbums, boolean copyAuthor, boolean copySongs){
 		ArrayList<Album> albums=new ArrayList<Album>();
 		if(mdoalbums!=null){
 			for(int i=0;i<mdoalbums.size();i++){
-				albums.add(new Album(mdoalbums.get(i), true, copySongs));
+				albums.add(transform(mdoalbums.get(i), copyAuthor, copySongs));
 			}
 		}
 		return albums;
 	}
 
-	
+
+	/**
+	 * Transform a {@link MDOAlbum} to an {@link Album}
+	 * @param album {@link MDOAlbum} to conver
+	 * @param author Author the Author of these albums, to avoid cross references
+	 * @param copyAuthor boolean indicates if it's necessary to copy the author of the album reference
+	 * @param copySongs boolean indicates if it's necessary to copy the songs of the album
+	 * @return {@link Album} converted
+	 */
+	public static Album transform(MDOAlbum album, boolean copyAuthor, boolean copySongs){
+		return new Album(album, copyAuthor, copySongs);
+	}
+
 	/**
 	 * Default constructor
 	 */
@@ -80,7 +93,7 @@ public class Album {
 		if(copySongs){
 			Iterator<MDOSong> mdosongs=mdoalbum.getSongs().iterator();
 			while(mdosongs.hasNext()){
-				Song song=new Song(mdosongs.next(), this);
+				Song song=new Song(mdosongs.next(), null);
 				addSong(song);
 			}
 		}
@@ -102,7 +115,7 @@ public class Album {
 		if(copySongs){
 			Iterator<MDOSong> mdosongs=mdoalbum.getSongs().iterator();
 			while(mdosongs.hasNext()){
-				Song song=new Song(mdosongs.next(), this);
+				Song song=new Song(mdosongs.next(), null);
 				addSong(song);
 			}
 		}

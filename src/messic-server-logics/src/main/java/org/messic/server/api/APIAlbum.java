@@ -45,27 +45,33 @@ public class APIAlbum {
     
     
 	@Transactional
-    public List<Album> getAll(MDOUser user){
+    public List<Album> getAll(MDOUser user, boolean authorInfo, boolean songsInfo){
     	List<MDOAlbum> albums=daoAlbum.getAll(user.getLogin());
-		return Album.transform(albums,false);
+		return Album.transform(albums,authorInfo,songsInfo);
 	}
 
 	@Transactional
-    public List<Album> getAll(MDOUser user, int authorSid){
+    public List<Album> getAll(MDOUser user, long authorSid, boolean authorInfo, boolean songsInfo){
     	List<MDOAlbum> albums=daoAlbum.getAll(authorSid, user.getLogin());
-		return Album.transform(albums,false);
+		return Album.transform(albums,authorInfo,songsInfo);
 	}
 
 	@Transactional
-    public List<Album> findSimilar(MDOUser user, String albumName){
+    public Album getAlbum(MDOUser user, long albumSid, boolean authorInfo, boolean songsInfo){
+    	MDOAlbum album=daoAlbum.getAlbum(albumSid, user.getLogin());
+		return Album.transform(album,authorInfo,songsInfo);
+	}
+
+	@Transactional
+    public List<Album> findSimilar(MDOUser user, String albumName, boolean authorInfo,boolean songsInfo){
     	List<MDOAlbum> albums=daoAlbum.findSimilarAlbums(albumName, user.getLogin());
-		return Album.transform(albums,false);
+		return Album.transform(albums,authorInfo,songsInfo);
     }
 
 	@Transactional
-    public List<Album> findSimilar(MDOUser user, int authorSid, String albumName){
+    public List<Album> findSimilar(MDOUser user, int authorSid, String albumName, boolean authorInfo, boolean songsInfo){
     	List<MDOAlbum> albums=daoAlbum.findSimilarAlbums(authorSid, albumName, user.getLogin());
-		return Album.transform(albums,false);
+		return Album.transform(albums,authorInfo,songsInfo);
     }
 	
 	/**

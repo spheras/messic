@@ -34,7 +34,7 @@ var UploadAlbumProcess=function (album){
 		genreCombo.text("");
 		yearEdit.value(1900);
 		$("#messic-upload-album-comments").text("");
-		$('#messic-upload-song-content-songs').empty();
+		$('#messic-upload-song-content-songs').val('');
 		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-new');
 
 
@@ -53,7 +53,9 @@ var UploadAlbumProcess=function (album){
 		var oldCover=$("#messic-upload-album-cover img");
 		if(oldCover){
 			var img=new Image();
-			img.src=oldCover.attr("src");
+			if(oldCover.attr("src")){
+				img.src=oldCover.attr("src");
+			}
 			domElement.find('.messic-upload-finishbox-cover').append(img);
 		}
 		$("#messic-upload-album-cover").empty();
@@ -90,7 +92,7 @@ var UploadAlbumProcess=function (album){
 						    var bin = e.target.result;
 						     $.ajax({
 						        url: 'services/albums/'+album.code+"?fileName="+escape(resource.file.name),
-						        type: 'POST',
+						        type: 'PUT',
 						        //Ajax success
 						        success: function(){
 									resource.domElement.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-finished');

@@ -43,7 +43,6 @@ public class SongController
 	public APISong songAPI;
 	@Autowired
 	public DAOUser userDAO;
-	
 
 	@ApiMethod(path = "/songs/{songSid}/audio", verb = ApiVerb.GET, description = "Get the audio binary from a song resource of an album", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE})
 	@ApiErrors(apierrors = { 

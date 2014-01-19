@@ -39,12 +39,23 @@ public class Author {
 		ArrayList<Author> authors=new ArrayList<Author>();
 		if(mdoauthors!=null){
 			for(int i=0;i<mdoauthors.size();i++){
-				authors.add(new Author(mdoauthors.get(i), copyAlbums, copySongs));
+				authors.add(transform(mdoauthors.get(i), copyAlbums, copySongs));
 			}
 		}
 		return authors;
 	}
-	
+
+	/**
+	 * Transform a {@link MDOAuthor} to an {@link Author}
+	 * @param mdoauthors {@link MDOAuthor} to convert
+	 * @param copyAlbums boolean indicates if is necessary to copy the albums of the author
+	 * @param copySongs boolean indicates if it's necessary to copy each song of the album
+	 * @return {@link Author} converted
+	 */
+	public static Author transform(MDOAuthor mdoauthor, boolean copyAlbums, boolean copySongs){
+		return new Author(mdoauthor, copyAlbums, copySongs);
+	}
+
 	/**
 	 * Construct by an {@link MDOAuthor}
 	 * @param mdoauthor {@link MDOAuthor} to copy data
@@ -58,7 +69,7 @@ public class Author {
 			Iterator<MDOAlbum> mdoalbums=mdoauthor.getAlbums().iterator();
 			while(mdoalbums.hasNext()){
 				MDOAlbum mdoAlbum=mdoalbums.next();
-				Album album=new Album(mdoAlbum, this, copySongs);
+				Album album=new Album(mdoAlbum, null, copySongs);
 				addAlbum(album);
 			}
 		}
