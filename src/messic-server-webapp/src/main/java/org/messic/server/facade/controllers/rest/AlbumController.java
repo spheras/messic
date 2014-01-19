@@ -214,7 +214,7 @@ public class AlbumController
 		}
     }
 
-	@ApiMethod(path = "/albums/{albumCode}?fileName=xxxxx", verb = ApiVerb.POST, description = "Upload a resource for an album. This resources are stored at the temporal folder, waiting until save Album process. The client must post the binary content of the resource.", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, consumes={ MediaType.APPLICATION_OCTET_STREAM_VALUE})
+	@ApiMethod(path = "/albums/{albumCode}?fileName=xxxxx", verb = ApiVerb.PUT, description = "Upload a resource for an album. This resources are stored at the temporal folder, waiting until save Album process. The client must post the binary content of the resource.", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, consumes={ MediaType.APPLICATION_OCTET_STREAM_VALUE})
 	@ApiErrors(apierrors = { 
 			@ApiError(code = UnknownMessicRESTException.VALUE, description = "Unknown error"), 
 			@ApiError(code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access"),
