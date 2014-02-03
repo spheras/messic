@@ -20,7 +20,6 @@
 
 	<build>
 		<plugins>
-
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
@@ -29,8 +28,6 @@
 					</archive>
 				</configuration>
 			</plugin>
-
-
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
@@ -47,13 +44,6 @@
 				</executions>
 				
 				<configuration>
-				
-					<supportedProjectTypes>
-						<supportedProjectType>jar</supportedProjectType>
-						<supportedProjectType>bundle</supportedProjectType>
-						<supportedProjectType>war</supportedProjectType>
-					</supportedProjectTypes>
-					
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
@@ -62,126 +52,33 @@
 						<Embed-Directory>WEB-INF/lib</Embed-Directory>
 						<Embed-Transitive>true</Embed-Transitive>
 						 
-						<Import-Package>*;resolution:=optional,javax.xml.parsers,org.xml.sax,org.w3c.dom,javax.xml.transform</Import-Package>
+						<Import-Package>*;resolution:=optional</Import-Package>
 						
-						<Web-ContextPath>/messic</Web-ContextPath>
-						<Webapp-Context>/messic</Webapp-Context>
 						<_wab>src/main/webapp</_wab>
+						<Web-ContextPath>/messic</Web-ContextPath>
+						<!-- we need to remove the bundle-classpath to avoid have 2 classpaths.. it seems that jetty already create a classpath -->
+						<_removeheaders>Bundle-ClassPath</_removeheaders>
 					</instructions>
-					
 				</configuration>
 			</plugin>
 
-			
 
-	<!-- 
 			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<version>2.4.0</version>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<tasks>
+						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-starter/bundles/03-messic/01-${project.build.finalName}.bnd" />
+					</tasks>
+				</configuration>
 				<executions>
 					<execution>
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
+						<phase>install</phase>
 						<goals>
-							<goal>manifest</goal>
+							<goal>run</goal>
 						</goals>
 					</execution>
 				</executions>
-				<configuration>
-					<supportedProjectTypes>
-						<supportedProjectType>jar</supportedProjectType>
-						<supportedProjectType>bundle</supportedProjectType>
-						<supportedProjectType>war</supportedProjectType>
-					</supportedProjectTypes>
-					<instructions>
-						<Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
-						<Bundle-Version>${pom.version}</Bundle-Version>
-						| assume public classes are in the top package, and private classes are under ".internal" 
-						<Export-Package>!${bundle.namespace}.internal.*,${bundle.namespace}.*;version="${pom.version}"</Export-Package>
-						<Private-Package>${bundle.namespace}.internal.*</Private-Package>
-						| each module can override these defaults in their osgi.bnd file 
-						<_include>-osgi.bnd</_include>
-					</instructions>
-				</configuration>
 			</plugin>
-			 -->
-
-			<!-- 
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<executions>
-					<execution>
-						<id>bundle-manifest</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>manifest</goal>
-						</goals>
-						<configuration>
-							<instructions>
-								<Bundle-SymbolicName>messic</Bundle-SymbolicName>
-								<Export-Package />
-								<Import-Package>javax.servlet,org.w3c.dom,javax.sql,javax.naming,javax.naming.event,javax.xml.*,org.xml.sax.*,javax.servlet.http,javax.servlet.*,javax.servlet.jsp.*,javax.servlet.jsp.jstl.*</Import-Package>
-								
-
-								##### 
-								<Import-Package>javax.activation,javax.annotation.security,javax.cache
-											 ,javax.cache.spi,javax.crypto,javax.crypto.spec,javax.ejb,javax.el,ja
-											 vax.enterprise.concurrent,javax.faces.application,javax.faces.compone
-											 nt,javax.faces.context,javax.faces.event,javax.imageio,javax.imageio.
-											 metadata,javax.imageio.stream,javax.inject,javax.interceptor,javax.jd
-											 o,javax.jdo.datastore,javax.jms,javax.jws,javax.mail,javax.mail.inter
-											 net,javax.management,javax.management.modelmbean,javax.management.ope
-											 nmbean,javax.management.remote,javax.naming,javax.naming.event,javax.
-											 naming.spi,javax.net,javax.net.ssl,javax.portlet,javax.resource,javax
-											 .resource.cci,javax.resource.spi,javax.resource.spi.endpoint,javax.re
-											 source.spi.work,javax.rmi,javax.script,javax.security.auth,javax.secu
-											 rity.auth.callback,javax.security.auth.login,javax.security.auth.spi,
-											 javax.security.auth.x500,javax.security.jacc,javax.servlet,javax.serv
-											 let.annotation,javax.servlet.http,javax.servlet.jsp,javax.servlet.jsp
-											 .el,javax.servlet.jsp.tagext,javax.sql,javax.sql.rowset,javax.swing,j
-											 avax.swing.border,javax.swing.event,javax.swing.filechooser,javax.swi
-											 ng.table,javax.swing.text,javax.swing.tree,javax.validation,javax.val
-											 idation.bootstrap,javax.validation.constraints,javax.validation.group
-											 s,javax.validation.metadata,javax.xml,javax.xml.bind,javax.xml.bind.a
-											 nnotation,javax.xml.bind.annotation.adapters,javax.xml.datatype,javax
-											 .xml.namespace,javax.xml.soap,javax.xml.stream,javax.xml.stream.event
-											 s,javax.xml.stream.util,javax.xml.transform.stax,javax.xml.validation
-											 ,javax.xml.ws,javax.xml.ws.handler,javax.xml.ws.soap</Import-Package>
- 								####
- 								### 
-								<Import-Package>javax.servlet,javax.naming,javax.servlet.http,javax.servlet.*,javax.servlet.jsp.*,javax.servlet.jsp.jstl.*</Import-Package>
-								 ###
-								<DynamicImport-Package />
-								## 
-								<Import-Package>javax.servlet,javax.servlet.http,javax.servlet.*,javax.servlet.jsp.*,javax.servlet.jsp.jstl.*</Import-Package>
-								<DynamicImport-Package>javax.*, org.xml.sax, org.xml.sax.*, org.w3c.*</DynamicImport-Package>
-								 ##
-								 ## 
-								<Bundle-ClassPath>.,WEB-INF/classes</Bundle-ClassPath>
- 								<Embed-Directory>WEB-INF/lib</Embed-Directory>
-								<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-								<Embed-Transitive>true</Embed-Transitive>
- 								###
-								<Web-ContextPath>messic</Web-ContextPath>
-								<Webapp-Context>messic</Webapp-Context>
-							</instructions>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<supportedProjectTypes>
-						<supportedProjectType>jar</supportedProjectType>
-						<supportedProjectType>bundle</supportedProjectType>
-						<supportedProjectType>war</supportedProjectType>
-					</supportedProjectTypes>
-					<instructions>
-					</instructions>
-				</configuration>
-			</plugin>
-			 -->
 
 			<!-- jrebel plugin to easily develop -->
 			<plugin>

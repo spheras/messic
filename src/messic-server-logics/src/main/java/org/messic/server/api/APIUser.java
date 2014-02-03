@@ -14,6 +14,10 @@ public class APIUser {
 	@Autowired
     private DAOUser userRepository;
 	
+	public APIUser(){
+		System.out.println("pozi");
+	}
+	
 	public MDOUser getUser(String user)	{
 		return userRepository.getUser(user);
 	}
