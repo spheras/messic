@@ -1,0 +1,31 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+	<persistence-unit name="messicPersistenceUnit"
+		transaction-type="RESOURCE_LOCAL">
+		
+		<jta-data-source>dataSource</jta-data-source>
+		
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>org.messic.server.datamodel.MDOMessicSettings</class>
+		<class>org.messic.server.datamodel.MDOGenre</class>
+		<class>org.messic.server.datamodel.MDOUser</class>
+		<class>org.messic.server.datamodel.MDOUserPermission</class>
+		<class>org.messic.server.datamodel.MDOResource</class>
+		<class>org.messic.server.datamodel.MDOPhysicalResource</class>
+		<class>org.messic.server.datamodel.MDOAuthor</class>
+		<class>org.messic.server.datamodel.MDOAlbumResource</class>
+		<class>org.messic.server.datamodel.MDOAlbum</class>
+		<class>org.messic.server.datamodel.MDOSong</class>
+		<class>org.messic.server.datamodel.MDOArtworkResource</class>
+		<class>org.messic.server.datamodel.MDOOtherResource</class>
+		<class>org.messic.server.datamodel.MDOPlaylist</class>
+		
+		<properties>
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+		</properties>
+	</persistence-unit>
+</persistence>

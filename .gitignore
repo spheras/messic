@@ -1,7 +1,10 @@
 target/
-/.project
-src/messic-server-webapp/src/main/resources/rebel.xml
-/home/spheras/desarrollo/projects/messic/messic/src/messic-starter/bundles/03-messic
-/home/spheras/desarrollo/projects/messic/messic/src/messic-starter/felix-cache
-/home/spheras/desarrollo/projects/messic/messic/src/messic-starter/.project
+.project
+.settings
+.classpath
 
+src/messic-server-webapp/src/main/resources/rebel.xml
+
+src/messic-starter/bundles/03-messic
+src/messic-starter/bundles/04-messic-plugins
+src/messic-starter/felix-cache

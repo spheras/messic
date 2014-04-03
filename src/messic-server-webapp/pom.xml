@@ -7,10 +7,10 @@
 	<name>Messic Webapp</name>
 
 	<properties>
-	  <bundle.symbolicName>messic</bundle.symbolicName>
-	  <bundle.namespace>messic</bundle.namespace>
+		<bundle.symbolicName>messic</bundle.symbolicName>
+		<bundle.namespace>messic</bundle.namespace>
 	</properties>
-  
+
 	<parent>
 		<groupId>org.messic</groupId>
 		<artifactId>messic</artifactId>
@@ -42,22 +42,26 @@
 						</goals>
 					</execution>
 				</executions>
-				
+
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						
+
+						<!-- embed all compile and runtime scope dependencies -->
 						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
 						<Embed-Directory>WEB-INF/lib</Embed-Directory>
 						<Embed-Transitive>true</Embed-Transitive>
-						 
+
 						<Import-Package>*;resolution:=optional</Import-Package>
-						
+						<Export-Package>org.messic.server.api.tagwizard.service</Export-Package>
+
 						<_wab>src/main/webapp</_wab>
 						<Web-ContextPath>/messic</Web-ContextPath>
-						<!-- we need to remove the bundle-classpath to avoid have 2 classpaths.. it seems that jetty already create a classpath -->
-						<_removeheaders>Bundle-ClassPath</_removeheaders>
+
+						<!-- we need to remove the bundle-classpath to avoid have 2 classpaths.. 
+							it seems that jetty already create a classpath -->
+						<_removeheaders>Embedded-Artifacts,Private-Package,Include-Resource,Bundle-ClassPath</_removeheaders>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -67,7 +71,16 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<tasks>
-						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-starter/bundles/03-messic/01-${project.build.finalName}.bnd" />
+						<echo message="Updating Bundle-Classpath ... just a trick to avoid problems with spring-jetty and scan of components"/>
+						<jar update="true" file="${project.build.directory}/${project.build.finalName}.jar">
+							<manifest>
+								<attribute name="Bundle-Classpath" value="WEB-INF/lib/messic-server-osgiservices-1.0-SNAPSHOT.jar" />
+							</manifest>
+						</jar>
+
+						<echo message="Copying bundle to the starter project"/>
+						<copy file="${project.build.directory}/${project.build.finalName}.jar"
+							tofile="../messic-starter/bundles/03-messic/01-${project.build.finalName}.bnd" />
 					</tasks>
 				</configuration>
 				<executions>
@@ -175,7 +188,6 @@
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
-			<version>5.0.0</version>
 		</dependency>
 
 

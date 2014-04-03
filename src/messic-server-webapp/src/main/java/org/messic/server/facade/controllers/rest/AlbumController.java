@@ -6,8 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.jaudiotagger.audio.exceptions.CannotReadException;
-import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiBodyObject;
 import org.jsondoc.core.annotation.ApiError;
@@ -316,10 +314,6 @@ public class AlbumController
 			Album album=wizardAPI.getWizardAlbum(mdouser, albumCode);
 			return album;
 		}catch(IOException e){
-			throw new IOMessicRESTException(e);
-		} catch (ReadOnlyFileException e) {
-			throw new IOMessicRESTException(e);
-		} catch (CannotReadException e) {
 			throw new MusicTagsMessicRESTException(e);
 		} catch(Exception e){
 			e.printStackTrace();

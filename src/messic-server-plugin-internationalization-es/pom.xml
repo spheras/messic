@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<name>messic-server-plugin-internationalization-es</name>
+	<description>Fragment that host the spanish internationalization for messic</description>
+	<packaging>bundle</packaging>
+
+	<artifactId>messic-server-plugin-internationalization-es</artifactId>
+	<parent>
+		<groupId>org.messic</groupId>
+		<artifactId>messic</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../messic/pom.xml</relativePath>
+	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.4.0</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>bundle-manifest</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${pom.groupId}.${pom.artifactId}</Bundle-SymbolicName>
+						<Bundle-Name>${pom.name}</Bundle-Name>
+						<Bundle-Version>${pom.version}</Bundle-Version>
+						
+						<Include-Resource>{maven-resources}</Include-Resource>
+						
+						<Fragment-Host>messic-server-webapp</Fragment-Host>
+						
+						<Private-Package></Private-Package>
+						<Import-Package></Import-Package>
+						<Export-Package />
+					</instructions>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<tasks>
+						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-starter/bundles/04-messic-plugins/03-${project.build.finalName}.jar" />
+					</tasks>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<repositories>
+		<repository>
+			<id>java.net-Public</id>
+			<name>Maven Java Net Snapshots and Releases</name>
+			<url>https://maven.java.net/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+</project>
