@@ -47,8 +47,9 @@ public class TAGWizard
 
         try
         {
-            // Query for all service references matching any language.
-            ServiceReference<?>[] refs = context.getServiceReferences( TAGWizardPlugin.class.getName(), "(Language=*)" );
+            // Query for all service references matching any TAGWizard plugin
+            ServiceReference<?>[] refs =
+                context.getServiceReferences( TAGWizardPlugin.class.getName(), "(TAGWizard=*)" );
             if ( refs != null )
             {
                 for ( int i = 0; i < refs.length; i++ )
@@ -209,8 +210,6 @@ public class TAGWizard
                 }
             }
         } );
-
-        System.out.println( "aver?" );
     }
 
     /**
