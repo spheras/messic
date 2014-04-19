@@ -1,6 +1,7 @@
 package org.messic.server.facade.controllers.rest;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -168,6 +169,10 @@ public class AlbumController
 
 		try{
 			   byte[] content = albumAPI.getAlbumCover(mdouser, albumSid);
+			   if(content==null || content.length==0){
+			       InputStream is=AlbumController.class.getResourceAsStream( "/org/messic/img/unknowncover.jpg" );
+			       content=Util.readInputStream( is );
+			   }
 			   HttpHeaders headers = new HttpHeaders();
 			   headers.setContentType(MediaType.IMAGE_JPEG);
 			   return new ResponseEntity<byte[]>(content, headers, HttpStatus.OK);

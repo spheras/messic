@@ -21,13 +21,21 @@ public interface DAOAuthor extends DAO<MDOAuthor>
     List<MDOAuthor> getRandomAuthors(String username, int number);
 
 
+    /**
+     * Return the list of first letter (Distinct) of all the author at database.
+     * @param username {@link String} user scope
+     * @return {@link List}<String/>
+     */
+    List<String> getFirstCharacters(String username);
+
 	/**
 	 * Find similar authors with the name passed
 	 * @param authorName {@link String} author name to compare with
+	 * @param contains boolean flag to indicate if the authorName is a partial search with any authorname wich contains the words of the param, or starting 
 	 * @param username {@link String} username scope
 	 * @return {@link List}<MDOAuthor/> list of similar authors
 	 */
-	List<MDOAuthor> findSimilarAuthors(String authorName, String username);
+	List<MDOAuthor> findSimilarAuthors(String authorName, boolean contains, String username);
 
 	/**
 	 * return all the authors in the user scope

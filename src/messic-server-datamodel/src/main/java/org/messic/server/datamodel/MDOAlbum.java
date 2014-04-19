@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -39,6 +40,7 @@ public class MDOAlbum extends MDOPhysicalResource implements
     private MDOGenre genre;   
 
     @OneToMany(mappedBy = "album")
+    @OrderBy("NAME")
     private List<MDOSong> songs;
 
     @OneToMany(mappedBy = "album")

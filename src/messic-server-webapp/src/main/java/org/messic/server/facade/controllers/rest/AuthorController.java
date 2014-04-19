@@ -47,6 +47,9 @@ public class AuthorController
     		@RequestParam(value="filterName",required=false) 
     		@ApiParam(name = "filterName", description = "partial name of the author to search", paramType=ApiParamType.QUERY, required=false)
     		String filterName,
+            @RequestParam(value="contains",required=false) 
+            @ApiParam(name = "contains", description = "True if filtering is by contains (default), False if filtering is searching any author with the starting filter search.", paramType=ApiParamType.QUERY, required=false, allowedvalues={"true","false"},format="Boolean")
+    		Boolean contains,
     		@RequestParam(value="albumsInfo",required=false) 
     		@ApiParam(name = "albumsInfo", description = "flag to return also the albums info of the author or not. By default, false", paramType=ApiParamType.QUERY, required=false, allowedvalues={"true","false"},format="Boolean")
     		Boolean albumsInfo,
@@ -68,7 +71,7 @@ public class AuthorController
 			if(filterName==null){
 				authors=authorAPI.getAll(mdouser,(albumsInfo!=null?albumsInfo:false),(albumsInfo!=null && songsInfo!=null && albumsInfo==true?songsInfo:false));
 			}else{
-				authors=authorAPI.findSimilar(mdouser,filterName,(albumsInfo!=null?albumsInfo:false),(albumsInfo!=null && songsInfo!=null && albumsInfo==true?songsInfo:false));
+				authors=authorAPI.findSimilar(mdouser,filterName,contains, (albumsInfo!=null?albumsInfo:false),(albumsInfo!=null && songsInfo!=null && albumsInfo==true?songsInfo:false));
 			}
 			
 			return authors;

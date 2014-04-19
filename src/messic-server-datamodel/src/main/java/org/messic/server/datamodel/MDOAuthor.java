@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +22,7 @@ public class MDOAuthor extends MDOPhysicalResource implements
     private String name;
     
     @OneToMany(mappedBy = "author")
+    @OrderBy("NAME")
     private Set<MDOAlbum> albums;
     
     public MDOAuthor ()

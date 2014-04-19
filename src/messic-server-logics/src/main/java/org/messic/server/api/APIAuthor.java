@@ -38,8 +38,8 @@ public class APIAuthor {
 	}
 
 	@Transactional
-    public List<Author> findSimilar(MDOUser user, String authorName, boolean copyAlbums, boolean copySongs){
-    	List<MDOAuthor> authors=authorRepository.findSimilarAuthors(authorName, user.getLogin());
+    public List<Author> findSimilar(MDOUser user, String authorName, boolean contains, boolean copyAlbums, boolean copySongs){
+    	List<MDOAuthor> authors=authorRepository.findSimilarAuthors(authorName, contains, user.getLogin());
 		return Author.transform(authors,copyAlbums, copySongs);
     }
 

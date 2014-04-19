@@ -28,10 +28,20 @@ public class DAOJPAAuthor
     	List<MDOAuthor> results=query.getResultList();
         return results;
     }
+
+	@Override
+	public List<String> getFirstCharacters(String username){
+	    //SELECT DISTINCT LEFT(name, 1) as letter FROM mydatabase ORDER BY letter
+        Query query= entityManager.createQuery("select DISTINCT UPPER(SUBSTRING(name, 1,1)) as letter from MDOAuthor as a where (a.owner.login= :userName) order by letter");
+        query.setParameter( "userName", username);
+        @SuppressWarnings( "unchecked" )
+        List<String> results=query.getResultList();
+        return results;
+	}
     
 	@Override
 	public List<MDOAuthor> getAll(String username) {
-        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName)" );
+        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName)  ORDER BY UPPER(a.name)" );
         query.setParameter( "userName", username);
         
         @SuppressWarnings( "unchecked" )
@@ -54,9 +64,9 @@ public class DAOJPAAuthor
 	}
 
 	@Override
-	public List<MDOAuthor> findSimilarAuthors(String authorName, String username) {
-        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.name LIKE :authorName) AND (a.owner.login = :userName)" );
-        query.setParameter( "authorName", "%" + authorName + "%");
+	public List<MDOAuthor> findSimilarAuthors(String authorName, boolean contains, String username) {
+        Query query = entityManager.createQuery( "from MDOAuthor as a where (UPPER(a.name) LIKE :authorName) AND (a.owner.login = :userName)  ORDER BY UPPER(a.name)" );
+        query.setParameter( "authorName", (contains?"%":"") + authorName.toUpperCase() + "%");
         query.setParameter( "userName", username);
         
         @SuppressWarnings( "unchecked" )
