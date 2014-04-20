@@ -18,6 +18,7 @@ import org.messic.server.datamodel.MDOGenre;
 import org.messic.server.datamodel.MDOSong;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOAlbum;
+import org.messic.server.datamodel.dao.DAOAlbumResource;
 import org.messic.server.datamodel.dao.DAOAuthor;
 import org.messic.server.datamodel.dao.DAOGenre;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
@@ -42,11 +43,26 @@ public class APIAlbum {
     private DAOSong daoSong;
     @Autowired
     private DAOPhysicalResource daoPhysicalResource;
+    @Autowired
+    private DAOAlbumResource daoAlbumResource;
     
-    
+
+    @Transactional
+    public void remove(MDOUser user, Long albumSid){
+        MDOAlbum album=this.daoAlbum.getAlbum( albumSid, user.getLogin() );
+        if(album!=null){
+            if(album.getAuthor().getAlbums().size()<=1)
+            {
+                daoAuthor.remove( album.getAuthor());
+            }else{
+                this.daoAlbum.remove( album );
+            }
+        }
+    }
+
 	@Transactional
     public List<Album> getAll(MDOUser user, boolean authorInfo, boolean songsInfo){
-    	List<MDOAlbum> albums=daoAlbum.getAll(user.getLogin());
+    	List<MDOAlbum> albums=this.daoAlbum.getAll(user.getLogin());
 		return Album.transform(albums,authorInfo,songsInfo);
 	}
 
@@ -119,6 +135,22 @@ public class APIAlbum {
         fos.close();
 	}	
 
+	
+    public byte[] getAlbumResource(MDOUser mdouser, Long resourceSid) throws SidNotFoundMessicException, ResourceNotFoundMessicException, IOException{
+        MDOAlbumResource resource=daoAlbumResource.get(resourceSid);
+        if(resource!=null){
+                String basePath=Util.getRealBaseStorePath(mdouser, daoSettings.getSettings());
+                File ftor=new File(basePath+File.separatorChar+resource.getRelativeLocation());
+                if(ftor.exists()){
+                    return Util.readFile(basePath+File.separatorChar+resource.getRelativeLocation());
+                }else{
+                    throw new ResourceNotFoundMessicException(basePath+File.separatorChar+resource.getRelativeLocation());
+                }
+        }else{
+            throw new SidNotFoundMessicException(); 
+        }
+    }
+	
 	public byte[] getAlbumCover(MDOUser mdouser, Long albumSid) throws SidNotFoundMessicException, ResourceNotFoundMessicException, IOException{
 		MDOAlbum album=daoAlbum.get(albumSid);
 		if(album!=null){

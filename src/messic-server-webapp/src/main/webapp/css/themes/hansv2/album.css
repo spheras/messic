@@ -1,0 +1,221 @@
+#messic-album-cover {
+    display: block;
+    float: left;
+    margin-bottom: 0px;
+    margin-right: 35px;
+    margin-top: 15px;
+    width: 250px;
+}
+
+#messic-album-cover  img {
+    border: 0 solid #FFFFFF;
+    position: absolute;
+    width: 250px;
+}
+
+.messic-album-covercontainer {
+    border: 7px solid #FFFFFF;
+    border-radius: 6px;
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.75);
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+.messic-album-add:hover ~ .messic-album-vinyl{
+	margin-left: 45px;
+}
+
+.messic-album-covercontainer:hover .messic-album-add{
+	opacity:1;
+}
+
+.messic-album-add {
+	background: url("playlist/vinyl-play.png") no-repeat scroll 0 0
+		rgba(0, 0, 0, 0);
+	cursor: pointer;
+	height: 38px;
+	left: 50%;
+	margin-left: -18px;
+	margin-top: -16px;
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	transition: opacity 0.45s ease-in-out 0s;
+	width: 38px;
+	z-index: 3;
+}
+
+.messic-album-vinyl {
+    background: url("album/bigredvinyl.png") no-repeat scroll 0 0 / 272px auto rgba(0, 0, 0, 0);
+    height: 300px;
+    margin-left: 21px;
+    margin-top: -267px;
+    position: relative;
+    transition-duration: 0.3s;
+    transition-property: margin-left;
+    width: 300px;
+    z-index: 1;
+}
+
+#messic-album-year > div {
+    float: left;
+    font-weight: bold;
+    margin-right: 9px;
+}
+
+#messic-album-genre > div {
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+
+#messic-album-comments > div {
+    float: left;
+    font-weight: bold;
+    margin-right: 10px;
+}
+#messic-album-name {
+    color: #555555;
+    font-family: Amaranth;
+    font-size: 2.5em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+#messic-album-author:hover {
+    color: #0000FF;
+    cursor: pointer;
+    text-decoration: underline;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+#messic-album-author {
+    font-family: Amaranth;
+    font-size: 3em;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+#messic-album-songs-head{
+    background: linear-gradient(#CCCCCC, #AAAAAA) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #555555;
+    font-family: Amaranth;
+    text-align: center;	
+}
+
+#messic-album-songs-container {
+    border: 1px solid #AAAAAA;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    clear: both;
+    overflow: hidden;
+    position: relative;
+    width: 600px;
+}
+
+
+.messic-album-songs-headfield {
+    float: left;
+    height: 30px;
+}
+#messic-album-songs-head-songtrack {
+    width: 70px;
+}
+
+#messic-album-songs-head-songname {
+    border-left: 1px solid #999999;
+    border-right: 1px solid #999999;
+    text-align: left;
+    text-indent: 9px;
+    width: 398px;
+}	
+
+#messic-album-songs-head-songaction {
+    width: 130px;
+}
+
+#messic-album-songs-body {
+    clear: left;
+}
+
+#messic-album-songs-body .messic-album-songs-bodyrow:hover {
+    background: none repeat scroll 0 0 #BBBBFF;
+}
+
+.messic-album-songs-bodyrow:nth-child(even) {
+    background: linear-gradient(#DDDDDD, #EFEFEF) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-album-songs-bodyrow:nth-child(odd) {
+    background: linear-gradient(#FFFFFF, #EEEEEE) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-album-songs-bodyrow {
+    clear: left;
+    color: #333333;
+    font-family: roboto;
+}
+.messic-album-songs-bodyfield {
+    float: left;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+}
+.messic-album-songs-body-songtrack {
+    width: 70px;
+}
+.messic-album-songs-body-songname {
+    border-left: 1px solid #AAAAAA;
+    border-right: 1px solid #AAAAAA;
+    text-align: left;
+    text-indent: 10px;
+    width: 398px;
+}
+.messic-album-songs-body-songaction {
+    width: 130px;
+}
+
+
+#messic-album-menu {
+    border-bottom: 1px solid #BBBBBB;
+    border-top: 1px solid #BBBBBB;
+    height: 45px;
+    margin-bottom: 23px;
+    margin-left: 299px;
+    width: 400px;
+}
+
+.messic-album-menuoption {
+    background: linear-gradient(#AAAAAA, #EEEEEE 50%, #AAAAAA) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-left: 1px solid #AAAAAA;
+    border-radius: 10px;
+    border-right: 1px solid #AAAAAA;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+    float: left;
+    height: 36px;
+    margin-right: 10px;
+    margin-top: 3px;
+    vertical-align: middle;
+    width: 52px;
+}
+
+#messic-album-menuoption-remove:after {
+    background: url("album/delete.png") no-repeat scroll center center rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+#messic-album-menuoption-edit:after {
+    background: url("album/edit.png") no-repeat scroll center center rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+.messic-album-menuoption:active {
+    background: linear-gradient(#EEEEEE, #AAAAAA 50%, #EEEEEE) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-album-menuoption:hover {
+	box-shadow: 0 0 4px rgba(100, 100, 155, 0.86);
+}

@@ -1,9 +1,9 @@
 package org.messic.server.facade.controllers.pages;
 
 import org.messic.server.Util;
-import org.messic.server.datamodel.MDOAlbum;
+import org.messic.server.api.APIAlbum;
+import org.messic.server.api.datamodel.Album;
 import org.messic.server.datamodel.MDOUser;
-import org.messic.server.datamodel.dao.DAOAlbum;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class AlbumViewController
 {
     @Autowired
-    public DAOAlbum daoalbum;
+    public APIAlbum apialbum;
     @Autowired
     public DAOUser userDAO;
 
@@ -35,7 +35,7 @@ public class AlbumViewController
         }
 
         //getting the first characters of the authors, to allow listing them by start letter
-        MDOAlbum result=daoalbum.getAlbum( albumSid, mdouser.getLogin());
+        Album result=apialbum.getAlbum( mdouser, albumSid, true , true );
         model.addObject( "album", result );
         
         return model;

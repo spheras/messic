@@ -3,6 +3,7 @@ package org.messic.server.datamodel;
 import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -21,7 +22,7 @@ public class MDOAuthor extends MDOPhysicalResource implements
     @Column(name = "NAME", nullable = false)
     private String name;
     
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", cascade={CascadeType.REMOVE})
     @OrderBy("NAME")
     private Set<MDOAlbum> albums;
     

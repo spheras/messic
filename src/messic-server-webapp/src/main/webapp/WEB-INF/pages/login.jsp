@@ -49,6 +49,7 @@
         <link rel="stylesheet" href="css/themes/hansv2/jquery.confirm.css">
         <link rel="stylesheet" href="css/themes/hansv2/api.css">
         <link rel="stylesheet" href="css/themes/hansv2/explore.css">
+        <link rel="stylesheet" href="css/themes/hansv2/album.css">
 		
 		<!-- modernizr -->
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
@@ -112,6 +113,7 @@
         <script src="js/main.js"></script>
         <script src="js/upload.js"></script>
         <script src="js/explore.js"></script>
+        <script src="js/album.js"></script>
         <script src="js/uploadresource.js"></script>
         <script src="js/uploadalbum.js"></script>
         <script src="js/uploadprocess.js"></script>

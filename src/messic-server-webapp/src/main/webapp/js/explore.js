@@ -64,7 +64,7 @@ function exploreByAlbum(){
 	        		code=code+"        <div class='messic-explore-vinyl'></div>";
 					code=code+"    </div>"
 					code=code+"    <div class='messic-explore-albumtitle' title='"+data[i].name+"'>"+data[i].name+"</div>";
-					code=code+"    <div class='messic-explore-albumtitle' title='"+data[i].author.name+"'>"+data[i].author.name+"</div>";
+					code=code+"    <div class='messic-explore-albumauthortitle' title='"+data[i].author.name+"'>"+data[i].author.name+"</div>";
 					code=code+"</div>";
 
 			code=code+"</div>";

@@ -2,6 +2,19 @@
 	clear:left;	
 }
 
+.messic-explore-words:before {
+    background: url("home/ribbon-blue.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "Index";
+    font-family: roboto-bold;
+    height: 77px;
+    left: -67px;
+    padding-top: 11px;
+    position: absolute;
+    text-indent: 56px;
+    top: 2px;
+    width: 142px;
+}
+
 .messic-explore-values:after {
     clear: both;
     content: "";
@@ -21,12 +34,13 @@
 	
 }
 .messic-explore-authortitle {
-    background: linear-gradient(to bottom, #DDDDDD 0%, #F9F9F9 21%, #F9F9F9 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: linear-gradient(to bottom, #DDDDDD 0%, #F9F9F9 21%, #777777 70%, #BBBBBB 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-left-color: #F4F4F4;
-    border-radius: 14px;
+    border-radius: 8px;
     border-right-color: #F4F4F4;
     border-top-color: #F4F4F4;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 -2px 3px rgba(0, 0, 0, 0.46);
+    color: #333333;
     float: left;
     font-family: Amaranth;
     font-size: 1.5em;
@@ -34,6 +48,7 @@
     margin-right: 20px;
     padding-right: 20px;
     text-indent: 16px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
 .messic-explore-albumcontainer {
@@ -94,25 +109,41 @@
 	position: relative;
 }
 
+.messic-explore-authortitle .messic-explore-albumtitle{
+	color: #FFFFFF;
+	font-size: 0.55em;
+}
+
 .messic-explore-albumtitle{
-	color: #0096FF;
-    font-family: roboto-bold;
-    font-size: 0.6em;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
-    width: 100%;
+    color: #555555;
+    font-family: Roboto-bold;
+    font-size: 0.8em;
+    max-width: 100px;
+    overflow: hidden;
     text-align: center;
-    max-width: 100px;
-    overflow: hidden;
-    max-width: 100px;
-    overflow: hidden;
+    text-indent: 0;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
     white-space: nowrap;
+    width: 100%;
+}
+
+.messic-explore-authortitle .messic-explore-albumcontainer:hover .messic-explore-albumtitle{
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
 }
 
 .messic-explore-albumcontainer:hover .messic-explore-albumtitle{
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.messic-explore-albumcontainer:hover .messic-explore-albumauthortitle{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
 }
+
 .messic-explore-albumcover:hover .messic-explore-add{
     opacity: 1;
 }
@@ -158,17 +189,14 @@
 }
 
 .messic-explore-words {
-    background-color: rgba(255, 255, 255, 0.8);
-    background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.1));
-    border: 1px solid #EEEEEE;
-    border-radius: 14px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 0 rgba(255, 255, 255, 0.1) inset, 0 1.2em 0 rgba(255, 255, 255, 0.05) inset, 0 -0.2em 0 rgba(255, 255, 255, 0.1) inset, 0 -3px 0 rgba(0, 0, 0, 0.14) inset, 0 3px 0.25em rgba(0, 0, 0, 0.1);
+    border: 6px dashed #EEEEEE;
+    border-radius: 8px;
     clear: left;
     color: #FFFFFF;
     display: block;
-    height: 37px;
-    margin-bottom: 51px;
-    margin-left: -1px;
+    height: 40px;
+    margin-bottom: 53px;
+    margin-left: 13px;
     padding: 2px 2px 2px 55px;
 }
 .messic-explore-list {
