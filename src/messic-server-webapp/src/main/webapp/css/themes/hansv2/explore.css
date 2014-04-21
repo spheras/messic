@@ -1,0 +1,265 @@
+.messic-explore-values {
+	clear:left;	
+}
+
+.messic-explore-words:before {
+    background: url("home/ribbon-blue.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "Index";
+    font-family: roboto-bold;
+    height: 77px;
+    left: -67px;
+    padding-top: 11px;
+    position: absolute;
+    text-indent: 56px;
+    top: 2px;
+    width: 142px;
+}
+
+.messic-explore-values:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+.messic-explore-orderbytitle{
+	float:left;
+	margin-top: -35px;
+	color: #999999;
+}
+
+.messic-explore-values ul {
+	list-style-type: none;
+	padding: 0;
+}
+.messic-explore-authortitle-text{
+	
+}
+.messic-explore-authortitle {
+    background: linear-gradient(to bottom, #DDDDDD 0%, #F9F9F9 21%, #777777 70%, #BBBBBB 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-left-color: #F4F4F4;
+    border-radius: 8px;
+    border-right-color: #F4F4F4;
+    border-top-color: #F4F4F4;
+    box-shadow: 0 -2px 3px rgba(0, 0, 0, 0.46);
+    color: #333333;
+    float: left;
+    font-family: Amaranth;
+    font-size: 1.5em;
+    margin-bottom: 33px;
+    margin-right: 20px;
+    padding-right: 20px;
+    text-indent: 16px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.messic-explore-albumcontainer {
+    float: left;
+    height: 100px;
+    margin: 4px 17px 54px;
+    width: 100px;
+}
+
+.messic-explore-add:hover ~ .messic-explore-vinyl{
+	margin-left: 45px;
+}
+
+.messic-explore-add {
+	background: url("playlist/vinyl-play.png") no-repeat scroll 0 0
+		rgba(0, 0, 0, 0);
+	cursor: pointer;
+	height: 38px;
+	left: 50%;
+	margin-left: -18px;
+	margin-top: -16px;
+	opacity: 0;
+	position: relative;
+	top: 50%;
+	transition: opacity 0.45s ease-in-out 0s;
+	width: 38px;
+	z-index: 3;
+}
+
+.messic-explore-vinyl {
+	background: url("playlist/vinyl.png") no-repeat scroll 0 0
+		rgba(0, 0, 0, 0);
+	height: 85px;
+	margin-left: 30px;
+	margin-top: -94px;
+	position: relative;
+	width: 85px;
+	z-index: 0;
+	transition-property: margin-left;
+	transition-duration: 0.3s;
+}
+
+.messic-explore-albumcover {
+	background: none repeat scroll 0 0/100px auto rgba(0, 0, 0, 0);
+	border: 1px solid rgba(0, 0, 0, 0.44);
+	border-radius: 3px;
+	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.34);
+	height: 100px;
+	overflow: visible;
+	width: 100px;
+}
+
+.messic-explore-albumcover>img {
+	height: 100%;
+	margin-top: -22px;
+	width: 100%;
+	z-index: 1;
+	position: relative;
+}
+
+.messic-explore-authortitle .messic-explore-albumtitle{
+	color: #FFFFFF;
+	font-size: 0.55em;
+}
+
+.messic-explore-albumtitle{
+    color: #555555;
+    font-family: Roboto-bold;
+    font-size: 0.8em;
+    max-width: 100px;
+    overflow: hidden;
+    text-align: center;
+    text-indent: 0;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
+    white-space: nowrap;
+    width: 100%;
+}
+
+.messic-explore-authortitle .messic-explore-albumcontainer:hover .messic-explore-albumtitle{
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+.messic-explore-albumcontainer:hover .messic-explore-albumtitle{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.messic-explore-albumcontainer:hover .messic-explore-albumauthortitle{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+
+.messic-explore-albumcover:hover .messic-explore-add{
+    opacity: 1;
+}
+
+.messic-explore-orderby {
+    background: none repeat scroll 0 0 rgba(0, 200, 200, 0.12);
+    border-radius: 5px;
+    color: #CCCCCC;
+    cursor: pointer;
+    float: left;
+    margin: -35px 3px 18px 13px;
+    padding: 0 10px;
+}
+
+.messic-explore-orderby-selected {
+    background: linear-gradient(rgba(0, 200, 200, 0.43), rgba(0, 200, 200, 0.89)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px dotted rgba(0, 0, 0, 0.04);
+    box-shadow: 1px 1px 8px #00C8C8;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-decoration: underline;
+ }
+
+.messic-explore-word:hover {
+    font-size: 1.8em;
+    color: #00AAFF;
+}
+
+.messic-explore-word:visited {
+    color: #00AAFF;
+}
+.messic-explore-word:hover:visited {
+    color: #00AAFF;
+}
+
+.messic-explore-word {
+    color: #0000FF;
+    display: block;
+    float: left;
+    font-family: roboto-bold;
+    font-size: 1.5em;
+    margin-right: 10px;
+}
+
+.messic-explore-words {
+    border: 6px dashed #EEEEEE;
+    border-radius: 8px;
+    clear: left;
+    color: #FFFFFF;
+    display: block;
+    height: 40px;
+    margin-bottom: 53px;
+    margin-left: 13px;
+    padding: 2px 2px 2px 55px;
+}
+.messic-explore-list {
+	background: #FFFFFF;
+}
+
+.messic-explore-albumcontainer .messic-explore-albumstartword {
+    margin-top: -24px;
+}
+
+.messic-explore-albumstartword{
+    background: none repeat scroll 0 0 rgba(253, 255, 137, 0.51);
+    border-radius: 10px;
+    box-shadow: 1px 1px 14px rgba(255, 255, 0, 0.5);
+    color: #8380FF;
+    font-family: roboto-bold;
+    font-size: 0.8em;
+    height: 23px;
+    margin-bottom: 53px;
+    margin-left: -18px;
+    margin-top: -54px;
+    position: absolute;
+    text-align: center;
+    text-indent: -2px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
+    transform: rotate(-13deg);
+    width: 64px;
+}
+.messic-explore-anchor {
+    display: block;
+    float: left;
+    height: 19px;
+    margin-top: -95px;
+    width: 20px;
+}
+
+
+.messic-explore-authortitle .messic-explore-vinyl-detail {
+    font-size: 1.7em;
+    margin-left: 48px;
+    margin-top: 28px;
+}
+
+.messic-explore-albumcover:hover .messic-explore-vinyl-detail{
+    opacity: 1;
+}
+
+.messic-explore-vinyl-detail:hover{
+	color: #0000FF;
+	text-decoration: underline;
+}
+
+.messic-explore-vinyl-detail{
+    color: #AAAAAA;
+    cursor: pointer;
+    font-family: amaranth;
+    font-size: 2.3em;
+    margin-left: 66px;
+    margin-top: 32px;
+    opacity: 0;
+    position: absolute;
+    transition-duration: 0.5s;
+    transition-property: opacity;
+    z-index: 2;
+}
+

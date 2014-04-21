@@ -25,7 +25,7 @@ public class DAOJPAAlbum
 
 	@Override
 	public List<MDOAlbum> getAll(String username) {
-        Query query = entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName)" );
+        Query query = entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) ORDER BY UPPER(a.name)" );
         query.setParameter( "userName", username);
         
         @SuppressWarnings( "unchecked" )
@@ -35,7 +35,7 @@ public class DAOJPAAlbum
 
 	@Override
 	public List<MDOAlbum> findSimilarAlbums(String albumName, String username) {
-        Query query = entityManager.createQuery( "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName)" );
+        Query query = entityManager.createQuery( "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName)  ORDER BY UPPER(a.name)" );
         query.setParameter( "albumName", "%" + albumName + "%");
         query.setParameter( "userName", username);
         
@@ -46,7 +46,7 @@ public class DAOJPAAlbum
 
 	@Override
 	public List<MDOAlbum> getAll(long authorSid, String username) {
-        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName) AND (a.sid = :authorSid)" );
+        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName) AND (a.sid = :authorSid)  ORDER BY UPPER(a.name)" );
         query.setParameter( "userName", username);
         query.setParameter( "authorSid", authorSid);
         
@@ -98,7 +98,7 @@ public class DAOJPAAlbum
 	@Override
 	public List<MDOAlbum> findSimilarAlbums(long authorSid, String albumName,
 			String username) {
-        Query query = entityManager.createQuery( "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName) AND (a.author.sid = :authorSid)" );
+        Query query = entityManager.createQuery( "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName) AND (a.author.sid = :authorSid) ORDER BY UPPER(a.name)" );
         query.setParameter( "albumName", "%" + albumName + "%");
         query.setParameter( "userName", username);
         query.setParameter( "authorSid", authorSid);

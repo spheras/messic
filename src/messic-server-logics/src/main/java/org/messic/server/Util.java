@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
@@ -43,6 +44,24 @@ public class Util {
             return true;
         } catch (NumberFormatException nfe) {}
         return false;
+    }
+    
+    /**
+     * Read an inputstream and return a byte[] with the whole content of the readed at the inputstream
+     * @param is {@link InputStream}
+     * @return byte[] content
+     * @throws IOException
+     */
+    public static byte[] readInputStream(InputStream is) throws IOException{
+        byte[] buffer=new byte[1024];
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        int cant=is.read( buffer );
+        while(cant>0){
+            baos.write( buffer, 0, cant );
+            cant=is.read( buffer );
+        }
+        
+        return baos.toByteArray();
     }
     
 	/**

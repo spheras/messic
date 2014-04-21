@@ -1,3 +1,13 @@
+//Select a menu
+function selectOption(optionSelected)
+{
+	$(".messic-menu-icon").each(function(index){
+		$(this).removeClass("messic-menu-icon-selected");
+	});
+	
+	$(optionSelected).addClass("messic-menu-icon-selected");
+}
+
 function initMessic(){
 	(function($){
 		var playlist=$("#messic-playlist");
@@ -22,11 +32,16 @@ function initMessic(){
         }
     );
  
-	$("#messic-menu-home").click(mainCreateRandomLists);
+	$("#messic-menu-home").click(function(){
+		selectOption(this);
+		mainCreateRandomLists();
+	});
     mainCreateRandomLists();
 
 
 	$("#messic-menu-radio").click(function(){
+		selectOption(this);
+		
 		$.getJSON( "services/jsondoc", function( data ) {
 			$("#messic-page-content").empty();
 			var code="";
@@ -88,11 +103,22 @@ function initMessic(){
 	});
 
 	$("#messic-menu-upload").click(function(){
+		selectOption(this);
 		$.get("upload.do", function(data){ 
 			$("#messic-page-content").empty();
 		    var posts = $($.parseHTML(data)).filter('#content').children();
 		    $("#messic-page-content").append(posts);
 			initUpload();
+		});
+	});
+
+	$("#messic-menu-explore").click(function(){
+		selectOption(this);
+		$.get("explore.do", function(data){ 
+			$("#messic-page-content").empty();
+		    var posts = $($.parseHTML(data)).filter('#content').children();
+		    $("#messic-page-content").append(posts);
+			initExplore();
 		});
 	});
 
@@ -129,6 +155,7 @@ function mainSearch(){
 }
 
 function mainCreateRandomList(randomlist, lastTitleType){
+	
 				var code="<div class='messic-main-randomlist'>";
 				code=code+"  <div class='messic-main-randomlist-name ";
 
@@ -182,7 +209,7 @@ function mainCreateRandomList(randomlist, lastTitleType){
 						for(var j=0;randomlist.songs && j<randomlist.songs.length;j++){
 							var song=randomlist.songs[j];
 							code=code+"<li>";
-		            		code=code+"    <div class='messic-main-randomlist-albumcover'>";
+		            		code=code+"    <div class='messic-main-randomlist-albumcover' title='"+song.album.author.name+"\n"+song.album.name+"\n"+song.name+"'>";
 		            		code=code+"        <div class='messic-main-randomlist-add' onclick='addSong(\"raro\",";
 
 		            		code=code+"\""+UtilEscapeQuotes(song.album.author.name)+"\",";
@@ -194,8 +221,8 @@ function mainCreateRandomList(randomlist, lastTitleType){
 							code=code+"        <img  src='services/albums/"+song.album.sid+"/cover/'></img>";
 		            		code=code+"        <div class='messic-main-randomlist-vinyl'></div>";
 							code=code+"    </div>"
-							code=code+"    <div class='messic-main-randomlist-albumauthor'>"+song.album.author.name+"</div>";
-							code=code+"    <div class='messic-main-randomlist-albumtitle'>"+song.name+"</div>";
+							code=code+"    <div class='messic-main-randomlist-albumauthor' title='"+song.album.author.name+"'>"+song.album.author.name+"</div>";
+							code=code+"    <div class='messic-main-randomlist-albumtitle' title='"+song.name+"'>"+song.name+"</div>";
 							code=code+"</li>";
 						}
 
@@ -232,6 +259,23 @@ function mainCreateRandomLists(){
 		});
 }
 
+//Add an album to the playlist of songs (query the songs of the album to the server)
+function addAlbum(albumSid){
+	$.getJSON( "services/albums/"+albumSid+"?songsInfo=true&authorInfo=true",function(data){
+		for(var z=0;z<data.songs.length;z++){
+			addSong("raro",
+					UtilEscapeQuotes(data.author.name),
+					data.sid,
+					UtilEscapeQuotes(data.name),
+					data.songs[z].sid,
+					UtilEscapeQuotes(data.songs[z].name)
+				   );
+		}
+		UtilShowInfo("Great! " + data.songs.length + " songs added to the playlist!");
+	});
+}
+
+//Add a song to the playlist of songs
 function addSong(titleA,authorName,albumSid,albumName,songSid,songName){
 		    playlist.add({
 		        title:titleA,

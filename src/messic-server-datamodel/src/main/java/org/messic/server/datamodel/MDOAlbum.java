@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
@@ -38,13 +40,14 @@ public class MDOAlbum extends MDOPhysicalResource implements
     @JoinColumn(name = "GENRE", nullable = true)
     private MDOGenre genre;   
 
-    @OneToMany(mappedBy = "album")
+    @OneToMany(mappedBy = "album", cascade={CascadeType.REMOVE})
+    @OrderBy("TRACK")
     private List<MDOSong> songs;
 
-    @OneToMany(mappedBy = "album")
+    @OneToMany(mappedBy = "album", cascade={CascadeType.REMOVE})
     private List<MDOAlbumResource> artworks;
     
-    @OneToMany(mappedBy = "album")
+    @OneToMany(mappedBy = "album", cascade={CascadeType.REMOVE})
     private List<MDOAlbumResource> others;
     
     

@@ -1,4 +1,4 @@
-z@keyframes fadein
+@keyframes fadein
 {
    0%  { opacity:0;}
    100%  { opacity:1;}
@@ -509,14 +509,18 @@ p strong{
 
 /* icons of the main menu */
 /* ---------------------------- */
+#messic-menu li.messic-menu-icon-selected{
+    margin-top: 10px;
+}
+
 #messic-menu li.messic-menu-icon:after{
     /* commons properties for all icons */
-    content: "";
+	content: "";
     display: block;
     height: 99px;
-    width: 99px;
-    top:0px;
-    position:absolute;
+    position: relative;
+    top: -126px;
+    width: 99px;	
 }
 #messic-menu > li:hover.messic-menu-icon:after{
     transform: rotate(-360deg);
@@ -526,7 +530,7 @@ p strong{
 }
 
 #messic-menu > li:active.messic-menu-icon:after{
-    top:3px;
+    top:-122px;
 }
 #messic-menu-home:after{
     background: url("base/mainmenu-buttons-icons.png") no-repeat scroll 0 0 transparent;

@@ -229,11 +229,6 @@
 			<artifactId>servlet-api</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-
 		<!-- JSTL -->
 		<dependency>
 			<groupId>javax.servlet</groupId>

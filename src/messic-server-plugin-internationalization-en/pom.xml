@@ -52,7 +52,8 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<tasks>
-						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-starter/bundles/04-messic-plugins/02-${project.build.finalName}.jar" />
+						<!-- remember, the file destination name contains the string '-ns' to avoid starting because this is a fragment, not a bundle -->
+						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-starter/bundles/04-messic-plugins/02-ns-${project.build.finalName}.jar" />
 					</tasks>
 				</configuration>
 				<executions>

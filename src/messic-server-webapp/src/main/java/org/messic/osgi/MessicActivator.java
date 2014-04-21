@@ -1,21 +1,20 @@
 package org.messic.osgi;
 
+import org.apache.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
 public class MessicActivator implements BundleActivator {
 	
-	public static void main(String[] args) {
-		boolean value=javax.servlet.Servlet.class.isAssignableFrom(org.springframework.web.servlet.DispatcherServlet.class);
-		System.out.println("return:"+value);
-	}
-	
+    private static Logger logger = Logger.getLogger(MessicActivator.class);
+    
+    
 	public void start(BundleContext context) {
-		System.out.println("Hello World");
+	    logger.info( "Messic Bundle Started!" );
 	}
 
 	public void stop(BundleContext context) {
-		System.out.println("Goodbye All");
+        logger.info( "Messic Bundle Stopped!" );
 	}
 	
 }
