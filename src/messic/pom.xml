@@ -24,6 +24,7 @@
 		<module>../messic-server-plugin-tagwizard-audiotagger</module>
 		<module>../messic-server-plugin-internationalization-en</module>
 		<module>../messic-server-plugin-internationalization-es</module>
+		<module>../messic-updater-bundle</module>
 	</modules>
 
 	<dependencies>
@@ -378,4 +379,20 @@
 		</developer>
 	</developers>
 	
+	
+	<profiles>
+		<profile>
+			<id>jenkins</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<distributionManagement>
+				<repository>
+					<id>jenkins.repo</id>
+					<name>Internal Repository</name>
+					<url>file:///dev/null</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+	</profiles>
 </project> 	
