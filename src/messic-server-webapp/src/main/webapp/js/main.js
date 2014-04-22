@@ -192,6 +192,7 @@ function mainCreateRandomList(randomlist, lastTitleType){
 				code=code+ "'>"+messicLang.search(randomlist.name)+"</div>";
 				code=code+"  <div class='messic-main-randomlist-title-container'>";
 				code=code+"     <div class='messic-main-randomlist-title'>"+messicLang.search(randomlist.title)+"</div>";
+				code=code+"     <div class='messic-main-randomlist-playall'></div>";
 				code=code+"     <div class='messic-main-randomlist-details'>";
 				if(randomlist.details){
 					for(var k=0;k<randomlist.details.length;k++){

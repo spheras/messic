@@ -252,7 +252,7 @@
 }
 .messic-main-randomlist-details{
     height: 26px;
-    margin-left: 20px;
+    margin-left: 50px;
     width: 100%;
 }
 .messic-main-randomlist-detail:after{
@@ -277,4 +277,16 @@
     text-shadow: 0 1px 2px #C8C864;
     width: auto;
     margin-right: 6px;
+}
+.messic-main-randomlist-playall:hover {
+    background: url("home/playallrandomlist-anim.gif") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-playall {
+    background: url("home/playallrandomlist.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 25px;
+    margin-left: 5px;
+    position: absolute;
+    width: 36px;
+    margin-top: 4px;
 }
