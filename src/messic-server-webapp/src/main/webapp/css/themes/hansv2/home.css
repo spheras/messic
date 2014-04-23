@@ -279,10 +279,21 @@
     margin-right: 6px;
 }
 .messic-main-randomlist-playall:hover {
-    background: url("home/playallrandomlist-anim.gif") repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: url("home/playallrandomlistanim.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	-webkit-animation: homeplayallanim .6s steps(4) infinite;
+	   -moz-animation: homeplayallanim .6s steps(4) infinite;
+		-ms-animation: homeplayallanim .6s steps(4) infinite;
+		 -o-animation: homeplayallanim .6s steps(4) infinite;
+			animation: homeplayallanim .6s steps(4) infinite;
 }
+
+@keyframes homeplayallanim {
+   from { background-position:    0px; }
+	 to { background-position: -144px; }
+}
+
 .messic-main-randomlist-playall {
-    background: url("home/playallrandomlist.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: url("home/playallrandomlistanim.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     cursor: pointer;
     height: 25px;
     margin-left: 5px;
