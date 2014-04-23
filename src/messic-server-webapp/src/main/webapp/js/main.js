@@ -154,6 +154,19 @@ function mainSearch(){
 	});
 }
 
+//play all the songs of a randomlist
+function mainPlayRandomList(div){
+	var eldiv=$(div);
+	var elparent=eldiv.parent().parent();
+	var elfind=elparent.find(".messic-main-randomlist-add");
+	elfind.each(function(){
+		var elonclick=$(this).attr("onclick");
+		//alert(elonclick);
+		eval(elonclick);
+	});
+}
+
+//Creates the randomlist divs
 function mainCreateRandomList(randomlist, lastTitleType){
 	
 				var code="<div class='messic-main-randomlist'>";
@@ -192,7 +205,7 @@ function mainCreateRandomList(randomlist, lastTitleType){
 				code=code+ "'>"+messicLang.search(randomlist.name)+"</div>";
 				code=code+"  <div class='messic-main-randomlist-title-container'>";
 				code=code+"     <div class='messic-main-randomlist-title'>"+messicLang.search(randomlist.title)+"</div>";
-				code=code+"     <div class='messic-main-randomlist-playall'></div>";
+				code=code+"     <div class='messic-main-randomlist-playall' onclick='mainPlayRandomList(this)' title='"+messicLang.search(randomlist.playall)+"'></div>";
 				code=code+"     <div class='messic-main-randomlist-details'>";
 				if(randomlist.details){
 					for(var k=0;k<randomlist.details.length;k++){
