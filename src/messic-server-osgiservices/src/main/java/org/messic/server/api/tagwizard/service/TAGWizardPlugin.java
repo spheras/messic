@@ -3,11 +3,13 @@ package org.messic.server.api.tagwizard.service;
 import java.io.File;
 import java.util.List;
 
+import org.messic.server.api.plugin.MessicPlugin;
+
 
 /**
  * Plugin to obtain tag information from songs files
  */
-public interface TAGWizardPlugin
+public interface TAGWizardPlugin extends MessicPlugin
 {
     /**
      * The plugin must obtain tags for the files passed.  The length of the returned list must be the same as the list of files.
