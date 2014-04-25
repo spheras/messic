@@ -24,6 +24,7 @@ messicLang = {
 	uploadAlbumSendCancel: '<fmt:message key="js-upload-album-send-cancel" bundle="${message}"/>',
 	confirmationYes: '<fmt:message key="js-confirmation-yes" bundle="${message}"/>',
 	confirmationNo: '<fmt:message key="js-confirmation-no" bundle="${message}"/>',
+	randomlistplayall: '<fmt:message key="js-randomlist-playall" bundle="${message}"/>',
 	
 	search: function(what){
 		if(what=='RandomListName-Random'){

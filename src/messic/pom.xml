@@ -25,6 +25,7 @@
 		<module>../messic-server-plugin-internationalization-en</module>
 		<module>../messic-server-plugin-internationalization-es</module>
 		<module>../messic-updater-bundle</module>
+		<module>../messic-starter</module>
 	</modules>
 
 	<dependencies>

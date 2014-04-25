@@ -42,6 +42,11 @@
                 </div>
             </div>
 
+			<div id="messic-playlist-actions">
+		    	<div id="messic-playlist-action-clear" class="messic-playlist-action"></div>
+		    	<div id="messic-playlist-action-pin" class="messic-playlist-action"></div>
+	    	</div>
+
 			<div id="messic-playlist-background">
 
 			<div id="jquery_jplayer" class="jp-jplayer"></div>

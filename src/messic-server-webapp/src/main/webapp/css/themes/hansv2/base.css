@@ -510,6 +510,7 @@ p strong{
 /* icons of the main menu */
 /* ---------------------------- */
 #messic-menu li.messic-menu-icon-selected{
+    background: url("base/mainmenu-button-99x99.png") no-repeat scroll -297px 0px transparent;
     margin-top: 10px;
 }
 
