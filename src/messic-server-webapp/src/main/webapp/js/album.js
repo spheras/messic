@@ -3,6 +3,13 @@ function initAlbum(){
 	
 }
 
+function albumShowMusicInfo(authorName, albumName, pluginName, div){
+	$.getJSON( "services/musicinfo?pluginName="+pluginName+"&albumName="+albumName+"&authorName="+authorName, function( data ) {
+		var resulthtml=data.htmlContent;
+		$(div).append(resulthtml);
+	});
+}
+
 function albumRemove(albumSid){
     $.confirm({
         'title'		: "Remove Album",

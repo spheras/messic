@@ -22,6 +22,7 @@
 		<module>../messic-server-logics</module>
 		<module>../messic-server-webapp</module>
 		<module>../messic-server-plugin-tagwizard-audiotagger</module>
+		<module>../messic-server-plugin-musicinfo-wikipedia</module>
 		<module>../messic-server-plugin-internationalization-en</module>
 		<module>../messic-server-plugin-internationalization-es</module>
 		<module>../messic-updater-bundle</module>

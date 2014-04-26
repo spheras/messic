@@ -41,12 +41,12 @@
 						<Embed-Directory>dependencies</Embed-Directory>
 						<Embed-Transitive>true</Embed-Transitive>
 						
-						<Bundle-Activator>org.messic.server.api.tagwizard.audiotagger.Activator</Bundle-Activator>
+						<Bundle-Activator>org.messic.server.api.musicinfo.wikipedia.Activator</Bundle-Activator>
 						<!-- Packages that are not exported but need to be included need to 
 							be listed as Private-Package -->
-						<Private-Package>org.messic.server.api.tagwizard.audiotagger</Private-Package>
+						<Private-Package>org.messic.server.api.musicinfo.wikipedia</Private-Package>
 						<!-- Automatically compute all the necessary Import-Package statements -->
-						<Import-Package>org.osgi.framework,org.messic.server.api.tagwizard.service</Import-Package>
+						<Import-Package>org.xml.sax;resolution:=optional,org.xml.sax.ext;resolution:=optional,org.xml.sax.helpers;resolution:=optional,org.osgi.framework,org.messic.server.api.musicinfo.service</Import-Package>
 						<!-- This bundle does not export any packages -->
 						<Export-Package />
 					</instructions>

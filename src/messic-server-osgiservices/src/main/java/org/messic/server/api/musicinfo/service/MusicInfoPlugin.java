@@ -6,6 +6,14 @@ import org.messic.server.api.plugin.MessicPlugin;
 
 public interface MusicInfoPlugin extends MessicPlugin{
 
+    static final String MUSIC_INFO_PLUGIN_NAME="MusicInfo";
+    
+    /**
+     * Return an icon image (jpeg, or png), which can be representative of the provider 
+     * @return byte[] the image
+     */
+    byte[] getProviderIcon();
+    
 	/**
 	 * Obtain html info of the author name param
 	 * @param locale {@link Locale} desired locale, at least english
