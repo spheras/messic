@@ -23,6 +23,12 @@ public interface MusicInfoPlugin extends MessicPlugin{
 	String getAuthorInfo(Locale locale, String authorName);
 
 	/**
+	 * Return the name of the provider which is the base to obtain the information
+	 * @return {@link String}  the provider name
+	 */
+	String getProviderName();
+	
+	/**
 	 * Obtain html info of the album passed of the author param
 	 * @param locale {@link Locale} in which is desired the info (english as default)
 	 * @param authorName {@link String} name of the author

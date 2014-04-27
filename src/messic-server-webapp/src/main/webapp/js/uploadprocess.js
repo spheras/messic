@@ -91,7 +91,7 @@ var UploadAlbumProcess=function (album){
 		        	return function(e) {
 						    var bin = e.target.result;
 						     $.ajax({
-						        url: 'services/albums/'+album.code+"?fileName="+escape(resource.file.name),
+						        url: 'services/albums/'+album.code+"?fileName="+encodeURIComponent(resource.file.name),
 						        type: 'PUT',
 						        //Ajax success
 						        success: function(){

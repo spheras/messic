@@ -1,6 +1,7 @@
 package org.messic.server.api;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.messic.server.api.datamodel.MusicInfo;
@@ -13,29 +14,28 @@ import org.springframework.stereotype.Component;
 @Component
 public class APIMusicInfo
 {
-    
+
     /**
      * return the representative provider icon for the music infor plugin wich name is as pluginName
+     * 
      * @param pluginName {@link String} name of the plugin
      * @return byte[] the image
      */
-    public byte[] getMusicInfoProviderIcon(String pluginName){
-        MusicInfoPlugin plugin=getMusicInfoPlugin( pluginName );
-        if(plugin!=null){
+    public byte[] getMusicInfoProviderIcon( String pluginName )
+    {
+        MusicInfoPlugin plugin = getMusicInfoPlugin( pluginName );
+        if ( plugin != null )
+        {
             return plugin.getProviderIcon();
-        }else{
+        }
+        else
+        {
             return null;
         }
     }
-    
-    /**
-     * Obtain the musicInfo plugin with the name
-     * 
-     * @return MusicInfoPlugin the plugins to execute
-     */
-    private MusicInfoPlugin getMusicInfoPlugin( String pluginName )
-    {
 
+    private List<MusicInfoPlugin> getMusicInfoPlugins( String pluginName )
+    {
         BundleContext context = FrameworkUtil.getBundle( MusicInfoPlugin.class ).getBundleContext();
         ArrayList<MusicInfoPlugin> result = new ArrayList<MusicInfoPlugin>();
 
@@ -57,7 +57,41 @@ public class APIMusicInfo
         {
             e.printStackTrace();
         }
+
+        return result;
+
+    }
+
+    /**
+     * Obtain the musicInfo plugin with the name
+     * 
+     * @return MusicInfoPlugin the plugins to execute
+     */
+    private MusicInfoPlugin getMusicInfoPlugin( String pluginName )
+    {
+        List<MusicInfoPlugin> result = getMusicInfoPlugins( pluginName );
         return result.get( 0 );
+    }
+
+    /**
+     * Return the list of musicinfoplugins available
+     * 
+     * @return {@link List}<MusicInfoPlugin/> list of plugins availables
+     */
+    public List<org.messic.server.api.datamodel.MusicInfoPlugin> getMusicInfoPlugins()
+    {
+        List<MusicInfoPlugin> results = getMusicInfoPlugins( "*" );
+        List<org.messic.server.api.datamodel.MusicInfoPlugin> result =
+            new ArrayList<org.messic.server.api.datamodel.MusicInfoPlugin>();
+        for ( int i = 0; i < results.size(); i++ )
+        {
+            MusicInfoPlugin mip = results.get( i );
+            org.messic.server.api.datamodel.MusicInfoPlugin mip2 =
+                new org.messic.server.api.datamodel.MusicInfoPlugin( mip.getName(), mip.getProviderName() );
+            result.add( mip2 );
+        }
+
+        return result;
     }
 
     public MusicInfo getMusicInfo( Locale locale, String pluginName, String authorName, String albumName,

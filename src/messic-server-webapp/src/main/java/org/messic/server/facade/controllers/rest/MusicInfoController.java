@@ -63,7 +63,7 @@ public class MusicInfoController
         return new ResponseEntity<byte[]>( content, headers, HttpStatus.OK );
     }
 
-    @ApiMethod( path = "/musicinfo?pluginName=xxxx&songName=xxxx&albumName=xxxx&authorName=xxxxx", verb = ApiVerb.GET, description = "Get Music Info for album/song/author", produces = {
+    @ApiMethod( path = "/musicinfo?pluginName=xxxx&songName=xxxx&albumName=xxxx&authorName=xxxxx", verb = ApiVerb.GET, description = "Get Music Info for album/song/author using the plugin called like the pluginName parameter. If no pluginName parameter is presented, then this will return all the availables plugins names that can be used.", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -71,23 +71,32 @@ public class MusicInfoController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public MusicInfo getAll( @RequestParam( value = "pluginName", required = true )
-                             @ApiParam( name = "pluginName", description = "Name of the plugin to obtain information", paramType = ApiParamType.QUERY, required = true )
-                             String pluginName,
-                             @RequestParam( value = "songName", required = false )
-                             @ApiParam( name = "songName", description = "Name of the song to search", paramType = ApiParamType.QUERY, required = false )
-                             String songName,
-                             @RequestParam( value = "albumName", required = false )
-                             @ApiParam( name = "albumName", description = "Name of the album to search", paramType = ApiParamType.QUERY, required = false )
-                             String albumName,
-                             @RequestParam( value = "authorName", required = true )
-                             @ApiParam( name = "authorName", description = "Name of the author to search", paramType = ApiParamType.QUERY, required = true )
-                             String authorName, Locale locale )
+    public MusicInfo getInfo( @RequestParam( value = "pluginName", required = false )
+                              @ApiParam( name = "pluginName", description = "Name of the plugin to obtain information.. if this information is not present, the function will return all the plugin names availables at the system.", paramType = ApiParamType.QUERY, required = false )
+                              String pluginName,
+                              @RequestParam( value = "songName", required = false )
+                              @ApiParam( name = "songName", description = "Name of the song to search", paramType = ApiParamType.QUERY, required = false )
+                              String songName,
+                              @RequestParam( value = "albumName", required = false )
+                              @ApiParam( name = "albumName", description = "Name of the album to search", paramType = ApiParamType.QUERY, required = false )
+                              String albumName,
+                              @RequestParam( value = "authorName", required = false )
+                              @ApiParam( name = "authorName", description = "Name of the author to search.. is required only if a pluginName is presented, if not, it's not necessary.", paramType = ApiParamType.QUERY, required = true )
+                              String authorName, Locale locale )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
         try
         {
-            return musicInfoAPI.getMusicInfo( locale, pluginName, authorName, albumName, songName );
+            if ( pluginName != null )
+            {
+                return musicInfoAPI.getMusicInfo( locale, pluginName, authorName, albumName, songName );
+            }
+            else
+            {
+                MusicInfo mi = new MusicInfo( "" );
+                mi.setProviders( musicInfoAPI.getMusicInfoPlugins() );
+                return mi;
+            }
         }
         catch ( Exception e )
         {

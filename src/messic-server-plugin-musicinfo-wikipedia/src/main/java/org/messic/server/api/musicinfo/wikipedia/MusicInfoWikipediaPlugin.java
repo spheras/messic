@@ -15,6 +15,7 @@ public class MusicInfoWikipediaPlugin implements MusicInfoPlugin
 {
 
 	public static final String NAME="WIKIPEDIA";
+	public static final String PROVIDER_NAME="Wikipedia";
 	public static final String EN_DESCRIPTION="Plugin to obtain information of albums, songs and authors from wikipedia.";
 	public static final float VERSION=1.0f;
 	public static final float MINIMUM_MESSIC_VERSION=1.0f;
@@ -190,6 +191,12 @@ public class MusicInfoWikipediaPlugin implements MusicInfoPlugin
             //TODO
             return null;
         }
+    }
+
+    @Override
+    public String getProviderName()
+    {
+        return PROVIDER_NAME;
     }
 
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<web-app xmlns="http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/
+<web-app
+	xmlns="http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/
                       http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_3_0.xsd"
-  version="2.5"
-  metadata-complete="true">
+	version="2.5" metadata-complete="true">
 
 	<display-name>Messic</display-name>
 
@@ -27,27 +27,25 @@
 
 	<!-- Security Filter -->
 	<filter>
-        <filter-name>encoding-filter</filter-name>
-        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-        <init-param>
-            <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>encoding-filter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    
+		<filter-name>encoding-filter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encoding-filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>
-			org.springframework.web.filter.DelegatingFilterProxy
-		</filter-class>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -56,9 +54,7 @@
 
 	<!-- Spring Listener -->
 	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	<!-- Log4j Listener -->
 	<listener>
@@ -80,19 +76,175 @@
 	</servlet-mapping>
 
 	<!-- welcome file -->
-	<welcome-file-list>  
-        <welcome-file>/login.do</welcome-file>  
-    </welcome-file-list>  
-        
-    <!-- LOCALE CONFIG -->
-    <locale-config>
-        <default-locale>en</default-locale>
-        <supported-locale>es</supported-locale>
-        <!-- TODO, other languages 
-        <supported-locale>de</supported-locale>
-        <supported-locale>en_GB</supported-locale>
-        <supported-locale>en_US</supported-locale>
-         -->
-    </locale-config>
+	<welcome-file-list>
+		<welcome-file>/login.do</welcome-file>
+	</welcome-file-list>
 
+	<!-- LOCALE CONFIG -->
+	<locale-config>
+		<default-locale>en</default-locale>
+		<supported-locale>es</supported-locale>
+		<!-- TODO, other languages <supported-locale>de</supported-locale> <supported-locale>en_GB</supported-locale> 
+			<supported-locale>en_US</supported-locale> -->
+	</locale-config>
+
+	<!-- ==================================================================== -->
+	<locale-encoding-mapping-list>
+		<locale-encoding-mapping>
+			<locale>ar</locale>
+			<encoding>ISO-8859-6</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>be</locale>
+			<encoding>ISO-8859-5</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>bg</locale>
+			<encoding>ISO-8859-5</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>ca</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>cs</locale>
+			<encoding>ISO-8859-2</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>da</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>de</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>el</locale>
+			<encoding>ISO-8859-7</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>en</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>es</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>et</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>fi</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>fr</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>hr</locale>
+			<encoding>ISO-8859-2</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>hu</locale>
+			<encoding>ISO-8859-2</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>is</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>it</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>iw</locale>
+			<encoding>ISO-8859-8</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>ja</locale>
+			<encoding>Shift_JIS</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>ko</locale>
+			<encoding>EUC-KR</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>lt</locale>
+			<encoding>ISO-8859-2</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>lv</locale>
+			<encoding>ISO-8859-2</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>mk</locale>
+			<encoding>ISO-8859-5</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>nl</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>no</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>pl</locale>
+			<encoding>ISO-8859-2</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>pt</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>ro</locale>
+			<encoding>ISO-8859-2</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>ru</locale>
+			<encoding>ISO-8859-5</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>sh</locale>
+			<encoding>ISO-8859-5</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>sk</locale>
+			<encoding>ISO-8859-2</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>sl</locale>
+			<encoding>ISO-8859-2</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>sq</locale>
+			<encoding>ISO-8859-2</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>sr</locale>
+			<encoding>ISO-8859-5</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>sv</locale>
+			<encoding>ISO-8859-1</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>tr</locale>
+			<encoding>ISO-8859-9</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>uk</locale>
+			<encoding>ISO-8859-5</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>zh</locale>
+			<encoding>GB2312</encoding>
+		</locale-encoding-mapping>
+		<locale-encoding-mapping>
+			<locale>zh_TW</locale>
+			<encoding>Big5</encoding>
+		</locale-encoding-mapping>
+	</locale-encoding-mapping-list>
 </web-app>

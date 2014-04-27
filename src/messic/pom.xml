@@ -23,6 +23,7 @@
 		<module>../messic-server-webapp</module>
 		<module>../messic-server-plugin-tagwizard-audiotagger</module>
 		<module>../messic-server-plugin-musicinfo-wikipedia</module>
+		<module>../messic-server-plugin-musicinfo-youtube</module>
 		<module>../messic-server-plugin-internationalization-en</module>
 		<module>../messic-server-plugin-internationalization-es</module>
 		<module>../messic-updater-bundle</module>
@@ -67,6 +68,12 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-databind</artifactId>
+				<version>2.3.0</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.messic</groupId>
 				<artifactId>messic-server-osgiservices</artifactId>

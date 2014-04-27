@@ -67,12 +67,16 @@
 				</div>
 			</div>
 			<div id="messic-album-plugincontainer">
-				<c:forEach var="plugin" items="${plugins}">
-					<div class="messic-album-musicinfoplugin-container">
+				<ul class="messic-album-plugincontainer-menu">
+					<c:forEach var="plugin" items="${plugins}">
+					<li title="Get Information from ${plugin.getProviderName()}" class="messic-album-plugincontainer-menuitem" onclick="albumShowMusicInfo('${album.author.name}','${album.name}','${plugin.getName()}',this)">
 						<img class="messic-album-musicinfoplugin-icon" src="services/musicinfo/providericon?pluginName=${plugin.getName()}"/>
-						<div class="messic-album-musicinfoplugin" onclick="albumShowMusicInfo('${album.author.name}','${album.name}','${plugin.getName()}',this)">${plugin.getName()}</div>
-					</div>
-				</c:forEach>
+					</li>
+					</c:forEach>
+				</ul>
+				<div class="messic-album-plugincontainer-content">
+					<div class="messic-album-plugincontainer-content-message">Click on any provider option to get information of this album</div>
+				</div>
 			</div>
 		</div>
     </body>

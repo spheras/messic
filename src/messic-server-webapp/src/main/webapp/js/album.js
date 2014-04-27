@@ -3,13 +3,25 @@ function initAlbum(){
 	
 }
 
+/* Show the musicinfo obtained from a plugin in the web page */
 function albumShowMusicInfo(authorName, albumName, pluginName, div){
+	//selected the new one
+	$(".messic-album-plugincontainer-menuitem").removeClass("messic-album-plugincontainer-menuitem-selected");
+	$(div).addClass("messic-album-plugincontainer-menuitem-selected");
+	
+	var contentdiv=$(".messic-album-plugincontainer-content");
+	$(contentdiv).empty();
+	$(contentdiv).append("<div class='messic-album-plugincontainer-content-wait'>Loading Content from 3rd provider</div>");
+	
 	$.getJSON( "services/musicinfo?pluginName="+pluginName+"&albumName="+albumName+"&authorName="+authorName, function( data ) {
 		var resulthtml=data.htmlContent;
-		$(div).append(resulthtml);
+		
+		$(contentdiv).empty();
+		$(contentdiv).append(resulthtml);
 	});
 }
 
+/* Remove the album */
 function albumRemove(albumSid){
     $.confirm({
         'title'		: "Remove Album",

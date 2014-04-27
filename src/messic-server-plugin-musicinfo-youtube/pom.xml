@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<name>messic-server-plugin-musicinfo-wikipedia</name>
-	<description>music info plugin to obtain info for songs, authors and albums from wikipedia</description>
+	<name>messic-server-plugin-musicinfo-youtube</name>
+	<description>music info plugin to obtain videos from youtube</description>
 	<packaging>bundle</packaging>
 
-	<artifactId>messic-server-plugin-musicinfo-wikipedia</artifactId>
+	<artifactId>messic-server-plugin-musicinfo-youtube</artifactId>
 	<parent>
 		<groupId>org.messic</groupId>
 		<artifactId>messic</artifactId>
@@ -41,10 +41,10 @@
 						<Embed-Directory>dependencies</Embed-Directory>
 						<Embed-Transitive>true</Embed-Transitive>
 						
-						<Bundle-Activator>org.messic.server.api.musicinfo.wikipedia.Activator</Bundle-Activator>
+						<Bundle-Activator>org.messic.server.api.musicinfo.youtube.Activator</Bundle-Activator>
 						<!-- Packages that are not exported but need to be included need to 
 							be listed as Private-Package -->
-						<Private-Package>org.messic.server.api.musicinfo.wikipedia</Private-Package>
+						<Private-Package>org.messic.server.api.musicinfo.youtube</Private-Package>
 						<!-- Automatically compute all the necessary Import-Package statements -->
 						<Import-Package>org.xml.sax;resolution:=optional,org.xml.sax.ext;resolution:=optional,org.xml.sax.helpers;resolution:=optional,org.osgi.framework,org.messic.server.api.musicinfo.service</Import-Package>
 						<!-- This bundle does not export any packages -->
@@ -57,7 +57,7 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<tasks>
-						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-starter/bundles/04-messic-plugins/04-${project.build.finalName}.jar" />
+						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-starter/bundles/04-messic-plugins/05-${project.build.finalName}.jar" />
 					</tasks>
 				</configuration>
 				<executions>
@@ -81,6 +81,11 @@
 		<dependency>
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
 	</dependencies>
