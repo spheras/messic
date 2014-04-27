@@ -104,8 +104,8 @@ function exploreByAuthor(){
 			}
 			
 			//we add some albums, just to debug and test
-			var debugRandom=UtilGetRandom(1,5);
-			for(var debug=0;debug<debugRandom;debug++){
+			//var debugRandom=UtilGetRandom(1,5);
+			//for(var debug=0;debug<debugRandom;debug++){
 				for(var j=0;j<data[i].albums.length;j++){
 					var album=data[i].albums[j];
 					code=code+"<div class='messic-explore-albumcontainer' title='"+album.name+"'>";
@@ -118,7 +118,7 @@ function exploreByAuthor(){
 					code=code+"    <div class='messic-explore-albumtitle' title='"+album.name+"'>"+album.name+"</div>";
 					code=code+"</div>";
 				}
-			}
+			//}
 			
 			code=code+"</div>";
 			$(".messic-explore-values").append(code);

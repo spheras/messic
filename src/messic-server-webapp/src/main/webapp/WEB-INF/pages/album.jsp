@@ -78,6 +78,7 @@
 					<div class="messic-album-plugincontainer-content-message">Click on any provider option to get information of this album</div>
 				</div>
 			</div>
+			<div class="divclearer"></div>
 		</div>
     </body>
 </html>

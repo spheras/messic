@@ -82,34 +82,37 @@ public class MusicInfoYoutubePlugin
         surl = surl + "&max-results=50";
         surl = surl + "&q=" + search;
 
-        
-        
-        URI uri=null;
+        URI uri = null;
         try
         {
-            uri = new URI(
-                          "http", 
-                          "gdata.youtube.com", 
-                          "/feeds/api/videos",
-                          surl,
-                          null);
+            uri = new URI( "http", "gdata.youtube.com", "/feeds/api/videos", surl, null );
         }
         catch ( URISyntaxException e )
         {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-        URL url = new URL(uri.toASCIIString());
-        System.out.println(surl);
+
+        URL url = new URL( uri.toASCIIString() );
+        System.out.println( surl );
         URLConnection connection = url.openConnection();
         InputStream is = connection.getInputStream();
 
         JsonFactory jsonFactory = new JsonFactory(); // or, for data binding,
                                                      // org.codehaus.jackson.mapper.MappingJsonFactory
         JsonParser jParser = jsonFactory.createParser( is );
-        
-        String htmlCode="";
+
+        String htmlCode = "<script type='text/javascript'>";
+        htmlCode = htmlCode + "  function musicInfoYoutubeDestroy(){";
+        htmlCode = htmlCode + "       $('.messic-musicinfo-youtube-overlay').remove();";
+        htmlCode = htmlCode + "       $('.messic-musicinfo-youtube-iframe').remove();";
+        htmlCode = htmlCode + "  }";
+        htmlCode = htmlCode + "  function musicInfoYoutubePlay(id){";
+        htmlCode = htmlCode + "      var code='<div class=\"messic-musicinfo-youtube-overlay\" onclick=\"musicInfoYoutubeDestroy()\"></div>';";
+        htmlCode = htmlCode + "      code=code+'<iframe class=\"messic-musicinfo-youtube-iframe\" src=\"http://www.youtube.com/embed/'+id+'\" frameborder=\"0\" allowfullscreen></iframe>';";
+        htmlCode = htmlCode + "      $(code).hide().appendTo('body').fadeIn();";
+        htmlCode = htmlCode + "  }";
+        htmlCode = htmlCode + "</script>";
 
         // loop until token equal to "}"
         while ( jParser.nextToken() != null )
@@ -118,54 +121,63 @@ public class MusicInfoYoutubePlugin
             if ( "items".equals( fieldname ) )
             {
                 jParser.nextToken();
-                while ( jParser.nextToken() != JsonToken.END_OBJECT ){
-                    YoutubeItem yi=new YoutubeItem();
+                while ( jParser.nextToken() != JsonToken.END_OBJECT )
+                {
+                    YoutubeItem yi = new YoutubeItem();
                     while ( jParser.nextToken() != JsonToken.END_OBJECT )
                     {
-                        if(jParser.getCurrentToken()==JsonToken.START_OBJECT){
+                        if ( jParser.getCurrentToken() == JsonToken.START_OBJECT )
+                        {
                             jParser.skipChildren();
                         }
                         fieldname = jParser.getCurrentName();
 
-                        if("id".equals( fieldname )){
+                        if ( "id".equals( fieldname ) )
+                        {
                             jParser.nextToken();
-                            yi.id=jParser.getText();
+                            yi.id = jParser.getText();
                         }
-                        if("category".equals( fieldname )){
+                        if ( "category".equals( fieldname ) )
+                        {
                             jParser.nextToken();
-                            yi.category=jParser.getText();
+                            yi.category = jParser.getText();
                         }
-                        if("title".equals( fieldname )){
-                            jParser.nextToken();                        
-                            yi.title=jParser.getText();
+                        if ( "title".equals( fieldname ) )
+                        {
+                            jParser.nextToken();
+                            yi.title = jParser.getText();
                         }
-                        if("description".equals( fieldname )){
-                            jParser.nextToken();                        
-                            yi.description=jParser.getText();
+                        if ( "description".equals( fieldname ) )
+                        {
+                            jParser.nextToken();
+                            yi.description = jParser.getText();
                         }
-                        if("thumbnail".equals(fieldname)){
+                        if ( "thumbnail".equals( fieldname ) )
+                        {
                             jParser.nextToken();
                             jParser.nextToken();
                             jParser.nextToken();
                             jParser.nextToken();
                             fieldname = jParser.getCurrentName();
-                            if("hqDefault".equals( fieldname )){
-                                jParser.nextToken();                        
-                                yi.thumbnail=jParser.getText();
+                            if ( "hqDefault".equals( fieldname ) )
+                            {
+                                jParser.nextToken();
+                                yi.thumbnail = jParser.getText();
                             }
                             jParser.nextToken();
                         }
                     }
 
-                    
-                    if(yi.category!=null){
-                        if("MUSIC".equals( yi.category.toUpperCase())){
-                            htmlCode=htmlCode+"<div class='messic-musicinfo-youtube-item'><img src='"+yi.thumbnail+"'/><div class='messic-musicinfo-youtube-item-title'>"+yi.title+"</div></div>";
+                    if ( yi.category != null && "MUSIC".equals( yi.category.toUpperCase() ) || ( yi.category == null ) )
+                    {
+                        if(yi.title!=null){
+                            htmlCode =
+                                            htmlCode + "<div class='messic-musicinfo-youtube-item'><img src='" + yi.thumbnail
+                                                + "'/><div class='messic-musicinfo-youtube-item-play' onclick='musicInfoYoutubePlay(\""
+                                                + yi.id + "\")'></div><div class='messic-musicinfo-youtube-item-title'>" + yi.title
+                                                + "</div><div class='messic-musicinfo-youtube-item-description'>"+yi.description+"</div></div>";
                         }
-                    }else{
-                        htmlCode=htmlCode+"<div class='messic-musicinfo-youtube-item'><img src='"+yi.thumbnail+"'/><div class='messic-musicinfo-youtube-item-title'>"+yi.title+"</div></div>";
                     }
-                    //htmlCode=htmlCode+"<iframe src='http://www.youtube.com/embed/"+yi.id+"' frameborder='0' allowfullscreen></iframe>";
                 }
             }
 
@@ -181,7 +193,7 @@ public class MusicInfoYoutubePlugin
     {
         try
         {
-            return search( locale, authorName );
+            return search( locale, "\"" + authorName + "\"" );
         }
         catch ( IOException e )
         {
@@ -196,7 +208,7 @@ public class MusicInfoYoutubePlugin
     {
         try
         {
-            return search( locale, albumName + "|" + authorName );
+            return search( locale, "\"" + albumName + "\" " + "\"" + authorName + "\"" );
         }
         catch ( IOException e )
         {
@@ -211,7 +223,7 @@ public class MusicInfoYoutubePlugin
     {
         try
         {
-            return search( locale, songName + "|" + albumName + "|" + authorName );
+            return search( locale, "\"" + songName + "\"" + " \"" + albumName + "\" " + "\"" + authorName );
         }
         catch ( IOException e )
         {
