@@ -43,7 +43,7 @@
 							<div class="messic-album-songs-bodyrow">
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songtrack">${song.track}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songname">${song.name}</div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-body-songaction"></div>
+								<div class="messic-album-songs-bodyfield messic-album-songs-body-songaction"><div class='messic-album-songs-body-songaction-play'></div><div class='messic-album-songs-body-songaction-remove'></div></div>
 								<div class="divclearer"></div>
 							</div>
 						</c:forEach>				
@@ -51,7 +51,7 @@
 							<div class="messic-album-songs-bodyrow">
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artwork"><img src="/services/albums/${artwork.sid}/resource"/></div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkname">${artwork.fileName}</div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkaction"></div>
+								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkaction"><div class='messic-album-songs-body-songaction-remove'></div><div class='messic-album-songs-body-songaction-show'></div></div>
 								<div class="divclearer"></div>
 							</div>
 						</c:forEach>				
@@ -59,7 +59,7 @@
 							<div class="messic-album-songs-bodyrow">
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artwork">..</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkname">${other.fileName}</div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkaction"></div>
+								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkaction"><div class='messic-album-songs-body-songaction-remove'></div></div>
 								<div class="divclearer"></div>
 							</div>
 						</c:forEach>				

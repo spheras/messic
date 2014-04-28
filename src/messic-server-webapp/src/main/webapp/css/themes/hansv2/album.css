@@ -1,3 +1,15 @@
+
+.messic-album-songs-bodyfield.messic-album-songs-body-songaction div {
+    float: left;
+}
+.messic-album-songs-body-songaction-remove{
+    background: url("album/delete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 25px;
+    width: 23px;
+}
+.messic-album-songs-body-songaction-remove:hover {
+    border: 1px dotted #BBBBBB;
+}
 #messic-album-cover {
 	display: block;
 	float: left;
