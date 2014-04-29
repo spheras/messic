@@ -1,5 +1,6 @@
 package org.messic.server.datamodel;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -63,7 +64,7 @@ public class MDOSong extends MDOPhysicalResource implements
     }
 
 	public String getAbsolutePath() {
-		return getAlbum().getAuthor().getLocation().concat("/").concat(getAlbum().getLocation()).concat("/").concat(getLocation()) ;
+		return getAlbum().getAuthor().getLocation().concat(""+File.separatorChar).concat(getAlbum().getLocation()).concat(""+File.separatorChar).concat(getLocation()) ;
 	}
 
 	public void setName(String name) {
