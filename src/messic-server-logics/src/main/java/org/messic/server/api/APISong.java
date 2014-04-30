@@ -23,6 +23,21 @@ public class APISong {
     @Autowired
     private DAOAuthor daoAuthor;
         
+    @Transactional
+    public void remove(MDOUser user, Long songSid) throws IOException{
+        MDOSong song=this.daoSong.get( user.getLogin() ,songSid);
+        if(song!=null){
+            	//first, removing the song file
+            	String path=Util.getRealBaseStorePath(user, daoSettings.getSettings());
+            	path=path+File.separatorChar+song.getAbsolutePath();
+            	File fpath=new File(path);
+            	fpath.delete();
+            	//after, removing the album data from database
+                this.daoSong.remove( song );
+        }
+    }
+
+    
     public byte[] getAudioSong(MDOUser mdouser, long sid) throws IOException{
     	MDOSong song=daoSong.get(mdouser.getLogin(), sid);
     	if(song!=null){

@@ -48,13 +48,27 @@ public class APIAlbum {
     
 
     @Transactional
-    public void remove(MDOUser user, Long albumSid){
+    public void remove(MDOUser user, Long albumSid) throws IOException{
         MDOAlbum album=this.daoAlbum.getAlbum( albumSid, user.getLogin() );
         if(album!=null){
             if(album.getAuthor().getAlbums().size()<=1)
             {
+            	//first, removing the author folder
+            	MDOAuthor author=album.getAuthor();
+            	String path=Util.getRealBaseStorePath(user, daoSettings.getSettings());
+            	path=path+File.separatorChar+author.getLocation();
+            	File fpath=new File(path);
+            	FileUtils.deleteDirectory(fpath);
+            	//after, removing the author data from database
                 daoAuthor.remove( album.getAuthor());
             }else{
+            	//first, removing the album folder
+            	MDOAuthor author=album.getAuthor();
+            	String path=Util.getRealBaseStorePath(user, daoSettings.getSettings());
+            	path=path+File.separatorChar+author.getLocation()+File.separatorChar+album.getLocation();
+            	File fpath=new File(path);
+            	FileUtils.deleteDirectory(fpath);
+            	//after, removing the album data from database
                 this.daoAlbum.remove( album );
             }
         }
