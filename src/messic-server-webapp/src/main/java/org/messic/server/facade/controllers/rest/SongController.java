@@ -44,6 +44,40 @@ public class SongController
 	@Autowired
 	public DAOUser userDAO;
 
+    @ApiMethod( path = "/songs/{songSid}", verb = ApiVerb.DELETE, description = "Remove a song with sid {songSid}", produces = {} )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
+    @RequestMapping( value = "/{songSid}", method = RequestMethod.DELETE )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    public void removeSong( @PathVariable
+                             @ApiParam( name = "songSid", description = "Sid of the song to get", paramType = ApiParamType.PATH, required = true )
+                             Long songSid )
+        throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
+    {
+        MDOUser mdouser = null;
+        try
+        {
+            mdouser = Util.getAuthentication( userDAO );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            throw new NotAuthorizedMessicRESTException( e );
+        }
+
+        try
+        {
+            songAPI.remove( mdouser, songSid );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
 	@ApiMethod(path = "/songs/{songSid}/audio", verb = ApiVerb.GET, description = "Get the audio binary from a song resource of an album", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE})
 	@ApiErrors(apierrors = { 
 			@ApiError(code = UnknownMessicRESTException.VALUE, description = "Unknown error"), 

@@ -60,4 +60,12 @@ public class MDOAlbumResource extends MDOPhysicalResource implements
     	return getAlbum().getAuthor().getLocation()+File.separatorChar+getAlbum().getLocation()+File.separatorChar+getLocation();
     }
 
+    /**
+     * Return the absolute (relative from author folder) location to this resource
+     * @return String path
+     */
+	public String getAbsolutePath() {
+		return getAlbum().getAuthor().getLocation().concat(""+File.separatorChar).concat(getAlbum().getLocation()).concat(""+File.separatorChar).concat(getLocation()) ;
+	}
+
 }
