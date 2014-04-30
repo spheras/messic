@@ -132,6 +132,13 @@ function initMessic(){
 	$("#messic-search-do").click(function(){
 	    mainSearch();
 	});
+
+	$(".messic-playlist-action").hover(function(){
+		$("#messic-playlist-background").addClass("interesting");
+	},function(){
+		$("#messic-playlist-background").removeClass("interesting");
+	});
+
     
 }
 
