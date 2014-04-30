@@ -161,7 +161,7 @@ function mainPlayRandomList(div){
 	var elfind=elparent.find(".messic-main-randomlist-add");
 	elfind.each(function(){
 		var elonclick=$(this).attr("onclick");
-		//alert(elonclick);
+		elonclick="function tmpcall(event){"+elonclick+"}  tmpcall(null);";
 		eval(elonclick);
 	});
 }
@@ -223,8 +223,8 @@ function mainCreateRandomList(randomlist, lastTitleType){
 						for(var j=0;randomlist.songs && j<randomlist.songs.length;j++){
 							var song=randomlist.songs[j];
 							code=code+"<li>";
-		            		code=code+"    <div class='messic-main-randomlist-albumcover' title='"+song.album.author.name+"\n"+song.album.name+"\n"+song.name+"'>";
-		            		code=code+"        <div class='messic-main-randomlist-add' onclick='addSong(\"raro\",";
+		            		code=code+"    <div class='messic-main-randomlist-albumcover' title='"+song.album.author.name+"\n"+song.album.name+"\n"+song.name+"' onclick='exploreEditAlbum(\""+song.album.sid+"\")'>";
+		            		code=code+"        <div class='messic-main-randomlist-add' onclick='if(event){event.stopPropagation();}addSong(\"raro\",";
 
 		            		code=code+"\""+UtilEscapeQuotes(song.album.author.name)+"\",";
 		            		code=code+song.album.sid+",";
@@ -265,6 +265,12 @@ function mainCreateRandomLists(){
 			$(".messic-main-randomlist").tinycarousel({display:9,duration:800});
 
 			$(".messic-main-randomlist-add").hover(function(){
+				$("#messic-playlist-background").addClass("interesting");
+			},function(){
+				$("#messic-playlist-background").removeClass("interesting");
+			});
+			
+			$(".messic-main-randomlist-playall").hover(function(){
 				$("#messic-playlist-background").addClass("interesting");
 			},function(){
 				$("#messic-playlist-background").removeClass("interesting");

@@ -69,7 +69,12 @@ public class SongController
 		try{
 			   byte[] content = songAPI.getAudioSong(mdouser, songSid);
 			   HttpHeaders headers = new HttpHeaders();
-			   headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			   
+			   //TODO some mp3 songs fail with application/octet-stream
+			   //MP3 files must have the content type of audio/mpeg or application/octet-stream
+			   //ogg files must have the content type of application/ogg
+			   
+			   headers.setContentType(MediaType.parseMediaType( "audio/mpeg" ));
 			   return new ResponseEntity<byte[]>(content, headers, HttpStatus.OK);
 		}catch(IOException ioe){
 			ioe.printStackTrace();
