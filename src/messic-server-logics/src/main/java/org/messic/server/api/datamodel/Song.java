@@ -17,6 +17,18 @@ public class Song extends File{
 	@ApiObjectField(description="name of the song")
 	private String name;
 	
+	
+	/**
+	 * Constructor
+	 * @param sid long sid of the song
+	 * @param track int track of the song
+	 * @param name {@link String} name of the song
+	 */
+	public Song(long sid, int track, String name){
+	    this.sid=sid;
+	    this.track=track;
+	    this.name=name;
+	}
 	/**
 	 * default constructor
 	 */
@@ -45,7 +57,7 @@ public class Song extends File{
 		setSid(mdosong.getSid());
 		setTrack(mdosong.getTrack());
 		setName(mdosong.getName());
-		Album album=new Album(mdosong.getAlbum(),true,false);
+		Album album=new Album(mdosong.getAlbum(),true,false,false);
 		setAlbum(album);
 		setFileName(mdosong.getLocation());
 	}

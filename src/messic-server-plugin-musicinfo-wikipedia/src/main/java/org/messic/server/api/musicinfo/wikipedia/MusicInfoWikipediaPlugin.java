@@ -52,7 +52,7 @@ public class MusicInfoWikipediaPlugin implements MusicInfoPlugin
 	 * @throws SAXException 
 	 */
 	private String search(Locale locale,String query) throws IOException, SAXException{
-	    String country=locale.getCountry();
+	    String country=locale.getLanguage();
 	    String nquery=normalizeQuery( query );
 	    String surl="http://"+country.toLowerCase()+".wikipedia.org/w/api.php?format=xml&action=query&titles="+nquery+"&prop=revisions&rvprop=content&rvparse";
 	    URL url=new URL(surl);

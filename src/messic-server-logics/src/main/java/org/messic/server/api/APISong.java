@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.messic.server.Util;
+import org.messic.server.api.datamodel.Song;
 import org.messic.server.datamodel.MDOSong;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOAuthor;
@@ -50,5 +51,45 @@ public class APISong {
     	
     	return null;
     }
+    
+    /**
+     * Try to get the song name and track from a file name
+     * @param filePath {@link String} the filename to investigate
+     * @return {@link Song} song info, only the track number and track name
+     */
+    public Song getSongInfoFromFileName(String filePath){
+        File tmpf=new File(filePath);
+        String fileName=tmpf.getName();
+        
+        fileName=fileName.replaceAll( "_", " " );
+        
+        int where=Util.areThereNumbers(fileName);
+        if(where>=0){
+            String[] parts=fileName.split( "-" );
+            for(int i=0;i<parts.length-1;i++){
+                if(Util.areThereNumbers(parts[i])>=0){
+                    try{
+                        int trackn=Integer.valueOf( parts[i].trim() );
+                        String trackName=Util.addPartsFromArray( parts, i+1, parts.length-1,"-" );
+                        int wheredot=trackName.indexOf( "." );
+                        if(wheredot>=0){
+                            trackName=trackName.substring( 0,wheredot );
+                        }
+                        return new Song(0,trackn,trackName.trim()); 
+                    }catch(Exception e){
+                        //not a track?
+                    }
+                }
+            }
+        }
+
+        String trackName=fileName;
+        int wheredot=trackName.indexOf( "." );
+        if(wheredot>=0){
+            trackName=trackName.substring( 0,wheredot );
+        }
+        return new Song(-1,-1,trackName);
+    }
+
 
 }

@@ -121,21 +121,9 @@ var UploadAlbumProcess=function (album){
 									     //console.log(percentComplete);
 
 											// calculate upload progress
-											//var percentage = Math.floor((progress.total / progress.totalSize) * 100);
-											// log upload progress to console
-											//console.log('progress', percentComplete);
 											resource.domElement.find('.messic-upload-finishbox-resource-progressbar').width((percentComplete*100)+'%');
 									   }
 									 }, false);
-									 //Download progress
-									 /*
-									 xhr.addEventListener("progress", function(evt){
-									   if (evt.lengthComputable) {
-									     var percentComplete = evt.loaded / evt.total;
-									     //Do something with download progress
-									     console.log(percentComplete);
-									   }
-									 }, false); */
 									 return xhr;
 								},
 						        processData: false,

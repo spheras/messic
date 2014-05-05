@@ -3,6 +3,7 @@ package org.messic.server.datamodel.dao;
 import java.util.List;
 
 import org.messic.server.datamodel.MDOAlbum;
+import org.messic.server.datamodel.MDOArtwork;
 
 
 
@@ -60,4 +61,12 @@ public interface DAOAlbum extends DAO<MDOAlbum>
 	 * @return {@link MDOAlbum} found, null if none
 	 */
 	MDOAlbum getByName(String authorName, String albumName, String username);
+
+	/**
+	 * Obtain the {@link MDOArtwork} which is the cover of the album
+	 * @param albumSid long sid of the album
+	 * @param username {@link String} user scope
+	 * @return {@link MDOArtwork} which is the cover of the album
+	 */
+    MDOArtwork getAlbumCover( long albumSid, String username );
 }

@@ -62,7 +62,11 @@ class WikipediaXMLReader
      */
     public String getHtmlResult()
     {
-        return htmlResult.toString();
+        if(htmlResult.length()>0){
+            return htmlResult.toString();
+        }else{
+            return "Nothing found :(";
+        }
     }
 
     /**

@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.Query;
 
 import org.messic.server.datamodel.MDOAlbum;
+import org.messic.server.datamodel.MDOArtwork;
 import org.messic.server.datamodel.MDOAuthor;
 import org.messic.server.datamodel.dao.DAOAlbum;
 import org.springframework.stereotype.Component;
@@ -65,6 +66,21 @@ public class DAOJPAAlbum
         }
         return null;
 	}
+
+   @Override
+    public MDOArtwork getAlbumCover(long albumSid, String username) {
+        Query query = entityManager.createQuery( "from MDOArtwork a where (a.owner.login = :userName) AND (a.album.sid = :albumSid) AND (a.cover = true)" );
+        query.setParameter( "userName", username);
+        query.setParameter( "albumSid", albumSid);
+        
+        @SuppressWarnings( "unchecked" )
+        List<MDOArtwork> results = query.getResultList();
+        if(results!=null && results.size()>0){
+            return results.get(0);
+        }
+        return null;
+    }
+
 
 	@Override
 	public MDOAlbum getAlbum(long albumSid, String username) {

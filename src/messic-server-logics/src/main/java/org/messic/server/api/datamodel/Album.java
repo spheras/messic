@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 import org.messic.server.datamodel.MDOAlbum;
+import org.messic.server.datamodel.MDOArtwork;
+import org.messic.server.datamodel.MDOOtherResource;
 import org.messic.server.datamodel.MDOSong;
 
 @XmlRootElement
@@ -43,13 +45,14 @@ public class Album {
 	 * @param author Author the Author of these albums, to avoid cross references
 	 * @param copyAuthor boolean indicates if it's necessary to copy the author of the album reference
 	 * @param copySongs boolean indicates if it's necessary to copy the songs of the album
+     * @param copyResources boolean indicates if it's necessary to copy the resources of the album (artworks and others)
 	 * @return {@link List}<Album/> converted
 	 */
-	public static List<Album> transform(List<MDOAlbum> mdoalbums, boolean copyAuthor, boolean copySongs){
+	public static List<Album> transform(List<MDOAlbum> mdoalbums, boolean copyAuthor, boolean copySongs, boolean copyResources){
 		ArrayList<Album> albums=new ArrayList<Album>();
 		if(mdoalbums!=null){
 			for(int i=0;i<mdoalbums.size();i++){
-				albums.add(transform(mdoalbums.get(i), copyAuthor, copySongs));
+				albums.add(transform(mdoalbums.get(i), copyAuthor, copySongs, copyResources));
 			}
 		}
 		return albums;
@@ -62,10 +65,11 @@ public class Album {
 	 * @param author Author the Author of these albums, to avoid cross references
 	 * @param copyAuthor boolean indicates if it's necessary to copy the author of the album reference
 	 * @param copySongs boolean indicates if it's necessary to copy the songs of the album
+	 * @param copyResources boolean indicates if it's necessary to copy the resources of the album (artworks and others)
 	 * @return {@link Album} converted
 	 */
-	public static Album transform(MDOAlbum album, boolean copyAuthor, boolean copySongs){
-		return new Album(album, copyAuthor, copySongs);
+	public static Album transform(MDOAlbum album, boolean copyAuthor, boolean copySongs, boolean copyResources){
+		return new Album(album, copyAuthor, copySongs, copyResources);
 	}
 
 	/**
@@ -81,8 +85,9 @@ public class Album {
 	 * @param mdoalbum {@link MDOAlbum}
 	 * @param copyAuthor boolean indicates if it's necessary to create a copy of the author of the album
 	 * @param copySongs boolean indicates if is necessary to copy songs also
+     * @param copyResources boolean indicates if it's necessary to copy the resources of the album (artworks and others)
 	 */
-	public Album(MDOAlbum mdoalbum, boolean copyAuthor, boolean copySongs){
+	public Album(MDOAlbum mdoalbum, boolean copyAuthor, boolean copySongs, boolean copyResources){
 		setSid(mdoalbum.getSid());
 		setName(mdoalbum.getName());
 		setYear(mdoalbum.getYear());
@@ -96,6 +101,18 @@ public class Album {
 				Song song=new Song(mdosongs.next(), null);
 				addSong(song);
 			}
+		}
+		if(copyResources){
+            Iterator<MDOArtwork> mdoartworks=mdoalbum.getArtworks().iterator();
+            while(mdoartworks.hasNext()){
+                File file=new File(mdoartworks.next(), null);
+                addArtwork(file);
+            }
+            Iterator<MDOOtherResource> mdoothers=mdoalbum.getOthers().iterator();
+            while(mdoothers.hasNext()){
+                File file=new File(mdoothers.next(), null);
+                addOther(file);
+            }
 		}
 	}
 

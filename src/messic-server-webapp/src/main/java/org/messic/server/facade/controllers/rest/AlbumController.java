@@ -78,14 +78,18 @@ public class AlbumController
                                @RequestParam( value = "filterName", required = false )
                                @ApiParam( name = "filterName", description = "partial name of the album to search", paramType = ApiParamType.QUERY, required = false )
                                String filterName,
+                               @RequestParam( value = "authorInfo", required = false )
+                               @ApiParam( name = "authorInfo", description = "flag to return also the author info of the albums or not. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                   "true", "false" }, format = "Boolean" )
+                               Boolean authorInfo,
                                @RequestParam( value = "songsInfo", required = false )
                                @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
                                    "true", "false" }, format = "Boolean" )
                                Boolean songsInfo,
-                               @RequestParam( value = "authorInfo", required = false )
-                               @ApiParam( name = "authorInfo", description = "flag to return also the author info of the albums or not. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                               @RequestParam( value = "resourcesInfo", required = false )
+                               @ApiParam( name = "resourcesInfo", description = "flag to return also the artworks and others info of the albums or not. By default, the same value of songsInfo", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
                                    "true", "false" }, format = "Boolean" )
-                               Boolean authorInfo )
+                               Boolean resourcesInfo )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
 
@@ -107,7 +111,8 @@ public class AlbumController
             {
                 albums =
                     albumAPI.getAll( mdouser, ( authorInfo != null ? authorInfo : true ),
-                                     ( songsInfo != null ? songsInfo : false ) );
+                                     ( songsInfo != null ? songsInfo : false ), ( resourcesInfo != null ? resourcesInfo
+                                                     : ( songsInfo != null ? songsInfo : false ) ) );
             }
             else
             {
@@ -115,13 +120,17 @@ public class AlbumController
                 {
                     albums =
                         albumAPI.getAll( mdouser, filterAuthorSid, ( authorInfo != null ? authorInfo : true ),
-                                         ( songsInfo != null ? songsInfo : false ) );
+                                         ( songsInfo != null ? songsInfo : false ),
+                                         ( resourcesInfo != null ? resourcesInfo : ( songsInfo != null ? songsInfo
+                                                         : false ) ) );
                 }
                 else
                 {
                     albums =
                         albumAPI.findSimilar( mdouser, filterAuthorSid, filterName, ( authorInfo != null ? authorInfo
-                                        : true ), ( songsInfo != null ? songsInfo : false ) );
+                                                              : true ), ( songsInfo != null ? songsInfo : false ),
+                                              ( resourcesInfo != null ? resourcesInfo : ( songsInfo != null ? songsInfo
+                                                              : false ) ) );
                 }
             }
 
@@ -186,7 +195,11 @@ public class AlbumController
                            @RequestParam( value = "authorInfo", required = false )
                            @ApiParam( name = "authorInfo", description = "flag to return also the author info of the albums or not. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
                                "true", "false" }, format = "Boolean" )
-                           Boolean authorInfo )
+                           Boolean authorInfo,
+                           @RequestParam( value = "resourcesInfo", required = false )
+                           @ApiParam( name = "resourcesInfo", description = "flag to return also the artworks and others info of the albums or not. By default, the same value of songsInfo", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                               "true", "false" }, format = "Boolean" )
+                           Boolean resourcesInfo )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
 
@@ -205,7 +218,8 @@ public class AlbumController
         {
             Album album =
                 albumAPI.getAlbum( mdouser, albumSid, ( authorInfo != null ? authorInfo : true ),
-                                   ( songsInfo != null ? songsInfo : false ) );
+                                   ( songsInfo != null ? songsInfo : false ), ( resourcesInfo != null ? resourcesInfo
+                                                   : ( songsInfo != null ? songsInfo : false ) ) );
             return album;
         }
         catch ( Exception e )
@@ -356,10 +370,12 @@ public class AlbumController
         }
         catch ( IOException e )
         {
+            e.printStackTrace();
             throw new IOMessicRESTException( e );
         }
         catch ( Exception e )
         {
+            e.printStackTrace();
             throw new UnknownMessicRESTException( e );
         }
     }

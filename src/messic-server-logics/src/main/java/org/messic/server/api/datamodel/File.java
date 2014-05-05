@@ -11,6 +11,8 @@ import org.messic.server.datamodel.MDOSong;
 @XmlRootElement
 @ApiObject(name="File", description="Resource of an album")
 public class File {
+    @ApiObjectField(description="identificator of the resource")
+    private long sid;
 	@ApiObjectField(description="temporal code for the resource")
 	private String code;
 	@ApiObjectField(description="fileName for the resource")
@@ -33,6 +35,7 @@ public class File {
 	public File(MDOPhysicalResource mdopr, Album album){
 		setFileName(mdopr.getLocation());
 		setAlbum(album);
+		setSid( mdopr.getSid() );
 	}
 
 	public final Album getAlbum() {
@@ -58,4 +61,14 @@ public class File {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+    public long getSid()
+    {
+        return sid;
+    }
+
+    public void setSid( long sid )
+    {
+        this.sid = sid;
+    }
 }

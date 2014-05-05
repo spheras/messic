@@ -61,7 +61,7 @@ public class AlbumViewController
     }
 
     @RequestMapping( "/album.do" )
-    protected ModelAndView upload( @RequestParam( value = "albumSid", required = true )
+    protected ModelAndView view( @RequestParam( value = "albumSid", required = true )
     Long albumSid )
         throws Exception
     {
@@ -79,7 +79,7 @@ public class AlbumViewController
         }
 
         // getting the first characters of the authors, to allow listing them by start letter
-        Album result = apialbum.getAlbum( mdouser, albumSid, true, true );
+        Album result = apialbum.getAlbum( mdouser, albumSid, true, true, true);
         model.addObject( "album", result );
 
         List<MusicInfoPlugin> plugins = getMusicInfoPlugins();

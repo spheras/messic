@@ -155,4 +155,41 @@ public class Util {
 		return entity;
 	}
 
+	/**
+	 * Indicates if there is any number on the string... return the position of the number, -1 if none
+	 * @param str {@link String} to investigate
+	 * @return int the position of the number
+	 */
+    public static int areThereNumbers(String str){
+        char[] chars=str.toCharArray();
+        for(int i=0;i<chars.length;i++){
+            char c=chars[i];
+            boolean isDigit = (c >= '0' && c <= '9');
+            if(isDigit){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Create an String joining all the parts from the array str, but only the elements from from, to to (both included)
+     * The returned string will join the strings with a defined separator
+     * @param str {@link String} string to join
+     * @param from int from this element (included)
+     * @param to int to this element (included)
+     * @param separator {@link String} separator used
+     * @return
+     */
+    public static String addPartsFromArray(String[] str,int from, int to, String separator){
+        StringBuffer result=new StringBuffer();
+        for(int i=from;i<=to;i++){
+            result.append( str[i] );
+            if(i<to && separator!=null){
+                result.append(separator);
+            }
+        }
+        
+        return result.toString();
+    }
 }
