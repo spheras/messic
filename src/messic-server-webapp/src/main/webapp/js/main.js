@@ -1,14 +1,25 @@
+//function to check before to change to another section
+var VAR_changeSection=function(nextFunction){
+	nextFunction();
+	//by default, nothing to do
+	//this function should be overwritten by each module in order to be checked
+}
+
+
 //Select a menu
 function selectOption(optionSelected)
 {
 	$(".messic-menu-icon").each(function(index){
 		$(this).removeClass("messic-menu-icon-selected");
 	});
-	
+
 	$(optionSelected).addClass("messic-menu-icon-selected");
 }
 
 function initMessic(){
+
+
+
 	(function($){
 		var playlist=$("#messic-playlist");
 		playlist.tinyscrollbar({ axis: 'x'});
@@ -31,95 +42,62 @@ function initMessic(){
       		swfPath: "js/vendor/jplayer",
         }
     );
- 
-	$("#messic-menu-home").click(function(){
-		selectOption(this);
-		mainCreateRandomLists();
-	});
+
     mainCreateRandomLists();
 
+	$("#messic-menu-home").click(function(){
+		var self=this;
+		var nextFunction=function(){
+			selectOption(self);
+			mainCreateRandomLists();
+			VAR_changeSection=function(nextFunction){
+				nextFunction();
+			}
+		}
+		VAR_changeSection(nextFunction);
+	});
 
 	$("#messic-menu-radio").click(function(){
-		selectOption(this);
-		
-		$.getJSON( "services/jsondoc", function( data ) {
-			$("#messic-page-content").empty();
-			var code="";
-			code=code+"<div class='messic-restapi'>";
-			code=code+"  <div class='messic-restapi-info'>";
-			code=code+"    <div class='messic-restapi-version'>Version:<span>"+data.version+"</span></div>";
-			code=code+"    <div class='messic-restapi-basepath'>Base Path:<span>"+data.basePath+"</span></div>";
-			code=code+"  </div>";
-			for(var i=0;i<data.apis.length;i++){
-				code=code+"<div class='messic-restapi-api'>";
-				code=code+"<div class='messic-restapi-title'>"+data.apis[i].name+"</div>";
-				code=code+"<div class='messic-restapi-description'>"+data.apis[i].description+"</div>";
-				for(var j=0;j<data.apis[i].methods.length;j++){
-					var method=data.apis[i].methods[j];
-					code=code+"<div class='messic-restapi-method'>";
-					code=code+"  <div class='messic-restapi-method-path'>"+method.path+"</div>";
-					code=code+"  <div class='messic-restapi-method-description'>"+method.description+"</div>";
-					code=code+"  <div class='messic-restapi-method-verb'>Method&nbsp;&nbsp;<span>"+method.verb+"</span></div>";		
-					code=code+"  <div class='messic-restapi-method-produces'>Produces&nbsp;&nbsp;<span>"+method.produces+"</span></div>";
-					if(method.consumes && method.consumes.length>0){
-						code=code+"  <div class='messic-restapi-method-consumes'>Consumes&nbsp;&nbsp;<span>"+method.consumes+"</span></div>";
-					}
-
-					for(var k=0;k<method.pathparameters.length;k++){
-						var pathp=method.pathparameters[k];
-						code=code+"<div class='messic-restapi-method-pathp'>";
-						code=code+"  <div class='messic-restapi-method-pathp-name'>Parameter&nbsp;&nbsp;<span>"+pathp.name+"</span></div>";
-						code=code+"  <div class='messic-restapi-method-pathp-description'>"+pathp.description+"</div>";
-						code=code+"  <div class='messic-restapi-method-pathp-type'>Type:&nbsp;&nbsp;"+pathp.type+"</div>";
-						code=code+"  <div class='messic-restapi-method-pathp-required'>Required:&nbsp;&nbsp;"+pathp.required+"</div>";
-						code=code+"</div>";
-					}
-					for(var k=0;k<method.queryparameters.length;k++){
-						var queryp=method.queryparameters[k];
-						code=code+"<div class='messic-restapi-method-queryp'>";
-						code=code+"  <div class='messic-restapi-method-queryp-name'>Parameter&nbsp;&nbsp;<span>"+queryp.name+"</span></div>";
-						code=code+"  <div class='messic-restapi-method-queryp-description'>"+queryp.description+"</div>";
-						code=code+"  <div class='messic-restapi-method-queryp-type'>Type&nbsp;&nbsp;"+queryp.type+"</div>";
-						code=code+"  <div class='messic-restapi-method-queryp-required'>Required&nbsp;&nbsp;"+queryp.required+"</div>";
-						code=code+"</div>"
-					}
-					for(var k=0;k<method.apierrors.length;k++){
-						var apie=method.apierrors[k];
-						code=code+"<div class='messic-restapi-method-apie'>";
-						code=code+"  <div class='messic-restapi-method-apie-code'>"+apie.code+"</div>";
-						code=code+"  <div class='messic-restapi-method-apie-description'>"+apie.description+"</div>";
-						code=code+"</div>";
-					}
-					code=code+"</div>";
-				}
-				code=code+"</div>";
+		var self=this;
+		var nextFunction=function(){
+			selectOption(self);
+			initAPIDoc();
+			VAR_changeSection=function(nextFunction){
+				nextFunction();
 			}
-			code=code+"</div>";
-
-		    $("#messic-page-content").append($(code));
-
-
-		});
+		}
+		VAR_changeSection(nextFunction);
 	});
 
 	$("#messic-menu-upload").click(function(){
-		selectOption(this);
-		$.get("upload.do", function(data){ 
-			$("#messic-page-content").empty();
-		    var posts = $($.parseHTML(data)).filter('#content').children();
-		    $("#messic-page-content").append(posts);
-			initUpload();
-		});
+		var self=this;
+		var nextFunction=function(){
+			selectOption(self);
+			$.get("upload.do", function(data){
+				$("#messic-page-content").empty();
+				var posts = $($.parseHTML(data)).filter('#content').children();
+				$("#messic-page-content").append(posts);
+				initUpload();
+			});
+		}
+		VAR_changeSection(nextFunction);
 	});
 
 	$("#messic-menu-explore").click(function(){
-		selectOption(this);
-		$.get("explore.do", function(data){ 
-			$("#messic-page-content").empty();
-		    var posts = $($.parseHTML(data)).filter('#content').children();
-		    $("#messic-page-content").append(posts);
-			initExplore();
-		});
+		var self=this;
+		var nextFunction=function(){
+			selectOption(self);
+			$.get("explore.do", function(data){
+				$("#messic-page-content").empty();
+				var posts = $($.parseHTML(data)).filter('#content').children();
+				$("#messic-page-content").append(posts);
+				initExplore();
+			});
+			VAR_changeSection=function(nextFunction){
+				nextFunction();
+			}
+		}
+		VAR_changeSection(nextFunction);
 	});
 
 	$("#messic-search-text").keypress(function (e) {
@@ -139,7 +117,6 @@ function initMessic(){
 		$("#messic-playlist-background").removeClass("interesting");
 	});
 
-    
 }
 
 function mainSearch(){
@@ -175,9 +152,9 @@ function mainPlayRandomList(div){
 
 //Creates the randomlist divs
 function mainCreateRandomList(randomlist, lastTitleType){
-	
-				var code="<div class='messic-main-randomlist'>";
-				code=code+"  <div class='messic-main-randomlist-name ";
+
+				var code="<div class=\"messic-main-randomlist\">";
+				code=code+"  <div class=\"messic-main-randomlist-name ";
 
 				var titleType=UtilGetRandom(1,7);
 				while(titleType==lastTitleType){
@@ -209,41 +186,41 @@ function mainCreateRandomList(randomlist, lastTitleType){
 						break;
 				}
 
-				code=code+ "'>"+messicLang.search(randomlist.name)+"</div>";
-				code=code+"  <div class='messic-main-randomlist-title-container'>";
-				code=code+"     <div class='messic-main-randomlist-title'>"+messicLang.search(randomlist.title)+"</div>";
-				code=code+"     <div class='messic-main-randomlist-playall' onclick='mainPlayRandomList(this)' title='"+messicLang.randomlistplayall+"'></div>";
-				code=code+"     <div class='messic-main-randomlist-details'>";
+				code=code+ "\">"+messicLang.search(randomlist.name)+"</div>";
+				code=code+"  <div class=\"messic-main-randomlist-title-container\">";
+				code=code+"     <div class=\"messic-main-randomlist-title\">"+messicLang.search(randomlist.title)+"</div>";
+				code=code+"     <div class=\"messic-main-randomlist-playall\" onclick=\"mainPlayRandomList(this)\" title=\""+messicLang.randomlistplayall+"\"></div>";
+				code=code+"     <div class=\"messic-main-randomlist-details\">";
 				if(randomlist.details){
 					for(var k=0;k<randomlist.details.length;k++){
 						var detail=randomlist.details[k];
-						code=code+"        <div class='messic-main-randomlist-detail'>"+detail+"</div>";
+						code=code+"        <div class=\"messic-main-randomlist-detail\">"+detail+"</div>";
 					}
 				}
 				code=code+"     </div>";
 				code=code+"  </div>";
-				code=code+"  <a class='buttons prev' href='#'></a>";
-				code=code+"  <div class='viewport'>";
-				code=code+"      <ul class='overview'>";
+				code=code+"  <a class=\"buttons prev\" href=\"#\"></a>";
+				code=code+"  <div class=\"viewport\">";
+				code=code+"      <ul class=\"overview\">";
 
 
 						for(var j=0;randomlist.songs && j<randomlist.songs.length;j++){
 							var song=randomlist.songs[j];
 							code=code+"<li>";
-		            		code=code+"    <div class='messic-main-randomlist-albumcover' title='"+song.album.author.name+"\n"+song.album.name+"\n"+song.name+"' onclick='exploreEditAlbum(\""+song.album.sid+"\")'>";
-		            		code=code+"        <div class='messic-main-randomlist-add' onclick='if(event){event.stopPropagation();}addSong(\"raro\",";
+		            		code=code+"    <div class=\"messic-main-randomlist-albumcover\" title=\""+UtilEscapeHTML(song.album.author.name)+"\n"+UtilEscapeHTML(song.album.name)+"\n"+UtilEscapeHTML(song.name)+"\" onclick=\"exploreEditAlbum('"+song.album.sid+"')\">";
+		            		code=code+"        <div class=\"messic-main-randomlist-add\" onclick=\"if(event){event.stopPropagation();}addSong('raro',";
 
-		            		code=code+"\""+UtilEscapeQuotes(song.album.author.name)+"\",";
+		            		code=code+"'"+UtilEscapeJS(song.album.author.name)+"',";
 		            		code=code+song.album.sid+",";
-		            		code=code+"\""+UtilEscapeQuotes(song.album.name)+"\",";
+		            		code=code+"'"+UtilEscapeJS(song.album.name)+"',";
 		            		code=code+song.sid+",";
-		            		code=code+"\""+UtilEscapeQuotes(song.name)+"\");'></div>";
+		            		code=code+"'"+UtilEscapeJS(song.name)+"');\"></div>";
 
-							code=code+"        <img  src='services/albums/"+song.album.sid+"/cover/'></img>";
-		            		code=code+"        <div class='messic-main-randomlist-vinyl'></div>";
+							code=code+"        <img  src=\"services/albums/"+song.album.sid+"/cover/\"></img>";
+		            		code=code+"        <div class=\"messic-main-randomlist-vinyl\"></div>";
 							code=code+"    </div>"
-							code=code+"    <div class='messic-main-randomlist-albumauthor' title='"+song.album.author.name+"'>"+song.album.author.name+"</div>";
-							code=code+"    <div class='messic-main-randomlist-albumtitle' title='"+song.name+"'>"+song.name+"</div>";
+							code=code+"    <div class=\"messic-main-randomlist-albumauthor\" title=\""+UtilEscapeHTML(song.album.author.name)+"\">"+UtilEscapeHTML(song.album.author.name)+"</div>";
+							code=code+"    <div class=\"messic-main-randomlist-albumtitle\" title=\""+UtilEscapeHTML(song.name)+"\">"+UtilEscapeHTML(song.name)+"</div>";
 							code=code+"</li>";
 						}
 
@@ -252,7 +229,7 @@ function mainCreateRandomList(randomlist, lastTitleType){
 
 				code=code+"      </ul>";
 				code=code+"  </div>";
-				code=code+"  <a class='buttons next' href='#'></a>";
+				code=code+"  <a class=\"buttons next\" href=\"#\"></a>";
 				code=code+"</div>";
 				return code;
 }
@@ -276,7 +253,7 @@ function mainCreateRandomLists(){
 			},function(){
 				$("#messic-playlist-background").removeClass("interesting");
 			});
-			
+
 			$(".messic-main-randomlist-playall").hover(function(){
 				$("#messic-playlist-background").addClass("interesting");
 			},function(){
@@ -291,11 +268,11 @@ function addAlbum(albumSid){
 	$.getJSON( "services/albums/"+albumSid+"?songsInfo=true&authorInfo=true",function(data){
 		for(var z=0;z<data.songs.length;z++){
 			addSong("raro",
-					UtilEscapeQuotes(data.author.name),
+					UtilEscapeHTML(data.author.name),
 					data.sid,
-					UtilEscapeQuotes(data.name),
+					UtilEscapeHTML(data.name),
 					data.songs[z].sid,
-					UtilEscapeQuotes(data.songs[z].name)
+					UtilEscapeHTML(data.songs[z].name)
 				   );
 		}
 		UtilShowInfo("Great! " + data.songs.length + " songs added to the playlist!");
@@ -319,7 +296,7 @@ function playVinyl(index){
 	var newli=$("#messic-playlist-container li:nth-child(" + (index + 1) + ")");
 	var oldli=$(".jp-playlist-current");
 
-	//first, remove the current player	
+	//first, remove the current player
 	oldli.removeClass("jplayer-playlist-li-expanding");
 	oldli.addClass("jplayer-playlist-li");
 	oldli.find(".jplayer-playlist-vinyl").attr("class","jplayer-playlist-vinyl jplayer-playlist-vinylHide");
@@ -327,7 +304,7 @@ function playVinyl(index){
 
 	//last, add the new player
 	var vinyl=newli.find(".jplayer-playlist-vinyl");
-	var vinylHand=newli.find(".jplayer-playlist-vinylHand"); 
+	var vinylHand=newli.find(".jplayer-playlist-vinylHand");
 	newli.removeClass("jplayer-playlist-li");
 	newli.addClass("jplayer-playlist-li-expanding");
 	vinyl.attr("class","jplayer-playlist-vinyl jplayer-playlist-vinylPlaying");
@@ -352,6 +329,3 @@ function addsong(){
 
 	$("#messic-playlist").tinyscrollbar_update('bottom');
 }
-
-
-

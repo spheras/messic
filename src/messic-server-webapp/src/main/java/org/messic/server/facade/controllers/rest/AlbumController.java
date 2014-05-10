@@ -327,7 +327,19 @@ public class AlbumController
         }
         catch ( ResourceNotFoundMessicException e )
         {
-            throw new NotFoundMessicRESTException( e );
+            InputStream is = AlbumController.class.getResourceAsStream( "/org/messic/img/unknowncover.jpg" );
+            byte[] content=null;
+            try
+            {
+                content = Util.readInputStream( is );
+            }
+            catch ( IOException e1 )
+            {
+                throw new NotFoundMessicRESTException(e);
+            }
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType( MediaType.IMAGE_JPEG );
+            return new ResponseEntity<byte[]>( content, headers, HttpStatus.OK );
         }
         catch ( IOException e )
         {

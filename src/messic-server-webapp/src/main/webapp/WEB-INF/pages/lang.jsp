@@ -22,6 +22,8 @@ messicLang = {
 	uploadAlbumSendConfirmationTitle: '<fmt:message key="js-upload-album-send-confirmation-title" bundle="${message}"/>',
 	uploadAlbumSendConfirmationMessage: '<fmt:message key="js-upload-album-send-confirmation-message" bundle="${message}"/>',
 	uploadAlbumSendCancel: '<fmt:message key="js-upload-album-send-cancel" bundle="${message}"/>',
+	uploadAlbumChangeSectionTitle: '<fmt:message key="js-upload-album-changesection-title" bundle="${message}"/>',
+	uploadAlbumChangeSectionMessage: '<fmt:message key="js-upload-album-changesection-message" bundle="${message}"/>',
 	confirmationYes: '<fmt:message key="js-confirmation-yes" bundle="${message}"/>',
 	confirmationNo: '<fmt:message key="js-confirmation-no" bundle="${message}"/>',
 	randomlistplayall: '<fmt:message key="js-randomlist-playall" bundle="${message}"/>',

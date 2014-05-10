@@ -10,6 +10,30 @@ var uploadValidator;
 
 /* init the upload page */
 function initUpload(){
+
+		//function to leave the upload section
+		VAR_changeSection=function(nextFunction){
+			$.confirm({
+	        'title'		: messicLang.uploadAlbumChangeSectionTitle,
+	        'message'	: messicLang.uploadAlbumChangeSectionMessage,
+	        'buttons'	: {
+	            'Yes'	: {
+	            	'title' : messicLang.confirmationYes,
+	                'class'	: 'blue',
+	                'action': function(){
+	                	nextFunction();
+	                }
+	            },
+	            'No'	: {
+	            	'title' : messicLang.confirmationNo,
+	                'class'	: 'gray',
+	                'action': function(){
+	                }	// Nothing to do in this case. You can as well omit the action property.
+	            }
+	        }
+			});
+		}
+
 		uploadAlbum=new UploadAlbum();
 		uploadValidator = $("#messic-upload-album-container").kendoValidator().data("kendoValidator");
 
@@ -30,8 +54,8 @@ function initUpload(){
                         	var autorText=autorCombo.text();
                         	if(autorValue!=autorText){
                         		//UtilShowInfo("adding filter");
-								//user selected a value from the combo                        	
-								//we filter the titles availables only for those of the author selected	
+								//user selected a value from the combo
+								//we filter the titles availables only for those of the author selected
 	                        	var valueFilter={ field: "author.sid", operator: "eq", value: parseInt(autorCombo.value()) };
 								titleCombo.dataSource.filter(valueFilter);
 
@@ -59,7 +83,7 @@ function initUpload(){
 			    },
 			    schema: {
 					data: function(response) {
-						return response; 
+						return response;
 					},
 					model: { id: "sid" }
 				}
@@ -133,7 +157,7 @@ function initUpload(){
 			    },
 			    schema: {
 					data: function(response) {
-						return response; 
+						return response;
 					},
 					model: { id: "sid" }
 				}
@@ -157,7 +181,7 @@ function initUpload(){
 			    },
 			    schema: {
 					data: function(response) {
-						return response; 
+						return response;
 					},
 					model: { id: "sid" }
 				}
@@ -169,7 +193,7 @@ function initUpload(){
 	$("#messic-upload-song-addbutton").click(function(){
 		$("#messic-upload-song-addinput").click();
 	});
-	//event change for the input type file hidden 
+	//event change for the input type file hidden
 	$("#messic-upload-song-addinput").change(function(evt){
 		var files = evt.target.files; // FileList object
 		uploadAlbum.addFiles(files);
@@ -186,7 +210,7 @@ function initUpload(){
 		// This variable represents the files that have been dragged into the drop area
 		var transferFiles = e.dataTransfer.files;
 		uploadAlbum.addFiles(transferFiles);
-	});	
+	});
 
 }
 

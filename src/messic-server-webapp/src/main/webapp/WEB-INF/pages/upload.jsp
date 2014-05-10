@@ -3,14 +3,14 @@
 
 <html>
 	<head>
-		
+
 	</head>
     <body>
 
 		<c:if test="${ message == null }">
 		    <fmt:setBundle basename="ResourceBundle" var="message" scope="application"/>
 		</c:if>
-		    
+
 		<div id="content">
 			<div id="messic-upload-content">
 				<div id="messic-upload-album-container" class="messic-upload-container-border">
@@ -49,8 +49,8 @@
 						<div class="divclearer"></div>
 			        </div>
 				</div>
-				
-				
+
+
 				<div id="messic-upload-song-container" class="messic-upload-container-border">
 					<div class="messic-upload-container">
 						<h3><fmt:message key="upload-songs-title1" bundle="${message}"/></h3>
@@ -68,7 +68,7 @@
 						<div class="messic-upload-song-separator"></div>
 
 						<ul id="messic-upload-song-content-songs" ondragover="return false"><span><fmt:message key="upload-songs-drop" bundle="${message}"/></span></ul>
-						
+
 						<div class="messic-upload-song-separator"></div>
 							<div class="messic-upload-song-content-footer">
 								<div class="messic-upload-song-content-header-filename">

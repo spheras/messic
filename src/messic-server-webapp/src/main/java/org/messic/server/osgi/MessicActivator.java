@@ -1,4 +1,4 @@
-package org.messic.osgi;
+package org.messic.server.osgi;
 
 import org.apache.log4j.Logger;
 import org.osgi.framework.BundleActivator;
@@ -10,11 +10,11 @@ public class MessicActivator implements BundleActivator {
     
     
 	public void start(BundleContext context) {
-	    logger.info( "Messic Bundle Started!" );
+	    logger.info( "Messic Server Bundle Started!" );
 	}
 
 	public void stop(BundleContext context) {
-        logger.info( "Messic Bundle Stopped!" );
+        logger.info( "Messic Server Bundle Stopped!" );
 	}
 	
 }

@@ -36,16 +36,17 @@ var UploadAlbumProcess=function (album){
 		$("#messic-upload-album-comments").text("");
 		$('#messic-upload-song-content-songs').val('');
 		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-new');
+		$("#messic-upload-song-content-songs").empty();
 
 
 		//creating new process and adding to the content
-		var code="<div class='messic-upload-finishbox'>";
-		code=code+"  <div class='messic-upload-finishbox-cover-content'>";
-		code=code+"     <div class='messic-upload-finishbox-cover'></div>";
-		code=code+"     <div class='messic-upload-finishbox-authortitle'>"+this.albumData.author.name+"</div>";
-		code=code+"     <div class='messic-upload-finishbox-albumtitle'>"+this.albumData.name+"</div>";
+		var code="<div class=\"messic-upload-finishbox\">";
+		code=code+"  <div class=\"messic-upload-finishbox-cover-content\">";
+		code=code+"     <div class=\"messic-upload-finishbox-cover\"></div>";
+		code=code+"     <div class=\"messic-upload-finishbox-authortitle\">"+UtilEscapeHTML(this.albumData.author.name)+"</div>";
+		code=code+"     <div class=\"messic-upload-finishbox-albumtitle\">"+UtilEscapeHTML(this.albumData.name)+"</div>";
 		code=code+"  </div>";
-		code=code+"  <div class='messic-upload-finishbox-content'></div>";
+		code=code+"  <div class=\"messic-upload-finishbox-content\"></div>";
 		code=code+"</div>";
 		domElement=$(code);
 
@@ -77,7 +78,7 @@ var UploadAlbumProcess=function (album){
 	this.uploadAll=function(resources){
 		resourceRestToUpload=resourceRestToUpload+resources.length;
 		for(var i=0;i<resources.length;i++){
-			var code="<div class='messic-upload-finishbox-resource'><div class='messic-upload-finishbox-resource-status'></div><div class='messic-upload-finishbox-resource-filename'>"+resources[i].file.name+"</div><div class='messic-upload-finishbox-resource-progress'><div class='messic-upload-finishbox-resource-progressbar'></div></div></div>";
+			var code="<div class=\"messic-upload-finishbox-resource\"><div class=\"messic-upload-finishbox-resource-status\"></div><div class=\"messic-upload-finishbox-resource-filename\">"+UtilEscapeHTML(resources[i].file.name)+"</div><div class=\"messic-upload-finishbox-resource-progress\"><div class=\"messic-upload-finishbox-resource-progressbar\"></div></div></div>";
 			var resourceElement=$(code);
 			resources[i].domElement=resourceElement;
 			domElement.find('.messic-upload-finishbox-content').append(resourceElement);

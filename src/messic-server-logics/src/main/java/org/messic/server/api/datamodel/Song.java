@@ -85,5 +85,4 @@ public class Song extends File{
 	public final void setName(String name) {
 		this.name = name;
 	}
-
 }

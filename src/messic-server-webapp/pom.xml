@@ -71,14 +71,17 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<tasks>
-						<echo message="Updating Bundle-Classpath ... just a trick to avoid problems with spring-jetty and scan of components"/>
-						<jar update="true" file="${project.build.directory}/${project.build.finalName}.jar">
+						<echo
+							message="Updating Bundle-Classpath ... just a trick to avoid problems with spring-jetty and scan of components" />
+						<jar update="true"
+							file="${project.build.directory}/${project.build.finalName}.jar">
 							<manifest>
-								<attribute name="Bundle-Classpath" value="WEB-INF/lib/messic-server-osgiservices-1.0-SNAPSHOT.jar" />
+								<attribute name="Bundle-Classpath"
+									value="WEB-INF/lib/messic-server-osgiservices-1.0-SNAPSHOT.jar" />
 							</manifest>
 						</jar>
 
-						<echo message="Copying bundle to the starter project"/>
+						<echo message="Copying bundle to the starter project" />
 						<copy file="${project.build.directory}/${project.build.finalName}.jar"
 							tofile="../messic-starter/bundles/03-messic/01-${project.build.finalName}.bnd" />
 					</tasks>
@@ -243,6 +246,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.3.2</version>
 		</dependency>
 	</dependencies>
 

@@ -182,4 +182,28 @@ public class MDOAlbum
         return null;
     }
 
+    /**
+     * Return all the resources of teh albums: Songs, Artworks and Others.
+     * @return {@link List}<MDOAlbumResources/> list of resources of the album
+     */
+    public List<MDOAlbumResource> getAllResources(){
+        List<MDOAlbumResource> resources=new ArrayList<MDOAlbumResource>();
+        List<MDOSong> songs=getSongs();
+        for ( MDOSong mdoSong : songs )
+        {
+            resources.add(mdoSong);
+        }
+        List<MDOArtwork> artworks=getArtworks();
+        for ( MDOArtwork mdoArtwork : artworks )
+        {
+            resources.add(mdoArtwork);
+        }
+        List<MDOOtherResource> others=getOthers();
+        for ( MDOOtherResource mdoOtherResource : others )
+        {
+            resources.add(mdoOtherResource);
+        }
+        return resources;
+    }
+
 }

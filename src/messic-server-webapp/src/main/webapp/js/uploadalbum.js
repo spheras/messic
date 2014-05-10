@@ -49,7 +49,7 @@ var UploadAlbum=function(){
 				sid: genreSid,
 				name: genreCombo.text()
 			},
-			comments: $("#messic-upload-album-comments").text()
+			comments: $("#messic-upload-album-comments").val()
     	};
 
     	if(this.coverImageResource){
@@ -187,8 +187,8 @@ var UploadAlbum=function(){
 					//construct the code
 					code="";
 					code=code+'<li class="messic-upload-song-content-songs-filedelete messic-upload-song-content-songs-image">';
-					code=code+'  <div class="messic-upload-song-content-images" title="' + f.name+'"></div>';
-			    	code=code+'  <div class="messic-upload-song-content-header-filename">'+f.name+'</div>';
+					code=code+'  <div class="messic-upload-song-content-images" title="' + UtilEscapeHTML(f.name)+'"></div>';
+			    	code=code+'  <div class="messic-upload-song-content-header-filename">'+UtilEscapeHTML(f.name)+'</div>';
 					code=code+'  <div class="messic-upload-song-content-header-fileaction">';
 					code=code+'    <a href="#">&nbsp;</a>';
 					code=code+'  </div>';
@@ -432,13 +432,13 @@ var UploadAlbum=function(){
 														$("#messic-upload-album-genre").data("kendoComboBox").text(data.genre.name);
 													}
 													if(data.comments){
-														$("#messic-upload-album-comments").text(data.comments);	
+														$("#messic-upload-album-comments").text(data.comments);
 													}
 													if(data.year){
-														$("#messic-upload-album-year").data("kendoNumericTextBox").value(data.year);	
+														$("#messic-upload-album-year").data("kendoNumericTextBox").value(data.year);
 													}
 
-													/*	
+													/*
 													TODO see if the album is new or we are editing an existing one
 						                        	var autorCombo = $("#messic-upload-album-author").data("kendoComboBox");
 						                        	var titleCombo = $("#messic-upload-album-title").data("kendoComboBox");
@@ -467,7 +467,7 @@ var UploadAlbum=function(){
 											}
 							        	}
 							        	return myfunction;
-							        })(self), 
+							        })(self),
 							        processData: false,
 							        data: bin
 							    });

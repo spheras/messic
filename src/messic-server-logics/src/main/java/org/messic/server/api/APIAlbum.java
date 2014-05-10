@@ -212,22 +212,23 @@ public class APIAlbum
             }
             else
             {
-                throw new ResourceNotFoundMessicException( basePath + File.separatorChar
-                    + cover.getRelativeLocation() );
+                throw new ResourceNotFoundMessicException( basePath + File.separatorChar + cover.getRelativeLocation() );
             }
         }
         else
         {
-            throw new ResourceNotFoundMessicException(""+albumSid);
+            throw new ResourceNotFoundMessicException( "" + albumSid );
         }
     }
 
     public void createOrUpdateAlbum( MDOUser mdouser, Album album )
         throws IOException
     {
-
         MDOGenre mdoGenre = null;
         MDOAlbum mdoAlbum = null;
+        MDOAuthor mdoAuthor = null;
+
+        // 1st getting genre
         if ( album.getGenre() != null && album.getGenre().getSid() != null )
         {
             mdoGenre = daoGenre.get( album.getGenre().getSid() );
@@ -243,11 +244,33 @@ public class APIAlbum
         {
             mdoGenre = new MDOGenre( album.getGenre().getName() );
         }
-        MDOAuthor mdoAuthor = daoAuthor.getByName( album.getAuthor().getName(), mdouser.getLogin() );
+
+        // 2nd getting the album if exist
+        if ( album.getSid() > 0 )
+        {
+            mdoAlbum = daoAlbum.get( album.getSid() );
+        }
+
+        // 3rd getting the author
+        if ( album.getAuthor().getSid() > 0 )
+        {
+            // trying by sid
+            mdoAuthor = daoAuthor.get( mdouser.getLogin(), album.getAuthor().getSid() );
+        }
+        if ( mdoAuthor == null )
+        {
+            // trying by name
+            mdoAuthor = daoAuthor.getByName( album.getAuthor().getName(), mdouser.getLogin() );
+        }
         if ( mdoAuthor != null )
         {
-            mdoAlbum = daoAlbum.getByName( mdoAuthor.getName(), album.getName(), mdouser.getLogin() );
+            // an existing album from this autor??
+            if ( mdoAlbum == null )
+            {
+                mdoAlbum = daoAlbum.getByName( mdoAuthor.getName(), album.getName(), mdouser.getLogin() );
+            }
         }
+        // let's create a new author
         if ( mdoAuthor == null )
         {
             mdoAuthor = new MDOAuthor();
@@ -255,14 +278,22 @@ public class APIAlbum
             mdoAuthor.setOwner( mdouser );
             mdoAuthor.setLocation( Util.getValidLocation( album.getAuthor().getName() ) );
         }
+        // 4th new album if none
         if ( mdoAlbum == null )
         {
             mdoAlbum = new MDOAlbum();
-            // TODO if the location changes, and the album exist previously, we must move the content to the new
-            // location
-            mdoAlbum.setLocation( Util.getValidLocation( album.getName() ) );
         }
+
+        boolean flagExistingAlbum = ( mdoAlbum.getSid() != null && mdoAlbum.getSid() > 0 );
+        String oldPath = null;
+        if ( flagExistingAlbum )
+        {
+            oldPath = mdoAlbum.getAbsolutePath();
+        }
+
+        // updating / creating the album
         mdoAlbum.setName( album.getName() );
+        mdoAlbum.setLocation( Util.getValidLocation( album.getName() ) );
         mdoAlbum.setAuthor( mdoAuthor );
         mdoAlbum.setComments( album.getComments() );
         mdoAlbum.setGenre( mdoGenre );
@@ -285,24 +316,44 @@ public class APIAlbum
             List<Song> songs = album.getSongs();
             for ( Song song : songs )
             {
-                MDOSong mdoSong = new MDOSong();
-                mdoSong.setName( song.getName() );
-                mdoSong.setLocation( Util.getValidLocation( Util.leftZeroPadding( song.getTrack(), 2 ) + "-"
-                    + song.getName() ) );
-                mdoSong.setOwner( mdouser );
-                mdoSong.setTrack( song.getTrack() );
-                mdoSong.setAlbum( mdoAlbum );
-                daoSong.save( mdoSong );
-
-                // moving resource to the new location
-                String tmpPath = Util.getTmpPath( mdouser, daoSettings.getSettings(), album.getCode() );
-                File tmpRes = new File( tmpPath + File.separatorChar + song.getFileName() );
-                File newFile = new File( albumBasePath + File.separatorChar + mdoSong.getLocation() );
-                if ( newFile.exists() )
+                if ( song.getSid() <= 0 )
                 {
-                    newFile.delete();
+                    MDOSong mdoSong = new MDOSong();
+                    mdoSong.setTrack( song.getTrack() );
+                    mdoSong.setName( song.getName() );
+                    mdoSong.setLocation( Util.getSongTheoricalFileName( mdoSong ) );
+                    mdoSong.setOwner( mdouser );
+                    mdoSong.setAlbum( mdoAlbum );
+                    daoSong.save( mdoSong );
+
+                    // moving resource to the new location
+                    String tmpPath = Util.getTmpPath( mdouser, daoSettings.getSettings(), album.getCode() );
+                    File tmpRes = new File( tmpPath + File.separatorChar + song.getFileName() );
+                    File newFile = new File( albumBasePath + File.separatorChar + mdoSong.getLocation() );
+                    if ( newFile.exists() )
+                    {
+                        newFile.delete();
+                    }
+                    FileUtils.moveFile( tmpRes, newFile );
                 }
-                FileUtils.moveFile( tmpRes, newFile );
+                else
+                {
+                    // existing song...
+                    MDOSong mdoSong = daoSong.get( mdouser.getLogin(), song.getSid() );
+                    if ( mdoSong != null )
+                    {
+                        mdoSong.setTrack( song.getTrack() );
+                        mdoSong.setName( song.getName() );
+                        String oldLocation = mdoSong.getLocation();
+                        mdoSong.setLocation( Util.getSongTheoricalFileName( mdoSong ) );
+                        daoSong.save( mdoSong );
+
+                        File fold = new File( albumBasePath + File.separatorChar + oldLocation );
+                        File fnew = new File( albumBasePath + File.separatorChar + mdoSong.getLocation() );
+                        FileUtils.moveFile( fold, fnew );
+                        //TODO change tags
+                    }
+                }
             }
         }
         if ( album.getArtworks() != null && album.getArtworks().size() > 0 )
@@ -310,28 +361,44 @@ public class APIAlbum
             List<org.messic.server.api.datamodel.File> files = album.getArtworks();
             for ( org.messic.server.api.datamodel.File file : files )
             {
-                MDOArtwork mdopr = new MDOArtwork();
-                mdopr.setLocation( Util.getValidLocation( file.getFileName() ) );
-                mdopr.setOwner( mdouser );
-                mdopr.setAlbum( mdoAlbum );
-
-                if ( file.getFileName().equals( album.getCover().getFileName() ) )
+                if ( file.getSid() <= 0 )
                 {
-                    mdopr.setCover( true );
-                }
+                    MDOArtwork mdopr = new MDOArtwork();
+                    mdopr.setLocation( Util.getValidLocation( file.getFileName() ) );
+                    mdopr.setOwner( mdouser );
+                    mdopr.setAlbum( mdoAlbum );
+    
+                    if ( file.getFileName().equals( album.getCover().getFileName() ) )
+                    {
+                        mdopr.setCover( true );
+                    }
+    
+                    daoPhysicalResource.save( mdopr );
+                    mdoAlbum.getArtworks().add( mdopr );
+    
+                    // moving resource to the new location
+                    String tmpPath = Util.getTmpPath( mdouser, daoSettings.getSettings(), album.getCode() );
+                    File tmpRes = new File( tmpPath + File.separatorChar + file.getFileName() );
+                    File newFile = new File( albumDir.getAbsolutePath() + File.separatorChar + file.getFileName() );
+                    if ( newFile.exists() )
+                    {
+                        newFile.delete();
+                    }
+                    FileUtils.moveFileToDirectory( tmpRes, albumDir, false );
+                }else{
+                    // existing artwork...
+                    MDOAlbumResource resource = daoAlbumResource.get( mdouser.getLogin(), file.getSid() );
+                    if ( resource!= null )
+                    {
+                        String oldLocation = resource.getLocation();
+                        resource.setLocation( file.getFileName() );
+                        daoAlbumResource.save( resource );
 
-                daoPhysicalResource.save( mdopr );
-                mdoAlbum.getArtworks().add( mdopr );
-
-                // moving resource to the new location
-                String tmpPath = Util.getTmpPath( mdouser, daoSettings.getSettings(), album.getCode() );
-                File tmpRes = new File( tmpPath + File.separatorChar + file.getFileName() );
-                File newFile = new File( albumDir.getAbsolutePath() + File.separatorChar + file.getFileName() );
-                if ( newFile.exists() )
-                {
-                    newFile.delete();
+                        File fold = new File( albumBasePath + File.separatorChar + oldLocation );
+                        File fnew = new File( albumBasePath + File.separatorChar + resource.getLocation() );
+                        FileUtils.moveFile( fold, fnew );
+                    }
                 }
-                FileUtils.moveFileToDirectory( tmpRes, albumDir, false );
             }
             daoAlbum.save( mdoAlbum );
         }
@@ -340,25 +407,67 @@ public class APIAlbum
             List<org.messic.server.api.datamodel.File> files = album.getOthers();
             for ( org.messic.server.api.datamodel.File file : files )
             {
-                MDOOtherResource mdopr = new MDOOtherResource();
-                mdopr.setLocation( Util.getValidLocation( file.getFileName() ) );
-                mdopr.setOwner( mdouser );
-                mdopr.setAlbum( mdoAlbum );
-                daoPhysicalResource.save( mdopr );
-                mdoAlbum.getOthers().add( mdopr );
-
-                // moving resource to the new location
-                String tmpPath = Util.getTmpPath( mdouser, daoSettings.getSettings(), album.getCode() );
-                File tmpRes = new File( tmpPath + File.separatorChar + file.getFileName() );
-                File newFile = new File( albumDir.getAbsolutePath() + File.separatorChar + file.getFileName() );
-                if ( newFile.exists() )
+                if ( file.getSid() <= 0 )
                 {
-                    newFile.delete();
+                    MDOOtherResource mdopr = new MDOOtherResource();
+                    mdopr.setLocation( Util.getValidLocation( file.getFileName() ) );
+                    mdopr.setOwner( mdouser );
+                    mdopr.setAlbum( mdoAlbum );
+                    daoPhysicalResource.save( mdopr );
+                    mdoAlbum.getOthers().add( mdopr );
+    
+                    // moving resource to the new location
+                    String tmpPath = Util.getTmpPath( mdouser, daoSettings.getSettings(), album.getCode() );
+                    File tmpRes = new File( tmpPath + File.separatorChar + file.getFileName() );
+                    File newFile =
+                        new File( albumDir.getAbsolutePath() + File.separatorChar
+                            + Util.getValidLocation( file.getFileName() ) );
+                    if ( newFile.exists() )
+                    {
+                        newFile.delete();
+                    }
+                    FileUtils.moveFileToDirectory( tmpRes, albumDir, false );
+                }else{
+                    // existing artwork...
+                    MDOAlbumResource resource = daoAlbumResource.get( mdouser.getLogin(), file.getSid() );
+                    if ( resource!= null )
+                    {
+                        String oldLocation = resource.getLocation();
+                        resource.setLocation( file.getFileName() );
+                        daoAlbumResource.save( resource );
+
+                        File fold = new File( albumBasePath + File.separatorChar + oldLocation );
+                        File fnew = new File( albumBasePath + File.separatorChar + resource.getLocation() );
+                        FileUtils.moveFile( fold, fnew );
+                    }
                 }
-                FileUtils.moveFileToDirectory( tmpRes, albumDir, false );
             }
 
             daoAlbum.save( mdoAlbum );
+        }
+
+        // let's see if the album was an existing one... then it should moved to the new location
+        if ( oldPath != null && !oldPath.equals( mdoAlbum.getAbsolutePath() ) )
+        {
+            List<MDOAlbumResource> resources = mdoAlbum.getAllResources();
+            for ( int i = 0; i < resources.size(); i++ )
+            {
+                MDOAlbumResource resource = resources.get( i );
+                String resourceNewPath =
+                    basePath + File.separatorChar + mdoAlbum.getAbsolutePath() + File.separatorChar
+                        + resource.getLocation();
+                String resourceCurrentPath =
+                    basePath + File.separatorChar + oldPath + File.separatorChar + resource.getLocation();
+                File fnewPath = new File( resourceNewPath );
+                File foldPath = new File( resourceCurrentPath );
+                if ( foldPath.exists() )
+                {
+                    FileUtils.moveFile( foldPath, fnewPath );
+                }
+            }
+
+            File fAlbumOldPath = new File( basePath + File.separatorChar + oldPath );
+            FileUtils.deleteDirectory( fAlbumOldPath );
         }
     }
 

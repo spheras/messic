@@ -2,11 +2,13 @@ function UtilGetRandom(from,to){
 	return Math.floor(Math.random() * to) + from;
 }
 /* function to escape quotes in string variables, useful when are inserted in html/javascript code */
-function UtilEscapeQuotes(str){
-	var tmp= str.replace(/"/g, '&quot;');
-	return tmp.replace(/'/g, "&apos;");
+function UtilEscapeHTML(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
-
+/* function that escape all those characteres that are used in javascript, like ' by \' ... */
+function UtilEscapeJS(str){
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g,'\\\'');
+}
 /* Obtain a GUID - globally unique identifier */
 function UtilGetGUID() {
   return UtilS4() + UtilS4() + '-' + UtilS4() + '-' + UtilS4() + '-' +
@@ -24,7 +26,7 @@ function UtilGetFileExtension(filename){
 	if( a.length === 1 || ( a[0] === "" && a.length === 2 ) ) {
 	    return "";
 	}
-	return a.pop(); 
+	return a.pop();
 }
 
 /* Obtain the name of the track from the filename, trying to identify if there is a pattern for the track number, and removing it */
@@ -49,7 +51,7 @@ function UtilGetFileNameWithoutExtension(filename){
 	if( a.length === 1 || ( a[0] === "" && a.length === 2 ) ) {
 	    return filename;
 	}
-	var extension=a.pop(); 
+	var extension=a.pop();
 	var name=filename.substring(0,filename.length-(extension.length+1));
 	return name;
 }
@@ -68,11 +70,11 @@ function UtilShowInfo(info){
 
 function UtilShowInfoDelay(info, delay){
 	$('.messic-smallinfo').stop();
-	$('.messic-smallinfo').remove(); 
+	$('.messic-smallinfo').remove();
 	var code="<div class='messic-smallinfo'>"+info+"</div>";
 	$('body').append($(code));
-	setTimeout(function () { 
-		$('.messic-smallinfo').remove(); 
+	setTimeout(function () {
+		$('.messic-smallinfo').remove();
 	}, delay);
 	//$('.messic-smallinfo').delay(delay).remove();
 }
