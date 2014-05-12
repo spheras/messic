@@ -1,5 +1,8 @@
 package org.messic.server.facade.controllers.rest;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -171,6 +174,12 @@ public class AlbumController
 
         try
         {
+            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            albumAPI.getAlbumZip( mdouser, albumSid,  baos);
+            FileOutputStream fos=new FileOutputStream( new File("/home/spheras/estoquees.zip") );
+            fos.write(baos.toByteArray());
+            fos.close();
+            
             albumAPI.getAlbumZip( mdouser, albumSid,  response.getOutputStream());
 //            // Prepare acceptable media type
 //            List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();

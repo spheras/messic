@@ -279,4 +279,57 @@ public class Util
         }
 
     }
+    
+    public static void zipFolder(String folderpath, OutputStream os) throws IOException{
+        String sourceFolderName =  folderpath;
+ 
+        ZipOutputStream zos = new ZipOutputStream(os);
+        //level - the compression level (0-9)
+        zos.setLevel(9);
+ 
+        zipFolder2(zos, sourceFolderName, sourceFolderName);
+ 
+        zos.close();        
+    }
+    
+    public static void zipFolder2(ZipOutputStream zos,String folderName,String baseFolderName) throws IOException{
+        File f = new File(folderName);
+        if(f.exists()){
+ 
+            if(f.isDirectory()){
+                //Thank to peter
+                //For pointing out missing entry for empty folder
+                if(!folderName.equalsIgnoreCase(baseFolderName)){
+                    String entryName = folderName.substring(baseFolderName.length()+1,folderName.length()) + File.separatorChar;
+                    System.out.println("Adding folder entry " + entryName);
+                    ZipEntry ze= new ZipEntry(entryName);
+                    zos.putNextEntry(ze);    
+                }
+                File f2[] = f.listFiles();
+                for(int i=0;i<f2.length;i++){
+                    zipFolder2(zos,f2[i].getAbsolutePath(),baseFolderName);    
+                }
+            }else{
+                //add file
+                //extract the relative name for entry purpose
+                String entryName = folderName.substring(baseFolderName.length()+1,folderName.length());
+                System.out.print("Adding file entry " + entryName + "...");
+                ZipEntry ze= new ZipEntry(entryName);
+                zos.putNextEntry(ze);
+                FileInputStream in = new FileInputStream(folderName);
+                int len;
+                byte buffer[] = new byte[1024];
+                while ((len = in.read(buffer)) > 0) {
+                    zos.write(buffer, 0, len);
+                }
+                in.close();
+                zos.closeEntry();
+                System.out.println("OK!");
+ 
+            }
+        }else{
+            throw new IOException("File or directory not found " + folderName);
+        }
+ 
+    }
 }
