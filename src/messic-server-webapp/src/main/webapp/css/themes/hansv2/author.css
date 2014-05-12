@@ -1,0 +1,217 @@
+
+#messic-author-title {
+    background: linear-gradient(#FAFAFA, #E0E0E0) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #555555;
+    text-indent: 15px;
+}
+.messic-H1 {
+    font-family: amaranth;
+    font-size: 2em;
+}
+
+#messic-author-album-cover {
+	display: block;
+	float: left;
+	margin-bottom: 0px;
+	margin-right: 35px;
+	margin-top: 15px;
+	width: 250px;
+}
+
+#messic-author-album-cover  img {
+	border: 0 solid #FFFFFF;
+	position: absolute;
+	width: 250px;
+	height: 250px;
+	cursor: pointer;
+}
+.messic-author-album-covercontainer {
+	border: 7px solid #FFFFFF;
+	border-radius: 6px;
+	box-shadow: 1px 0 2px rgba(0, 0, 0, 0.75);
+	height: 250px;
+	overflow: hidden;
+	position: relative;
+	width: 100%;
+	z-index: 2;
+}
+.messic-author-album-add:hover ~ .messic-author-album-vinyl {
+	margin-left: 45px;
+}
+.messic-author-album-vinyl {
+	background: url("album/bigredvinyl.png") no-repeat scroll 0 0/272px auto
+		rgba(0, 0, 0, 0);
+	height: 300px;
+	margin-left: 21px;
+	margin-top: -267px;
+	position: relative;
+	transition-duration: 0.3s;
+	transition-property: margin-left;
+	width: 300px;
+	z-index: 1;
+	pointer-events: none;
+}
+
+.messic-author-album-covercontainer:hover .messic-author-album-add {
+	opacity: 1;
+}
+
+.messic-author-album-add:hover {
+    transform: rotate(90deg);
+    transform-origin: center center 0;
+    transition-duration: 0.5s;
+    transition-property: transform;
+}
+.messic-author-album-add {
+    background: url("playlist/vinyl-play.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 38px;
+    left: 50%;
+    margin-left: -18px;
+    margin-top: -16px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transition: opacity 0.45s ease-in-out 0s;
+    width: 38px;
+    z-index: 3;
+}
+#messic-author-container {
+    width: 650px;
+    float:left;
+}
+
+#messic-author-songs-container {
+    float: left;
+    margin-top: 16px;
+    min-height: 296px;
+    width: 364px;
+}
+
+.messic-author-songs-bodyfield.messic-author-songs-body-songtrack {
+    margin-right: 10px;
+    text-align: right;
+    width: 38px;
+}
+.messic-author-songs-bodyrow > div {
+    float: left;
+}
+#messic-author-songs-body {
+    font-family: roboto;
+}
+.messic-author-songs-bodyrow {
+    font-family: roboto;
+    font-size: 0.9em;
+    height: 22px;
+    overflow: hidden;
+}
+.messic-author-songs-bodyrow:hover {
+    background: none repeat scroll 0 0 #88FFFF;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.messic-author-album-title {
+    font-family: Amaranth;
+    font-size: 1.5em;
+}
+
+.messic-author-album-title:hover {
+    color: #0000FF;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#messic-author-plugincontainer {
+	background: none repeat scroll 0 0 #EEEEEE;
+	border-left: 3px dashed #CCCCCC;
+	border-radius: 0 54px 0 0;
+	float: right;
+	min-height: 400px;
+	padding: 17px;
+	right: 0;
+	width: 435px;
+	margin-top: 10px;
+}
+
+.messic-author-plugincontainer-menu {
+	display: block;
+	list-style: none outside none;
+	margin-left: -77px;
+	margin-top: 32px;
+	padding: 0;
+	position: absolute;
+	text-decoration: none;
+	width: 70px;
+}
+
+.messic-author-plugincontainer-menuitem:hover {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-right: 5px solid #4444FF;
+	margin-left: -10px;
+	opacity: 1;
+}
+
+.messic-author-plugincontainer-menuitem.messic-author-plugincontainer-menuitem-selected{
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-right: 5px solid #6666FF;
+	opacity: 1;
+}
+
+.messic-author-plugincontainer-menuitem {
+	background: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 40%, #EEEEEE 100%)
+		repeat scroll 0 0 rgba(0, 0, 0, 0);
+	border-bottom: 1px solid #CCCCCC;
+	border-left: 1px solid #CCCCCC;
+	border-radius: 6px 0 0 25px;
+	border-top: 1px solid #CCCCCC;
+	cursor: pointer;
+	float: left;
+	height: 50px;
+	margin-bottom: 8px;
+	opacity: 0.8;
+	overflow: hidden;
+	padding: 10px;
+	transition-duration: 0.3s;
+	transition-property: margin-left, opacity;
+	transition-timing-function: ease;
+	width: 50px;
+}
+
+.messic-author-musicinfoplugin-icon {
+	height: 50px;
+	width: 50px;
+}
+
+.messic-author-plugincontainer-content-message {
+	color: #AFAFAF;
+	font-family: roboto;
+	font-size: 1.5em;
+	left: 50%;
+	margin-left: -170px;
+	margin-top: 103px;
+	position: relative;
+	text-align: center;
+	width: 80%;
+}
+
+.messic-author-plugincontainer-content-wait {
+	color: #888888;
+	font-family: roboto-bold;
+	left: 50%;
+	margin-left: -112px;
+	margin-top: 165px;
+	position: relative;
+	text-align: center;
+	width: 197px;
+}
+
+.messic-author-plugincontainer-content-wait:before {
+    background: url("base/339.GIF") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 60px;
+    margin-left: 67px;
+    margin-top: -66px;
+    position: absolute;
+    width: 60px;
+}

@@ -118,6 +118,19 @@ function initMessic(){
 	});
 
 }
+/* show the author page */
+function showAuthorPage(authorSid){
+	var self=this;
+	var nextFunction=function(){
+		$.get("author.do?authorSid="+authorSid, function(data){
+			$("#messic-page-content").empty();
+			var posts = $($.parseHTML(data)).filter('#content').children();
+			$("#messic-page-content").append(posts);
+			initAuthor();
+		});
+	}
+	VAR_changeSection(nextFunction);
+}
 
 function mainSearch(){
 	var content=$("#messic-search-text").val();

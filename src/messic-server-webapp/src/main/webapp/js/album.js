@@ -73,7 +73,7 @@ function albumDownload(albumSid){
 /* Download the selected song to the user */
 function albumDownloadSong(songSid){
 	var url='services/songs/'+songSid+'/audio';    
-    document.location.href=url;
+    window.open(url);
 }
 /* Download the selected other resource to the user */
 function albumDownloadResource(resourceSid){
@@ -850,7 +850,7 @@ function albumShowMusicInfo(authorName, albumName, pluginName, div) {
 	$(contentdiv).empty();
 	$(contentdiv)
 			.append(
-					"<div class=\"messic-album-plugincontainer-content-wait\">"+musicLang.albumMusicinfoLoading+"</div>");
+					"<div class=\"messic-album-plugincontainer-content-wait\">"+messicLang.albumMusicinfoLoading+"</div>");
 
 	$.getJSON("services/musicinfo?pluginName=" + pluginName + "&albumName="
 			+ albumName + "&authorName=" + authorName, function(data) {

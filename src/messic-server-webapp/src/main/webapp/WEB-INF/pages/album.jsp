@@ -22,7 +22,7 @@
 		        	<div class="messic-album-vinyl"></div>
 		        </div>
 				
-				<div id="messic-album-author" class="messic-H1 messic-album-editable">
+				<div id="messic-album-author" class="messic-H1 messic-album-editable" onclick="showAuthorPage(${album.author.sid})">
 					<div id="messic-album-author-edit" class="messic-album-editbutton" onclick="albumAuthorEdit()"></div>
 					${messic:escapeHTML(album.author.name)}
 				</div>
@@ -84,7 +84,7 @@
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkaction">
 									<div title="<fmt:message key="album-artworkshow-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-show" onclick="albumShowArtwork('${messic:escapeAll(artwork.sid)}')"></div>
 									<div title="<fmt:message key="album-artworkedit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditArtwork(${messic:escapeAll(artwork.sid)},'${messic:escapeAll(artwork.fileName)}',this)"></div>
-									<div title="<fmt:message key="album-artowrkremove-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveResource(${messic:escapeAll(artwork.sid)},$(this).parent().parent())"></div>
+									<div title="<fmt:message key="album-artworkremove-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveResource(${messic:escapeAll(artwork.sid)},$(this).parent().parent())"></div>
 								</div>
 								<div class="divclearer"></div>
 							</div>

@@ -34,7 +34,7 @@ public class APIMusicInfo
         }
     }
 
-    private List<MusicInfoPlugin> getMusicInfoPlugins( String pluginName )
+    public List<MusicInfoPlugin> getMusicInfoPlugins( String pluginName )
     {
         BundleContext context = FrameworkUtil.getBundle( MusicInfoPlugin.class ).getBundleContext();
         ArrayList<MusicInfoPlugin> result = new ArrayList<MusicInfoPlugin>();

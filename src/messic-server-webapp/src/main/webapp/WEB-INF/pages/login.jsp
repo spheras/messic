@@ -13,7 +13,7 @@
         <meta name="description" content="Messic for the music mess">
         <meta name="viewport" content="width=device-width">
 
-		<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="img/apple-touch-icon.png" type="image/png">
 		<!-- For third-generation iPad with high-resolution Retina display: -->
 		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
 		<!-- For iPhone with high-resolution Retina display running iOS 7: -->
@@ -50,6 +50,7 @@
         <link rel="stylesheet" href="css/themes/hansv2/api.css">
         <link rel="stylesheet" href="css/themes/hansv2/explore.css">
         <link rel="stylesheet" href="css/themes/hansv2/album.css">
+        <link rel="stylesheet" href="css/themes/hansv2/author.css">
 		
 		<!-- modernizr -->
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
@@ -114,6 +115,7 @@
         <script src="js/upload.js"></script>
         <script src="js/explore.js"></script>
         <script src="js/album.js"></script>
+        <script src="js/author.js"></script>
         <script src="js/uploadresource.js"></script>
         <script src="js/uploadalbum.js"></script>
         <script src="js/uploadprocess.js"></script>
