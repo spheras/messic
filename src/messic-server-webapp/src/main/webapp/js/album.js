@@ -10,8 +10,8 @@ function initAlbum() {
 		if (visible) {
 			$
 					.confirm({
-						'title' : "Leave Album editing",
-						'message' : "If you leave the page while editing, you will lost all the changes did. Do you want to leave?",
+						'title' : messicLang.albumLeaveTitle,
+						'message' : messicLang.albumLeaveContent,
 						'buttons' : {
 							'Yes' : {
 								'title' : messicLang.confirmationYes,
@@ -67,11 +67,13 @@ function initAlbum() {
 
 /* Download the current album to the user */
 function albumDownload(albumSid){
-	//TODO
+	var url='services/albums/'+albumSid+'/zip';    
+    document.location.href=url;
 }
 /* Download the selected song to the user */
 function albumDownloadSong(songSid){
-	//TODO
+	var url='services/songs/'+songSid+'/audio';    
+    document.location.href=url;
 }
 /* Download the selected other resource to the user */
 function albumDownloadResource(resourceSid){
@@ -225,11 +227,11 @@ function albumAuthorEdit() {
 
 function albumDiscardChanges(albumSid){
 	$.confirm({
-		'title' : "Discard Changes",
-		'message' : "Are you sure to discard changes? You will lost all the changes done to this album.",
+		'title' : messicLang.albumDiscardTitle,
+		'message' : messicLang.albumDiscardContent,
 		'buttons' : {
 			'Yes' : {
-				'title' : "Yes Discard",
+				'title' : messicLang.albumDiscardYes,
 				'class' : 'blue',
 				'action' : function() {
 
@@ -249,7 +251,7 @@ function albumDiscardChanges(albumSid){
 				}
 			},
 			'No' : {
-				'title': "No, sorry",
+				'title': messicLang.albumDiscardNo,
 				'class' : 'blue',
 				'action' : function(){
 
@@ -265,11 +267,11 @@ function albumSaveChanges(albumSid) {
 	// 1st, need to wait any pending load?
 	if ($(".messic-album-songs-uploading-percent").length > 0) {
 		$.confirm({
-					'title' : "Save Album Changes",
-					'message' : "There are pending uploads, please wait until them have been uploaded.",
+					'title' : messicLang.albumSavePendingTitle,
+					'message' : messicLang.albumSavePendingContent,
 					'buttons' : {
 						'Yes' : {
-							'title' : "Ok, I'll wait",
+							'title' : messicLang.albumSavePendingYes,
 							'class' : 'blue',
 							'action' : function() {
 							}
@@ -283,18 +285,18 @@ function albumSaveChanges(albumSid) {
 	var authordiv=$("#messic-album-author-textedit").data("kendoComboBox");
 	if (authordiv){
 		$.confirm({
-			'title' : "Save Album Changes",
-			'message' : "You have modified the Author Name of the album... Do you want to create a new Author with this name? Or you prefer to just change the Author name to this new one?.",
+			'title' : messicLang.albumSaveCreateTitle,
+			'message' : messicLang.albumSaveCreateContent,
 			'buttons' : {
 				'Yes' : {
-					'title' : "Create New",
+					'title' : messicLang.albumSaveCreateYes,
 					'class' : 'blue',
 					'action' : function() {
 						albumSaveChangesDefinitely(albumSid,true);
 					}
 				},
 				'No' : {
-					'title' : "Change Name",
+					'title' : messicLang.albumSaveCreateNo,
 					'class' : 'blue',
 					'action' : function() {
 						albumSaveChangesDefinitely(albumSid,false);
@@ -450,11 +452,11 @@ function albumSaveChangesDefinitely(albumSid,authorCreation){
 					url: 'services/albums',  //Server script to process data
 					type: 'POST',
 					success: function(){
-						UtilShowInfo("changes saved!");
+						UtilShowInfo(messicLang.albumSaveOK);
 						exploreEditAlbum(albumSid);
 					},
 					error: function(e){
-						UtilShowInfo("ERROR saving changes!");
+						UtilShowInfo(messicLang.albumSaveFail);
 					},
 					processData: false,
 					data: JSON.stringify(data),
@@ -491,8 +493,8 @@ function albumEditSong(sid,track,name,authorName,albumName,divButton){
 	code = code + "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-songtrack\" value=\"" + track + "\" data-sid=\""+sid+"\">";
 	code = code + "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-songname\" value=\"" + name + "\">";
 	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-songaction\">";
-	code = code + "    <div title=\"Delete song\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveSong('"+sid+"','"+track+"-"+UtilEscapeJS(name)+"',$(this).parent().parent())\"></div>";
-	code = code + "    <div title=\"Add song to the playlist\" class=\"messic-album-songs-body-songaction-play\" onclick=\""+
+	code = code + "    <div title=\""+messicLang.albumSongDelete+"\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveSong('"+sid+"','"+track+"-"+UtilEscapeJS(name)+"',$(this).parent().parent())\"></div>";
+	code = code + "    <div title=\""+messicLang.albumSongPlay+"\" class=\"messic-album-songs-body-songaction-play\" onclick=\""+
 	"addSong('"+UtilEscapeJS(name)+"','"+UtilEscapeJS(authorName)+"','"+UtilEscapeJS(albumName)+"','"+UtilEscapeJS(name)+"')"+"\"></div>";
 	code = code + "  </div>";
 	code = code + "  <div class=\"divclearer\"></div>";
@@ -513,8 +515,8 @@ function albumEditArtwork(sid,name,divButton){
 	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artwork\"><img src=\"services/albums/"+sid+"/resource\" onclick=\"albumShowArtwork('"+sid+"')\"/></div>";
 	code=code+"  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkname\" value=\"" + name + "\" data-sid=\""+sid+"\">";
 	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkaction\">";
-	code=code+"    <div title=\"Show artwork\" class=\"messic-album-songs-body-songaction-show\" onclick=\"albumShowArtwork('"+sid+"')\"></div>";
-	code=code+"	   <div title=\"Remove Artwork\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveResource("+sid+",$(this).parent().parent())\"></div>";
+	code=code+"    <div title=\""+messicLang.albumArtworkShow+"\" class=\"messic-album-songs-body-songaction-show\" onclick=\"albumShowArtwork('"+sid+"')\"></div>";
+	code=code+"	   <div title=\""+messicLang.albumArtworkRemove+"\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveResource("+sid+",$(this).parent().parent())\"></div>";
 	code=code+"  </div>";
 	code=code+"  <div class=\"divclearer\"></div>";
 	code=code+"</div>";
@@ -565,7 +567,7 @@ function albumAddFileAudio(file) {
 						code = code
 								+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-songaction\">";
 						code = code
-								+ "    <div title=\"Delete song\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveLocalResource(this)\"></div>";
+								+ "    <div title=\""+messicLang.albumSongDelete+"\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveLocalResource(this)\"></div>";
 						code = code + "  </div>";
 						code = code + "  <div class=\"divclearer\"></div>";
 						code = code + "</div>";
@@ -766,11 +768,11 @@ function albumShowCover(albumSid) {
 function albumRemoveResource(resourceSid, div) {
 
 	$.confirm({
-				'title' : "Remove Resource",
-				'message' : "Are you sure? The resource will be completely removed from the system.",
+				'title' : messicLang.albumResourceRemoveTitle,
+				'message' : messicLang.albumResourceRemoveContent,
 				'buttons' : {
 					'Yes' : {
-						'title' : "YES, Remove",
+						'title' : messicLang.confirmationYes,
 						'class' : 'blue',
 						'action' : function() {
 							$.ajax({
@@ -778,21 +780,21 @@ function albumRemoveResource(resourceSid, div) {
 												+ resourceSid,
 										type : 'DELETE',
 										success : function(result) {
-											UtilShowInfo("Resource removed, RIP");
+											UtilShowInfo(messicLang.albumResourceRemoveOK);
 											$(div).fadeOut();
 											$(div).remove();
 										},
 										fail : function(result) {
-											UtilShowInfo("OhOh! there was some kind of error removing the song.. :( ");
+											UtilShowInfo(messicLang.albumResourceRemoveFail);
 										}
 									});
 						}
 					},
 					'No' : {
-						'title' : "NO, DON'T remove",
+						'title' : messicLang.confirmationNo,
 						'class' : 'gray',
 						'action' : function() {
-							UtilShowInfo("Uff, process cancelled");
+							UtilShowInfo(messicLang.albumResourceRemoveCancel);
 						}
 					}
 				}
@@ -804,33 +806,32 @@ function albumRemoveResource(resourceSid, div) {
 function albumRemoveSong(songSid, songName, div) {
 
 	$.confirm({
-				'title' : "Remove Track",
-				'message' : "Are you sure? The track (" + songName
-						+ ") will be removed completely from the system.",
+				'title' : messicLang.albumSongRemoveTitle,
+				'message' : messicLang.albumSongRemoveContent + "[" + songName + "]",
 				'buttons' : {
 					'Yes' : {
-						'title' : "YES, Remove",
+						'title' : messicLang.confirmationYes,
 						'class' : 'blue',
 						'action' : function() {
 							$.ajax({
 										url : 'services/songs/' + songSid,
 										type : 'DELETE',
 										success : function(result) {
-											UtilShowInfo("Song removed, RIP");
+											UtilShowInfo(messicLang.albumSongRemoveOK);
 											$(div).fadeOut();
 											$(div).remove();
 										},
 										fail : function(result) {
-											UtilShowInfo("OhOh! there was some kind of error removing the song.. :( ");
+											UtilShowInfo(messicLang.albumSongRemoveFail);
 										}
 									});
 						}
 					},
 					'No' : {
-						'title' : "NO, DON'T remove",
+						'title' : messicLang.confirmationNo,
 						'class' : 'gray',
 						'action' : function() {
-							UtilShowInfo("Uff, process cancelled");
+							UtilShowInfo(messicLang.albumSongRemoveCancel);
 						}
 					}
 				}
@@ -849,7 +850,7 @@ function albumShowMusicInfo(authorName, albumName, pluginName, div) {
 	$(contentdiv).empty();
 	$(contentdiv)
 			.append(
-					"<div class=\"messic-album-plugincontainer-content-wait\">Loading Content from 3rd provider</div>");
+					"<div class=\"messic-album-plugincontainer-content-wait\">"+musicLang.albumMusicinfoLoading+"</div>");
 
 	$.getJSON("services/musicinfo?pluginName=" + pluginName + "&albumName="
 			+ albumName + "&authorName=" + authorName, function(data) {
@@ -863,11 +864,11 @@ function albumShowMusicInfo(authorName, albumName, pluginName, div) {
 /* Remove the album */
 function albumRemove(albumSid) {
 	$.confirm({
-				'title' : "Remove Album",
-				'message' : "¡IMPORTANT! If you confirm this window, the album will be REMOVED entirely from the database and the filesystem. YOU WILL LOSS ALL THE SONGS OF THIS ALBUM",
+				'title' : messicLang.albumRemoveTitle,
+				'message' : messicLang.albumRemoveContent,
 				'buttons' : {
 					'Yes' : {
-						'title' : "YES, Remove",
+						'title' : messicLang.confirmationYes,
 						'class' : 'blue',
 						'action' : function() {
 
@@ -875,7 +876,7 @@ function albumRemove(albumSid) {
 										url : 'services/albums/' + albumSid,
 										type : 'DELETE',
 										success : function(result) {
-											UtilShowInfo("Album removed, RIP");
+											UtilShowInfo(messicLang.albumRemoveOK);
 											$.get(
 															"explore.do",
 															function(data) {
@@ -888,21 +889,20 @@ function albumRemove(albumSid) {
 															});
 										},
 										fail : function(result) {
-											UtilShowInfo("OhOh! there was some kind of error removing the album.. :( ");
+											UtilShowInfo(messicLang.albumRemoveFail);
 										}
 									});
 
 						}
 					},
 					'No' : {
-						'title' : "NO, DON'T remove",
+						'title' : messicLang.confirmationNo,
 						'class' : 'gray',
 						'action' : function() {
-							UtilShowInfo("process cancelled");
+							UtilShowInfo(messicLang.albumRemoveCancel);
 						} // Nothing to do in this case. You can as well omit
 							// the action property.
 					}
 				}
 			});
-
 }
