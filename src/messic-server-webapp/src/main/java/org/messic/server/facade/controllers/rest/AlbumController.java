@@ -143,6 +143,57 @@ public class AlbumController
         }
     }
 
+    
+    @ApiMethod( path = "/albums/{albumSid}/zip", verb = ApiVerb.GET, description = "Get the album binary, get the whole album zipped", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
+        @ApiError( code = IOMessicRESTException.VALUE, description = "IO error trying to get the album resource" ) } )
+    @RequestMapping( value = "/{albumSid}/zip", method = RequestMethod.GET )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    public void getAlbumZip( @ApiParam( name = "albumSid", description = "SID of the album resource we want to download", paramType = ApiParamType.PATH, required = true )
+                                           @PathVariable
+                                           Long albumSid,HttpServletResponse response )
+        throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException
+    {
+
+        MDOUser mdouser = null;
+        try
+        {
+            mdouser = Util.getAuthentication( userDAO );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            throw new NotAuthorizedMessicRESTException( e );
+        }
+
+        try
+        {
+            albumAPI.getAlbumZip( mdouser, albumSid,  response.getOutputStream());
+//            // Prepare acceptable media type
+//            List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
+//            acceptableMediaTypes.add(MediaType.APPLICATION_OCTET_STREAM);
+//             
+//            // Prepare header
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.setAccept(acceptableMediaTypes);
+//            HttpEntity<String> entity = new HttpEntity<String>(headers);
+//
+        }
+        catch ( IOException ioe )
+        {
+            ioe.printStackTrace();
+            throw new IOMessicRESTException( ioe );
+        }
+        catch ( Exception e )
+        {
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
+    
     @ApiMethod( path = "/albums/{albumSid}", verb = ApiVerb.DELETE, description = "Remove an album with sid {albumSid}", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )

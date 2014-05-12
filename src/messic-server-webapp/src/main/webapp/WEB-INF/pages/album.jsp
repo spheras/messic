@@ -18,7 +18,7 @@
 				<div id="cc" class="${messic:escapeHTML(variable1)}"></div>
 				<div id="messic-album-cover">
 					<div class="messic-album-covercontainer">
-			        	<div class="messic-album-add" onclick="addAlbum(${messic:escapeAll(album.sid)})"></div>
+			        	<div class="messic-album-add" onclick="addAlbum(${messic:escapeAll(album.sid)})" title="Add all the album to the playlist"></div>
 						<img src="services/albums/${album.sid}/cover/" onclick="albumShowCover('${messic:escapeAll(album.sid)}')"/>
 					</div>
 		        	<div class="messic-album-vinyl"></div>
@@ -35,6 +35,7 @@
 				
 				<div id="messic-album-menu">
 					<div id="messic-album-menuoption-remove" class="messic-album-menuoption" title="remove album" onclick="albumRemove(${messic:escapeAll(album.sid)})"></div>
+					<div id="messic-album-menuoption-download" class="messic-album-menuoption" title="download album" onclick="albumDownload(${messic:escapeAll(album.sid)})"></div>
 					<div id="messic-album-menuoption-save" class="messic-album-menuoption" title="Save changes" onclick="albumSaveChanges(${messic:escapeAll(album.sid)})"></div>
 					<div id="messic-album-menuoption-discard" class="messic-album-menuoption" title="Discard changes" onclick="albumDiscardChanges(${messic:escapeAll(album.sid)})"></div>
 				</div>
@@ -72,6 +73,7 @@
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songaction">
 									<div title="Add song to the playlist" class="messic-album-songs-body-songaction-play" onclick="addSong('${messic:escapeAll(song.name)}','${messic:escapeAll(album.author.name)}','${messic:escapeAll(album.sid)}','${messic:escapeAll(album.name)}','${messic:escapeAll(song.sid)}','${messic:escapeAll(song.name)}')"></div>
 									<div title="Edit Song" class="messic-album-songs-body-songaction-edit" onclick="albumEditSong(${messic:escapeAll(song.sid)},'${messic:escapeAll(song.track)}','${messic:escapeAll(song.name)}','${messic:escapeAll(song.album.author.name)}','${messic:escapeAll(song.album.name)}',this)"></div>
+									<div title="Download Song" class="messic-album-songs-body-songaction-download" onclick="albumDownloadSong(${messic:escapeAll(song.sid)})"></div>
 									<div title="Delete song" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveSong('${messic:escapeAll(song.sid)}','${messic:escapeAll(song.track)}-${messic:escapeAll(song.name)}',$(this).parent().parent())"></div>
 								</div>
 								<div class="divclearer"></div>
@@ -88,13 +90,14 @@
 								</div>
 								<div class="divclearer"></div>
 							</div>
-						</c:forEach>				
+						</c:forEach>
 						<c:forEach var="other" items="${album.others}">
 							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-other">
-								<div class="messic-album-songs-bodyfield messic-album-songs-body-artwork">..</div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkname">${messic:escapeHTML(other.fileName)}</div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkaction">
+								<div class="messic-album-songs-bodyfield messic-album-songs-body-otherfile">..</div>
+								<div class="messic-album-songs-bodyfield messic-album-songs-body-othername">${messic:escapeHTML(other.fileName)}</div>
+								<div class="messic-album-songs-bodyfield messic-album-songs-body-otheraction">
 									<div title="Edit Resource" class="messic-album-songs-body-songaction-edit" onclick="albumEditOther(${messic:escapeAll(other.sid)},'${messic:escapeAll(other.fileName)}',this)"></div>
+									<div title="Download Resource" class="messic-album-songs-body-songaction-download" onclick="albumDownloadResource(${messic:escapeAll(other.sid)})"></div>
 									<div class="messic-album-songs-body-songaction-remove" onclick="albumRemoveResource(${messic:escapeAll(other.sid)},$(this).parent().parent())"></div>
 								</div>
 								<div class="divclearer"></div>

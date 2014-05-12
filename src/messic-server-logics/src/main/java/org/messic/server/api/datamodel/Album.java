@@ -91,6 +91,7 @@ public class Album {
 		setSid(mdoalbum.getSid());
 		setName(mdoalbum.getName());
 		setYear(mdoalbum.getYear());
+		setComments( mdoalbum.getComments() );
 		if(copyAuthor){
 			setAuthor(new Author(mdoalbum.getAuthor(), false,false));
 		}

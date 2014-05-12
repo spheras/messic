@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
@@ -242,4 +246,37 @@ public class Util
         return Util.getValidLocation( Util.leftZeroPadding( song.getTrack(), 2 ) + "-" + song.getName() );
     }
 
+    /**
+     * Zip a set of files. The results is sent to an {@link OutputStream}
+     * @param files {@link List}<File/> list of files to be zipped
+     * @param os {@link OutputStream} outputstream where the zip is created
+     * @throws IOException 
+     */
+    public static void zipFiles( List<File> files, OutputStream os )
+        throws IOException
+    {
+        FileInputStream in = null;
+        ZipOutputStream zos = new ZipOutputStream( os );
+
+        for ( File file : files )
+        {
+            ZipEntry ze = new ZipEntry( file.getName() );
+            zos.putNextEntry( ze );
+            try
+            {
+                byte[] buffer = new byte[1024];
+                in = new FileInputStream( file.getAbsolutePath() );
+                int len;
+                while ( ( len = in.read( buffer ) ) > 0 )
+                {
+                    zos.write( buffer, 0, len );
+                }
+            }
+            finally
+            {
+                in.close();
+            }
+        }
+
+    }
 }

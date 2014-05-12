@@ -65,6 +65,19 @@ function initAlbum() {
 
 }
 
+/* Download the current album to the user */
+function albumDownload(albumSid){
+	//TODO
+}
+/* Download the selected song to the user */
+function albumDownloadSong(songSid){
+	//TODO
+}
+/* Download the selected other resource to the user */
+function albumDownloadResource(resourceSid){
+	//TODO
+}
+
 /* change the status of the album to editing */
 function albumEditStatus() {
 	$("#messic-album-menuoption-edit").hide();
@@ -299,7 +312,9 @@ function albumSaveChangesDefinitely(albumSid,authorCreation){
 	$.getJSON(
 			"services/albums/" + albumSid,
 			function(data) {
-
+				
+				data.code=VAR_AlbumCode;
+				
 				//edit the author name? or changing the author of this album
 				var authordiv=$("#messic-album-author-textedit").data("kendoComboBox");
 				if(authordiv){
@@ -347,7 +362,24 @@ function albumSaveChangesDefinitely(albumSid,authorCreation){
 					data.comments=commentsdiv.val();
 				}
 
-				
+				//new songs
+				$(".messic-album-songs-bodyrow-new").each(function(){
+					var songSid=-1;
+					var songTrack=$(this).find(".messic-album-songs-body-songtrack").val();
+					var songName=$(this).find(".messic-album-songs-body-songname").val();
+					var songFileName=$(this).find(".messic-album-songs-body-songname").data("filename");
+					if(!data.songs){
+						data.songs=new Array();
+					}
+					data.songs.push({
+						sid:songSid,
+						track:songTrack,
+						name:songName,
+						fileName:songFileName,
+					});
+				});
+
+				//editing songs
 				$(".messic-album-songs-bodyrow-editsong").each(function(){
 					var songSid=$(this).find(".messic-album-songs-body-songtrack").data("sid");
 					var songTrack=$(this).find(".messic-album-songs-body-songtrack").val();
@@ -359,9 +391,23 @@ function albumSaveChangesDefinitely(albumSid,authorCreation){
 						sid:songSid,
 						track:songTrack,
 						name:songName
-					})
+					});
 				});
 
+				//new artworks
+				$(".messic-album-songs-bodyrow-artwork-new").each(function(){
+					var artworkSid=-1;
+					var artworkName=$(this).find(".messic-album-songs-body-artworkname").text().trim();
+					if(!data.artworks){
+						data.artworks=new Array();
+					}
+					data.artworks.push({
+						sid:artworkSid,
+						fileName:artworkName
+					});
+				});
+
+				//editing artworks
 				$(".messic-album-songs-bodyrow-editartwork").each(function(){
 					var artworkSid=$(this).find(".messic-album-songs-body-artworkname").data("sid");
 					var artworkName=$(this).find(".messic-album-songs-body-artworkname").val();
@@ -371,10 +417,24 @@ function albumSaveChangesDefinitely(albumSid,authorCreation){
 					data.artworks.push({
 						sid:artworkSid,
 						fileName:artworkName
-					})
+					});
 				});
 
-				$("messic-album-songs-bodyrow-editother").each(function(){
+				//new other resources
+				$(".messic-album-songs-bodyrow-other-new").each(function(){
+					var otherSid=-1;
+					var otherName=$(this).find(".messic-album-songs-body-othername").text();
+					if(!data.others){
+						data.others=new Array();
+					}
+					data.others.push({
+						sid:otherSid,
+						fileName:otherName
+					});
+				});
+
+				//editing other resources
+				$(".messic-album-songs-bodyrow-editother").each(function(){
 					var otherSid=$(this).find(".messic-album-songs-body-othername").data("sid");
 					var otherName=$(this).find(".messic-album-songs-body-othername").val();
 					if(!data.others){
@@ -383,7 +443,7 @@ function albumSaveChangesDefinitely(albumSid,authorCreation){
 					data.others.push({
 						sid:otherSid,
 						fileName:otherName
-					})
+					});
 				});
 
 				$.ajax({
@@ -471,9 +531,9 @@ function albumEditOther(sid,name,divButton){
 	albumEditStatus();
 
 	var code="<div>";
-	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artwork\">..</div>";
-	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkname\">"+name+"</div>";
-	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkaction\">";
+	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-otherfile\">..</div>";
+	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-othername\">"+name+"</div>";
+	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-otheraction\">";
 	code=code+"    <div class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveResource("+sid+",$(this).parent().parent())\"></div>";
 	code=code+"  </div>";
 	code=code+"  <div class=\"divclearer\"></div>";
@@ -499,13 +559,13 @@ function albumAddFileAudio(file) {
 								+ data.track + "\">";
 						code = code
 								+ "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-songname\" value=\""
-								+ data.name + "\">";
+								+ data.name + "\" data-filename=\""+UtilEscapeHTML(file.name)+"\">";
 						code = code
 								+ "  <div class=\"messic-album-songs-uploading\"><div class=\"messic-album-songs-uploading-percent\"></div></div>";
 						code = code
 								+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-songaction\">";
 						code = code
-								+ "    <div title=\"Delete song\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveLocalSong()\"></div>";
+								+ "    <div title=\"Delete song\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveLocalResource(this)\"></div>";
 						code = code + "  </div>";
 						code = code + "  <div class=\"divclearer\"></div>";
 						code = code + "</div>";
@@ -514,69 +574,81 @@ function albumAddFileAudio(file) {
 						$("#messic-album-songs-body").prepend(newelement);
 						var percentdiv = $(newelement).find(
 								".messic-album-songs-uploading-percent");
+						
+						uploadResource(percentdiv,file);
+					}
+			);
+}
 
-						// reading the file to show the image
-						var reader = new FileReader();
-						// Closure to capture the file information.
-						reader.onload = function(eldiv) {
-							var fsend = function(e) {
-								var bin = e.target.result;
-								$.ajax({
-											url : 'services/albums/'
-													+ VAR_AlbumCode
-													+ "?fileName="
-													+ encodeURIComponent(file.name),
-											type : 'PUT',
-											// Ajax events
-											success : (function() {
-												// at the end we put 100%
-												// completed, and add filename
-												// data to the div (this is also
-												// a way to know if the upload
-												// have been finished
-												eldiv.width('100');
-												eldiv.data('file', file.name);
-											}),
-											error : (function() {
-												UtilShowInfo("Error uploading the new song!");
-												eldiv
-														.addClass("messic-album-songs-uploading-percent-failed");
-											}),
-											xhr : (function() {
-												var xhr = new window.XMLHttpRequest();
-												// Upload progress
-												xhr.upload
-														.addEventListener(
-																"progress",
-																function(evt) {
-																	if (evt.lengthComputable) {
-																		var percentComplete = evt.loaded
-																				/ evt.total;
-																		// Do
-																		// something
-																		// with
-																		// upload
-																		// progress
-																		console
-																				.log(percentComplete);
-																		eldiv
-																				.width((percentComplete * 100)
-																						+ '%');
-																	}
-																}, false);
-												return xhr;
-											}),
-											processData : false,
-											data : bin
-										});
-							}
-
-							return fsend;
-						}(percentdiv);
-
-						// Read in the image file as a data URL.
-						reader.readAsArrayBuffer(file);
+function uploadResource(percentdiv, file){
+	// reading the file to show the image
+	var reader = new FileReader();
+	// Closure to capture the file information.
+	reader.onload = function(eldiv) {
+		var fsend = function(e) {
+			var bin = e.target.result;
+			$.ajax({
+						url : 'services/albums/'
+								+ VAR_AlbumCode
+								+ "?fileName="
+								+ encodeURIComponent(file.name),
+						type : 'PUT',
+						// Ajax events
+						success : (function() {
+							// at the end we put 100%
+							// completed, and add filename
+							// data to the div (this is also
+							// a way to know if the upload
+							// have been finished
+							eldiv.width('100');
+							eldiv.data('file', file.name);
+							eldiv.removeClass('messic-album-songs-uploading-percent');
+							eldiv.addClass('messic-album-songs-uploading-percent-finished');
+						}),
+						error : (function() {
+							UtilShowInfo("Error uploading the new song!");
+							eldiv
+									.addClass("messic-album-songs-uploading-percent-failed");
+						}),
+						xhr : (function() {
+							var xhr = new window.XMLHttpRequest();
+							// Upload progress
+							xhr.upload
+									.addEventListener(
+											"progress",
+											function(evt) {
+												if (evt.lengthComputable) {
+													var percentComplete = evt.loaded
+															/ evt.total;
+													// Do
+													// something
+													// with
+													// upload
+													// progress
+													console
+															.log(percentComplete);
+													eldiv
+															.width((percentComplete * 100)
+																	+ '%');
+												}
+											}, false);
+							return xhr;
+						}),
+						processData : false,
+						data : bin
 					});
+		}
+
+		return fsend;
+	}(percentdiv);
+
+	// Read in the image file as a data URL.
+	reader.readAsArrayBuffer(file);
+}
+
+/* remove the new local resource that is trying to add */
+function albumRemoveLocalResource(div){
+	$(div).parent().parent().remove();
 }
 
 /* function to add an image file to the album */
@@ -588,11 +660,13 @@ function albumAddFileImage(file) {
 			+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkname\">"
 			+ file.name + "</div>";
 	code = code
+			+ "  <div class=\"messic-album-songs-uploading\"><div class=\"messic-album-songs-uploading-percent\"></div></div>";
+	code = code
 			+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkaction\">";
 	code = code
-			+ "    <div class=\"messic-album-songs-body-songaction-show\" onclick=\"albumShowLocalArtwork('${artwork.sid}')\"></div>";
+			+ "    <div class=\"messic-album-songs-body-songaction-show\" onclick=\"albumShowLocalArtwork($(this).parent().parent())\"></div>";
 	code = code
-			+ "    <div class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveLocalResource()\"></div>";
+			+ "    <div class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveLocalResource(this)\"></div>";
 	code = code + "  </div>";
 	code = code + "  <div class=\"divclearer\"></div>";
 	code = code + "</div>";
@@ -619,10 +693,28 @@ function albumAddFileImage(file) {
 
 	// Read in the image file as a data URL.
 	reader.readAsDataURL(file);
+	
+
+	var percentdiv = $(newelement).find(".messic-album-songs-uploading-percent");
+	uploadResource(percentdiv,file);
+
 }
 /* function to add an other file to the album */
 function albumAddFileOther(file) {
-	//TODO!
+	var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-other messic-album-songs-bodyrow-other-new\">";
+	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-otherfile\">...</div>";
+	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-othername\">"+ file.name + "</div>";
+	code = code	+ "  <div class=\"messic-album-songs-uploading\"><div class=\"messic-album-songs-uploading-percent\"></div></div>";
+	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-otheraction\">";
+	code = code + "    <div class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveLocalResource(this)\"></div>";
+	code = code + "  </div>";
+	code = code + "  <div class=\"divclearer\"></div>";
+	code = code + "</div>";
+
+	var newelement = $(code);
+	$("#messic-album-songs-body").prepend(newelement);
+	var percentdiv = $(newelement).find(".messic-album-songs-uploading-percent");
+	uploadResource(percentdiv,file);
 }
 
 function albumShowArtworkDestroy() {
