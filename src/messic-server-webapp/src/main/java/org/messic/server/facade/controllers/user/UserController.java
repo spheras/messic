@@ -42,7 +42,7 @@ public class UserController
     }		
 	
 	
-	@RequestMapping(value="",method=RequestMethod.POST)
+	@RequestMapping(value="/create.do",method=RequestMethod.POST)
 	@ResponseBody
 	/**
 	 * This controller processes the user creation request

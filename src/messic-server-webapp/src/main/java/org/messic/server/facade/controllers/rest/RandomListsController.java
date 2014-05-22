@@ -11,7 +11,7 @@ import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.server.Util;
 import org.messic.server.api.APIRandomLists;
 import org.messic.server.api.datamodel.RandomList;
-import org.messic.server.datamodel.MDOUser;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.UnknownMessicRESTException;
@@ -41,16 +41,16 @@ public class RandomListsController
 	@ResponseBody @ApiResponseObject
     public List<RandomList> getAll() throws UnknownMessicRESTException, NotAuthorizedMessicRESTException{
 		
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
 		}
 
 		try{
-			List<RandomList> lists=randomListsAPI.getAllLists(mdouser);
+			List<RandomList> lists=randomListsAPI.getAllLists(user);
 			return lists;
 		}catch(Exception e){
 			throw new UnknownMessicRESTException(e);

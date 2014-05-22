@@ -21,9 +21,9 @@ import org.messic.server.Util;
 import org.messic.server.api.APIAlbum;
 import org.messic.server.api.APITagWizard;
 import org.messic.server.api.datamodel.Album;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.api.exceptions.ResourceNotFoundMessicException;
 import org.messic.server.api.exceptions.SidNotFoundMessicException;
-import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.IOMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.MusicTagsMessicRESTException;
@@ -84,9 +84,9 @@ public class AlbumController
     		Boolean authorInfo
     		) throws UnknownMessicRESTException, NotAuthorizedMessicRESTException{
 
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
@@ -95,12 +95,12 @@ public class AlbumController
 		try{
 			List<Album> albums=null;
 			if(filterAuthorSid==null && filterName==null){
-				albums=albumAPI.getAll(mdouser,(authorInfo!=null?authorInfo:true),(songsInfo!=null?songsInfo:false));
+				albums=albumAPI.getAll(user,(authorInfo!=null?authorInfo:true),(songsInfo!=null?songsInfo:false));
 			}else{
 				if(filterAuthorSid!=null && filterName==null){
-					albums=albumAPI.getAll(mdouser, filterAuthorSid,(authorInfo!=null?authorInfo:true),(songsInfo!=null?songsInfo:false));
+					albums=albumAPI.getAll(user, filterAuthorSid,(authorInfo!=null?authorInfo:true),(songsInfo!=null?songsInfo:false));
 				}else{
-					albums=albumAPI.findSimilar(mdouser, filterAuthorSid,filterName,(authorInfo!=null?authorInfo:true),(songsInfo!=null?songsInfo:false));
+					albums=albumAPI.findSimilar(user, filterAuthorSid,filterName,(authorInfo!=null?authorInfo:true),(songsInfo!=null?songsInfo:false));
 				}
 			}
 			
@@ -128,16 +128,16 @@ public class AlbumController
     		Boolean authorInfo
     		) throws UnknownMessicRESTException, NotAuthorizedMessicRESTException{
 
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
 		}
 
 		try{
-			Album album=albumAPI.getAlbum(mdouser, albumSid,(authorInfo!=null?authorInfo:true),(songsInfo!=null?songsInfo:false));
+			Album album=albumAPI.getAlbum(user, albumSid,(authorInfo!=null?authorInfo:true),(songsInfo!=null?songsInfo:false));
 			return album;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -160,16 +160,16 @@ public class AlbumController
     		@ApiParam(name = "albumSid", description = "SID of the album to get the cover", paramType=ApiParamType.PATH, required=true)
     		Long albumSid) throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException, IOMessicRESTException{
 
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
 		}
 
 		try{
-			   byte[] content = albumAPI.getAlbumCover(mdouser, albumSid);
+			   byte[] content = albumAPI.getAlbumCover(user, albumSid);
 			   HttpHeaders headers = new HttpHeaders();
 			   headers.setContentType(MediaType.IMAGE_JPEG);
 			   return new ResponseEntity<byte[]>(content, headers, HttpStatus.OK);
@@ -196,16 +196,16 @@ public class AlbumController
     		@RequestBody Album album)
     		throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException, IOMessicRESTException{
 		
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
 		}
 		
 		try{
-			albumAPI.createOrUpdateAlbum(mdouser, album);
+			albumAPI.createOrUpdateAlbum(user, album);
 	        return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		}catch(IOException e){
 			throw new IOMessicRESTException(e); 
@@ -234,9 +234,9 @@ public class AlbumController
 			@RequestParam("fileName") String fileName) 
 					throws IOMessicRESTException, UnknownMessicRESTException, NotAuthorizedMessicRESTException {
 		
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
@@ -244,7 +244,7 @@ public class AlbumController
 		
 		try{
 			byte[] payload = requestEntity.getBody();
-			albumAPI.uploadResource(mdouser, albumCode, HtmlUtils.htmlUnescape(fileName), payload);
+			albumAPI.uploadResource(user, albumCode, HtmlUtils.htmlUnescape(fileName), payload);
 		}catch(IOException ioe){
 			throw new IOMessicRESTException(ioe);
 		}catch(Exception e){
@@ -269,16 +269,16 @@ public class AlbumController
     		String albumCode
     		) throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException{
 		
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
 		}
 		
 		try {
-			albumAPI.clearTemporal(mdouser, albumCode);
+			albumAPI.clearTemporal(user, albumCode);
 			return new HttpEntity<HttpStatus>(HttpStatus.OK);
 		} catch (IOException e) {
 			throw new IOMessicRESTException(e);
@@ -304,16 +304,16 @@ public class AlbumController
     		@PathVariable  String albumCode
     		) throws NotAuthorizedMessicRESTException, UnknownMessicRESTException, IOMessicRESTException, MusicTagsMessicRESTException{
 
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
 		}
 
 		try{
-			Album album=wizardAPI.getWizardAlbum(mdouser, albumCode);
+			Album album=wizardAPI.getWizardAlbum(user, albumCode);
 			return album;
 		}catch(IOException e){
 			throw new IOMessicRESTException(e);

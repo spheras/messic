@@ -13,7 +13,7 @@ import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.server.Util;
 import org.messic.server.api.APIGenre;
 import org.messic.server.api.datamodel.Genre;
-import org.messic.server.datamodel.MDOUser;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.UnknownMessicRESTException;
@@ -48,9 +48,9 @@ public class GenreController
     		@ApiParam(name = "filterName", description = "partial name of the genre to search", paramType=ApiParamType.QUERY, required=false)
     		String filterName) throws UnknownMessicRESTException, NotAuthorizedMessicRESTException{
 
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
@@ -61,7 +61,7 @@ public class GenreController
 			if(filterName==null){
 				genres=genreAPI.getAll();
 			}else{
-				genres=genreAPI.findSimilar(mdouser,filterName);
+				genres=genreAPI.findSimilar(user,filterName);
 			}
 			
 			return genres;

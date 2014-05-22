@@ -8,10 +8,10 @@ import java.util.Random;
 
 import org.messic.server.api.datamodel.RandomList;
 import org.messic.server.api.datamodel.Song;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOAuthor;
 import org.messic.server.datamodel.MDOSong;
-import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOAuthor;
 import org.messic.server.datamodel.dao.DAOSong;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +27,11 @@ public class APIRandomLists {
     private DAOAuthor daoAuthor;
     
 	@Transactional
-    public List<RandomList> getAllLists(MDOUser mdouser){
+    public List<RandomList> getAllLists(User user){
 		ArrayList<RandomList> result=new ArrayList<RandomList>();
 		
 			//first list, getting all the songs shuffled
-	    	List<MDOSong> songs=daoSong.getAll(mdouser.getLogin());
+	    	List<MDOSong> songs=daoSong.getAll(user.getLogin());
 	    	if(songs.size()>0){
 		    	RandomList rl=new RandomList("RandomListName-Random","RandomListTitle-Random");
 		    	long seed = System.nanoTime();
@@ -45,7 +45,7 @@ public class APIRandomLists {
 	    	}
 	    	
 	    	//second list, getting all the songs of an author
-	    	List<MDOAuthor> randomAuthorList=daoAuthor.getRandomAuthors(mdouser.getLogin(),1);
+	    	List<MDOAuthor> randomAuthorList=daoAuthor.getRandomAuthors(user.getLogin(),1);
 	    	if(randomAuthorList!=null && randomAuthorList.size()>0){
 		    	RandomList rl=new RandomList("RandomListName-Author","RandomListTitle-Author");
 		    	rl.addDetail(randomAuthorList.get(0).getName());

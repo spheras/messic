@@ -25,7 +25,7 @@ public class User {
     private Boolean administrator;
 	@ApiObjectField(description="Path to store their songs")
     private String storePath;
-    
+	    
     /**
      * Default constructor
      */
@@ -33,6 +33,10 @@ public class User {
     	
     }
 
+    public static User transform(MDOUser user){
+		return new User(user);
+	}
+    
     /**
      * Copy constructor
      * @param mdoUser {@link MDOUser} to copy
@@ -51,48 +55,63 @@ public class User {
     public Long getSid() {
 		return sid;
 	}
+    
 	public void setSid(Long sid) {
 		this.sid = sid;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public byte[] getAvatar() {
 		return avatar;
 	}
+	
 	public void setAvatar(byte[] avatar) {
 		this.avatar = avatar;
 	}
+	
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	public String getLogin() {
 		return login;
 	}
+	
 	public void setLogin(String login) {
 		this.login = login;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	public Boolean getAdministrator() {
 		return administrator;
 	}
+	
 	public void setAdministrator(Boolean administrator) {
 		this.administrator = administrator;
 	}
+	
 	public String getStorePath() {
 		return storePath;
 	}
+	
 	public void setStorePath(String storePath) {
 		this.storePath = storePath;
 	}

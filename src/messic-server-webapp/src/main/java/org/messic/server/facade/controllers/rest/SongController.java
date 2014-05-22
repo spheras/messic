@@ -12,7 +12,7 @@ import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.server.Util;
 import org.messic.server.api.APISong;
-import org.messic.server.datamodel.MDOUser;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.IOMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
@@ -58,16 +58,16 @@ public class SongController
 			@PathVariable Long songSid
 			) throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException{
 		
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
 		}
 
 		try{
-			   byte[] content = songAPI.getAudioSong(mdouser, songSid);
+			   byte[] content = songAPI.getAudioSong(user, songSid);
 			   HttpHeaders headers = new HttpHeaders();
 			   headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 			   return new ResponseEntity<byte[]>(content, headers, HttpStatus.OK);

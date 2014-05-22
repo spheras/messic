@@ -11,7 +11,7 @@ import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.server.Util;
 import org.messic.server.api.APISearch;
 import org.messic.server.api.datamodel.RandomList;
-import org.messic.server.datamodel.MDOUser;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.UnknownMessicRESTException;
@@ -46,16 +46,16 @@ public class SearchController
     		String content
     		) throws NotAuthorizedMessicRESTException, UnknownMessicRESTException{
 		
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
 		}
         
 		try{
-			RandomList list=searchAPI.search(mdouser.getLogin(),content);
+			RandomList list=searchAPI.search(user.getLogin(),content);
 			return list;
 		}catch(Exception e){
 			throw new UnknownMessicRESTException(e);

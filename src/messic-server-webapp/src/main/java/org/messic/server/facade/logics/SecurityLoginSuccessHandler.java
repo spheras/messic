@@ -26,7 +26,7 @@ public class SecurityLoginSuccessHandler
     {
         if ( "XMLHttpRequest".equals( request.getHeader( "X-Requested-With" ) ) )
         {
-            response.getWriter().print( "{\"success\":true, \"targetUrl\" : \"" + this.getTargetUrlParameter() + "\", \"userId\" : \"" + ((User)auth.getPrincipal()).getUsername() + "\"}" );
+            response.getWriter().print( "{\"success\":true, \"targetUrl\" : \"" + this.getTargetUrlParameter() + "\", \"userId\" : \"" + ((User)auth.getPrincipal()).getUsername() + "\" , \"messic_token\":\"" + request.getAttribute("messic_token") + "\"}" );
             response.getWriter().flush();
         }
         else

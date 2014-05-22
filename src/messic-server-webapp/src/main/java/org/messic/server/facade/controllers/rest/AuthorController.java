@@ -13,7 +13,7 @@ import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.server.Util;
 import org.messic.server.api.APIAuthor;
 import org.messic.server.api.datamodel.Author;
-import org.messic.server.datamodel.MDOUser;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.UnknownMessicRESTException;
@@ -55,9 +55,9 @@ public class AuthorController
     		Boolean songsInfo
     		) throws UnknownMessicRESTException, NotAuthorizedMessicRESTException{
 
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
@@ -66,9 +66,9 @@ public class AuthorController
 		try{
 			List<Author> authors=null;
 			if(filterName==null){
-				authors=authorAPI.getAll(mdouser,(albumsInfo!=null?albumsInfo:false),(albumsInfo!=null && songsInfo!=null && albumsInfo==true?songsInfo:false));
+				authors=authorAPI.getAll(user,(albumsInfo!=null?albumsInfo:false),(albumsInfo!=null && songsInfo!=null && albumsInfo==true?songsInfo:false));
 			}else{
-				authors=authorAPI.findSimilar(mdouser,filterName,(albumsInfo!=null?albumsInfo:false),(albumsInfo!=null && songsInfo!=null && albumsInfo==true?songsInfo:false));
+				authors=authorAPI.findSimilar(user,filterName,(albumsInfo!=null?albumsInfo:false),(albumsInfo!=null && songsInfo!=null && albumsInfo==true?songsInfo:false));
 			}
 			
 			return authors;
@@ -96,16 +96,16 @@ public class AuthorController
     		Boolean songsInfo
     		) throws UnknownMessicRESTException, NotAuthorizedMessicRESTException{
 
-		MDOUser mdouser=null;
+		User user=null;
 		try{
-			mdouser=Util.getAuthentication(userDAO);
+			user=Util.getAuthentication(userDAO);
 		}catch(Exception e){
 			e.printStackTrace();
 			throw new NotAuthorizedMessicRESTException(e);
 		}
 
 		try{
-			Author author=authorAPI.getAuthor(mdouser, authorSid, (albumsInfo!=null?albumsInfo:false),(albumsInfo!=null && songsInfo!=null && albumsInfo==true?songsInfo:false));
+			Author author=authorAPI.getAuthor(user, authorSid, (albumsInfo!=null?albumsInfo:false),(albumsInfo!=null && songsInfo!=null && albumsInfo==true?songsInfo:false));
 			return author;
 		}catch(Exception e){
 			e.printStackTrace();
