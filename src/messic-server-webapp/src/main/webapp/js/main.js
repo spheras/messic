@@ -1,5 +1,11 @@
-function initMessic(){
-	(function($){
+
+var logged_user;
+
+function initMessic(user){
+	
+	logged_user = user;
+	
+ 	(function($){
 		var playlist=$("#messic-playlist");
 		playlist.tinyscrollbar({ axis: 'x'});
 		playlist.tinyscrollbar_update('bottom');
@@ -105,6 +111,10 @@ function initMessic(){
 
 	$("#messic-search-do").click(function(){
 	    mainSearch();
+	});
+	
+	$("#messic-menu-settings").click(function(){
+	    openUserSettings();
 	});
     
 }
@@ -280,6 +290,15 @@ function addsong(){
         });
 
 	$("#messic-playlist").tinyscrollbar_update('bottom');
+}
+
+function openUserSettings(){
+	$.get("settings.do", function(data){ 
+		$("#messic-page-content").empty();
+	    var posts = $($.parseHTML(data)).find("#messic-page-content").children();
+	    $("#messic-page-content").append(posts);
+        initUser(logged_user);
+    });
 }
 
 

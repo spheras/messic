@@ -34,21 +34,22 @@ public class DAOJPAMessicSettings
 	}
 	
 	private MDOMessicSettings createBasicSettings(){
-		MDOMessicSettings ms=new MDOMessicSettings();
-		ms.setGenericBaseStorePath(System.getProperty("user.home")+File.separatorChar+"messic-data");
-		return setSettings(ms);
+		return createSettings(System.getProperty("user.home")+File.separatorChar+"messic-data");
 	}
 
 	@Override
-	public MDOMessicSettings setSettings(MDOMessicSettings newSettings) {
-		newSettings.setSid(0l);
-		//save(newSettings);
-		
-		entityManager.merge(newSettings);
-        Query query = entityManager.createQuery( "from MDOMessicSettings" );
-        @SuppressWarnings( "unchecked" )
-        List<MDOMessicSettings> results = query.getResultList();
-    	return results.get(0);
+	public MDOMessicSettings setSettings(Long sid, String genericBaseStorePath) {
+		MDOMessicSettings settings = entityManager.getReference(MDOMessicSettings.class, sid);
+		settings.setGenericBaseStorePath(genericBaseStorePath);	
+		entityManager.persist(settings);
+        return settings;
+	}
+
+	@Override
+	public MDOMessicSettings createSettings(String genericBaseStorePath) {
+		MDOMessicSettings newSettings = new MDOMessicSettings(genericBaseStorePath);
+		entityManager.persist(newSettings);
+		return newSettings;
 	}
 
 

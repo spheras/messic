@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOMessicSettings;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOUser;
@@ -25,11 +26,11 @@ public class Util {
 	 * @param userDAO
 	 * @return
 	 */
-	public static MDOUser getAuthentication(DAOUser userDAO){
+	public static User getAuthentication(DAOUser userDAO){
 		MDOUser mdouser=null;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        mdouser=userDAO.getUser((auth!=null?auth.getName():""));
-        return mdouser;
+        mdouser=userDAO.getUserByLogin((auth!=null?auth.getName():""));
+        return User.transform(mdouser);
 	}
 	
 	/**
@@ -91,7 +92,7 @@ public class Util {
 	 * @param albumCode {@link String} code for the album to upload
 	 * @return {@link String} temporal path for uploaded
 	 */
-	public static String getTmpPath(MDOUser user, MDOMessicSettings settings, String albumCode){
+	public static String getTmpPath(User user, MDOMessicSettings settings, String albumCode){
 	        String path=Util.getRealBaseStorePath(user, settings);
 	        path=path+File.separator+TEMPORAL_FOLDER+File.separatorChar+albumCode;
 	        return path;
@@ -103,7 +104,7 @@ public class Util {
 	 * @param settings {@link MDOMessicSettings} current settings
 	 * @return {@link String} the real base store path for this user
 	 */
-	public static String getRealBaseStorePath(MDOUser user, MDOMessicSettings settings){
+	public static String getRealBaseStorePath(User user, MDOMessicSettings settings){
 		String userBaseStorePath=user.getStorePath();
 		
 		if(userBaseStorePath==null || userBaseStorePath.length()==0 || userBaseStorePath.equals(GENERIC_BASE_STORE_PATH_VAR)){

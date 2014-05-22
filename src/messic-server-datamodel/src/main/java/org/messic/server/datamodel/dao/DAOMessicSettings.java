@@ -16,8 +16,17 @@ public interface DAOMessicSettings extends DAO<MDOMessicSettings>
 	MDOMessicSettings getSettings();
 	/**
 	 * Replace the current settings with these new one settings
-	 * @param newSettings {@link MDOMessicSettings}
+	 * @param sid
+	 * @param genericBaseStorePath
 	 * @return 
 	 */
-	MDOMessicSettings setSettings(MDOMessicSettings newSettings);
+	MDOMessicSettings setSettings(Long sid, String genericBaseStorePath);
+	
+	/**
+	 * Create new settings
+	 * @param genericBaseStorePath
+	 * @return 
+	 */
+	MDOMessicSettings createSettings(String genericBaseStorePath);
+	
 }

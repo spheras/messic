@@ -28,7 +28,7 @@ public class DAOJPAUser
      * @return {@link MDOUser} user found, null if not found
      */
     @Override
-    public MDOUser getUser( String username )
+    public MDOUser getUserByLogin(String username)
     {
         Query query = entityManager.createQuery( "from MDOUser as p where p.login = :login" );
         query.setParameter( "login", username );
@@ -59,7 +59,7 @@ public class DAOJPAUser
      */
     public boolean existUser( String username )
     {
-        return ( getUser( username ) != null );
+        return ( getUserByLogin( username ) != null );
     }
 
     /**
@@ -69,7 +69,7 @@ public class DAOJPAUser
      * @param hashpass
      * @return
      */
-    public MDOUser authenticate( String username, String hashpass )
+    public MDOUser authenticate(String username, String hashpass)
     {
         Query query =
             entityManager.createQuery( "from User as p where p.login = :login and p.password = :password" );
@@ -90,7 +90,7 @@ public class DAOJPAUser
 	@Override
 	@Transactional
 	public MDOUser createUser(String login, String password, String name, String email, byte[] avatar,
-			boolean administrator) {
+			boolean administrator, String storePath) {
 		String pass;
 		MessageDigest md;
 		try {
@@ -112,7 +112,7 @@ public class DAOJPAUser
 			pass = password;
 		}
 		
-		MDOUser newUser = new MDOUser(name, email, avatar, login, pass, administrator);
+		MDOUser newUser = new MDOUser(name, email, avatar, login, pass, administrator, storePath);
 		save(newUser);
 		return newUser;
 	}
@@ -127,11 +127,12 @@ public class DAOJPAUser
 
 	@Override
 	@Transactional
-	public MDOUser updateUserData(Long userSid, String name, String email, byte[] avatar) {
+	public MDOUser updateUserData(Long userSid, String name, String email, byte[] avatar, String storePath) {
 		MDOUser user = get(userSid);
 		user.setName(name);
 		user.setEmail(email);
 		user.setAvatar(avatar);
+		user.setStorePath(storePath);
 		save(user);
 		return user;
 	}
@@ -155,6 +156,12 @@ public class DAOJPAUser
 	    {
 	    	return true;
 	    }
+	}
+
+	@Override
+	public MDOUser getUserById(Long userSid) {
+		MDOUser user = get(userSid);
+		return user;
 	}
 
 }

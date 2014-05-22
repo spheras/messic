@@ -3,127 +3,173 @@
 
 <html>
 	<head>
-		<style type="text/css">	
-			
-			#messic-user-content {	
-				margin-left: auto;	
-				margin-right: auto;			
-				padding: 10px;				
-				width: 360px; 				
-			}
-			
-			.messic-user-form-container {
-				float: left;
-				margin-bottom: 0;
-			}
-			
-			/* titles */
-			/* ---------------------------------------- */
-			#messic-user-content h1{
-				border-bottom: 1px double;
-				padding-bottom: 10px;			
-			    color: #555555;
-			    font-family: 'Helvetica' !important;
-			    font-size: 1.1em;
-			    font-weight: bold;			
-			}
-			
-			/* login panel at right */ 
-			/* ---------------------------------------- */
-			.messic-user-password-container {
-				width: 195px;  
-				float: left; 
-				margin-right: 10px;
-			}
-			
-			.messic-name-email-container {
-				width: 350px;  
-				float: left; 
-			}
-			
-			#messic-avatar-container {
-				width: 155px;
-				height: 165px;  
-				float: left; 
-			}
-			
-			#preview {
-				width: 145px;
-				height: 155px;
-				margin: 10px 0 0 10px;
-			}
-			
-			.messic-input-max-width {
-				width: 100%;
-			}
-						
-		</style>
 		
-		
-		<!-- Kendo styles -->
-		<link href="css/kendoui/kendo.common.min.css" rel="stylesheet" />
-		<link href="css/kendoui/kendo.default.min.css" rel="stylesheet" />
-		
-		<!-- normalization -->
-        <link rel="stylesheet" href="../../css/main.css">
-
-		<!-- Theme Style -->
-        <link rel="stylesheet" href="../../css/themes/hans/base.css">
-                
 	</head>
+	
     <body>
     	
     	<div id="content">
-            <div id="messic-page-border">
+	        <div id="messic-background"></div>
+	        <div id="messic-decorator1"></div>
+	        <div id="messic-decorator2"></div>
+            <div id="messic-user-page-border">
             
-                <div id="messic-page-content">
+            	<div id="messic-page-content">
                 
-        			<div id="messic-user-content">
-	    	
-				    	<form id="user_data" class="messic-user-form-container">
-				    	
-				    		<div class="messic-user-password-container">
-					    		<label>Usuario</label>
-					    		<input id="user" name="login" type="text" class="messic-input-max-width"></input>
-					    		
-					    		<label>Password</label>
-					    		<input id="password" name="password" type="text" class="messic-input-max-width"></input>
-					    		
-					    		<label>Confirmar Password</label>
-					    		<input id="confirm-password" type="text" class="messic-input-max-width"></input>    		
-				    		</div>
-				    		
-				    		<div id="messic-avatar-container">
-				    			<img id="preview" src="prueba"/>
-				    			<input id="messic-avatar" type="file" name="avatar" style="display:none;"/>
-				    		</div>
-				    		
-				    		<div class="messic-name-email-container">
-					    		<label>Nombre</label>
-					    		<input id="name" name="name" type="text" class="messic-input-max-width"></input>
-					    		
-					    		<label>Email</label>
-					    		<input id="email" name="email" type="text" class="messic-input-max-width"></input>
-				    		</div>	    		    		
-				    	
-				    	</form>
-				    	
-				    	<button id="accept-buttom" class="button play">Aceptar</button>
-					
-					</div>	
-					
-                </div>
+					<div class="messic-user-settings-menu-container">
+			
+						<div id="basic-option" class="messic-user-settings-menu-option-selected" onclick="selectTab(this,'basic')">
+							<img class="messic-user-settings-menu-option-basic-image-selected">
+							</img>
+							<label class="messic-user-settings-menu-option-title">Basic</label>
+							<label class="messic-user-settings-menu-option-subtitle">Basic information</label>
+						</div>
+						
+						<div class="messic-user-settings-menu-option-separator">
+						</div>
+						
+						<div id="music-option" class="messic-user-settings-menu-option-unselected" onclick="selectTab(this,'music')">
+							<img class="messic-user-settings-menu-option-music-image-unselected">
+							</img>
+							<label class="messic-user-settings-menu-option-title">Music</label>
+							<label class="messic-user-settings-menu-option-subtitle">Music information</label>
+						</div>
+						
+						<div class="messic-user-settings-menu-option-separator">
+						</div>
+						
+						<div id="admin-option" class="messic-user-settings-menu-option-unselected" onclick="selectTab(this,'admin')">
+							<img class="messic-user-settings-menu-option-admin-image-unselected">
+							</img>
+							<label class="messic-user-settings-menu-option-title">Admin</label>
+							<label class="messic-user-settings-menu-option-subtitle">Admin information</label>
+						</div>
+						
+						<div class="messic-user-settings-menu-option-separator">
+						</div>
+						
+						<div id="stats-option" class="messic-user-settings-menu-option-unselected" onclick="selectTab(this,'stats')">
+							<img class="messic-user-settings-menu-option-stats-image-unselected">
+							</img>
+							<label class="messic-user-settings-menu-option-title">Statistics</label>
+							<label class="messic-user-settings-menu-option-subtitle">Statistics information</label>
+						</div>
+						
+						<div class="messic-user-settings-menu-option-separator">
+						</div>
+				
+					</div>
+	                
+	                
+	                <div id="data-container" class="messic-user-settings-content">
+	                
+						<div >
+							<div id="basic-data" class="messic-user-settings-container messic-user-settings-menu-visible">
+								
+								<div class="messic-user-settings-basic-data-container">
+								
+									<ul>
+										<li>
+											<label>Usuario</label>
+											<input id="user" name="login" type="text" class="k-textbox" required></input>
+										</li>
+										<li>
+											<label>Password</label>
+											<input id="password" name="password" type="password" class="k-textbox" required></input>
+										</li>
+										<li>
+											<label>Confirmar Password</label>
+											<input id="confirm-password" type="password" class="k-textbox"required></input> 
+										</li>
+										<li>
+											<label>Nombre</label>
+											<input id="name" name="name" type="text" class="k-textbox" required></input>
+										</li>
+										<li>
+											<label>Email</label>
+											<input type="email" id="email" name="email" class="k-textbox" placeholder="e.g. myname@example.net" required data-email-msg="Email format is not valid"/>
+										</li>										
+										<li>
+											<label>Directorio Base</label>
+											<input id="storePath" name="storePath" type="text" class="k-textbox" required></input>
+										</li>
+									</ul>
+																		  
+								</div>
+								
+								<div class="messic-user-settings-basic-avatar-container">
+							
+									<div class="messic-user-settings-avatar-mark">
+										
+									</div>
+									
+									<img id="preview" class="messic-user-settings-avatar" src="avatar.png"/>
+									
+									<input id="messic-avatar" type="file" name="avatar" style="display:none;"/>
+								
+								</div>	                                  		    		
+							
+							</div>
+							
+							<div id="music-data" class="messic-user-settings-container messic-user-settings-menu-notvisible">
+							
+	                            <div class="messic-user-settings-basic-data-container">
+								
+									<ul>
+										<li>
+											<label>Configuración de música</label>
+										</li>
+									</ul>
+																		  
+								</div>
+	                            
+							</div>
+							
+							<div id="admin-data" class="messic-user-settings-container messic-user-settings-menu-notvisible">
+							
+	                            <div class="messic-user-settings-basic-data-container">
+								
+									<ul>
+										<li>
+											<label>Configuración de administrador</label>
+										</li>										
+									</ul>
+																		  
+								</div>
+	                            
+							</div>
+							
+							<div id="stats-data" class="messic-user-settings-container messic-user-settings-menu-notvisible">
+							
+	                            <div class="messic-user-settings-basic-data-container">
+								
+									<ul>
+										<li>
+											<label>Configuración de estadísticas</label>
+										</li>
+									</ul>
+																		  
+								</div>
+	                            
+							</div>
+	                        
+						</div>
+	                    
+						<div class="messic-user-settings-buttons-container">
+							<button id="previous-button" class="button previous">Atras</button>
+							<button id="accept-button" class="button play">Siguiente</button>
+	                        <button id="cancel-button" class="button cancel">Cancelar</button>
+						</div>
+	                       
+	                </div>
+
+				</div>
+									
             </div>
-		</div>
-    	
+            
+        </div>
 				
     </body>
    
-    <script src="js/vendor/jquery/jquery-1.9.1.min.js"></script>
-	<script src="js/vendor/jquery/jquery-ui.js"></script>
-	<script src="js/vendor/kendoui/kendo.web.min.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/user.js"></script>
-    
 </html>
 

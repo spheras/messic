@@ -42,7 +42,7 @@ public class MDOUser implements MDO,Serializable {
     @Column(name = "EMAIL", nullable = false)
     private String email;
     
-    @Column(name = "LOGIN", nullable = false)
+    @Column(name = "LOGIN", nullable = false, unique=true)
     private String login;
     
     @Column(name = "PASSWORD", nullable = false)
@@ -51,7 +51,7 @@ public class MDOUser implements MDO,Serializable {
     @Column(name = "ADMINISTRATOR" , nullable = false)
     private Boolean administrator;
     
-    @Column(name = "STOREPATH", nullable = true)
+    @Column(name = "STORE_PATH" , nullable = false)
     private String storePath;
 
     /**
@@ -61,13 +61,14 @@ public class MDOUser implements MDO,Serializable {
         super();
     }
     
-    public MDOUser(String name, String email, byte[] avatar, String login, String password, Boolean administrator) {
+    public MDOUser(String name, String email, byte[] avatar, String login, String password, Boolean administrator, String basePath) {
         this.name = name;
         this.email = email;
         this.avatar = avatar;
         this.login = login;
         this.password = password;
         this.administrator = administrator;
+        this.storePath = basePath;
     }
 
     public Long getSid() {

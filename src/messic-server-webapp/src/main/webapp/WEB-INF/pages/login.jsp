@@ -29,11 +29,10 @@
 
 
 		<!-- Kendo styles -->
-		<!--
+		<!---->
 		<link href="css/kendoui/kendo.common.min.css" rel="stylesheet" />
 		<link href="css/kendoui/kendo.default.min.css" rel="stylesheet" />
-		-->
-		
+				
 		<!-- normalization -->
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
@@ -45,6 +44,7 @@
         <link rel="stylesheet" href="css/themes/hansv2/playlist.css">
         <link rel="stylesheet" href="css/themes/hansv2/about.css">
         <link rel="stylesheet" href="css/themes/hansv2/upload.css">
+        <link rel="stylesheet" href="css/themes/hansv2/user.css">
         <link rel="stylesheet" href="css/themes/hansv2/kendo.css">
         <link rel="stylesheet" href="css/themes/hansv2/jquery.confirm.css">
         <link rel="stylesheet" href="css/themes/hansv2/api.css">
@@ -113,6 +113,7 @@
         <script src="js/uploadresource.js"></script>
         <script src="js/uploadalbum.js"></script>
         <script src="js/uploadprocess.js"></script>
+        <script src="js/user.js"></script>	
         <script src="js/jquery.confirm.js"></script>
 
     </body>

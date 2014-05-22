@@ -43,7 +43,8 @@ $(document).ready(function() {
 		    	{
 			    	if(data.success==true)
 			    	{
-
+			    		var userId = data.userId;
+			    		
 						$.get("main.do", function(data){ 
     						$("#messic-logo1").attr("class","messic-main");
     						$("#messic-logo2").attr("class","messic-main");
@@ -56,7 +57,7 @@ $(document).ready(function() {
 							    $(this).remove();
 							    var posts = $($.parseHTML(data)).filter('#content').children();
 							    $("body").append(posts);
-							    initMessic();
+							    initMessic(userId);
 						    });
  
 						});
@@ -97,7 +98,7 @@ $(document).ready(function() {
     
     //show the new user window
     $("#newAccount").click(function(){
-		$.get("user/show/create.do", function(data){ 
+		$.get("settings.do", function(data){ 
 	        $("body").html(data);
             initUser();
         });

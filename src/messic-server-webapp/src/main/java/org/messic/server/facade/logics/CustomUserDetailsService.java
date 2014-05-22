@@ -5,11 +5,10 @@ import java.util.Collection;
 import java.util.List;
 
 import org.messic.server.api.APIUser;
-import org.messic.server.datamodel.MDOUser;
+import org.messic.server.api.datamodel.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -36,7 +35,7 @@ public class CustomUserDetailsService
     {
         try
         {
-            MDOUser domainUser = userAPI.getUser( username );
+            User domainUser = userAPI.getUserByLogin( username );
             if ( domainUser == null )
             {
             	org.messic.server.api.datamodel.User user = new org.messic.server.api.datamodel.User();
@@ -56,8 +55,8 @@ public class CustomUserDetailsService
             boolean accountNonExpired = true;
             boolean credentialsNonExpired = true;
             boolean accountNonLocked = true;
-            User signedUser =
-                new User( domainUser.getLogin(), domainUser.getPassword(), enabled, accountNonExpired,
+            org.springframework.security.core.userdetails.User signedUser =
+                new org.springframework.security.core.userdetails.User( domainUser.getLogin(), domainUser.getPassword(), enabled, accountNonExpired,
                           credentialsNonExpired, accountNonLocked, getAuthorities( 1 ) );
 
             return signedUser;
