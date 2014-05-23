@@ -1,0 +1,50 @@
+package org.messic.server.api;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.messic.server.api.datamodel.Song;
+
+public class APISongTest
+{
+
+    @Test
+    public void testGetSongInfoFromFileName()
+    {
+        APISong ast = new APISong();
+        String fileName = "01-This is the song.mp3";
+        Song result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "This is the song" ) );
+        Assert.assertTrue( result.getTrack() == 1 );
+        
+        fileName = "02 - This-is-the-song";
+        result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "This-is-the-song" ) );
+        Assert.assertTrue( result.getTrack() == 2 );
+
+        fileName = "03. This.is.the.song.mp4";
+        result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "This.is.the.song" ) );
+        Assert.assertTrue( result.getTrack() == 3);
+
+        fileName = "[04] This is the song.mp5";
+        result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "This is the song" ) );
+        Assert.assertTrue( result.getTrack() == 4);
+
+        fileName = "05 To think.mp3";
+        result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "To think" ) );
+        Assert.assertTrue( result.getTrack() == 5);
+        
+        fileName = "06 2 think.mp3";
+        result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "2 think" ) );
+        Assert.assertTrue( result.getTrack() == 6);
+    }
+}

@@ -3,6 +3,9 @@ package org.messic.server.api.musicinfo.wikipedia;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Locale;
@@ -20,7 +23,24 @@ public class MusicInfoWikipediaPlugin implements MusicInfoPlugin
 	public static final float VERSION=1.0f;
 	public static final float MINIMUM_MESSIC_VERSION=1.0f;
 	
-	//http://es.wikipedia.org/w/api.php?format=xml&action=query&titles=Radiohead&prop=revisions&rvprop=content&rvparse
+    /** configuration for the plugin */
+    private Properties configuration;
+    
+   private Proxy getProxy()
+    {
+        if ( this.configuration != null )
+        {
+            String url = (String) this.configuration.get( "proxy-url" );
+            String port = (String) this.configuration.get( "proxy-port" );
+            if ( url != null && port != null )
+            {
+                SocketAddress addr = new InetSocketAddress( url, Integer.valueOf( port ) );
+                Proxy proxy = new Proxy( Proxy.Type.HTTP, addr );
+                return proxy;
+            }
+        }
+        return null;
+    }
 
 	/**
 	 * Normalize the query text, just replacing the spaces with underscores
@@ -56,7 +76,8 @@ public class MusicInfoWikipediaPlugin implements MusicInfoPlugin
 	    String nquery=normalizeQuery( query );
 	    String surl="http://"+country.toLowerCase()+".wikipedia.org/w/api.php?format=xml&action=query&titles="+nquery+"&prop=revisions&rvprop=content&rvparse";
 	    URL url=new URL(surl);
-	    URLConnection connection=url.openConnection();
+	    Proxy proxy=getProxy();
+	    URLConnection connection=(proxy!=null?url.openConnection(proxy):url.openConnection());
 	    InputStream is=connection.getInputStream();
 	    byte[] readed=readInputStream( is );
 	    String result=new String(readed);
@@ -96,7 +117,7 @@ public class MusicInfoWikipediaPlugin implements MusicInfoPlugin
 
 	@Override
 	public void setConfiguration(Properties properties) {
-		//no configuration
+		this.configuration=properties;
 	}
 
 

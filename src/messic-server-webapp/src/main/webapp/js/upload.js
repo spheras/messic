@@ -7,34 +7,16 @@ var uploadAlbum;
 /* kendo validator for the form */
 var uploadValidator;
 
-
 /* init the upload page */
 function initUpload(){
 
 		//function to leave the upload section
-		VAR_changeSection=function(nextFunction){
-			$.confirm({
-	        'title'		: messicLang.uploadAlbumChangeSectionTitle,
-	        'message'	: messicLang.uploadAlbumChangeSectionMessage,
-	        'buttons'	: {
-	            'Yes'	: {
-	            	'title' : messicLang.confirmationYes,
-	                'class'	: 'blue',
-	                'action': function(){
-	                	nextFunction();
-	                }
-	            },
-	            'No'	: {
-	            	'title' : messicLang.confirmationNo,
-	                'class'	: 'gray',
-	                'action': function(){
-	                }	// Nothing to do in this case. You can as well omit the action property.
-	            }
-	        }
-			});
-		}
+		VAR_changeSection=uploadChangeSection;
 
+		//album to upload
 		uploadAlbum=new UploadAlbum();
+		
+		//validator to validate the fields of the form
 		uploadValidator = $("#messic-upload-album-container").kendoValidator().data("kendoValidator");
 
 		$("#messic-upload-album-wizard").click(function(){uploadAlbum.wizard();});
@@ -47,32 +29,7 @@ function initUpload(){
 	        filter: "contains",
 	        autoBind: false,
 	        minLength: 1,
-                        change: function(){
-                        	var autorCombo = $("#messic-upload-album-author").data("kendoComboBox");
-                        	var titleCombo = $("#messic-upload-album-title").data("kendoComboBox");
-                        	var autorValue=autorCombo.value();
-                        	var autorText=autorCombo.text();
-                        	if(autorValue!=autorText){
-                        		//UtilShowInfo("adding filter");
-								//user selected a value from the combo
-								//we filter the titles availables only for those of the author selected
-	                        	var valueFilter={ field: "author.sid", operator: "eq", value: parseInt(autorCombo.value()) };
-								titleCombo.dataSource.filter(valueFilter);
-
-								//remove the text and value of the title combo
-			                	var titleCombo = $("#messic-upload-album-title").data("kendoComboBox");
-				            	var titleValue=titleCombo.value("");
-	    	    		    	var titleText=titleCombo.text("");
-                        	}else{
-                        		//UtilShowInfo("removing filter");
-                        		//user selected a value not from the combo
-                        		//removing filter
-								titleCombo.dataSource.filter([]);
-								$("#messic-upload-album-editnew").get(0).lastChild.nodeValue = messicLang.uploadAlbumNew;
-			            		//$("#messic-upload-album-editnew").text("New Album");
-			            		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-new');
-                        	}
-						},
+            change: uploadAuthorComboChange,
 	        dataSource: {
 			   transport: {
         			read: {
@@ -107,43 +64,7 @@ function initUpload(){
 	        filter: "contains",
 	        autoBind: false,
 	        minLength: 1,
-	            change: function(){
-                	var titleCombo = $("#messic-upload-album-title").data("kendoComboBox");
-	            	var titleValue=titleCombo.value();
-	            	var titleText=titleCombo.text();
-	            	if(titleValue!=titleText){
-	            		//User have selected an existing album
-	            		var selectedData=titleCombo.dataSource.get(parseInt(titleValue));
-                		var authorCombo = $("#messic-upload-album-author").data("kendoComboBox");
-	            		authorCombo.value(selectedData.author.sid);
-	            		authorCombo.text(selectedData.author.name);
-                		var genreCombo = $("#messic-upload-album-genre").data("kendoComboBox");
-	            		genreCombo.value(selectedData.genre.sid);
-	            		genreCombo.text(selectedData.genre.name);
-
-	            		if(selectedData.comments){
-		            		$("#messic-upload-album-comments").text(selectedData.comments);
-	            		}else{
-		            		$("#messic-upload-album-comments").text("");
-	            		}
-
-	            		var yearEdit=$("#messic-upload-album-year").data("kendoNumericTextBox");
-						if(selectedData.year){
-		            		yearEdit.value(selectedData.year);
-						}else{
-		            		yearEdit.value("");
-						}
-
-
-						$("#messic-upload-album-editnew").get(0).lastChild.nodeValue = messicLang.uploadAlbumEdit;
-	            		//$("#messic-upload-album-editnew").text("Existing Album!");
-	            		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-edit');
-	            		//TODO, fill year, genre comments, and cover?
-	            	}else{
-						$("#messic-upload-album-editnew").get(0).lastChild.nodeValue = messicLang.uploadAlbumNew;
-	            		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-new');
-	            	}
-	            },
+	            change: uploadTitleComboChange,
 	        dataSource: {
 				schema: {
 					model: { id: "sid" }
@@ -213,6 +134,106 @@ function initUpload(){
 	});
 
 }
+
+/** function to change section in upload section */
+function uploadChangeSection(nextFunction){
+	var nchildren=$(".messic-upload-song-content-songs-filedelete").length;
+	var nocompleted=false;
+	$(".messic-upload-finishbox-resource-progressbar").each(function(index){
+		if($(this).width<100){
+			nocompleted=true;
+		}
+	});
+	if(nchildren>0 || nocompleted){
+		$.confirm({
+	        'title'		: messicLang.uploadAlbumChangeSectionTitle,
+	        'message'	: messicLang.uploadAlbumChangeSectionMessage,
+	        'buttons'	: {
+	            'Yes'	: {
+	            	'title' : messicLang.confirmationYes,
+	                'class'	: 'blue',
+	                'action': function(){
+	                	nextFunction();
+	                }
+	            },
+	            'No'	: {
+	            	'title' : messicLang.confirmationNo,
+	                'class'	: 'gray',
+	                'action': function(){
+	                }	// Nothing to do in this case. You can as well omit the action property.
+	            }
+	        }
+			});
+	}else{
+    	nextFunction();
+	}
+}
+//change event for the combo box of authors
+function uploadAuthorComboChange(){
+	var autorCombo = $("#messic-upload-album-author").data("kendoComboBox");
+	var titleCombo = $("#messic-upload-album-title").data("kendoComboBox");
+	var autorValue=autorCombo.value();
+	var autorText=autorCombo.text();
+	if(autorValue!=autorText){
+		//UtilShowInfo("adding filter");
+		//user selected a value from the combo
+		//we filter the titles availables only for those of the author selected
+    	var valueFilter={ field: "author.sid", operator: "eq", value: parseInt(autorCombo.value()) };
+		titleCombo.dataSource.filter(valueFilter);
+
+		//remove the text and value of the title combo
+    	var titleCombo = $("#messic-upload-album-title").data("kendoComboBox");
+    	var titleValue=titleCombo.value("");
+    	var titleText=titleCombo.text("");
+	}else{
+		//UtilShowInfo("removing filter");
+		//user selected a value not from the combo
+		//removing filter
+		titleCombo.dataSource.filter([]);
+		$("#messic-upload-album-editnew").get(0).lastChild.nodeValue = messicLang.uploadAlbumNew;
+		//$("#messic-upload-album-editnew").text("New Album");
+		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-new');
+	}
+}
+//change event for the combo box of album title
+function uploadTitleComboChange(){
+	var titleCombo = $("#messic-upload-album-title").data("kendoComboBox");
+	var titleValue=titleCombo.value();
+	var titleText=titleCombo.text();
+	if(titleValue!=titleText){
+		//User have selected an existing album
+		var selectedData=titleCombo.dataSource.get(parseInt(titleValue));
+		var authorCombo = $("#messic-upload-album-author").data("kendoComboBox");
+		authorCombo.value(selectedData.author.sid);
+		authorCombo.text(selectedData.author.name);
+		var genreCombo = $("#messic-upload-album-genre").data("kendoComboBox");
+		genreCombo.value(selectedData.genre.sid);
+		genreCombo.text(selectedData.genre.name);
+
+		if(selectedData.comments){
+    		$("#messic-upload-album-comments").text(selectedData.comments);
+		}else{
+    		$("#messic-upload-album-comments").text("");
+		}
+
+		var yearEdit=$("#messic-upload-album-year").data("kendoNumericTextBox");
+		if(selectedData.year){
+    		yearEdit.value(selectedData.year);
+		}else{
+    		yearEdit.value("");
+		}
+
+
+		$("#messic-upload-album-editnew").get(0).lastChild.nodeValue = messicLang.uploadAlbumEdit;
+		//$("#messic-upload-album-editnew").text("Existing Album!");
+		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-edit');
+		//TODO, fill year, genre comments, and cover?
+	}else{
+		$("#messic-upload-album-editnew").get(0).lastChild.nodeValue = messicLang.uploadAlbumNew;
+		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-new');
+	}
+}
+
 
 /* Validate all the information */
 function uploadValidate(){

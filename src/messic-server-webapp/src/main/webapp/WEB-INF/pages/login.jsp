@@ -13,7 +13,7 @@
         <meta name="description" content="Messic for the music mess">
         <meta name="viewport" content="width=device-width">
 
-		<link rel="shortcut icon" href="img/apple-touch-icon.png" type="image/png">
+		<link rel="shortcut icon" href="img/messic-icon.png" type="image/png">
 		<!-- For third-generation iPad with high-resolution Retina display: -->
 		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
 		<!-- For iPhone with high-resolution Retina display running iOS 7: -->

@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
 
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
@@ -16,20 +14,20 @@ import org.jaudiotagger.tag.FieldKey;
 import org.jaudiotagger.tag.Tag;
 import org.jaudiotagger.tag.TagException;
 import org.jaudiotagger.tag.images.Artwork;
+import org.messic.server.api.tagwizard.service.Album;
 import org.messic.server.api.tagwizard.service.SongTags;
 import org.messic.server.api.tagwizard.service.TAGInfo;
-import org.messic.server.api.tagwizard.service.TAGWizardPlugin;
 
-public class AudioTaggerTAGWizardPlugin implements TAGWizardPlugin
+public class AudioTaggerTAGWizardPlugin
 {
 
-	public final String NAME="AUDIOTAGGER TAGWIZARD";
-	public final String DESCRIPTION="TAGWIZARD plugin, based on audiotagger library to obtain mp3 tags (and other formarts) from music files";
-	public final float VERSION=1.0f;
-	public final float MINIMUM_MESSIC_VERSION=1.0f;
+	public static final String NAME="MESSIC TAGWIZARD";
+	public static final String DESCRIPTION="TAGWIZARD plugin, based on audiotagger library to obtain mp3 tags (and other formarts) from music files";
+	public static final float VERSION=1.0f;
+	public static final float MINIMUM_MESSIC_VERSION=1.0f;
 	
-    @Override
-    public List<SongTags> getTags( File[] f )
+    
+    public List<SongTags> getTags(Album album, File[] f )
     {
         // first, obtain the tags
         ArrayList<SongTags> tags = new ArrayList<SongTags>();
@@ -70,6 +68,8 @@ public class AudioTaggerTAGWizardPlugin implements TAGWizardPlugin
                 } else {
                     ti.tags.put(TAGInfo.ARTIST, new TAGInfo(artist));
                 }
+
+
                 ti.tags.put(TAGInfo.ALBUM, new TAGInfo(tag.getFirst(FieldKey.ALBUM)));
                 ti.tags.put(TAGInfo.YEAR, new TAGInfo(tag.getFirst(FieldKey.YEAR)));
                 ti.tags.put(TAGInfo.COMMENT, new TAGInfo(tag.getFirst(FieldKey.COMMENT)));
@@ -89,34 +89,5 @@ public class AudioTaggerTAGWizardPlugin implements TAGWizardPlugin
         return tags;
     }
 
-	@Override
-	public String getName() {
-		return NAME;
-	}
-
-	@Override
-	public Properties getConfiguration() {
-		return null;
-	}
-
-	@Override
-	public void setConfiguration(Properties properties) {
-		//no configuration
-	}
-
-	@Override
-	public String getDescription(Locale locale) {
-		return DESCRIPTION;
-	}
-
-	@Override
-	public float getVersion() {
-		return VERSION;
-	}
-
-	@Override
-	public float getMinimumMessicVersion() {
-		return MINIMUM_MESSIC_VERSION;
-	}
 
 }

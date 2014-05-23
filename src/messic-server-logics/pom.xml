@@ -53,6 +53,10 @@
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.messic</groupId>
+			<artifactId>messic-server-plugin-tagwizard-audiotagger</artifactId>
+		</dependency>
 		
 	</dependencies>
 

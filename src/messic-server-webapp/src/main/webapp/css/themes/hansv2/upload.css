@@ -1,3 +1,334 @@
+
+
+
+#messic-upload-wizard-albumcomments {
+    height: 100px;
+}
+
+#messic-upload-wizard-plugins-content {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #DDDDDD;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-color: -moz-use-text-color #CCCCCC #CCCCCC;
+    border-image: none;
+    border-right: 1px solid #CCCCCC;
+    border-style: none solid solid;
+    border-width: medium 1px 1px;
+    height: auto;
+    padding: 11px;
+    transition-duration: 1s;
+    transition-property: height;
+    transition-timing-function: ease;
+}
+
+
+
+#messic-upload-wizard-plugin-content {
+    font-family: roboto;
+    font-size: 0.8em;
+    height: 315px;
+    left: 100px;
+    max-height: 315px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 100%;
+    z-index: 0;
+}
+
+
+#messic-upload-wizard-plugin-content .messic-upload-wizard-albuminfo-title {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 5px 5px 23px 23px;
+    color: #AAAAAA;
+    font-family: Roboto-bold;
+    font-size: 1.3em;
+    height: 25px;
+    margin-bottom: 11px;
+    text-align: center;
+    width: 99%;
+    padding-top:3px;
+}
+#messic-upload-wizard-albuminfo-head {
+    float: left;
+    width: 50%;
+}
+
+
+
+
+#messic-upload-wizard-plugin-content .messic-upload-wizard-pluginresult {
+    background: linear-gradient(to bottom, #DDDDDD 0%, #F9F9F9 21%, #FAFAFA 70%, #BBBBBB 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-bottom: 1px solid #888888;
+    border-radius: 6px;
+    box-shadow: -1px 0 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+    margin-left: 4px;
+    margin-top: 9px;
+    padding: 5px;
+    width: 549px;
+}
+
+#messic-upload-wizard-plugin-content .messic-upload-wizard-albuminfo-head {
+    float: left;
+    height: 200px;
+    width: 50%;
+}
+
+
+#messic-upload-wizard-plugin-content .messic-upload-wizard-albumtitle {
+    float: left;
+    text-align: right;
+    width: 61px;
+}
+
+
+#messic-upload-wizard-plugin-content .messic-upload-wizard-albuminfofield {
+    background: none repeat scroll 0 0 #FAFAFA;
+    border: 1px dashed #AAAAAA;
+    border-radius: 1px;
+    float: left;
+    margin-bottom: 10px;
+    margin-left: 4px;
+    max-height: 17px;
+    min-height: 18px;
+    overflow: hidden;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    text-indent: 7px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 198px;
+    word-break: keep-all;
+}
+
+
+#messic-upload-wizard-plugin-content .messic-upload-wizard-albuminfo-body {
+    float: left;
+    width: 50%;
+}
+
+
+#messic-upload-wizard-plugin-content .messic-upload-wizard-albumsong-track {
+    float: left;
+    text-align: right;
+    width: 19px;
+}
+
+
+#messic-upload-wizard-plugin-content .messic-upload-wizard-albumsong-name {
+    float: left;
+    height: 18px;
+    margin-bottom: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 245px;
+}
+
+
+#messic-upload-wizard-plugin-content .messic-upload-wizard-albuminfo-actions {
+    bottom: 4px;
+    color: #0000FF;
+    font-size: 1.5em;
+    height: 35px;
+    margin-left: 215px;
+    position: relative;
+    width: 193px;
+}
+
+#messic-upload-wizard-plugin-content .messic-upload-wizard-albuminfo-actions > a:hover {
+    color: #11CCFF;
+}
+#messic-upload-wizard-plugin-content .messic-upload-wizard-albuminfo-actions > a {
+    color: #2288FF;
+    margin-right: 33px;
+}
+
+
+#messic-upload-wizard-window {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    height: auto;
+    left: 50%;
+    margin-left: -293px;
+    padding: 13px;
+    position: absolute;
+    width: 600px;
+}
+#messic-upload-wizard-title {
+    background: none repeat scroll 0 0 rgba(100, 255, 255, 0.33);
+    border-radius: 14px;
+    box-shadow: 0 0 11px #64FFFF;
+    font-family: Amaranth;
+    font-size: 1.2em;
+    height: auto;
+    margin-bottom: 16px;
+    margin-top: 12px;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+}
+
+
+#messic-upload-wizard-subtitle {
+    background: none repeat scroll 0 0 #CCCCCC;
+    border-left: 1px solid rgba(0, 0, 0, 0);
+    border-right: 1px solid rgba(0, 0, 0, 0);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    color: #555555;
+    font-family: roboto-bold;
+    font-size: 0.9em;
+    padding-bottom: 4px;
+    padding-top: 7px;
+    text-align: center;
+    width: 100%;
+}
+
+#messic-upload-wizard-subtitle2 {
+    background: none repeat scroll 0 0 #CCCCCC;
+    border-bottom: 1px solid #BBBBBB;
+    border-left: 1px solid rgba(0, 0, 0, 0);
+    border-right: 1px solid rgba(0, 0, 0, 0);
+    color: #FFFFFF;
+    font-family: Amaranth;
+    font-size: 0.8em;
+    text-align: center;
+    width: 100%;
+}
+
+#messic-upload-wizard-cancel {
+    float: left;
+    margin-bottom: 19px;
+    margin-top: 23px;
+    width: auto;
+}
+
+.messic-upload-wizard-albuminfofield {
+    width: 90%;
+}
+.messic-upload-wizard-albumsong-track {
+    max-width: 44px;
+    text-align: center;
+    width: 15%;
+}
+
+.messic-upload-wizard-albumsong-name {
+    margin-bottom: 0;
+    margin-left: 10px;
+    width: 80%;
+}
+
+#messic-upload-wizard-albuminfo-body {
+    float: left;
+    width: 50%;
+}
+
+#messic-upload-wizard-albuminfo-actions > button {
+    float: left;
+    margin: 0 20px 0 0;
+}
+
+#messic-upload-wizard-albuminfo-actions {
+    float: left;
+    height: 60px;
+    margin-top: 20px;
+    width: 100%;
+}
+.messic-upload-wizard-albumtitle {
+    color: #888888;
+    font-family: roboto-bold;
+    margin-bottom: -4px;
+    margin-top: 5px;
+}
+
+.messic-upload-wizard-menu {
+    background: none repeat scroll 0 0 #EFEFEF;
+    border-bottom: 1px solid #DDDDDD;
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+    height: 30px;
+    left: -127px;
+    list-style: none outside none;
+    margin: 0;
+    padding: 10px 0 0;
+    top: 23px;
+    width: 100%;
+    word-wrap: break-word;
+    z-index: 1;
+}
+
+.messic-upload-wizard-menuitem.messic-upload-wizard-menuitem-selected {
+    background: none repeat scroll 0 0 rgba(100, 255, 255, 0.33);
+    border: 0 none;
+    box-shadow: 0 0 11px #64FFFF;
+    color: #5588FF;
+    font-family: Amaranth;
+    text-shadow: 0 0 0;
+}
+
+.messic-upload-wizard-menuitem {
+    background: none repeat scroll 0 0 #CCCCCC;
+    border: 1px dashed #DDDDDD;
+    border-radius: 5px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.59);
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline;
+    font-family: roboto-bold;
+    font-size: 1em;
+    margin-left: 10px;
+    overflow: hidden;
+    padding-left: 7px;
+    padding-right: 7px;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.13);
+    width: 95px;
+}
+
+.messic-upload-wizard-menuitem:hover {
+    background: none repeat scroll 0 0 #FFFFFF;
+    box-shadow: 0 0 3px #FFFFFF;
+    color: #AAAAAA;
+}
+
+
+.messic-upload-wizard-menuitem:active {
+    background: none repeat scroll 0 0 #AAFFFF;
+    box-shadow: 0 0 3px #64FFFF;
+    color: #FFFFFF;
+}
+
+
+#messic-upload-wizard-albuminfo-body div {
+    color: #888888;
+    font-family: roboto-bold;
+    font-size: 0.8em;
+}
+.messic-upload-wizard-albuminfo-albumsong-track-title {
+    float: left;
+    width: 15%;
+}
+.messic-upload-wizard-albuminfo-albumsong-name-title {
+    float: left;
+    margin-left: 13px;
+    width: 80%;
+}
+
+#messic-upload-wizard-content .messic-upload-finishbox-resource-filename {
+    max-width: 432px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+}
+
 #messic-upload-content{
     background: #FF0000;
     clear:left;
@@ -164,7 +495,7 @@
 }
 .messic-upload-song-content-header-track{
     margin-right:10px;
-    width:40px;
+    width:43px;
     vertical-align: center;
     text-align: center;
 }
@@ -225,7 +556,7 @@
 
 #messic-upload-song-content-songs input[type="text"]{
 	border: 1px dashed #CCCCCC;
-	width:178px;
+	width:240px;
 	font:11px Verdana,sans-serif;
 }
 
@@ -519,6 +850,7 @@ li.messic-upload-song-content-songs-filedelete a:hover {
     background: linear-gradient(#00BABA, #00CACA) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-radius: 5px;
     height: 100%;
+    width: 0%;
 
     transition-property:width;
     transition-duration:0.5s;

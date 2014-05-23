@@ -11,10 +11,12 @@ import org.messic.server.api.plugin.MessicPlugin;
  */
 public interface TAGWizardPlugin extends MessicPlugin
 {
+    
     /**
-     * The plugin must obtain tags for the files passed.  The length of the returned list must be the same as the list of files.
-     * @param files {@link File}[] list of files to discover the tags
-     * @return List<TagInfo/> list of tags discovered from the files
+     * Return a set of posibilities to the album info based on the information passed.
+     * @param album {@link Album} album info
+     * @param files File[] list of files
+     * @return List<Album/> list of album posibilities
      */
-    List<SongTags> getTags(File[] files);
+    List<Album> getAlbumInfo(Album album, File[] files);
 }

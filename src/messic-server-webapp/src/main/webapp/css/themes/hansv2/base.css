@@ -218,7 +218,7 @@ h1{
 	text-align: right;
 }
 
-input[type="text"], textarea {
+input[type="text"], input[type="number"], textarea {
     background: none repeat scroll 0 0 #FFFFFF;
     border-color: #CCCCCC;
     border-radius: 3px 3px 3px 3px;
@@ -233,13 +233,13 @@ input[type="text"], textarea {
     color: #444444;
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
     border-color: #AAAAAA;
     border-style: dashed;
     border-width: 1px;
     color: #00BABA;
 }
-input[type="text"]:hover {
+input[type="text"]:hover, input[type="number"]:hover, textarea:hover {
     -webkit-box-shadow: 0 0 3px rgba(0, 139, 139, 0.4);
     -moz-box-shadow:    0 0 3px rgba(0, 139, 139, 0.4);
     box-shadow:         0 0 3px rgba(0, 139, 139, 0.4);

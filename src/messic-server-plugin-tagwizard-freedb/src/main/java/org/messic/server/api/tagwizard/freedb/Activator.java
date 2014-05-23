@@ -1,4 +1,4 @@
-package org.messic.server.api.tagwizard.audiotagger;
+package org.messic.server.api.tagwizard.freedb;
 
 import java.util.Hashtable;
 
@@ -13,16 +13,14 @@ public class Activator
     private static Logger logger = Logger.getLogger( Activator.class );
 
     /**
-     * Bundle-Classpath: WEB-INF/lib/messic-server-osgiservices-1.0-SNAPSHOT.jar Implements BundleActivator.start().
-     * 
      * @param bundleContext - the framework context for the bundle.
      **/
     public void start( BundleContext bundleContext )
     {
-        logger.info( "TAGWizard - AudioTagger Started" );
+        logger.info( "TAGWizard - FreeDB Started" );
         Hashtable<String, String> props = new Hashtable<String, String>();
-        props.put( "TAGWizard", "AudioTagger" );
-        bundleContext.registerService( TAGWizardPlugin.class.getName(), new AudioTaggerTAGWizardPlugin(), props );
+        props.put( "TAGWizard", FreeDBTAGWizardPlugin.NAME );
+        bundleContext.registerService( TAGWizardPlugin.class.getName(), new FreeDBTAGWizardPlugin(), props );
     }
 
     /**
@@ -33,6 +31,6 @@ public class Activator
     public void stop( BundleContext bundleContext )
     {
         // NOTE: The service is automatically unregistered.
-        logger.info( "TAGWizard - AudioTagger Stopped" );
+        logger.info( "TAGWizard - FreeDB Stopped" );
     }
 }

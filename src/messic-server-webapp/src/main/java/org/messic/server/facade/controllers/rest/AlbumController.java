@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ import org.messic.server.Util;
 import org.messic.server.api.APIAlbum;
 import org.messic.server.api.APITagWizard;
 import org.messic.server.api.datamodel.Album;
+import org.messic.server.api.datamodel.TAGWizardPlugin;
 import org.messic.server.api.exceptions.ResourceNotFoundMessicException;
 import org.messic.server.api.exceptions.SidNotFoundMessicException;
 import org.messic.server.datamodel.MDOUser;
@@ -146,7 +148,6 @@ public class AlbumController
         }
     }
 
-    
     @ApiMethod( path = "/albums/{albumSid}/zip", verb = ApiVerb.GET, description = "Get the album binary, get the whole album zipped", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
@@ -156,8 +157,8 @@ public class AlbumController
     @ResponseBody
     @ApiResponseObject
     public void getAlbumZip( @ApiParam( name = "albumSid", description = "SID of the album resource we want to download", paramType = ApiParamType.PATH, required = true )
-                                           @PathVariable
-                                           Long albumSid,HttpServletResponse response )
+                             @PathVariable
+                             Long albumSid, HttpServletResponse response )
         throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException
     {
 
@@ -174,22 +175,22 @@ public class AlbumController
 
         try
         {
-            ByteArrayOutputStream baos=new ByteArrayOutputStream();
-            albumAPI.getAlbumZip( mdouser, albumSid,  baos);
-            FileOutputStream fos=new FileOutputStream( new File("/home/spheras/estoquees.zip") );
-            fos.write(baos.toByteArray());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            albumAPI.getAlbumZip( mdouser, albumSid, baos );
+            FileOutputStream fos = new FileOutputStream( new File( "/home/spheras/estoquees.zip" ) );
+            fos.write( baos.toByteArray() );
             fos.close();
-            
-            albumAPI.getAlbumZip( mdouser, albumSid,  response.getOutputStream());
-//            // Prepare acceptable media type
-//            List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
-//            acceptableMediaTypes.add(MediaType.APPLICATION_OCTET_STREAM);
-//             
-//            // Prepare header
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setAccept(acceptableMediaTypes);
-//            HttpEntity<String> entity = new HttpEntity<String>(headers);
-//
+
+            albumAPI.getAlbumZip( mdouser, albumSid, response.getOutputStream() );
+            // // Prepare acceptable media type
+            // List<MediaType> acceptableMediaTypes = new ArrayList<MediaType>();
+            // acceptableMediaTypes.add(MediaType.APPLICATION_OCTET_STREAM);
+            //
+            // // Prepare header
+            // HttpHeaders headers = new HttpHeaders();
+            // headers.setAccept(acceptableMediaTypes);
+            // HttpEntity<String> entity = new HttpEntity<String>(headers);
+            //
         }
         catch ( IOException ioe )
         {
@@ -202,7 +203,6 @@ public class AlbumController
         }
     }
 
-    
     @ApiMethod( path = "/albums/{albumSid}", verb = ApiVerb.DELETE, description = "Remove an album with sid {albumSid}", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -388,14 +388,14 @@ public class AlbumController
         catch ( ResourceNotFoundMessicException e )
         {
             InputStream is = AlbumController.class.getResourceAsStream( "/org/messic/img/unknowncover.jpg" );
-            byte[] content=null;
+            byte[] content = null;
             try
             {
                 content = Util.readInputStream( is );
             }
             catch ( IOException e1 )
             {
-                throw new NotFoundMessicRESTException(e);
+                throw new NotFoundMessicRESTException( e );
             }
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType( MediaType.IMAGE_JPEG );
@@ -502,7 +502,7 @@ public class AlbumController
         return new HttpEntity<HttpStatus>( HttpStatus.OK );
     }
 
-    @ApiMethod( path = "/albums/clear?albumCode=xxxx", verb = ApiVerb.POST, description = "Clear all the temporal files that have been uploaded previously", produces = {
+    @ApiMethod( path = "/albums/clear?albumCode=xxxx", verb = ApiVerb.POST, description = "Clear all the temporal files that have been uploaded previously. You can pass a json object with all the files you don't want to delate (the algorithm will erase all files that aren't in the list)", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
@@ -511,9 +511,11 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public HttpEntity<HttpStatus> clear( @ApiParam( name = "albumCode", description = "temporal code of the album we want to clear.  This code is the same the client give to the server when upload a resource for an album.  If not give this code, messic will remove all the temporal files uploaded until now.", paramType = ApiParamType.QUERY, required = false )
-                                         @RequestParam( value = "albumCode", required = false )
-                                         String albumCode )
+    public List<org.messic.server.api.datamodel.File> clear( @ApiParam( name = "albumCode", description = "temporal code of the album we want to clear.  This code is the same the client give to the server when upload a resource for an album.  If not give this code, messic will remove all the temporal files uploaded until now.", paramType = ApiParamType.QUERY, required = false )
+                                                             @RequestParam( value = "albumCode", required = false )
+                                                             String albumCode, @ApiBodyObject
+                                                             @RequestBody( required = false )
+                                                             List<org.messic.server.api.datamodel.File> exceptFiles )
         throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException
     {
 
@@ -530,8 +532,9 @@ public class AlbumController
 
         try
         {
-            albumAPI.clearTemporal( mdouser, albumCode );
-            return new HttpEntity<HttpStatus>( HttpStatus.OK );
+            List<org.messic.server.api.datamodel.File> existingFiles =
+                albumAPI.clearTemporal( mdouser, albumCode, exceptFiles );
+            return existingFiles;// new HttpEntity<HttpStatus>( HttpStatus.OK );
         }
         catch ( IOException e )
         {
@@ -544,19 +547,24 @@ public class AlbumController
 
     }
 
-    @ApiMethod( path = "/albums/{albumCode}/wizard", verb = ApiVerb.GET, description = "Get 'magic' info from the resources that have been uploaded previously.  This resources are suposed to be of the same album, messic try to get the album info from them using several mechanisms.", produces = {
+    @ApiMethod( path = "/albums/{albumCode}/wizard", verb = ApiVerb.GET, description = "Get 'magic' info from the resources that have been uploaded previously.  This resources are suposed to be of the same album, messic try to get the album info from them using several mechanisms. If the {pluginName} param is not present it returns only the basic info with all the available plugins. ALSO SUPPORT POST TO SUBMIT THE PARAMETER ALBUMHELPINFO!.", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
         @ApiError( code = IOMessicRESTException.VALUE, description = "IO internal server error" ),
         @ApiError( code = MusicTagsMessicRESTException.VALUE, description = "Song Tags error" ), } )
-    @RequestMapping( value = "/{albumCode}/wizard", method = RequestMethod.GET )
+    @RequestMapping( value = "/{albumCode}/wizard", method = { RequestMethod.GET, RequestMethod.POST } )
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public Album getWizardAlbum( @ApiParam( name = "albumCode", description = "temporal code of the album we want to analyze. This code have been set previously while uploading resources. Messic will use the resources linked with these album code", paramType = ApiParamType.PATH, required = true )
-                                 @PathVariable
-                                 String albumCode )
+    public List<TAGWizardPlugin> getWizardAlbum( @ApiParam( name = "albumCode", description = "temporal code of the album we want to analyze. This code have been set previously while uploading resources. Messic will use the resources linked with these album code", paramType = ApiParamType.PATH, required = true )
+                                                 @PathVariable
+                                                 String albumCode,
+                                                 @ApiParam( name = "pluginName", description = "Name of the plugin we want to use.. It's not required. If this paremeter is not present the function will return only the basic informartion with all the available plugins names to query", paramType = ApiParamType.PATH, required = false )
+                                                 @RequestParam( value = "pluginName", required = false )
+                                                 String pluginName, @ApiBodyObject
+                                                 @RequestBody(required=false)
+                                                 Album albumHelpInfo )
         throws NotAuthorizedMessicRESTException, UnknownMessicRESTException, IOMessicRESTException,
         MusicTagsMessicRESTException
     {
@@ -574,8 +582,17 @@ public class AlbumController
 
         try
         {
-            Album album = wizardAPI.getWizardAlbum( mdouser, albumCode );
-            return album;
+            List<TAGWizardPlugin> result = new ArrayList<TAGWizardPlugin>();
+            if ( pluginName != null && pluginName.length() > 0 )
+            {
+                TAGWizardPlugin album = wizardAPI.getWizardAlbum( mdouser, pluginName, albumHelpInfo, albumCode );
+                result.add( album );
+            }
+            else
+            {
+                result = wizardAPI.getWizards( mdouser, albumCode );
+            }
+            return result;
         }
         catch ( IOException e )
         {

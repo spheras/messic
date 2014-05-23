@@ -24,5 +24,25 @@ public class MusicInfoPlugin
         this.providerName=providerName;
     }
 
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName( String name )
+    {
+        this.name = name;
+    }
+
+    public String getProviderName()
+    {
+        return providerName;
+    }
+
+    public void setProviderName( String providerName )
+    {
+        this.providerName = providerName;
+    }
+
 
 }

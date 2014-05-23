@@ -17,6 +17,8 @@ public class File {
 	private String code;
 	@ApiObjectField(description="fileName for the resource")
 	private String fileName;
+    @ApiObjectField(description="Size of the file")
+	private long size;
 	@ApiObjectField(description="Owner album of the resource")
 	private Album album;
 	
@@ -70,5 +72,15 @@ public class File {
     public void setSid( long sid )
     {
         this.sid = sid;
+    }
+
+    public long getSize()
+    {
+        return size;
+    }
+
+    public void setSize( long size )
+    {
+        this.size = size;
     }
 }

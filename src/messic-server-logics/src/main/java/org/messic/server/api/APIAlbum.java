@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -182,9 +183,11 @@ public class APIAlbum
      * files for the code album, if not, remove everything. This is useful when the user wants to upload new songs
      * 
      * @param albumCode String code for the album to reset
+     * @param exceptionFiles list of files that we don't want to remove
+     * @return List<File/> the list of files that are still at the temporal folder (based on the exceptionfiles parameter)
      * @throws IOException
      */
-    public void clearTemporal( MDOUser mdouser, String albumCode )
+    public List<org.messic.server.api.datamodel.File> clearTemporal( MDOUser mdouser, String albumCode, List<org.messic.server.api.datamodel.File> exceptionFiles)
         throws IOException
     {
         File basePath = null;
@@ -197,14 +200,70 @@ public class APIAlbum
             basePath = new File( Util.getTmpPath( mdouser, daoSettings.getSettings(), "" ) );
         }
 
-        if ( basePath.exists() )
+        if ( basePath.exists() && (exceptionFiles==null || exceptionFiles.size()==0))
         {
             FileUtils.deleteDirectory( basePath );
+        }else if(basePath.exists() && exceptionFiles!=null){
+            deleteFiles( basePath.getAbsolutePath(), exceptionFiles );
         }
 
         basePath.mkdirs();
+        
+        ArrayList<File> existingFiles=new ArrayList<File>();
+        Util.listFiles( basePath.getAbsolutePath(), existingFiles );
+ 
+        ArrayList<org.messic.server.api.datamodel.File> result=new ArrayList<org.messic.server.api.datamodel.File>();
+        for (int i=0;i<existingFiles.size();i++){
+            org.messic.server.api.datamodel.File f=new org.messic.server.api.datamodel.File(  );
+            f.setFileName( existingFiles.get( i ).getName());
+            f.setSize( existingFiles.get( i ).length() );
+            result.add(f);
+        }
+        return result;
+    }
+    
+
+    /**
+     * Check if a certainFile is an exceptionFile, it means, a file that we shouldn't remove.
+     * @param f {@link File} file to check
+     * @param exceptionFiles {@link List}<File/> List of exceptionFiles
+     * @return boolean true->yes, its an exception file  ,  false->No, it isn't an exception file
+     */
+    private boolean isAnExceptionFile(File f, List<org.messic.server.api.datamodel.File> exceptionFiles){
+        if(exceptionFiles==null || exceptionFiles.size()==0){
+            return false;
+        }
+        for(int i=0;i<exceptionFiles.size();i++){
+            if(f.getName().equals( exceptionFiles.get( i ).getFileName() )){
+                if(f.length()==exceptionFiles.get( i ).getSize()){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
+    /**
+     * Delete all the files of a certain path, and subpaths, except those files in the list of the parameter exceptionFiles 
+     * @param basePath {@link String} basePath to start searching
+     * @param exceptionFiles List<File/> Black list we don't want to remove
+     */
+    private void deleteFiles(String basePath, List<org.messic.server.api.datamodel.File> exceptionFiles){
+        File directory = new File(basePath);
+
+        // get all the files from a directory
+        File[] fList = directory.listFiles();
+        for (File file : fList) {
+            if (file.isFile()) {
+                if(!isAnExceptionFile( file, exceptionFiles )){
+                    file.delete();
+                }
+            } else if (file.isDirectory()) {
+                deleteFiles(file.getAbsolutePath(), exceptionFiles);
+            }
+        }        
+    }
+    
     /**
      * Add a resource to the temporal folder. This is necessary to do after things like, wizard, or create album, ..
      * 

@@ -3,6 +3,9 @@ package org.messic.server.api.musicinfo.youtube;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.SocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -30,6 +33,25 @@ public class MusicInfoYoutubePlugin
 
     public static final float MINIMUM_MESSIC_VERSION = 1.0f;
 
+    /** configuration for the plugin */
+    private Properties configuration;
+
+    private Proxy getProxy()
+    {
+        if ( this.configuration != null )
+        {
+            String url = (String) this.configuration.get( "proxy-url" );
+            String port = (String) this.configuration.get( "proxy-port" );
+            if ( url != null && port != null )
+            {
+                SocketAddress addr = new InetSocketAddress( url, Integer.valueOf( port ) );
+                Proxy proxy = new Proxy( Proxy.Type.HTTP, addr );
+                return proxy;
+            }
+        }
+        return null;
+    }
+
     @Override
     public String getName()
     {
@@ -45,7 +67,7 @@ public class MusicInfoYoutubePlugin
     @Override
     public void setConfiguration( Properties properties )
     {
-        // no configuration
+        this.configuration=properties;
     }
 
     @Override
@@ -95,7 +117,8 @@ public class MusicInfoYoutubePlugin
 
         URL url = new URL( uri.toASCIIString() );
         System.out.println( surl );
-        URLConnection connection = url.openConnection();
+        Proxy proxy=getProxy();
+        URLConnection connection=(proxy!=null?url.openConnection(proxy):url.openConnection());
         InputStream is = connection.getInputStream();
 
         JsonFactory jsonFactory = new JsonFactory(); // or, for data binding,
@@ -108,8 +131,12 @@ public class MusicInfoYoutubePlugin
         htmlCode = htmlCode + "       $('.messic-musicinfo-youtube-iframe').remove();";
         htmlCode = htmlCode + "  }";
         htmlCode = htmlCode + "  function musicInfoYoutubePlay(id){";
-        htmlCode = htmlCode + "      var code='<div class=\"messic-musicinfo-youtube-overlay\" onclick=\"musicInfoYoutubeDestroy()\"></div>';";
-        htmlCode = htmlCode + "      code=code+'<iframe class=\"messic-musicinfo-youtube-iframe\" src=\"http://www.youtube.com/embed/'+id+'\" frameborder=\"0\" allowfullscreen></iframe>';";
+        htmlCode =
+            htmlCode
+                + "      var code='<div class=\"messic-musicinfo-youtube-overlay\" onclick=\"musicInfoYoutubeDestroy()\"></div>';";
+        htmlCode =
+            htmlCode
+                + "      code=code+'<iframe class=\"messic-musicinfo-youtube-iframe\" src=\"http://www.youtube.com/embed/'+id+'\" frameborder=\"0\" allowfullscreen></iframe>';";
         htmlCode = htmlCode + "      $(code).hide().appendTo('body').fadeIn();";
         htmlCode = htmlCode + "  }";
         htmlCode = htmlCode + "</script>";
@@ -170,12 +197,16 @@ public class MusicInfoYoutubePlugin
 
                     if ( yi.category != null && "MUSIC".equals( yi.category.toUpperCase() ) || ( yi.category == null ) )
                     {
-                        if(yi.title!=null){
+                        if ( yi.title != null )
+                        {
                             htmlCode =
-                                            htmlCode + "<div class='messic-musicinfo-youtube-item'><img src='" + yi.thumbnail
-                                                + "'/><div class='messic-musicinfo-youtube-item-play' onclick='musicInfoYoutubePlay(\""
-                                                + yi.id + "\")'></div><div class='messic-musicinfo-youtube-item-title'>" + yi.title
-                                                + "</div><div class='messic-musicinfo-youtube-item-description'>"+yi.description+"</div></div>";
+                                htmlCode
+                                    + "<div class='messic-musicinfo-youtube-item'><img src='"
+                                    + yi.thumbnail
+                                    + "'/><div class='messic-musicinfo-youtube-item-play' onclick='musicInfoYoutubePlay(\""
+                                    + yi.id + "\")'></div><div class='messic-musicinfo-youtube-item-title'>" + yi.title
+                                    + "</div><div class='messic-musicinfo-youtube-item-description'>" + yi.description
+                                    + "</div></div>";
                         }
                     }
                 }

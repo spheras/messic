@@ -38,7 +38,7 @@
 			                </li>
 			                <li>
 								<label id="messic-upload-album-comments-label" for="messic-upload-album-comments"><fmt:message key="upload-comments" bundle="${message}"/></label>
-			                    <textarea id="messic-upload-album-comments" name="Comments" class="k-textbox" />
+			                    <textarea id="messic-upload-album-comments" name="Comments" class="k-textbox"></textarea>
 			                </li>
 			                <li class="status">
 			                </li>
@@ -55,14 +55,13 @@
 					<div class="messic-upload-container">
 						<h3><fmt:message key="upload-songs-title1" bundle="${message}"/></h3>
 						<h4><fmt:message key="upload-songs-title2" bundle="${message}"/></h4>
-						<a href="#" id="messic-upload-song-addbutton"><a>
+						<a href="#" id="messic-upload-song-addbutton"></a>
 						<input id="messic-upload-song-addinput" type="file" multiple>
 						<div class="messic-upload-song-separator"></div>
 							<div class="messic-upload-song-content-header">
 								<div class="messic-upload-song-content-header-track"><fmt:message key="upload-songs-track" bundle="${message}"/></div>
 								<div class="messic-upload-song-content-header-filename"><fmt:message key="upload-songs-name" bundle="${message}"/></div>
 								<div class="messic-upload-song-content-header-fileaction">&nbsp;</div>
-								<div class="messic-upload-song-content-header-filestatus"><span><fmt:message key="upload-songs-status" bundle="${message}"/></span></div>
 								<div class="messic-upload-song-content-header-filesize"><fmt:message key="upload-songs-size" bundle="${message}"/></div>
 							</div>
 						<div class="messic-upload-song-separator"></div>
@@ -75,7 +74,6 @@
 									<span></span>
 								</div>
 								<div class="messic-upload-song-content-header-fileaction"></div>
-								<div class="messic-upload-song-content-header-filestatus"><span class="messic-upload-song-filelist-totalstatus">0%</span></div>
 								<div class="messic-upload-song-content-header-filesize"><span class="messic-upload-zone-filelist-totalfilesize">0 b</span></div>
 								<div class="messic-upload-song-content-footer-progress">
 									<div class="messic-upload-song-content-footer-progress-container">

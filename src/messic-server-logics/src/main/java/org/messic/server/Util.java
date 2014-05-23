@@ -332,4 +332,24 @@ public class Util
         }
  
     }
+    
+
+    /**
+     * List all the files that exist in a certain path (and subfolders)
+     * @param basePath {@link String} absolute path to a directory to start searching
+     * @param files {@link List}<File/> a list that will be filled with the existing files in the path
+     */
+    public static final void listFiles(String basePath, List<File> files) {
+        File directory = new File(basePath);
+
+        // get all the files from a directory
+        File[] fList = directory.listFiles();
+        for (File file : fList) {
+            if (file.isFile()) {
+                files.add(file);
+            } else if (file.isDirectory()) {
+                listFiles(file.getAbsolutePath(), files);
+            }
+        }
+    }
 }

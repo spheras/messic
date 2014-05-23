@@ -16,6 +16,8 @@ var UploadResource=function (type,file,domElement){
 	this.uploaded=false;
 	//code for this resource
 	this.code=UtilGetGUID();
+	//xhr associated with the upload of the resource
+	this.xhr=null;
 
 	this.alert=function(){
 		alert("UploadResource, type:"+this.type+", track:"+this.track);

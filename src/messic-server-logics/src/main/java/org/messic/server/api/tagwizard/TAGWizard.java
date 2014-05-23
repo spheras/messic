@@ -8,10 +8,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.jaudiotagger.audio.AudioFile;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Author;
 import org.messic.server.api.datamodel.Genre;
 import org.messic.server.api.datamodel.Song;
+import org.messic.server.api.tagwizard.audiotagger.AudioTaggerTAGWizardPlugin;
 import org.messic.server.api.tagwizard.service.SongTags;
 import org.messic.server.api.tagwizard.service.TAGInfo;
 import org.messic.server.api.tagwizard.service.TAGWizardPlugin;
@@ -27,19 +29,12 @@ public class TAGWizard
     @Autowired
     public DAOGenre daoGenre;
 
-    public static void main( String[] args )
-        throws Exception
-    {
-        File fpath = new File( "/home/spheras/Desktop/prueba" );
-        new TAGWizard().getAlbumWizard( fpath.listFiles() );
-    }
-
     /**
-     * Obtain the list of tagwizard plugins
+     * Obtain a tagwizard plugin with the name
      * 
-     * @return List<TAGWizardPlugin/> the list of plugins to execute
+     * @return TAGWizardPlugin plugin with that name
      */
-    private List<TAGWizardPlugin> getTAGWizardPlugins()
+    private TAGWizardPlugin getTAGWizardPlugin( String name )
     {
 
         BundleContext context = FrameworkUtil.getBundle( TAGWizardPlugin.class ).getBundleContext();
@@ -48,8 +43,15 @@ public class TAGWizard
         try
         {
             // Query for all service references matching any TAGWizard plugin
-            ServiceReference<?>[] refs =
-                context.getServiceReferences( TAGWizardPlugin.class.getName(), "(TAGWizard=*)" );
+            ServiceReference<?>[] refs = null;
+            if ( name != null && name.length() > 0 )
+            {
+                refs = context.getServiceReferences( TAGWizardPlugin.class.getName(), "(TAGWizard=" + name + ")" );
+            }
+            else
+            {
+                refs = context.getServiceReferences( TAGWizardPlugin.class.getName(), "(TAGWizard=*)" );
+            }
             if ( refs != null )
             {
                 for ( int i = 0; i < refs.length; i++ )
@@ -62,15 +64,99 @@ public class TAGWizard
         {
             // TODO log
         }
+        if ( result.size() > 0 )
+        {
+            return result.get( 0 );
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+     * Function to transform an album from datamodel to an album from service
+     * 
+     * @param album
+     * @return
+     */
+    public org.messic.server.api.tagwizard.service.Album getServiceAlbum( Album album )
+    {
+        if ( album == null )
+        {
+            return new org.messic.server.api.tagwizard.service.Album();
+        }
+
+        org.messic.server.api.tagwizard.service.Album result = new org.messic.server.api.tagwizard.service.Album();
+        if ( album.getAuthor() != null )
+        {
+            result.author = album.getAuthor().getName();
+        }
+        result.comments = album.getComments();
+        if ( album.getGenre() != null )
+        {
+            result.genre = album.getGenre().getName();
+        }
+        result.name = album.getName();
+        result.year = album.getYear();
+        result.songs = new ArrayList<org.messic.server.api.tagwizard.service.Song>();
+        List<Song> songs = album.getSongs();
+        if ( songs != null )
+        {
+            for ( int i = 0; i < songs.size(); i++ )
+            {
+                org.messic.server.api.tagwizard.service.Song songr = new org.messic.server.api.tagwizard.service.Song();
+                songr.track = songs.get( i ).getTrack();
+                songr.name = songs.get( i ).getName();
+                result.songs.add( songr );
+            }
+        }
         return result;
     }
 
-    public Album getAlbumWizard( File[] f )
+    public org.messic.server.api.datamodel.TAGWizardPlugin getAlbumWizard( Album albumHelpInfo, File[] f,
+                                                                           String pluginName )
         throws IOException
     {
 
-        List<TAGWizardPlugin> plugins = getTAGWizardPlugins();
-        List<SongTags> tags = plugins.get( 0 ).getTags( f );
+        TAGWizardPlugin plugin = getTAGWizardPlugin( pluginName );
+
+        org.messic.server.api.tagwizard.service.Album salbum = Album.transform( albumHelpInfo );
+
+        List<org.messic.server.api.tagwizard.service.Album> albums = plugin.getAlbumInfo( salbum, f );
+        if ( albums != null )
+        {
+            List<Album> salbums = new ArrayList<Album>();
+            for ( int i = 0; i < albums.size(); i++ )
+            {
+                org.messic.server.api.tagwizard.service.Album album = albums.get( i );
+                if ( album != null )
+                {
+                    salbums.add( Album.transform( album ) );
+                }
+            }
+            org.messic.server.api.datamodel.TAGWizardPlugin twp =
+                new org.messic.server.api.datamodel.TAGWizardPlugin( pluginName, salbums );
+            return twp;
+        }
+        else
+        {
+            org.messic.server.api.datamodel.TAGWizardPlugin twp =
+                new org.messic.server.api.datamodel.TAGWizardPlugin( pluginName, (Album)null);
+            return twp;
+        }
+
+    }
+
+    public org.messic.server.api.datamodel.TAGWizardPlugin getAlbumWizard( Album albumHelpInfo, File[] f )
+        throws IOException
+    {
+        AudioTaggerTAGWizardPlugin plugin = new AudioTaggerTAGWizardPlugin();
+        List<SongTags> tags = plugin.getTags( getServiceAlbum( albumHelpInfo ), f );
+        if ( tags == null )
+        {
+            tags = new ArrayList<SongTags>();
+        }
         // second, try to obtain the best results for the album tags
         for ( int i = 0; i < tags.size(); i++ )
         {
@@ -130,7 +216,9 @@ public class TAGWizard
             album.addSong( song );
         }
 
-        return album;
+        org.messic.server.api.datamodel.TAGWizardPlugin twp =
+            new org.messic.server.api.datamodel.TAGWizardPlugin( AudioTaggerTAGWizardPlugin.NAME, album );
+        return twp;
     }
 
     /**
