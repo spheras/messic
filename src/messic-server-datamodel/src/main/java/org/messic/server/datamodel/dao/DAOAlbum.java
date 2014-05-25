@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOArtwork;
+import org.messic.server.datamodel.MDOGenre;
 
 
 
@@ -12,7 +13,15 @@ import org.messic.server.datamodel.MDOArtwork;
  */
 public interface DAOAlbum extends DAO<MDOAlbum>
 {
-	
+
+    /**
+     * return all the albums of a certain genre
+     * @param username {@link String} user scope
+     * @param genre {@link MDOGenre} genre to search
+     * @return
+     */
+    List<MDOAlbum> getAll(String username, MDOGenre genre);
+
 	/**
 	 * return all the albums in the user scope
 	 * @param username {@link String} user scope

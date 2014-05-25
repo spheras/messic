@@ -12,12 +12,10 @@ import java.util.zip.ZipOutputStream;
 
 import org.hibernate.Hibernate;
 import org.hibernate.proxy.HibernateProxy;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOMessicSettings;
 import org.messic.server.datamodel.MDOSong;
 import org.messic.server.datamodel.MDOUser;
-import org.messic.server.datamodel.dao.DAOUser;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 public class Util
 {
@@ -26,20 +24,6 @@ public class Util
     public static final String GENERIC_BASE_STORE_PATH_VAR = "$(generic)";
 
     public static final String TEMPORAL_FOLDER = ".tmp" + File.separatorChar + "resources";
-
-    /**
-     * Temporal method to DEBUG without login TODO remove!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-     * 
-     * @param userDAO
-     * @return
-     */
-    public static MDOUser getAuthentication( DAOUser userDAO )
-    {
-        MDOUser mdouser = null;
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        mdouser = userDAO.getUser( ( auth != null ? auth.getName() : "" ) );
-        return mdouser;
-    }
 
     /**
      * Check if the string is an integer
@@ -137,7 +121,7 @@ public class Util
      * @param albumCode {@link String} code for the album to upload
      * @return {@link String} temporal path for uploaded
      */
-    public static String getTmpPath( MDOUser user, MDOMessicSettings settings, String albumCode )
+    public static String getTmpPath( User user, MDOMessicSettings settings, String albumCode )
     {
         String path = Util.getRealBaseStorePath( user, settings );
         path = path + File.separator + TEMPORAL_FOLDER + File.separatorChar + albumCode;
@@ -151,7 +135,7 @@ public class Util
      * @param settings {@link MDOMessicSettings} current settings
      * @return {@link String} the real base store path for this user
      */
-    public static String getRealBaseStorePath( MDOUser user, MDOMessicSettings settings )
+    public static String getRealBaseStorePath( User user, MDOMessicSettings settings )
     {
         String userBaseStorePath = user.getStorePath();
 
@@ -248,9 +232,10 @@ public class Util
 
     /**
      * Zip a set of files. The results is sent to an {@link OutputStream}
+     * 
      * @param files {@link List}<File/> list of files to be zipped
      * @param os {@link OutputStream} outputstream where the zip is created
-     * @throws IOException 
+     * @throws IOException
      */
     public static void zipFiles( List<File> files, OutputStream os )
         throws IOException
@@ -279,76 +264,95 @@ public class Util
         }
 
     }
-    
-    public static void zipFolder(String folderpath, OutputStream os) throws IOException{
-        String sourceFolderName =  folderpath;
- 
-        ZipOutputStream zos = new ZipOutputStream(os);
-        //level - the compression level (0-9)
-        zos.setLevel(9);
- 
-        zipFolder2(zos, sourceFolderName, sourceFolderName);
- 
-        zos.close();        
+
+    public static void zipFolder( String folderpath, OutputStream os )
+        throws IOException
+    {
+        String sourceFolderName = folderpath;
+
+        ZipOutputStream zos = new ZipOutputStream( os );
+        // level - the compression level (0-9)
+        zos.setLevel( 9 );
+
+        zipFolder2( zos, sourceFolderName, sourceFolderName );
+
+        zos.close();
     }
-    
-    public static void zipFolder2(ZipOutputStream zos,String folderName,String baseFolderName) throws IOException{
-        File f = new File(folderName);
-        if(f.exists()){
- 
-            if(f.isDirectory()){
-                //Thank to peter
-                //For pointing out missing entry for empty folder
-                if(!folderName.equalsIgnoreCase(baseFolderName)){
-                    String entryName = folderName.substring(baseFolderName.length()+1,folderName.length()) + File.separatorChar;
-                    System.out.println("Adding folder entry " + entryName);
-                    ZipEntry ze= new ZipEntry(entryName);
-                    zos.putNextEntry(ze);    
+
+    public static void zipFolder2( ZipOutputStream zos, String folderName, String baseFolderName )
+        throws IOException
+    {
+        File f = new File( folderName );
+        if ( f.exists() )
+        {
+
+            if ( f.isDirectory() )
+            {
+                // Thank to peter
+                // For pointing out missing entry for empty folder
+                if ( !folderName.equalsIgnoreCase( baseFolderName ) )
+                {
+                    String entryName =
+                        folderName.substring( baseFolderName.length() + 1, folderName.length() ) + File.separatorChar;
+                    System.out.println( "Adding folder entry " + entryName );
+                    ZipEntry ze = new ZipEntry( entryName );
+                    zos.putNextEntry( ze );
                 }
                 File f2[] = f.listFiles();
-                for(int i=0;i<f2.length;i++){
-                    zipFolder2(zos,f2[i].getAbsolutePath(),baseFolderName);    
+                for ( int i = 0; i < f2.length; i++ )
+                {
+                    zipFolder2( zos, f2[i].getAbsolutePath(), baseFolderName );
                 }
-            }else{
-                //add file
-                //extract the relative name for entry purpose
-                String entryName = folderName.substring(baseFolderName.length()+1,folderName.length());
-                System.out.print("Adding file entry " + entryName + "...");
-                ZipEntry ze= new ZipEntry(entryName);
-                zos.putNextEntry(ze);
-                FileInputStream in = new FileInputStream(folderName);
+            }
+            else
+            {
+                // add file
+                // extract the relative name for entry purpose
+                String entryName = folderName.substring( baseFolderName.length() + 1, folderName.length() );
+                System.out.print( "Adding file entry " + entryName + "..." );
+                ZipEntry ze = new ZipEntry( entryName );
+                zos.putNextEntry( ze );
+                FileInputStream in = new FileInputStream( folderName );
                 int len;
                 byte buffer[] = new byte[1024];
-                while ((len = in.read(buffer)) > 0) {
-                    zos.write(buffer, 0, len);
+                while ( ( len = in.read( buffer ) ) > 0 )
+                {
+                    zos.write( buffer, 0, len );
                 }
                 in.close();
                 zos.closeEntry();
-                System.out.println("OK!");
- 
+                System.out.println( "OK!" );
+
             }
-        }else{
-            throw new IOException("File or directory not found " + folderName);
         }
- 
+        else
+        {
+            throw new IOException( "File or directory not found " + folderName );
+        }
+
     }
-    
 
     /**
      * List all the files that exist in a certain path (and subfolders)
+     * 
      * @param basePath {@link String} absolute path to a directory to start searching
      * @param files {@link List}<File/> a list that will be filled with the existing files in the path
      */
-    public static final void listFiles(String basePath, List<File> files) {
-        File directory = new File(basePath);
+    public static final void listFiles( String basePath, List<File> files )
+    {
+        File directory = new File( basePath );
 
         // get all the files from a directory
         File[] fList = directory.listFiles();
-        for (File file : fList) {
-            if (file.isFile()) {
-                files.add(file);
-            } else if (file.isDirectory()) {
-                listFiles(file.getAbsolutePath(), files);
+        for ( File file : fList )
+        {
+            if ( file.isFile() )
+            {
+                files.add( file );
+            }
+            else if ( file.isDirectory() )
+            {
+                listFiles( file.getAbsolutePath(), files );
             }
         }
     }

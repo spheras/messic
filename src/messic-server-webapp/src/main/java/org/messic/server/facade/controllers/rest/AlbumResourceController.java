@@ -8,12 +8,12 @@ import org.jsondoc.core.annotation.ApiParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
 import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
-import org.messic.server.Util;
 import org.messic.server.api.APIAlbumResource;
-import org.messic.server.datamodel.MDOUser;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.UnknownMessicRESTException;
+import org.messic.server.facade.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -50,20 +50,10 @@ public class AlbumResourceController
                              Long resourceSid )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
-        MDOUser mdouser = null;
+        User user = SecurityUtil.getCurrentUser();
         try
         {
-            mdouser = Util.getAuthentication( userDAO );
-        }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-            throw new NotAuthorizedMessicRESTException( e );
-        }
-
-        try
-        {
-            albumResourceAPI.remove( mdouser, resourceSid );
+            albumResourceAPI.remove( user, resourceSid );
         }
         catch ( Exception e )
         {

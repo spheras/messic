@@ -1,4 +1,4 @@
-package org.messic.server.facade.logics;
+package org.messic.server.facade.security;
 
 import java.io.IOException;
 
@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.messic.server.api.datamodel.Login;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,8 @@ public class SecurityLoginFailureHandler
     {
         if ( "XMLHttpRequest".equals( request.getHeader( "X-Requested-With" ) ) )
         {
-            response.getWriter().print( "{\"success\":false, \"message\": \"Username/Password are invalid\"}" );
+            Login login = Login.failedLogin( "Username/Password are invalid" );
+            response.getWriter().print( login.getJSON() );
             response.getWriter().flush();
         }
         else

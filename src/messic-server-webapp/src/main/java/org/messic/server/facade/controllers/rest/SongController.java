@@ -10,14 +10,14 @@ import org.jsondoc.core.annotation.ApiParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
 import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
-import org.messic.server.Util;
 import org.messic.server.api.APISong;
 import org.messic.server.api.datamodel.Song;
-import org.messic.server.datamodel.MDOUser;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.IOMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.UnknownMessicRESTException;
+import org.messic.server.facade.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -80,20 +80,11 @@ public class SongController
                             Long songSid )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
-        MDOUser mdouser = null;
-        try
-        {
-            mdouser = Util.getAuthentication( userDAO );
-        }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-            throw new NotAuthorizedMessicRESTException( e );
-        }
 
+        User user = SecurityUtil.getCurrentUser();
         try
         {
-            songAPI.remove( mdouser, songSid );
+            songAPI.remove( user, songSid );
         }
         catch ( Exception e )
         {
@@ -115,21 +106,11 @@ public class SongController
                                            Long songSid )
         throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException
     {
-
-        MDOUser mdouser = null;
-        try
-        {
-            mdouser = Util.getAuthentication( userDAO );
-        }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-            throw new NotAuthorizedMessicRESTException( e );
-        }
+        User user = SecurityUtil.getCurrentUser();
 
         try
         {
-            byte[] content = songAPI.getAudioSong( mdouser, songSid );
+            byte[] content = songAPI.getAudioSong( user, songSid );
             HttpHeaders headers = new HttpHeaders();
 
             // TODO some mp3 songs fail with application/octet-stream

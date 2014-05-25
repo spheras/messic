@@ -365,7 +365,7 @@
     content: ' ';
 }
 #messic-upload-album-container #messic-upload-album-comments{
-    width: 341px;
+    width: 340px;
     height: 148px;
 }
 #messic-upload-album-comments-label {
@@ -488,6 +488,7 @@
     margin-top: -12px;
     margin-left: -53px;
 }
+
 .messic-upload-song-content-header-filename,
 .messic-upload-song-content-header-track{
     float: left;
@@ -514,7 +515,9 @@
 .messic-upload-song-content-header-filestatus, 
 .messic-upload-song-content-header-progress {
     float: right;
-    width: 50px;
+    height: 29px;
+    overflow: hidden;
+    width: 75px;
 }
 
 .messic-upload-song-content-footer {

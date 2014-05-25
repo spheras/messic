@@ -38,14 +38,16 @@ public class User {
      * @param mdoUser {@link MDOUser} to copy
      */
     public User(MDOUser mdoUser){
-    	this.setAdministrator(mdoUser.getAdministrator());
-    	this.setAvatar(mdoUser.getAvatar());
-    	this.setEmail(mdoUser.getEmail());
-    	this.setLogin(mdoUser.getLogin());
-    	this.setName(mdoUser.getName());
-    	this.setPassword(mdoUser.getPassword());
-    	this.setSid(mdoUser.getSid());
-    	this.setStorePath(mdoUser.getStorePath());
+        if(mdoUser!=null){
+            this.setAdministrator(mdoUser.getAdministrator());
+            this.setAvatar(mdoUser.getAvatar());
+            this.setEmail(mdoUser.getEmail());
+            this.setLogin(mdoUser.getLogin());
+            this.setName(mdoUser.getName());
+            this.setPassword(mdoUser.getPassword());
+            this.setSid(mdoUser.getSid());
+            this.setStorePath(mdoUser.getStorePath());
+        }
     }
     
     public Long getSid() {

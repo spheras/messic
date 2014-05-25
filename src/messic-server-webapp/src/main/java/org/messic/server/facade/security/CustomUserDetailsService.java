@@ -1,11 +1,10 @@
-package org.messic.server.facade.logics;
+package org.messic.server.facade.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.messic.server.api.APIUser;
-import org.messic.server.datamodel.MDOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -34,48 +33,39 @@ public class CustomUserDetailsService
     public UserDetails loadUserByUsername( String username )
         throws UsernameNotFoundException
     {
-        try
+        org.messic.server.api.datamodel.User domainUser = userAPI.getUser( username );
+        if ( domainUser == null )
         {
-            MDOUser domainUser = userAPI.getUser( username );
-            if ( domainUser == null )
-            {
-            	org.messic.server.api.datamodel.User user = new org.messic.server.api.datamodel.User();
-            	user.setLogin(username);
-            	user.setPassword("12345");
-            	user.setName("Usuario de pruebas");
-            	user.setAvatar(new byte[]{});
-            	user.setName("test");
-            	user.setEmail("test@a.com");
-            	user.setAdministrator(true);
-            	
-                domainUser = userAPI.createUser(user);
-                //throw new UsernameNotFoundException( "user not found!" );
-            }
-
-            boolean enabled = true;
-            boolean accountNonExpired = true;
-            boolean credentialsNonExpired = true;
-            boolean accountNonLocked = true;
-            User signedUser =
-                new User( domainUser.getLogin(), domainUser.getPassword(), enabled, accountNonExpired,
-                          credentialsNonExpired, accountNonLocked, getAuthorities( 1 ) );
-
-            return signedUser;
-
+            //throw new UsernameNotFoundException( "user not found!" );
+             org.messic.server.api.datamodel.User user = new org.messic.server.api.datamodel.User();
+             user.setLogin(username);
+             user.setPassword("12345");
+             user.setName("Usuario de pruebas");
+             user.setAvatar(new byte[]{});
+             user.setName("test");
+             user.setEmail("test@a.com");
+             user.setAdministrator(true);
+            
+             domainUser = userAPI.createUser(user);
         }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-            throw new RuntimeException( e );
-        }
+
+        boolean enabled = true;
+        boolean accountNonExpired = true;
+        boolean credentialsNonExpired = true;
+        boolean accountNonLocked = true;
+        User signedUser =
+            new User( domainUser.getLogin(), domainUser.getPassword(), enabled, accountNonExpired,
+                      credentialsNonExpired, accountNonLocked, getAuthorities( 1 ) );
+
+        return signedUser;
+
     }
 
     /**
      * Retrieves a collection of {@link GrantedAuthority} based on a numerical role
      * 
      * @param role the numerical role
-     * @return a collection of {@link GrantedAuthority
-
+     * @return a collection of {@link GrantedAuthority
      */
     public Collection<? extends GrantedAuthority> getAuthorities( Integer role )
     {

@@ -3,13 +3,15 @@ package org.messic.server.facade.controllers.pages;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.messic.server.Util;
+import javax.servlet.http.HttpServletRequest;
+
 import org.messic.server.api.APIAlbum;
 import org.messic.server.api.datamodel.Album;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.api.musicinfo.service.MusicInfoPlugin;
-import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOUser;
-import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
+import org.messic.server.facade.security.SecurityUtil;
+import org.messic.server.facade.security.TokenManagementFilter;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -27,6 +29,9 @@ public class AlbumViewController
 
     @Autowired
     public DAOUser userDAO;
+
+    @Autowired
+    public TokenManagementFilter tmf;
 
     /**
      * Obtain the list musicInfo plugins
@@ -55,31 +60,22 @@ public class AlbumViewController
         }
         catch ( Exception e )
         {
-            e.printStackTrace( );
+            e.printStackTrace();
         }
         return result;
     }
 
     @RequestMapping( "/album.do" )
     protected ModelAndView view( @RequestParam( value = "albumSid", required = true )
-    Long albumSid )
+    Long albumSid, HttpServletRequest req )
         throws Exception
     {
         ModelAndView model = new ModelAndView( "album" );
 
-        MDOUser mdouser = null;
-        try
-        {
-            mdouser = Util.getAuthentication( userDAO );
-        }
-        catch ( Exception e )
-        {
-            e.printStackTrace();
-            throw new NotAuthorizedMessicRESTException( e );
-        }
-
+        User user = SecurityUtil.getCurrentUser();
         // getting the first characters of the authors, to allow listing them by start letter
-        Album result = apialbum.getAlbum( mdouser, albumSid, true, true, true);
+        Album result = apialbum.getAlbum( user, albumSid, true, true, true );
+        model.addObject( "token", this.tmf.obtainToken( req, tmf.getTokenParameter() ) );
         model.addObject( "album", result );
 
         List<MusicInfoPlugin> plugins = getMusicInfoPlugins();

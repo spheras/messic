@@ -1,3 +1,7 @@
+/* messic token for petitions */
+var VAR_MessicToken;
+
+
 $(document).ready(function() {
 	var loginWindow = $("#messic-login-window");
 	var loginShadow = $("#messic-login-shadow");
@@ -32,7 +36,7 @@ $(document).ready(function() {
 		info = $("#messic-login-form").serialize();
 		$.ajax({
 		    type: "POST",
-		    url: "j_spring_security_check",
+		    url: "messiclogin",
 		    data: info, // serializes the form's elements.
 		    dataType: "json",
 		    error: function (XMLHttpRequest, textStatus, errorThrown) 
@@ -43,10 +47,16 @@ $(document).ready(function() {
 		    	{
 			    	if(data.success==true)
 			    	{
+			    		VAR_MessicToken=data.messic_token;
+			    		$.ajaxSetup({
+			    		    beforeSend: function(xhr) {
+			    		        xhr.setRequestHeader('messic_token', data.messic_token);
+			    		    }
+			    		});
+			    		
 			    		$.ajax({
 			    		    type: "GET",
 			    		    url: "main.do",
-			    		    beforeSend: function (xhr) { xhr.setRequestHeader("messic_token", data.messic_token) },
 			    		    error: function (XMLHttpRequest, textStatus, errorThrown) 
 			    		    	{
 			    		        	console.log('error');

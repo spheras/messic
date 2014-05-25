@@ -190,7 +190,7 @@ var UploadAlbum=function(){
 					code="";
 					code=code+'<li class="messic-upload-song-content-songs-filedelete messic-upload-song-content-songs-image">';
 					code=code+'  <div class="messic-upload-song-content-images" title="' + UtilEscapeHTML(f.name)+'"></div>';
-			    	code=code+'  <div class="messqic-upload-song-content-header-filename">'+UtilEscapeHTML(f.name)+'</div>';
+			    	code=code+'  <div class="messic-upload-song-content-header-filename">'+UtilEscapeHTML(f.name)+'</div>';
 					code=code+'  <div class="messic-upload-song-content-header-fileaction">';
 					code=code+'    <a href="#">&nbsp;</a>';
 					code=code+'  </div>';
@@ -263,7 +263,7 @@ var UploadAlbum=function(){
 					}
 					resource.domElement.find("a").click(removeFunction(resource,this));
 		    		
-		    		$.getJSON("services/songs/" + f.name + "/wizard",function(theFile,self,resource) {
+		    		$.getJSON("services/songs/" + encodeURIComponent(f.name) + "/wizard",function(theFile,self,resource) {
 		    			return function(data){
 		    				resource.domElement.find(".messic-upload-song-content-header-tracknumber").val(data.track)
 		    				resource.domElement.find(".messic-upload-song-content-header-filename").val(data.name)
@@ -562,15 +562,17 @@ var UploadAlbum=function(){
 			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\">Genre</div>";
 			newcode=newcode+"<input type=\"text\" id=\"messic-upload-wizard-genre\" class=\"messic-upload-wizard-albuminfofield\" value=\""+UtilEscapeHTML(data[0].albums[0].genre.name)+"\"/>";
 			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\">Comments</div>";
-			newcode=newcode+"<textarea type=\"text\" id=\"messic-upload-wizard-albumcomments\" class=\"messic-upload-wizard-albuminfofield\">"+UtilEscapeHTML(data[0].albums[0].comments)+"</textarea/>";
+			newcode=newcode+"<textarea  maxlength=\"255\" type=\"text\" id=\"messic-upload-wizard-albumcomments\" class=\"messic-upload-wizard-albuminfofield\">"+UtilEscapeHTML(data[0].albums[0].comments)+"</textarea/>";
 			newcode=newcode+"</div>";
 			newcode=newcode+"<div id=\"messic-upload-wizard-albuminfo-body\" class=\"messic-upload-wizard-albuminfo-body-real\">";
 			newcode=newcode+"  <div class=\"messic-upload-wizard-albuminfo-albumsong-track-title\" min=\"1\" max=\"100000\">"+messicLang.uploadWizardTrack+"</div>";
 			newcode=newcode+"  <div class=\"messic-upload-wizard-albuminfo-albumsong-name-title\">"+messicLang.uploadWizardName+"</div>";
-			for(var j=0;j<data[0].albums[0].songs.length;j++){
-				var song=data[0].albums[0].songs[j];
-				newcode=newcode+"<input type=\"number\" class=\"messic-upload-wizard-albumsong-track\" value=\""+song.track+"\"/>";
-				newcode=newcode+"<input type=\"text\" class=\"messic-upload-wizard-albumsong-name\" value=\""+song.name+"\"/>";
+			if(data[0].albums[0].songs){
+				for(var j=0;j<data[0].albums[0].songs.length;j++){
+					var song=data[0].albums[0].songs[j];
+					newcode=newcode+"<input type=\"number\" class=\"messic-upload-wizard-albumsong-track\" value=\""+song.track+"\"/>";
+					newcode=newcode+"<input type=\"text\" class=\"messic-upload-wizard-albumsong-name\" value=\""+song.name+"\"/>";
+				}
 			}
 			newcode=newcode+"</div>";
 			newcode=newcode+"<div id=\"messic-upload-wizard-albuminfo-actions\">";
@@ -593,7 +595,11 @@ var UploadAlbum=function(){
 		    	titleCombo.text($("#messic-upload-wizard-albumtitle").val());
 		    	genreCombo.text($("#messic-upload-wizard-genre").val());
 				yearEdit.value($("#messic-upload-wizard-albumyear").val());
-	    		$("#messic-upload-album-comments").text($("#messic-upload-wizard-albumcomments").val());
+				var comments=$("#messic-upload-wizard-albumcomments").val();
+				if(comments.length>255){
+					comments=comments.substr(0,254);
+				}
+	    		$("#messic-upload-album-comments").text(comments);
 
 	    		//trying to catch the songs tracks and names
 	    		var divtracks=$(".messic-upload-wizard-albuminfo-body-real .messic-upload-wizard-albumsong-track");
@@ -679,10 +685,12 @@ var UploadAlbum=function(){
 									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albuminfofield messic-upload-wizard-albuminfofield-comments\" title=\""+UtilEscapeHTML(albums[j].comments)+"\">"+UtilEscapeHTML(albums[j].comments)+"</div>";
 									plugincode=plugincode+"  </div>";
 									plugincode=plugincode+"  <div class=\"messic-upload-wizard-albuminfo-body\">";
-									for(var k=0;k<albums[j].songs.length;k++){
-										var song=albums[j].songs[k];
-										plugincode=plugincode+"<div class=\"messic-upload-wizard-albumsong-track\">"+song.track+"</div>";
-										plugincode=plugincode+"<div class=\"messic-upload-wizard-albumsong-name\" title=\""+UtilEscapeHTML(song.name)+"\">"+UtilEscapeHTML(song.name)+"</div>";
+									if(albums[j].songs){
+										for(var k=0;k<albums[j].songs.length;k++){
+											var song=albums[j].songs[k];
+											plugincode=plugincode+"<div class=\"messic-upload-wizard-albumsong-track\">"+song.track+"</div>";
+											plugincode=plugincode+"<div class=\"messic-upload-wizard-albumsong-name\" title=\""+UtilEscapeHTML(song.name)+"\">"+UtilEscapeHTML(song.name)+"</div>";
+										}
 									}
 									plugincode=plugincode+"  </div>";
 									plugincode=plugincode+"  <div class=\"divclearer\"></div>";
@@ -703,7 +711,11 @@ var UploadAlbum=function(){
 							    	titleCombo.text(divpluginresult.find(".messic-upload-wizard-albuminfofield-title").text());
 							    	genreCombo.text(divpluginresult.find(".messic-upload-wizard-albuminfofield-genre").text());
 									yearEdit.value(divpluginresult.find(".messic-upload-wizard-albuminfofield-year").text());
-						    		$("#messic-upload-album-comments").text(divpluginresult.find(".messic-upload-wizard-albuminfofield-comments").text());
+									var comments=divpluginresult.find(".messic-upload-wizard-albuminfofield-comments").text();
+									if(comments.length>255){
+										comments=comments.substr(0,254);
+									}
+						    		$("#messic-upload-album-comments").text(comments);
 
 						    		//trying to catch the songs tracks and names
 						    		var divtracks=divpluginresult.find(".messic-upload-wizard-albumsong-track");

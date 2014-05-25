@@ -19,13 +19,24 @@ public class DAOJPAGenre
         super( MDOGenre.class );
     }
 
+    @Override
+    public List<MDOGenre> getRandomGenre(String username, int number){
+        Query query= entityManager.createQuery("from MDOGenre as a where (1=1 AND a.owner.login= :userName) order by rand()");
+        query.setParameter( "userName", username);
+        query.setMaxResults(5);
+        @SuppressWarnings( "unchecked" )
+        List<MDOGenre> results=query.getResultList();
+        return results;
+    }
+
     /**
      * @TODO limit to the valid genres for the user?
      */
 	@Override
 	public List<MDOGenre> findSimilarGenre(String genreName, String username) {
-        Query query = entityManager.createQuery( "from MDOGenre as a where (a.name LIKE :genreName)" );
+        Query query = entityManager.createQuery( "from MDOGenre as a where (a.owner.login = :userName) AND (a.name LIKE :genreName)" );
         query.setParameter( "genreName", "%" + genreName + "%");
+        query.setParameter( "userName", username);
         
         @SuppressWarnings( "unchecked" )
         List<MDOGenre> results = query.getResultList();
@@ -33,9 +44,10 @@ public class DAOJPAGenre
 	}
 
 	
-	public MDOGenre getGenre(String genreName) {
-        Query query = entityManager.createQuery( "from MDOGenre as a where (a.name = :genreName)" );
+	public MDOGenre getGenre(String username, String genreName) {
+        Query query = entityManager.createQuery( "from MDOGenre as a where (a.owner.login = :userName) AND (a.name = :genreName)" );
         query.setParameter( "genreName", "'" + genreName + "'");
+        query.setParameter( "userName", username);
         
         @SuppressWarnings( "unchecked" )
         List<MDOGenre> results = query.getResultList();
@@ -46,9 +58,10 @@ public class DAOJPAGenre
         }
 	}
 
-	public MDOGenre getByName(String genreName){
-        Query query = entityManager.createQuery("from MDOGenre as a where (a.name = :genreName)");
+	public MDOGenre getByName(String username, String genreName){
+        Query query = entityManager.createQuery("from MDOGenre as a where (a.owner.login = :userName) AND (a.name = :genreName)");
         query.setParameter( "genreName", genreName);
+        query.setParameter( "userName", username);
 		
         @SuppressWarnings( "unchecked" )
         List<MDOGenre> results = query.getResultList();

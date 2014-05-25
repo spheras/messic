@@ -17,7 +17,7 @@
 				<div id="messic-album-cover">
 					<div class="messic-album-covercontainer">
 			        	<div class="messic-album-add" onclick="addAlbum(${messic:escapeAll(album.sid)})" title="<fmt:message key="album-addalbum-title" bundle="${message}"/>"></div>
-						<img src="services/albums/${album.sid}/cover/" onclick="albumShowCover('${messic:escapeAll(album.sid)}')"/>
+						<img src="services/albums/${album.sid}/cover?messic_token=${token}" onclick="albumShowCover('${messic:escapeAll(album.sid)}')"/>
 					</div>
 		        	<div class="messic-album-vinyl"></div>
 		        </div>
@@ -79,7 +79,7 @@
 						</c:forEach>				
 						<c:forEach var="artwork" items="${album.artworks}">
 							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork">
-								<div class="messic-album-songs-bodyfield messic-album-songs-body-artwork"><img src="services/albums/${messic:escapeHTML(artwork.sid)}/resource" onclick="albumShowArtwork('${messic:escapeAll(artwork.sid)}')"/></div>
+								<div class="messic-album-songs-bodyfield messic-album-songs-body-artwork"><img src="services/albums/${messic:escapeHTML(artwork.sid)}/resource?messic_token=${token}" onclick="albumShowArtwork('${messic:escapeAll(artwork.sid)}')"/></div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkname">${messic:escapeHTML(artwork.fileName)}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkaction">
 									<div title="<fmt:message key="album-artworkshow-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-show" onclick="albumShowArtwork('${messic:escapeAll(artwork.sid)}')"></div>
@@ -108,7 +108,7 @@
 				<ul class="messic-album-plugincontainer-menu">
 					<c:forEach var="plugin" items="${plugins}">
 					<li title="<fmt:message key="album-plugincontainer-plugintitle" bundle="${message}"/> ${messic:escapeHTML(plugin.getProviderName())}" class="messic-album-plugincontainer-menuitem" onclick="albumShowMusicInfo('${messic:escapeAll(album.author.name)}','${messic:escapeAll(album.name)}','${messic:escapeAll(plugin.getName())}',this)">
-						<img class="messic-album-musicinfoplugin-icon" src="services/musicinfo/providericon?pluginName=${messic:escapeHTML(plugin.getName())}"/>
+						<img class="messic-album-musicinfoplugin-icon" src="services/musicinfo/providericon?pluginName=${messic:escapeHTML(plugin.getName())}&messic_token=${token}"/>
 					</li>
 					</c:forEach>
 				</ul>

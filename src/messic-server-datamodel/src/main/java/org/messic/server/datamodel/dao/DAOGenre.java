@@ -11,10 +11,19 @@ import org.messic.server.datamodel.MDOGenre;
  */
 public interface DAOGenre extends DAO<MDOGenre>
 {
+    
+    /**
+     * Return a set of random genres
+     * @param username {@link String} user scope
+     * @param number int max number of genres
+     * @return List<MDOGenre/> the list of genres
+     */
+    List<MDOGenre> getRandomGenre(String username, int number);
+
 	/**
 	 * Find similar genres to the genreName
 	 * @param genreName {@link String} genrename to compare
-	 * @param username {@link String} user scope (TODO)
+	 * @param username {@link String} user scope
 	 * @return {@link MDOGenre} similar genres
 	 */
 	List<MDOGenre> findSimilarGenre(String genreName, String username);
@@ -24,7 +33,7 @@ public interface DAOGenre extends DAO<MDOGenre>
 	 * @param genreName {@link String} genreName to search
 	 * @return {@link MDOGenre} founded (null if none)
 	 */
-	MDOGenre getGenre(String genreName);
+	MDOGenre getGenre(String username,  String genreName);
 
 	/**
 	 * Find a genre with name equals to the param
@@ -32,6 +41,6 @@ public interface DAOGenre extends DAO<MDOGenre>
 	 * @param username {@link String} user scope
 	 * @return {@link MDOGenre} found, null if none
 	 */
-	MDOGenre getByName(String genreName);
+	MDOGenre getByName(String username, String genreName);
 
 }

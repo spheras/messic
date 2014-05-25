@@ -73,12 +73,17 @@ function initMessic(){
 		var self=this;
 		var nextFunction=function(){
 			selectOption(self);
-			$.get("upload.do", function(data){
-				$("#messic-page-content").empty();
-				var posts = $($.parseHTML(data)).filter('#content').children();
-				$("#messic-page-content").append(posts);
-				initUpload();
+			$.ajax({
+				url: "upload.do",
+    		    beforeSend: function (xhr) { xhr.setRequestHeader("messic_token", VAR_MessicToken) },
+				success: function(data){
+					$("#messic-page-content").empty();
+					var posts = $($.parseHTML(data)).filter('#content').children();
+					$("#messic-page-content").append(posts);
+					initUpload();
+				}
 			});
+			
 		}
 		VAR_changeSection(nextFunction);
 	});
@@ -229,7 +234,7 @@ function mainCreateRandomList(randomlist, lastTitleType){
 		            		code=code+song.sid+",";
 		            		code=code+"'"+UtilEscapeJS(song.name)+"');\"></div>";
 
-							code=code+"        <img  src=\"services/albums/"+song.album.sid+"/cover/\"></img>";
+							code=code+"        <img src=\"services/albums/"+song.album.sid+"/cover?messic_token="+VAR_MessicToken+"\"></img>";
 		            		code=code+"        <div class=\"messic-main-randomlist-vinyl\"></div>";
 							code=code+"    </div>"
 							code=code+"    <div class=\"messic-main-randomlist-albumauthor\" title=\""+UtilEscapeHTML(song.album.author.name)+"\">"+UtilEscapeHTML(song.album.author.name)+"</div>";
@@ -296,13 +301,18 @@ function addAlbum(albumSid){
 function addSong(titleA,authorName,albumSid,albumName,songSid,songName){
 		    playlist.add({
 		        title:titleA,
-		        mp3:"services/songs/"+songSid+"/audio",
+		        mp3:"services/songs/"+songSid+"/audio?messic_token="+VAR_MessicToken,
 		        author: authorName,
 		        album: albumName,
 		        song: songName,
-		        boxart: "services/albums/"+albumSid+"/cover/"
+		        boxart: "services/albums/"+albumSid+"/cover?messic_token="+VAR_MessicToken
 			});
 			$("#messic-playlist").tinyscrollbar_update('bottom');
+}
+
+/* clear the current playlist */
+function clearPlaylist(){
+	playlist.remove();
 }
 
 function playVinyl(index){
@@ -328,17 +338,4 @@ function playVinyl(index){
 	this.parentNode.children[0].className =\"jplayer-playlist-vinyl jplayer-playlist-vinylPlaying\";
 	this.parentNode.children[1].className =\"jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying\";
 	*/
-}
-
-function addsong(){
-    playlist.add({
-        title:"Partir",
-        mp3:"http://www.jplayer.org/audio/mp3/Miaow-09-Partir.mp3",
-        author: "Autor de prueba",
-        album: "Album de prueba",
-        song: "Canci&oacute;n de prueba",
-        boxart: "css/themes/hans/box-art-example.png"
-        });
-
-	$("#messic-playlist").tinyscrollbar_update('bottom');
 }

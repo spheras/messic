@@ -1,4 +1,4 @@
-package org.messic.server.facade.controllers.user;
+package org.messic.server.facade.controllers.pages;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 
 import org.messic.server.api.APIUser;
 import org.messic.server.api.datamodel.User;
-import org.messic.server.datamodel.MDOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,7 +105,7 @@ public class UserController
 	 * @return
 	 * @throws Exception
 	 */
-    protected MDOUser create(User user, HttpSession session, HttpServletRequest arg0, HttpServletResponse arg1 )
+    protected User create(User user, HttpSession session, HttpServletRequest arg0, HttpServletResponse arg1 )
         throws Exception
     {
         
@@ -119,7 +118,7 @@ public class UserController
 			//TODO recuperar el avatar por defecto
 		}
 		
-		MDOUser mdoUser = userAPI.createUser(user);
+		User mdoUser = userAPI.createUser(user);
 		
 		return mdoUser;
 		

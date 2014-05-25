@@ -23,6 +23,7 @@
 		<module>../messic-server-logics</module>
 		<module>../messic-server-webapp</module>
 		<module>../messic-server-plugin-tagwizard-freedb</module>
+		<module>../messic-server-plugin-tagwizard-discogs</module>
 		<module>../messic-server-plugin-musicinfo-wikipedia</module>
 		<module>../messic-server-plugin-musicinfo-youtube</module>
 		<module>../messic-server-plugin-internationalization-en</module>

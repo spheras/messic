@@ -84,6 +84,12 @@ messicLang = {
 		if(what=='RandomListTitle-Author'){
 			return '<fmt:message key="js-randomlisttitle-author" bundle="${message}"/>';
 		}
+		if(what=='RandomListName-Genre'){
+			return '<fmt:message key="js-randomlistname-genre" bundle="${message}"/>';
+		}
+		if(what=='RandomListTitle-Genre'){
+			return '<fmt:message key="js-randomlisttitle-genre" bundle="${message}"/>';
+		}
 		if(what=='RandomListName-Search'){
 			return '<fmt:message key="js-randomlistname-search" bundle="${message}"/>';
 		}

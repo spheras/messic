@@ -36,13 +36,13 @@ public class Album
     private File cover;
 
     @ApiObjectField( description = "List of songs of the album" )
-    private List<Song> songs;
+    private List<Song> songs=new ArrayList<Song>();
 
     @ApiObjectField( description = "List of artworks for the album" )
-    private List<File> artworks;
+    private List<File> artworks=new ArrayList<File>();
 
     @ApiObjectField( description = "Other resources of the album" )
-    private List<File> others;
+    private List<File> others=new ArrayList<File>();
 
     @ApiObjectField( description = "Genre of the album" )
     private Genre genre;

@@ -8,11 +8,11 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jaudiotagger.audio.AudioFile;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Author;
 import org.messic.server.api.datamodel.Genre;
 import org.messic.server.api.datamodel.Song;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.api.tagwizard.audiotagger.AudioTaggerTAGWizardPlugin;
 import org.messic.server.api.tagwizard.service.SongTags;
 import org.messic.server.api.tagwizard.service.TAGInfo;
@@ -142,13 +142,13 @@ public class TAGWizard
         else
         {
             org.messic.server.api.datamodel.TAGWizardPlugin twp =
-                new org.messic.server.api.datamodel.TAGWizardPlugin( pluginName, (Album)null);
+                new org.messic.server.api.datamodel.TAGWizardPlugin( pluginName, (Album) null );
             return twp;
         }
 
     }
 
-    public org.messic.server.api.datamodel.TAGWizardPlugin getAlbumWizard( Album albumHelpInfo, File[] f )
+    public org.messic.server.api.datamodel.TAGWizardPlugin getAlbumWizard( User user, Album albumHelpInfo, File[] f )
         throws IOException
     {
         AudioTaggerTAGWizardPlugin plugin = new AudioTaggerTAGWizardPlugin();
@@ -194,7 +194,7 @@ public class TAGWizard
             // e.printStackTrace();
             album.setYear( 1900 );
         }
-        album.setGenre( getBestGenre( getMostValued( tags, TAGInfo.GENRE ) ) );
+        album.setGenre( getBestGenre( user, getMostValued( tags, TAGInfo.GENRE ) ) );
 
         // TODO Cover artwork
 
@@ -224,15 +224,16 @@ public class TAGWizard
     /**
      * Try to find a genre from the database, if not, put the genre founded in tags
      * 
+     * @param user {@link User} user scope
      * @param genre {@link String} genreName to compare
      * @return {@link Genre} genre to link with the album
      */
-    private Genre getBestGenre( String genre )
+    private Genre getBestGenre( User user, String genre )
     {
         if ( this.daoGenre != null )
         {
 
-            MDOGenre founded = this.daoGenre.getGenre( genre );
+            MDOGenre founded = this.daoGenre.getGenre( user.getLogin(), genre );
             if ( founded == null )
             {
                 List<MDOGenre> listf = this.daoGenre.findSimilarGenre( genre, "" );

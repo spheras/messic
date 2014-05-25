@@ -170,9 +170,8 @@ function albumGenreEdit() {
 function albumCommentsEdit() {
 	albumEditStatus();
 	var div = $("#messic-album-comments");
-	var text = div.text().trim();
-	var code = "<textarea id=\"messic-album-comments-textedit\" name=\"Comments\" class=\"k-textbox\" value=\""
-			+ text + "\"/>";
+	var text = div.contents(':not(div)').text().trim();
+	var code = "<textarea maxlength=\"255\" id=\"messic-album-comments-textedit\" name=\"Comments\" class=\"k-textbox\">"+text+"</textarea>";
 	div.empty();
 	div.append($(code));
 	$("#messic-album-comments input").focus();
@@ -512,7 +511,7 @@ function albumEditArtwork(sid,name,divButton){
 	albumEditStatus();
 	var code = "<div>";
 	code=code+"<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork\">";
-	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artwork\"><img src=\"services/albums/"+sid+"/resource\" onclick=\"albumShowArtwork('"+sid+"')\"/></div>";
+	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artwork\"><img src=\"services/albums/"+sid+"/resource?messic_token="+VAR_MessicToken+"\" onclick=\"albumShowArtwork('"+sid+"')\"/></div>";
 	code=code+"  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkname\" value=\"" + name + "\" data-sid=\""+sid+"\">";
 	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkaction\">";
 	code=code+"    <div title=\""+messicLang.albumArtworkShow+"\" class=\"messic-album-songs-body-songaction-show\" onclick=\"albumShowArtwork('"+sid+"')\"></div>";
@@ -742,7 +741,7 @@ function albumShowArtwork(resourceSid) {
 	var code = '<div class=\"messic-album-artwork-show-overlay\" onclick=\"albumShowArtworkDestroy()\"></div>';
 	code = code + '<div class=\"messic-album-artwork-show\">';
 	code = code + "   <img src=\"services/albums/" + resourceSid
-			+ "/resource\"></img>";
+			+ "/resource?messic_token="+VAR_MessicToken+"\"></img>";
 	code = code + "   <a href=\"services/albums/" + resourceSid
 			+ "/resource\" target=\"_blank\"></a>"
 	code = code + "   <div id=\"messic-album-artwork-setcover\" onclick=\"alert('setcover')\"></div>"
@@ -756,7 +755,7 @@ function albumShowCover(albumSid) {
 	var code = '<div class=\"messic-album-artwork-show-overlay\" onclick=\"albumShowArtworkDestroy()\"></div>';
 	code = code + '<div class=\"messic-album-artwork-show\">';
 	code = code + "   <img src=\"services/albums/" + albumSid
-			+ "/cover/\"></img>";
+			+ "/cover?messic_token="+VAR_MessicToken+"\"></img>";
 	code = code + "   <a href=\"services/albums/" + albumSid
 			+ "/cover\" target=\"_blank\"></a>"
 	code = code + "</div>";

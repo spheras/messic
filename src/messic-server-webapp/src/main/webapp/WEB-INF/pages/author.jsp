@@ -22,7 +22,7 @@
 					<div id="messic-author-album-cover">
 						<div class="messic-author-album-covercontainer">
 				        	<div class="messic-author-album-add" onclick="addAlbum(${messic:escapeAll(album.sid)})" title="<fmt:message key="album-addalbum-title" bundle="${message}"/>"></div>
-							<img src="services/albums/${album.sid}/cover/" onclick="albumShowCover('${messic:escapeAll(album.sid)}')"/>
+							<img src="services/albums/${album.sid}/cover?messic_token=${token}" onclick="albumShowCover('${messic:escapeAll(album.sid)}')"/>
 						</div>
 			        	<div class="messic-author-album-vinyl"></div>
 			        </div>
@@ -43,7 +43,7 @@
 				<ul class="messic-author-plugincontainer-menu">
 					<c:forEach var="plugin" items="${plugins}">
 					<li title="<fmt:message key="album-plugincontainer-plugintitle" bundle="${message}"/> ${messic:escapeHTML(plugin.getProviderName())}" class="messic-author-plugincontainer-menuitem" onclick="authorShowAuthorInfo('${messic:escapeAll(author.name)}','${messic:escapeAll(plugin.getName())}',this)">
-						<img class="messic-author-musicinfoplugin-icon" src="services/musicinfo/providericon?pluginName=${messic:escapeHTML(plugin.getName())}"/>
+						<img class="messic-author-musicinfoplugin-icon" src="services/musicinfo/providericon?pluginName=${messic:escapeHTML(plugin.getName())}&messic_token=${token}"/>
 					</li>
 					</c:forEach>
 				</ul>

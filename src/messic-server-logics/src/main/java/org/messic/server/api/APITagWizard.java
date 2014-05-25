@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.messic.server.Util;
 import org.messic.server.api.datamodel.Album;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.api.tagwizard.TAGWizard;
 import org.messic.server.api.tagwizard.audiotagger.AudioTaggerTAGWizardPlugin;
 import org.messic.server.api.tagwizard.service.TAGWizardPlugin;
@@ -76,7 +77,7 @@ public class APITagWizard
      * @return List<TAGWizardPlugin/> plugins available
      * @throws IOException
      */
-    public List<org.messic.server.api.datamodel.TAGWizardPlugin> getWizards( MDOUser mdouser, String albumCode )
+    public List<org.messic.server.api.datamodel.TAGWizardPlugin> getWizards( User mdouser, String albumCode )
         throws IOException
     {
         List<TAGWizardPlugin> twp = getTAGWizardPlugins();
@@ -95,13 +96,13 @@ public class APITagWizard
         File basePath = new File( Util.getTmpPath( mdouser, daoSettings.getSettings(), albumCode ) );
         File[] files = basePath.listFiles();
         TAGWizard tw = new TAGWizard();
-        org.messic.server.api.datamodel.TAGWizardPlugin basicPlugin = tw.getAlbumWizard( null, files );
+        org.messic.server.api.datamodel.TAGWizardPlugin basicPlugin = tw.getAlbumWizard( mdouser, null, files );
         result.add( 0, basicPlugin );
 
         return result;
     }
 
-    public org.messic.server.api.datamodel.TAGWizardPlugin getWizardAlbum( MDOUser mdouser, String pluginName,
+    public org.messic.server.api.datamodel.TAGWizardPlugin getWizardAlbum( User mdouser, String pluginName,
                                                                            Album albumHelpInfo, String albumCode )
         throws IOException
     {

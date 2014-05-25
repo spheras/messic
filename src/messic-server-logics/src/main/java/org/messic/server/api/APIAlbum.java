@@ -8,11 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.CannotWriteException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.tag.TagException;
 import org.messic.server.Util;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Song;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.api.exceptions.ResourceNotFoundMessicException;
 import org.messic.server.api.exceptions.SidNotFoundMessicException;
+import org.messic.server.api.tagwizard.audiotagger.AudioTaggerTAGWizardPlugin;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOAlbumResource;
 import org.messic.server.datamodel.MDOArtwork;
@@ -28,6 +36,7 @@ import org.messic.server.datamodel.dao.DAOGenre;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOPhysicalResource;
 import org.messic.server.datamodel.dao.DAOSong;
+import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,13 +61,16 @@ public class APIAlbum
     private DAOSong daoSong;
 
     @Autowired
+    private DAOUser daoUser;
+
+    @Autowired
     private DAOPhysicalResource daoPhysicalResource;
 
     @Autowired
     private DAOAlbumResource daoAlbumResource;
 
     @Transactional
-    public void getAlbumZip( MDOUser user, Long albumSid, OutputStream os )
+    public void getAlbumZip( User user, Long albumSid, OutputStream os )
         throws IOException
     {
 
@@ -109,7 +121,7 @@ public class APIAlbum
     }
 
     @Transactional
-    public void remove( MDOUser user, Long albumSid )
+    public void remove( User user, Long albumSid )
         throws IOException
     {
         MDOAlbum album = this.daoAlbum.getAlbum( albumSid, user.getLogin() );
@@ -141,22 +153,21 @@ public class APIAlbum
     }
 
     @Transactional
-    public List<Album> getAll( MDOUser user, boolean authorInfo, boolean songsInfo, boolean resourcesInfo )
+    public List<Album> getAll( User user, boolean authorInfo, boolean songsInfo, boolean resourcesInfo )
     {
         List<MDOAlbum> albums = this.daoAlbum.getAll( user.getLogin() );
         return Album.transform( albums, authorInfo, songsInfo, resourcesInfo );
     }
 
     @Transactional
-    public List<Album> getAll( MDOUser user, long authorSid, boolean authorInfo, boolean songsInfo,
-                               boolean resourcesInfo )
+    public List<Album> getAll( User user, long authorSid, boolean authorInfo, boolean songsInfo, boolean resourcesInfo )
     {
         List<MDOAlbum> albums = daoAlbum.getAll( authorSid, user.getLogin() );
         return Album.transform( albums, authorInfo, songsInfo, resourcesInfo );
     }
 
     @Transactional
-    public Album getAlbum( MDOUser user, long albumSid, boolean authorInfo, boolean songsInfo, boolean resourcesInfo )
+    public Album getAlbum( User user, long albumSid, boolean authorInfo, boolean songsInfo, boolean resourcesInfo )
     {
         MDOAlbum album = daoAlbum.getAlbum( albumSid, user.getLogin() );
         return Album.transform( album, authorInfo, songsInfo, resourcesInfo );
@@ -171,8 +182,8 @@ public class APIAlbum
     }
 
     @Transactional
-    public List<Album> findSimilar( MDOUser user, int authorSid, String albumName, boolean authorInfo,
-                                    boolean songsInfo, boolean resourcesInfo )
+    public List<Album> findSimilar( User user, int authorSid, String albumName, boolean authorInfo, boolean songsInfo,
+                                    boolean resourcesInfo )
     {
         List<MDOAlbum> albums = daoAlbum.findSimilarAlbums( authorSid, albumName, user.getLogin() );
         return Album.transform( albums, authorInfo, songsInfo, resourcesInfo );
@@ -184,10 +195,13 @@ public class APIAlbum
      * 
      * @param albumCode String code for the album to reset
      * @param exceptionFiles list of files that we don't want to remove
-     * @return List<File/> the list of files that are still at the temporal folder (based on the exceptionfiles parameter)
+     * @return List<File/> the list of files that are still at the temporal folder (based on the exceptionfiles
+     *         parameter)
      * @throws IOException
      */
-    public List<org.messic.server.api.datamodel.File> clearTemporal( MDOUser mdouser, String albumCode, List<org.messic.server.api.datamodel.File> exceptionFiles)
+    public List<org.messic.server.api.datamodel.File> clearTemporal( User mdouser,
+                                                                     String albumCode,
+                                                                     List<org.messic.server.api.datamodel.File> exceptionFiles )
         throws IOException
     {
         File basePath = null;
@@ -200,42 +214,64 @@ public class APIAlbum
             basePath = new File( Util.getTmpPath( mdouser, daoSettings.getSettings(), "" ) );
         }
 
-        if ( basePath.exists() && (exceptionFiles==null || exceptionFiles.size()==0))
+        // first, removing everything, except the current albumcode folder (if exist)
+        File ftmppath = new File( Util.getTmpPath( mdouser, daoSettings.getSettings(), "" ) );
+        if ( ftmppath.exists() )
+        {
+            File[] files = ftmppath.listFiles();
+            for ( int i = 0; i < files.length; i++ )
+            {
+                if ( files[i].isDirectory() && !files[i].getName().equals( albumCode ) )
+                {
+                    FileUtils.deleteDirectory( files[i] );
+                }
+            }
+        }
+
+        if ( basePath.exists() && ( exceptionFiles == null || exceptionFiles.size() == 0 ) )
         {
             FileUtils.deleteDirectory( basePath );
-        }else if(basePath.exists() && exceptionFiles!=null){
+        }
+        else if ( basePath.exists() && exceptionFiles != null )
+        {
             deleteFiles( basePath.getAbsolutePath(), exceptionFiles );
         }
 
         basePath.mkdirs();
-        
-        ArrayList<File> existingFiles=new ArrayList<File>();
+
+        ArrayList<File> existingFiles = new ArrayList<File>();
         Util.listFiles( basePath.getAbsolutePath(), existingFiles );
- 
-        ArrayList<org.messic.server.api.datamodel.File> result=new ArrayList<org.messic.server.api.datamodel.File>();
-        for (int i=0;i<existingFiles.size();i++){
-            org.messic.server.api.datamodel.File f=new org.messic.server.api.datamodel.File(  );
-            f.setFileName( existingFiles.get( i ).getName());
+
+        ArrayList<org.messic.server.api.datamodel.File> result = new ArrayList<org.messic.server.api.datamodel.File>();
+        for ( int i = 0; i < existingFiles.size(); i++ )
+        {
+            org.messic.server.api.datamodel.File f = new org.messic.server.api.datamodel.File();
+            f.setFileName( existingFiles.get( i ).getName() );
             f.setSize( existingFiles.get( i ).length() );
-            result.add(f);
+            result.add( f );
         }
         return result;
     }
-    
 
     /**
      * Check if a certainFile is an exceptionFile, it means, a file that we shouldn't remove.
+     * 
      * @param f {@link File} file to check
      * @param exceptionFiles {@link List}<File/> List of exceptionFiles
-     * @return boolean true->yes, its an exception file  ,  false->No, it isn't an exception file
+     * @return boolean true->yes, its an exception file , false->No, it isn't an exception file
      */
-    private boolean isAnExceptionFile(File f, List<org.messic.server.api.datamodel.File> exceptionFiles){
-        if(exceptionFiles==null || exceptionFiles.size()==0){
+    private boolean isAnExceptionFile( File f, List<org.messic.server.api.datamodel.File> exceptionFiles )
+    {
+        if ( exceptionFiles == null || exceptionFiles.size() == 0 )
+        {
             return false;
         }
-        for(int i=0;i<exceptionFiles.size();i++){
-            if(f.getName().equals( exceptionFiles.get( i ).getFileName() )){
-                if(f.length()==exceptionFiles.get( i ).getSize()){
+        for ( int i = 0; i < exceptionFiles.size(); i++ )
+        {
+            if ( f.getName().equals( exceptionFiles.get( i ).getFileName() ) )
+            {
+                if ( f.length() == exceptionFiles.get( i ).getSize() )
+                {
                     return true;
                 }
             }
@@ -244,26 +280,34 @@ public class APIAlbum
     }
 
     /**
-     * Delete all the files of a certain path, and subpaths, except those files in the list of the parameter exceptionFiles 
+     * Delete all the files of a certain path, and subpaths, except those files in the list of the parameter
+     * exceptionFiles
+     * 
      * @param basePath {@link String} basePath to start searching
      * @param exceptionFiles List<File/> Black list we don't want to remove
      */
-    private void deleteFiles(String basePath, List<org.messic.server.api.datamodel.File> exceptionFiles){
-        File directory = new File(basePath);
+    private void deleteFiles( String basePath, List<org.messic.server.api.datamodel.File> exceptionFiles )
+    {
+        File directory = new File( basePath );
 
         // get all the files from a directory
         File[] fList = directory.listFiles();
-        for (File file : fList) {
-            if (file.isFile()) {
-                if(!isAnExceptionFile( file, exceptionFiles )){
+        for ( File file : fList )
+        {
+            if ( file.isFile() )
+            {
+                if ( !isAnExceptionFile( file, exceptionFiles ) )
+                {
                     file.delete();
                 }
-            } else if (file.isDirectory()) {
-                deleteFiles(file.getAbsolutePath(), exceptionFiles);
             }
-        }        
+            else if ( file.isDirectory() )
+            {
+                deleteFiles( file.getAbsolutePath(), exceptionFiles );
+            }
+        }
     }
-    
+
     /**
      * Add a resource to the temporal folder. This is necessary to do after things like, wizard, or create album, ..
      * 
@@ -273,7 +317,7 @@ public class APIAlbum
      * @throws IOException
      * @throws Exception
      */
-    public void uploadResource( MDOUser mdouser, String albumCode, String fileName, byte[] payload )
+    public void uploadResource( User mdouser, String albumCode, String fileName, byte[] payload )
         throws IOException
     {
         File basePath = new File( Util.getTmpPath( mdouser, daoSettings.getSettings(), albumCode ) );
@@ -285,7 +329,7 @@ public class APIAlbum
         fos.close();
     }
 
-    public byte[] getAlbumResource( MDOUser mdouser, Long resourceSid )
+    public byte[] getAlbumResource( User mdouser, Long resourceSid )
         throws SidNotFoundMessicException, ResourceNotFoundMessicException, IOException
     {
         MDOAlbumResource resource = daoAlbumResource.get( resourceSid );
@@ -309,7 +353,7 @@ public class APIAlbum
         }
     }
 
-    public byte[] getAlbumCover( MDOUser mdouser, Long albumSid )
+    public byte[] getAlbumCover( User mdouser, Long albumSid )
         throws SidNotFoundMessicException, ResourceNotFoundMessicException, IOException
     {
         MDOAlbumResource cover = daoAlbum.getAlbumCover( albumSid, mdouser.getLogin() );
@@ -332,12 +376,13 @@ public class APIAlbum
         }
     }
 
-    public void createOrUpdateAlbum( MDOUser mdouser, Album album )
+    public void createOrUpdateAlbum( User user, Album album )
         throws IOException
     {
         MDOGenre mdoGenre = null;
         MDOAlbum mdoAlbum = null;
         MDOAuthor mdoAuthor = null;
+        MDOUser mdouser = daoUser.getUser( user.getLogin() );
 
         // 1st getting genre
         if ( album.getGenre() != null && album.getGenre().getSid() != null )
@@ -348,12 +393,13 @@ public class APIAlbum
         {
             if ( album.getGenre() != null && album.getGenre().getName() != null )
             {
-                mdoGenre = daoGenre.getByName( album.getGenre().getName() );
+                mdoGenre = daoGenre.getByName( user.getLogin(), album.getGenre().getName() );
             }
         }
         if ( mdoGenre == null && album.getGenre() != null && album.getGenre().getName() != null )
         {
             mdoGenre = new MDOGenre( album.getGenre().getName() );
+            mdoGenre.setOwner( mdouser );
         }
 
         // 2nd getting the album if exist
@@ -366,19 +412,19 @@ public class APIAlbum
         if ( album.getAuthor().getSid() > 0 )
         {
             // trying by sid
-            mdoAuthor = daoAuthor.get( mdouser.getLogin(), album.getAuthor().getSid() );
+            mdoAuthor = daoAuthor.get( user.getLogin(), album.getAuthor().getSid() );
         }
         if ( mdoAuthor == null )
         {
             // trying by name
-            mdoAuthor = daoAuthor.getByName( album.getAuthor().getName(), mdouser.getLogin() );
+            mdoAuthor = daoAuthor.getByName( album.getAuthor().getName(), user.getLogin() );
         }
         if ( mdoAuthor != null )
         {
             // an existing album from this autor??
             if ( mdoAlbum == null )
             {
-                mdoAlbum = daoAlbum.getByName( mdoAuthor.getName(), album.getName(), mdouser.getLogin() );
+                mdoAlbum = daoAlbum.getByName( mdoAuthor.getName(), album.getName(), user.getLogin() );
             }
         }
         // let's create a new author
@@ -416,7 +462,7 @@ public class APIAlbum
         daoAlbum.save( mdoAlbum );
 
         // let's create the disc space
-        String basePath = Util.getRealBaseStorePath( mdouser, daoSettings.getSettings() );
+        String basePath = Util.getRealBaseStorePath( user, daoSettings.getSettings() );
         String authorBasePath = basePath + File.separatorChar + mdoAuthor.getLocation();
         String albumBasePath = authorBasePath + File.separatorChar + mdoAlbum.getLocation();
         File albumDir = new File( albumBasePath );
@@ -427,48 +473,91 @@ public class APIAlbum
             List<Song> songs = album.getSongs();
             for ( Song song : songs )
             {
+
+                MDOSong mdoSong = new MDOSong();
+                File fnew = null;
+
                 if ( song.getSid() <= 0 )
                 {
-                    MDOSong mdoSong = new MDOSong();
                     mdoSong.setTrack( song.getTrack() );
                     mdoSong.setName( song.getName() );
-                    mdoSong.setLocation( Util.getSongTheoricalFileName( mdoSong ) );
+                    mdoSong.setLocation( Util.getSongTheoricalFileName( mdoSong ) + "."
+                        + FilenameUtils.getExtension( song.getFileName() ) );
                     mdoSong.setOwner( mdouser );
                     mdoSong.setAlbum( mdoAlbum );
                     daoSong.save( mdoSong );
 
                     // moving resource to the new location
-                    String tmpPath = Util.getTmpPath( mdouser, daoSettings.getSettings(), album.getCode() );
+                    String tmpPath = Util.getTmpPath( user, daoSettings.getSettings(), album.getCode() );
                     File tmpRes = new File( tmpPath + File.separatorChar + song.getFileName() );
-                    File newFile = new File( albumBasePath + File.separatorChar + mdoSong.getLocation() );
-                    if ( newFile.exists() )
+                    fnew = new File( albumBasePath + File.separatorChar + mdoSong.getLocation() );
+                    if ( fnew.exists() )
                     {
-                        newFile.delete();
+                        fnew.delete();
                     }
-                    FileUtils.moveFile( tmpRes, newFile );
+                    FileUtils.moveFile( tmpRes, fnew );
                 }
                 else
                 {
                     // existing song...
-                    MDOSong mdoSong = daoSong.get( mdouser.getLogin(), song.getSid() );
+                    mdoSong = daoSong.get( user.getLogin(), song.getSid() );
                     if ( mdoSong != null )
                     {
                         mdoSong.setTrack( song.getTrack() );
                         mdoSong.setName( song.getName() );
                         String oldLocation = mdoSong.getLocation();
-                        mdoSong.setLocation( Util.getSongTheoricalFileName( mdoSong ) );
+                        mdoSong.setLocation( Util.getSongTheoricalFileName( mdoSong ) + "."
+                            + FilenameUtils.getExtension( oldLocation ) );
                         daoSong.save( mdoSong );
 
                         File fold = new File( albumBasePath + File.separatorChar + oldLocation );
-                        File fnew = new File( albumBasePath + File.separatorChar + mdoSong.getLocation() );
+                        fnew = new File( albumBasePath + File.separatorChar + mdoSong.getLocation() );
                         if ( !fold.getAbsolutePath().equals( fnew.getAbsolutePath() ) )
                         {
                             FileUtils.moveFile( fold, fnew );
                         }
-
-                        // TODO change tags
                     }
                 }
+
+                AudioTaggerTAGWizardPlugin atp = new AudioTaggerTAGWizardPlugin();
+                org.messic.server.api.tagwizard.service.Album salbum =
+                    new org.messic.server.api.tagwizard.service.Album();
+                salbum.author = mdoAlbum.getAuthor().getName();
+                salbum.name = mdoAlbum.getName();
+                if ( mdoAlbum.getComments() != null )
+                    salbum.comments = mdoAlbum.getComments();
+                if ( mdoAlbum.getGenre() != null )
+                    salbum.genre = mdoAlbum.getGenre().getName();
+                salbum.year = mdoAlbum.getYear();
+
+                org.messic.server.api.tagwizard.service.Song ssong = new org.messic.server.api.tagwizard.service.Song();
+                ssong.track = mdoSong.getTrack();
+                ssong.name = mdoSong.getName();
+                try
+                {
+                    atp.saveTags( salbum, ssong, fnew );
+                }
+                catch ( CannotReadException e )
+                {
+                    throw new IOException( e.getMessage(), e.getCause() );
+                }
+                catch ( TagException e )
+                {
+                    throw new IOException( e.getMessage(), e.getCause() );
+                }
+                catch ( ReadOnlyFileException e )
+                {
+                    throw new IOException( e.getMessage(), e.getCause() );
+                }
+                catch ( InvalidAudioFrameException e )
+                {
+                    throw new IOException( e.getMessage(), e.getCause() );
+                }
+                catch ( CannotWriteException e )
+                {
+                    throw new IOException( e.getMessage(), e.getCause() );
+                }
+
             }
         }
         if ( album.getArtworks() != null && album.getArtworks().size() > 0 )
@@ -493,7 +582,7 @@ public class APIAlbum
                     mdoAlbum.getArtworks().add( mdopr );
 
                     // moving resource to the new location
-                    String tmpPath = Util.getTmpPath( mdouser, daoSettings.getSettings(), album.getCode() );
+                    String tmpPath = Util.getTmpPath( user, daoSettings.getSettings(), album.getCode() );
                     File tmpRes = new File( tmpPath + File.separatorChar + file.getFileName() );
                     File newFile = new File( albumDir.getAbsolutePath() + File.separatorChar + file.getFileName() );
                     if ( newFile.exists() )
@@ -505,7 +594,7 @@ public class APIAlbum
                 else
                 {
                     // existing artwork...
-                    MDOAlbumResource resource = daoAlbumResource.get( mdouser.getLogin(), file.getSid() );
+                    MDOAlbumResource resource = daoAlbumResource.get( user.getLogin(), file.getSid() );
                     if ( resource != null )
                     {
                         String oldLocation = resource.getLocation();
@@ -538,7 +627,7 @@ public class APIAlbum
                     mdoAlbum.getOthers().add( mdopr );
 
                     // moving resource to the new location
-                    String tmpPath = Util.getTmpPath( mdouser, daoSettings.getSettings(), album.getCode() );
+                    String tmpPath = Util.getTmpPath( user, daoSettings.getSettings(), album.getCode() );
                     File tmpRes = new File( tmpPath + File.separatorChar + file.getFileName() );
                     File newFile =
                         new File( albumDir.getAbsolutePath() + File.separatorChar
@@ -552,7 +641,7 @@ public class APIAlbum
                 else
                 {
                     // existing artwork...
-                    MDOAlbumResource resource = daoAlbumResource.get( mdouser.getLogin(), file.getSid() );
+                    MDOAlbumResource resource = daoAlbumResource.get( user.getLogin(), file.getSid() );
                     if ( resource != null )
                     {
                         String oldLocation = resource.getLocation();

@@ -7,6 +7,7 @@ import javax.servlet.ServletContext;
 import org.jsondoc.core.pojo.JSONDoc;
 import org.jsondoc.core.util.JSONDocUtils;
 import org.messic.server.api.datamodel.Album;
+import org.messic.server.facade.security.SecurityLoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -39,6 +40,7 @@ public class JSONDocController {
 	public @ResponseBody
 	JSONDoc getApi() {
 		ArrayList<String> packagesList=new ArrayList<String>();
+        packagesList.add(SecurityLoginSuccessHandler.class.getPackage().getName());
 		packagesList.add(this.getClass().getPackage().getName());
 		packagesList.add(Album.class.getPackage().getName());
 		return JSONDocUtils.getApiDoc(version, basePath,packagesList);

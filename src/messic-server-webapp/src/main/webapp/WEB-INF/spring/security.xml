@@ -15,32 +15,22 @@
 	<http pattern="/robots.txt" security="none" />
 	<http pattern="/crossdomain.xml" security="none" />
 	<http pattern="/404.html" security="none" />
-	<!--  temporal REMOVE -->
-	<http pattern="/services/**" security="none" />
 
-	<http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint" create-session="stateless">
-		
+	<http auto-config="false" use-expressions="true"
+		entry-point-ref="loginUrlAuthenticationEntryPoint" create-session="stateless">
+
 		<intercept-url pattern="/user/create.do" access="permitAll" />
-		<intercept-url pattern="/about.do" access="permitAll" />
 		<intercept-url pattern="/login.do" access="permitAll" />
-		<intercept-url pattern="/logout" access="permitAll" />
-
-		<!-- temporally, to debug, we allow everything 
-		<intercept-url pattern="/**" access="permitAll" />
-		-->
 		<intercept-url pattern="/**" access="isAuthenticated()" />
-		
 		<access-denied-handler error-page="/denied" />
-                         
+
 		<logout invalidate-session="true" logout-success-url="/logout/success"
 			logout-url="/logout" />
-			
-		<!-- custom-filter ref="authenticationFilter" 	position="FORM_LOGIN_FILTER" / -->
-		
-		<custom-filter ref="authenticationFilter" 			position="FORM_LOGIN_FILTER" />
-		
-		<custom-filter ref="tokenFilter" 					position="SESSION_MANAGEMENT_FILTER" />		
-		
+
+		<custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER" />
+
+		<custom-filter ref="tokenFilter" position="SESSION_MANAGEMENT_FILTER" />
+
 	</http>
 
 
@@ -48,52 +38,38 @@
 		class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
 		<beans:property name="loginFormUrl" value="/login.do" />
 	</beans:bean>
-	
+
 	<beans:bean id="authenticationFilter"
-		class="org.messic.server.facade.logics.CustomUsernamePasswordAuthenticationFilter">
+		class="org.messic.server.facade.security.CustomUsernamePasswordAuthenticationFilter">
 		<beans:property name="authenticationManager" ref="authenticationManager" />
-		<beans:property name="filterProcessesUrl" value="/j_spring_security_check" />
+		<beans:property name="filterProcessesUrl" value="/messiclogin" />
 		<beans:property name="authenticationFailureHandler"
 			ref="securityLoginFailureHandler" />
 		<beans:property name="authenticationSuccessHandler"
 			ref="securityLoginSuccessHandler" />
-		<beans:property name="postOnly" value="false"/>
- 		<beans:property name="allowSessionCreation" value="false"/>
+		<beans:property name="postOnly" value="false" />
+		<beans:property name="allowSessionCreation" value="false" />
 	</beans:bean>
-	
+
 	<beans:bean id="tokenFilter"
-		class="org.messic.server.facade.logics.TokenManagementFilter">
- 		<beans:property name="authenticationManager" ref="authenticationManager" />
- 		<beans:property name="authenticationTokenId" value="messic_token" />
- 		<beans:property name="tokenValiditySeconds" value="100000" />
- 		<beans:property name="continueChainBeforeSuccessfulAuthentication" value="true" /> 		
- 		<!-- 
- 		<beans:property name="authenticationFailureHandler"
-			ref="customLoginFailureHandler" />
-		<beans:property name="authenticationSuccessHandler"
-			ref="customLoginSuccessHandler" />
-			 -->
+		class="org.messic.server.facade.security.TokenManagementFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager" />
+		<beans:property name="authenticationTokenId" value="messic_token" />
+		<beans:property name="tokenValiditySeconds" value="100000" />
+		<beans:property name="continueChainBeforeSuccessfulAuthentication"
+			value="true" />
 	</beans:bean>
-	
+
 	<beans:bean id="securityLoginSuccessHandler"
-		class="org.messic.server.facade.logics.SecurityLoginSuccessHandler"/>
+		class="org.messic.server.facade.security.SecurityLoginSuccessHandler" />
 
 	<beans:bean id="securityLoginFailureHandler"
-		class="org.messic.server.facade.logics.SecurityLoginFailureHandler"/>
-	
-	<!-- 
-	<beans:bean id="customLoginSuccessHandler"
-		class="org.messic.server.facade.logics.CustomLoginSuccessHandler"/>
+		class="org.messic.server.facade.security.SecurityLoginFailureHandler" />
 
-	<beans:bean id="customLoginFailureHandler"
-		class="org.messic.server.facade.logics.CustomLoginFailureHandler"/>
-	-->
-	
 	<authentication-manager alias="authenticationManager">
-	    <!-- authentication-provider user-service-ref="tokenAuthenticationProvider"/ -->		
 		<authentication-provider user-service-ref="customUserDetailsService">
 			<password-encoder hash="md5" />
 		</authentication-provider>
 	</authentication-manager>
-			
+
 </beans:beans>

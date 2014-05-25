@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -19,6 +22,10 @@ public class MDOGenre implements
 
     @Column(name = "NAME", nullable = false)
     private String name;    
+    
+    @ManyToOne( fetch = FetchType.LAZY )
+    @JoinColumn( name = "OWNER", nullable = false )
+    private MDOUser owner;
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RESOURCES")
@@ -51,4 +58,14 @@ public class MDOGenre implements
 	public void setName(String name) {
 		this.name = name;
 	}
+
+    public MDOUser getOwner()
+    {
+        return owner;
+    }
+
+    public void setOwner( MDOUser owner )
+    {
+        this.owner = owner;
+    }
 }

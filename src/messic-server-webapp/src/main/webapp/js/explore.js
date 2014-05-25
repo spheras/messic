@@ -60,7 +60,7 @@ function exploreByAlbum(){
 	        		code=code+"    <div class='messic-explore-albumcover'>";
 	        		code=code+"        <div class='messic-explore-add' onclick='addAlbum("+data[i].sid+")'></div>";
 	        		code=code+"        <div class='messic-explore-vinyl-detail' title='Edit Album' onclick='exploreEditAlbum("+data[i].sid+")'>...</div>";
-					code=code+"        <img  src='services/albums/"+data[i].sid+"/cover/' onclick='exploreEditAlbum("+data[i].sid+")'></img>";
+					code=code+"        <img  src='services/albums/"+data[i].sid+"/cover?messic_token="+VAR_MessicToken+"' onclick='exploreEditAlbum("+data[i].sid+")'></img>";
 	        		code=code+"        <div class='messic-explore-vinyl'></div>";
 					code=code+"    </div>"
 					code=code+"    <div class='messic-explore-albumtitle' title='"+data[i].name+"'>"+data[i].name+"</div>";
@@ -112,7 +112,7 @@ function exploreByAuthor(){
 	        		code=code+"    <div class='messic-explore-albumcover'>";
 	        		code=code+"        <div class='messic-explore-add' onclick='addAlbum("+album.sid+")'></div>";
 	        		code=code+"        <div class='messic-explore-vinyl-detail' title='Edit Album' onclick='exploreEditAlbum("+album.sid+")'>...</div>";
-					code=code+"        <img  src='services/albums/"+album.sid+"/cover/' onclick='exploreEditAlbum("+album.sid+")'></img>";
+					code=code+"        <img  src='services/albums/"+album.sid+"/cover?messic_token="+VAR_MessicToken+"' onclick='exploreEditAlbum("+album.sid+")'></img>";
 	        		code=code+"        <div class='messic-explore-vinyl'></div>";
 					code=code+"    </div>"
 					code=code+"    <div class='messic-explore-albumtitle' title='"+album.name+"'>"+album.name+"</div>";

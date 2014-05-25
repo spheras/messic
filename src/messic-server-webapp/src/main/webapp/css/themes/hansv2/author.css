@@ -93,9 +93,12 @@
     text-align: right;
     width: 38px;
 }
+
 .messic-author-songs-bodyrow > div {
     float: left;
+    max-width: 315px;
 }
+
 #messic-author-songs-body {
     font-family: roboto;
 }

@@ -38,7 +38,7 @@
 			                </li>
 			                <li>
 								<label id="messic-upload-album-comments-label" for="messic-upload-album-comments"><fmt:message key="upload-comments" bundle="${message}"/></label>
-			                    <textarea id="messic-upload-album-comments" name="Comments" class="k-textbox"></textarea>
+			                    <textarea  maxlength="255" id="messic-upload-album-comments" name="Comments" class="k-textbox"></textarea>
 			                </li>
 			                <li class="status">
 			                </li>

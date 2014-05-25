@@ -10,6 +10,7 @@ import java.net.Proxy;
 import java.net.SocketAddress;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -90,15 +91,25 @@ public class FreeDBTAGWizardPlugin
     @Override
     public List<Album> getAlbumInfo( Album albumHelpInfo, File[] files )
     {
-        String baseURL =
-            "http://freedb2.org/~cddb/cddb.cgi?cmd=cddb+album+" + albumHelpInfo.author + "+/+" + albumHelpInfo.name
-                + "&hello=messic+www.messic.org+Messic+1.0&proto=6";
-
+        if ( albumHelpInfo == null
+            || ( albumHelpInfo.name == null && albumHelpInfo.author == null )
+            || ( ( albumHelpInfo.name != null && albumHelpInfo.name.length() <= 0 ) && ( albumHelpInfo.author != null && albumHelpInfo.author.length() <= 0 ) ) )
+        {
+            return new ArrayList<Album>();
+        }
+        
         try
         {
+            String baseURL =
+                "http://freedb2.org/~cddb/cddb.cgi?cmd=cddb+album+"
+                    + ( albumHelpInfo.author != null ? URLEncoder.encode( albumHelpInfo.author, "UTF-8" ) : "" )
+                    + "+/+" + ( albumHelpInfo.name != null ? URLEncoder.encode( albumHelpInfo.name, "UTF-8" ) : "" )
+                    + "&hello=messic+www.messic.org+Messic+1.0&proto=6";
+
             URL url = new URL( baseURL );
-            Proxy proxy=getProxy();
-            URLConnection uc=(proxy!=null?url.openConnection(proxy):url.openConnection());
+            Proxy proxy = getProxy();
+            URLConnection uc = ( proxy != null ? url.openConnection( proxy ) : url.openConnection() );
+            uc.setRequestProperty( "User-Agent", "Messic/1.0 +http://spheras.github.io/messic/" );
 
             String content = new String( readInputStream( uc.getInputStream() ) );
             if ( content.startsWith( "211" ) )
@@ -134,8 +145,8 @@ public class FreeDBTAGWizardPlugin
         try
         {
             URL url = new URL( baseURL );
-            Proxy proxy=getProxy();
-            URLConnection uc=(proxy!=null?url.openConnection(proxy):url.openConnection());
+            Proxy proxy = getProxy();
+            URLConnection uc = ( proxy != null ? url.openConnection( proxy ) : url.openConnection() );
 
             Album album = new Album();
             Properties p = new Properties();
@@ -145,7 +156,7 @@ public class FreeDBTAGWizardPlugin
             String[] authortitle = p.getProperty( "DTITLE" ).split( "/" );
             album.author = authortitle[0].trim();
             album.name = authortitle[1].trim();
-            Integer year = Integer.getInteger( p.getProperty( "DYEAR" ) );
+            Integer year = Integer.valueOf( p.getProperty( "DYEAR" ) );
             album.year = ( year != null ? year : 0 );
             album.genre = p.getProperty( "DGENRE" );
             album.songs = new ArrayList<Song>();

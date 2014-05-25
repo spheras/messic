@@ -114,7 +114,7 @@
 	font-size: 0.55em;
 }
 
-.messic-explore-albumtitle{
+.messic-explore-albumtitle {
     color: #555555;
     font-family: Roboto-bold;
     font-size: 0.8em;
@@ -125,6 +125,8 @@
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
     white-space: nowrap;
     width: 100%;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
 }
 
 .messic-explore-authortitle .messic-explore-albumcontainer:hover .messic-explore-albumtitle{
@@ -142,6 +144,19 @@
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
+}
+
+.messic-explore-albumauthortitle {
+    color: #AAAAAA;
+    font-family: roboto-bold;
+    font-size: 0.8em;
+    height: 20px;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
+    white-space: nowrap;
+    word-wrap: break-word;
 }
 
 .messic-explore-albumcover:hover .messic-explore-add{

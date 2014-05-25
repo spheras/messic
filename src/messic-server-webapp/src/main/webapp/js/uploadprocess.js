@@ -136,6 +136,7 @@ var UploadAlbumProcess=function (album){
 				reader.readAsArrayBuffer(resources[i].file);
 			}else{
 				resourceRestToUpload=resourceRestToUpload-1;
+				resourceElement.find('.messic-upload-finishbox-resource-progressbar').width('100%');
 				resourceElement.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-finished');
 			}
 		}

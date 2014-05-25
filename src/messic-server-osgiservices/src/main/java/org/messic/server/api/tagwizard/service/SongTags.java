@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class SongTags {
 	public byte[] coverArt;
 	public HashMap<String, TAGInfo> tags = new HashMap<String, TAGInfo>();
-	public String track;
+	public String track="0";
 	
-	public String title;
+	public String title="";
 }

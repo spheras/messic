@@ -46,8 +46,10 @@
 			<div id="messic-playlist-background">
 
 			<div id="messic-playlist-actions">
-		    	<div id="messic-playlist-action-clear" class="messic-playlist-action"></div>
+		    	<div id="messic-playlist-action-clear" class="messic-playlist-action" onclick="clearPlaylist()"></div>
+		    	<!-- 
 		    	<div id="messic-playlist-action-pin" class="messic-playlist-action"></div>
+		    	 -->
 	    	</div>
 
 

@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOArtwork;
 import org.messic.server.datamodel.MDOAuthor;
+import org.messic.server.datamodel.MDOGenre;
 import org.messic.server.datamodel.dao.DAOAlbum;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,17 @@ public class DAOJPAAlbum
     public DAOJPAAlbum()
     {
         super( MDOAlbum.class );
+    }
+
+    @Override
+    public List<MDOAlbum> getAll(String username, MDOGenre genre) {
+        Query query = entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) and (a.genre.sid = :genreSid)" );
+        query.setParameter( "userName", username);
+        query.setParameter( "genreSid", genre.getSid());
+        
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbum> results = query.getResultList();
+        return results;
     }
 
 	@Override

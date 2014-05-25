@@ -8,13 +8,13 @@ import org.jsondoc.core.annotation.ApiErrors;
 import org.jsondoc.core.annotation.ApiMethod;
 import org.jsondoc.core.annotation.ApiResponseObject;
 import org.jsondoc.core.pojo.ApiVerb;
-import org.messic.server.Util;
 import org.messic.server.api.APIRandomLists;
 import org.messic.server.api.datamodel.RandomList;
-import org.messic.server.datamodel.MDOUser;
+import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.UnknownMessicRESTException;
+import org.messic.server.facade.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,17 +40,10 @@ public class RandomListsController
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody @ApiResponseObject
     public List<RandomList> getAll() throws UnknownMessicRESTException, NotAuthorizedMessicRESTException{
-		
-		MDOUser mdouser=null;
-		try{
-			mdouser=Util.getAuthentication(userDAO);
-		}catch(Exception e){
-			e.printStackTrace();
-			throw new NotAuthorizedMessicRESTException(e);
-		}
 
+	    User user=SecurityUtil.getCurrentUser();
 		try{
-			List<RandomList> lists=randomListsAPI.getAllLists(mdouser);
+			List<RandomList> lists=randomListsAPI.getAllLists(user);
 			return lists;
 		}catch(Exception e){
 			throw new UnknownMessicRESTException(e);
