@@ -204,7 +204,9 @@ function mainCreateRandomList(randomlist, lastTitleType){
 						break;
 				}
 
-				code=code+ "\">"+messicLang.search(randomlist.name)+"</div>";
+				code=code+ "\">"+messicLang.search(randomlist.name);
+				code=code+"      <div class=\"messic-main-randomlist-close\" onclick=\"$(this).parent().parent().remove();\"></div>";
+				code=code+"  </div>";
 				code=code+"  <div class=\"messic-main-randomlist-title-container\">";
 				code=code+"     <div class=\"messic-main-randomlist-title\">"+messicLang.search(randomlist.title)+"</div>";
 				code=code+"     <div class=\"messic-main-randomlist-playall\" onclick=\"mainPlayRandomList(this)\" title=\""+messicLang.randomlistplayall+"\"></div>";
