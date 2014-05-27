@@ -120,7 +120,29 @@ public class DAOJPAUser
 	@Override
 	public MDOUser updatePassword(Long userSid, String newPassword) {
 		MDOUser user = get(userSid);
-		user.setPassword(newPassword);
+		
+		String pass;
+		MessageDigest md;
+		try {
+			
+			byte[] hashPassword = newPassword.getBytes("UTF-8");
+			
+			md = MessageDigest.getInstance("MD5");
+			byte[] encpass = md.digest(hashPassword);
+			
+            //converting byte array to Hexadecimal String
+	        StringBuilder sb = new StringBuilder(2*encpass.length);
+	        for(byte b : encpass){
+	        	sb.append(String.format("%02x", b&0xff));
+	        }          
+	        pass = sb.toString();
+	        
+		} catch (Exception e) {
+			e.printStackTrace();
+			pass = newPassword;
+		}
+		
+		user.setPassword(pass);
 		save(user);
 		return user;
 	}
@@ -131,7 +153,10 @@ public class DAOJPAUser
 		MDOUser user = get(userSid);
 		user.setName(name);
 		user.setEmail(email);
-		user.setAvatar(avatar);
+		if(avatar!=null)
+		{
+			user.setAvatar(avatar);
+		}
 		user.setStorePath(storePath);
 		save(user);
 		return user;

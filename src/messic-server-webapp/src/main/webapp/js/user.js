@@ -169,7 +169,10 @@ function sendData() {
     });
     
     var file = $("#messic-avatar")[0].files[0];
-    form_data.append("avatar", file);
+    if(file!=null)
+	{
+		form_data.append("avatar", file);
+	}    
     
     if(logged_user_sid!=null)
     {
@@ -251,9 +254,17 @@ function loadUserSettings(logged_user)
 
 function closeUserWindow()
 {
-	$.get("login.do", function(data) {
-		 $("body").html(data);
-	});
+	if(logged_user==null)
+	{
+		$.get("login.do", function(data) {
+			 $("body").html(data);
+		});
+	}
+	else
+	{
+		$("#messic-page-content").empty();
+	}
+	
 }
 
 

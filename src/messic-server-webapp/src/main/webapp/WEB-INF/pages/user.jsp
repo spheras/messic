@@ -18,7 +18,7 @@
                 
 					<div class="messic-user-settings-menu-container">
 			
-						<div id="basic-option" class="messic-user-settings-menu-option-selected" onclick="selectTab(this,'basic')">
+						<div id="basic-option" class="messic-user-settings-menu-option-selected">
 							<img class="messic-user-settings-menu-option-basic-image-selected">
 							</img>
 							<label class="messic-user-settings-menu-option-title">Basic</label>
@@ -28,7 +28,7 @@
 						<div class="messic-user-settings-menu-option-separator">
 						</div>
 						
-						<div id="music-option" class="messic-user-settings-menu-option-unselected" onclick="selectTab(this,'music')">
+						<div id="music-option" class="messic-user-settings-menu-option-unselected">
 							<img class="messic-user-settings-menu-option-music-image-unselected">
 							</img>
 							<label class="messic-user-settings-menu-option-title">Music</label>
@@ -38,7 +38,7 @@
 						<div class="messic-user-settings-menu-option-separator">
 						</div>
 						
-						<div id="admin-option" class="messic-user-settings-menu-option-unselected" onclick="selectTab(this,'admin')">
+						<div id="admin-option" class="messic-user-settings-menu-option-unselected">
 							<img class="messic-user-settings-menu-option-admin-image-unselected">
 							</img>
 							<label class="messic-user-settings-menu-option-title">Admin</label>
@@ -48,7 +48,7 @@
 						<div class="messic-user-settings-menu-option-separator">
 						</div>
 						
-						<div id="stats-option" class="messic-user-settings-menu-option-unselected" onclick="selectTab(this,'stats')">
+						<div id="stats-option" class="messic-user-settings-menu-option-unselected">
 							<img class="messic-user-settings-menu-option-stats-image-unselected">
 							</img>
 							<label class="messic-user-settings-menu-option-title">Statistics</label>

@@ -19,12 +19,12 @@ public class APIUser {
 	
 	public User getUserByLogin(String user)	{
 		MDOUser mdoUser = userRepository.getUserByLogin(user);
-		return User.transform(mdoUser);
+		return new User(mdoUser);
 	}
 	
 	public User getUserById(Long userId)	{
 		MDOUser mdoUser = userRepository.getUserById(userId);
-		return User.transform(mdoUser);
+		return new User(mdoUser);
 	}
 	
 	public User createUser(User user) {
@@ -41,7 +41,7 @@ public class APIUser {
 		
 		MDOUser mdoUser = userRepository.createUser(user.getLogin(), user.getPassword(), user.getName(), user.getEmail(), user.getAvatar(), user.getAdministrator(), user.getStorePath());
 		
-		return User.transform(mdoUser);
+		return new User(mdoUser);
 	}
 	
 	public User updateUser(User user) {
@@ -52,10 +52,14 @@ public class APIUser {
 			user.setAdministrator(Boolean.TRUE);
 		}
 		
-		// TODO CREAR EL REPOSITORIO DEL USUARIO
 		MDOUser mdoUser = userRepository.updateUserData(user.getSid(), user.getName(), user.getEmail(), user.getAvatar(), user.getStorePath());
 		
-		return User.transform(mdoUser);
+		if(!user.getPassword().equals(mdoUser.getPassword()))
+		{
+			userRepository.updatePassword(mdoUser.getSid(), user.getPassword());
+		}
+		
+		return new User(mdoUser);
 	}
 		
 }
