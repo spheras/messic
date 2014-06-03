@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.messic.server.Util;
+
 @Entity
 @Table( name = "SONGS" )
 @DiscriminatorValue( MDOAlbumResource.SONG )
@@ -89,6 +91,23 @@ public class MDOSong
     public void setTrack( Integer track )
     {
         this.track = track;
+    }
+
+    /**
+     * Obtain the theorical filename of a song, i mean, the location that sould be, based on the track number and song
+     * name (the location is the filename for songs)
+     * 
+     * @param song {@link MDOSong} song to get the theorical file name
+     * @param extension {@link String} extension for the fileName
+     * @return {@link String} the theorical location
+     */
+    public final String calculateSongTheoricalFileName( String extension, char illegalCharacterReplacement )
+    {
+        String result = Util.leftZeroPadding( getTrack(), 2 ) + "-" + getName();
+        result = Util.replaceIllegalFilenameCharacters( result, illegalCharacterReplacement );
+        String resultExtension = Util.replaceIllegalFilenameCharacters( extension, illegalCharacterReplacement );
+        result = result + "." + resultExtension;
+        return result;
     }
 
 }

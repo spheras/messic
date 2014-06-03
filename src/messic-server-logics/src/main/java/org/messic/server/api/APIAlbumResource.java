@@ -3,7 +3,6 @@ package org.messic.server.api;
 import java.io.File;
 import java.io.IOException;
 
-import org.messic.server.Util;
 import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOAlbumResource;
 import org.messic.server.datamodel.dao.DAOAlbumResource;
@@ -30,8 +29,7 @@ public class APIAlbumResource
         if ( resource != null )
         {
             // first, removing the resource file
-            String path = Util.getRealBaseStorePath( user, daoSettings.getSettings() );
-            path = path + File.separatorChar + resource.getAbsolutePath();
+            String path = resource.calculateAbsolutePath( daoSettings.getSettings() );
             File fpath = new File( path );
             fpath.delete();
             // after, removing the album data from database

@@ -1,5 +1,6 @@
 package org.messic.server.datamodel;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +40,11 @@ public class MDOAlbum
     @JoinColumn( name = "GENRE", nullable = true )
     private MDOGenre genre;
 
-    @OneToMany(mappedBy = "album", cascade = { CascadeType.REMOVE } )
+    @OneToMany( mappedBy = "album", cascade = { CascadeType.REMOVE } )
     @OrderBy( "TRACK" )
     private List<MDOSong> songs;
 
-    @OneToMany(mappedBy = "album", cascade = { CascadeType.REMOVE } )
+    @OneToMany( mappedBy = "album", cascade = { CascadeType.REMOVE } )
     private List<MDOArtwork> artworks;
 
     @OneToMany( mappedBy = "album", cascade = { CascadeType.REMOVE } )
@@ -140,9 +141,11 @@ public class MDOAlbum
         this.author = author;
     }
 
-    public String getAbsolutePath()
+    public String calculateAbsolutePath( MDOMessicSettings settings )
     {
-        return getAuthor().getLocation().concat( "/" ).concat( getLocation() );
+        String basePath = this.getAuthor().calculateAbsolutePath( settings );
+        String result = basePath + File.separatorChar + getLocation();
+        return result;
     }
 
     public MDOGenre getGenre()
@@ -184,24 +187,26 @@ public class MDOAlbum
 
     /**
      * Return all the resources of teh albums: Songs, Artworks and Others.
+     * 
      * @return {@link List}<MDOAlbumResources/> list of resources of the album
      */
-    public List<MDOAlbumResource> getAllResources(){
-        List<MDOAlbumResource> resources=new ArrayList<MDOAlbumResource>();
-        List<MDOSong> songs=getSongs();
+    public List<MDOAlbumResource> getAllResources()
+    {
+        List<MDOAlbumResource> resources = new ArrayList<MDOAlbumResource>();
+        List<MDOSong> songs = getSongs();
         for ( MDOSong mdoSong : songs )
         {
-            resources.add(mdoSong);
+            resources.add( mdoSong );
         }
-        List<MDOArtwork> artworks=getArtworks();
+        List<MDOArtwork> artworks = getArtworks();
         for ( MDOArtwork mdoArtwork : artworks )
         {
-            resources.add(mdoArtwork);
+            resources.add( mdoArtwork );
         }
-        List<MDOOtherResource> others=getOthers();
+        List<MDOOtherResource> others = getOthers();
         for ( MDOOtherResource mdoOtherResource : others )
         {
-            resources.add(mdoOtherResource);
+            resources.add( mdoOtherResource );
         }
         return resources;
     }

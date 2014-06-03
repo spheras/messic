@@ -36,6 +36,7 @@ public class DAOJPAMessicSettings
 	private MDOMessicSettings createBasicSettings(){
 		MDOMessicSettings ms=new MDOMessicSettings();
 		ms.setGenericBaseStorePath(System.getProperty("user.home")+File.separatorChar+"messic-data");
+        ms.setIllegalCharacterReplacement('_');
 		return setSettings(ms);
 	}
 

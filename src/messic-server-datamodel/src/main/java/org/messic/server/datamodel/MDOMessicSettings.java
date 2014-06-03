@@ -11,48 +11,69 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "SETTINGS")
-public class MDOMessicSettings implements MDO,Serializable {
-	/**
+@Table( name = "SETTINGS" )
+public class MDOMessicSettings
+    implements MDO, Serializable
+{
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = -6585157237342912864L;
+    private static final long serialVersionUID = -6585157237342912864L;
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USERS")
-    @SequenceGenerator(name = "SEQ_USERS", sequenceName = "SEQ_USERS")
-    @Column(name = "SID", nullable = false, unique = true)
+    @Id
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "SEQ_USERS" )
+    @SequenceGenerator( name = "SEQ_USERS", sequenceName = "SEQ_USERS" )
+    @Column( name = "SID", nullable = false, unique = true )
     private Long sid;
-    
-    @Column(name = "GENERICBASESTOREPATH", nullable = true)
+
+    @Column( name = "GENERICBASESTOREPATH", nullable = true )
     private String genericBaseStorePath;
+
+    @Column( name = "ILLEGALCHARACTERREPLACEMENT", nullable = true )
+    /* string whicn will replace all those illegal characters at filename adn paths */
+    private char illegalCharacterReplacement='_';
 
     /**
      * @constructor
      */
-    public MDOMessicSettings() {
+    public MDOMessicSettings()
+    {
         super();
     }
-    
-    public MDOMessicSettings(String genericBaseStorePath) {
-    	setGenericBaseStorePath(genericBaseStorePath);
+
+    public MDOMessicSettings( String genericBaseStorePath )
+    {
+        setGenericBaseStorePath( genericBaseStorePath );
     }
 
-    public Long getSid() {
+    public Long getSid()
+    {
         return sid;
     }
 
-    public void setSid(Long sid) {
+    public void setSid( Long sid )
+    {
         this.sid = sid;
     }
 
-	public String getGenericBaseStorePath() {
-		return genericBaseStorePath;
-	}
+    public String getGenericBaseStorePath()
+    {
+        return genericBaseStorePath;
+    }
 
-	public void setGenericBaseStorePath(String genericBaseStorePath) {
-		this.genericBaseStorePath = genericBaseStorePath;
-	}
+    public void setGenericBaseStorePath( String genericBaseStorePath )
+    {
+        this.genericBaseStorePath = genericBaseStorePath;
+    }
 
-    
+    public char getIllegalCharacterReplacement()
+    {
+        return illegalCharacterReplacement;
+    }
+
+    public void setIllegalCharacterReplacement( char illegalCharacterReplacement )
+    {
+        this.illegalCharacterReplacement = illegalCharacterReplacement;
+    }
+
 }

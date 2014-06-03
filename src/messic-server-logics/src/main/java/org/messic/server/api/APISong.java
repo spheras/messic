@@ -35,8 +35,7 @@ public class APISong
         if ( song != null )
         {
             // first, removing the song file
-            String path = Util.getRealBaseStorePath( user, daoSettings.getSettings() );
-            path = path + File.separatorChar + song.getAbsolutePath();
+            String path = song.calculateAbsolutePath( daoSettings.getSettings() );
             File fpath = new File( path );
             fpath.delete();
             // after, removing the album data from database
@@ -50,9 +49,7 @@ public class APISong
         MDOSong song = daoSong.get( mdouser.getLogin(), sid );
         if ( song != null )
         {
-            String filePath =
-                Util.getRealBaseStorePath( mdouser, daoSettings.getSettings() ) + File.separatorChar
-                    + song.getAbsolutePath();
+            String filePath = song.calculateAbsolutePath( daoSettings.getSettings() );
             File fsong = new File( filePath );
             if ( fsong.exists() )
             {

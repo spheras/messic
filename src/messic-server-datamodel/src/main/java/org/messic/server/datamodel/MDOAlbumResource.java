@@ -55,25 +55,15 @@ public class MDOAlbumResource
     }
 
     /**
-     * Return the relative location to this resource
-     * 
-     * @return String
-     */
-    public String getRelativeLocation()
-    {
-        return getAlbum().getAuthor().getLocation() + File.separatorChar + getAlbum().getLocation()
-            + File.separatorChar + getLocation();
-    }
-
-    /**
      * Return the absolute (relative from author folder) location to this resource
      * 
+     * @param settings {@link MDOMessicSettings} settings from messic
      * @return String path
      */
-    public String getAbsolutePath()
+    public String calculateAbsolutePath( MDOMessicSettings settings )
     {
-        return getAlbum().getAuthor().getLocation().concat( "" + File.separatorChar ).concat( getAlbum().getLocation() ).concat( ""
-                                                                                                                                     + File.separatorChar ).concat( getLocation() );
+        String albumPath = getAlbum().calculateAbsolutePath( settings );
+        return albumPath + File.separatorChar + getLocation();
     }
 
 }

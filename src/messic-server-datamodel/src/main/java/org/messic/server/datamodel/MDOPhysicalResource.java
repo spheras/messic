@@ -1,5 +1,6 @@
 package org.messic.server.datamodel;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -10,6 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+
+import org.apache.commons.io.FilenameUtils;
+import org.messic.server.Util;
 
 @Entity
 @Table( name = "PHYSICAL_RESOURCES" )
@@ -32,7 +36,6 @@ public class MDOPhysicalResource
     @Column( name = "LOCATION" )
     private String location;
 
-    
     public MDOPhysicalResource()
     {
         super();
@@ -50,7 +53,27 @@ public class MDOPhysicalResource
     }
 
     public void setLocation( String location )
+        throws IOException
     {
+        if ( Util.haveFilenameIllegalCharacters( location ) )
+        {
+            throw new IOException( "Illegal characters at location: " + location );
+        }
         this.location = location;
+    }
+
+    /**
+     * Return the extension of the physical resource file
+     * 
+     * @return
+     */
+    public String getExtension()
+    {
+        String extension = FilenameUtils.getExtension( getLocation() );
+        if ( extension == null )
+        {
+            extension = Util.DEFAULT_EXTENSION;
+        }
+        return extension;
     }
 }
