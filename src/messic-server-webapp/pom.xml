@@ -18,6 +18,13 @@
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
 
+    <licenses>
+        <license>
+            <name>GNU General Public License, Version 3 or later</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+        </license>
+    </licenses>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -83,7 +90,7 @@
 
 						<echo message="Copying bundle to the starter project" />
 						<copy file="${project.build.directory}/${project.build.finalName}.jar"
-							tofile="../messic-starter/bundles/03-messic/01-${project.build.finalName}.bnd" />
+							tofile="../messic-service/bundles/03-messic/01-${project.build.finalName}.bnd" />
 					</tasks>
 				</configuration>
 				<executions>

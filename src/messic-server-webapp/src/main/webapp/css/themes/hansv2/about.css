@@ -1,33 +1,38 @@
 #messic-about-tape{
     /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
     animation: 1.5s ease 0s normal none 1 messic-about-tape-comein;
-    background: url("tape.png") repeat scroll 0 0 transparent;
+    background: url("about/tape.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 342px;
-    left: -73px;
+    left: 50%;
+    margin-left: -250px;
     position: relative;
-    top: -134px;
+    top: 8px;
     transform: scale(0.8);
     width: 546px;
     z-index: 2;
-
-/*
-	background:url(tape.png);
-	width:546px;
-	height:342px;
-    left:-83px;
-    top:-83px;
-    position:relative;
-	transform:scale(0.5);
-	animation: messic-about-tape-comein 1.5s;
-	animation-timing-function: easy-in;
-	z-index:2;
-*/
 }
-
+#messic-about-close{
+    background: url("playlist/remove-vinyl.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 26px;
+    left: 18px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition-duration: 0.5s;
+    transition-property: opacity, transform;
+    width: 26px;
+    transform: scale(0);
+}
 #messic-about-window{
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.70);
+    height: 100%;
+    left: 0;
     overflow: hidden;
-    /* http://subtlepatterns.com/honey-im-subtle/ */
-    background: url("honey_im_subtle.png") repeat;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99999;
 }
 
 @keyframes messic-about-tape-comein{
@@ -44,7 +49,7 @@
 
 #messic-about-tape #messic-tape-leftwheel{
     /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
-	background: url("tape-left-wheel.png") repeat scroll 0 0 transparent;
+	background: url("about/tape-left-wheel.png") repeat scroll 0 0 transparent;
 	left: 125px;
 	top: 125px;
 	animation: tape-wheel-anim 1.5s infinite;
@@ -52,7 +57,7 @@
 }
 #messic-about-tape #messic-tape-rightwheel{
     /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
-    background: url("tape-right-wheel.png") repeat scroll 0 0 transparent;
+    background: url("about/tape-right-wheel.png") repeat scroll 0 0 transparent;
 	left: 350px;
 	top: 125px;
 	animation: tape-wheel-anim 2s infinite;
@@ -65,24 +70,27 @@
 }
 
 #messic-about-page{
-	height: 200px;
-	left: 0px;
-    top:-83px;
-	margin-top: -86px;
-	overflow-x: hidden;
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.25);
+    border-bottom-left-radius: 50px;
+    color: #FFFFFF;
+    height: 200px;
+    left: 50%;
+    margin-left: -170px;
+    margin-top: -77px;
+    overflow-x: hidden;
     overflow-y: scroll;
-	position: relative;
-	width: 100%;
-	z-index:1;
+    position: relative;
+    top: 49px;
+    width: 381px;
+    z-index: 1;
 }
 #messic-about-page-content{
-	width:100%;
-	position:relative;
-	animation: messic-about-page-scroll 1400s infinite, messic-about-page-fadein 1s;
-	animation-timing-function: linear, easy-in;
-	animation-delay:1.5s,1s;
-	opacity:0;
-    border-radius: 14px 14px 14px 14px;
+    animation: 1400s ease 1.5s normal none infinite messic-about-page-scroll, 1s ease 1s normal none 1 messic-about-page-fadein;
+    border-radius: 14px;
+    opacity: 0;
+    padding: 15px;
+    position: relative;
+    width: 100%;
 }
 @keyframes messic-about-page-fadein{
 	from { opacity: 0; }

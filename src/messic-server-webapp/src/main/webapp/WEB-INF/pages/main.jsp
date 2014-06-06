@@ -28,9 +28,9 @@
 					<li id="messic-menu-home" class="messic-menu-icon"><div><fmt:message key="main-button-startpage" bundle="${ message }"/></div></li>
 					<li id="messic-menu-explore" class="messic-menu-icon"><div><fmt:message key="main-button-exploremusic" bundle="${ message }"/></div></li>
 					<li id="messic-menu-playlist" class="messic-menu-icon"><div><fmt:message key="main-button-playlist" bundle="${ message }"/></div></li>
-					<li id="messic-menu-radio" class="messic-menu-icon"><div><fmt:message key="main-button-radioplayer" bundle="${ message }"/></div></li>
-					<li id="messic-menu-settings" class="messic-menu-icon"><div><fmt:message key="main-button-settings" bundle="${ message }"/></div></li>
 					<li id="messic-menu-upload" class="messic-menu-icon"><div><fmt:message key="main-button-uploadmusic" bundle="${ message }"/></div></li>
+					<li id="messic-menu-settings" class="messic-menu-icon"><div><fmt:message key="main-button-settings" bundle="${ message }"/></div></li>
+					<li id="messic-menu-help" class="messic-menu-icon"><div><fmt:message key="main-button-help" bundle="${ message }"/></div></li>
 				</lu>
             </div>
 

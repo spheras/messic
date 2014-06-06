@@ -14,6 +14,13 @@
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
 
+    <licenses>
+        <license>
+            <name>GNU General Public License, Version 3 or later</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+        </license>
+    </licenses>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -57,7 +64,7 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<tasks>
-						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-starter/bundles/04-messic-plugins/01-${project.build.finalName}.jar" />
+						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-service/bundles/04-messic-plugins/01-${project.build.finalName}.jar" />
 					</tasks>
 				</configuration>
 				<executions>

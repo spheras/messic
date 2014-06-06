@@ -13,6 +13,13 @@
 		<version>1.0-SNAPSHOT</version>
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
+	
+	<licenses>
+		<license>
+			<name>GNU General Public License, Version 3 or later</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+		</license>
+	</licenses>
 
 	<build>
 		<plugins>
@@ -36,11 +43,11 @@
 						<Bundle-SymbolicName>${pom.groupId}.${pom.artifactId}</Bundle-SymbolicName>
 						<Bundle-Name>${pom.name}</Bundle-Name>
 						<Bundle-Version>${pom.version}</Bundle-Version>
-						
+
 						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
 						<Embed-Directory>dependencies</Embed-Directory>
 						<Embed-Transitive>true</Embed-Transitive>
-						
+
 						<Bundle-Activator>org.messic.server.api.musicinfo.youtube.Activator</Bundle-Activator>
 						<!-- Packages that are not exported but need to be included need to 
 							be listed as Private-Package -->
@@ -52,12 +59,13 @@
 					</instructions>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<tasks>
-						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-starter/bundles/04-messic-plugins/05-${project.build.finalName}.jar" />
+						<copy file="${project.build.directory}/${project.build.finalName}.jar"
+							tofile="../messic-service/bundles/04-messic-plugins/05-${project.build.finalName}.jar" />
 					</tasks>
 				</configuration>
 				<executions>
@@ -82,7 +90,7 @@
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.core</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>

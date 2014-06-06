@@ -5,6 +5,6 @@ target/
 
 src/messic-server-webapp/src/main/resources/rebel.xml
 
-src/messic-starter/bundles/03-messic
-src/messic-starter/bundles/04-messic-plugins
-src/messic-starter/felix-cache
+src/messic-service/bundles/03-messic
+src/messic-service/bundles/04-messic-plugins
+src/messic-service/felix-cache

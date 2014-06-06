@@ -13,6 +13,13 @@
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
 
+    <licenses>
+        <license>
+            <name>GNU General Public License, Version 3 or later</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+        </license>
+    </licenses>
+
 	<repositories>
 		<repository>
 			<id>java.net-Public</id>

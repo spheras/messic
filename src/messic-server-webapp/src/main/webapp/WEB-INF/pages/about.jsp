@@ -12,7 +12,8 @@
 		</c:if>
 		    
 		<div id="content">
-            <div id="messic-about-window">
+            <div id="messic-about-window" onclick="$(this).remove()">
+		        <div id="messic-about-close" onclick="$(this).parent().remove()"></div>
 		        <div id="messic-about-tape">
 			        <div id="messic-tape-leftwheel" class="messic-tape-wheel"></div>
 			        <div id="messic-tape-rightwheel" class="messic-tape-wheel"></div>
@@ -20,14 +21,15 @@
 		        <div id="messic-about-page">
 			        <div id="messic-about-page-content">
 				        <h2><center>Messic</center></h2>
-                        <p> <b>Authors:</b> </p>
-                        <p><a href="#" target="_blank">Jos&eacute; Amuedo Salmer&oacute;n [spheras]</a></p>
-                        <p><a href="#" target="_blank">Manuel Hans Uber</a></p>
+                        <p><b>Author:&nbsp;</b>Jos&eacute; Amuedo Salmer&oacute;n [spheras]</p>
+                        <p><b>Coauthor:&nbsp;</b>Manuel Hans Uber</p>
+                        <p><b>Thanks to..&nbsp;</b></p>
+                        <p>· Francsico Javier Coira</p>
                         </br>
                         <p> <b>Date:</b> 2013 </p>
-                        <p> <b>Version:</b> 0.1a </p>
+                        <p> <b>Version:&nbsp;</b>${version}</p>
                         </br>
-                        Copyright (C) 2013
+                        Copyright (C) 2013 José Amuedo Salmerón
                         </br></br>
                         This program is free software: you can redistribute it and/or modify
                         it under the terms of the GNU General Public License as published by
