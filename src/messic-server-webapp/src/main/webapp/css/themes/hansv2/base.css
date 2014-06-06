@@ -548,6 +548,9 @@ p strong{
 #messic-menu-settings:after{
     background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -99px -99px transparent;
 }
+#messic-menu-help:after{
+    background: url("base/mainmenu-buttons-icons.png") no-repeat scroll 2px -117px transparent;
+}
 #messic-menu-upload:after{
     background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -198px -99px transparent;
 }

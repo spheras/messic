@@ -38,8 +38,10 @@ public class AboutController
         throws Exception
     {
         ModelAndView model = new ModelAndView( "about" );
+        
+        String version=getClass().getPackage().getImplementationVersion();
         //TODO obtain version 
-        model.addObject( "version", "1.0" );
+        model.addObject( "version", version );
 
         return model;
     }

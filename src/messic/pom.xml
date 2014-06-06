@@ -10,12 +10,12 @@
 	<packaging>pom</packaging>
 	<version>1.0-SNAPSHOT</version>
 
-    <licenses>
-        <license>
-            <name>GNU General Public License, Version 3 or later</name>
-            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
-        </license>
-    </licenses>
+	<licenses>
+		<license>
+			<name>GNU General Public License, Version 3 or later</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+		</license>
+	</licenses>
 
 
 	<!-- Shared version number properties -->
@@ -42,6 +42,7 @@
 		<module>../messic-updater-bundle</module>
 		<module>../messic-service</module>
 		<module>../messic-starter</module>
+		<module>../messic-assembly</module>
 	</modules>
 
 	<dependencies>
@@ -346,6 +347,18 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+								<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>

@@ -9,6 +9,27 @@
   </formats>
   <fileSets>
     <fileSet>
+      <directory>../messic-service/bundles</directory>
+      <outputDirectory>/bundles</outputDirectory>
+      <includes>
+        <include>**/*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../messic-service/felix</directory>
+      <outputDirectory>/felix</outputDirectory>
+      <includes>
+        <include>**/*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>../messic-service/jetty</directory>
+      <outputDirectory>/jetty</outputDirectory>
+      <includes>
+        <include>**/*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
       <directory>${project.basedir}</directory>
       <outputDirectory>/</outputDirectory>
       <includes>
@@ -31,7 +52,7 @@
   </fileSets>
   <dependencySets>
     <dependencySet>
-      <outputDirectory>/</outputDirectory>
+      <outputDirectory>/classpath</outputDirectory>
       <useProjectArtifact>true</useProjectArtifact>
       <unpack>false</unpack>
       <scope>runtime</scope>
