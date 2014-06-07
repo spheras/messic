@@ -1,3 +1,30 @@
+/**
+ * @source: https://github.com/spheras/messic
+ *
+ * @licstart  The following is the entire license notice for the 
+ *  JavaScript code in this page.
+ *
+ * Copyright (C) 2013  José Amuedo Salmerón
+ *
+ *
+ * The JavaScript code in this page is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this page.
+ *
+ */
 /*
 * Class UploadSongResource
 * constructor
@@ -36,16 +63,17 @@ var UploadAlbumProcess=function (album){
 		$("#messic-upload-album-comments").text("");
 		$('#messic-upload-song-content-songs').val('');
 		$("#messic-upload-album-editnew").attr('class', 'messic-upload-album-new');
+		$("#messic-upload-song-content-songs").empty();
 
 
 		//creating new process and adding to the content
-		var code="<div class='messic-upload-finishbox'>";
-		code=code+"  <div class='messic-upload-finishbox-cover-content'>";
-		code=code+"     <div class='messic-upload-finishbox-cover'></div>";
-		code=code+"     <div class='messic-upload-finishbox-authortitle'>"+this.albumData.author.name+"</div>";
-		code=code+"     <div class='messic-upload-finishbox-albumtitle'>"+this.albumData.name+"</div>";
+		var code="<div class=\"messic-upload-finishbox\">";
+		code=code+"  <div class=\"messic-upload-finishbox-cover-content\">";
+		code=code+"     <div class=\"messic-upload-finishbox-cover\"></div>";
+		code=code+"     <div class=\"messic-upload-finishbox-authortitle\">"+UtilEscapeHTML(this.albumData.author.name)+"</div>";
+		code=code+"     <div class=\"messic-upload-finishbox-albumtitle\">"+UtilEscapeHTML(this.albumData.name)+"</div>";
 		code=code+"  </div>";
-		code=code+"  <div class='messic-upload-finishbox-content'></div>";
+		code=code+"  <div class=\"messic-upload-finishbox-content\"></div>";
 		code=code+"</div>";
 		domElement=$(code);
 
@@ -77,7 +105,7 @@ var UploadAlbumProcess=function (album){
 	this.uploadAll=function(resources){
 		resourceRestToUpload=resourceRestToUpload+resources.length;
 		for(var i=0;i<resources.length;i++){
-			var code="<div class='messic-upload-finishbox-resource'><div class='messic-upload-finishbox-resource-status'></div><div class='messic-upload-finishbox-resource-filename'>"+resources[i].file.name+"</div><div class='messic-upload-finishbox-resource-progress'><div class='messic-upload-finishbox-resource-progressbar'></div></div></div>";
+			var code="<div class=\"messic-upload-finishbox-resource\"><div class=\"messic-upload-finishbox-resource-status\"></div><div class=\"messic-upload-finishbox-resource-filename\">"+UtilEscapeHTML(resources[i].file.name)+"</div><div class=\"messic-upload-finishbox-resource-progress\"><div class=\"messic-upload-finishbox-resource-progressbar\"></div></div></div>";
 			var resourceElement=$(code);
 			resources[i].domElement=resourceElement;
 			domElement.find('.messic-upload-finishbox-content').append(resourceElement);
@@ -91,7 +119,7 @@ var UploadAlbumProcess=function (album){
 		        	return function(e) {
 						    var bin = e.target.result;
 						     $.ajax({
-						        url: 'services/albums/'+album.code+"?fileName="+escape(resource.file.name),
+						        url: 'services/albums/'+album.code+"?fileName="+encodeURIComponent(resource.file.name),
 						        type: 'PUT',
 						        //Ajax success
 						        success: function(){
@@ -121,21 +149,9 @@ var UploadAlbumProcess=function (album){
 									     //console.log(percentComplete);
 
 											// calculate upload progress
-											//var percentage = Math.floor((progress.total / progress.totalSize) * 100);
-											// log upload progress to console
-											//console.log('progress', percentComplete);
 											resource.domElement.find('.messic-upload-finishbox-resource-progressbar').width((percentComplete*100)+'%');
 									   }
 									 }, false);
-									 //Download progress
-									 /*
-									 xhr.addEventListener("progress", function(evt){
-									   if (evt.lengthComputable) {
-									     var percentComplete = evt.loaded / evt.total;
-									     //Do something with download progress
-									     console.log(percentComplete);
-									   }
-									 }, false); */
 									 return xhr;
 								},
 						        processData: false,
@@ -147,6 +163,7 @@ var UploadAlbumProcess=function (album){
 				reader.readAsArrayBuffer(resources[i].file);
 			}else{
 				resourceRestToUpload=resourceRestToUpload-1;
+				resourceElement.find('.messic-upload-finishbox-resource-progressbar').width('100%');
 				resourceElement.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-finished');
 			}
 		}

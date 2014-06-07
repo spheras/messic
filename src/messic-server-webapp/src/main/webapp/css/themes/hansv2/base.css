@@ -1,4 +1,4 @@
-z@keyframes fadein
+@keyframes fadein
 {
    0%  { opacity:0;}
    100%  { opacity:1;}
@@ -218,7 +218,7 @@ h1{
 	text-align: right;
 }
 
-input[type="text"], textarea {
+input[type="text"], input[type="number"], textarea {
     background: none repeat scroll 0 0 #FFFFFF;
     border-color: #CCCCCC;
     border-radius: 3px 3px 3px 3px;
@@ -233,13 +233,13 @@ input[type="text"], textarea {
     color: #444444;
 }
 
-input[type="text"]:focus {
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
     border-color: #AAAAAA;
     border-style: dashed;
     border-width: 1px;
     color: #00BABA;
 }
-input[type="text"]:hover {
+input[type="text"]:hover, input[type="number"]:hover, textarea:hover {
     -webkit-box-shadow: 0 0 3px rgba(0, 139, 139, 0.4);
     -moz-box-shadow:    0 0 3px rgba(0, 139, 139, 0.4);
     box-shadow:         0 0 3px rgba(0, 139, 139, 0.4);
@@ -509,14 +509,19 @@ p strong{
 
 /* icons of the main menu */
 /* ---------------------------- */
+#messic-menu li.messic-menu-icon-selected{
+    background: url("base/mainmenu-button-99x99.png") no-repeat scroll -297px 0px transparent;
+    margin-top: 10px;
+}
+
 #messic-menu li.messic-menu-icon:after{
     /* commons properties for all icons */
-    content: "";
+	content: "";
     display: block;
     height: 99px;
-    width: 99px;
-    top:0px;
-    position:absolute;
+    position: relative;
+    top: -126px;
+    width: 99px;	
 }
 #messic-menu > li:hover.messic-menu-icon:after{
     transform: rotate(-360deg);
@@ -526,7 +531,7 @@ p strong{
 }
 
 #messic-menu > li:active.messic-menu-icon:after{
-    top:3px;
+    top:-122px;
 }
 #messic-menu-home:after{
     background: url("base/mainmenu-buttons-icons.png") no-repeat scroll 0 0 transparent;
@@ -542,6 +547,9 @@ p strong{
 }
 #messic-menu-settings:after{
     background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -99px -99px transparent;
+}
+#messic-menu-help:after{
+    background: url("base/mainmenu-buttons-icons.png") no-repeat scroll 2px -117px transparent;
 }
 #messic-menu-upload:after{
     background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -198px -99px transparent;

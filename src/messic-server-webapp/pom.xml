@@ -3,8 +3,13 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>messic-server-webapp</artifactId>
-	<packaging>war</packaging>
+	<packaging>bundle</packaging>
 	<name>Messic Webapp</name>
+
+	<properties>
+		<bundle.symbolicName>messic</bundle.symbolicName>
+		<bundle.namespace>messic</bundle.namespace>
+	</properties>
 
 	<parent>
 		<groupId>org.messic</groupId>
@@ -13,8 +18,91 @@
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
 
+    <licenses>
+        <license>
+            <name>GNU General Public License, Version 3 or later</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+        </license>
+    </licenses>
+
 	<build>
 		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.4.0</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>bundle-manifest</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
+
+						<!-- embed all compile and runtime scope dependencies -->
+						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+						<Embed-Directory>WEB-INF/lib</Embed-Directory>
+						<Embed-Transitive>true</Embed-Transitive>
+
+						<Import-Package>*;resolution:=optional</Import-Package>
+						<Export-Package>org.messic.server.api.tagwizard.service,org.messic.server.api.musicinfo.service</Export-Package>
+
+						<_wab>src/main/webapp</_wab>
+						<Web-ContextPath>/messic</Web-ContextPath>
+
+						<!-- we need to remove the bundle-classpath to avoid have 2 classpaths.. 
+							it seems that jetty already create a classpath -->
+						<_removeheaders>Embedded-Artifacts,Private-Package,Include-Resource,Bundle-ClassPath</_removeheaders>
+					</instructions>
+				</configuration>
+			</plugin>
+
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<tasks>
+						<echo
+							message="Updating Bundle-Classpath ... just a trick to avoid problems with spring-jetty and scan of components" />
+						<jar update="true"
+							file="${project.build.directory}/${project.build.finalName}.jar">
+							<manifest>
+								<attribute name="Bundle-Classpath"
+									value="WEB-INF/lib/messic-server-osgiservices-1.0-SNAPSHOT.jar" />
+							</manifest>
+						</jar>
+
+						<echo message="Copying bundle to the starter project" />
+						<copy file="${project.build.directory}/${project.build.finalName}.jar"
+							tofile="../messic-service/bundles/03-messic/01-${project.build.finalName}.bnd" />
+					</tasks>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 			<!-- jrebel plugin to easily develop -->
 			<plugin>
 				<groupId>org.zeroturnaround</groupId>
@@ -51,7 +139,8 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -78,6 +167,25 @@
 										<ignore></ignore>
 									</action>
 								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.felix
+										</groupId>
+										<artifactId>
+											maven-bundle-plugin
+										</artifactId>
+										<versionRange>
+											[2.4.0,)
+										</versionRange>
+										<goals>
+											<goal>manifest</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -89,65 +197,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.messic</groupId>
-			<artifactId>messic-server-logics</artifactId>
+			<artifactId>messic-server-webapp-logics</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.messic</groupId>
-			<artifactId>messic-server-datamodel</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-		</dependency>
-
-		<!-- JSTL -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>taglibs</groupId>
-			<artifactId>standard</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.3.0</version>
+			<artifactId>messic-server-dlna</artifactId>
 		</dependency>
 		
 		<!-- Apache Commons file upload  -->

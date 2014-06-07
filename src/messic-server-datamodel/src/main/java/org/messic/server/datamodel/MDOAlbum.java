@@ -1,10 +1,29 @@
+/*
+ * Copyright (C) 2013 José Amuedo
+ *
+ *  This file is part of Messic.
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.messic.server.datamodel;
 
-
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -12,148 +31,202 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ALBUMS")
-@DiscriminatorValue(MDOPhysicalResource.ALBUM)
+@Table( name = "ALBUMS" )
+@DiscriminatorValue( MDOPhysicalResource.ALBUM )
+public class MDOAlbum
+    extends MDOPhysicalResource
+    implements MDO, Serializable
+{
 
-public class MDOAlbum extends MDOPhysicalResource implements
-        MDO, Serializable {
-    
     private static final long serialVersionUID = 8792913920714652055L;
 
-    @Column(name = "NAME", nullable = false)
+    @Column( name = "NAME", nullable = false )
     private String name;
-    
-    @Column(name = "YEAR", nullable = true)
+
+    @Column( name = "YEAR", nullable = true )
     private Integer year;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AUTHOR", nullable = false)
+
+    @ManyToOne( fetch = FetchType.LAZY )
+    @JoinColumn( name = "AUTHOR", nullable = false )
     private MDOAuthor author;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "GENRE", nullable = true)
-    private MDOGenre genre;   
+    @ManyToOne( fetch = FetchType.LAZY )
+    @JoinColumn( name = "GENRE", nullable = true )
+    private MDOGenre genre;
 
-    @OneToMany(mappedBy = "album")
+    @OneToMany( mappedBy = "album", cascade = { CascadeType.REMOVE } )
+    @OrderBy( "TRACK" )
     private List<MDOSong> songs;
 
-    @OneToMany(mappedBy = "album")
-    private List<MDOAlbumResource> artworks;
-    
-    @OneToMany(mappedBy = "album")
-    private List<MDOAlbumResource> others;
-    
-    
-    @Column(name = "COMMENTS", nullable = true)
-    private String comments;
-    
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ALBUM", nullable = true)
-    private MDOAlbumResource cover;
+    @OneToMany( mappedBy = "album", cascade = { CascadeType.REMOVE } )
+    private List<MDOArtwork> artworks;
 
-    public MDOAlbum ()
+    @OneToMany( mappedBy = "album", cascade = { CascadeType.REMOVE } )
+    private List<MDOOtherResource> others;
+
+    @Column( name = "COMMENTS", nullable = true )
+    private String comments;
+
+    public MDOAlbum()
     {
         super();
     }
-    
-    public MDOAlbum (MDOUser user, String location, String name, Integer year, MDOAuthor author, MDOGenre genre, String comments)
+
+    public MDOAlbum( MDOUser user, String location, String name, Integer year, MDOAuthor author, MDOGenre genre,
+                     String comments )
     {
-        super(user,location);
+        super( user, location );
         this.name = name;
         this.year = year;
-        this.genre= genre;
-        this.author=author;
-        this.comments=comments;
+        this.genre = genre;
+        this.author = author;
+        this.comments = comments;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName( String name )
+    {
         this.name = name;
     }
 
-    public Integer getYear() {
+    public Integer getYear()
+    {
         return year;
     }
 
-    public void setYear(Integer year) {
+    public void setYear( Integer year )
+    {
         this.year = year;
     }
 
-    public List<MDOSong> getSongs() {
-    	if(songs==null){
-    		songs=new ArrayList<MDOSong>();
-    	}
+    public List<MDOSong> getSongs()
+    {
+        if ( songs == null )
+        {
+            songs = new ArrayList<MDOSong>();
+        }
         return songs;
     }
 
-    public void setSongs(List<MDOSong> songs) {
+    public void setSongs( List<MDOSong> songs )
+    {
         this.songs = songs;
     }
 
-    public List<MDOAlbumResource> getArtworks() {
-    	if(artworks==null){
-    		artworks=new ArrayList<MDOAlbumResource>();
-    	}
+    public List<MDOArtwork> getArtworks()
+    {
+        if ( artworks == null )
+        {
+            artworks = new ArrayList<MDOArtwork>();
+        }
         return artworks;
     }
 
-    public void setArtworks(List<MDOAlbumResource> artworks) {
+    public void setArtworks( List<MDOArtwork> artworks )
+    {
         this.artworks = artworks;
     }
 
-    public List<MDOAlbumResource> getOthers() {
-    	if(others==null){
-    		others=new ArrayList<MDOAlbumResource>();
-    	}
+    public List<MDOOtherResource> getOthers()
+    {
+        if ( others == null )
+        {
+            others = new ArrayList<MDOOtherResource>();
+        }
         return others;
     }
 
-    public void setOthers(List<MDOAlbumResource> others) {
+    public void setOthers( List<MDOOtherResource> others )
+    {
         this.others = others;
     }
 
-    public MDOAuthor getAuthor() {
+    public MDOAuthor getAuthor()
+    {
         return author;
     }
 
-    public void setAuthor(MDOAuthor author) {
+    public void setAuthor( MDOAuthor author )
+    {
         this.author = author;
     }
-    
-    public String getAbsolutePath() {
-		return getAuthor().getLocation().concat("/").concat(getLocation()) ;
-	}
 
-	public MDOGenre getGenre() {
-		return genre;
-	}
+    public String calculateAbsolutePath( MDOMessicSettings settings )
+    {
+        String basePath = this.getAuthor().calculateAbsolutePath( settings );
+        String result = basePath + File.separatorChar + getLocation();
+        return result;
+    }
 
-	public void setGenre(MDOGenre genre) {
-		this.genre = genre;
-	}
+    public MDOGenre getGenre()
+    {
+        return genre;
+    }
 
-	public String getComments() {
-		return comments;
-	}
+    public void setGenre( MDOGenre genre )
+    {
+        this.genre = genre;
+    }
 
-	public void setComments(String comments) {
-		this.comments = comments;
-	}
+    public String getComments()
+    {
+        return comments;
+    }
 
-	public MDOAlbumResource getCover() {
-		return cover;
-	}
+    public void setComments( String comments )
+    {
+        this.comments = comments;
+    }
 
-	public void setCover(MDOAlbumResource cover) {
-		this.cover = cover;
-	}
+    public MDOAlbumResource getCover()
+    {
+        List<MDOArtwork> artworks = getArtworks();
+        if ( artworks != null )
+        {
+            for ( int i = 0; i < artworks.size(); i++ )
+            {
+                MDOArtwork artwork = artworks.get( i );
+                if ( artwork.isCover() )
+                {
+                    return artwork;
+                }
+            }
+        }
+        return null;
+    }
 
-        
+    /**
+     * Return all the resources of teh albums: Songs, Artworks and Others.
+     * 
+     * @return {@link List}<MDOAlbumResources/> list of resources of the album
+     */
+    public List<MDOAlbumResource> getAllResources()
+    {
+        List<MDOAlbumResource> resources = new ArrayList<MDOAlbumResource>();
+        List<MDOSong> songs = getSongs();
+        for ( MDOSong mdoSong : songs )
+        {
+            resources.add( mdoSong );
+        }
+        List<MDOArtwork> artworks = getArtworks();
+        for ( MDOArtwork mdoArtwork : artworks )
+        {
+            resources.add( mdoArtwork );
+        }
+        List<MDOOtherResource> others = getOthers();
+        for ( MDOOtherResource mdoOtherResource : others )
+        {
+            resources.add( mdoOtherResource );
+        }
+        return resources;
+    }
+
 }

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2013 José Amuedo
+ *
+ *  This file is part of Messic.
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.messic.server.datamodel.jpaimpl;
 
 import java.util.List;
@@ -28,10 +46,20 @@ public class DAOJPAAuthor
     	List<MDOAuthor> results=query.getResultList();
         return results;
     }
+
+	@Override
+	public List<String> getFirstCharacters(String username){
+	    //SELECT DISTINCT LEFT(name, 1) as letter FROM mydatabase ORDER BY letter
+        Query query= entityManager.createQuery("select DISTINCT UPPER(SUBSTRING(name, 1,1)) as letter from MDOAuthor as a where (a.owner.login= :userName) order by letter");
+        query.setParameter( "userName", username);
+        @SuppressWarnings( "unchecked" )
+        List<String> results=query.getResultList();
+        return results;
+	}
     
 	@Override
 	public List<MDOAuthor> getAll(String username) {
-        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName)" );
+        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName)  ORDER BY UPPER(a.name)" );
         query.setParameter( "userName", username);
         
         @SuppressWarnings( "unchecked" )
@@ -54,9 +82,9 @@ public class DAOJPAAuthor
 	}
 
 	@Override
-	public List<MDOAuthor> findSimilarAuthors(String authorName, String username) {
-        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.name LIKE :authorName) AND (a.owner.login = :userName)" );
-        query.setParameter( "authorName", "%" + authorName + "%");
+	public List<MDOAuthor> findSimilarAuthors(String authorName, boolean contains, String username) {
+        Query query = entityManager.createQuery( "from MDOAuthor as a where (UPPER(a.name) LIKE :authorName) AND (a.owner.login = :userName)  ORDER BY UPPER(a.name)" );
+        query.setParameter( "authorName", (contains?"%":"") + authorName.toUpperCase() + "%");
         query.setParameter( "userName", username);
         
         @SuppressWarnings( "unchecked" )

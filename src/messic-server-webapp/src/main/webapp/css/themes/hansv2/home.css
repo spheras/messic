@@ -32,6 +32,26 @@
     width: 121px;
     z-index: 1;
 }
+.messic-main-randomlist-name:hover .messic-main-randomlist-close {
+    opacity: 1;
+    transform: scale(1);
+}
+.messic-main-randomlist-name .messic-main-randomlist-close:hover {
+    transform: scale(1) rotate(360deg);
+}
+.messic-main-randomlist-close {
+    background: url("playlist/remove-vinyl.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 26px;
+    left: 18px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition-duration: 0.5s;
+    transition-property: opacity, transform;
+    width: 26px;
+    transform: scale(0);
+}
 .messic-main-randomlist { 
     height: 225px;
     margin-bottom: 17px;    
@@ -42,7 +62,7 @@
     margin-top: -75px;
     overflow: hidden;
     position: relative;
-    width: 1077px;
+    width: 1076px;
 
 }
 .messic-main-randomlist .buttons:hover {
@@ -252,7 +272,7 @@
 }
 .messic-main-randomlist-details{
     height: 26px;
-    margin-left: 20px;
+    margin-left: 50px;
     width: 100%;
 }
 .messic-main-randomlist-detail:after{
@@ -277,4 +297,27 @@
     text-shadow: 0 1px 2px #C8C864;
     width: auto;
     margin-right: 6px;
+}
+.messic-main-randomlist-playall:hover {
+	background: url("home/playallrandomlistanim.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	-webkit-animation: homeplayallanim .6s steps(4) infinite;
+	   -moz-animation: homeplayallanim .6s steps(4) infinite;
+		-ms-animation: homeplayallanim .6s steps(4) infinite;
+		 -o-animation: homeplayallanim .6s steps(4) infinite;
+			animation: homeplayallanim .6s steps(4) infinite;
+}
+
+@keyframes homeplayallanim {
+   from { background-position:    0px; }
+	 to { background-position: -144px; }
+}
+
+.messic-main-randomlist-playall {
+    background: url("home/playallrandomlistanim.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 25px;
+    margin-left: 5px;
+    position: absolute;
+    width: 36px;
+    margin-top: 4px;
 }

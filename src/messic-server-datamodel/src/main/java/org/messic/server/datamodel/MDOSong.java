@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2013 José Amuedo
+ *
+ *  This file is part of Messic.
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.messic.server.datamodel;
 
 import java.io.Serializable;
@@ -12,75 +30,102 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.messic.server.Util;
+
 @Entity
-@Table(name = "SONGS")
-@DiscriminatorValue(MDOAlbumResource.SONG)
-public class MDOSong extends MDOPhysicalResource implements
-        MDO, Serializable {
-    
+@Table( name = "SONGS" )
+@DiscriminatorValue( MDOAlbumResource.SONG )
+public class MDOSong
+    extends MDOAlbumResource
+    implements MDO, Serializable
+{
+
     private static final long serialVersionUID = 8792913920714652055L;
 
-    @Column(name = "NAME", nullable = false)
-    private String name;    
-    
-    @Column(name = "TRACK", nullable = false)
+    @Column( name = "NAME", nullable = false )
+    private String name;
+
+    @Column( name = "TRACK", nullable = false )
     private Integer track;
-    
-    @ManyToMany(mappedBy="songs")
+
+    @ManyToMany( mappedBy = "songs" )
     private Set<MDOPlaylist> playlists;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ALBUM", nullable = false)
-    private MDOAlbum album;   
+    /**
+     * Problem with inheritance and mappedby
+     * http://chriswongdevblog.blogspot.com.es/2009/10/polymorphic-one-to-many-relationships.html that's the reason why
+     * it's repeated on each {@link MDOAlbumResource} subclass
+     */
+    @ManyToOne( fetch = FetchType.LAZY )
+    @JoinColumn( name = "ALBUM", nullable = false )
+    private MDOAlbum album;
 
-
-    public MDOSong ()
+    public MDOSong()
     {
         super();
     }
-    
-    public MDOSong (MDOUser user, String location, String name)
+
+    public MDOSong( MDOUser user, String location, String name )
     {
-        super(user,location);
-        this.name = name;        
+        super( user, location );
+        this.name = name;
     }
-    
-    public String getName() {
+
+    public String getName()
+    {
         return name;
     }
 
-    public Integer getTrack() {
+    public Integer getTrack()
+    {
         return track;
     }
 
-
-    public Set<MDOPlaylist> getPlaylists() {
+    public Set<MDOPlaylist> getPlaylists()
+    {
         return playlists;
     }
 
-    public void setPlaylists(Set<MDOPlaylist> playlists) {
+    public void setPlaylists( Set<MDOPlaylist> playlists )
+    {
         this.playlists = playlists;
     }
 
-	public String getAbsolutePath() {
-		return getAlbum().getAuthor().getLocation().concat("/").concat(getAlbum().getLocation()).concat("/").concat(getLocation()) ;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void setTrack(Integer track) {
-		this.track = track;
-	}
-
-    public MDOAlbum getAlbum() {
+    public MDOAlbum getAlbum()
+    {
         return album;
     }
 
-    public void setAlbum(MDOAlbum album) {
+    public void setAlbum( MDOAlbum album )
+    {
         this.album = album;
     }
 
+    public void setName( String name )
+    {
+        this.name = name;
+    }
+
+    public void setTrack( Integer track )
+    {
+        this.track = track;
+    }
+
+    /**
+     * Obtain the theorical filename of a song, i mean, the location that sould be, based on the track number and song
+     * name (the location is the filename for songs)
+     * 
+     * @param song {@link MDOSong} song to get the theorical file name
+     * @param extension {@link String} extension for the fileName
+     * @return {@link String} the theorical location
+     */
+    public final String calculateSongTheoricalFileName( String extension, char illegalCharacterReplacement )
+    {
+        String result = Util.leftZeroPadding( getTrack(), 2 ) + "-" + getName();
+        result = Util.replaceIllegalFilenameCharacters( result, illegalCharacterReplacement );
+        String resultExtension = Util.replaceIllegalFilenameCharacters( extension, illegalCharacterReplacement );
+        result = result + "." + resultExtension;
+        return result;
+    }
 
 }

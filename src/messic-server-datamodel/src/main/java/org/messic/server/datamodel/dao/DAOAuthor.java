@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2013 José Amuedo
+ *
+ *  This file is part of Messic.
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.messic.server.datamodel.dao;
 
 import java.util.List;
@@ -21,13 +39,21 @@ public interface DAOAuthor extends DAO<MDOAuthor>
     List<MDOAuthor> getRandomAuthors(String username, int number);
 
 
+    /**
+     * Return the list of first letter (Distinct) of all the author at database.
+     * @param username {@link String} user scope
+     * @return {@link List}<String/>
+     */
+    List<String> getFirstCharacters(String username);
+
 	/**
 	 * Find similar authors with the name passed
 	 * @param authorName {@link String} author name to compare with
+	 * @param contains boolean flag to indicate if the authorName is a partial search with any authorname wich contains the words of the param, or starting 
 	 * @param username {@link String} username scope
 	 * @return {@link List}<MDOAuthor/> list of similar authors
 	 */
-	List<MDOAuthor> findSimilarAuthors(String authorName, String username);
+	List<MDOAuthor> findSimilarAuthors(String authorName, boolean contains, String username);
 
 	/**
 	 * return all the authors in the user scope

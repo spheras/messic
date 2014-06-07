@@ -1,8 +1,28 @@
+/*
+ * Copyright (C) 2013 José Amuedo
+ *
+ *  This file is part of Messic.
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.messic.server.datamodel.dao;
 
 import java.util.List;
 
 import org.messic.server.datamodel.MDOAlbum;
+import org.messic.server.datamodel.MDOArtwork;
+import org.messic.server.datamodel.MDOGenre;
 
 
 
@@ -11,7 +31,15 @@ import org.messic.server.datamodel.MDOAlbum;
  */
 public interface DAOAlbum extends DAO<MDOAlbum>
 {
-	
+
+    /**
+     * return all the albums of a certain genre
+     * @param username {@link String} user scope
+     * @param genre {@link MDOGenre} genre to search
+     * @return
+     */
+    List<MDOAlbum> getAll(String username, MDOGenre genre);
+
 	/**
 	 * return all the albums in the user scope
 	 * @param username {@link String} user scope
@@ -60,4 +88,12 @@ public interface DAOAlbum extends DAO<MDOAlbum>
 	 * @return {@link MDOAlbum} found, null if none
 	 */
 	MDOAlbum getByName(String authorName, String albumName, String username);
+
+	/**
+	 * Obtain the {@link MDOArtwork} which is the cover of the album
+	 * @param albumSid long sid of the album
+	 * @param username {@link String} user scope
+	 * @return {@link MDOArtwork} which is the cover of the album
+	 */
+    MDOArtwork getAlbumCover( long albumSid, String username );
 }

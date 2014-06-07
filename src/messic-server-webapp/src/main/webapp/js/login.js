@@ -1,3 +1,34 @@
+/**
+ * @source: https://github.com/spheras/messic
+ *
+ * @licstart  The following is the entire license notice for the 
+ *  JavaScript code in this page.
+ *
+ * Copyright (C) 2013  José Amuedo Salmerón
+ *
+ *
+ * The JavaScript code in this page is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in this page.
+ *
+ */
+/* messic token for petitions */
+var VAR_MessicToken;
+
+
 $(document).ready(function() {
 	var loginWindow = $("#messic-login-window");
 	var loginShadow = $("#messic-login-shadow");
@@ -32,7 +63,7 @@ $(document).ready(function() {
 		info = $("#messic-login-form").serialize();
 		$.ajax({
 		    type: "POST",
-		    url: "j_spring_security_check",
+		    url: "messiclogin",
 		    data: info, // serializes the form's elements.
 		    dataType: "json",
 		    error: function (XMLHttpRequest, textStatus, errorThrown) 
@@ -43,23 +74,35 @@ $(document).ready(function() {
 		    	{
 			    	if(data.success==true)
 			    	{
-			    		var userId = data.userId;
+			    		VAR_MessicToken=data.messic_token;
+			    		$.ajaxSetup({
+			    		    beforeSend: function(xhr) {
+			    		        xhr.setRequestHeader('messic_token', data.messic_token);
+			    		    }
+			    		});
 			    		
-						$.get("main.do", function(data){ 
-    						$("#messic-logo1").attr("class","messic-main");
-    						$("#messic-logo2").attr("class","messic-main");
+			    		$.ajax({
+			    		    type: "GET",
+			    		    url: "main.do",
+			    		    error: function (XMLHttpRequest, textStatus, errorThrown) 
+			    		    	{
+			    		        	console.log('error');
+			    		    	},
+			    		    success: function(data){ 
+        						$("#messic-logo1").attr("class","messic-main");
+        						$("#messic-logo2").attr("class","messic-main");
 
-						    //let's hide and remove the login window!
-						    $("#messic-login-shadow").fadeOut(500,function(){ 
-							    $(this).remove();
-                            });
-						    $("#messic-login-window").fadeOut(1000,function(){ 
-							    $(this).remove();
-							    var posts = $($.parseHTML(data)).filter('#content').children();
-							    $("body").append(posts);
-							    initMessic(userId);
-						    });
- 
+    						    //let's hide and remove the login window!
+    						    $("#messic-login-shadow").fadeOut(500,function(){ 
+    							    $(this).remove();
+                                });
+    						    $("#messic-login-window").fadeOut(1000,function(){ 
+    							    $(this).remove();
+    							    var posts = $($.parseHTML(data)).filter('#content').children();
+    							    $("body").append(posts);
+    							    initMessic();
+    						    });
+    						}
 						});
 			    	}
 			    	else

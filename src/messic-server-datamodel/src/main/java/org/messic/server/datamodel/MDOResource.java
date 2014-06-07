@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2013 José Amuedo
+ *
+ *  This file is part of Messic.
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.messic.server.datamodel;
 
 import java.io.Serializable;
@@ -18,10 +36,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "RESOURCES")
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "DTYPE", discriminatorType = DiscriminatorType.STRING, length = 31)
-public class MDOResource implements MDO, Serializable {
+@Table( name = "RESOURCES" )
+@Inheritance( strategy = InheritanceType.JOINED )
+@DiscriminatorColumn( name = "DTYPE", discriminatorType = DiscriminatorType.STRING, length = 31 )
+public class MDOResource
+    implements MDO, Serializable
+{
 
     /**
      * serializable
@@ -29,44 +49,47 @@ public class MDOResource implements MDO, Serializable {
     private static final long serialVersionUID = -2753653453731805880L;
 
     public static final String PHYSICAL_RESOURCE = "PHYSICAL_RESOURCE";
+
     public static final String PLAYLIST = "PLAYLIST";
- 
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RESOURCES")
-    @SequenceGenerator(name = "SEQ_RESOURCES", sequenceName = "SEQ_RESOURCES")
-    @Column(name = "SID", nullable = false, unique = true)
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "SEQ_RESOURCES" )
+    @SequenceGenerator( name = "SEQ_RESOURCES", sequenceName = "SEQ_RESOURCES" )
+    @Column( name = "SID", nullable = false, unique = true )
     private Long sid;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "OWNER", nullable = false)
+    @ManyToOne( fetch = FetchType.LAZY )
+    @JoinColumn( name = "OWNER", nullable = false )
     private MDOUser owner;
-    
+
     public MDOResource()
     {
-    	
+
     }
 
-    public MDOResource(MDOUser owner)
+    public MDOResource( MDOUser owner )
     {
         this.owner = owner;
     }
 
-    public Long getSid() {
+    public Long getSid()
+    {
         return sid;
     }
 
-    public void setSid(Long sid) {
+    public void setSid( Long sid )
+    {
         this.sid = sid;
     }
 
-    public MDOUser getOwner() {
+    public MDOUser getOwner()
+    {
         return owner;
     }
 
-    public void setOwner(MDOUser owner) {
+    public void setOwner( MDOUser owner )
+    {
         this.owner = owner;
     }
-
 
 }

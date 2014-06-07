@@ -28,9 +28,9 @@
 					<li id="messic-menu-home" class="messic-menu-icon"><div><fmt:message key="main-button-startpage" bundle="${ message }"/></div></li>
 					<li id="messic-menu-explore" class="messic-menu-icon"><div><fmt:message key="main-button-exploremusic" bundle="${ message }"/></div></li>
 					<li id="messic-menu-playlist" class="messic-menu-icon"><div><fmt:message key="main-button-playlist" bundle="${ message }"/></div></li>
-					<li id="messic-menu-radio" class="messic-menu-icon"><div><fmt:message key="main-button-radioplayer" bundle="${ message }"/></div></li>
-					<li id="messic-menu-settings" class="messic-menu-icon"><div><fmt:message key="main-button-settings" bundle="${ message }"/></div></li>
 					<li id="messic-menu-upload" class="messic-menu-icon"><div><fmt:message key="main-button-uploadmusic" bundle="${ message }"/></div></li>
+					<li id="messic-menu-settings" class="messic-menu-icon"><div><fmt:message key="main-button-settings" bundle="${ message }"/></div></li>
+					<li id="messic-menu-help" class="messic-menu-icon"><div><fmt:message key="main-button-help" bundle="${ message }"/></div></li>
 				</lu>
             </div>
 
@@ -42,7 +42,16 @@
                 </div>
             </div>
 
+
 			<div id="messic-playlist-background">
+
+			<div id="messic-playlist-actions">
+		    	<div id="messic-playlist-action-clear" class="messic-playlist-action" onclick="clearPlaylist()"></div>
+		    	<!-- 
+		    	<div id="messic-playlist-action-pin" class="messic-playlist-action"></div>
+		    	 -->
+	    	</div>
+
 
 			<div id="jquery_jplayer" class="jp-jplayer"></div>
 			<div class="jp-audio" id="jquery_jplayer_content">
@@ -87,6 +96,7 @@
 					</div>
 			    </div>
 			</div>
+			
 
 
 		</div>

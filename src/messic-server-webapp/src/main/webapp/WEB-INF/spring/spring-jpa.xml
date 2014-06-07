@@ -7,14 +7,47 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/tx
 http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
+ 		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+                destroy-method="close" p:driverClassName="org.h2.Driver"
+                p:url="jdbc:h2:/home/spheras/desarrollo/tmp/messic;DB_CLOSE_DELAY=-1" p:username="messic"
+                p:password="cissem" />
+
+        <bean id="entityManagerFactory"
+                class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+                p:dataSource-ref="dataSource" />
+
+
+<!-- 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" p:driverClassName="org.h2.Driver"
 		p:url="jdbc:h2:/home/spheras/desarrollo/tmp/messic;DB_CLOSE_DELAY=-1" p:username="messic"
 		p:password="cissem" />
+		
+		
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-		p:dataSource-ref="dataSource" />
+		p:dataSource-ref="dataSource"  >
+            <property name="jtaDataSource" ref="dataSource"/>
+		    <property name="persistenceProvider">
+		        <bean class="org.hibernate.ejb.HibernatePersistence"/>
+		    </property>
+		    <property name="jpaVendorAdapter">
+		        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+		    </property>
+		    <property name="jpaDialect">
+		        <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+		    </property>
+		    <property name="packagesToScan" value="org.messic.server.datamodel"/>
+		    
+			<property name="jpaProperties">
+	            <props>
+	                <prop key="hibernate.hbm2ddl.auto">update</prop>
+	            </props>
+	        </property>
+		        
+	</bean>
+ -->
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
 		p:entityManagerFactory-ref="entityManagerFactory" />

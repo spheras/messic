@@ -13,26 +13,27 @@
         <meta name="description" content="Messic for the music mess">
         <meta name="viewport" content="width=device-width">
 
-		<link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+		<link rel="shortcut icon" href="img/messic-icon.png" type="image/png">
 		<!-- For third-generation iPad with high-resolution Retina display: -->
-		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/apple-touch-icon-144x144-precomposed.png">
-		<!-- For iPhone with high-resolution Retina display running iOS ≥ 7: -->
-		<link rel="apple-touch-icon-precomposed" sizes="120x120" href="/img/apple-touch-icon-120x120-precomposed.png">
-		<!-- For iPhone with high-resolution Retina display running iOS ≤ 6: -->
-		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/img/apple-touch-icon-114x114-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png">
+		<!-- For iPhone with high-resolution Retina display running iOS 7: -->
+		<link rel="apple-touch-icon-precomposed" sizes="120x120" href="img/apple-touch-icon-120x120-precomposed.png">
+		<!-- For iPhone with high-resolution Retina display running iOS 6: -->
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png">
 		<!-- For first- and second-generation iPad: -->
-		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/img/apple-touch-icon-72x72-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png">
 		<!-- for non-Retina iPhone and iPod Touch: -->
-		<link rel="apple-touch-icon-precomposed" sizes="57x57" href="/img/apple-touch-icon-52x52-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="57x57" href="img/apple-touch-icon-52x52-precomposed.png">
 		<!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
-		<link rel="apple-touch-icon-precomposed" href="/img/apple-touch-icon-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png">
 
 
 		<!-- Kendo styles -->
-		<!---->
+		<!--
 		<link href="css/kendoui/kendo.common.min.css" rel="stylesheet" />
 		<link href="css/kendoui/kendo.default.min.css" rel="stylesheet" />
-				
+		-->
+		
 		<!-- normalization -->
         <link rel="stylesheet" href="css/normalize.min.css">
         <link rel="stylesheet" href="css/main.css">
@@ -48,6 +49,9 @@
         <link rel="stylesheet" href="css/themes/hansv2/kendo.css">
         <link rel="stylesheet" href="css/themes/hansv2/jquery.confirm.css">
         <link rel="stylesheet" href="css/themes/hansv2/api.css">
+        <link rel="stylesheet" href="css/themes/hansv2/explore.css">
+        <link rel="stylesheet" href="css/themes/hansv2/album.css">
+        <link rel="stylesheet" href="css/themes/hansv2/author.css">
 		
 		<!-- modernizr -->
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
@@ -110,10 +114,14 @@
         <script src="js/login.js"></script>
         <script src="js/main.js"></script>
         <script src="js/upload.js"></script>
+        <script src="js/explore.js"></script>
+        <script src="js/album.js"></script>
+        <script src="js/author.js"></script>
         <script src="js/uploadresource.js"></script>
         <script src="js/uploadalbum.js"></script>
         <script src="js/uploadprocess.js"></script>
-        <script src="js/user.js"></script>	
+        <script src="js/user.js"></script>
+        <script src="js/apidoc.js"></script>
         <script src="js/jquery.confirm.js"></script>
 
     </body>

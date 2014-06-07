@@ -1,3 +1,10 @@
 target/
-/.project
+.project
+.settings
+.classpath
+
 src/messic-server-webapp/src/main/resources/rebel.xml
+
+src/messic-service/bundles/03-messic
+src/messic-service/bundles/04-messic-plugins
+src/messic-service/felix-cache

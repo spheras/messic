@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2013 José Amuedo
+ *
+ *  This file is part of Messic.
+ * 
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.messic.server.datamodel.jpaimpl;
 
 import java.util.List;
@@ -19,13 +37,24 @@ public class DAOJPAGenre
         super( MDOGenre.class );
     }
 
+    @Override
+    public List<MDOGenre> getRandomGenre(String username, int number){
+        Query query= entityManager.createQuery("from MDOGenre as a where (1=1 AND a.owner.login= :userName) order by rand()");
+        query.setParameter( "userName", username);
+        query.setMaxResults(5);
+        @SuppressWarnings( "unchecked" )
+        List<MDOGenre> results=query.getResultList();
+        return results;
+    }
+
     /**
      * @TODO limit to the valid genres for the user?
      */
 	@Override
 	public List<MDOGenre> findSimilarGenre(String genreName, String username) {
-        Query query = entityManager.createQuery( "from MDOGenre as a where (a.name LIKE :genreName)" );
+        Query query = entityManager.createQuery( "from MDOGenre as a where (a.owner.login = :userName) AND (a.name LIKE :genreName)" );
         query.setParameter( "genreName", "%" + genreName + "%");
+        query.setParameter( "userName", username);
         
         @SuppressWarnings( "unchecked" )
         List<MDOGenre> results = query.getResultList();
@@ -33,9 +62,10 @@ public class DAOJPAGenre
 	}
 
 	
-	public MDOGenre getGenre(String genreName) {
-        Query query = entityManager.createQuery( "from MDOGenre as a where (a.name = :genreName)" );
+	public MDOGenre getGenre(String username, String genreName) {
+        Query query = entityManager.createQuery( "from MDOGenre as a where (a.owner.login = :userName) AND (a.name = :genreName)" );
         query.setParameter( "genreName", "'" + genreName + "'");
+        query.setParameter( "userName", username);
         
         @SuppressWarnings( "unchecked" )
         List<MDOGenre> results = query.getResultList();
@@ -46,9 +76,10 @@ public class DAOJPAGenre
         }
 	}
 
-	public MDOGenre getByName(String genreName){
-        Query query = entityManager.createQuery("from MDOGenre as a where (a.name = :genreName)");
+	public MDOGenre getByName(String username, String genreName){
+        Query query = entityManager.createQuery("from MDOGenre as a where (a.owner.login = :userName) AND (a.name = :genreName)");
         query.setParameter( "genreName", genreName);
+        query.setParameter( "userName", username);
 		
         @SuppressWarnings( "unchecked" )
         List<MDOGenre> results = query.getResultList();
