@@ -43,14 +43,6 @@ function selectOption(optionSelected)
 	$(optionSelected).addClass("messic-menu-icon-selected");
 }
 
-function openUserSettings(){
-	$.get("settings.do", function(data){ 
-		$("#messic-page-content").empty();
-	    var posts = $($.parseHTML(data)).find("#messic-page-content").children();
-	    $("#messic-page-content").append(posts);
-        initUser(logged_user);
-    });
-}
 
 function initMessic(){
 
@@ -80,8 +72,22 @@ function initMessic(){
     mainCreateRandomLists();
 
 	$("#messic-menu-settings").click(function(){
-	    openUserSettings();
-	});
+		var self=this;
+		var nextFunction=function(){
+			selectOption(self);
+			$.ajax({
+				url: "settings.do",
+				success: function(data){
+					$("#messic-page-content").empty();
+				    var posts = $($.parseHTML(data)).find("#messic-page-content").children();
+				    $("#messic-page-content").append(posts);
+				    initSettings(false);
+				}
+			});
+			
+		}
+		VAR_changeSection(nextFunction);
+    });
 
 	$("#messic-menu-home").click(function(){
 		var self=this;
@@ -166,8 +172,8 @@ function initMessic(){
 	},function(){
 		$("#messic-playlist-background").removeClass("interesting");
 	});
-
 }
+
 /* show the author page */
 function showAuthorPage(authorSid){
 	var self=this;

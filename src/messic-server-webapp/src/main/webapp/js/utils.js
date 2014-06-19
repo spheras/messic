@@ -94,6 +94,55 @@ function UtilHideWait(){
 function UtilShowInfo(info){
 	UtilShowInfoDelay(info,1500);
 }
+/**
+ * Show messages from messic. A set of phrases can be showed, once after other. Phrases must be separated by "||"
+ */
+function UtilShowMessic(infoTitle,infoPhrases){
+	UtilShowMessic(infoTitle,infoPhrases,null);
+}
+/**
+ * Show messages from messic. A set of phrases can be showed, once after other. Phrases must be separated by "||"
+ * the nextFunction param is a function that can be executed after the end of the phrases.
+ */
+function UtilShowMessic(infoTitle,infoPhrases,nextFunction){
+	var phrases=infoPhrases.split("||");
+	var currentPhrase=0;
+    var markup = [
+                  '<div id="messicOverlay">',
+                  '  <div id="messicOverlayContent">',
+                  '    <div id="messicAvatar"></div>',
+                  '    <h1>',infoTitle,'</h1>',
+                  '    <p id="messicPhrase">',phrases[0],'</p>',
+                  '    <div id="messicClose">Aceptar</div>',
+                  '  </div>',
+                  '</div>'
+              ].join('');
+    
+    $(markup).hide().appendTo('body').fadeIn();
+
+    $("#messicClose").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#messicClose").click();
+        }
+    });
+    
+    $("#messicClose").click(function(){
+    	currentPhrase++;
+    	if(phrases.length>currentPhrase){
+    		$("#messicPhrase").fadeOut(400,function(){
+    			$(this).html(phrases[currentPhrase]).fadeIn();
+    		});
+    	}else{
+    		$("#messicOverlay").fadeOut(400,function(){
+    			$(this).remove();
+    			if(nextFunction){
+        			nextFunction();
+    			}
+    		});
+    	}
+    });
+	
+}
 
 function UtilShowInfoDelay(info, delay){
 	$('.messic-smallinfo').stop();

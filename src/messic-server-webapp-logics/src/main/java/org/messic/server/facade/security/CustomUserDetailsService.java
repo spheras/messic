@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.messic.server.Util;
 import org.messic.server.api.APIUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -63,6 +64,7 @@ public class CustomUserDetailsService
             user.setName( "test" );
             user.setEmail( "test@a.com" );
             user.setAdministrator( true );
+            user.setStorePath( Util.GENERIC_BASE_STORE_PATH_VAR );
 
             domainUser = userAPI.createUser( user );
         }
@@ -71,8 +73,10 @@ public class CustomUserDetailsService
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
-        org.springframework.security.core.userdetails.User signedUser = new org.springframework.security.core.userdetails.User( domainUser.getLogin(), domainUser.getPassword(), enabled, accountNonExpired,
-                      credentialsNonExpired, accountNonLocked, getAuthorities( 1 ) );
+        org.springframework.security.core.userdetails.User signedUser =
+            new org.springframework.security.core.userdetails.User( domainUser.getLogin(), domainUser.getPassword(),
+                                                                    enabled, accountNonExpired, credentialsNonExpired,
+                                                                    accountNonLocked, getAuthorities( 1 ) );
 
         return signedUser;
 

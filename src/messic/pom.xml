@@ -166,6 +166,23 @@
 				<artifactId>commons-io</artifactId>
 				<version>2.4</version>
 			</dependency>
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.2.2</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-collections</groupId>
+				<artifactId>commons-collections</artifactId>
+				<version>3.2.1</version>
+			</dependency>
+
+			<!-- jcaptcha -->
+			<dependency>
+				<groupId>com.octo.captcha</groupId>
+				<artifactId>jcaptcha-integration-simple-servlet</artifactId>
+				<version>2.0-alpha-1</version>
+			</dependency>
 
 			<!-- JSTL -->
 			<dependency>
@@ -415,6 +432,15 @@
 			<organization>messic</organization>
 		</developer>
 	</developers>
+	
+	<repositories>
+		<!-- this repository is for jCaptcha -->
+		<repository>
+			<id>sourceforge-releases</id>
+			<name>Sourceforge Releases</name>
+			<url>https://oss.sonatype.org/content/repositories/sourceforge-releases</url>
+		</repository>
+	</repositories>
 
 
 	<profiles>

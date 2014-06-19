@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.messic.server.datamodel.MDO;
 import org.messic.server.datamodel.dao.DAO;
@@ -64,6 +65,13 @@ public class DAOJPA<T extends MDO>
     public List<T> getAll()
     {
         return entityManager.createQuery( "from " + type.getName() ).getResultList();
+    }
+
+    @Transactional( readOnly = true )
+    public long getCount()
+    {
+        Query q = entityManager.createQuery( "SELECT COUNT(e) FROM " + type.getName() + " e" );
+        return (Long) q.getSingleResult();
     }
 
     public void save( T object )

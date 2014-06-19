@@ -29,7 +29,7 @@
 var VAR_MessicToken;
 
 
-$(document).ready(function() {
+$(document).ready(function() {	
 	var loginWindow = $("#messic-login-window");
 	var loginShadow = $("#messic-login-shadow");
 
@@ -58,18 +58,25 @@ $(document).ready(function() {
 	}
 	loginWindow.center();
 
+    $("#password").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#messic-login-button").click();
+        }
+    });
+
 	//add the login button functionality
 	$("#messic-login-button").click(function(){
 		info = $("#messic-login-form").serialize();
 		$.ajax({
 		    type: "POST",
 		    url: "messiclogin",
+		    async: false,
 		    data: info, // serializes the form's elements.
 		    dataType: "json",
 		    error: function (XMLHttpRequest, textStatus, errorThrown) 
-		    	{
-		        	console.log('error');
-		    	},
+	    	{
+	        	console.log('error');
+	    	},
 		    success: function (data) 
 		    	{
 			    	if(data.success==true)
@@ -84,10 +91,9 @@ $(document).ready(function() {
 			    		$.ajax({
 			    		    type: "GET",
 			    		    url: "main.do",
-			    		    error: function (XMLHttpRequest, textStatus, errorThrown) 
-			    		    	{
-			    		        	console.log('error');
-			    		    	},
+			    		    error: function (XMLHttpRequest, textStatus, errorThrown){
+		    		        	console.log('error');
+		    		    	},
 			    		    success: function(data){ 
         						$("#messic-logo1").attr("class","messic-main");
         						$("#messic-logo2").attr("class","messic-main");
@@ -143,7 +149,7 @@ $(document).ready(function() {
     $("#newAccount").click(function(){
 		$.get("settings.do", function(data){ 
 	        $("body").html(data);
-            initUser();
+            initSettings(true);
         });
     });
     

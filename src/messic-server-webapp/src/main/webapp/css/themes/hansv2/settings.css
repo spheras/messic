@@ -1,0 +1,242 @@
+#messic-page-border.messic-user-settings-border {
+    width: 565px;
+}
+
+.messic-user-settings-container {
+    border-bottom: 3px solid #AAAAAA;
+    margin-bottom: 10px;
+    min-height: 253px;
+}
+.messic-user-settings-menu-container {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 6%, #E9E9E9 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-right: 1px solid #CCCCCC;
+    float: left;
+    font-family: Arial;
+    height: 1000px;
+    left: -24px;
+    margin-left: -24px;
+    margin-right: 14px;
+    margin-top: -57px;
+    padding-top: 86px;
+    width: 199px;
+}
+
+#messic-user-settings-content {
+    float: left;
+    height: 100%;
+    margin-top: -15px;
+    width: 620px;
+}
+
+.messic-user-settings-menu-option-selected {
+    background: url("user/selectedTab.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 50px;
+    padding-top: 12px;
+    width: 238px;
+}
+
+
+.messic-user-settings-menu-option-unselected {
+    border-bottom: 1px solid #CDCDCD;
+    height: 50px;
+    padding-top: 12px;
+}
+.messic-user-settings-menu-option-unselected:hover {
+    background: none repeat scroll 0 0 #dfdfdf;
+    border-bottom: 0 solid #aaaaaa;
+    border-bottom-left-radius: 18px;
+    border-image: none;
+    border-right: 0 solid #aaaaaa;
+    border-top: 0 solid #aaaaaa;
+    border-top-right-radius: 18px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.49) inset;
+}
+
+.messic-user-settings-title {
+    border-bottom: 3px solid;
+    color: #999999;
+    float: left;
+    font-family: Amaranth !important;
+    font-size: 2.5em;
+    margin-top: -47px;
+    text-align: left;
+    width: 615px;
+}
+
+
+.messic-user-settings-menu-option-selected .messic-user-settings-menu-option-title {
+    color: #FFFFFF;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.84);
+}
+.messic-user-settings-menu-option-title {
+    font-family: Roboto;
+    font-size: 1.5em;
+    margin-bottom: -5px;
+    margin-top: -6px;
+}
+
+
+
+#messic-user-settings-menu-basic.messic-user-settings-menu-option-selected .messic-user-settings-menu-option-image {
+    background: url("user/home-icon-basic-w.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+#messic-user-settings-menu-basic .messic-user-settings-menu-option-image {
+    background: url("user/home-icon-basic-b.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    margin-top: 4px;
+}
+#messic-user-settings-menu-music.messic-user-settings-menu-option-selected .messic-user-settings-menu-option-image {
+    background: url("user/home-icon-music-w.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+#messic-user-settings-menu-music .messic-user-settings-menu-option-image {
+    background: url("user/home-icon-music-b.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    margin-top: 4px;
+}
+#messic-user-settings-menu-admin.messic-user-settings-menu-option-selected .messic-user-settings-menu-option-image {
+    background: url("user/home-icon-admin-w.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+#messic-user-settings-menu-admin .messic-user-settings-menu-option-image {
+    background: url("user/home-icon-admin-b.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    margin-top: 4px;
+}
+#messic-user-settings-menu-stats.messic-user-settings-menu-option-selected .messic-user-settings-menu-option-image {
+    background: url("user/home-icon-stats-w.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+#messic-user-settings-menu-stats .messic-user-settings-menu-option-image {
+    background: url("user/home-icon-stats-b.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    margin-top: 4px;
+}
+
+.messic-user-settings-menu-option-selected .messic-user-settings-menu-option-subtitle {
+    color: #FFFFFF;
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.84);
+}
+.messic-user-settings-menu-option-image {
+    float: left;
+    height: 39px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 0;
+    width: 36px;
+}
+
+#messic-user-settings-content ul {
+    list-style: none outside none;
+}
+
+
+#messic-user-settings-content li {
+    margin-bottom: 10px;
+    overflow: hidden;
+    position: relative;
+    width: 300px;
+    transition-property:height;
+    transition-duration:1s;
+}
+
+
+#messic-user-settings-content li input {
+    width: 298px;
+}
+
+#messic-user-settings-content li input[type="checkbox"] {
+    width: 17px;
+}
+
+
+.messic-user-settings-basic-data-container {
+    float: left;
+    width: 360px;
+}
+
+.messic-user-settings-buttons {
+    float: left;
+    width: 630px;
+}
+.messic-user-settings-buttons button.skull {
+    float: right;
+}
+
+
+.messic-user-settings-basic-avatar-container:after {
+    background: url("user/ripped.png") no-repeat scroll 0 0 / 252px 197px rgba(0, 0, 0, 0);
+    content: " ";
+    height: 196px;
+    margin-left: -226px;
+    margin-top: -12px;
+    position: absolute;
+    width: 257px;
+}
+.messic-user-settings-basic-avatar-container {
+    float: left;
+    height: 196px;
+    margin-left: -37px;
+    margin-top: 22px;
+    width: 259px;
+    cursor: pointer;
+}
+
+.messic-user-settings-avatar-mark {
+    color: #AAAAAA;
+    font-family: Roboto;
+    font-size: 0.9em;
+    margin-left: 99px;
+    margin-top: -10px;
+    cursor: pointer;
+}
+.messic-user-settings-menu-notvisible {
+    display: none;
+}
+.messic-user-settings-basic-avatar-container img {
+    margin-left: 102px;
+    margin-top: 6px;
+    width: 124px;
+}
+
+#messic-user-settings-captcha {
+    border: 1px solid #BBBBBB;
+    margin-bottom: 3px;
+    width: 298px;
+}
+
+
+#messic-user-settings-captcha-explanation {
+    color: #AAAAAA;
+    font-family: roboto;
+    font-size: 0.8em;
+    margin-top: 28px;
+}
+
+#messic-user-settings-captcha-reload {
+    background: url("user/refresh-g.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 30px;
+    margin-left: 270px;
+    margin-top: -152px;
+    position: absolute;
+    width: 30px;
+}
+
+.messic-user-settings-content-info:before {
+    background: url("base/info.png") no-repeat scroll 0 0 / 24px 24px rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    float: left;
+    height: 24px;
+    left: -3px;
+    margin-right: 10px;
+    position: relative;
+    top: 2px;
+    width: 24px;
+}
+
+.messic-user-settings-content-info {
+    background: none repeat scroll 0 0 #ddddff;
+    color: #3333aa;
+    font-family: Roboto;
+    font-size: 0.8em;
+    padding: 2px 10px;
+    text-align: left;
+}
+.messic-user-settings-buttons button {
+    margin-right: 13px;
+}

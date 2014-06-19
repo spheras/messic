@@ -59,8 +59,8 @@
 	color: #00BABA;
 }
 
-#messic-login-window input[type='text']{
-	width:200px;
+#messic-login-window input[type="text"], input[type="password"] {
+    width: 200px;
 }
 
 /* login panel at right */ 

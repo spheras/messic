@@ -68,30 +68,30 @@ function exploreByAlbum(){
 			var firstword=data[i].name.substring(0,1).toUpperCase();
 			var changedWord=false;
 
-			code=code+"<div class='messic-explore-albumcontainer' title='"+data[i].name+"'>";
+			code=code+"<div class=\"messic-explore-albumcontainer\" title=\""+data[i].name+"\">";
 
 			if(i==0 || lastChar!=firstword){
-				code=code+"<a name='messic-explore-word"+firstword+"' class='messic-explore-anchor'></a>";
+				code=code+"<a name=\"messic-explore-word"+firstword+"\" class=\"messic-explore-anchor\"></a>";
 				lastChar=firstword;
 				changedWord=true;
 			}
 			
 			if(changedWord){
-				code=code+"<div class='messic-explore-albumstartword'>"+lastChar.toUpperCase()+"</div>";
+				code=code+"<div class=\"messic-explore-albumstartword\">"+lastChar.toUpperCase()+"</div>";
 				
-				codewords="<a class='messic-explore-word' href='#messic-explore-word"+lastChar.toUpperCase()+"'>"+lastChar.toUpperCase()+"</a>";
+				codewords="<a class=\"messic-explore-word\" href=\"#messic-explore-word"+lastChar.toUpperCase()+"\">"+lastChar.toUpperCase()+"</a>";
 				$(".messic-explore-words").append(codewords);
 			}
 			
 
-	        		code=code+"    <div class='messic-explore-albumcover'>";
-	        		code=code+"        <div class='messic-explore-add' onclick='addAlbum("+data[i].sid+")'></div>";
-	        		code=code+"        <div class='messic-explore-vinyl-detail' title='Edit Album' onclick='exploreEditAlbum("+data[i].sid+")'>...</div>";
-					code=code+"        <img  src='services/albums/"+data[i].sid+"/cover?messic_token="+VAR_MessicToken+"' onclick='exploreEditAlbum("+data[i].sid+")'></img>";
-	        		code=code+"        <div class='messic-explore-vinyl'></div>";
+	        		code=code+"    <div class=\"messic-explore-albumcover\">";
+	        		code=code+"        <div class=\"messic-explore-add\" onclick=\"addAlbum("+data[i].sid+")\"></div>";
+	        		code=code+"        <div class=\"messic-explore-vinyl-detail\" title=\"Edit Album\" onclick=\"exploreEditAlbum("+data[i].sid+")\">...</div>";
+					code=code+"        <img  src=\"services/albums/"+data[i].sid+"/cover?messic_token="+VAR_MessicToken+"\" onclick=\"exploreEditAlbum("+data[i].sid+")\"></img>";
+	        		code=code+"        <div class=\"messic-explore-vinyl\"></div>";
 					code=code+"    </div>"
-					code=code+"    <div class='messic-explore-albumtitle' title='"+data[i].name+"'>"+data[i].name+"</div>";
-					code=code+"    <div class='messic-explore-albumauthortitle' title='"+data[i].author.name+"'>"+data[i].author.name+"</div>";
+					code=code+"    <div class=\"messic-explore-albumtitle\" title=\""+data[i].name+"\">"+data[i].name+"</div>";
+					code=code+"    <div class=\"messic-explore-albumauthortitle\" title=\""+data[i].author.name+"\">"+data[i].author.name+"</div>";
 					code=code+"</div>";
 
 			code=code+"</div>";
@@ -118,15 +118,15 @@ function exploreByAuthor(){
 			var firstword=data[i].name.substring(0,1).toUpperCase();
 			var changedWord=false;
 			if(i==0 || lastChar!=firstword){
-				code=code+"<a name='messic-explore-word"+firstword+"' class='messic-explore-anchor'></a>";
+				code=code+"<a name=\"messic-explore-word"+firstword+"\" class=\"messic-explore-anchor\"></a>";
 				lastChar=firstword;
 				changedWord=true;
 			}
-			code=code+"<div class='messic-explore-authortitle' title='"+data[i].name+"'><div class='messic-explore-authortitle-text'>"+data[i].name+"</div>";
+			code=code+"<div class=\"messic-explore-authortitle\" title=\""+data[i].name+"\"><div class=\"messic-explore-authortitle-text\" onclick=\"showAuthorPage("+data[i].sid+")\">"+data[i].name+"</div>";
 			if(changedWord){
-				code=code+"<div class='messic-explore-albumstartword'>"+lastChar.toUpperCase()+"</div>";
+				code=code+"<div class=\"messic-explore-albumstartword\">"+lastChar.toUpperCase()+"</div>";
 				
-				codewords="<a class='messic-explore-word' href='#messic-explore-word"+lastChar.toUpperCase()+"'>"+lastChar.toUpperCase()+"</a>";
+				codewords="<a class=\"messic-explore-word\" href=\"#messic-explore-word"+lastChar.toUpperCase()+"\">"+lastChar.toUpperCase()+"</a>";
 				$(".messic-explore-words").append(codewords);
 			}
 			
@@ -135,14 +135,14 @@ function exploreByAuthor(){
 			//for(var debug=0;debug<debugRandom;debug++){
 				for(var j=0;j<data[i].albums.length;j++){
 					var album=data[i].albums[j];
-					code=code+"<div class='messic-explore-albumcontainer' title='"+album.name+"'>";
-	        		code=code+"    <div class='messic-explore-albumcover'>";
-	        		code=code+"        <div class='messic-explore-add' onclick='addAlbum("+album.sid+")'></div>";
-	        		code=code+"        <div class='messic-explore-vinyl-detail' title='Edit Album' onclick='exploreEditAlbum("+album.sid+")'>...</div>";
-					code=code+"        <img  src='services/albums/"+album.sid+"/cover?messic_token="+VAR_MessicToken+"' onclick='exploreEditAlbum("+album.sid+")'></img>";
-	        		code=code+"        <div class='messic-explore-vinyl'></div>";
+					code=code+"<div class=\"messic-explore-albumcontainer\" title=\""+album.name+"\">";
+	        		code=code+"    <div class=\"messic-explore-albumcover\">";
+	        		code=code+"        <div class=\"messic-explore-add\" onclick=\"addAlbum("+album.sid+")\"></div>";
+	        		code=code+"        <div class=\"messic-explore-vinyl-detail\" title=\"Edit Album\" onclick=\"exploreEditAlbum("+album.sid+")\">...</div>";
+					code=code+"        <img  src=\"services/albums/"+album.sid+"/cover?messic_token="+VAR_MessicToken+"\" onclick=\"exploreEditAlbum("+album.sid+")\"></img>";
+	        		code=code+"        <div class=\"messic-explore-vinyl\"></div>";
 					code=code+"    </div>"
-					code=code+"    <div class='messic-explore-albumtitle' title='"+album.name+"'>"+album.name+"</div>";
+					code=code+"    <div class=\"messic-explore-albumtitle\" title=\""+album.name+"\">"+album.name+"</div>";
 					code=code+"</div>";
 				}
 			//}

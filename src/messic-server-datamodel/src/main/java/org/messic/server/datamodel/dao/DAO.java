@@ -32,6 +32,8 @@ public interface DAO<T extends MDO>
 
     List<T> getAll();
 
+    long getCount();
+
     void save( T object );
 
     void remove( T object );

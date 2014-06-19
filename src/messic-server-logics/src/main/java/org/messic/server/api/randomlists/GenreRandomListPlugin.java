@@ -65,7 +65,9 @@ public class GenreRandomListPlugin
             }
 
             long seed = System.nanoTime();
-            Collections.shuffle( rl.getSongs(), new Random( seed ) );
+            if(rl.getSongs()!=null){
+                Collections.shuffle( rl.getSongs(), new Random( seed ) );
+            }
             return rl;
         }
         return null;

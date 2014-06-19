@@ -45,7 +45,7 @@
         <link rel="stylesheet" href="css/themes/hansv2/playlist.css">
         <link rel="stylesheet" href="css/themes/hansv2/about.css">
         <link rel="stylesheet" href="css/themes/hansv2/upload.css">
-        <link rel="stylesheet" href="css/themes/hansv2/user.css">
+        <link rel="stylesheet" href="css/themes/hansv2/settings.css">
         <link rel="stylesheet" href="css/themes/hansv2/kendo.css">
         <link rel="stylesheet" href="css/themes/hansv2/jquery.confirm.css">
         <link rel="stylesheet" href="css/themes/hansv2/api.css">
@@ -76,11 +76,11 @@
 				            <ul>
 				                <li>
 									<label for="username" class="login-form-label"><fmt:message key="login-username" bundle="${ message }"/></label>
-									<input id="username" name="j_username" type="text" value="joseUser"/>
+									<input id="username" name="j_username" type="text" value=""/>
 								</li>
 								<li>
 									<label for="password" class="login-form-label"><fmt:message key="login-password" bundle="${ message }"/></label>
-									<input id="password" name="j_password" type="text" value="12345"/>
+									<input id="password" name="j_password" type="password" value=""/>
 								</li>
 							</ul>
 						</form>
@@ -120,9 +120,26 @@
         <script src="js/uploadresource.js"></script>
         <script src="js/uploadalbum.js"></script>
         <script src="js/uploadprocess.js"></script>
-        <script src="js/user.js"></script>
+        <script src="js/settings.js"></script>
         <script src="js/apidoc.js"></script>
         <script src="js/jquery.confirm.js"></script>
 
+		<%
+		boolean firstTime=(Boolean)request.getAttribute("firstTime");
+		if(firstTime){%>
+			<script type="text/javascript">
+			    var messages = [
+                  "Hello! This is <b>Messic</b>!  I welcome you to your Messic Website for the first time. </br> If you don't know me, I must say that I will try to help you to organize your music... but... I will explain this better later.",
+                  "||",
+                  "For the moment, it is important to say that I am <b>FREE</b>, concretely a <b>GPL v3</b> Software ... here you can read the whole license in detail: <a href=\"http://www.gnu.org/licenses/gpl-3.0.txt\" target=\"_blank\">http://www.gnu.org/licenses/gpl-3.0.txt</a>",
+                  "||",
+                  "So, lets start! The first thing to enter to messic is to have an account.  So, when finish this message, click on the button to <b>create a new account</b>.</br></br>See you later!"
+              	].join("");
+			
+				UtilShowMessic("Welcome to Messic",messages);
+			</script>		    
+		<%
+		}
+		%>
     </body>
 </html>

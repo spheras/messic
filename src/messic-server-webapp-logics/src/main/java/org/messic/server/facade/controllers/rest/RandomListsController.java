@@ -63,6 +63,7 @@ public class RandomListsController
 			List<RandomList> lists=randomListsAPI.getAllLists(user);
 			return lists;
 		}catch(Exception e){
+		    e.printStackTrace(  );
 			throw new UnknownMessicRESTException(e);
 		}
     }

@@ -19,6 +19,9 @@
  */
 package org.messic.server;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -323,4 +326,19 @@ public class Util
             }
         }
     }
+
+    /**
+     * Make a copy of a buffered image
+     * 
+     * @param bi {@link BufferedImage} image to copy
+     * @return {@link BufferedImage} copied
+     */
+    public static BufferedImage ImagedeepCopy( BufferedImage bi )
+    {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData( null );
+        return new BufferedImage( cm, raster, isAlphaPremultiplied, null );
+    }
+
 }

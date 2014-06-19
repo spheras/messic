@@ -74,6 +74,9 @@ public class MDOUser
     @Column( name = "ADMINISTRATOR", nullable = false )
     private Boolean administrator;
 
+    @Column( name = "ALLOWSTATISTICS", nullable = false )
+    private Boolean allowStatistics=true; //by default, true
+
     @Column(name = "STOREPATH" , nullable = false)
     private String storePath;
 
@@ -207,6 +210,22 @@ public class MDOUser
     public void setStorePath( String storePath )
     {
         this.storePath = storePath;
+    }
+
+    /**
+     * @return the allowStatistics
+     */
+    public Boolean getAllowStatistics()
+    {
+        return allowStatistics;
+    }
+
+    /**
+     * @param allowStatistics the allowStatistics to set
+     */
+    public void setAllowStatistics( Boolean allowStatistics )
+    {
+        this.allowStatistics = allowStatistics;
     }
 
 }

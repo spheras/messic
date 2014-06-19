@@ -38,40 +38,47 @@ public class DAOJPAMessicSettings
         super( MDOMessicSettings.class );
     }
 
-	@Override
-	public MDOMessicSettings getSettings() {
+    @Override
+    public MDOMessicSettings getSettings()
+    {
         Query query = entityManager.createQuery( "from MDOMessicSettings" );
-        
+
         @SuppressWarnings( "unchecked" )
         List<MDOMessicSettings> results = query.getResultList();
-        if(results==null || results.size()==0){
-        	return createBasicSettings();
-        }else{
-        	return results.get(0);
+        if ( results == null || results.size() == 0 )
+        {
+            return createBasicSettings();
         }
-	}
-	
-	private MDOMessicSettings createBasicSettings(){
-		MDOMessicSettings ms=new MDOMessicSettings();
-		ms.setGenericBaseStorePath(System.getProperty("user.home")+File.separatorChar+"messic-data");
-                ms.setIllegalCharacterReplacement('_');
+        else
+        {
+            return results.get( 0 );
+        }
+    }
 
-		saveSettings(ms);
-		return ms;
-	}
+    private MDOMessicSettings createBasicSettings()
+    {
+        MDOMessicSettings ms = new MDOMessicSettings();
+        ms.setGenericBaseStorePath( System.getProperty( "user.home" ) + File.separatorChar + "messic-data" );
+        ms.setIllegalCharacterReplacement( '_' );
+        ms.setAllowUserCreation( true );
+        ms.setAllowUserSpecificFolder( false );
+        saveSettings( ms );
+        return ms;
+    }
 
-	@Override
-	public MDOMessicSettings setSettings(Long sid, String genericBaseStorePath) {
-		MDOMessicSettings settings = entityManager.getReference(MDOMessicSettings.class, sid);
-		settings.setGenericBaseStorePath(genericBaseStorePath);	
-		entityManager.persist(settings);
+    @Override
+    public MDOMessicSettings setSettings( Long sid, String genericBaseStorePath )
+    {
+        MDOMessicSettings settings = entityManager.getReference( MDOMessicSettings.class, sid );
+        settings.setGenericBaseStorePath( genericBaseStorePath );
+        entityManager.persist( settings );
         return settings;
-	}
+    }
 
-	@Override
-	public void saveSettings(MDOMessicSettings newSettings) {
-		entityManager.persist(newSettings);
-	}
-
+    @Override
+    public void saveSettings( MDOMessicSettings newSettings )
+    {
+        entityManager.persist( newSettings );
+    }
 
 }

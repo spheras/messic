@@ -21,6 +21,8 @@ package org.messic.server.facade.controllers.pages;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.messic.server.datamodel.dao.DAOSong;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,12 +30,21 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class UploadController
 {
+    @Autowired
+    private DAOSong daosongs;
 
     @RequestMapping("/upload.do")
     protected ModelAndView upload( HttpServletRequest arg0, HttpServletResponse arg1 )
         throws Exception
     {
         ModelAndView model = new ModelAndView( "upload" );
+
+        long songsCount=daosongs.getCount( );
+        if(songsCount<=0){
+            model.addObject("firstTime",true);
+        }else{
+            model.addObject("firstTime",false);
+        }
 
         return model;
     }

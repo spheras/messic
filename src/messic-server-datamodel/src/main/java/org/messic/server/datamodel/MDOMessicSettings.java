@@ -50,6 +50,14 @@ public class MDOMessicSettings
     @Column( name = "ILLEGALCHARACTERREPLACEMENT", nullable = true )
     /* string whicn will replace all those illegal characters at filename adn paths */
     private char illegalCharacterReplacement='_';
+    
+    @Column( name = "ALLOWUSERCREATION", nullable = false)
+    /* flag to know if its available the option to create new users by non messic users */
+    private boolean allowUserCreation=true;
+    
+    @Column( name = "ALLOWUSERSPECIFICFOLDER", nullable = false)
+    /* flag to know if users can specify their folder to store music, or its just a subfolder of the generic messic folder */
+    private boolean allowUserSpecificFolder=false;
 
     /**
      * @constructor
@@ -92,6 +100,38 @@ public class MDOMessicSettings
     public void setIllegalCharacterReplacement( char illegalCharacterReplacement )
     {
         this.illegalCharacterReplacement = illegalCharacterReplacement;
+    }
+
+    /**
+     * @return the allowUserCreation
+     */
+    public boolean isAllowUserCreation()
+    {
+        return allowUserCreation;
+    }
+
+    /**
+     * @param allowUserCreation the allowUserCreation to set
+     */
+    public void setAllowUserCreation( boolean allowUserCreation )
+    {
+        this.allowUserCreation = allowUserCreation;
+    }
+
+    /**
+     * @return the allowUserSpecificFolder
+     */
+    public boolean isAllowUserSpecificFolder()
+    {
+        return allowUserSpecificFolder;
+    }
+
+    /**
+     * @param allowUserSpecificFolder the allowUserSpecificFolder to set
+     */
+    public void setAllowUserSpecificFolder( boolean allowUserSpecificFolder )
+    {
+        this.allowUserSpecificFolder = allowUserSpecificFolder;
     }
 
 }

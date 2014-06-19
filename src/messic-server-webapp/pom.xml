@@ -18,12 +18,12 @@
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
 
-    <licenses>
-        <license>
-            <name>GNU General Public License, Version 3 or later</name>
-            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
-        </license>
-    </licenses>
+	<licenses>
+		<license>
+			<name>GNU General Public License, Version 3 or later</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+		</license>
+	</licenses>
 
 	<build>
 		<plugins>
@@ -203,21 +203,19 @@
 			<groupId>org.messic</groupId>
 			<artifactId>messic-server-dlna</artifactId>
 		</dependency>
-		
-		<!-- Apache Commons file upload  -->
-	    <dependency>
-	        <groupId>commons-fileupload</groupId>
-	        <artifactId>commons-fileupload</artifactId>
-	        <version>1.2.2</version>
-	    </dependency>
-	    
-	    <!-- Apache Commons IO -->
-	    <dependency>
-	        <groupId>org.apache.commons</groupId>
-	        <artifactId>commons-io</artifactId>
-	        <version>1.3.2</version>
-	    </dependency>
-	    
+
+		<!-- Apache Commons file upload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+		</dependency>
+
+		<!-- Apache Commons IO -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+
 	</dependencies>
 
 </project>

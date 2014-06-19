@@ -12,8 +12,8 @@
 		</c:if>
 
 		<div id="content">
-			<div id="messic-upload-content">
-				<div id="messic-upload-album-container" class="messic-upload-container-border">
+			<div id="messic-upload-content" >
+				<div id="messic-upload-album-container" class="messic-upload-container-border" data-first="${firstTime}" >
 					<div class="messic-upload-container">
 						<h3><fmt:message key="upload-album-head" bundle="${message}"/></h3>
 						<div id="messic-upload-album-editnew"><fmt:message key="upload-album-new" bundle="${message}"/></div>
@@ -84,6 +84,8 @@
 						<div class="messic-upload-song-separator"></div>
 					</div>
 				</div>
+
+				
 			</div>
 		</div>
     </body>

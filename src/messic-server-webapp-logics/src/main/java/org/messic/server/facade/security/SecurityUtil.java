@@ -19,12 +19,15 @@
 package org.messic.server.facade.security;
 
 import org.messic.server.api.datamodel.User;
+import org.messic.server.datamodel.MDOUser;
+import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class SecurityUtil
 {
+
     /**
      * Return the current user logged. Throws an exception if nobody logged
      * 
@@ -34,16 +37,46 @@ public class SecurityUtil
     public static User getCurrentUser()
         throws NotAuthorizedMessicRESTException
     {
+        return getCurrentUser( false, null );
+    }
+
+    /**
+     * Return the current user logged. Throws an exception if nobody logged depending on the parameter completeUser, the
+     * function will return an {@link User} with only the username, or an {@link User} with all the information.
+     * 
+     * @param completeUser boolean flag to know if the returned user must be complete with all the user information or
+     *            just the login information
+     * @param daoUser {@link DAOUser} this param is only necessary when param completeUser is true. If not, it can be
+     *            null
+     * @return {@link User} user logged
+     * @throws NotAuthorizedMessicRESTException
+     */
+    public static User getCurrentUser( boolean completeUser, DAOUser daoUser )
+        throws NotAuthorizedMessicRESTException
+    {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if ( auth != null && auth.getPrincipal().equals( "anonymousUser" ) )
+        {
+            return null;
+        }
         if ( auth != null )
         {
-            User user = new User();
-            user.setLogin( auth.getName() );
-            return user;
+            if ( !completeUser )
+            {
+                User user = new User();
+                user.setLogin( auth.getName() );
+                return user;
+            }
+            else
+            {
+                MDOUser mdoUser = daoUser.getUserByLogin( auth.getName() );
+                User user = new User( mdoUser );
+                return user;
+            }
         }
         else
         {
-            throw new NotAuthorizedMessicRESTException( new Exception( "Not authorized" ) );
+            return null;
         }
     }
 

@@ -33,6 +33,13 @@
 .messic-explore-authortitle-text{
 	
 }
+.messic-explore-authortitle-text:hover {
+    color: #4444ff;
+    cursor: pointer;
+    text-decoration: underline;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
 .messic-explore-authortitle {
     background: linear-gradient(to bottom, #DDDDDD 0%, #F9F9F9 21%, #777777 70%, #BBBBBB 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-left-color: #F4F4F4;

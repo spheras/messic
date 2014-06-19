@@ -21,6 +21,10 @@ package org.messic.server.facade.controllers.pages;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.messic.server.datamodel.MDOMessicSettings;
+import org.messic.server.datamodel.dao.DAOMessicSettings;
+import org.messic.server.datamodel.dao.DAOUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,14 +32,38 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController
 {
+    
+    @Autowired
+    private DAOMessicSettings daosettings;
+    @Autowired
+    private DAOUser daouser;
 
 	@RequestMapping("/login.do")
     protected ModelAndView login( HttpServletRequest arg0, HttpServletResponse arg1 )
         throws Exception
     {
         ModelAndView model = new ModelAndView( "login" );
-        model.addObject( "msg", "hello world2" );
 
+        MDOMessicSettings settings=daosettings.getSettings();
+        long usersCount=daouser.getCount( );
+        
+        if(settings.isAllowUserCreation()){
+            model.addObject( "allowUserCreation", true );
+        }else{
+            //if there is no users in the database, it's allowed (if no there will never exist an user!)
+            if(usersCount<=0){
+                model.addObject( "allowUserCreation", true );
+            }else{
+                model.addObject( "allowUserCreation", false );
+            }
+        }
+        
+        if(usersCount<=0){
+            model.addObject("firstTime",true);
+        }else{
+            model.addObject("firstTime",false);
+        }
+        
         return model;
     }
 
