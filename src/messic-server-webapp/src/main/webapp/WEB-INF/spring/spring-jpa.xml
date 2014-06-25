@@ -7,10 +7,19 @@ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 http://www.springframework.org/schema/tx
 http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
+	<!-- 
  		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
                 destroy-method="close" p:driverClassName="org.h2.Driver"
-                p:url="jdbc:h2:/home/spheras/desarrollo/tmp/messic;DB_CLOSE_DELAY=-1" p:username="messic"
+                p:url="jdbc:h2:..db/messic;DB_CLOSE_DELAY=-1" p:username="messic"
                 p:password="cissem" />
+          -->       
+ 		<bean id="dataSource" class="org.messic.server.datamodel.datasource.MessicDataSource"
+                destroy-method="close" 
+                p:driverClassName="org.h2.Driver"
+                p:url="jdbc:h2:MESSIC_PATH/db;DB_CLOSE_DELAY=-1"
+                p:username="messic"
+                p:password="cissem" />
+                
 
         <bean id="entityManagerFactory"
                 class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"

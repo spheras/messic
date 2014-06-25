@@ -251,6 +251,21 @@ input[type="text"]:hover, input[type="number"]:hover, input[type="password"]:hov
     border-color: rgba(0,139,139,0.5);
 }
 
+.checkboxcontainer > input {
+    float: left;
+    margin-right: 5px;
+    position: relative;
+    top: 2px;
+}
+
+.checkboxcontainer > label {
+    float: left;
+}
+
+.checkboxcontainer {
+    margin-top: 12px;
+    overflow: hidden;
+}
 
 button {
 	/* generated here: http://css3buttongenerator.com/ */
@@ -481,7 +496,7 @@ p strong{
     left: 50%;
     margin-left: -260px;
     position: relative;
-    top: -60px;
+    top: -74px;
     z-index: 999;
 }
 
@@ -560,7 +575,7 @@ p strong{
     background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -99px -99px transparent;
 }
 #messic-menu-help:after{
-    background: url("base/mainmenu-buttons-icons.png") no-repeat scroll 2px -117px transparent;
+    background: url("base/mainmenu-buttons-icons.png") no-repeat scroll 2px -99px transparent;
 }
 #messic-menu-upload:after{
     background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -198px -99px transparent;
@@ -642,7 +657,16 @@ p strong{
     border:none;
     box-shadow: none;
 }
-
+#messic-search-form #messic-main-logout {
+    color: white;
+    cursor: pointer;
+    float: right;
+    font-family: Roboto;
+    font-size: 1em;
+    margin-right: 10px;
+    margin-top: 10px;
+    text-decoration: underline;
+}
 
 #messic-page-border{
 	border-color: transparent;
@@ -790,7 +814,7 @@ body.loading .modal {
     font-family: Roboto;
     left: 50%;
     margin-left: -300px;
-    margin-top: -70px;
+    margin-top: -100px;
     opacity: 1;
     position: fixed;
     top: 50%;
@@ -832,7 +856,26 @@ body.loading .modal {
     transition-property: background-color;
     width: 150px;
 }
+#messicOverlayContent > p {
+    max-height: 200px;
+    overflow-y: auto;
+}
 #messicPhrase > a {
     color: #4444ff;
     font-size: 1.2em;
+}
+#messicSkip {
+    background: url("playlist/remove-vinyl.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 26px;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 26px;
+}
+
+#messicSkip:hover {
+    transform: rotate(720deg);
+    transition-duration: 0.5s;
+    transition-property: transform;
 }

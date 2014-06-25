@@ -71,6 +71,14 @@ function initMessic(){
 
     mainCreateRandomLists();
 
+    $("#messic-main-logout").click(function(){
+    	//removing cookie
+    	UtilCreateCookie("messic_login_cookie","",30);
+    	//going to login
+    	window.location.href="logout.do";
+    	window.location.href="login.do";
+    });
+    
 	$("#messic-menu-settings").click(function(){
 		var self=this;
 		var nextFunction=function(){

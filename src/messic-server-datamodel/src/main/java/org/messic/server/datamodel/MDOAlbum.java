@@ -71,6 +71,10 @@ public class MDOAlbum
     @Column( name = "COMMENTS", nullable = true )
     private String comments;
 
+    @OneToMany( cascade = { CascadeType.REMOVE } )
+    private List<MDOGenericTAG> extraTags;
+
+    
     public MDOAlbum()
     {
         super();

@@ -59,7 +59,7 @@ public class MDOUser
     private String name;
 
     @Lob
-    @Column( name = "AVATAR", nullable = false )
+    @Column( name = "AVATAR", nullable = true )
     private byte[] avatar;
 
     @Column( name = "EMAIL", nullable = false )

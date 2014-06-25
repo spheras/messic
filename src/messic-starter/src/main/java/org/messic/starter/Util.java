@@ -1,0 +1,409 @@
+package org.messic.starter;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.Proxy;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.Enumeration;
+
+import com.mkyong.core.OSValidator;
+
+import sun.tools.jps.JpsOut;
+
+public class Util
+{
+    public static String getMessicInternalURL()
+        throws Exception
+    {
+        String port = getCurrentPort();
+        return "http://" + getInternalIp() + ":" + port + "/messic";
+    }
+
+    /**
+     * Read an inputstream and return a byte[] with the whole content of the readed at the inputstream
+     * 
+     * @param is {@link InputStream}
+     * @return byte[] content
+     * @throws IOException
+     */
+    public static byte[] readInputStream( InputStream is )
+        throws IOException
+    {
+        byte[] buffer = new byte[1024];
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int cant = is.read( buffer );
+        while ( cant > 0 )
+        {
+            baos.write( buffer, 0, cant );
+            cant = is.read( buffer );
+        }
+
+        return baos.toByteArray();
+    }
+
+    public static String getCurrentPort()
+    {
+        File f = new File( "./currentport" );
+        if ( f.exists() )
+        {
+            try
+            {
+                FileInputStream fis = new FileInputStream( f );
+                String port = new String( readInputStream( fis ) );
+                return port;
+            }
+            catch ( Exception e )
+            {
+                e.printStackTrace();
+            }
+            return "";
+        }
+        else
+        {
+            return "";
+        }
+    }
+
+    public static String getInternalIp()
+        throws Exception
+    {
+        InetAddress thisIp = getLocalHostLANAddress();
+        return thisIp.getHostAddress().toString();
+    }
+
+    /**
+     * Returns an <code>InetAddress</code> object encapsulating what is most likely the machine's LAN IP address.
+     * <p/>
+     * This method is intended for use as a replacement of JDK method <code>InetAddress.getLocalHost</code>, because
+     * that method is ambiguous on Linux systems. Linux systems enumerate the loopback network interface the same way as
+     * regular LAN network interfaces, but the JDK <code>InetAddress.getLocalHost</code> method does not specify the
+     * algorithm used to select the address returned under such circumstances, and will often return the loopback
+     * address, which is not valid for network communication. Details <a
+     * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4665037">here</a>.
+     * <p/>
+     * This method will scan all IP addresses on all network interfaces on the host machine to determine the IP address
+     * most likely to be the machine's LAN address. If the machine has multiple IP addresses, this method will prefer a
+     * site-local IP address (e.g. 192.168.x.x or 10.10.x.x, usually IPv4) if the machine has one (and will return the
+     * first site-local address if the machine has more than one), but if the machine does not hold a site-local
+     * address, this method will return simply the first non-loopback address found (IPv4 or IPv6).
+     * <p/>
+     * If this method cannot find a non-loopback address using this selection algorithm, it will fall back to calling
+     * and returning the result of JDK method <code>InetAddress.getLocalHost</code>.
+     * <p/>
+     * 
+     * @throws UnknownHostException If the LAN address of the machine cannot be found.
+     */
+    private static InetAddress getLocalHostLANAddress()
+        throws UnknownHostException
+    {
+        try
+        {
+            InetAddress candidateAddress = null;
+            // Iterate all NICs (network interface cards)...
+            for ( Enumeration ifaces = NetworkInterface.getNetworkInterfaces(); ifaces.hasMoreElements(); )
+            {
+                NetworkInterface iface = (NetworkInterface) ifaces.nextElement();
+                // Iterate all IP addresses assigned to each card...
+                for ( Enumeration inetAddrs = iface.getInetAddresses(); inetAddrs.hasMoreElements(); )
+                {
+                    InetAddress inetAddr = (InetAddress) inetAddrs.nextElement();
+                    if ( !inetAddr.isLoopbackAddress() )
+                    {
+
+                        if ( inetAddr.isSiteLocalAddress() )
+                        {
+                            // Found non-loopback site-local address. Return it immediately...
+                            return inetAddr;
+                        }
+                        else if ( candidateAddress == null )
+                        {
+                            // Found non-loopback address, but not necessarily site-local.
+                            // Store it as a candidate to be returned if site-local address is not subsequently found...
+                            candidateAddress = inetAddr;
+                            // Note that we don't repeatedly assign non-loopback non-site-local addresses as candidates,
+                            // only the first. For subsequent iterations, candidate will be non-null.
+                        }
+                    }
+                }
+            }
+            if ( candidateAddress != null )
+            {
+                // We did not find a site-local address, but we found some other non-loopback address.
+                // Server might have a non-site-local address assigned to its NIC (or it might be running
+                // IPv6 which deprecates the "site-local" concept).
+                // Return this non-loopback candidate address...
+                return candidateAddress;
+            }
+            // At this point, we did not find a non-loopback address.
+            // Fall back to returning whatever InetAddress.getLocalHost() returns...
+            InetAddress jdkSuppliedAddress = InetAddress.getLocalHost();
+            if ( jdkSuppliedAddress == null )
+            {
+                throw new UnknownHostException( "The JDK InetAddress.getLocalHost() method unexpectedly returned null." );
+            }
+            return jdkSuppliedAddress;
+        }
+        catch ( Exception e )
+        {
+            UnknownHostException unknownHostException =
+                new UnknownHostException( "Failed to determine LAN address: " + e );
+            unknownHostException.initCause( e );
+            throw unknownHostException;
+        }
+    }
+
+    public static String getExternalIp( Proxy p )
+        throws Exception
+    {
+        URL whatismyip = new URL( "http://checkip.amazonaws.com" );
+        BufferedReader in = null;
+        InputStream is = null;
+        try
+        {
+            if ( p != null )
+            {
+                is = whatismyip.openConnection( p ).getInputStream();
+            }
+            else
+            {
+                is = whatismyip.openConnection().getInputStream();
+            }
+
+            in = new BufferedReader( new InputStreamReader( is ) );
+            String ip = in.readLine();
+            return ip;
+        }
+        finally
+        {
+            if ( in != null )
+            {
+                try
+                {
+                    in.close();
+                }
+                catch ( IOException e )
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * Check if messic java process is running returns the process number, -1 if not running
+     * 
+     * @return long
+     * @throws IOException
+     */
+    public static boolean isMessicRunning()
+        throws IOException
+    {
+        return ( getMessicProcess() >= 0l );
+    }
+
+    /**
+     * return the messic process. -1 if non process found
+     * 
+     * @return long
+     * @throws IOException
+     */
+    public static long getMessicProcess()
+        throws IOException
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream( baos );
+        JpsOut.main( new String[] {}, ps );
+
+        baos.close();
+        String str = new String( baos.toByteArray() );
+        if ( str.indexOf( "MessicMain" ) >= 0 )
+        {
+            String[] lines = str.split( "\n" );
+            for ( int i = 0; i < lines.length; i++ )
+            {
+                if ( lines[i].indexOf( "MessicMain" ) >= 0 )
+                {
+                    return Long.valueOf( lines[i].split( " " )[0] );
+                }
+            }
+            return -1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+
+    public static void stopMessicService()
+        throws IOException
+    {
+        if ( OSValidator.isWindows() )
+        {
+            System.out.println( "TODO windows launching" );
+        }
+        else if ( OSValidator.isMac() )
+        {
+            System.out.println( "TODO mac launching" );
+        }
+        else if ( OSValidator.isUnix() )
+        {
+            Long messicProcessNumber = Util.getMessicProcess();
+            Runtime.getRuntime().exec( new String[] { "kill", "" + messicProcessNumber } );
+            try
+            {
+                Thread.sleep( 1000 );
+            }
+            catch ( InterruptedException e )
+            {
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+    /**
+     * Start messic service
+     * 
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    public static void launchMessicService( final MessicLaunchedObserver observer )
+        throws IOException, InterruptedException
+    {
+        if ( OSValidator.isWindows() )
+        {
+            System.out.println( "TODO windows launching" );
+        }
+        else if ( OSValidator.isMac() )
+        {
+            System.out.println( "TODO mac launching" );
+        }
+        else if ( OSValidator.isUnix() )
+        {
+            File f = new File( "." );
+            System.out.println( "launching from: " + f.getAbsolutePath() );
+
+            String classpath = getClasspath();
+            System.out.println( "./bin/jre1.8.0_05/bin/java " + "-cp \"" + classpath
+                + "\" org.messic.service.MessicMain" );
+            String[] params =
+                new String[] { "./bin/jre1.8.0_05/bin/java", "-cp", classpath, "org.messic.service.MessicMain" };
+            final Process p = Runtime.getRuntime().exec( params );
+
+            Thread tErrorStream = new Thread()
+            {
+                public void run()
+                {
+                    InputStream is = p.getErrorStream();
+
+                    StringBuffer sb = new StringBuffer();
+                    byte[] buffer = new byte[1024];
+                    int cant = 0;
+                    try
+                    {
+                        cant = is.read( buffer );
+                    }
+                    catch ( IOException e )
+                    {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    boolean ended = false;
+                    while ( cant > 0 && ended == false )
+                    {
+                        String news = new String( buffer, 0, cant );
+                        sb.append( news );
+                        System.out.print( news );
+                        try
+                        {
+                            cant = is.read( buffer );
+                        }
+                        catch ( IOException e )
+                        {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                };
+            };
+            tErrorStream.start();
+
+            Thread tInputStream = new Thread()
+            {
+                public void run()
+                {
+                    InputStream is = p.getInputStream();
+
+                    StringBuffer sb = new StringBuffer();
+                    byte[] buffer = new byte[1024];
+                    int cant = 0;
+                    try
+                    {
+                        cant = is.read( buffer );
+                    }
+                    catch ( IOException e )
+                    {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    boolean ended = false;
+                    while ( cant > 0 && ended == false )
+                    {
+                        String news = new String( buffer, 0, cant );
+                        sb.append( news );
+                        if ( sb.indexOf( "[MESSIC] Service started" ) >= 0 )
+                        {
+                            if ( observer != null )
+                            {
+                                observer.messicLaunched();
+                            }
+                        }
+                        System.out.print( news );
+                        try
+                        {
+                            cant = is.read( buffer );
+                        }
+                        catch ( IOException e )
+                        {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                };
+
+            };
+            tInputStream.start();
+
+        }
+        else
+        {
+            System.out.println( "OS not compatible with messic :(" );
+        }
+    }
+
+    private static String getClasspath()
+    {
+        String result = "";
+        File classpathfolder = new File( "./classpath" );
+        File[] files = classpathfolder.listFiles();
+        for ( int i = 0; i < files.length; i++ )
+        {
+            if ( files[i].getName().endsWith( ".jar" ) )
+            {
+                result = result + "./classpath/" + files[i].getName() + ":";
+            }
+        }
+        result = result.substring( 0, result.length() - 1 );
+        return result;
+    }
+}

@@ -171,18 +171,18 @@ function initUpload(){
 /** Function to show a message the first time the user upload a song */
 function uploadFirstTimeMessage(){
 	var messages = [
-	     "Yeah! It seems that this is the <b>first time</b> you try to upload songs, I'll try to help you a little",
+	     messicLang.messicMessagesUpload1_1,
 	     "||",
-	     "From this section you can <b>upload albums to Messic</b>.  </br></br>When we say the word <b>'upload'</b>, we are just saying: uploading music files (and artworks, lyrics, etc...) to the Messic Server, which is the machine where you installed Messic. </br></br> Please, <b>remember always</b>, that you can launch Messic from others pcs/tablets/phones/etc.. in your network, just accesing to the URL of messic with a modern navigator.",
+	     messicLang.messicMessagesUpload1_2,
 	     "||",
-	     "The first thing is to just select the songs you want to upload, but, <b>IMPORTANT</b>, you must do it album by album, and don't mixing songs from different albums. (really you can do if you want, but the logical seems to group the songs of the same album in one album)",
+	     messicLang.messicMessagesUpload1_3,
 	     "||",
-	     "Once selected the songs, You can <b>modify</b> the track numbers, the names of the songs, the artist, the genre, the style, and so on.. and... </br></br> You can also call to the <b>WIZARD</b>, which is an assistant which will help you to fill this information accessing to the metadata of the song files, and also accessing to external services to obtain this information...",
+	     messicLang.messicMessagesUpload1_4,
 	     "||",
-	     "That's all.. </br><b>1st</b>: Just upload songs, </br><b>2nd</b>: Ensure that the information for that songs is right, </br><b>3rd</b>: Use the assistant if you want to fill correctly the information, and </br><b>4th</b>: Send them to Messic.. These songs will be stored at the filesytem of the server with the information you put here.. You can access to hear, search, modify, delete, etc.. all these songs through the Messic Interface.  </br></br><b><center>Good Luck!</center></b>" 
+	     messicLang.messicMessagesUpload1_5 
 	 	].join("");
 	
-	UtilShowMessic("Upload Songs",messages);
+	UtilShowMessic(messicLang.messicMessagesUpload1,messages);
 }
 
 /** function to change section in upload section */
@@ -318,6 +318,6 @@ function uploadSend(){
 	        }
 	    });
 	}else{
-		UtilShowInfo('Validation error!');
+		UtilShowInfo(messicLang.uploadWizardValidationError);
 	}
 }

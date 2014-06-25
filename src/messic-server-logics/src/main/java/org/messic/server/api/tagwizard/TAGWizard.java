@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.messic.server.api.configuration.MessicConfig;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Author;
 import org.messic.server.api.datamodel.Genre;
@@ -41,11 +42,16 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TAGWizard
 {
     @Autowired
     public DAOGenre daoGenre;
+
+    @Autowired
+    public MessicConfig messicConfig;
 
     /**
      * Obtain a tagwizard plugin with the name
@@ -138,6 +144,7 @@ public class TAGWizard
     {
 
         TAGWizardPlugin plugin = getTAGWizardPlugin( pluginName );
+        plugin.setConfiguration( this.messicConfig.getConfiguration() );
 
         org.messic.server.api.tagwizard.service.Album salbum = Album.transform( albumHelpInfo );
 
@@ -255,13 +262,13 @@ public class TAGWizard
             if ( founded == null )
             {
                 List<MDOGenre> listf = this.daoGenre.findSimilarGenre( genre, "" );
-                if ( listf != null )
+                if ( listf != null && listf.size() > 0 )
                 {
                     founded = listf.get( 0 );
                 }
             }
 
-            if ( genre != null )
+            if ( genre != null && founded!=null)
             {
                 return new Genre( founded );
             }

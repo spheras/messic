@@ -20,6 +20,7 @@ package org.messic.server.api.datamodel;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.jaudiotagger.tag.vorbiscomment.util.Base64Coder;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 import org.messic.server.datamodel.MDOUser;
@@ -34,8 +35,8 @@ public class User
     @ApiObjectField( description = "name of the user" )
     private String name = "";
 
-    @ApiObjectField( description = "binary image for the avatar" )
-    private byte[] avatar = new byte[0];
+    @ApiObjectField( description = "base 64 image for the avatar" )
+    private String avatar_b64;
 
     @ApiObjectField( description = "email of the user" )
     private String email = "";
@@ -50,7 +51,7 @@ public class User
     private Boolean administrator = false;
 
     @ApiObjectField( description = "flag to know the user allow getting information for statistics purposes" )
-    private Boolean allowStatistics = true; //true by default
+    private Boolean allowStatistics = true; // true by default
 
     @ApiObjectField( description = "Path to store their songs" )
     private String storePath = "";
@@ -78,7 +79,10 @@ public class User
         if ( mdoUser != null )
         {
             this.setAdministrator( mdoUser.getAdministrator() );
-            this.setAvatar( mdoUser.getAvatar() );
+
+            if(mdoUser.getAvatar()!=null){
+                this.setAvatar_b64( new String( Base64Coder.encode( mdoUser.getAvatar() ) ) );
+            }
             this.setEmail( mdoUser.getEmail() );
             this.setLogin( mdoUser.getLogin() );
             this.setName( mdoUser.getName() );
@@ -107,16 +111,6 @@ public class User
     public void setName( String name )
     {
         this.name = name;
-    }
-
-    public byte[] getAvatar()
-    {
-        return avatar;
-    }
-
-    public void setAvatar( byte[] avatar )
-    {
-        this.avatar = avatar;
     }
 
     public String getEmail()
@@ -183,6 +177,34 @@ public class User
     public void setAllowStatistics( Boolean allowStatistics )
     {
         this.allowStatistics = allowStatistics;
+    }
+
+    /**
+     * @return the avatar_b64
+     */
+    public String getAvatar_b64()
+    {
+        return avatar_b64;
+    }
+
+    /**
+     * @param avatar_b64 the avatar_b64 to set
+     */
+    public void setAvatar_b64( String avatar_b64 )
+    {
+        this.avatar_b64 = avatar_b64;
+    }
+
+    public byte[] getAvatar()
+    {
+        if ( this.avatar_b64 != null )
+        {
+            return Base64Coder.decode( this.avatar_b64 );
+        }
+        else
+        {
+            return null;
+        }
     }
 
 }

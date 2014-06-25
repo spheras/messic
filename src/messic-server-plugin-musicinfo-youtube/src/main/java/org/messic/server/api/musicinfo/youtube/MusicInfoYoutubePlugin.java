@@ -32,6 +32,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import org.messic.server.api.musicinfo.service.MusicInfoPlugin;
+import org.messic.server.api.plugin.MessicPlugin;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -58,8 +59,8 @@ public class MusicInfoYoutubePlugin
     {
         if ( this.configuration != null )
         {
-            String url = (String) this.configuration.get( "proxy-url" );
-            String port = (String) this.configuration.get( "proxy-port" );
+            String url = (String) this.configuration.get( MessicPlugin.CONFIG_PROXY_URL );
+            String port = (String) this.configuration.get( MessicPlugin.CONFIG_PROXY_PORT );
             if ( url != null && port != null )
             {
                 SocketAddress addr = new InetSocketAddress( url, Integer.valueOf( port ) );
@@ -85,7 +86,7 @@ public class MusicInfoYoutubePlugin
     @Override
     public void setConfiguration( Properties properties )
     {
-        this.configuration=properties;
+        this.configuration = properties;
     }
 
     @Override
@@ -135,8 +136,8 @@ public class MusicInfoYoutubePlugin
 
         URL url = new URL( uri.toASCIIString() );
         System.out.println( surl );
-        Proxy proxy=getProxy();
-        URLConnection connection=(proxy!=null?url.openConnection(proxy):url.openConnection());
+        Proxy proxy = getProxy();
+        URLConnection connection = ( proxy != null ? url.openConnection( proxy ) : url.openConnection() );
         InputStream is = connection.getInputStream();
 
         JsonFactory jsonFactory = new JsonFactory(); // or, for data binding,

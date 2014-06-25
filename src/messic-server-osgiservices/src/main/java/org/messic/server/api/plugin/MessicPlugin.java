@@ -26,6 +26,9 @@ import java.util.Properties;
  */
 public interface MessicPlugin {
 	
+    public static final String CONFIG_PROXY_URL="proxy-url";
+    public static final String CONFIG_PROXY_PORT="proxy-port";
+    
 	/**
 	 * Return the version of the plugin, like 2.15
 	 * @return float version of the plugin

@@ -25,7 +25,6 @@ import org.fourthline.cling.model.meta.RemoteDevice;
 import org.fourthline.cling.registry.Registry;
 import org.fourthline.cling.registry.RegistryListener;
 import org.messic.server.api.dlna.chii2.mediaserver.upnp.MediaServerServiceImpl;
-import org.messic.server.datamodel.dao.DAOSong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -46,8 +45,12 @@ public class DLNAServer
     public void startServer()
         throws InterruptedException
     {
-        System.out.println( "nowww!" );
+        // nothing for the moment
+    }
 
+    public void startServer2()
+        throws InterruptedException
+    {
         // UPnP discovery is asynchronous, we need a callback
         RegistryListener listener = new RegistryListener()
         {

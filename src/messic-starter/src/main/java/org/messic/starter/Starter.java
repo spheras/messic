@@ -18,71 +18,62 @@
  */
 package org.messic.starter;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-
-import com.mkyong.core.OSValidator;
-
-import sun.tools.jps.JpsOut;
+import java.awt.GraphicsEnvironment;
 
 public class Starter
 {
 
     public static void main( String[] args )
-        throws InterruptedException, IOException
+        throws Exception
     {
+        System.out.println( "[messic-monitor] Starting Messic Monitor" );
 
-        if ( !isMessicRunning() )
+        if ( !GraphicsEnvironment.isHeadless() )
         {
-            launchMessic();
+            final boolean messicRunning = Util.isMessicRunning();
+            if ( !messicRunning )
+            {
+                Util.launchMessicService( new MessicLaunchedObserver()
+                {
+
+                    @Override
+                    public void messicLaunched()
+                    {
+                        try
+                        {
+                            showMonitor( messicRunning );
+                        }
+                        catch ( Exception e )
+                        {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                    }
+                } );
+            }
         }
         else
         {
-            System.out.println( "RUNNING!!!" );
-
+            if ( args.length > 0 )
+            {
+                if ( args[0].toUpperCase().equals( "STOP" ) )
+                {
+                    Util.stopMessicService();
+                }
+                else if ( args[0].toUpperCase().equals( "START" ) )
+                {
+                    Util.launchMessicService( null);
+                }
+            }
         }
-
     }
 
-    private static void launchMessic()
+    private static void showMonitor( boolean messicRunning )
+        throws Exception
     {
-        if ( OSValidator.isWindows() )
-        {
+        ProcessMonitorSwing pm = new ProcessMonitorSwing();
+        pm.setVisible( true );
 
-        }
-        else if ( OSValidator.isMac() )
-        {
-
-        }
-        else if ( OSValidator.isUnix() )
-        {
-
-        }
-        else
-        {
-            System.out.println( "OS not compatible with messic :(" );
-        }
-    }
-
-    private static boolean isMessicRunning()
-        throws IOException
-    {
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream( baos );
-        JpsOut.main( new String[] {}, ps );
-
-        baos.close();
-        String str = new String( baos.toByteArray() );
-        if ( str.indexOf( "MessicMain" ) >= 0 )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 
 }

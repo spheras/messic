@@ -116,11 +116,14 @@
 	position: relative;
 }
 
-.messic-explore-authortitle .messic-explore-albumtitle{
-	color: #FFFFFF;
-	font-size: 0.55em;
+.messic-explore-authortitle:hover .messic-explore-albumtitle:hover {
+	text-decoration:underline;
 }
-
+.messic-explore-authortitle .messic-explore-albumtitle {
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 0.55em;
+}
 .messic-explore-albumtitle {
     color: #555555;
     font-family: Roboto-bold;

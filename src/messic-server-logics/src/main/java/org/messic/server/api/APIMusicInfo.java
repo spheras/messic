@@ -22,16 +22,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.messic.server.api.configuration.MessicConfig;
 import org.messic.server.api.datamodel.MusicInfo;
 import org.messic.server.api.musicinfo.service.MusicInfoPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class APIMusicInfo
 {
+
+    @Autowired
+    private MessicConfig messicConfig;
 
     /**
      * return the representative provider icon for the music infor plugin wich name is as pluginName
@@ -116,6 +121,8 @@ public class APIMusicInfo
                                    String songName )
     {
         MusicInfoPlugin mip = getMusicInfoPlugin( pluginName );
+        mip.setConfiguration( messicConfig.getConfiguration() );
+
         if ( mip != null )
         {
             if ( authorName != null && albumName != null && songName != null )

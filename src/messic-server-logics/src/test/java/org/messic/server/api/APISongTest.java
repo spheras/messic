@@ -64,5 +64,12 @@ public class APISongTest
 
         Assert.assertTrue( result.getName().equals( "2 think" ) );
         Assert.assertTrue( result.getTrack() == 6);
+        
+        fileName="20 -This is my song name.mp3";
+        result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "This is my song name" ) );
+        Assert.assertTrue( result.getTrack() == 20);
+        
     }
 }

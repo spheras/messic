@@ -19,8 +19,10 @@
 package org.messic.server.datamodel;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -28,6 +30,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.messic.server.Util;
@@ -47,6 +50,9 @@ public class MDOSong
 
     @Column( name = "TRACK", nullable = false )
     private Integer track;
+
+    @OneToMany( cascade = { CascadeType.REMOVE } )
+    private List<MDOGenericTAG> extraTags;
 
     @ManyToMany( mappedBy = "songs" )
     private Set<MDOPlaylist> playlists;

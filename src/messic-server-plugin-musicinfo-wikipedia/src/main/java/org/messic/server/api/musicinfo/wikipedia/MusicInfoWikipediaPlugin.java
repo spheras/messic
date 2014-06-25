@@ -30,6 +30,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import org.messic.server.api.musicinfo.service.MusicInfoPlugin;
+import org.messic.server.api.plugin.MessicPlugin;
 import org.xml.sax.SAXException;
 
 public class MusicInfoWikipediaPlugin implements MusicInfoPlugin
@@ -48,8 +49,8 @@ public class MusicInfoWikipediaPlugin implements MusicInfoPlugin
     {
         if ( this.configuration != null )
         {
-            String url = (String) this.configuration.get( "proxy-url" );
-            String port = (String) this.configuration.get( "proxy-port" );
+            String url = (String) this.configuration.get( MessicPlugin.CONFIG_PROXY_URL );
+            String port = (String) this.configuration.get( MessicPlugin.CONFIG_PROXY_PORT );
             if ( url != null && port != null )
             {
                 SocketAddress addr = new InetSocketAddress( url, Integer.valueOf( port ) );

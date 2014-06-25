@@ -21,17 +21,17 @@
 					<form id="messic-search-form">
 		    			<input type="text" id="messic-search-text" placeholder="<fmt:message key="main-search" bundle="${ message }"/>"></input>
 		    			<a href="#" id="messic-search-do"></a>
+		    			<a id="messic-main-logout">logout</a>
 		    		</form>
-	    			<div id="messic-top-logo"></div>
             	</div>
-				<lu id="messic-menu">
+				<ul id="messic-menu">
 					<li id="messic-menu-home" class="messic-menu-icon"><div><fmt:message key="main-button-startpage" bundle="${ message }"/></div></li>
 					<li id="messic-menu-explore" class="messic-menu-icon"><div><fmt:message key="main-button-exploremusic" bundle="${ message }"/></div></li>
 					<li id="messic-menu-playlist" class="messic-menu-icon"><div><fmt:message key="main-button-playlist" bundle="${ message }"/></div></li>
 					<li id="messic-menu-upload" class="messic-menu-icon"><div><fmt:message key="main-button-uploadmusic" bundle="${ message }"/></div></li>
 					<li id="messic-menu-settings" class="messic-menu-icon"><div><fmt:message key="main-button-settings" bundle="${ message }"/></div></li>
 					<li id="messic-menu-help" class="messic-menu-icon"><div><fmt:message key="main-button-help" bundle="${ message }"/></div></li>
-				</lu>
+				</ul>
             </div>
 
 

@@ -78,14 +78,16 @@
 	margin-top: 10px;
 }
 
-#messic-login-logo{
+
+#messic-login-logo {
     background: url("login/logo-messic-vinyl.png") no-repeat scroll 0 0 transparent;
-    bottom: 44px;
+    bottom: 84px;
     height: 102px;
     position: relative;
     right: -112px;
     width: 255px;
 }
+
 /** new account button */
 #messic-login-window #newAccount {
     bottom: -30px;
@@ -95,10 +97,9 @@
 }
 
 #messic-login-button {
-	bottom: 30px;
-	margin-top:10px;
+    bottom: 30px;
+    margin-top: 41px;
 }
-
 
 
 

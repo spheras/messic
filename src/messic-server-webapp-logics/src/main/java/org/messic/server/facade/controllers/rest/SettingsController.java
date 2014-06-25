@@ -129,7 +129,7 @@ public class SettingsController
 
     private static long LastValidationTime = 0;
 
-    @ApiMethod( path = "/users/{userName}/validate", verb = ApiVerb.POST, description = "Validate the username", produces = {
+    @ApiMethod( path = "/settings/{userName}/validate", verb = ApiVerb.POST, description = "Validate the username", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotValidUserNameMessicRESTException.VALUE, description = "Not a valid username" ) } )
@@ -201,7 +201,10 @@ public class SettingsController
     {
         
         User loginuser = SecurityUtil.getCurrentUser();
-        User result = userAPI.getUserByLogin( loginuser.getLogin() );
+        User result=null;
+        if(loginuser!=null){
+            result = userAPI.getUserByLogin( loginuser.getLogin() );
+        }
         
         if ( result==null )
         {

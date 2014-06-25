@@ -12,7 +12,7 @@
     border-right: 1px solid #CCCCCC;
     float: left;
     font-family: Arial;
-    height: 1000px;
+    height: 100000px;
     left: -24px;
     margin-left: -24px;
     margin-right: 14px;
@@ -29,7 +29,7 @@
 }
 
 .messic-user-settings-menu-option-selected {
-    background: url("user/selectedTab.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: url("user/selectedTab.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 50px;
     padding-top: 12px;
     width: 238px;

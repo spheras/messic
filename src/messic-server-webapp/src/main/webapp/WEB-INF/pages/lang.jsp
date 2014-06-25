@@ -31,6 +31,7 @@ messicLang = {
 	uploadWizardSubtitle3: '<fmt:message key="js-upload-wizard-subtitle3" bundle="${message}"/>',
 	uploadWizardTrack: '<fmt:message key="upload-songs-track" bundle="${message}"/>',
 	uploadWizardName: '<fmt:message key="upload-songs-name" bundle="${message}"/>',
+	uploadWizardValidationError: '<fmt:message key="js-upload-validation-error" bundle="${message}"/>',
 	confirmationYes: '<fmt:message key="js-confirmation-yes" bundle="${message}"/>',
 	confirmationNo: '<fmt:message key="js-confirmation-no" bundle="${message}"/>',
 	randomlistplayall: '<fmt:message key="js-randomlist-playall" bundle="${message}"/>',
@@ -69,6 +70,46 @@ messicLang = {
 	albumRemoveOK:  '<fmt:message key="js-album-remove-ok" bundle="${message}"/>',
 	albumRemoveFail:  '<fmt:message key="js-album-remove-fail" bundle="${message}"/>',
 	albumRemoveCancel:  '<fmt:message key="js-album-remove-cancel" bundle="${message}"/>',
+	
+	settingsValidUser:  '<fmt:message key="js-settings-valid-user" bundle="${message}"/>',
+	settingsValidPassword:  '<fmt:message key="js-settings-valid-password" bundle="${message}"/>',
+	settingsValidPasswordLength:  '<fmt:message key="js-settings-valid-password-length" bundle="${message}"/>',
+	settingsValidCaptcha:  '<fmt:message key="js-settings-valid-captcha" bundle="${message}"/>',
+	settingsNewUserTitle:  '<fmt:message key="js-settings-newuser-title" bundle="${message}"/>',
+	settingsExistingUserTitle:  '<fmt:message key="js-settings-existinguser-title" bundle="${message}"/>',
+	settingsChangeSectionTitle: '<fmt:message key="js-settings-changesection-title" bundle="${message}"/>',
+	settingsChangeSectionMessage: '<fmt:message key="js-settings-changesection-message" bundle="${message}"/>',
+	settingsUserCreatedTitle: '<fmt:message key="js-settings-user-created-title" bundle="${message}"/>',
+	settingsUserCreatedMessage: '<fmt:message key="js-settings-user-created-message" bundle="${message}"/>',
+	settingsUserCreateTitle: '<fmt:message key="js-settings-user-create-title" bundle="${message}"/>',
+	settingsUserCreateMessage: '<fmt:message key="js-settings-user-create-message" bundle="${message}"/>',
+	settingsUserSavedTitle: '<fmt:message key="js-settings-user-saved-title" bundle="${message}"/>',
+	settingsUserSavedMessage: '<fmt:message key="js-settings-user-saved-message" bundle="${message}"/>',
+	
+	messicMessagesWelcome1:  '<fmt:message key="js-messic-messages-welcome1" bundle="${message}"/>',
+	messicMessagesWelcome1_1:  '<fmt:message key="js-messic-messages-welcome1_1" bundle="${message}"/>',
+	messicMessagesWelcome1_2:  '<fmt:message key="js-messic-messages-welcome1_2" bundle="${message}"/>',
+	messicMessagesWelcome1_3:  '<fmt:message key="js-messic-messages-welcome1_3" bundle="${message}"/>',
+	messicMessagesWelcome1_4:  '<fmt:message key="js-messic-messages-welcome1_4" bundle="${message}"/>',
+	
+	messicMessagesNewUser1:  '<fmt:message key="js-messic-messages-newuser1" bundle="${message}"/>',
+	messicMessagesNewUser1_1:  '<fmt:message key="js-messic-messages-newuser1_1" bundle="${message}"/>',
+	messicMessagesNewUser1_2:  '<fmt:message key="js-messic-messages-newuser1_2" bundle="${message}"/>',
+	
+	messicMessagesWelcome2:  '<fmt:message key="js-messic-messages-welcome2" bundle="${message}"/>',
+	messicMessagesWelcome2_1:  '<fmt:message key="js-messic-messages-welcome2_1" bundle="${message}"/>',
+	messicMessagesWelcome2_2:  '<fmt:message key="js-messic-messages-welcome2_2" bundle="${message}"/>',
+	messicMessagesWelcome2_3:  '<fmt:message key="js-messic-messages-welcome2_3" bundle="${message}"/>',
+	messicMessagesWelcome2_4:  '<fmt:message key="js-messic-messages-welcome2_4" bundle="${message}"/>',
+	messicMessagesWelcome2_5:  '<fmt:message key="js-messic-messages-welcome2_5" bundle="${message}"/>',
+	
+	
+	messicMessagesUpload1:  '<fmt:message key="js-messic-messages-upload1" bundle="${message}"/>',
+	messicMessagesUpload1_1:  '<fmt:message key="js-messic-messages-upload1_1" bundle="${message}"/>',
+	messicMessagesUpload1_2:  '<fmt:message key="js-messic-messages-upload1_2" bundle="${message}"/>',
+	messicMessagesUpload1_3:  '<fmt:message key="js-messic-messages-upload1_3" bundle="${message}"/>',
+	messicMessagesUpload1_4:  '<fmt:message key="js-messic-messages-upload1_4" bundle="${message}"/>',
+	messicMessagesUpload1_5:  '<fmt:message key="js-messic-messages-upload1_5" bundle="${message}"/>',
 	
 	
 	search: function(what){

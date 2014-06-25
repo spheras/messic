@@ -21,6 +21,8 @@ package org.messic.server.api;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.messic.server.api.datamodel.Album;
@@ -47,6 +49,9 @@ public class APITagWizard
 
     @Autowired
     private DAOUser daoUser;
+    
+    @Autowired
+    private TAGWizard tagWizard;
 
     /**
      * Obtain a tagwizard plugin with the name
@@ -117,8 +122,8 @@ public class APITagWizard
 
         File tmpPath = new File( mdouser.calculateTmpPath( daoSettings.getSettings(), albumCode ) );
         File[] files = tmpPath.listFiles();
-        TAGWizard tw = new TAGWizard();
-        org.messic.server.api.datamodel.TAGWizardPlugin basicPlugin = tw.getAlbumWizard( user, null, files );
+
+        org.messic.server.api.datamodel.TAGWizardPlugin basicPlugin = this.tagWizard.getAlbumWizard( user, null, files );
         result.add( 0, basicPlugin );
 
         return result;
@@ -131,8 +136,41 @@ public class APITagWizard
         MDOUser mdouser = daoUser.getUserByLogin( user.getLogin() );
         File basePath = new File( mdouser.calculateTmpPath( daoSettings.getSettings(), albumCode ) );
         File[] files = basePath.listFiles();
-        TAGWizard tw = new TAGWizard();
-        org.messic.server.api.datamodel.TAGWizardPlugin result = tw.getAlbumWizard( albumHelpInfo, files, pluginName );
+
+        org.messic.server.api.datamodel.TAGWizardPlugin result = this.tagWizard.getAlbumWizard( albumHelpInfo, files, pluginName );
+
+        List<Album> albums = result.getAlbums();
+        final int theoricalNumberSongs = albumHelpInfo.getSongs().size();
+        final String name=albumHelpInfo.getName();
+        Comparator<Album> AlbumComparator = new Comparator<Album>()
+        {
+            public int compare( Album album1, Album album2 )
+            {
+                // the same number of songs is important
+                if ( album1.getSongs().size() == album2.getSongs().size() )
+                {
+                    //if have the same number of songs... lets see if they correspond to the info suggested
+                    if(album1.getName().equals( name )){
+                        return -1;
+                    }else{
+                        return 1;
+                    }
+                }
+                else
+                {
+                    // the most near to the number of theorical numer songs
+                    int album1rest = Math.abs( theoricalNumberSongs - album1.getSongs().size() );
+                    int album2rest = Math.abs( theoricalNumberSongs - album2.getSongs().size() );
+                    if(album1rest<album2rest){
+                        return -1;
+                    }else{
+                        return 1;   
+                    }
+                }
+            }
+        };
+
+        Collections.sort( albums, AlbumComparator );
 
         return result;
     }

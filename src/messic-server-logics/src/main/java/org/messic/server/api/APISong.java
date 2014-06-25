@@ -102,6 +102,9 @@ public class APISong
                     {
                         return c1;
                     }
+                    if(c1=='-'){
+                        return c1;
+                    }
                 }
 
                 return c;

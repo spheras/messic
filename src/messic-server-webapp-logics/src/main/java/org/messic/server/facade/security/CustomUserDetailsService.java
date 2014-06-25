@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.messic.server.Util;
 import org.messic.server.api.APIUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -54,19 +53,7 @@ public class CustomUserDetailsService
         org.messic.server.api.datamodel.User domainUser = userAPI.getUserByLogin( username );
         if ( domainUser == null )
         {
-            // throw new UsernameNotFoundException( "user not found!" );
-            org.messic.server.api.datamodel.User user = new org.messic.server.api.datamodel.User();
-            user.setLogin( username );
-            // TODO solucionar esto!!
-            user.setPassword( "12345" );
-            user.setName( "Usuario de pruebas" );
-            user.setAvatar( new byte[] {} );
-            user.setName( "test" );
-            user.setEmail( "test@a.com" );
-            user.setAdministrator( true );
-            user.setStorePath( Util.GENERIC_BASE_STORE_PATH_VAR );
-
-            domainUser = userAPI.createUser( user );
+            throw new UsernameNotFoundException( "user not found!" );
         }
 
         boolean enabled = true;

@@ -25,11 +25,18 @@
 
 package sun.tools.jps;
 
-import java.util.*;
 import java.io.PrintStream;
-import java.net.*;
+import java.net.URISyntaxException;
+import java.util.Iterator;
+import java.util.Set;
 
-import sun.jvmstat.monitor.*;
+import sun.jvmstat.monitor.HostIdentifier;
+import sun.jvmstat.monitor.MonitorException;
+import sun.jvmstat.monitor.MonitoredHost;
+import sun.jvmstat.monitor.MonitoredVm;
+import sun.jvmstat.monitor.MonitoredVmUtil;
+import sun.jvmstat.monitor.VmIdentifier;
+
 
 /**
  * Application to provide a listing of monitorable java processes.

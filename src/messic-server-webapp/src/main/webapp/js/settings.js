@@ -45,20 +45,19 @@ function initSettings(flagNewUser)
 	
 	settingsLoadValidators();
 
-	$("#messic-user-settings-avatar-preview").click(function(){
-		$("#messic-user-settings-avatar").click();
+	$(".messic-user-settings-basic-avatar-container").click(function(event){
+		event.stopPropagation();
+		event.preventDefault();
+		$("#messic-user-settings-avatar-file").click();
 	});
 	
-	$("#messic-user-settings-avatar").change(function() {
-	
+	$("#messic-user-settings-avatar-file").change(function() {
+		//loading the image file selected
 		var reader = new FileReader();
-
         reader.onload = function (e) {
             $('#messic-user-settings-avatar-preview').attr('src', e.target.result);
         }
-		
-		var file = $("#messic-user-settings-avatar")[0].files[0];
-		
+		var file = $("#messic-user-settings-avatar-file")[0].files[0];
         reader.readAsDataURL(file);
 		
 	});
@@ -73,7 +72,7 @@ function initSettings(flagNewUser)
 
 /** function to load the validators */
 function settingsLoadValidators(){
-	settings_validator_basic = $("#messic-user-settings-content-basic").kendoValidator({
+	settings_validator_basic = $(".messic-user-settings-basic-data-container").kendoValidator({
 		rules: {
 	        validUser: function(input){
 	          if (input.is("[name=login]")) {
@@ -81,7 +80,7 @@ function settingsLoadValidators(){
 	      	    $.ajax({
 	    	        type: "POST",
 	    	        async: false,
-	    	        url: "services/settings/"+$("#messic-user-settings-user").val()+"/validate",
+	    	        url: "services/settings/"+escape($("#messic-user-settings-user").val())+"/validate",
 	    	        error: function (XMLHttpRequest, textStatus, errorThrown){
 	    	        	resultAjax=false;
 	    	        },
@@ -128,10 +127,10 @@ function settingsLoadValidators(){
 	        }
 	      },
 	      messages: {
-	    	validUser: "Choose a different user name!",
-	        validPassword: "The passwords are not the same!",
-	        passwordLength: "Pasword must have minimum 5 alphanumerics!",
-	        validCaptcha: "The captcha is not valid!"	        	
+	    	validUser: messicLang.settingsValidUser,
+	        validPassword: messicLang.settingsValidPassword,
+	        passwordLength: messicLang.settingsValidPasswordLength,
+	        validCaptcha: messicLang.settingsValidCaptcha	        	
 	      }
 	}).data("kendoValidator");
 	settings_validator_music = $("#messic-user-settings-content-music").kendoValidator().data("kendoValidator");
@@ -148,17 +147,17 @@ function initSettingsNewUser(){
 	$("#messic-user-settings-button-savechanges").hide();
 	$("#messic-user-settings-button-cancelchanges").hide();
 
-	var messages="Yeah! A new user to Messic!!!</br></br>Ok, please, fill the following information and you will have permissions to enter your Messic Web Site.";
+	var messages=messicLang.messicMessagesNewUser1_1;
 	if($("#messic-user-settings-content-admin").size()>0){
 		//then it's an admin
-		messages=messages+"||"+"Oh! One important thing! You are the first User, so you will be the Administrator.  </br> It's an important responsability, so please, take care with the administration options (only you will have permissions to modify them)";
+		messages=messages+"||"+messicLang.messicMessagesNewUser1_2;
 	}
-   	UtilShowMessic("New User",messages);
+   	UtilShowMessic(messicLang.messicMessagesNewUser1,messages);
 	
     $("#messic-user-settings-button-previous").hide();
     
 
-    	$(".messic-user-settings-title").text("Create New User");
+    	$(".messic-user-settings-title").text(messicLang.settingsNewUserTitle);
     	
 		$("#messic-user-settings-button-accept").click(function() {
 			var selected = $(".messic-user-settings-menu-visible")[0];
@@ -236,8 +235,8 @@ function settingsChangeSection(nextFunction){
 	var visible = $("#messic-user-settings-button-savechanges").is(':visible');
 	if(visible){
 		$.confirm({
-			'title' : "Leaving Settings Edition",
-			'message' : "Are you sure to leave the current editions? Changes will not be effective unless you save them clicking the save button. If you leave now you will lost all the changes.",
+			'title' : messicLang.settingsChangeSectionTitle,
+			'message' : messicLang.settingsChangeSectionMessage,
 			'buttons' : {
 				'Yes' : {
 					'title' : messicLang.confirmationYes,
@@ -266,7 +265,7 @@ function initSettingsExistingUser(){
 		//function to leave the upload section
 		VAR_changeSection=settingsChangeSection;
 	
-    	$(".messic-user-settings-title").text("Modify your Settings");
+    	$(".messic-user-settings-title").text(messicLang.settingsExistingUserTitle);
 
 	    $("#messic-user-settings-button-cancel").hide();
 		$("#messic-user-settings-button-accept").hide();
@@ -325,13 +324,23 @@ function sendData(flagNewUser){
 			storePath: $("#messic-user-settings-userStorePath").val(),
 			allowStatistics: $("#messic-user-settings-allowstatistics").is(":checked")
 	}
-	/*
-    var file = $("#messic-avatar")[0].files[0];
+
+    var file = $("#messic-user-settings-avatar-file")[0].files[0];
     if(file!=null)
 	{
-		form_data.append("avatar", file);
+    	var reader = new FileReader();
+    	reader.onload = function(e){
+    		var bin = e.target.result;
+    		userData.avatar_b64=UtilBase64ArrayBuffer(bin);
+    		continueSendData(flagNewUser,userData);
+    	}
+    	reader.readAsArrayBuffer(file);
+	}else{
+		continueSendData(flagNewUser,userData);
 	}
-	*/   
+}
+
+function continueSendData(flagNewUser, userData){
 	
 	if($("#messic-user-settings-content-admin").size()>0){
 		var settingsData={
@@ -387,21 +396,20 @@ function sendData(flagNewUser){
 							       	$("#messic-login-button").click();
 		
 							   		 $( document ).ready(function() {
-									       	UtilShowMessic("Welcome Again",
-								       			       "So finally you are here <b>" + userData.name + "</b>!</br></br>" +
-								       			       "Welcome again. You have entered at your Messic Web site. We are now at the <b>main page</b>.. but.. wait! it is empty!!!"+
+									       	UtilShowMessic(messicLang.messicMessagesWelcome2,
+								       			       messicLang.messicMessagesWelcome2_1 + userData.name + messicLang.messicMessagesWelcome2_2+
 								       			       "||"+
-								       			       "Ahh! Don't worry! It is empty because <b>you haven't uploaded any song yet</b>. So, your first mission is to upload songs. </br></br>Please, access to the menu and click on the <b>upload</b> option."+
+								       			       messicLang.messicMessagesWelcome2_3+
 								       			       "||"+
-								       			       "Oh, yes, <b>one last thing</b> before uploading any file to Messic.  </br></br>Messic don't support the use of DRM. <b>It is your responsability the use of this software</b>, you need to take into account your legal restrictions, and the content copyrights, when uploading, sharing or whatever.  If you use Messic, you are accepting these conditions."+
+								       			       messicLang.messicMessagesWelcome2_4+
 								       			       "||"+
-								       			       "Thats, all. Go there, and start uploading some albums.</br></br>See you later!");
+								       			       messicLang.messicMessagesWelcome2_5);
 							   		 });
 					   		});
 				   		}
 				   		
-				       	UtilShowMessic("User Created",
-				       			       "The user has been created correctly. You have now rights to access to Messic.  </br><br/><center><b>Welcome!!</b></center>",
+				       	UtilShowMessic(messicLang.settingsUserCreatedTitle,
+				       			       messicLang.settingsUserCreatedMessage,
 				       			       nextFunction);
 				   	});
            }else{
@@ -410,19 +418,19 @@ function sendData(flagNewUser){
 	    		UtilShowInfo("Changes Saved!");
            }
 	  	}
-	});
+	});	
 }
 
 function saveChanges() {
 	$.confirm({
-        'title'		: "Save Changes",
-        'message'	: "If you click OK the changes will be saved. Are you sure to continue?",
+        'title'		: messicLang.settingsUserSavedTitle,
+        'message'	: messicLang.settingsUserSavedMessage,
         'buttons'	: {
             'Yes'	: {
             	'title' : messicLang.confirmationYes,
                 'class'	: 'blue',
                 'action': function(){
-                	sendData();
+                	sendData(false);
                 }
             },
             'No'	: {
@@ -437,14 +445,14 @@ function saveChanges() {
 
 function createUser() {
 	$.confirm({
-        'title'		: "Create User",
-        'message'	: "If you click OK the new user will be created with this configuration.  Please, it's important to remember your username and password to access to messic. Are you sure to continue?",
+        'title'		: messicLang.settingsUserCreateTitle,
+        'message'	: messicLang.settingsUserCreateMessage,
         'buttons'	: {
             'Yes'	: {
             	'title' : messicLang.confirmationYes,
                 'class'	: 'blue',
                 'action': function(){
-                	sendData();
+                	sendData(true);
                 }
             },
             'No'	: {
@@ -493,6 +501,9 @@ function loadUserSettings()
 	    	$("#messic-user-settings-email").val(data.email);
 	    	$("#messic-user-settings-userStorePath").val(data.storePath);
 	    	$("#messic-user-settings-allowstatistics").val(data.allowStatistics);
+	    	if(data.avatar_b64){
+		    	$("#messic-user-settings-avatar-preview").attr("src","data:image/jpeg;base64,"+data.avatar_b64);
+	    	}
 	    	/*
 	        var file = $("#messic-avatar")[0].files[0];
 	        if(file!=null)

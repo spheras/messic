@@ -67,11 +67,11 @@
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
 	
-			<div id="messic-login-window" >
+			<div id="messic-login-window" style="display:none">
 				<div class="messic-login-form-container">
 					<div class="messic-form">
 						<h1><fmt:message key="login-welcome" bundle="${ message }"/></h1>
-						<a href="/restpassword"><fmt:message key="login-forgot" bundle="${ message }"/></a>
+						<!--  TODO <a href="/restpassword"><fmt:message key="login-forgot" bundle="${ message }"/></a> -->
 						<form id="messic-login-form" class="login-form-style">
 				            <ul>
 				                <li>
@@ -84,10 +84,19 @@
 								</li>
 							</ul>
 						</form>
+						<div class="checkboxcontainer">
+							<input id="messic_login_rememberme" type="checkbox"/>
+							<label for="messic_login_rememberme" class="login-form-label"><fmt:message key="login-rememberme" bundle="${ message }"/></label>
+							<div class="divclearer"></div>
+						</div>
 						<button id="messic-login-button" class="button play"><fmt:message key="login-button" bundle="${ message }"/></button>
 						<div id="messic-login-logo"></div>
 					</div>
 				</div>
+				<%
+					boolean allowCreation=(Boolean)request.getAttribute("allowUserCreation");
+					if(allowCreation){
+				%>
 				<div class="messic-login-new-account-container">
 					<div class="messic-form">
 						<h1><fmt:message key="login-newaccount" bundle="${ message }"/></h1>
@@ -96,8 +105,9 @@
 						<button id="newAccount" class="button spark"><fmt:message key="login-newaccount-button" bundle="${ message }"/></button>
 					</div>
 				</div>			
+				<%}%>
 			</div>
-			<div id="messic-login-shadow" style="position:absolute"></div>
+			<div id="messic-login-shadow" style="display:none;position:absolute;"></div>
 		
 			<div id="messic-wait"><div id="messic-wait-box"><p></p></div></div>
 
@@ -128,15 +138,19 @@
 		boolean firstTime=(Boolean)request.getAttribute("firstTime");
 		if(firstTime){%>
 			<script type="text/javascript">
-			    var messages = [
-                  "Hello! This is <b>Messic</b>!  I welcome you to your Messic Website for the first time. </br> If you don't know me, I must say that I will try to help you to organize your music... but... I will explain this better later.",
-                  "||",
-                  "For the moment, it is important to say that I am <b>FREE</b>, concretely a <b>GPL v3</b> Software ... here you can read the whole license in detail: <a href=\"http://www.gnu.org/licenses/gpl-3.0.txt\" target=\"_blank\">http://www.gnu.org/licenses/gpl-3.0.txt</a>",
-                  "||",
-                  "So, lets start! The first thing to enter to messic is to have an account.  So, when finish this message, click on the button to <b>create a new account</b>.</br></br>See you later!"
-              	].join("");
-			
-				UtilShowMessic("Welcome to Messic",messages);
+				$( window ).load(function() {
+				    var messages = [
+	                  messicLang.messicMessagesWelcome1_1,
+	                  "||",
+	                  messicLang.messicMessagesWelcome1_2,
+	                  "||",
+	                  messicLang.messicMessagesWelcome1_3,
+	                  "||",
+	                  messicLang.messicMessagesWelcome1_4
+	              	].join("");
+				
+					UtilShowMessic(messicLang.messicMessagesWelcome1,messages);
+				});
 			</script>		    
 		<%
 		}

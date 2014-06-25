@@ -28,8 +28,49 @@
 /* messic token for petitions */
 var VAR_MessicToken;
 
+function loginSucessfull(messic_token){
+	VAR_MessicToken=messic_token;
+	$.ajaxSetup({
+	    beforeSend: function(xhr) {
+	        xhr.setRequestHeader('messic_token', messic_token);
+	    }
+	});
+	
+	$.ajax({
+	    type: "GET",
+	    url: "main.do",
+	    error: function (XMLHttpRequest, textStatus, errorThrown){
+        	console.log('error');
+    	},
+	    success: function(data){ 
+			$("#messic-logo1").attr("class","messic-main");
+			$("#messic-logo2").attr("class","messic-main");
+
+		    //let's hide and remove the login window!
+		    $("#messic-login-shadow").fadeOut(500,function(){ 
+			    $(this).remove();
+            });
+		    $("#messic-login-window").fadeOut(1000,function(){ 
+			    $(this).remove();
+			    var posts = $($.parseHTML(data)).filter('#content').children();
+			    $("body").append(posts);
+			    initMessic();
+		    });
+		},
+    	error: function(data){
+    		//if there is an error, then we should remove the current token to allow create a new one
+    		VAR_MessicToken="";
+    		$.ajaxSetup({
+    		    beforeSend: null,
+    		});
+    		UtilCreateCookie("messic_login_cookie","");
+    	}
+	});
+
+}
 
 $(document).ready(function() {	
+	
 	var loginWindow = $("#messic-login-window");
 	var loginShadow = $("#messic-login-shadow");
 
@@ -46,7 +87,7 @@ $(document).ready(function() {
 	 	logoY           =   parseInt(loginWindow.offset().top);
 	 	shadowPosLeft   =   logoX + "px";
 	 	shadowPosTop    =   logoY + (loginWindow.height()+1) + "px";
-	 	loginShadow.css({ "left": shadowPosLeft, "top": shadowPosTop});	 
+	 	loginShadow.css({ "left": shadowPosLeft, "top": shadowPosTop,"width": loginWindow.width()});	 
 	}
 	
 	//centering the loginWindow
@@ -54,15 +95,30 @@ $(document).ready(function() {
 		this.css("position","absolute");
 		this.css("top", ( $(document).height() - this.height() ) / 2+$(loginWindow).scrollTop() + "px");
 		this.css("left", ( $(document).width() - this.width() ) / 2+$(loginWindow).scrollLeft() + "px");
-		loginShadow.css({"top": loginWindow.offset().top + loginWindow.height() +1 ,"left": loginWindow.offset().left });
+		loginShadow.css({"width": loginWindow.width(), "top": loginWindow.offset().top + loginWindow.height() +1 ,"left": loginWindow.offset().left });
 	}
 	loginWindow.center();
+	
+	loginWindow.show();
+	loginWindow.center();
+	loginShadow.show();
 
+    $("#username").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#password").focus();
+        }
+    });
     $("#password").keyup(function(event){
         if(event.keyCode == 13){
             $("#messic-login-button").click();
         }
     });
+    $("#messic_login_rememberme").keyup(function(event){
+        if(event.keyCode == 13){
+            $("#messic-login-button").click();
+        }
+    });
+    
 
 	//add the login button functionality
 	$("#messic-login-button").click(function(){
@@ -77,39 +133,14 @@ $(document).ready(function() {
 	    	{
 	        	console.log('error');
 	    	},
-		    success: function (data) 
+		    success: function (data)
 		    	{
 			    	if(data.success==true)
 			    	{
-			    		VAR_MessicToken=data.messic_token;
-			    		$.ajaxSetup({
-			    		    beforeSend: function(xhr) {
-			    		        xhr.setRequestHeader('messic_token', data.messic_token);
-			    		    }
-			    		});
-			    		
-			    		$.ajax({
-			    		    type: "GET",
-			    		    url: "main.do",
-			    		    error: function (XMLHttpRequest, textStatus, errorThrown){
-		    		        	console.log('error');
-		    		    	},
-			    		    success: function(data){ 
-        						$("#messic-logo1").attr("class","messic-main");
-        						$("#messic-logo2").attr("class","messic-main");
-
-    						    //let's hide and remove the login window!
-    						    $("#messic-login-shadow").fadeOut(500,function(){ 
-    							    $(this).remove();
-                                });
-    						    $("#messic-login-window").fadeOut(1000,function(){ 
-    							    $(this).remove();
-    							    var posts = $($.parseHTML(data)).filter('#content').children();
-    							    $("body").append(posts);
-    							    initMessic();
-    						    });
-    						}
-						});
+			    		if($("#messic_login_rememberme").is(':checked')) {
+			    			UtilCreateCookie("messic_login_cookie",data.messic_token,30);
+			    		}
+			    		loginSucessfull(data.messic_token);
 			    	}
 			    	else
 			    	{
@@ -153,7 +184,10 @@ $(document).ready(function() {
         });
     });
     
-
+	var cookie=UtilGetCookie("messic_login_cookie")
+	if(cookie.length>0){
+		loginSucessfull(cookie);
+	}
 });
 
 

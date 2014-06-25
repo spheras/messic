@@ -27,13 +27,13 @@
 			<intercept-url pattern="/settings.do" access="permitAll" />
 			<intercept-url pattern="/services/settings" access="permitAll" method="POST" />
 			<intercept-url pattern="/services/settings/admin" access="permitAll"  method="POST"/>
-			<intercept-url pattern="/services/users/*/validate" access="permitAll" />
+			<intercept-url pattern="/services/settings/*/validate" access="permitAll" />
 			
 			<intercept-url pattern="/**" access="isAuthenticated()" />
 		
 		<access-denied-handler error-page="/denied" />
 
-		<logout invalidate-session="true" logout-success-url="/logout/success" logout-url="/logout" />
+		<logout invalidate-session="true" logout-success-url="/login.do" logout-url="/logout.do" />
 		
 		<custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER" />
 		<custom-filter ref="tokenFilter" position="SESSION_MANAGEMENT_FILTER" />
