@@ -67,6 +67,16 @@ public class DAOJPAAuthor
         return results;
 	}
 
+   @Override
+    public List<MDOAuthor> getAllDLNA() {
+        Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.allowDLNA = true)  ORDER BY UPPER(a.name)" );
+        
+        @SuppressWarnings( "unchecked" )
+        List<MDOAuthor> results = query.getResultList();
+        return results;
+    }
+
+	   
 	@Override
 	public MDOAuthor get(String username, long authorSid) {
         Query query = entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName) AND (a.sid = :authorSid)" );

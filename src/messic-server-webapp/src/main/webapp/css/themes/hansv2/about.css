@@ -1,3 +1,13 @@
+.messic-about-title {
+    background: none repeat scroll 0 0 #f4f4f4;
+    cursor: pointer;
+    font-family: roboto-bold;
+    font-size: 18px;
+    height: 28px;
+    margin-top: 10px;
+    overflow: hidden;
+    padding: 6px;
+}
 #messic-about-tape{
     /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
     animation: 1.5s ease 0s normal none 1 messic-about-tape-comein;

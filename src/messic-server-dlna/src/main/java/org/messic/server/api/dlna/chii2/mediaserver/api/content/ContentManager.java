@@ -212,6 +212,30 @@ public interface ContentManager {
     public boolean isPicturesFoldersContainer(String id);
 
     /**
+     * ID is Audio Container
+     *
+     * @param id ID
+     * @return True if id is Pictures Container
+     */
+    public boolean isAudioContainer(String id);
+
+    /**
+     * ID is Audio Folders Container
+     *
+     * @param id ID
+     * @return True if id is Pictures Folders Container
+     */
+    public boolean isAudioFoldersContainer(String id);
+
+    /**
+     * ID is Audio Storage Folder Container
+     *
+     * @param id ID
+     * @return True if id is Pictures Storage Folder Container
+     */
+    public boolean isAudioStorageFolderContainer(String id);
+
+    /**
      * ID is Pictures Storage Folder Container
      *
      * @param id ID

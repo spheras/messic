@@ -48,6 +48,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
@@ -83,6 +84,76 @@ public class SettingsController
         catch ( NotAuthorizedMessicRESTException e )
         {
             throw new NotAuthorizedMessicRESTException( e );
+        }
+        catch ( Exception e )
+        {
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
+    @ApiMethod( path = "/settings/${userSid}?removeMusicContent={true|false}", verb = ApiVerb.DELETE, description = "Remove an existing user", produces = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized remove this user" ) } )
+    @RequestMapping( value = "/{userSid}", method = RequestMethod.DELETE )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    protected void removeUser( @ApiParam( name = "userSid", description = "Sid of the user to remove", paramType = ApiParamType.PATH, required = true )
+                               @PathVariable
+                               Long userSid,
+                               @RequestParam( value = "removeMusicContent", required = false )
+                               @ApiParam( name = "removeMusicContent", description = "flag to know if the music content folder of the user should be removed also. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                   "true", "false" }, format = "Boolean" )
+                               Boolean removeMusicContent )
+        throws NotAuthorizedMessicRESTException, UnknownMessicRESTException
+    {
+        try
+        {
+            User user = SecurityUtil.getCurrentUser();
+            User result = userAPI.getUserByLogin( user.getLogin() );
+            if ( result.getAdministrator() || result.getSid().equals( userSid ) )
+            {
+                userAPI.removeUser( userSid, removeMusicContent );
+
+            }
+            else
+            {
+                // only administrators can remove any other user...
+                throw new NotAuthorizedMessicRESTException( new Exception( "Forbidden" ) );
+            }
+        }
+        catch ( Exception e )
+        {
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
+    @ApiMethod( path = "/settings/${userSid}/resetPassword", verb = ApiVerb.POST, description = "Reset the password of an existing user to 123456", produces = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized remove this user" ) } )
+    @RequestMapping( value = "/{userSid}/resetPassword", method = RequestMethod.POST )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    protected void resetPassword( @ApiParam( name = "userSid", description = "Sid of the user to remove", paramType = ApiParamType.PATH, required = true )
+                                  @PathVariable
+                                  Long userSid )
+        throws NotAuthorizedMessicRESTException, UnknownMessicRESTException
+    {
+        try
+        {
+            User user = SecurityUtil.getCurrentUser();
+            User result = userAPI.getUserByLogin( user.getLogin() );
+            if ( result.getAdministrator() )
+            {
+                userAPI.resetPassword( userSid );
+
+            }
+            else
+            {
+                // only administrators can reset password for any other user...
+                throw new NotAuthorizedMessicRESTException( new Exception( "Forbidden" ) );
+            }
         }
         catch ( Exception e )
         {
@@ -199,21 +270,22 @@ public class SettingsController
     User user )
         throws Exception
     {
-        
+
         User loginuser = SecurityUtil.getCurrentUser();
-        User result=null;
-        if(loginuser!=null){
+        User result = null;
+        if ( loginuser != null )
+        {
             result = userAPI.getUserByLogin( loginuser.getLogin() );
         }
-        
-        if ( result==null )
+
+        if ( result == null )
         {
             userAPI.createUser( user );
         }
         else
         {
             user.setSid( result.getSid() );
-            user.setLogin( result.getLogin() ); //forbiden to change the username
+            user.setLogin( result.getLogin() ); // forbiden to change the username
             userAPI.updateUser( user );
         }
     }

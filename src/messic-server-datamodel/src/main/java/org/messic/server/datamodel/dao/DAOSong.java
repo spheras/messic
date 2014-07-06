@@ -44,6 +44,12 @@ public interface DAOSong extends DAO<MDOSong>
 	 */
 	List<MDOSong> getAll(String username);
 
+   /**
+     * Get all the songs of users that allow DLNA Share content
+     * @return {@link List}<MDOSong/> list of songs
+     */
+    List<MDOSong> getAllDLNA();
+
 	/**
 	 * Find songs by a generic search. It searchs everything by songs, authors, etc..
 	 * @param username {@link String} user scope

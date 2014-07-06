@@ -53,6 +53,9 @@ public class User
     @ApiObjectField( description = "flag to know the user allow getting information for statistics purposes" )
     private Boolean allowStatistics = true; // true by default
 
+    @ApiObjectField( description = "flag to know the user content is allowed to be shared by a DLNA protocol" )
+    private Boolean allowDLNA = true; // true by default
+
     @ApiObjectField( description = "Path to store their songs" )
     private String storePath = "";
 
@@ -62,6 +65,42 @@ public class User
     public User()
     {
 
+    }
+
+    /**
+     * Update an {@link MDOUser} object. If the mdouser exist at the database, the parameter mdouser should be filled to
+     * avoid detached faults... if not, the parameter can be null, this function will create a new one...
+     * 
+     * @param mdouser {@link MDOUser} user to udpate, null if you need a new one
+     * @return {@link MDOUser} update with this user info
+     */
+    public MDOUser updateMDOUser( MDOUser mdouser )
+    {
+        if ( mdouser == null )
+        {
+            mdouser = new MDOUser();
+        }
+
+        if ( this.getSid() > 0 )
+        {
+            mdouser.setSid( getSid() );
+        }
+        else
+        {
+            mdouser.setSid( null );
+            mdouser.setAdministrator( getAdministrator() );
+        }
+        
+        mdouser.setAllowDLNA( getAllowDLNA() );
+        mdouser.setAllowStatistics( getAllowStatistics() );
+        mdouser.setAvatar( getAvatar() );
+        mdouser.setEmail( getEmail() );
+        mdouser.setLogin( getLogin() );
+        mdouser.setName( getName() );
+        mdouser.setPassword( getPassword() );
+        mdouser.setStorePath( getStorePath() );
+
+        return mdouser;
     }
 
     public static User transform( MDOUser user )
@@ -80,7 +119,8 @@ public class User
         {
             this.setAdministrator( mdoUser.getAdministrator() );
 
-            if(mdoUser.getAvatar()!=null){
+            if ( mdoUser.getAvatar() != null )
+            {
                 this.setAvatar_b64( new String( Base64Coder.encode( mdoUser.getAvatar() ) ) );
             }
             this.setEmail( mdoUser.getEmail() );
@@ -90,6 +130,7 @@ public class User
             this.setSid( mdoUser.getSid() );
             this.setStorePath( mdoUser.getStorePath() );
             this.setAllowStatistics( mdoUser.getAllowStatistics() );
+            this.setAllowDLNA( mdoUser.getAllowDLNA() );
         }
     }
 
@@ -205,6 +246,22 @@ public class User
         {
             return null;
         }
+    }
+
+    /**
+     * @return the allowDLNA
+     */
+    public Boolean getAllowDLNA()
+    {
+        return allowDLNA;
+    }
+
+    /**
+     * @param allowDLNA the allowDLNA to set
+     */
+    public void setAllowDLNA( Boolean allowDLNA )
+    {
+        this.allowDLNA = allowDLNA;
     }
 
 }

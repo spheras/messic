@@ -112,8 +112,16 @@ public class TokenManagementFilter
         }
         else
         {
-            throw new SessionAuthenticationException( "not valid token" );
+            // lets try at the dlna tokens
+            auth = AuthenticationSessionManager.authenticateDLNA( token );
+            if ( auth != null )
+            {
+                setDetails( request, (UsernamePasswordAuthenticationToken) auth );
+                return auth;
+            }
         }
+
+        throw new SessionAuthenticationException( "not valid token" );
 
     }
 

@@ -4,7 +4,8 @@
  *  This file is part of Messic.
  * 
  *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
+ *  it under the terms of the GNU General Public 
+ *  License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
@@ -44,16 +45,22 @@ import org.fourthline.cling.support.model.dlna.DLNAProfileAttribute;
 import org.fourthline.cling.support.model.dlna.DLNAProfiles;
 import org.fourthline.cling.support.model.dlna.DLNAProtocolInfo;
 import org.fourthline.cling.support.model.item.MusicTrack;
+import org.messic.server.Util;
+import org.messic.server.api.dlna.chii2.mediaserver.api.content.container.VisualContainer;
+import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.messic.MessicContainer;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOAuthor;
 import org.messic.server.datamodel.MDOSong;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOAlbum;
 import org.messic.server.datamodel.dao.DAOAuthor;
+import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOSong;
-import org.messic.server.facade.security.AuthenticationSessionManager;
+import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,33 +76,154 @@ public class MusicService
     @Autowired
     private DAOAuthor daoauthor;
 
-    private static HashMap<String, String> tokens = new HashMap<String, String>();
+    @Autowired
+    private DAOUser daoUsers;
+
+    @Autowired
+    private DAOMessicSettings daoSettings;
+
+    @Autowired
+    private AuthenticationDLNAMusicService authenticationSessionManager;
+
+    public static HashMap<String, String> tokens = new HashMap<String, String>();
+
+    /**
+     * Check if DLNA service is allowed by Messic configuration
+     * 
+     * @return boolean
+     */
+    public boolean isGenericAllowed()
+    {
+        return this.daoSettings.getSettings().isAllowDLNA();
+    }
+
+    /**
+     * Check if DLNA service is allowed by any users.
+     * 
+     * @return true->yes, its allowed at least by one user
+     */
+    public boolean isAnyUserAllowed()
+    {
+        return ( this.daoUsers.countAllowedDLNAUsers() > 0 );
+    }
+
+    /**
+     * Return the list of names of users that allow DLNA share content
+     * 
+     * @return
+     */
+    public List<MDOUser> getDLNAUsers()
+    {
+        List<MDOUser> users = this.daoUsers.getDLNAUsers();
+        return users;
+    }
 
     @Transactional
-    public List<MusicArtist> getAuthors( long containerId )
+    public List<MusicArtist> getAuthors( String containerId, long startIndex, long maxCount, VisualContainer vc )
     {
         List<MusicArtist> result = new ArrayList<MusicArtist>();
-        List<MDOAuthor> authors=this.daoauthor.getAll();
-        for ( MDOAuthor author : authors )
+        List<MDOAuthor> authors = null;
+
+        Long sid = Long.valueOf( containerId );
+
+        if ( sid > 0 && vc!=null)
         {
-            MusicArtist ma=new MusicArtist();
-            ma.setId( ""+ author.getSid());
-            ma.setParentID( author.getOwner().getSid()+"" );
-            ma.setTitle( author.getName() );
-            result.add(ma);
+            authors = new ArrayList<MDOAuthor>();
+            String username = this.daoUsers.getUserById( sid ).getLogin();
+            authors = this.daoauthor.getAll( username );
         }
+        else
+        {
+            authors = this.daoauthor.getAllDLNA();
+        }
+
+        int iadded = 0;
+        for ( long i = startIndex; i < startIndex + maxCount && i < authors.size(); i++ )
+        {
+            MDOAuthor author = authors.get( (int) i );
+
+            MusicArtist ma = new MusicArtist();
+            ma.setId( author.getOwner().getSid() + MessicContainer.SEPARATOR + author.getSid() );
+            ma.setParentID( author.getOwner().getSid() + "" );
+            ma.setTitle( author.getName() );
+
+            if ( vc != null )
+            {
+                vc.addContainer( ma );
+            }
+
+            iadded++;
+            result.add( ma );
+        }
+
+        if ( vc != null )
+        {
+            vc.setChildCount( iadded );
+            vc.setTotalChildCount( authors.size() );
+        }
+
         return result;
     }
 
     @Transactional
-    public List<MusicAlbum> getAlbums( long containerId )
+    public MDOAuthor getAuthor( Long authorSid )
     {
+        MDOAuthor author = this.daoauthor.get( authorSid );
+        if ( author.getOwner().getAllowDLNA() )
+        {
+            return author;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    @Transactional
+    public MDOAlbum getAlbum( Long albumSid )
+    {
+        MDOAlbum album = this.daoalbum.get( albumSid );
+        if ( album.getOwner().getAllowDLNA() )
+        {
+            return album;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    @Transactional
+    public MDOUser getUser( Long userSid )
+    {
+        return this.daoUsers.getUserById( userSid );
+    }
+
+    @Transactional
+    public List<MDOAuthor> getUserAuthors( Long userSid )
+    {
+        MDOUser user = this.daoUsers.getUserById( userSid );
+        List<MDOAuthor> authors = new ArrayList<MDOAuthor>();
+        if ( user != null )
+        {
+            authors = this.daoauthor.getAll( user.getLogin() );
+        }
+        return authors;
+
+    }
+
+    @Transactional
+    public List<MusicAlbum> getAlbums( String containerId, long startIndex, long maxCount, VisualContainer vc )
+    {
+        String[] parts = containerId.split( MessicContainer.SEPARATOR );
+
         List<MusicAlbum> result = new ArrayList<MusicAlbum>();
         List<MDOAlbum> albums = null;
-        if ( containerId > 7 )
+        if ( parts.length == 2 )
         {
+            Long sid = Long.valueOf( parts[1] );
             albums = new ArrayList<MDOAlbum>();
-            Set<MDOAlbum> setalbums = this.daoauthor.get( containerId ).getAlbums();
+            Set<MDOAlbum> setalbums = this.daoauthor.get( sid ).getAlbums();
             for ( MDOAlbum mdoAlbum : setalbums )
             {
                 albums.add( mdoAlbum );
@@ -103,48 +231,95 @@ public class MusicService
         }
         else
         {
-            albums = this.daoalbum.getAll();
+            albums = this.daoalbum.getAllDLNA();
         }
-        for ( MDOAlbum album : albums )
+
+        for ( long i = startIndex; i < startIndex + maxCount && i < albums.size(); i++ )
         {
+            MDOAlbum album = albums.get( (int) i );
             MusicAlbum ma = new MusicAlbum();
             ma.setArtists( new PersonWithRole[] { new PersonWithRole( album.getAuthor().getName() ) } );
             ma.setDate( "" + album.getYear() );
             ma.setGenres( new String[] { album.getGenre().getName() } );
-            ma.setParentID( "" + album.getAuthor().getSid() );
             ma.setTitle( album.getName() );
-            ma.setId( "" + album.getSid() );
+
+            ma.setParentID( album.getOwner().getSid() + MessicContainer.SEPARATOR + album.getAuthor().getSid() );
+            ma.setId( album.getOwner().getSid() + MessicContainer.SEPARATOR + album.getAuthor().getSid()
+                + MessicContainer.SEPARATOR + album.getSid() );
+
             result.add( ma );
+            if ( vc != null )
+            {
+                vc.addContainer( ma );
+            }
         }
+
+        if ( vc != null )
+        {
+            vc.setChildCount( result.size() );
+            vc.setTotalChildCount( albums.size() );
+        }
+
         return result;
     }
 
-    @Transactional
-    public List<MusicTrack> getSongs( long containerId )
+    /**
+     * Function to login the DLNA petittion. Return the token logged
+     * 
+     * @param login Sting username to login
+     * @return String token loged
+     */
+    public String loginDLNA( String login, String hashPassword )
     {
+        String token = tokens.get( login );
+        if ( token == null )
+        {
+            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+            authorities.add( new SimpleGrantedAuthority( "ROLE_USER" ) );
+
+            UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken( login, hashPassword, authorities );
+            token = this.authenticationSessionManager.successfulAuthenticationDLNA( authentication );
+            tokens.put( login, token );
+        }
+        return token;
+    }
+
+    /**
+     * Return the current port where is messic published
+     * 
+     * @return String the port number
+     */
+    public String getCurrentPort()
+    {
+        return this.authenticationSessionManager.getCurrentPort();
+    }
+
+    @Transactional
+    public List<MusicTrack> getSongs( String containerId, long startIndex, long maxCount, VisualContainer vc )
+    {
+        String[] parts = containerId.split( MessicContainer.SEPARATOR );
+
         List<MusicTrack> result = new ArrayList<MusicTrack>();
         List<MDOSong> songs = null;
-        if ( containerId > 4 )
+        if ( parts.length == 3 )
         {
-            MDOAlbum album = this.daoalbum.get( containerId );
-            songs = album.getSongs();
+            Long sid = Long.valueOf( parts[2] );
+            songs = new ArrayList<MDOSong>();
+            songs = this.daoalbum.get( sid ).getSongs();
         }
         else
         {
-            songs = this.daosong.getAll();
+            songs = this.daosong.getAllDLNA();
         }
 
-        for ( MDOSong song : songs )
+        int iadded = 0;
+
+        for ( long i = startIndex; i < startIndex + maxCount && i < songs.size(); i++ )
         {
+            MDOSong song = songs.get( (int) i );
             MDOUser user = song.getOwner();
-            String token = tokens.get( user.getLogin() );
-            if ( token == null )
-            {
-                UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken( user.getLogin(), "12345" );
-                token = AuthenticationSessionManager.successfulAuthentication( authentication );
-                tokens.put( user.getLogin(), token );
-            }
+            String token = loginDLNA( user.getLogin(), user.getPassword() );
 
             MusicTrack ai = new MusicTrack();
             ai.setAlbum( song.getAlbum().getName() );
@@ -156,13 +331,15 @@ public class MusicService
             // ai.setDescription( "description" );
             // ai.setLanguage( "es_ES" );
             // ai.setLongDescription( "long description" );
-            ai.setParentID( "" + song.getAlbum().getSid() );
             // ai.setPublishers( new Person[]{new Person( "namepublisher" )} );
             ai.setRefID( "" + song.getSid() );
             ai.setRights( new String[] {} );
             ai.setCreator( song.getAlbum().getAuthor().getName() );
             ai.setGenres( new String[] { song.getAlbum().getGenre().getName() } );
-            ai.setId( "" + song.getSid() );
+            ai.setParentID( song.getOwner().getSid() + MessicContainer.SEPARATOR + song.getAlbum().getAuthor().getSid()
+                + MessicContainer.SEPARATOR + song.getAlbum().getSid() );
+            ai.setId( song.getOwner().getSid() + MessicContainer.SEPARATOR + song.getAlbum().getAuthor().getSid()
+                + MessicContainer.SEPARATOR + song.getAlbum().getSid() + MessicContainer.SEPARATOR + song.getSid() );
             ai.setTitle( song.getName() );
             ai.setOriginalTrackNumber( song.getTrack() );
 
@@ -170,11 +347,16 @@ public class MusicService
             try
             {
                 originalUri =
-                    new URI( "http://192.168.0.103:8181/messic/services/songs/" + song.getSid()
-                        + "/audio?messic_token=" + token );
+                    new URI( "http://" + Util.getInternalIp() + ":" + getCurrentPort() + "/messic/services/songs/"
+                        + song.getSid() + "/audio?dlna=true&messic_token=" + token );
             }
             catch ( URISyntaxException e )
             {
+                e.printStackTrace();
+            }
+            catch ( Exception e )
+            {
+                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             Res resource = new Res();
@@ -196,6 +378,19 @@ public class MusicService
 
             ai.addResource( resource );
             result.add( ai );
+
+            if ( vc != null )
+            {
+                vc.addItem( ai );
+            }
+
+            iadded++;
+        }
+
+        if ( vc != null )
+        {
+            vc.setChildCount( iadded );
+            vc.setTotalChildCount( songs.size() );
         }
 
         return result;

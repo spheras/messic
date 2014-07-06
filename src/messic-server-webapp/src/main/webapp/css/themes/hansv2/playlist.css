@@ -500,7 +500,7 @@
 	position:absolute;
 	top:-8px;
 	left: -8px;
-	z-index:3;
+	z-index:5;
 
    opacity: 0; /*by default we can't see it */
 	-webkit-transform: scale(0.8);

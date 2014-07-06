@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.jsondoc.core.annotation.ApiObject;
 import org.jsondoc.core.annotation.ApiObjectField;
 import org.messic.server.datamodel.MDOMessicSettings;
+import org.messic.server.datamodel.dao.DAOMessicSettings;
 
 @XmlRootElement
 @ApiObject( name = "MessicSettings", description = "Messic Settings" )
@@ -40,9 +41,29 @@ public class MessicSettings
     @ApiObjectField( description = "indicates if messic allows the settings of an especific folder for the users (different from the default messic music store)" )
     private boolean allowUserSpecificFolder = false;
 
+    @ApiObjectField( description = "indicates if messic allows the dlna share content" )
+    private boolean allowDLNA = true;
+
     public MessicSettings()
     {
 
+    }
+
+    /**
+     * Obtain the MDOSettings corresponding with the settings of this object
+     * 
+     * @param daoSettings
+     * @return
+     */
+    public MDOMessicSettings getMDOSettings( DAOMessicSettings daoSettings )
+    {
+        MDOMessicSettings mdoSettings = daoSettings.getSettings();
+        mdoSettings.setAllowDLNA( this.isAllowDLNA() );
+        mdoSettings.setAllowUserCreation( this.isAllowUserCreation() );
+        mdoSettings.setAllowUserSpecificFolder( this.isAllowUserSpecificFolder() );
+        mdoSettings.setGenericBaseStorePath( this.getGenericBaseStorePath() );
+        mdoSettings.setIllegalCharacterReplacement( this.getIllegalCharacterReplacement() );
+        return mdoSettings;
     }
 
     /**
@@ -56,6 +77,7 @@ public class MessicSettings
         this.illegalCharacterReplacement = mdoSettings.getIllegalCharacterReplacement();
         this.allowUserCreation = mdoSettings.isAllowUserCreation();
         this.allowUserSpecificFolder = mdoSettings.isAllowUserSpecificFolder();
+        this.allowDLNA = mdoSettings.isAllowDLNA();
     }
 
     /**
@@ -120,5 +142,21 @@ public class MessicSettings
     public void setAllowUserSpecificFolder( boolean allowUserSpecificFolder )
     {
         this.allowUserSpecificFolder = allowUserSpecificFolder;
+    }
+
+    /**
+     * @return the allowDLNA
+     */
+    public boolean isAllowDLNA()
+    {
+        return allowDLNA;
+    }
+
+    /**
+     * @param allowDLNA the allowDLNA to set
+     */
+    public void setAllowDLNA( boolean allowDLNA )
+    {
+        this.allowDLNA = allowDLNA;
     }
 }

@@ -40,65 +40,86 @@ public class DAOJPASong
         super( MDOSong.class );
     }
 
-	@Override
-	public MDOSong get(String username, long sid) {
-        Query query = entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName AND a.sid = :songSid)" );
-        query.setParameter( "userName", username);
-        query.setParameter( "songSid",sid);
-        
+    @Override
+    public MDOSong get( String username, long sid )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName AND a.sid = :songSid)" );
+        query.setParameter( "userName", username );
+        query.setParameter( "songSid", sid );
+
         @SuppressWarnings( "unchecked" )
         List<MDOSong> results = query.getResultList();
-        if(results!=null && results.size()>0){
-        	return results.get(0);
+        if ( results != null && results.size() > 0 )
+        {
+            return results.get( 0 );
         }
         return null;
-	}
+    }
 
-	@Override
-	public List<MDOSong> getAll(String username) {
+    @Override
+    public List<MDOSong> getAll( String username )
+    {
         Query query = entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName)" );
-        query.setParameter( "userName", username);
-        
+        query.setParameter( "userName", username );
+
         @SuppressWarnings( "unchecked" )
         List<MDOSong> results = query.getResultList();
         return results;
-	}
-    
+    }
+
     @Override
-    public List<MDOSong> genericFind(String username, List<String> searches){
-    	HashMap<Long, MDOSong> finalResult=new HashMap<Long, MDOSong>();
-    	for(int i=0;i<searches.size();i++){
-    		String content=searches.get(i);
+    public List<MDOSong> getAllDLNA()
+    {
+        Query query = entityManager.createQuery( "from MDOSong as a where (a.owner.allowDLNA= true)" );
 
-    		 String sql="from MDOSong as a WHERE (a.owner.login = :userName) AND (";
-        		sql=sql+"(UPPER(a.name) LIKE :what) OR ";
-        		sql=sql+"(UPPER(a.album.name) LIKE :what) OR ";
-        		sql=sql+"(UPPER(a.album.genre.name) LIKE :what) OR ";
-                try {
-                    Integer.parseInt(content);
-            		sql=sql+"(a.album.year LIKE :what) OR ";
-                } catch (NumberFormatException nfe) {}
-        		sql=sql+"(UPPER(a.album.comments) LIKE :what) OR ";
-        		sql=sql+"(UPPER(a.album.author.name) LIKE :what)";
-        		sql=sql+")";
+        @SuppressWarnings( "unchecked" )
+        List<MDOSong> results = query.getResultList();
+        return results;
+    }
 
-        		
-                Query query = entityManager.createQuery( sql );
-                query.setParameter( "userName", username);
-                query.setParameter("what","%"+content.toUpperCase()+"%");
-                
-                @SuppressWarnings( "unchecked" )
-                List<MDOSong> results = query.getResultList();
-        		for (MDOSong mdoSong : results) {
-    				finalResult.put(mdoSong.getSid(), mdoSong);
-    			}
-    		}
-    	
-    	ArrayList<MDOSong> result=new ArrayList<MDOSong>();
-    	Iterator<MDOSong> songsit=finalResult.values().iterator();
-    	while(songsit.hasNext()){
-    		result.add(songsit.next());
-    	}
-    	return result;
+    @Override
+    public List<MDOSong> genericFind( String username, List<String> searches )
+    {
+        HashMap<Long, MDOSong> finalResult = new HashMap<Long, MDOSong>();
+        for ( int i = 0; i < searches.size(); i++ )
+        {
+            String content = searches.get( i );
+
+            String sql = "from MDOSong as a WHERE (a.owner.login = :userName) AND (";
+            sql = sql + "(UPPER(a.name) LIKE :what) OR ";
+            sql = sql + "(UPPER(a.album.name) LIKE :what) OR ";
+            sql = sql + "(UPPER(a.album.genre.name) LIKE :what) OR ";
+            try
+            {
+                Integer.parseInt( content );
+                sql = sql + "(a.album.year LIKE :what) OR ";
+            }
+            catch ( NumberFormatException nfe )
+            {
+            }
+            sql = sql + "(UPPER(a.album.comments) LIKE :what) OR ";
+            sql = sql + "(UPPER(a.album.author.name) LIKE :what)";
+            sql = sql + ")";
+
+            Query query = entityManager.createQuery( sql );
+            query.setParameter( "userName", username );
+            query.setParameter( "what", "%" + content.toUpperCase() + "%" );
+
+            @SuppressWarnings( "unchecked" )
+            List<MDOSong> results = query.getResultList();
+            for ( MDOSong mdoSong : results )
+            {
+                finalResult.put( mdoSong.getSid(), mdoSong );
+            }
+        }
+
+        ArrayList<MDOSong> result = new ArrayList<MDOSong>();
+        Iterator<MDOSong> songsit = finalResult.values().iterator();
+        while ( songsit.hasNext() )
+        {
+            result.add( songsit.next() );
+        }
+        return result;
     }
 }

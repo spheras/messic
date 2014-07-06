@@ -18,6 +18,8 @@
  */
 package org.messic.server.datamodel.dao;
 
+import java.util.List;
+
 import org.messic.server.datamodel.MDOUser;
 
 /**
@@ -26,28 +28,74 @@ import org.messic.server.datamodel.MDOUser;
 public interface DAOUser
     extends DAO<MDOUser>
 {
-    public MDOUser getUserByLogin( String user );
+    /**
+     * Obtain an user by its login
+     * 
+     * @param user {@link String} login user
+     * @return {@link MDOUser} foudned
+     */
+    MDOUser getUserByLogin( String user );
 
-    public MDOUser getUserById( Long userSid );
+    /**
+     * search an user by its sid
+     * 
+     * @param userSid {@link Long} sid for the user to search
+     * @return {@link MDOUser} founded
+     */
+    MDOUser getUserById( Long userSid );
 
-    public MDOUser createUser( String login, String password, String name, String email, byte[] avatar,
-                               boolean administrator, String storePath );
+    /**
+     * Remove an user
+     * 
+     * @param userSid Long sid to remove
+     */
+    void removeUser( Long userSid );
 
-    public MDOUser updatePassword( Long userSid, String newPassword );
-
-    public MDOUser updateUserData( Long userSid, String name, String email, byte[] avatar, String storePath );
-
-    public void removeUser( Long userSid );
-
-    public boolean existUser( String user );
+    /**
+     * Check if the username already exist at the database
+     * 
+     * @param user {@link String} username to check
+     * @return boolean
+     */
+    boolean existUser( String user );
 
     /**
      * check if exist any user at the database
      * 
      * @return boolean, true->yes, exist at least one user, false->no, there is no user at the database
      */
-    public boolean existUsers();
+    boolean existUsers();
 
-    public MDOUser authenticate( String user, String password );
+    /**
+     * Try to authenticate to an user
+     * 
+     * @param user {@link String}
+     * @param password {@link String}
+     * @return {@link MDOUser} user authenticated
+     */
+    MDOUser authenticate( String user, String password );
+
+    /**
+     * Count how many users allow the DLNA Shared content
+     * 
+     * @return long
+     */
+    long countAllowedDLNAUsers();
+
+    /**
+     * return all the DLNA users (users that allow to share their content by DLNA protocol)
+     * 
+     * @return {@link List}<MDOUser/>
+     */
+    List<MDOUser> getDLNAUsers();
+
+    /**
+     * Save or update an user
+     * 
+     * @param user
+     * @param updatePassword boolean flag to know if its necessary to update the password
+     * @return
+     */
+    MDOUser saveUser( MDOUser user, boolean updatePassword );
 
 }

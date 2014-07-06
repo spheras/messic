@@ -879,3 +879,71 @@ body.loading .modal {
     transition-duration: 0.5s;
     transition-property: transform;
 }
+
+
+
+
+
+/* http://johnsardine.com/freebies/dl-html-css/simple-little-tab/ */
+table a:link {
+	color: #666;
+	font-weight: bold;
+	text-decoration:none;
+}
+table a:visited {
+	color: #999999;
+	font-weight:bold;
+	text-decoration:none;
+}
+table a:active,
+table a:hover {
+	color: #bd5a35;
+	text-decoration:underline;
+}
+
+table {
+    background: none repeat scroll 0 0 #eaebec;
+    border: 1px solid #ccc;
+    border-collapse: unset;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px #d1d1d1;
+    color: #666;
+    font-family: Roboto;
+    font-size: 12px;
+    margin: 20px;
+    overflow: hidden;
+}
+table th:first-child {
+    border-left: medium none;
+}
+table th {
+    background: -moz-linear-gradient(center top , #ededed, #ebebeb) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-bottom: 1px solid #e0e0e0;
+    border-left: 1px solid #cdcdcd;
+    border-top: 1px solid #fafafa;
+    padding: 7px;
+    font-family: Roboto-bold;
+    font-size: 1.2em;
+}
+
+table tbody tr:hover {
+    background: none repeat scroll 0 0 #aaffff;
+}
+table tbody tr {
+    padding-left: 20px;
+    text-align: center;
+    background: -moz-linear-gradient(center top , #fbfbfb, #fafafa) repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+table tr:last-child td {
+    border-bottom: 0 none;
+}
+table td:first-child {
+    border-left: 0 none;
+}
+table td {
+    border-bottom: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    border-top: 1px solid #ffffff;
+    padding: 4px;
+}

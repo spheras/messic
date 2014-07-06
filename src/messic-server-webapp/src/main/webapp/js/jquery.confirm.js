@@ -67,9 +67,7 @@
 
                 // Calling the action attribute when a
                 // click occurs, and hiding the confirm.
-
-                obj.action();
-                $.confirm.hide();
+                $.confirm.hide(obj.action);
                 return false;
             });
         });
@@ -84,10 +82,11 @@
     }
 
 
-    $.confirm.hide = function(){
+    $.confirm.hide = function(nextFunction){
         $(window).unbind('keydown.confirmBox');
         $('#confirmOverlay').fadeOut(function(){
             $(this).remove();
+        	nextFunction();
         });
     }
 

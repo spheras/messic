@@ -62,6 +62,7 @@ public class DAOJPAMessicSettings
         ms.setIllegalCharacterReplacement( '_' );
         ms.setAllowUserCreation( true );
         ms.setAllowUserSpecificFolder( false );
+        ms.setAllowDLNA( true );
         saveSettings( ms );
         return ms;
     }

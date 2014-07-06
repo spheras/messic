@@ -61,7 +61,13 @@ public interface DAOAuthor extends DAO<MDOAuthor>
 	 * @return
 	 */
 	List<MDOAuthor> getAll(String username);
-	
+
+   /**
+     * return all the authors, but only from users that allow DLNA
+     * @return
+     */
+    List<MDOAuthor> getAllDLNA();
+
 	/**
 	 * Find an author with name equals to the param authorName
 	 * @param authorName {@link String} author name

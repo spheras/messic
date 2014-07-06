@@ -1,7 +1,6 @@
 package org.messic.server.api.dlna.chii2.mediaserver.content.common;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,14 +14,10 @@ import org.apache.commons.lang.StringUtils;
 import org.fourthline.cling.model.message.UpnpHeaders;
 import org.fourthline.cling.support.contentdirectory.DIDLParser;
 import org.fourthline.cling.support.model.DIDLObject;
-import org.fourthline.cling.support.model.DescMeta;
-import org.fourthline.cling.support.model.Person;
-import org.fourthline.cling.support.model.PersonWithRole;
 import org.fourthline.cling.support.model.Protocol;
 import org.fourthline.cling.support.model.ProtocolInfo;
 import org.fourthline.cling.support.model.Res;
 import org.fourthline.cling.support.model.SortCriterion;
-import org.fourthline.cling.support.model.container.MusicAlbum;
 import org.fourthline.cling.support.model.dlna.DLNAAttribute;
 import org.fourthline.cling.support.model.dlna.DLNAConversionIndicator;
 import org.fourthline.cling.support.model.dlna.DLNAConversionIndicatorAttribute;
@@ -33,8 +28,6 @@ import org.fourthline.cling.support.model.dlna.DLNAOperationsAttribute;
 import org.fourthline.cling.support.model.dlna.DLNAProfileAttribute;
 import org.fourthline.cling.support.model.dlna.DLNAProfiles;
 import org.fourthline.cling.support.model.dlna.DLNAProtocolInfo;
-import org.fourthline.cling.support.model.item.AudioItem;
-import org.fourthline.cling.support.model.item.MusicTrack;
 import org.messic.server.api.dlna.MusicService;
 import org.messic.server.api.dlna.chii2.PictureItem;
 import org.messic.server.api.dlna.chii2.medialibrary.api.core.MediaLibraryService;
@@ -47,6 +40,8 @@ import org.messic.server.api.dlna.chii2.mediaserver.api.http.HttpServerService;
 import org.messic.server.api.dlna.chii2.mediaserver.api.upnp.Filter;
 import org.messic.server.api.dlna.chii2.mediaserver.api.upnp.SearchCriterion;
 import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.MovieBaseStorageFolderContainer;
+import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.MusicContainer;
+import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.MusicFoldersContainer;
 import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.PicturesContainer;
 import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.PicturesFoldersContainer;
 import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.PicturesStorageFolderContainer;
@@ -65,11 +60,17 @@ public class CommonContentManager
     // Root Container ID
     public final static String ROOT_ID = "0";
 
+    // Audio Container
+    public final static String AUDIO_ID = "1";
+
     // Video Container
     public final static String VIDEO_ID = "2";
 
     // Pictures Container
     public final static String PICTURES_ID = "3";
+
+    // Audio Folders Container
+    public final static String AUDIO_FOLDERS_ID = "14";
 
     // Video Folders Container
     public final static String VIDEO_FOLDERS_ID = "15";
@@ -106,7 +107,7 @@ public class CommonContentManager
     // UUID Length
     private int uuidLength = UUID.randomUUID().toString().length();
 
-    private MusicService musicService = new MusicService();
+    protected MusicService musicService = new MusicService();
 
     /**
      * Constructor
@@ -157,6 +158,22 @@ public class CommonContentManager
         if ( isRootContainer( objectId ) )
         {
             VisualContainer container = new RootContainer( filter );
+            container.loadContents( startIndex, requestCount, orderBy, this );
+            return container;
+        }
+
+        /** ------------------------- Audio ------------------------- **/
+        // Pictures Container
+        else if ( isAudioContainer( objectId ) )
+        {
+            VisualContainer container = new MusicContainer( filter );
+            container.loadContents( startIndex, requestCount, orderBy, this );
+            return container;
+        }
+        // Pictures Folders Container
+        else if ( isAudioFoldersContainer( objectId ) )
+        {
+            VisualContainer container = new MusicFoldersContainer( filter );
             container.loadContents( startIndex, requestCount, orderBy, this );
             return container;
         }
@@ -228,17 +245,17 @@ public class CommonContentManager
                 break;
             case SEARCH_AUDIO_ALBUMS:
                 System.out.println( "searching audio albums!" );
-                return musicService.getAlbums(Long.valueOf( containerId ));
+                return musicService.getAlbums( containerId, startIndex, requestCount, null );
             case SEARCH_AUDIO_AUTHORS:
                 System.out.println( "searching audio authors!" );
-                return musicService.getAuthors(Long.valueOf( containerId ));
+                return musicService.getAuthors( containerId, startIndex, requestCount, null );
             case SEARCH_AUDIO_GENRE:
                 System.out.println( "searching audio genre!" );
                 break;
             case SEARCH_AUDIO:
                 System.out.println( "searching audio songs!" );
                 // AudioItem ai=new AudioItem();
-                return musicService.getSongs( Long.valueOf( containerId ) );
+                return musicService.getSongs( containerId, startIndex, requestCount, null );
             case SEARCH_PLAYLIST:
                 System.out.println( "Searching playlists!" );
                 break;
@@ -799,6 +816,25 @@ public class CommonContentManager
     public boolean isPicturesStorageFolderContainer( String id )
     {
         return id != null && id.length() > 5 && id.substring( 0, 5 ).equalsIgnoreCase( PICTURES_STORAGE_FOLDER_PREFIX );
+    }
+
+    @Override
+    public boolean isAudioContainer( String id )
+    {
+        return AUDIO_ID.equalsIgnoreCase( id );
+    }
+
+    @Override
+    public boolean isAudioFoldersContainer( String id )
+    {
+        return AUDIO_FOLDERS_ID.equalsIgnoreCase( id );
+    }
+
+    @Override
+    public boolean isAudioStorageFolderContainer( String id )
+    {
+        // TODO?
+        return false;
     }
 
     @Override

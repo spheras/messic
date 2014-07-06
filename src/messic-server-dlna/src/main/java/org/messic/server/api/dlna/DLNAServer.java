@@ -38,19 +38,101 @@ public class DLNAServer
     @Autowired
     private MusicService musicService;
 
+    /** upnp service */
+    private MediaServerServiceImpl upnpService;
+
     /* flag to know if the server has been started */
     private boolean flagStarted = false;
 
+    /** flag to know if messic event have been received already or not */
+    private boolean flagMessicInited = false;
+
+    /**
+     * Starts or Stops the server depending on the Messic Preferences and Users preferences. This method should be
+     * called each time Messic Preferences are changed, or Users preferences are changed, or New Users become to Messic,
+     * or Users are deleted from Messic
+     * 
+     * @throws InterruptedException
+     */
+    public void refreshServer()
+    {
+        if ( this.musicService.isGenericAllowed() )
+        {
+            if ( this.musicService.isAnyUserAllowed() )
+            {
+                if ( !this.flagStarted )
+                {
+                    try
+                    {
+                        Thread t = new Thread()
+                        {
+                            public void run()
+                            {
+                                try
+                                {
+                                    startServer();
+                                }
+                                catch ( InterruptedException e )
+                                {
+                                    e.printStackTrace();
+                                }
+                            };
+                        };
+                        t.start();
+
+                    }
+                    catch ( Exception e )
+                    {
+                        e.printStackTrace();
+                    }
+                    return;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+
+        if ( this.flagStarted )
+        {
+            stopServer();
+        }
+    }
+
+    /**
+     * Stops the UPNP Server
+     */
+    public void stopServer()
+    {
+        this.flagStarted = false;
+        System.out.println( "Stopping Cling..." );
+        upnpService.destroy();
+    }
+
+    /**
+     * Launched when INIT messic
+     * 
+     * @throws InterruptedException
+     */
     @PostConstruct
+    public void InitMessic()
+        throws InterruptedException
+    {
+        for ( int i = 0; i < 100; i++ )
+            System.out.println( "SÑFLASLDJFSAÑDFJASDFJKLASDÑFASD JFJASDÑL FJASDÑL FJSDÑKL FJSDÑKL FJASDÑL FJASÑL FJ" );
+
+        refreshServer();
+    }
+
+    /**
+     * Starts the UPNP Server
+     */
     public void startServer()
         throws InterruptedException
     {
-        // nothing for the moment
-    }
+        this.flagStarted = true;
 
-    public void startServer2()
-        throws InterruptedException
-    {
         // UPnP discovery is asynchronous, we need a callback
         RegistryListener listener = new RegistryListener()
         {
@@ -103,23 +185,9 @@ public class DLNAServer
         };
 
         // This will create necessary network resources for UPnP right away
-        System.out.println( "Starting Cling..." );
-        MediaServerServiceImpl upnpService = new MediaServerServiceImpl();
-        upnpService.init( listener, this.musicService );
-        // UpnpService upnpService = new UpnpServiceImpl( listener );
-
-        // Send a search message to all devices and services, they should
-        // respond soon
-        // upnpService.getControlPoint().search( new STAllHeader() );
-
-        // Let's wait 10 seconds for them to respond
-        System.out.println( "Waiting 10 seconds before shutting down..." );
-        Thread.sleep( 10000000 );
-
-        // Release all resources and advertise BYEBYE to other UPnP devices
-        System.out.println( "Stopping Cling..." );
-        upnpService.destroy();
-
+        System.out.println( "Starting Cling UPNP Server..." );
+        this.upnpService = new MediaServerServiceImpl();
+        this.upnpService.init( listener, this.musicService );
     }
 
     @Override
@@ -129,25 +197,10 @@ public class DLNAServer
         ApplicationContext ac = arg0.getApplicationContext();
         synchronized ( this )
         {
-            if ( ac != null && !flagStarted )
+            if ( ac != null && !this.flagMessicInited )
             {
-                flagStarted = true;
-
-                Thread t = new Thread()
-                {
-                    public void run()
-                    {
-                        try
-                        {
-                            startServer();
-                        }
-                        catch ( InterruptedException e )
-                        {
-                            e.printStackTrace();
-                        }
-                    };
-                };
-                t.start();
+                this.flagMessicInited = true;
+                refreshServer();
             }
         }
     }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.messic.server.Util;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -36,6 +37,34 @@ public class MessicConfig
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    /**
+     * Return the current port in which messic is launched
+     * 
+     * @return
+     */
+    public static String getCurrentPort()
+    {
+        File f = new File( "./currentport" );
+        if ( f.exists() )
+        {
+            try
+            {
+                FileInputStream fis = new FileInputStream( f );
+                String port = new String( Util.readInputStream( fis ) );
+                return port;
+            }
+            catch ( Exception e )
+            {
+                e.printStackTrace();
+            }
+            return "";
+        }
+        else
+        {
+            return "";
         }
     }
 

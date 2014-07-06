@@ -26,9 +26,9 @@
  *
  */
 
-function initAPIDoc(){
+function initAPIDoc(div){
 		$.getJSON( "services/jsondoc", function( data ) {
-			$("#messic-page-content").empty();
+			$(div).empty();
 			var code="";
 			code=code+"<div class='messic-restapi'>";
 			code=code+"  <div class='messic-restapi-info'>";
@@ -81,6 +81,6 @@ function initAPIDoc(){
 			}
 			code=code+"</div>";
 
-			$("#messic-page-content").append($(code));
+			$(div).append($(code));
  		});
 }

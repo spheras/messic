@@ -24,6 +24,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.messic.server.api.configuration.MessicConfig;
+import org.messic.server.api.dlna.AuthenticationDLNAMusicService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
@@ -32,6 +34,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 public class CustomUsernamePasswordAuthenticationFilter
     extends UsernamePasswordAuthenticationFilter
+    implements AuthenticationDLNAMusicService
 {
 
     /**
@@ -77,6 +80,21 @@ public class CustomUsernamePasswordAuthenticationFilter
     protected String obtainToken( HttpServletRequest request )
     {
         return request.getHeader( "messic_token" );
+    }
+
+    /**
+     * For the DLNA Services
+     */
+    @Override
+    public String successfulAuthenticationDLNA( Authentication authentication )
+    {
+        return AuthenticationSessionManager.successfulAuthenticationDLNA( authentication );
+    }
+
+    @Override
+    public String getCurrentPort()
+    {
+        return MessicConfig.getCurrentPort();
     }
 
 }

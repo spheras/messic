@@ -65,7 +65,7 @@ public class MDOUser
     @Column( name = "EMAIL", nullable = false )
     private String email;
 
-    @Column(name = "LOGIN", nullable = false, unique=true)
+    @Column( name = "LOGIN", nullable = false, unique = true )
     private String login;
 
     @Column( name = "PASSWORD", nullable = false )
@@ -75,9 +75,12 @@ public class MDOUser
     private Boolean administrator;
 
     @Column( name = "ALLOWSTATISTICS", nullable = false )
-    private Boolean allowStatistics=true; //by default, true
+    private Boolean allowStatistics = true; // by default, true
 
-    @Column(name = "STOREPATH" , nullable = false)
+    @Column( name = "ALLOWDLNA", nullable = false )
+    private Boolean allowDLNA = true; // by default, true
+
+    @Column( name = "STOREPATH", nullable = false )
     private String storePath;
 
     /**
@@ -88,7 +91,9 @@ public class MDOUser
         super();
     }
 
-    public MDOUser(String name, String email, byte[] avatar, String login, String password, Boolean administrator, String basePath) {
+    public MDOUser( String name, String email, byte[] avatar, String login, String password, Boolean administrator,
+                    String basePath )
+    {
         this.name = name;
         this.email = email;
         this.avatar = avatar;
@@ -190,7 +195,7 @@ public class MDOUser
     {
         String path = getStorePath();
         path = path.replace( Util.GENERIC_BASE_STORE_PATH_VAR, settings.getGenericBaseStorePath() );
-        return path;
+        return path + File.separatorChar + this.getLogin();
     }
 
     /**
@@ -226,6 +231,22 @@ public class MDOUser
     public void setAllowStatistics( Boolean allowStatistics )
     {
         this.allowStatistics = allowStatistics;
+    }
+
+    /**
+     * @return the allowDLNA
+     */
+    public Boolean getAllowDLNA()
+    {
+        return allowDLNA;
+    }
+
+    /**
+     * @param allowDLNA the allowDLNA to set
+     */
+    public void setAllowDLNA( Boolean allowDLNA )
+    {
+        this.allowDLNA = allowDLNA;
     }
 
 }

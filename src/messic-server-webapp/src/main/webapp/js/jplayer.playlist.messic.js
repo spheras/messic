@@ -361,6 +361,12 @@
 			} else {
 				if(this.original.length === 1) {
 					this.select(0);
+					this.play(0);
+				} else {
+					if (!($('.jp-play').css('display') == 'none')){
+						//then it's stopped or paused
+						this.play(this.playlist.length - 1);
+					}
 				}
 			}
 		},

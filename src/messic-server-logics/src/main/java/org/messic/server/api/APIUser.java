@@ -18,10 +18,13 @@
  */
 package org.messic.server.api;
 
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
 import org.messic.server.api.datamodel.MessicSettings;
 import org.messic.server.api.datamodel.User;
+import org.messic.server.api.dlna.DLNAServer;
 import org.messic.server.api.exceptions.NotAllowedMessicException;
-import org.messic.server.datamodel.MDOMessicSettings;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOUser;
@@ -39,6 +42,40 @@ public class APIUser
 
     @Autowired
     private DAOMessicSettings daoSettings;
+
+    @Autowired
+    private DLNAServer dlnaServer;
+
+    public void resetPassword( Long sid )
+    {
+        MDOUser mdoUserToReset = daoUser.getUserById( sid );
+        mdoUserToReset.setPassword( "123456" );
+        daoUser.saveUser( mdoUserToReset, true );
+    }
+
+    public void removeUser( Long sid, boolean removeMusicContent )
+        throws Exception
+    {
+        MDOUser mdoUserToRemove = daoUser.getUserById( sid );
+        if ( mdoUserToRemove != null )
+        {
+            if ( removeMusicContent )
+            {
+                String absolutePath = mdoUserToRemove.calculateAbsolutePath( daoSettings.getSettings() );
+                File fabsolutePath = new File( absolutePath );
+                if ( fabsolutePath.exists() )
+                {
+                    FileUtils.deleteDirectory( new File( absolutePath ) );
+                }
+            }
+
+            daoUser.remove( mdoUserToRemove );
+        }
+        else
+        {
+            throw new Exception( "User doesn't exist!" );
+        }
+    }
 
     public User getUserByLogin( String user )
     {
@@ -90,11 +127,15 @@ public class APIUser
             user.setAdministrator( Boolean.FALSE );
         }
 
-        MDOUser mdoUser =
-            daoUser.createUser( user.getLogin(), user.getPassword(), user.getName(), user.getEmail(), user.getAvatar(),
-                                user.getAdministrator(), user.getStorePath() );
+        MDOUser newUser = user.updateMDOUser( null );
+        daoUser.saveUser( newUser, true );
 
-        return new User( mdoUser );
+        MDOUser userCreated = daoUser.getUserByLogin( user.getLogin() );
+
+        this.dlnaServer.refreshServer();
+
+        return new User( userCreated );
+
     }
 
     /**
@@ -144,12 +185,10 @@ public class APIUser
 
         if ( allowed )
         {
-            MDOMessicSettings mdoSettings = daoSettings.getSettings();
-            mdoSettings.setAllowUserCreation( settings.isAllowUserCreation() );
-            mdoSettings.setAllowUserSpecificFolder( settings.isAllowUserSpecificFolder() );
-            mdoSettings.setGenericBaseStorePath( settings.getGenericBaseStorePath() );
-            mdoSettings.setIllegalCharacterReplacement( settings.getIllegalCharacterReplacement() );
-            daoSettings.saveSettings( mdoSettings );
+            daoSettings.saveSettings( settings.getMDOSettings( this.daoSettings ) );
+
+            // after save settings we need to update dlna services
+            this.dlnaServer.refreshServer();
         }
         else
         {
@@ -166,16 +205,16 @@ public class APIUser
             user.setAdministrator( Boolean.TRUE );
         }
 
-        MDOUser mdoUser =
-            daoUser.updateUserData( user.getSid(), user.getName(), user.getEmail(), user.getAvatar(),
-                                    user.getStorePath() );
+        MDOUser mdoUser = this.daoUser.getUserByLogin( user.getLogin() );
 
-        if ( !user.getPassword().equals( mdoUser.getPassword() ) )
-        {
-            daoUser.updatePassword( mdoUser.getSid(), user.getPassword() );
-        }
+        mdoUser = user.updateMDOUser( mdoUser );
 
-        return new User( mdoUser );
+        this.daoUser.saveUser( mdoUser, user.getPassword() != mdoUser.getPassword() );
+
+        this.dlnaServer.refreshServer();
+
+        return user;
+
     }
 
 }

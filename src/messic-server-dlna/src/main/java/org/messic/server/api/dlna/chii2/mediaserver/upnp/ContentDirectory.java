@@ -27,6 +27,7 @@ import org.messic.server.api.dlna.chii2.mediaserver.api.http.HttpServerService;
 import org.messic.server.api.dlna.chii2.mediaserver.api.upnp.Filter;
 import org.messic.server.api.dlna.chii2.mediaserver.api.upnp.SearchCriterion;
 import org.messic.server.api.dlna.chii2.mediaserver.content.common.CommonContentManager;
+import org.messic.server.api.dlna.chii2.mediaserver.content.common.MessicCommonContentManager;
 import org.messic.server.api.dlna.chii2.mediaserver.content.wmp.WMPContentManager;
 import org.messic.server.api.dlna.chii2.mediaserver.content.xbox.XBoxContentManager;
 import org.messic.server.api.dlna.chii2.transcoder.api.core.TranscoderService;
@@ -45,7 +46,7 @@ public class ContentDirectory
 
     // Transcoder
     private TranscoderService transcoder;
-    
+
     // Music service
     private MusicService musicService;
 
@@ -54,18 +55,20 @@ public class ContentDirectory
     // Content Manger List
     private LinkedList<ContentManager> contentManagers;
 
-    public ContentDirectory( MessicUpnpServiceImpl musi, MediaLibraryService ms,HttpServerService httpServer, TranscoderService transcoder, MusicService musicService )
+    public ContentDirectory( MessicUpnpServiceImpl musi, MediaLibraryService ms, HttpServerService httpServer,
+                             TranscoderService transcoder, MusicService musicService )
     {
         super();
         this.contentManagers = new LinkedList<ContentManager>();
         this.mediaLibrary = ms;
-        this.httpServer=httpServer;
-        this.transcoder=transcoder;
-        this.musicService=musicService;
+        this.httpServer = httpServer;
+        this.transcoder = transcoder;
+        this.musicService = musicService;
         this.musi = musi;
-        contentManagers.add(new XBoxContentManager(this.mediaLibrary, this.httpServer, this.transcoder, musicService));
-        contentManagers.add(new WMPContentManager(this.mediaLibrary, this.httpServer, this.transcoder, musicService));
-        contentManagers.add(new CommonContentManager(this.mediaLibrary, this.httpServer, this.transcoder, this.musicService));
+        contentManagers.add( new XBoxContentManager( this.mediaLibrary, this.httpServer, this.transcoder, musicService ) );
+        contentManagers.add( new WMPContentManager( this.mediaLibrary, this.httpServer, this.transcoder, musicService ) );
+        contentManagers.add( new MessicCommonContentManager( this.mediaLibrary, this.httpServer, this.transcoder,
+                                                             this.musicService ) );
     }
 
     @Override
@@ -182,7 +185,7 @@ public class ContentDirectory
                 return contentManager;
             }
         }
-        return new CommonContentManager( this.mediaLibrary, this.httpServer, this.transcoder , this.musicService);
+        return new CommonContentManager( this.mediaLibrary, this.httpServer, this.transcoder, this.musicService );
     }
 
     @Override
@@ -190,9 +193,10 @@ public class ContentDirectory
                                 long maxResults, SortCriterion[] orderBy )
         throws ContentDirectoryException
     {
-//        logger.debug( String.format( "ContentDirectory receive search request with ContainerID:%s, SearchCriteria:%s, Filter:%s, FirstResult:%s, MaxResults:%s, SortCriterion:%s.",
-//                                     containerId, searchCriteria, filterString, firstResult, maxResults,
-//                                     getSortCriterionString( orderBy ) ) );
+        // logger.debug( String.format(
+        // "ContentDirectory receive search request with ContainerID:%s, SearchCriteria:%s, Filter:%s, FirstResult:%s, MaxResults:%s, SortCriterion:%s.",
+        // containerId, searchCriteria, filterString, firstResult, maxResults,
+        // getSortCriterionString( orderBy ) ) );
         // Client Headers
         MessicProtocolFactoryImpl mpfi = (MessicProtocolFactoryImpl) this.musi.getProtocolFactory();
         StreamRequestMessage srm = mpfi.getMessage();
@@ -233,8 +237,8 @@ public class ContentDirectory
 
             numReturned = didlObjects.size();
             totalMatches = numReturned;
-            //messic TODO why this???
-                //contentManager.searchCount( containerId, searchCriterion, filter, firstResult, maxResults, orderBy );
+            // messic TODO why this???
+            // contentManager.searchCount( containerId, searchCriterion, filter, firstResult, maxResults, orderBy );
         }
 
         // Return result

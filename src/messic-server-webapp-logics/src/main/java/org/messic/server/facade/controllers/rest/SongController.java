@@ -20,6 +20,8 @@ package org.messic.server.facade.controllers.rest;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiError;
 import org.jsondoc.core.annotation.ApiErrors;
@@ -45,6 +47,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -111,17 +114,21 @@ public class SongController
         }
     }
 
-    @ApiMethod( path = "/songs/{songSid}/audio", verb = ApiVerb.GET, description = "Get the audio binary from a song resource of an album", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
+    @ApiMethod( path = "/songs/{songSid}/audio?dlna={true|false}", verb = ApiVerb.GET, description = "Get the audio binary from a song resource of an album", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
         @ApiError( code = IOMessicRESTException.VALUE, description = "IO error trying to get the audio resource" ) } )
-    @RequestMapping( value = "/{songSid}/audio", method = RequestMethod.GET )
+    @RequestMapping( value = "/{songSid}/audio", method = { RequestMethod.GET, RequestMethod.HEAD } )
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
     public ResponseEntity<byte[]> getSong( @ApiParam( name = "songSid", description = "SID of the song resource we want to download", paramType = ApiParamType.PATH, required = true )
                                            @PathVariable
-                                           Long songSid )
+                                           Long songSid,
+                                           @RequestParam( value = "dlna", required = false )
+                                           @ApiParam( name = "dlna", description = "flag to know if it is a dlna petition.  DLNA petitions should return specific headers. By default is false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                               "true", "false" }, format = "Boolean" )
+                                           Boolean dlna, HttpServletRequest request )
         throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException
     {
         User user = SecurityUtil.getCurrentUser();
@@ -134,8 +141,16 @@ public class SongController
             // TODO some mp3 songs fail with application/octet-stream
             // MP3 files must have the content type of audio/mpeg or application/octet-stream
             // ogg files must have the content type of application/ogg
-
+            
             headers.setContentType( MediaType.parseMediaType( "audio/mpeg" ) );
+            headers.setContentLength( content.length );
+            
+            if(dlna!=null && dlna==true){
+                headers.add( "transferMode.dlna.org", "Streaming" );
+                headers.add( "contentFeatures.dlna.org", "DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_CI=0" );
+                headers.add( "realTimeInfo.dlna.org", "DLNA.ORG_TLAG=*" );
+            }
+
             return new ResponseEntity<byte[]>( content, headers, HttpStatus.OK );
         }
         catch ( IOException ioe )

@@ -58,6 +58,10 @@ public class MDOMessicSettings
     @Column( name = "ALLOWUSERSPECIFICFOLDER", nullable = false)
     /* flag to know if users can specify their folder to store music, or its just a subfolder of the generic messic folder */
     private boolean allowUserSpecificFolder=false;
+    
+    @Column( name = "ALLOWDLNA", nullable = false)
+    /* flag to know is allowed the DLNA share content */
+    private boolean allowDLNA=true;
 
     /**
      * @constructor
@@ -132,6 +136,22 @@ public class MDOMessicSettings
     public void setAllowUserSpecificFolder( boolean allowUserSpecificFolder )
     {
         this.allowUserSpecificFolder = allowUserSpecificFolder;
+    }
+
+    /**
+     * @return the allowDLNA
+     */
+    public boolean isAllowDLNA()
+    {
+        return allowDLNA;
+    }
+
+    /**
+     * @param allowDLNA the allowDLNA to set
+     */
+    public void setAllowDLNA( boolean allowDLNA )
+    {
+        this.allowDLNA = allowDLNA;
     }
 
 }

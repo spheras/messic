@@ -70,6 +70,202 @@ function initSettings(flagNewUser)
 	
 }
 
+/**
+ * function to remove the account of the current user 
+ * @param sid long sid of the current user
+ */
+function removeAccount(sid){
+	definitiveFunction=function(removeContentAlso){
+		UtilShowWait(messicLang.settingsRemoveUserWait);
+
+  	    $.ajax({
+	        type: "DELETE",
+	        async: true,
+	        url: "services/settings/"+sid+"?removeMusicContent="+removeContentAlso,
+	        error: function (XMLHttpRequest, textStatus, errorThrown){
+	    		UtilHideWait();
+	        	UtilShowInfo("Error while removing!");
+	        },
+	        success: function (data){
+	    		UtilHideWait();
+	    		mainLogout();
+	        	UtilShowInfo(messicLang.settingsRemoveAccountDone);
+			}
+		});
+	}
+
+	
+	nextFunction=function(){
+		$.confirm({
+			'title' : messicLang.settingsRemoveUserDeleteMusicContentTitle,
+			'message' : messicLang.settingsRemoveUserDeleteMusicContentContent,
+			'buttons' : {
+				'Yes' : {
+					'title' : messicLang.confirmationYes,
+					'class' : 'blue',
+					'action' : function() {
+						definitiveFunction(true);
+					}
+				},
+				'No' : {
+					'title' : messicLang.confirmationNo,
+					'class' : 'gray',
+					'action' : function() {
+						definitiveFunction(false);
+					}
+				}
+			}
+		});
+	}
+
+	lastOportunity=function(){
+		$.confirm({
+			'title' : messicLang.settingsRemoveAccountLastOportunityTitle,
+			'message' : messicLang.settingsRemoveAccountLastOportunityContent,
+			'buttons' : {
+				'Yes' : {
+					'title' : messicLang.confirmationYes,
+					'class' : 'blue',
+					'action' : function() {
+						nextFunction();
+					}
+				},
+				'No' : {
+					'title' : messicLang.confirmationNo,
+					'class' : 'gray',
+					'action' : function() {
+					}
+				}
+			}
+		});
+	}
+
+	$.confirm({
+		'title' : messicLang.settingsRemoveAccountTitle,
+		'message' : messicLang.settingsRemoveAccountContent,
+		'buttons' : {
+			'Yes' : {
+				'title' : messicLang.confirmationYes,
+				'class' : 'blue',
+				'action' : function() {
+					lastOportunity();
+				}
+			},
+			'No' : {
+				'title' : messicLang.confirmationNo,
+				'class' : 'gray',
+				'action' : function() {
+				}
+			}
+		}
+	});
+}
+
+/** function to delete the user with sid */
+function settingsRemoveUser(sid, name, trDiv){
+	definitiveFunction=function(removeContentAlso){
+		UtilShowWait(messicLang.settingsRemoveUserWait);
+
+  	    $.ajax({
+	        type: "DELETE",
+	        async: true,
+	        url: "services/settings/"+sid+"?removeMusicContent="+removeContentAlso,
+	        error: function (XMLHttpRequest, textStatus, errorThrown){
+	    		UtilHideWait();
+	        	UtilShowInfo("Error while removing!");
+	        },
+	        success: function (data){
+	    		UtilHideWait();
+	        	$(trDiv).remove();
+	        	UtilShowInfo(messicLang.settingsRemoveUserDone);
+			}
+		});
+	}
+	
+	nextFunction=function(){
+		$.confirm({
+			'title' : messicLang.settingsRemoveUserDeleteMusicContentTitle,
+			'message' : messicLang.settingsRemoveUserDeleteMusicContentContent,
+			'buttons' : {
+				'Yes' : {
+					'title' : messicLang.confirmationYes,
+					'class' : 'blue',
+					'action' : function() {
+						definitiveFunction(true);
+					}
+				},
+				'No' : {
+					'title' : messicLang.confirmationNo,
+					'class' : 'gray',
+					'action' : function() {
+						definitiveFunction(false);
+					}
+				}
+			}
+		});
+	}
+	
+	$.confirm({
+		'title' : messicLang.settingsRemoveUserTitle + " " + name,
+		'message' : messicLang.settingsRemoveUserContent,
+		'buttons' : {
+			'Yes' : {
+				'title' : messicLang.confirmationYes,
+				'class' : 'blue',
+				'action' : function() {
+					nextFunction();
+				}
+			},
+			'No' : {
+				'title' : messicLang.confirmationNo,
+				'class' : 'gray',
+				'action' : function() {
+				} // Nothing to do in this case. You can as
+					// well omit the action property.
+			}
+		}
+	});
+
+}
+
+/** funcion to reset passwor of the user with sid */ 
+function settingsResetPassword(sid, name){
+	
+	$.confirm({
+		'title' : messicLang.settingsResetPasswordUserTitle + " " + name,
+		'message' : messicLang.settingsResetPasswordUserContent,
+		'buttons' : {
+			'Yes' : {
+				'title' : messicLang.confirmationYes,
+				'class' : 'blue',
+				'action' : function() {
+
+			  	    $.ajax({
+				        type: "POST",
+				        async: true,
+				        url: "services/settings/"+sid+"/resetPassword",
+				        error: function (XMLHttpRequest, textStatus, errorThrown){
+				        	UtilShowInfo("Error while reseting!");
+				        },
+				        success: function (data){
+				        	UtilShowInfo(messicLang.settingsResetPasswordDone);
+						}
+					});
+
+				}
+			},
+			'No' : {
+				'title' : messicLang.confirmationNo,
+				'class' : 'gray',
+				'action' : function() {
+				} // Nothing to do in this case. You can as
+					// well omit the action property.
+			}
+		}
+	});
+	
+}
+
 /** function to load the validators */
 function settingsLoadValidators(){
 	settings_validator_basic = $(".messic-user-settings-basic-data-container").kendoValidator({
@@ -322,7 +518,8 @@ function sendData(flagNewUser){
 			name: $("#messic-user-settings-name").val(),
 			email: $("#messic-user-settings-email").val(),
 			storePath: $("#messic-user-settings-userStorePath").val(),
-			allowStatistics: $("#messic-user-settings-allowstatistics").is(":checked")
+			allowStatistics: $("#messic-user-settings-allowstatistics").is(":checked"),
+			allowDLNA: $("#messic-user-settings-music-allowdlna").is(":checked"),
 	}
 
     var file = $("#messic-user-settings-avatar-file")[0].files[0];
@@ -348,6 +545,7 @@ function continueSendData(flagNewUser, userData){
 			allowUserSpecificFolder:$("#messic-user-settings-allowuserespecificmusicfolder").is(":checked"),
 			illegalCharacterReplacement:$("#messic-user-settings-illegalcharacterreplacement").val(),
 			genericBaseStorePath:$("#messic-user-settings-defaultstorepath").val(),
+			allowDLNA:$("#messic-user-settings-admin-allowdlna").is(":checked"),
 		}
 
 	    $.ajax({

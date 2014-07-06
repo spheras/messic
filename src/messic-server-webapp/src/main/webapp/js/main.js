@@ -72,11 +72,7 @@ function initMessic(){
     mainCreateRandomLists();
 
     $("#messic-main-logout").click(function(){
-    	//removing cookie
-    	UtilCreateCookie("messic_login_cookie","",30);
-    	//going to login
-    	window.location.href="logout.do";
-    	window.location.href="login.do";
+    	mainLogout();
     });
     
 	$("#messic-menu-settings").click(function(){
@@ -115,14 +111,14 @@ function initMessic(){
 			selectOption(self);
 			
 			$.get("about.do", function(data){ 
+				$("#messic-page-content").empty();
 		        var posts = $($.parseHTML(data)).filter('#content').children();
-		        $("body").append(posts);
+		        $("#messic-page-content").append(posts);
 	        });
 
-			initAPIDoc();		
 			VAR_changeSection=function(nextFunction){
 				nextFunction();
-				}
+			}
 			
 		}
 		VAR_changeSection(nextFunction);
@@ -180,6 +176,17 @@ function initMessic(){
 	},function(){
 		$("#messic-playlist-background").removeClass("interesting");
 	});
+}
+
+/**
+ * Function to logout from messic
+ */
+function mainLogout(){
+	//removing cookie
+	UtilCreateCookie("messic_login_cookie","",30);
+	//going to login
+	window.location.href="logout.do";
+	window.location.href="login.do";
 }
 
 /* show the author page */
@@ -298,8 +305,8 @@ function mainCreateRandomList(randomlist, lastTitleType){
 							code=code+"        <img src=\"services/albums/"+song.album.sid+"/cover?messic_token="+VAR_MessicToken+"\"></img>";
 		            		code=code+"        <div class=\"messic-main-randomlist-vinyl\"></div>";
 							code=code+"    </div>"
-							code=code+"    <div class=\"messic-main-randomlist-albumauthor\" title=\""+UtilEscapeHTML(song.album.author.name)+"\">"+UtilEscapeHTML(song.album.author.name)+"</div>";
-							code=code+"    <div class=\"messic-main-randomlist-albumtitle\" title=\""+UtilEscapeHTML(song.name)+"\">"+UtilEscapeHTML(song.name)+"</div>";
+							code=code+"    <div class=\"messic-main-randomlist-albumauthor\" title=\""+UtilEscapeHTML(song.album.author.name)+"\" onclick=\"showAuthorPage("+song.album.author.sid+")\">"+UtilEscapeHTML(song.album.author.name)+"</div>";
+							code=code+"    <div class=\"messic-main-randomlist-albumtitle\" title=\""+UtilEscapeHTML(song.name)+"\" onclick=\"exploreEditAlbum('"+song.album.sid+"')\">"+UtilEscapeHTML(song.name)+"</div>";
 							code=code+"</li>";
 						}
 

@@ -28,63 +28,114 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * Handle authentication requests through spring security and provides a way to handle sessions
- * accross multiple requests 
- *
+ * Handle authentication requests through spring security and provides a way to handle sessions accross multiple
+ * requests
  */
-public class AuthenticationSessionManager {
+public class AuthenticationSessionManager
+{
     /**
-     * Session timeout in milliseconds: 1h 
+     * Session timeout in milliseconds: 1h
      */
-    public static final long TIMEOUT = 3600*1000; 
-   
+    public static final long TIMEOUT = 3600 * 1000;
+
     private static TokenManagementFilter tokenManagementFilter = null;
-    
+
     private static HashMap<String, AuthenticationHolder> authMap = new HashMap<String, AuthenticationHolder>();
 
+    private static HashMap<String, AuthenticationHolder> authMapDLNA = new HashMap<String, AuthenticationHolder>();
+
     /**
+     * Perform an authentication, returning the token associated
      * 
      * @param authentication
      * @return
      */
-    public static String successfulAuthentication(Authentication authentication) {
-        try {
+    public static String successfulAuthentication( Authentication authentication )
+    {
+        try
+        {
             String token = UUID.randomUUID().toString();
             AuthenticationHolder authHolder = new AuthenticationHolder();
-            for(GrantedAuthority gauth : authentication.getAuthorities()){
-                authHolder.authorities.add(gauth.getAuthority());
+            for ( GrantedAuthority gauth : authentication.getAuthorities() )
+            {
+                authHolder.authorities.add( gauth.getAuthority() );
             }
             authHolder.auth = authentication;
-            authMap.put(token, authHolder);
+            authMap.put( token, authHolder );
             return token;
-          } catch(AuthenticationException e) {
+        }
+        catch ( AuthenticationException e )
+        {
             return null;
-          }
+        }
     }
-    
+
     /**
+     * Perform an authentication, returning the token associated
      * 
+     * @param authentication
+     * @return
+     */
+    public static String successfulAuthenticationDLNA( Authentication authentication )
+    {
+        try
+        {
+            String token = UUID.randomUUID().toString();
+            AuthenticationHolder authHolder = new AuthenticationHolder();
+            for ( GrantedAuthority gauth : authentication.getAuthorities() )
+            {
+                authHolder.authorities.add( gauth.getAuthority() );
+            }
+            authHolder.auth = authentication;
+            authMapDLNA.put( token, authHolder );
+            return token;
+        }
+        catch ( AuthenticationException e )
+        {
+            return null;
+        }
+    }
+
+    /**
      * @param token
      */
-    public static void successfulLogout(String token) {
-    	authMap.remove(token);         
+    public static void successfulLogout( String token )
+    {
+        authMap.remove( token );
     }
-    
+
     /**
-     * 
      * @param token
      * @return
      */
-    public static Authentication authenticate(String token) {
-        if(isLoggedIn(token))
-    	{
-    		Authentication auth = getAuthenticationByToken(token);
-    		return auth;
-    	}
+    public static Authentication authenticate( String token )
+    {
+        if ( isLoggedIn( token ) )
+        {
+            Authentication auth = getAuthenticationByToken( token );
+            return auth;
+        }
         else
         {
-        	return null;
-        }        	
+            return null;
+        }
+    }
+
+    /**
+     * @param token
+     * @return
+     */
+    public static Authentication authenticateDLNA( String token )
+    {
+        if ( isLoggedInDLNA( token ) )
+        {
+            Authentication auth = getAuthenticationByTokenDLNA( token );
+            return auth;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /**
@@ -92,9 +143,10 @@ public class AuthenticationSessionManager {
      * @param role the role to search for
      * @return true if the auth connected to the token has the given role
      */
-    public static boolean hasRole(String token, String role) {
-        Set<String> auth = getRoles(token);
-        return (auth != null && auth.contains(role));
+    public static boolean hasRole( String token, String role )
+    {
+        Set<String> auth = getRoles( token );
+        return ( auth != null && auth.contains( role ) );
     }
 
     /**
@@ -102,13 +154,17 @@ public class AuthenticationSessionManager {
      * @param roles the user must have ALL roles
      * @return true if the auth connected to the token has all the given role
      */
-    public static boolean hasRoles(String token, String[] roles) {
-        Set<String> auth = getRoles(token);
-        if(auth == null) {
+    public static boolean hasRoles( String token, String[] roles )
+    {
+        Set<String> auth = getRoles( token );
+        if ( auth == null )
+        {
             return false;
         }
-        for(String role : roles) {
-            if(!auth.contains(role)) {
+        for ( String role : roles )
+        {
+            if ( !auth.contains( role ) )
+            {
                 return false;
             }
         }
@@ -120,28 +176,34 @@ public class AuthenticationSessionManager {
      * @param roles the user must have ANY roles
      * @return true if the auth connected to the token has any of the given role
      */
-    public static boolean hasAnyRoles(String token, String[] roles) {
-        Set<String> auth = getRoles(token);
-        if(auth == null) {
+    public static boolean hasAnyRoles( String token, String[] roles )
+    {
+        Set<String> auth = getRoles( token );
+        if ( auth == null )
+        {
             return false;
         }
-        for(String role : roles) {
-            if(auth.contains(role)) {
+        for ( String role : roles )
+        {
+            if ( auth.contains( role ) )
+            {
                 return true;
             }
         }
         return false;
     }
 
-
     /**
      * helper function to get all roles
+     * 
      * @param token the session token
      * @return the set of roles associated to the token
      */
-    public static Set<String> getRoles(String token) {
-        Set<String> auth = getByToken(token);
-        if(auth == null) {
+    public static Set<String> getRoles( String token )
+    {
+        Set<String> auth = getByToken( token );
+        if ( auth == null )
+        {
             return null;
         }
         return auth;
@@ -151,44 +213,56 @@ public class AuthenticationSessionManager {
      * @param token the session token
      * @return true if the session token is still valid
      */
-    public static boolean isLoggedIn(String token) {
-        return getByToken(token) != null;
+    public static boolean isLoggedIn( String token )
+    {
+        return getByToken( token ) != null;
     }
-    
+
     /**
-     * 
+     * @param token the session token
+     * @return true if the session token is still valid
+     */
+    public static boolean isLoggedInDLNA( String token )
+    {
+        return getByTokenDLNA( token ) != null;
+    }
+
+    /**
      * @return
      */
     public static long getTimeout()
     {
-    	
-    	if(tokenManagementFilter!=null && tokenManagementFilter.getTokenValiditySeconds()!=0)
-    	{
-    		return tokenManagementFilter.getTokenValiditySeconds();
-    	}
-    	else
-    	{
-    		return TIMEOUT;
-    	}
-    	
+
+        if ( tokenManagementFilter != null && tokenManagementFilter.getTokenValiditySeconds() != 0 )
+        {
+            return tokenManagementFilter.getTokenValiditySeconds();
+        }
+        else
+        {
+            return TIMEOUT;
+        }
+
     }
 
-
     /**
-     * get an authentication by its token.
-     * Synchronized to prevent concurrency issues when working with the session hashmap
+     * get an authentication by its token. Synchronized to prevent concurrency issues when working with the session
+     * hashmap
+     * 
      * @param token the session token
      * @return null if no valid token is found or if it is timed out
      */
-    private static synchronized Set<String> getByToken (String token) {
-        AuthenticationHolder cur = authMap.get(token);
-        if(cur == null) {
+    private static synchronized Set<String> getByToken( String token )
+    {
+        AuthenticationHolder cur = authMap.get( token );
+        if ( cur == null )
+        {
             return null;
         }
 
         // timeout reached
-        if(System.currentTimeMillis() > cur.created + getTimeout()) {
-            authMap.remove(token);
+        if ( System.currentTimeMillis() > cur.created + getTimeout() )
+        {
+            authMap.remove( token );
             return null;
         }
 
@@ -197,22 +271,54 @@ public class AuthenticationSessionManager {
 
         return cur.authorities;
     }
-    
+
     /**
-     * get an authentication by its token.
-     * Synchronized to prevent concurrency issues when working with the session hashmap
+     * get an authentication by its token. Synchronized to prevent concurrency issues when working with the session
+     * hashmap
+     * 
      * @param token the session token
      * @return null if no valid token is found or if it is timed out
      */
-    private static synchronized Authentication getAuthenticationByToken (String token) {
-        AuthenticationHolder cur = authMap.get(token);
-        if(cur == null) {
+    private static synchronized Set<String> getByTokenDLNA( String token )
+    {
+        AuthenticationHolder cur = authMapDLNA.get( token );
+        if ( cur == null )
+        {
             return null;
         }
 
         // timeout reached
-        if(System.currentTimeMillis() > cur.created + TIMEOUT) {
-            authMap.remove(token);
+        if ( System.currentTimeMillis() > cur.created + getTimeout() )
+        {
+            authMapDLNA.remove( token );
+            return null;
+        }
+
+        // update the created date: 1h inactivity
+        cur.created = System.currentTimeMillis();
+
+        return cur.authorities;
+    }
+
+    /**
+     * get an authentication by its token. Synchronized to prevent concurrency issues when working with the session
+     * hashmap
+     * 
+     * @param token the session token
+     * @return null if no valid token is found or if it is timed out
+     */
+    private static synchronized Authentication getAuthenticationByToken( String token )
+    {
+        AuthenticationHolder cur = authMap.get( token );
+        if ( cur == null )
+        {
+            return null;
+        }
+
+        // timeout reached
+        if ( System.currentTimeMillis() > cur.created + TIMEOUT )
+        {
+            authMap.remove( token );
             return null;
         }
 
@@ -223,14 +329,43 @@ public class AuthenticationSessionManager {
     }
 
     /**
+     * get an authentication by its token. Synchronized to prevent concurrency issues when working with the session
+     * hashmap
      * 
-     * @author semhu
-     *
+     * @param token the session token
+     * @return null if no valid token is found or if it is timed out
      */
-    public static class AuthenticationHolder {
+    private static synchronized Authentication getAuthenticationByTokenDLNA( String token )
+    {
+        AuthenticationHolder cur = authMapDLNA.get( token );
+        if ( cur == null )
+        {
+            return null;
+        }
+
+        // timeout reached
+        if ( System.currentTimeMillis() > cur.created + TIMEOUT )
+        {
+            authMapDLNA.remove( token );
+            return null;
+        }
+
+        // update the created date: 1h inactivity
+        cur.created = System.currentTimeMillis();
+
+        return cur.auth;
+    }
+
+    /**
+     * @author semhu
+     */
+    public static class AuthenticationHolder
+    {
         long created = System.currentTimeMillis();
+
         Authentication auth;
+
         Set<String> authorities = new HashSet<String>();
     }
-    
+
 }

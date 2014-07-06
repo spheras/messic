@@ -41,4 +41,4 @@ else
 fi
 
 cd ..
-./bin/jre1.8.0_05/bin/java -cp ".:./classpath/aspectjweaver-1.7.4.jar:./classpath/commons-io-2.4.jar:./classpath/log4j-1.2.14.jar:./classpath/messic-service-1.0-SNAPSHOT.jar:./classpath/messic-starter-1.0-SNAPSHOT.jar:./classpath/org.apache.felix.framework-4.2.1.jar:./classpath/org.apache.felix.main-4.2.1.jar:./classpath/tools-1.4.2.jar" org.messic.starter.Starter
+./bin/jre1.8.0_05/bin/java -cp ".:./classpath/aspectjweaver-1.7.4.jar:./classpath/commons-io-2.4.jar:./classpath/log4j-1.2.14.jar:./classpath/messic-service-1.0-SNAPSHOT.jar:./classpath/messic-starter-1.0-SNAPSHOT.jar:./classpath/org.apache.felix.framework-4.2.1.jar:./classpath/org.apache.felix.main-4.2.1.jar:./classpath/tools-1.4.2.jar" org.messic.starter.Starter $1

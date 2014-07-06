@@ -51,10 +51,10 @@
     cursor: pointer;
 }
 .messic-album-songs-body-songaction-remove:active {
-    background-position: -22px 1px;
+    background-position: -23px 1px;
 }
 .messic-album-songs-body-songaction-remove:hover {
-    background-position: -22px 0;
+    background-position: -23px 0;
 }
 .messic-album-songs-body-songaction-play:active {
     background-position: -22px 1px;

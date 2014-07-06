@@ -1,4 +1,4 @@
-package org.messic.server.api.dlna.chii2.mediaserver.content.common.container;
+package org.messic.server.api.dlna.chii2.mediaserver.content.common.container.messic;
 
 import java.util.List;
 
@@ -10,26 +10,28 @@ import org.messic.server.api.dlna.chii2.mediaserver.api.content.ContentManager;
 import org.messic.server.api.dlna.chii2.mediaserver.api.content.container.VisualContainer;
 import org.messic.server.api.dlna.chii2.mediaserver.api.upnp.Filter;
 import org.messic.server.api.dlna.chii2.mediaserver.content.common.CommonContentManager;
-import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.messic.MessicContainer;
-import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.messic.MessicUserContainer;
+import org.messic.server.datamodel.MDOUser;
 
 /**
- * Root Container
+ * Image Container Contains all containers and items relating to pictures
  */
-public class RootContainer
+public class MessicContainer
     extends VisualContainer
 {
 
     public MusicService ms;
+
+    public static final String SEPARATOR = "!#:#!";
+
 
     /**
      * Constructor
      * 
      * @param filter Content Filter
      */
-    public RootContainer( Filter filter )
+    public MessicContainer( Filter filter )
     {
-        this( filter, CommonContentManager.ROOT_ID, "-1" );
+        this( filter, CommonContentManager.AUDIO_ID, CommonContentManager.ROOT_ID );
     }
 
     /**
@@ -39,18 +41,18 @@ public class RootContainer
      * @param id Container ID
      * @param parentId Parent ID
      */
-    public RootContainer( Filter filter, String id, String parentId )
+    public MessicContainer( Filter filter, String id, String parentId )
     {
         super();
 
         this.filter = filter;
 
-        // Root Container ID: 0
+        // Pictures Container ID: 3
         setId( id );
-        // There is no parent container for Root
+        // Parent container is Root Container
         setParentID( parentId );
         // Title TODO: This should be I18N
-        setTitle( "Root" );
+        setTitle( "Albums" );
         // May used in Container Property Creator (part of UPnP protocol standard)
         setCreator( "System" );
         // May used in Container Property Clazz (part of UPnP protocol standard)
@@ -66,12 +68,17 @@ public class RootContainer
     @Override
     public void loadContents( long startIndex, long maxCount, SortCriterion[] orderBy, ContentManager contentManager )
     {
-        MessicContainer mc = new MessicContainer( filter );
-        mc.ms = this.ms;
-        addContainer( mc );
-        
-        setChildCount( 1 );
-        setTotalChildCount( 1 );
+        List<MDOUser> users = this.ms.getDLNAUsers();
 
+        int iadded = 0;
+        for ( long i = startIndex; i < startIndex + maxCount && i < users.size(); i++ )
+        {
+            MDOUser user = users.get( (int) i );
+            addContainer( new MessicUserContainer( filter, user.getSid(), user.getName(), this.ms ) );
+            iadded++;
+        }
+
+        setChildCount( iadded );
+        setTotalChildCount( users.size() );
     }
 }

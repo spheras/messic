@@ -205,6 +205,10 @@
     z-index: 2;
  }
 
+.messic-main-randomlist-albumauthor:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
 .messic-main-randomlist-albumauthor{
     font-family: Roboto-bold;
     font-size: 0.8em;
@@ -214,6 +218,11 @@
     max-width: 100px;
     overflow: hidden;
     white-space: nowrap;
+}
+
+.messic-main-randomlist-albumtitle:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 .messic-main-randomlist-albumtitle{
     color: #0096FF;

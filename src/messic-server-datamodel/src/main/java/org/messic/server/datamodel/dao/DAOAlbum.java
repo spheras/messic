@@ -33,6 +33,12 @@ public interface DAOAlbum extends DAO<MDOAlbum>
 {
 
     /**
+     * Return all the albums, from all the users, but only who allow DLNA share content
+     * @return List of albums shared 
+     */
+    List<MDOAlbum> getAllDLNA();
+        
+    /**
      * return all the albums of a certain genre
      * @param username {@link String} user scope
      * @param genre {@link MDOGenre} genre to search

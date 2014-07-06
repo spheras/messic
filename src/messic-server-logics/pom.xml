@@ -60,6 +60,10 @@
 			<groupId>org.messic</groupId>
 			<artifactId>messic-server-plugin-tagwizard-audiotagger</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.messic</groupId>
+			<artifactId>messic-server-dlna</artifactId>
+		</dependency>
 
 	</dependencies>
 

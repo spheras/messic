@@ -54,6 +54,16 @@ public class DAOJPAAlbum
         return results;
     }
 
+    @Override
+    public List<MDOAlbum> getAllDLNA() {
+        Query query = entityManager.createQuery( "from MDOAlbum as a where (a.owner.allowDLNA = true) ORDER BY UPPER(a.name)" );
+        
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbum> results = query.getResultList();
+        return results;
+    }
+    
+    
 	@Override
 	public List<MDOAlbum> getAll(String username) {
         Query query = entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) ORDER BY UPPER(a.name)" );

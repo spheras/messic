@@ -1,35 +1,35 @@
-package org.messic.server.api.dlna.chii2.mediaserver.content.common.container;
+package org.messic.server.api.dlna.chii2.mediaserver.content.common.container.messic;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.fourthline.cling.support.model.DIDLObject;
+import org.fourthline.cling.support.model.PersonWithRole;
 import org.fourthline.cling.support.model.SortCriterion;
 import org.fourthline.cling.support.model.WriteStatus;
+import org.fourthline.cling.support.model.container.MusicAlbum;
 import org.messic.server.api.dlna.MusicService;
 import org.messic.server.api.dlna.chii2.mediaserver.api.content.ContentManager;
 import org.messic.server.api.dlna.chii2.mediaserver.api.content.container.VisualContainer;
 import org.messic.server.api.dlna.chii2.mediaserver.api.upnp.Filter;
 import org.messic.server.api.dlna.chii2.mediaserver.content.common.CommonContentManager;
-import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.messic.MessicContainer;
-import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.messic.MessicUserContainer;
+import org.messic.server.datamodel.MDOAlbum;
+import org.messic.server.datamodel.MDOAuthor;
 
-/**
- * Root Container
- */
-public class RootContainer
+public class MessicUserAuthorContainer
     extends VisualContainer
 {
-
-    public MusicService ms;
+    private MusicService ms;
 
     /**
      * Constructor
      * 
      * @param filter Content Filter
      */
-    public RootContainer( Filter filter )
+    public MessicUserAuthorContainer( Filter filter, String id, String authorName, MusicService ms )
     {
-        this( filter, CommonContentManager.ROOT_ID, "-1" );
+        this( filter, id, CommonContentManager.ROOT_ID, authorName, ms );
     }
 
     /**
@@ -39,22 +39,25 @@ public class RootContainer
      * @param id Container ID
      * @param parentId Parent ID
      */
-    public RootContainer( Filter filter, String id, String parentId )
+    public MessicUserAuthorContainer( Filter filter, String id, String parentId, String authorName, MusicService ms )
     {
         super();
 
-        this.filter = filter;
+        this.ms = ms;
 
-        // Root Container ID: 0
+        // Pictures Container ID: 3
         setId( id );
-        // There is no parent container for Root
+        // Parent container is Root Container
         setParentID( parentId );
         // Title TODO: This should be I18N
-        setTitle( "Root" );
+        setTitle( authorName );
         // May used in Container Property Creator (part of UPnP protocol standard)
         setCreator( "System" );
         // May used in Container Property Clazz (part of UPnP protocol standard)
         setClazz( new DIDLObject.Class( "object.container" ) );
+        // May used in Container Property Clazz (part of UPnP protocol standard)
+        setClazz( new DIDLObject.Class( "object.container.storageFolder" ) );
+
         // Restricted
         setRestricted( true );
         // Searchable
@@ -63,15 +66,15 @@ public class RootContainer
         setWriteStatus( WriteStatus.NOT_WRITABLE );
     }
 
+    public MessicUserAuthorContainer( MusicService ms )
+    {
+        this.ms = ms;
+    }
+
     @Override
     public void loadContents( long startIndex, long maxCount, SortCriterion[] orderBy, ContentManager contentManager )
     {
-        MessicContainer mc = new MessicContainer( filter );
-        mc.ms = this.ms;
-        addContainer( mc );
-        
-        setChildCount( 1 );
-        setTotalChildCount( 1 );
-
+        this.ms.getAlbums( getId(), startIndex, maxCount, this );
     }
+
 }

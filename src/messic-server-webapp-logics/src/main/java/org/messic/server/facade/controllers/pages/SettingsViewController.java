@@ -1,11 +1,15 @@
 package org.messic.server.facade.controllers.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.messic.server.api.datamodel.MessicSettings;
 import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOMessicSettings;
+import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.security.SecurityUtil;
@@ -49,7 +53,7 @@ public class SettingsViewController
                 user.setAdministrator( true );
             }
 
-            if ( settings.isAllowUserCreation() || user.getAdministrator())
+            if ( settings.isAllowUserCreation() || user.getAdministrator() )
             {
                 model.addObject( "creation", true );
                 user.setStorePath( settings.getGenericBaseStorePath() );
@@ -67,8 +71,24 @@ public class SettingsViewController
 
         if ( user.getAdministrator() )
         {
+            // putting messic settings
             MessicSettings ms = new MessicSettings( settings );
             model.addObject( "settings", ms );
+
+            // presenting all users (except administrator)
+            List<MDOUser> mdousers = daoUser.getAll();
+            List<User> users = new ArrayList<User>();
+            for ( int i = 0; i < mdousers.size(); i++ )
+            {
+                if ( !mdousers.get( i ).getAdministrator() )
+                {
+                    users.add( new User( mdousers.get( i ) ) );
+                }
+            }
+            if ( users.size() > 0 )
+            {
+                model.addObject( "users", users );
+            }
         }
 
         model.addObject( "user", user );
@@ -76,5 +96,4 @@ public class SettingsViewController
 
         return model;
     }
-
 }

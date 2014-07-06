@@ -46,7 +46,7 @@ public class DAOJPAUser
      * @return {@link MDOUser} user found, null if not found
      */
     @Override
-    public MDOUser getUserByLogin(String username)
+    public MDOUser getUserByLogin( String username )
     {
         Query query = entityManager.createQuery( "from MDOUser as p where p.login = :login" );
         query.setParameter( "login", username );
@@ -80,10 +80,9 @@ public class DAOJPAUser
      * @param hashpass
      * @return
      */
-    public MDOUser authenticate(String username, String hashpass)
+    public MDOUser authenticate( String username, String hashpass )
     {
-        Query query =
-            entityManager.createQuery( "from User as p where p.login = :login and p.password = :password" );
+        Query query = entityManager.createQuery( "from User as p where p.login = :login and p.password = :password" );
         query.setParameter( "login", username );
         query.setParameter( "password", hashpass );
         @SuppressWarnings( "unchecked" )
@@ -98,106 +97,115 @@ public class DAOJPAUser
         }
     }
 
-	@Override
-	@Transactional
-	public MDOUser createUser(String login, String password, String name, String email, byte[] avatar,
-			boolean administrator, String storePath) {
-		String pass;
-		MessageDigest md;
-		try {
-			
-			byte[] hashPassword = password.getBytes("UTF-8");
-			
-			md = MessageDigest.getInstance("MD5");
-			byte[] encpass = md.digest(hashPassword);
-			
-            //converting byte array to Hexadecimal String
-	        StringBuilder sb = new StringBuilder(2*encpass.length);
-	        for(byte b : encpass){
-	        	sb.append(String.format("%02x", b&0xff));
-	        }          
-	        pass = sb.toString();
-	        
-		} catch (Exception e) {
-			e.printStackTrace();
-			pass = password;
-		}
-		
-		MDOUser newUser = new MDOUser(name, email, avatar, login, pass, administrator, storePath);
-		save(newUser);
-		return newUser;
-	}
+    private String getHashPassword( String newPassword )
+    {
+        String pass;
+        MessageDigest md;
+        try
+        {
 
-	@Override
-	public MDOUser updatePassword(Long userSid, String newPassword) {
-		MDOUser user = get(userSid);
-		
-		String pass;
-		MessageDigest md;
-		try {
-			
-			byte[] hashPassword = newPassword.getBytes("UTF-8");
-			
-			md = MessageDigest.getInstance("MD5");
-			byte[] encpass = md.digest(hashPassword);
-			
-            //converting byte array to Hexadecimal String
-	        StringBuilder sb = new StringBuilder(2*encpass.length);
-	        for(byte b : encpass){
-	        	sb.append(String.format("%02x", b&0xff));
-	        }          
-	        pass = sb.toString();
-	        
-		} catch (Exception e) {
-			e.printStackTrace();
-			pass = newPassword;
-		}
-		
-		user.setPassword(pass);
-		save(user);
-		return user;
-	}
+            byte[] hashPassword = newPassword.getBytes( "UTF-8" );
 
-	@Override
-	@Transactional
-	public MDOUser updateUserData(Long userSid, String name, String email, byte[] avatar, String storePath) {
-		MDOUser user = get(userSid);
-		user.setName(name);
-		user.setEmail(email);
-		if(avatar!=null)
-		{
-			user.setAvatar(avatar);
-		}
-		user.setStorePath(storePath);
-		save(user);
-		return user;
-	}
+            md = MessageDigest.getInstance( "MD5" );
+            byte[] encpass = md.digest( hashPassword );
 
-	@Override
-	@Transactional
-	public void removeUser(Long userSid) {
-		MDOUser user = get(userSid);
-		remove(user);
-	}
+            // converting byte array to Hexadecimal String
+            StringBuilder sb = new StringBuilder( 2 * encpass.length );
+            for ( byte b : encpass )
+            {
+                sb.append( String.format( "%02x", b & 0xff ) );
+            }
+            pass = sb.toString();
 
-	@Override
-	public boolean existUsers() {
-		Query query = entityManager.createQuery("SELECT COUNT(sid) FROM MDOUser");
-		Long usersCount = (Long)query.getSingleResult();
-	    if(usersCount!=null && usersCount.equals(0L))
-	    {
-	    	return false;
-	    }
-	    else
-	    {
-	    	return true;
-	    }
-	}
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            pass = newPassword;
+        }
 
-	@Override
-	public MDOUser getUserById(Long userSid) {
-		MDOUser user = get(userSid);
-		return user;
-	}
+        return pass;
+    }
+
+    @Override
+    @Transactional
+    public MDOUser saveUser( MDOUser user, boolean updatePassword )
+    {
+        // just to check if the password have changed, because we only save the hash of the password, not the password
+        // itself
+        MDOUser existingUser = getUserByLogin( user.getLogin() );
+        if ( existingUser != null )
+        {
+            if ( updatePassword )
+            {
+                // hashing the password
+                user.setPassword( getHashPassword( user.getPassword() ) );
+            }
+        }
+        else
+        {
+            // hashing the password
+            user.setPassword( getHashPassword( user.getPassword() ) );
+        }
+
+        this.save( user );
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public void removeUser( Long userSid )
+    {
+        MDOUser user = get( userSid );
+        remove( user );
+    }
+
+    @Override
+    public boolean existUsers()
+    {
+        Query query = entityManager.createQuery( "SELECT COUNT(sid) FROM MDOUser" );
+        Long usersCount = (Long) query.getSingleResult();
+        if ( usersCount != null && usersCount.equals( 0L ) )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    @Override
+    public List<MDOUser> getDLNAUsers()
+    {
+        Query query = entityManager.createQuery( "from MDOUser as a where (a.allowDLNA = true)" );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOUser> results = query.getResultList();
+        return results;
+    }
+
+    @Override
+    public long countAllowedDLNAUsers()
+    {
+        Query query = entityManager.createQuery( "SELECT COUNT(sid) FROM MDOUser as p where p.allowDLNA=true" );
+        Long usersCount = (Long) query.getSingleResult();
+        if ( usersCount != null )
+        {
+            return usersCount;
+        }
+        else
+        {
+            return 0;
+        }
+
+    }
+
+    @Override
+    public MDOUser getUserById( Long userSid )
+    {
+        MDOUser user = get( userSid );
+        return user;
+    }
 
 }
