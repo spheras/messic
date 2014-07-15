@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (C) 2013 José Amuedo
+# Copyright (C) 2013
 #
 #  This file is part of Messic.
 # 

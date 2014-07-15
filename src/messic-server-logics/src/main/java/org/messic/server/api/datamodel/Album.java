@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 José Amuedo
+ * Copyright (C) 2013
  *
  *  This file is part of Messic.
  * 
@@ -190,7 +190,9 @@ public class Album
         {
             setAuthor( new Author( mdoalbum.getAuthor(), false, false ) );
         }
-        setGenre( new Genre( mdoalbum.getGenre() ) );
+        if(mdoalbum.getGenre()!=null){
+            setGenre( new Genre( mdoalbum.getGenre() ) );
+        }
         if ( copySongs )
         {
             Iterator<MDOSong> mdosongs = mdoalbum.getSongs().iterator();
@@ -230,7 +232,9 @@ public class Album
         setName( mdoalbum.getName() );
         setYear( mdoalbum.getYear() );
         setAuthor( author );
-        setGenre( new Genre( mdoalbum.getGenre() ) );
+        if(mdoalbum.getGenre()!=null){
+            setGenre( new Genre( mdoalbum.getGenre() ) );
+        }
         setComments( mdoalbum.getComments() );
         if ( copySongs )
         {

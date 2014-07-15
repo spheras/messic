@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.messic.server.api.APIGenre;
 import org.messic.server.api.datamodel.MessicSettings;
 import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOMessicSettings;
@@ -27,6 +28,9 @@ public class SettingsViewController
 
     @Autowired
     private DAOUser daoUser;
+
+    @Autowired
+    private APIGenre apiGenre;
 
     @RequestMapping( "/settings.do" )
     /**
@@ -93,6 +97,7 @@ public class SettingsViewController
 
         model.addObject( "user", user );
         model.addObject( "allowSpecificMusicFolder", ( user.getAdministrator() || settings.isAllowUserSpecificFolder() ) );
+        model.addObject( "genres", apiGenre.getAll( user ) );
 
         return model;
     }

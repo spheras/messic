@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 José Amuedo
+ * Copyright (C) 2013
  *
  *  This file is part of Messic.
  * 
@@ -23,6 +23,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.messic.server.datamodel.MDOGenre;
+import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOGenre;
 import org.springframework.stereotype.Component;
 
@@ -35,6 +36,16 @@ public class DAOJPAGenre
     public DAOJPAGenre()
     {
         super( MDOGenre.class );
+    }
+
+    @Override
+    public List<MDOGenre> getAll( String username )
+    {
+        Query query = entityManager.createQuery( "from MDOGenre as a where (a.owner.login= :userName)" );
+        query.setParameter( "userName", username );
+        @SuppressWarnings( "unchecked" )
+        List<MDOGenre> results = query.getResultList();
+        return results;
     }
 
     @Override
@@ -63,6 +74,26 @@ public class DAOJPAGenre
         @SuppressWarnings( "unchecked" )
         List<MDOGenre> results = query.getResultList();
         return results;
+    }
+
+    @Override
+    public MDOGenre getGenre( String username, Long genreSid )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOGenre as a where (a.owner.login = :userName) AND (a.sid= :genreSid)" );
+        query.setParameter( "genreSid", genreSid );
+        query.setParameter( "userName", username );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOGenre> results = query.getResultList();
+        if ( results != null && results.size() > 0 )
+        {
+            return results.get( 0 );
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public MDOGenre getGenre( String username, String genreName )

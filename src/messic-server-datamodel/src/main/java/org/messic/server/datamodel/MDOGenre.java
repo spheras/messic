@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 José Amuedo
+ * Copyright (C) 2013
  *
  *  This file is part of Messic.
  * 
@@ -56,9 +56,10 @@ public class MDOGenre implements
         super();
     }
     
-    public MDOGenre (String name)
+    public MDOGenre (String name, MDOUser owner)
     {
         this.name = name;        
+        this.owner = owner;
     }
 
     public Long getSid() {

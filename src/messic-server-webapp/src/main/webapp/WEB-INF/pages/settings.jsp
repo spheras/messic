@@ -1,3 +1,5 @@
+<%@page import="org.messic.server.tld.EscapeMessic"%>
+<%@page import="org.messic.server.api.datamodel.Genre"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -149,13 +151,13 @@
 									List<User> users=(List<User>)request.getAttribute("users");
 									if(users!=null){
 									%>
-										<label>The following is the list of current users at Messic. You can delete each of them, reset password and so on.</label>
+										<label><fmt:message key="settings-content-admin-users-title" bundle="${ message }"/></label>
 										<table id="messic-user-settings-content-users-table">
 											<thead>
-												<tr>
-													<th class="messic-user-settings-users-col-user" scope="col">User</th>
-													<th class="messic-user-settings-users-col-login" scope="col">Login</th>
-													<th class="messic-user-settings-users-col-actions" scope="col">Actions</th>
+												<tr>												
+													<th class="messic-user-settings-users-col-user" scope="col"><fmt:message key="settings-content-admin-users-head-user" bundle="${ message }"/></th>
+													<th class="messic-user-settings-users-col-login" scope="col"><fmt:message key="settings-content-admin-users-head-login" bundle="${ message }"/></th>
+													<th class="messic-user-settings-users-col-actions" scope="col"><fmt:message key="settings-content-admin-users-head-actions" bundle="${ message }"/></th>
 												</tr>
 											</thead>
 											<!-- Table body -->
@@ -167,8 +169,8 @@
 													<td><%=useri.getName()%></td>
 													<td><%=useri.getLogin()%></td>
 													<td class="messic-user-settings-users-col-actions">
-														<div id="messic-user-settings-content-users-remove" class="messic-user-settings-content-users-remove" title="Remove User" onclick="settingsRemoveUser(<%=useri.getSid()%>,'${messic:escapeAll(useri.name)}',$(this).parent().parent())"></div>
-														<div id="messic-user-settings-content-users-resetpassword" class="messic-user-settings-content-users-resetpassword" onclick="settingsResetPassword(<%=useri.getSid()%>,'${messic:escapeAll(useri.name)}')"></div>
+														<div id="messic-user-settings-content-users-remove" class="messic-user-settings-content-users-remove" title="<fmt:message key="settings-content-admin-users-action-remove" bundle="${ message }"/>" onclick="settingsRemoveUser(<%=useri.getSid()%>,'${messic:escapeAll(useri.name)}',$(this).parent().parent())"></div>
+														<div id="messic-user-settings-content-users-resetpassword" class="messic-user-settings-content-users-resetpassword" title="<fmt:message key="settings-content-admin-users-action-resetpassword" bundle="${ message }"/>" onclick="settingsResetPassword(<%=useri.getSid()%>,'${messic:escapeAll(useri.name)}')"></div>
 													</td>
 												</tr>
 											<%}%>
@@ -203,6 +205,41 @@
 										<div class="divclearer"></div>
 									</li>
 								</ul>
+								
+									<%
+									List<Genre> genres=(List<Genre>)request.getAttribute("genres");
+									EscapeMessic em=new EscapeMessic();
+									if(genres!=null){
+									%>
+										<label><fmt:message key="settings-content-music-genres-title" bundle="${ message }"/></label>
+										<table id="messic-user-settings-content-genres-table">
+											<thead>
+												<tr>
+													<th class="messic-user-settings-genres-col-fusion" scope="col"><fmt:message key="settings-content-music-genres-head-fusion" bundle="${ message }"/></th>
+													<th class="messic-user-settings-genres-col-name" scope="col"><fmt:message key="settings-content-music-genres-head-genre" bundle="${ message }"/></th>
+													<th class="messic-user-settings-genres-col-actions" scope="col"><fmt:message key="settings-content-music-genres-head-actions" bundle="${ message }"/></th>
+												</tr>
+											</thead>
+											<!-- Table body -->
+											<tbody>
+											<%for(int i=0;i<genres.size( );i++){
+												Genre genrei=genres.get(i);
+												String genreName=genrei.getName( );
+											%>
+												<tr data-sid="<%=genrei.getSid()%>">
+													<td class="messic-user-settings-genres-col-fusion"><input type="checkbox" class="messic-user-settings-noedit"></td>
+													<td class="messic-user-settings-genres-col-name"><%=genreName%></td>
+													<td class="messic-user-settings-genres-col-actions">
+														<div id="messic-user-settings-content-genres-remove" class="messic-user-settings-content-genres-remove" title="<fmt:message key="settings-content-music-genres-action-remove" bundle="${ message }"/>" onclick="settingsRemoveGenre($(this).parent().parent().data('sid'),$(this).parent().parent().find('.messic-user-settings-genres-col-name').text(),$(this).parent().parent())"></div>
+														<div id="messic-user-settings-content-genres-edit" class="messic-user-settings-content-genres-edit" title="<fmt:message key="settings-content-music-genres-action-edit" bundle="${ message }"/>" onclick="settingsEditGenre($(this).parent().parent().data('sid'),$(this).parent().parent().find('.messic-user-settings-genres-col-name').text(),$(this).parent().parent())"></div>
+														<div id="messic-user-settings-content-genres-fuse" class="messic-user-settings-content-genres-fuse" title="<fmt:message key="settings-content-music-genres-action-fuse" bundle="${ message }"/>" onclick="settingsFuseGenres()"></div>
+													</td>
+												</tr>
+											<%}%>
+											</tbody>
+										</table>
+										<%}%>
+								
 							</div>
 							<div id="messic-user-settings-content-stats" class="messic-user-settings-container messic-user-settings-menu-notvisible">
 								<ul>

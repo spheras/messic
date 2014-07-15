@@ -4,9 +4,6 @@
  * @licstart  The following is the entire license notice for the 
  *  JavaScript code in this page.
  *
- * Copyright (C) 2013  José Amuedo Salmerón
- *
- *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
  * General Public License (GNU GPL) as published by the Free Software
@@ -70,6 +67,7 @@ function loginSucessfull(messic_token){
 }
 
 $(document).ready(function() {	
+
 	
 	var loginWindow = $("#messic-login-window");
 	var loginShadow = $("#messic-login-shadow");
@@ -103,6 +101,8 @@ $(document).ready(function() {
 	loginWindow.center();
 	loginShadow.show();
 
+	$('input[autofocus]').trigger('focus');
+	
     $("#username").keyup(function(event){
         if(event.keyCode == 13){
             $("#password").focus();

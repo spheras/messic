@@ -4,9 +4,6 @@
  * @licstart  The following is the entire license notice for the 
  *  JavaScript code in this page.
  *
- * Copyright (C) 2013  José Amuedo Salmerón
- *
- *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
  * General Public License (GNU GPL) as published by the Free Software
@@ -25,8 +22,8 @@
  * for the JavaScript code in this page.
  *
  */
-function UtilGetRandom(from,to){
-	return Math.floor(Math.random() * to) + from;
+function UtilGetRandom(min,max){
+	return Math.floor(Math.random()*(max-min+1)+min);
 }
 /* function to escape quotes in string variables, useful when are inserted in html/javascript code */
 function UtilEscapeHTML(str) {
@@ -248,4 +245,41 @@ function UtilBase64ArrayBuffer(arrayBuffer) {
 		base64 += encodings[a] + encodings[b] + encodings[c] + '='
 	}
 	return base64
+}
+
+/**
+*	function to put the full screen mode of the navigator
+*/
+function UtilFullScreen(){
+	var docElm = document.documentElement;
+	if (docElm.requestFullscreen) {
+		docElm.requestFullscreen();
+	}
+	else if (docElm.msRequestFullscreen) {
+		docElm.msRequestFullscreen();
+	}
+	else if (docElm.mozRequestFullScreen) {
+		docElm.mozRequestFullScreen();
+	}
+	else if (docElm.webkitRequestFullScreen) {
+		docElm.webkitRequestFullScreen();
+	}
+}
+
+/**
+*	Function to load a JS file. the callback is launched after the script is loaded
+*/
+function UtilLoadJSFile(src, callback) {
+    var s = document.createElement('script');
+    s.src = src;
+    s.async = true;
+    s.onreadystatechange = s.onload = function() {
+        var state = s.readyState;
+        if (!callback.done && (!state || /loaded|complete/.test(state))) {
+            callback.done = true;
+            callback();
+        }
+    };
+    document.getElementsByTagName('head')[0].appendChild(s);
+	return s;
 }

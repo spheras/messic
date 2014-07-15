@@ -76,7 +76,7 @@
 				            <ul>
 				                <li>
 									<label for="username" class="login-form-label"><fmt:message key="login-username" bundle="${ message }"/></label>
-									<input id="username" name="j_username" type="text" value=""/>
+									<input id="username" name="j_username" type="text" value="" autofocus>
 								</li>
 								<li>
 									<label for="password" class="login-form-label"><fmt:message key="login-password" bundle="${ message }"/></label>

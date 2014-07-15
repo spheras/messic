@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 José Amuedo
+ * Copyright (C) 2013
  *
  *  This file is part of Messic.
  * 
@@ -192,7 +192,7 @@ public class AlbumController
     @ResponseBody
     @ApiResponseObject
     public void removeAlbum( @PathVariable
-                             @ApiParam( name = "albumSid", description = "Sid of the album to get", paramType = ApiParamType.PATH, required = true )
+                             @ApiParam( name = "albumSid", description = "Sid of the album to remove", paramType = ApiParamType.PATH, required = true )
                              Long albumSid )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {

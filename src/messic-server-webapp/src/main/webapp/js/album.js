@@ -4,9 +4,6 @@
  * @licstart  The following is the entire license notice for the 
  *  JavaScript code in this page.
  *
- * Copyright (C) 2013  José Amuedo Salmerón
- *
- *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
  * General Public License (GNU GPL) as published by the Free Software
@@ -380,8 +377,10 @@ function albumSaveChangesDefinitely(albumSid,authorCreation){
 					if(genrediv.value()!=genrediv.text()){
 						genreSid=genrediv.value();
 					}
-					data.genre.name=genrediv.text();
-					data.genre.sid=genreSid;
+					data.genre={
+							name:genrediv.text(),
+							sid:genreSid,
+					}
 				}
 
 				//edit of album name
@@ -784,7 +783,7 @@ function albumShowCover(albumSid) {
 	code = code + "   <img src=\"services/albums/" + albumSid
 			+ "/cover?messic_token="+VAR_MessicToken+"\"></img>";
 	code = code + "   <a href=\"services/albums/" + albumSid
-			+ "/cover\" target=\"_blank\"></a>"
+			+ "/cover?messic_token="+VAR_MessicToken+"\" target=\"_blank\"></a>"
 	code = code + "</div>";
 
 	$(code).hide().appendTo('body').fadeIn();

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 José Amuedo
+ * Copyright (C) 2013
  *
  *  This file is part of Messic.
  * 
@@ -22,43 +22,62 @@ import java.util.List;
 
 import org.messic.server.datamodel.MDOGenre;
 
-
-
 /**
  * DAO for Author table
  */
-public interface DAOGenre extends DAO<MDOGenre>
+public interface DAOGenre
+    extends DAO<MDOGenre>
 {
-    
+    /**
+     * Return all the available genres of a certain user
+     * 
+     * @param username String user scope
+     * @return list of genres of this user
+     */
+    List<MDOGenre> getAll( String username );
+
     /**
      * Return a set of random genres
+     * 
      * @param username {@link String} user scope
      * @param number int max number of genres
      * @return List<MDOGenre/> the list of genres
      */
-    List<MDOGenre> getRandomGenre(String username, int number);
+    List<MDOGenre> getRandomGenre( String username, int number );
 
-	/**
-	 * Find similar genres to the genreName
-	 * @param genreName {@link String} genrename to compare
-	 * @param username {@link String} user scope
-	 * @return {@link MDOGenre} similar genres
-	 */
-	List<MDOGenre> findSimilarGenre(String genreName, String username);
+    /**
+     * Find similar genres to the genreName
+     * 
+     * @param genreName {@link String} genrename to compare
+     * @param username {@link String} user scope
+     * @return {@link MDOGenre} similar genres
+     */
+    List<MDOGenre> findSimilarGenre( String genreName, String username );
 
-	/**
-	 * Find a genre by name
-	 * @param genreName {@link String} genreName to search
-	 * @return {@link MDOGenre} founded (null if none)
-	 */
-	MDOGenre getGenre(String username,  String genreName);
+    /**
+     * Find a genre by name
+     * 
+     * @param genreName {@link String} genreName to search
+     * @return {@link MDOGenre} founded (null if none)
+     */
+    MDOGenre getGenre( String username, String genreName );
 
-	/**
-	 * Find a genre with name equals to the param
-	 * @param genreName {@link String} genre name
-	 * @param username {@link String} user scope
-	 * @return {@link MDOGenre} found, null if none
-	 */
-	MDOGenre getByName(String username, String genreName);
+    /**
+     * Find a genre with name equals to the param
+     * 
+     * @param genreName {@link String} genre name
+     * @param username {@link String} user scope
+     * @return {@link MDOGenre} found, null if none
+     */
+    MDOGenre getByName( String username, String genreName );
+
+    /**
+     * Get a genre with sid genreSid
+     * 
+     * @param username {@link String} user scope
+     * @param genreSid sid to search
+     * @return {@link MDOGenre} found
+     */
+    MDOGenre getGenre( String username, Long genreSid );
 
 }

@@ -6,57 +6,65 @@
     display: block;
     opacity: 1;
 }
+#messic-playlist-actions:before {
+   background: url("playlist/actions-border-left.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    float: left;
+    height: 32px;
+    margin-left: -45px;
+    width: 46px;
+}
 #messic-playlist-actions {
+   background: url("playlist/actions-base.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
     display: none;
-    height: 108px;
+    height: 32px;
     opacity: 0;
     position: absolute;
     right: 0;
     top: -7px;
     transition-duration: 1s;
     transition-property: opacity, top;
-}
-#messic-playlist-background #messic-playlist-actions:hover {
-    display: block;
-	top: -19px;
+    width: 200px;
+    z-index: 9999;
 }
 
 .messic-playlist-action {
-    background-image: url("playlist/playlist-action-base.png");
     background-origin: padding-box;
     background-repeat: no-repeat;
     background-size: auto auto;
     bottom: -33px;
+    cursor: pointer;
     float: right;
-    height: 50px;
-    margin-right: 5px;
-    margin-top: 0;
+    height: 40px;
+    margin-right: 10px;
+    margin-top: -3px;
     right: 0;
-    width: 52px;
-}
-.messic-playlist-action:hover{
-	bottom: -53px;
+    width: 26px;
 }
 
-#messic-playlist-action-clear:hover:before{
-	background-position: 0 -35px;
+.messic-playlist-action:active {
+    border-bottom: 3px solid red;
 }
+.messic-playlist-action:hover {
+    border-bottom: 3px solid #ffffff;
+}
+
 
 #messic-playlist-action-clear:before{
-    background: url("playlist/playlist-actions.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: url("playlist/actions-clear.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     content: "";
     display: block;
     height: 29px;
-    margin-left: 12px;
+    margin-left: 0;
     margin-top: 10px;
     width: 26px;
 }
-#messic-playlist-action-pin:before{
-    background: url("playlist/playlist-actions.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+#messic-playlist-action-fx:before{
+    background: url("playlist/actions-fx.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     content: "";
     display: block;
     height: 29px;
-    margin-left: 12px;
     margin-top: 10px;
     width: 26px;	
 }
@@ -70,7 +78,7 @@
 #messic-playlist .thumb .end, #messic-playlist .thumb:hover { 	background: #FFFFFF; }
 #messic-playlist .thumb .end, #messic-playlist .thumb:active { 	background: #4488FF; }
 
-#messic-playlist .scrollbar { position: absolute; float: right; width: 15px; bottom:0px;  height:10px; margin-bottom:3px;}
+#messic-playlist .scrollbar { position: absolute; float: right; width: 15px; bottom:0px;  height:10px; margin-bottom:10px;}
 #messic-playlist .track { background-color: #D8EEFD; height: 100%; width:13px; position: relative; padding: 0 1px; background: #222222;}
 #messic-playlist .thumb { 
 	-moz-border-radius: 14px 14px 14px 14px;
@@ -227,7 +235,7 @@
   background: url("playlist/playlist-background.png") repeat scroll 0 15px rgba(0,0,0,0);
   height: 100%;
   margin: 20px auto;
-  overflow-x: scroll;
+  overflow-x: visible;
   overflow-y: hidden;
   position: relative;
   width: 100%;
@@ -664,3 +672,12 @@
     margin-top:0px;
 }
 
+.messic-canvas-fx{
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2147483647;
+}

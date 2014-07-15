@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 José Amuedo
+ * Copyright (C) 2013
  *
  *  This file is part of Messic.
  * 
@@ -31,6 +31,12 @@ import org.messic.server.datamodel.MDOGenre;
  */
 public interface DAOAlbum extends DAO<MDOAlbum>
 {
+    
+    /**
+     * Set null to all the albums that have a certain genere
+     * @param genre {@link MDOGenre} genre to search 
+     */
+    void setNullGenre(MDOGenre genre);
 
     /**
      * Return all the albums, from all the users, but only who allow DLNA share content

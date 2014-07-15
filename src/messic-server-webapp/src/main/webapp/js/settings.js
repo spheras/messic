@@ -4,9 +4,6 @@
  * @licstart  The following is the entire license notice for the 
  *  JavaScript code in this page.
  *
- * Copyright (C) 2013  José Amuedo Salmerón
- *
- *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
  * General Public License (GNU GPL) as published by the Free Software
@@ -159,6 +156,143 @@ function removeAccount(sid){
 			}
 		}
 	});
+}
+
+function settingsFuseGenres(){
+	var genresToFuse=new Array();
+	var divTable=$("#messic-user-settings-content-genres-table tr").each(function(){
+		var checked=$(this).find("input").is(":checked");
+		if(checked){
+			genresToFuse.push($(this).data("sid"));
+		}
+	});
+
+	if(genresToFuse.length>1){
+		var code="<div id=\"messic-settings-genre-edit-container-overlay\">";
+		code=code+"  <div id=\"messic-settings-genre-fuse-container\">";
+		code=code+"      <p>Indique el nombre del nuevo estilo que desea crear.  Una vez que presione el botón aceptar se creará ese nuevo estilo y se fusionarán/unificarán todos los estilos fusionados en este nuevo.  A efectos prácticos, todos los albums que tengan alguno de los estilos seleccionados aparecerán con este nuevo estilo.  Eso sí, ¡los estilos seleccionados desaparecerán para siempre!</p>";
+		code=code+"      <input type=\"text\" value=\"\" placeholder=\"Put here the new genre name\">";
+		code=code+"      <button id=\"messic-settings-genre-edit-ok\" class=\"button\">"+messicLang.settingsChangeGenreOk+"</button>";
+		code=code+"      <button id=\"messic-settings-genre-edit-cancel\" class=\"button\" onclick=\"$(this).parent().parent().remove()\">"+messicLang.settingsChangeGenreCancel+"</button>";
+		code=code+"  </div>";
+		code=code+"</div>";
+
+		$(code).hide().appendTo('body').fadeIn();
+
+		$("#messic-settings-genre-edit-ok").click(function(){
+	    	var newValue=$("#messic-settings-genre-fuse-container input").val();
+	    	
+	    	if(newValue.length<=0){
+	    		UtilShowInfo("You must put a name to the new genre!");
+	    		return;
+	    	}
+	    	
+	    	var data={}
+	  	    $.ajax({
+		        type: "POST",
+		        async: false,
+		        url: "services/genres/fuse?newName="+escape(newValue),
+		        error: function (XMLHttpRequest, textStatus, errorThrown){
+		        	UtilShowInfo("Error while fusing!");
+		        },
+		        success: function (data){
+		        	$("#messic-settings-genre-edit-container-overlay").remove();
+
+		        	var duplicated;
+		        	$("#messic-user-settings-content-genres-table tr").each(function(){
+		        		var checked=$(this).find("input").is(":checked");
+		        		if(checked){
+		        			duplicated=$(this).clone();
+		        			$(this).remove();
+		        		}
+		        	});
+		        	
+		        	$(duplicated).data("sid",data);
+		        	$(duplicated).find(".messic-user-settings-genres-col-name").text(newValue);
+		        	$("#messic-user-settings-content-genres-table tbody").prepend(duplicated);
+
+				},
+				processData: false,
+				data: JSON.stringify(genresToFuse),
+				contentType: "application/json"
+			});
+	    	
+		});
+
+	}else{
+		UtilShowInfo("Error. You must select at least two genres to fuse them");
+	}
+}
+
+function settingsEditGenre(sid, name, trDiv){
+	var code="<div id=\"messic-settings-genre-edit-container-overlay\">";
+	code=code+"  <div id=\"messic-settings-genre-edit-container\">";
+	code=code+"      <input type=\"text\" value=\""+name+"\">";
+	code=code+"      <button id=\"messic-settings-genre-edit-ok\" class=\"button\">"+messicLang.settingsChangeGenreOk+"</button>";
+	code=code+"      <button id=\"messic-settings-genre-edit-cancel\" class=\"button\" onclick=\"$(this).parent().parent().remove()\">"+messicLang.settingsChangeGenreCancel+"</button>";
+	code=code+"  </div>";
+	code=code+"</div>";
+	
+	
+	$(code).hide().appendTo('body').fadeIn();
+	
+	$("#messic-settings-genre-edit-ok").click(function(){
+    	var newValue=$("#messic-settings-genre-edit-container input").val();
+  	    $.ajax({
+	        type: "POST",
+	        async: false,
+	        url: "services/genres/"+sid+"?newName="+escape(newValue),
+	        error: function (XMLHttpRequest, textStatus, errorThrown){
+	        	UtilShowInfo("Error while updating!");
+	        },
+	        success: function (data){
+	        	$("#messic-settings-genre-edit-container-overlay").remove();
+	        	$(trDiv).find(".messic-user-settings-genres-col-name").text(newValue);
+			}
+		});
+		
+	});
+	
+}
+
+function settingsRemoveGenre(sid, name, trDiv){
+	nextFunction=function(removeContentAlso){
+  	    $.ajax({
+	        type: "DELETE",
+	        async: true,
+	        url: "services/genres/"+sid,
+	        error: function (XMLHttpRequest, textStatus, errorThrown){
+	    		UtilHideWait();
+	        	UtilShowInfo("Error while removing!");
+	        },
+	        success: function (data){
+	        	$(trDiv).remove();
+	        	UtilShowInfo(messicLang.settingsRemoveGenreDone);
+			}
+		});
+	}
+	
+	$.confirm({
+		'title' : messicLang.settingsRemoveGenreTitle + " " + name,
+		'message' : messicLang.settingsRemoveGenreContent,
+		'buttons' : {
+			'Yes' : {
+				'title' : messicLang.confirmationYes,
+				'class' : 'blue',
+				'action' : function() {
+					nextFunction();
+				}
+			},
+			'No' : {
+				'title' : messicLang.confirmationNo,
+				'class' : 'gray',
+				'action' : function() {
+				} // Nothing to do in this case. You can as
+					// well omit the action property.
+			}
+		}
+	});
+	
 }
 
 /** function to delete the user with sid */
@@ -473,8 +607,10 @@ function initSettingsExistingUser(){
 		loadUserSettings();
 
 		$("input").change(function(){
-			$("#messic-user-settings-button-savechanges").show();
-			$("#messic-user-settings-button-cancelchanges").show();
+			if(!$(this).hasClass("messic-user-settings-noedit")){
+				$("#messic-user-settings-button-savechanges").show();
+				$("#messic-user-settings-button-cancelchanges").show();
+			}
 		});
 
 		$("#messic-user-settings-button-cancelchanges").click(function(){

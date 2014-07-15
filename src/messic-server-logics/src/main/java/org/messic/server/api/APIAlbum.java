@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 José Amuedo
+ * Copyright (C) 2013
  *
  *  This file is part of Messic.
  * 
@@ -386,8 +386,7 @@ public class APIAlbum
         }
         if ( mdoGenre == null && album.getGenre() != null && album.getGenre().getName() != null )
         {
-            mdoGenre = new MDOGenre( album.getGenre().getName() );
-            mdoGenre.setOwner( mdouser );
+            mdoGenre = new MDOGenre( album.getGenre().getName(), mdouser );
         }
 
         // 2nd getting the album if exist

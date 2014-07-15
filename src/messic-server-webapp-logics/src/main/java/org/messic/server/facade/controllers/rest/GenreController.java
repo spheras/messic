@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 José Amuedo
+ * Copyright (C) 2013
  *
  *  This file is part of Messic.
  * 
@@ -21,6 +21,7 @@ package org.messic.server.facade.controllers.rest;
 import java.util.List;
 
 import org.jsondoc.core.annotation.Api;
+import org.jsondoc.core.annotation.ApiBodyObject;
 import org.jsondoc.core.annotation.ApiError;
 import org.jsondoc.core.annotation.ApiErrors;
 import org.jsondoc.core.annotation.ApiMethod;
@@ -31,14 +32,18 @@ import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.server.api.APIGenre;
 import org.messic.server.api.datamodel.Genre;
 import org.messic.server.api.datamodel.User;
+import org.messic.server.api.exceptions.SidNotFoundMessicException;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
+import org.messic.server.facade.controllers.rest.exceptions.NotFoundMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.UnknownMessicRESTException;
 import org.messic.server.facade.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,6 +60,30 @@ public class GenreController
 
     @Autowired
     public DAOUser userDAO;
+
+    @ApiMethod( path = "/genres/{genreSid}", verb = ApiVerb.DELETE, description = "Remove an existing genre with sid {genreSid}", produces = {} )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
+    @RequestMapping( value = "/{genreSid}", method = RequestMethod.DELETE )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    public void removeGenre( @PathVariable
+                             @ApiParam( name = "genreSid", description = "Sid of the genre to remove", paramType = ApiParamType.PATH, required = true )
+                             Long genreSid )
+        throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
+    {
+        User user = SecurityUtil.getCurrentUser();
+        try
+        {
+            genreAPI.removeGenre( user, genreSid );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            throw new UnknownMessicRESTException( e );
+        }
+    }
 
     @ApiMethod( path = "/genres?filterName=xxxx", verb = ApiVerb.GET, description = "Get all genres", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
@@ -76,7 +105,7 @@ public class GenreController
             List<Genre> genres = null;
             if ( filterName == null )
             {
-                genres = genreAPI.getAll();
+                genres = genreAPI.getAll( user );
             }
             else
             {
@@ -84,6 +113,70 @@ public class GenreController
             }
 
             return genres;
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
+    @ApiMethod( path = "/genres/{genreSid}?newName={newGenreName}", verb = ApiVerb.POST, description = "Update a genre, basically rename it", produces = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
+        @ApiError( code = NotFoundMessicRESTException.VALUE, description = "Genre Not found" ) } )
+    @RequestMapping( value = "/{genreSid}", method = RequestMethod.POST )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    public void renameGenre( @PathVariable
+                             @ApiParam( name = "genreSid", description = "Sid of the genre to update", paramType = ApiParamType.PATH, required = true )
+                             Long genreSid,
+
+                             @RequestParam( value = "newName", required = true )
+                             @ApiParam( name = "newName", description = "new Name for the genre", paramType = ApiParamType.QUERY, required = true )
+                             String newName )
+        throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException
+    {
+
+        User user = SecurityUtil.getCurrentUser();
+        try
+        {
+            genreAPI.renameGenre( user, genreSid, newName );
+        }
+        catch ( SidNotFoundMessicException snfme )
+        {
+            throw new NotFoundMessicRESTException( snfme );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
+    @ApiMethod( path = "/genres/fuse?newName={newNameValue}", verb = ApiVerb.POST, description = "Fuse a set of ids", produces = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
+        @ApiError( code = NotFoundMessicRESTException.VALUE, description = "Genre Not found" ) } )
+    @RequestMapping( value = "/fuse", method = RequestMethod.POST )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    public long fuseGenres( @RequestParam( value = "newName", required = true )
+                            @ApiParam( name = "newName", description = "new Name for the genre that will fuse all the genres", paramType = ApiParamType.QUERY, required = true )
+                            String newName, @ApiBodyObject
+                            @RequestBody( required = true )
+                            List<Long> genreSids )
+        throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException
+    {
+
+        User user = SecurityUtil.getCurrentUser();
+        try
+        {
+            return genreAPI.fuseGenres( user, genreSids, newName );
         }
         catch ( Exception e )
         {

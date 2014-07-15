@@ -423,15 +423,6 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<developers>
-		<developer>
-			<name>José Amuedo</name>
-			<id>spheras</id>
-			<email>joseamuedo@gmail.com</email>
-			<organization>messic</organization>
-		</developer>
-	</developers>
 	
 	<repositories>
 		<!-- this repository is for jCaptcha -->

@@ -99,6 +99,11 @@ messicLang = {
 	settingsRemoveAccountLastOportunityTitle: 	 '<fmt:message key="js-settings-removeaccount-lastoportunity-title" bundle="${message}"/>',
 	settingsRemoveAccountLastOportunityContent: 	 '<fmt:message key="js-settings-removeaccount-lastoportunity-content" bundle="${message}"/>',
 	settingsRemoveAccountDone:	 '<fmt:message key="js-settings-removeaccount-done" bundle="${message}"/>',
+	settingsRemoveGenreTitle: '<fmt:message key="js-settings-remove-genre-title" bundle="${message}"/>',
+	settingsRemoveGenreContent: '<fmt:message key="js-settings-remove-genre-content" bundle="${message}"/>',
+	settingsRemoveGenreDone:	 '<fmt:message key="js-settings-removegenre-done" bundle="${message}"/>',
+	settingsChangeGenreOk:	 '<fmt:message key="js-settings-changegenre-ok" bundle="${message}"/>',
+	settingsChangeGenreCancel:	 '<fmt:message key="js-settings-changegenre-cancel" bundle="${message}"/>',
 	
 	messicMessagesWelcome1:  '<fmt:message key="js-messic-messages-welcome1" bundle="${message}"/>',
 	messicMessagesWelcome1_1:  '<fmt:message key="js-messic-messages-welcome1_1" bundle="${message}"/>',

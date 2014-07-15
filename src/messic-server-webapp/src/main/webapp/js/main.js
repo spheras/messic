@@ -4,9 +4,6 @@
  * @licstart  The following is the entire license notice for the 
  *  JavaScript code in this page.
  *
- * Copyright (C) 2013  José Amuedo Salmerón
- *
- *
  * The JavaScript code in this page is free software: you can
  * redistribute it and/or modify it under the terms of the GNU
  * General Public License (GNU GPL) as published by the Free Software
@@ -187,6 +184,44 @@ function mainLogout(){
 	//going to login
 	window.location.href="logout.do";
 	window.location.href="login.do";
+}
+
+var MESSIC_FX_STOP_FLAG=false;
+
+/* show fx in full screen mode */
+function showFx(){
+
+	MESSIC_FX_STOP_FLAG=false;
+	
+		var stopFunction=function(){
+			return MESSIC_FX_STOP_FLAG;
+		}
+		var canvas = document.createElement('canvas');
+		canvas.id     = "c";
+		canvas.width = $(window).width();
+		canvas.height = $(window).height();
+		$(canvas).addClass("messic-canvas-fx");
+
+		document.body.appendChild(canvas);
+	
+		$(canvas).click(function(){
+			MESSIC_FX_STOP_FLAG=true;
+			$(canvas).fadeOut(400,function(){$(canvas).remove();});
+		});
+		
+		var random=UtilGetRandom(2,8);
+		//alert("Vamos a ver el:"+random);
+		UtilFullScreen();
+		loadFx(random,canvas,stopFunction);
+}
+
+/**
+* load an effect
+*/
+function loadFx(fxnumber,canvas,stopFunction){
+	UtilLoadJSFile("js/fx/fx"+fxnumber+"/fx"+fxnumber+".js",function(){
+		startFx(canvas,stopFunction);
+	});
 }
 
 /* show the author page */
