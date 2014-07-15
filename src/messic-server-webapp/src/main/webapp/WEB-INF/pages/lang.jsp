@@ -104,6 +104,10 @@ messicLang = {
 	settingsRemoveGenreDone:	 '<fmt:message key="js-settings-removegenre-done" bundle="${message}"/>',
 	settingsChangeGenreOk:	 '<fmt:message key="js-settings-changegenre-ok" bundle="${message}"/>',
 	settingsChangeGenreCancel:	 '<fmt:message key="js-settings-changegenre-cancel" bundle="${message}"/>',
+	settingsFuseGenreExplanation:	 '<fmt:message key="js-settings-fusegenre-explanation" bundle="${message}"/>',
+	settingsFuseGenrePlaceholder:	 '<fmt:message key="js-settings-fusegenre-placeholder" bundle="${message}"/>',
+	settingsFuseGenreSelectMore:	 '<fmt:message key="js-settings-fusegenre-selectmore" bundle="${message}"/>',
+	settingsFuseGenreNeedName:	 '<fmt:message key="js-settings-fusegenre-needname" bundle="${message}"/>',
 	
 	messicMessagesWelcome1:  '<fmt:message key="js-messic-messages-welcome1" bundle="${message}"/>',
 	messicMessagesWelcome1_1:  '<fmt:message key="js-messic-messages-welcome1_1" bundle="${message}"/>',

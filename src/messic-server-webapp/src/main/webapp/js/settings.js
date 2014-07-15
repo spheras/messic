@@ -170,8 +170,8 @@ function settingsFuseGenres(){
 	if(genresToFuse.length>1){
 		var code="<div id=\"messic-settings-genre-edit-container-overlay\">";
 		code=code+"  <div id=\"messic-settings-genre-fuse-container\">";
-		code=code+"      <p>Indique el nombre del nuevo estilo que desea crear.  Una vez que presione el botón aceptar se creará ese nuevo estilo y se fusionarán/unificarán todos los estilos fusionados en este nuevo.  A efectos prácticos, todos los albums que tengan alguno de los estilos seleccionados aparecerán con este nuevo estilo.  Eso sí, ¡los estilos seleccionados desaparecerán para siempre!</p>";
-		code=code+"      <input type=\"text\" value=\"\" placeholder=\"Put here the new genre name\">";
+		code=code+"      <p>"+messicLang.settingsFuseGenreExplanation+"</p>";
+		code=code+"      <input type=\"text\" value=\"\" placeholder=\""+messicLang.settingsFuseGenrePlaceholder+"\">";
 		code=code+"      <button id=\"messic-settings-genre-edit-ok\" class=\"button\">"+messicLang.settingsChangeGenreOk+"</button>";
 		code=code+"      <button id=\"messic-settings-genre-edit-cancel\" class=\"button\" onclick=\"$(this).parent().parent().remove()\">"+messicLang.settingsChangeGenreCancel+"</button>";
 		code=code+"  </div>";
@@ -183,7 +183,7 @@ function settingsFuseGenres(){
 	    	var newValue=$("#messic-settings-genre-fuse-container input").val();
 	    	
 	    	if(newValue.length<=0){
-	    		UtilShowInfo("You must put a name to the new genre!");
+	    		UtilShowInfo(messicLang.settingsFuseGenreNeedName);
 	    		return;
 	    	}
 	    	
@@ -193,7 +193,7 @@ function settingsFuseGenres(){
 		        async: false,
 		        url: "services/genres/fuse?newName="+escape(newValue),
 		        error: function (XMLHttpRequest, textStatus, errorThrown){
-		        	UtilShowInfo("Error while fusing!");
+		        	UtilShowInfo("Error while merging!");
 		        },
 		        success: function (data){
 		        	$("#messic-settings-genre-edit-container-overlay").remove();
@@ -220,7 +220,7 @@ function settingsFuseGenres(){
 		});
 
 	}else{
-		UtilShowInfo("Error. You must select at least two genres to fuse them");
+		UtilShowInfo(messicLang.settingsFuseGenreSelectMore);
 	}
 }
 

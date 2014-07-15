@@ -89,7 +89,7 @@ function UtilHideWait(){
 }
 
 function UtilShowInfo(info){
-	UtilShowInfoDelay(info,1500);
+	UtilShowInfoDelay(info,2500);
 }
 /**
  * Show messages from messic. A set of phrases can be showed, once after other. Phrases must be separated by "||"
