@@ -29,7 +29,7 @@
 		<module>../messic-server-common</module>
 		<module>../messic-server-datamodel</module>
 		<module>../messic-server-plugin-tagwizard-audiotagger</module>
-		<module>../messic-server-logics</module>
+		<module>../messic-server-api</module>
 		<module>../messic-server-webapp-logics</module>
 		<module>../messic-server-webapp</module>
 		<module>../messic-server-dlna</module>
@@ -37,6 +37,8 @@
 		<module>../messic-server-plugin-tagwizard-discogs</module>
 		<module>../messic-server-plugin-musicinfo-wikipedia</module>
 		<module>../messic-server-plugin-musicinfo-youtube</module>
+		<module>../messic-server-plugin-musicinfo-discogs</module>
+		<module>../messic-server-plugin-musicinfo-duckduckgoimages</module>
 		<module>../messic-server-plugin-internationalization-en</module>
 		<module>../messic-server-plugin-internationalization-es</module>
 		<module>../messic-updater-bundle</module>
@@ -111,7 +113,7 @@
 			</dependency>
 			<dependency>
 				<groupId>org.messic</groupId>
-				<artifactId>messic-server-logics</artifactId>
+				<artifactId>messic-server-api</artifactId>
 				<version>1.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>

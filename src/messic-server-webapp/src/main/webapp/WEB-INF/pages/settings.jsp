@@ -207,9 +207,10 @@
 								</ul>
 								
 									<%
-									List<Genre> genres=(List<Genre>)request.getAttribute("genres");
-									EscapeMessic em=new EscapeMessic();
-									if(genres!=null){
+									if(!creation) {
+										List<Genre> genres=(List<Genre>)request.getAttribute("genres");
+										EscapeMessic em=new EscapeMessic();
+										if(genres!=null){
 									%>
 										<label><fmt:message key="settings-content-music-genres-title" bundle="${ message }"/></label>
 										<table id="messic-user-settings-content-genres-table">
@@ -235,10 +236,13 @@
 														<div id="messic-user-settings-content-genres-fuse" class="messic-user-settings-content-genres-fuse" title="<fmt:message key="settings-content-music-genres-action-fuse" bundle="${ message }"/>" onclick="settingsFuseGenres()"></div>
 													</td>
 												</tr>
-											<%}%>
+											<%}//end for%>
 											</tbody>
 										</table>
-										<%}%>
+										<%
+											} //if genres!=null
+										}//if creation
+										%>
 								
 							</div>
 							<div id="messic-user-settings-content-stats" class="messic-user-settings-container messic-user-settings-menu-notvisible">

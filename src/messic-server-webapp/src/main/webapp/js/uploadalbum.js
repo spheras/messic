@@ -193,12 +193,15 @@ var UploadAlbum=function(){
 				files.push(this.audioResources[i].file);
 			}
 			this.audioResources=new Array();
+			
 			//adding image resources
 			for(var i=0;i<this.imageResources.length;i++)
 			{
 				files.push(this.imageResources[i].file);
 			}
 			this.imageResources=new Array();
+			
+			//adding other resources
 			for(var i=0;i<this.otherResources.length;i++)
 			{
 				files.push(this.otherResources[i].file);
@@ -319,6 +322,42 @@ var UploadAlbum=function(){
 		    	}
 		    }
 			orderAllResources.call(this);
+
+			//------------------------------------------------------------------------------------
+			//just setting the upload flag to those songs that have been uploaded, to avoid upload again
+			var filesToUpload=[];
+			for(var i=0;i<this.audioResources.length;i++){
+				var newFile={
+						fileName:this.audioResources[i].file.name,
+						size:this.audioResources[i].file.size
+				}
+				filesToUpload.push(newFile);
+			}
+			var self=this;
+			$.ajax({
+				url: 'services/albums/clear?albumCode='+self.code,
+				async: false,
+				type: 'POST',
+				success: function(data){
+					for(var i=0;i<data.length;i++){
+						for(var j=0;j<self.audioResources.length;j++){
+							if(self.audioResources[j].file.name==data[i].fileName){
+								if(self.audioResources[j].file.size==data[i].size){
+									self.audioResources[j].uploaded=true;
+									break;
+								}
+							}
+						}
+					}
+				},
+				error: function(e){
+				},
+				processData: false,
+				data: JSON.stringify(filesToUpload),
+				contentType: "application/json"
+			});			
+			//------------------------------------------------------------------------------------
+
 	}
 
 	/* order in the list all the resources that user wants to upload */
@@ -439,6 +478,7 @@ var UploadAlbum=function(){
 
 	/* function to upload the audio resources to the server, to obtain wizard tag information from tracks */
 	var wizardUploadSongs=function(uploadedFiles){
+		var up=new UploadPool();
 		var self=this;
 		this.uploadResourcesRest=this.audioResources.length;
 		
@@ -492,64 +532,56 @@ var UploadAlbum=function(){
 					self.wizardObtainInfoForm.call(self,this.code);
 				}
 			}else{
-				//reading the file to show the image
-	    		var reader = new FileReader();
-				// Closure to capture the file information.
-				reader.onload = (function(theFile, albumCode, audioResource, thedivcode, self) {
-		        	return function(e) {
-						    var bin = e.target.result;
-						     $.ajax({
-						        url: 'services/albums/'+albumCode+"?fileName="+encodeURIComponent(theFile.name),
-						        type: 'PUT',
-						        //Ajax events
-						        success: (function(it, audioResource){
-							        	var myfunction=function(){
-											thedivcode.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-finished');
-											thedivcode.find('.messic-upload-finishbox-resource-progressbar').width('100%');
-							        		
-											it.uploadResourcesRest=it.uploadResourcesRest-1;
-											audioResource.uploaded=true;
-											if(it.uploadResourcesRest==0){
-												it.wizardObtainInfoForm.call(it,albumCode);
-											}
-							        	}
-							        	return myfunction;
-						        	})(self,audioResource),
-						        error: (function(it){
-						        	var myfunction=function(){
-										it.uploadResourcesRest=it.uploadResourcesRest-1;
-										if(it.uploadResourcesRest==0){
-											//TODO
-											alert('un error!')
-										}
-						        	}
-						        	return myfunction;
-						        })(self),
-								xhr: function()
-								{
-									 var xhr = new window.XMLHttpRequest();
-									 
-									 audioResource.xhr=xhr;
-									 
-									 //Upload progress
-									 xhr.upload.addEventListener("progress", function(evt){
-									   if (evt.lengthComputable) {
-									     var percentComplete = evt.loaded / evt.total;
-											// calculate upload progress
-											thedivcode.find('.messic-upload-finishbox-resource-progressbar').width((percentComplete*100)+'%');
-									   }
-									 }, false);
-									 return xhr;
-								},
-						        processData: false,
-						        data: bin
-						    });
-			        };
-			    })(theFile,this.code, this.audioResources[i], divcode, this);
-				// Read in the image file as a data URL.
-				reader.readAsArrayBuffer(theFile);
+				var successFunction=(function(it, audioResource,thedivcode, albumCode){
+		        	var myfunction=function(){
+						thedivcode.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-finished');
+						thedivcode.find('.messic-upload-finishbox-resource-progressbar').width('100%');
+		        		
+						it.uploadResourcesRest=it.uploadResourcesRest-1;
+						audioResource.uploaded=true;
+						if(it.uploadResourcesRest==0){
+							it.wizardObtainInfoForm.call(it,albumCode);
+						}
+		        	}
+		        	return myfunction;
+	        	})(this,this.audioResources[i],divcode,this.code);
+				
+				var errorFunction=(function(it){
+		        	var myfunction=function(){
+						it.uploadResourcesRest=it.uploadResourcesRest-1;
+						if(it.uploadResourcesRest==0){
+							//TODO
+							alert('un error!')
+						}
+		        	}
+		        	return myfunction;
+		        })(this);
+				
+				var xhrFunction=function(audioResource, thedivcode)
+				{
+					var myfunction=function(){
+						 var xhr = new window.XMLHttpRequest();
+						 
+						 audioResource.xhr=xhr;
+						 
+						 //Upload progress
+						 xhr.upload.addEventListener("progress", function(evt){
+						   if (evt.lengthComputable) {
+						     var percentComplete = evt.loaded / evt.total;
+								// calculate upload progress
+								thedivcode.find('.messic-upload-finishbox-resource-progressbar').width((percentComplete*100)+'%');
+						   }
+						 }, false);
+						 return xhr;
+					}
+					return myfunction;
+				}(this.audioResources[i],divcode);
+				
+				up.addUpload(this.code, theFile, successFunction, errorFunction, xhrFunction);
 			}
 		}
+		//starting the pool upload
+		up.start();
 	}
 
 	/* Once uploaded all the songs, this function organize the form of the wizard to obtain info from different providers */
@@ -655,6 +687,12 @@ var UploadAlbum=function(){
 				
 				var pluginname=$(this).data("pluginname");
 				if(pluginname){
+					var albumTitle= $("#messic-upload-wizard-albumtitle").val();
+					var authorName=$("#messic-upload-wizard-authorname").val();
+					if(albumTitle.length<=0 && authorName.length<=0){
+						UtilShowInfo(messicLang.uploadWizardAtLeast);
+						return;
+					}
 					
 					var albumHelpInfo={
 							name: $("#messic-upload-wizard-albumtitle").val(),

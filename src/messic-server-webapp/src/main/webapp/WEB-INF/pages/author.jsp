@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="messic" uri="/WEB-INF/functions.tld" %>
@@ -14,7 +15,9 @@
 		
 		<div id="content">
 			<div id="messic-author-title" class="messic-H1">
-				${messic:escapeHTML(author.name)}
+				<div class="messic-author-title">${messic:escapeHTML(author.name)}</div>
+				<div id="messic-author-menuoption-remove" class="messic-author-menuoption" title="<fmt:message key="author-removeauthor-title" bundle="${message}"/>" onclick="authorRemove(${messic:escapeAll(author.sid)})"></div>
+				<div class="divclearer"></div>
 			</div>
 				
 			<div id="messic-author-container">
@@ -22,7 +25,7 @@
 					<div id="messic-author-album-cover">
 						<div class="messic-author-album-covercontainer">
 				        	<div class="messic-author-album-add" onclick="addAlbum(${messic:escapeAll(album.sid)})" title="<fmt:message key="album-addalbum-title" bundle="${message}"/>"></div>
-							<img src="services/albums/${album.sid}/cover?messic_token=${token}" onclick="albumShowCover('${messic:escapeAll(album.sid)}')"/>
+							<img src="services/albums/${album.sid}/cover?messic_token=${token}&<%=new Date().getTime()%>" onclick="albumShowCover('${messic:escapeAll(album.sid)}')"/>
 						</div>
 			        	<div class="messic-author-album-vinyl"></div>
 			        </div>

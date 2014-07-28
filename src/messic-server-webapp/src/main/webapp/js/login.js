@@ -28,6 +28,7 @@ var VAR_MessicToken;
 function loginSucessfull(messic_token){
 	VAR_MessicToken=messic_token;
 	$.ajaxSetup({
+		cache: false,
 	    beforeSend: function(xhr) {
 	        xhr.setRequestHeader('messic_token', messic_token);
 	    }

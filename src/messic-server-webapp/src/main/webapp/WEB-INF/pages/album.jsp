@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="messic" uri="/WEB-INF/functions.tld" %>
@@ -17,13 +18,13 @@
 				<div id="messic-album-cover">
 					<div class="messic-album-covercontainer">
 			        	<div class="messic-album-add" onclick="addAlbum(${messic:escapeAll(album.sid)})" title="<fmt:message key="album-addalbum-title" bundle="${message}"/>"></div>
-						<img src="services/albums/${album.sid}/cover?messic_token=${token}" onclick="albumShowCover('${messic:escapeAll(album.sid)}')"/>
+						<img src="services/albums/${album.sid}/cover?messic_token=${token}&<%=new Date().getTime()%>" onclick="albumShowCover('${messic:escapeAll(album.sid)}')"/>
 					</div>
 		        	<div class="messic-album-vinyl"></div>
 		        </div>
 				
 				<div id="messic-album-author" class="messic-H1 messic-album-editable" onclick="showAuthorPage(${album.author.sid})">
-					<div id="messic-album-author-edit" class="messic-album-editbutton" onclick="albumAuthorEdit()"></div>
+					<div id="messic-album-author-edit" class="messic-album-editbutton" onclick="event.stopPropagation();albumAuthorEdit()"></div>
 					${messic:escapeHTML(album.author.name)}
 				</div>
 				<div id="messic-album-name" class="messic-H2 messic-album-editable">
@@ -34,6 +35,7 @@
 				<div id="messic-album-menu">
 					<div id="messic-album-menuoption-remove" class="messic-album-menuoption" title="<fmt:message key="album-removealbum-title" bundle="${message}"/>" onclick="albumRemove(${messic:escapeAll(album.sid)})"></div>
 					<div id="messic-album-menuoption-download" class="messic-album-menuoption" title="<fmt:message key="album-downloadalbum-title" bundle="${message}"/>" onclick="albumDownload(${messic:escapeAll(album.sid)})"></div>
+					<div id="messic-album-menuoption-addplaylist" class="messic-album-menuoption" title="<fmt:message key="album-addplaylist-title" bundle="${message}"/>" onclick="albumAddToPlaylist(${messic:escapeAll(album.sid)})"></div>
 					<div id="messic-album-menuoption-save" class="messic-album-menuoption" title="<fmt:message key="album-savealbum-title" bundle="${message}"/>" onclick="albumSaveChanges(${messic:escapeAll(album.sid)})"></div>
 					<div id="messic-album-menuoption-discard" class="messic-album-menuoption" title="<fmt:message key="album-discardalbum-title" bundle="${message}"/>" onclick="albumDiscardChanges(${messic:escapeAll(album.sid)})"></div>
 				</div>
@@ -69,6 +71,7 @@
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songtrack">${messic:escapeHTML(song.track)}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songname">${messic:escapeHTML(song.name)}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songaction">
+									<div title="<fmt:message key="album-addplaylist-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-addtoplaylist" onclick="albumAddSongToPlaylist('${messic:escapeAll(song.sid)}')"></div>
 									<div title="<fmt:message key="album-songplay-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-play" onclick="addSong('${messic:escapeAll(song.name)}','${messic:escapeAll(album.author.name)}','${messic:escapeAll(album.sid)}','${messic:escapeAll(album.name)}','${messic:escapeAll(song.sid)}','${messic:escapeAll(song.name)}')"></div>
 									<div title="<fmt:message key="album-songedit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditSong(${messic:escapeAll(song.sid)},'${messic:escapeAll(song.track)}','${messic:escapeAll(song.name)}','${messic:escapeAll(song.album.author.name)}','${messic:escapeAll(song.album.name)}',this)"></div>
 									<div title="<fmt:message key="album-songdownload-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-download" onclick="albumDownloadSong(${messic:escapeAll(song.sid)})"></div>
@@ -79,10 +82,11 @@
 						</c:forEach>				
 						<c:forEach var="artwork" items="${album.artworks}">
 							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork">
-								<div class="messic-album-songs-bodyfield messic-album-songs-body-artwork"><img src="services/albums/${messic:escapeHTML(artwork.sid)}/resource?messic_token=${token}" onclick="albumShowArtwork('${messic:escapeAll(artwork.sid)}')"/></div>
+								<div class="messic-album-songs-bodyfield messic-album-songs-body-artwork"><img src="services/albums/${messic:escapeHTML(artwork.sid)}/resource?messic_token=${token}" onclick="albumShowArtwork('${messic:escapeAll(album.sid)}','${messic:escapeAll(artwork.sid)}')"/></div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkname">${messic:escapeHTML(artwork.fileName)}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkaction">
-									<div title="<fmt:message key="album-artworkshow-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-show" onclick="albumShowArtwork('${messic:escapeAll(artwork.sid)}')"></div>
+									<div title="<fmt:message key="album-artworkcover-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-cover" onclick="albumCoverArtwork('${messic:escapeAll(album.sid)}','${messic:escapeAll(artwork.sid)}', $(this).parent().parent().find('img'))"></div>
+									<div title="<fmt:message key="album-artworkshow-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-show" onclick="albumShowArtwork('${messic:escapeAll(album.sid)}','${messic:escapeAll(artwork.sid)}')"></div>
 									<div title="<fmt:message key="album-artworkedit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditArtwork(${messic:escapeAll(artwork.sid)},'${messic:escapeAll(artwork.fileName)}',this)"></div>
 									<div title="<fmt:message key="album-artworkremove-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveResource(${messic:escapeAll(artwork.sid)},$(this).parent().parent())"></div>
 								</div>

@@ -91,12 +91,12 @@ function initAlbum() {
 
 /* Download the current album to the user */
 function albumDownload(albumSid){
-	var url='services/albums/'+albumSid+'/zip';    
+	var url='services/albums/'+albumSid+'/zip?messic_token='+VAR_MessicToken;    
     document.location.href=url;
 }
 /* Download the selected song to the user */
 function albumDownloadSong(songSid){
-	var url='services/songs/'+songSid+'/audio';    
+	var url='services/songs/'+songSid+'/audio?messic_token='+VAR_MessicToken;    
     window.open(url);
 }
 /* Download the selected other resource to the user */
@@ -215,8 +215,8 @@ function albumAuthorEdit() {
 	div.append($(code));
 	$("#messic-album-author input").focus();
 	$("#messic-album-author input").select();
-	$("#messic-album-author").removeClass("messic-album-editable")
-	$("#messic-album-author").addClass("messic-album-editing")
+	$("#messic-album-author").removeClass("messic-album-editable");
+	$("#messic-album-author").addClass("messic-album-editing");
 
 	$("#messic-album-author input").kendoComboBox({
 		placeholder : messicLang.uploadAuthorPlaceholder,
@@ -245,6 +245,10 @@ function albumAuthorEdit() {
 				}
 			}
 		}
+	});
+
+	$("#messic-album-author input").click(function(event){
+		event.stopPropagation();
 	});
 }
 
@@ -762,15 +766,37 @@ function albumShowLocalArtwork(resource) {
 	codeobj.fadeIn();
 }
 
+/* function to set as cover an artwork */
+function albumCoverArtwork(albumSid, resourceSid, divimg) {
+	$.ajax({
+		url : 'services/albums/' + albumSid + "/" + resourceSid + "/cover",
+		type : 'POST',
+		success : function(result) {
+			var imgCloned=$("#messic-album-cover img").clone();
+			var imgResource=divimg;
+			imgCloned.attr("src",imgResource.attr("src"));
+			$("#messic-album-cover img").replaceWith(imgCloned);
+			
+			UtilResetAlbumRandom(albumSid);
+			
+			UtilShowInfo(messicLang.albumCoverChanged);
+		},
+		fail : function(result) {
+			UtilShowInfo("Fail while setting cover");
+		}
+	});
+
+}
+
 /* function to show a resource at the page */
-function albumShowArtwork(resourceSid) {
+function albumShowArtwork(albumSid, resourceSid) {
 	var code = '<div class=\"messic-album-artwork-show-overlay\" onclick=\"albumShowArtworkDestroy()\"></div>';
 	code = code + '<div class=\"messic-album-artwork-show\">';
 	code = code + "   <img src=\"services/albums/" + resourceSid
 			+ "/resource?messic_token="+VAR_MessicToken+"\"></img>";
 	code = code + "   <a href=\"services/albums/" + resourceSid
-			+ "/resource\" target=\"_blank\"></a>"
-	code = code + "   <div id=\"messic-album-artwork-setcover\" onclick=\"alert('setcover')\"></div>"
+			+ "/resource?messic_token="+VAR_MessicToken+"\" target=\"_blank\"></a>"
+	code = code + "   <div id=\"messic-album-artwork-setcover\" onclick=\"albumCoverArtwork("+albumSid+","+resourceSid+",$(this).parent().find('img') )\"></div>"
 	code = code + "</div>";
 
 	$(code).hide().appendTo('body').fadeIn();
@@ -781,9 +807,9 @@ function albumShowCover(albumSid) {
 	var code = '<div class=\"messic-album-artwork-show-overlay\" onclick=\"albumShowArtworkDestroy()\"></div>';
 	code = code + '<div class=\"messic-album-artwork-show\">';
 	code = code + "   <img src=\"services/albums/" + albumSid
-			+ "/cover?messic_token="+VAR_MessicToken+"\"></img>";
+			+ "/cover?messic_token="+VAR_MessicToken+"&"+UtilGetRandom(0,99999999)+"\"></img>";
 	code = code + "   <a href=\"services/albums/" + albumSid
-			+ "/cover?messic_token="+VAR_MessicToken+"\" target=\"_blank\"></a>"
+			+ "/cover?messic_token="+VAR_MessicToken+"&"+UtilGetRandom(0,99999999)+"\" target=\"_blank\"></a>"
 	code = code + "</div>";
 
 	$(code).hide().appendTo('body').fadeIn();
@@ -930,4 +956,29 @@ function albumRemove(albumSid) {
 					}
 				}
 			});
+}
+
+/**
+ * Function that add all the songs of an album to a playlist
+ * @param albumSid albumSid to be added
+ */
+function albumAddToPlaylist(albumSid){
+	$.getJSON("services/albums/"+albumSid+"?songsInfo=true&authorInfo=false", function(data) {
+    	var songSids=new Array();
+    	for(var j=0;j<data.songs.length;j++){
+    		songSids.push(data.songs[j].sid);
+    	}
+    	playlistAddToPlaylist(songSids);
+		
+	});		
+}
+
+/**
+ * Add a song to a certain playlist selected by the user
+ * @param songSid sid of the song to be added
+ */
+function albumAddSongToPlaylist(songSid){
+	var songSids=new Array();
+	songSids.push(songSid);
+	playlistAddToPlaylist(songSids);
 }

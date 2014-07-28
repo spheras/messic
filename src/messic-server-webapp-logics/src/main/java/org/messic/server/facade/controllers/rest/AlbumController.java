@@ -85,7 +85,7 @@ public class AlbumController
     @Autowired
     public APITagWizard wizardAPI;
 
-    @ApiMethod( path = "/albums?filterAuthorSid=xxxx&filterName=xxxx&songsInfo=true|false&authorInfo=true|false", verb = ApiVerb.GET, description = "Get all albums", produces = {
+    @ApiMethod( path = "/albums?filterGenreSid=xxxx&filterAuthorSid=xxxx&filterName=xxxx&songsInfo=true|false&authorInfo=true|false", verb = ApiVerb.GET, description = "Get all albums. They can be filtered by authorSid or by genreSid (not combined). You can also espcify what information should be returned (with songs information or not, for exmaple)", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -93,7 +93,10 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public List<Album> getAll( @RequestParam( value = "filterAuthorSid", required = false )
+    public List<Album> getAll( @RequestParam( value = "filterGenreSid", required = false )
+                               @ApiParam( name = "filterGenreSid", description = "SID of the genre to filter albums", paramType = ApiParamType.QUERY, required = false )
+                               Integer filterGenreSid,
+                               @RequestParam( value = "filterAuthorSid", required = false )
                                @ApiParam( name = "filterAuthorSid", description = "SID of the author to filter albums", paramType = ApiParamType.QUERY, required = false )
                                Integer filterAuthorSid,
                                @RequestParam( value = "filterName", required = false )
@@ -118,7 +121,7 @@ public class AlbumController
         try
         {
             List<Album> albums = null;
-            if ( filterAuthorSid == null && filterName == null )
+            if ( filterAuthorSid == null && filterName == null & filterGenreSid == null )
             {
                 albums =
                     albumAPI.getAll( user, ( authorInfo != null ? authorInfo : true ), ( songsInfo != null ? songsInfo
@@ -134,6 +137,14 @@ public class AlbumController
                                          ( songsInfo != null ? songsInfo : false ),
                                          ( resourcesInfo != null ? resourcesInfo : ( songsInfo != null ? songsInfo
                                                          : false ) ) );
+                }
+                if ( filterGenreSid != null )
+                {
+                    albums =
+                        albumAPI.getAllOfGenre( user, filterGenreSid, ( authorInfo != null ? authorInfo : true ),
+                                                ( songsInfo != null ? songsInfo : false ),
+                                                ( resourcesInfo != null ? resourcesInfo
+                                                                : ( songsInfo != null ? songsInfo : false ) ) );
                 }
                 else
                 {
@@ -293,6 +304,36 @@ public class AlbumController
         }
     }
 
+    @ApiMethod( path = "/albums/{albumSid}/{resourceSid}/cover", verb = ApiVerb.POST, description = "Set cover for a certain album", produces = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
+        @ApiError( code = IOMessicRESTException.VALUE, description = "IO internal server error" ), } )
+    @RequestMapping( value = "/{albumSid}/{resourceSid}/cover", method = RequestMethod.POST )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    public void setAlbumCover( @PathVariable
+                               @ApiParam( name = "albumSid", description = "SID of the album to get the cover", paramType = ApiParamType.PATH, required = true )
+                               Long albumSid,
+                               @PathVariable
+                               @ApiParam( name = "resourceSid", description = "SID of the resource of the album to set as cover", paramType = ApiParamType.PATH, required = true )
+                               Long resourceSid )
+        throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException,
+        IOMessicRESTException
+    {
+        User user = SecurityUtil.getCurrentUser();
+        try
+        {
+            albumAPI.setAlbumCover( user, albumSid, resourceSid );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
     @ApiMethod( path = "/albums/{albumSid}/cover", verb = ApiVerb.GET, description = "Get cover for a certain album", produces = { MediaType.IMAGE_JPEG_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
@@ -445,7 +486,7 @@ public class AlbumController
         {
             List<org.messic.server.api.datamodel.File> existingFiles =
                 albumAPI.clearTemporal( user, albumCode, exceptFiles );
-            return existingFiles;// new HttpEntity<HttpStatus>( HttpStatus.OK );
+            return existingFiles;
         }
         catch ( IOException e )
         {

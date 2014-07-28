@@ -43,6 +43,7 @@
         <link rel="stylesheet" href="css/themes/hansv2/home.css">
         <link rel="stylesheet" href="css/themes/hansv2/login.css">
         <link rel="stylesheet" href="css/themes/hansv2/playlist.css">
+        <link rel="stylesheet" href="css/themes/hansv2/playlists.css">
         <link rel="stylesheet" href="css/themes/hansv2/about.css">
         <link rel="stylesheet" href="css/themes/hansv2/upload.css">
         <link rel="stylesheet" href="css/themes/hansv2/settings.css">
@@ -127,9 +128,11 @@
         <script src="js/explore.js"></script>
         <script src="js/album.js"></script>
         <script src="js/author.js"></script>
+        <script src="js/playlist.js"></script>
         <script src="js/uploadresource.js"></script>
         <script src="js/uploadalbum.js"></script>
         <script src="js/uploadprocess.js"></script>
+        <script src="js/uploadPool.js"></script>
         <script src="js/settings.js"></script>
         <script src="js/apidoc.js"></script>
         <script src="js/jquery.confirm.js"></script>

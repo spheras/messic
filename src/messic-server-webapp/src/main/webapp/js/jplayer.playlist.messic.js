@@ -270,15 +270,16 @@
             */
 
             //let's modify it for messic
-            listItem += "  <div class='jplayer-playlist-vinyl-container'>";
-			listItem += "    <div class='jplayer-playlist-vinyl jplayer-playlist-vinylHide'></div>";
-			listItem += "    <a href='javascript:;' class='jplayer-playlist-remove jp-playlist-item-remove'></a>";
-			listItem += "    <div class='jplayer-playlist-vinylHand'></div>";
-			listItem += "    <img class='jplayer-playlist-vinylbox' src='"+media.boxart+"'></img>";
-            listItem += "    <div class='jplayer-playlist-vinylPlayButton' onclick='playVinyl($(this).parent().parent().index());'></div>";
-			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.author +"</a>";
-			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-song " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.song +"</a>";
-			listItem += "    <a href='javascript:;' class='jplayer-playlist-vinyl-album " + this.options.playlistOptions.itemClass + "' tabindex='1'>"+ media.album +"</a>";
+            listItem += "  <div class=\"jplayer-playlist-vinyl-container\" data-albumSid=\""+media.albumSid+"\" data-songSid=\""+media.songSid+"\" >";
+			listItem += "    <div class=\"jplayer-playlist-vinyl jplayer-playlist-vinylHide\"></div>";
+			listItem += "    <div onclick=\"event.stopPropagation();playlistAddToPlaylist(["+media.songSid+"]);\" title=\""+messicLang.playlistAddToPlaylist+"\" class=\"jplayer-playlist-song-menu\"></div>";
+			listItem += "    <a href=\"javascript:;\" class=\"jplayer-playlist-remove jp-playlist-item-remove\"></a>";
+			listItem += "    <div class=\"jplayer-playlist-vinylHand\"></div>";
+			listItem += "    <img class=\"jplayer-playlist-vinylbox\" src=\""+media.boxart+"\"></img>";
+            listItem += "    <div class=\"jplayer-playlist-vinylPlayButton\" onclick=\"playVinyl($(this).parent().parent().index());\"></div>";
+			listItem += "    <a href=\"javascript:;\" class=\"jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "\" title=\""+UtilEscapeHTML(media.author)+"\" tabindex=\"1\">"+ UtilEscapeHTML(media.author) +"</a>";
+			listItem += "    <a href=\"javascript:;\" class=\"jplayer-playlist-vinyl-song " + this.options.playlistOptions.itemClass + "\" title=\""+UtilEscapeHTML(media.song)+"\" tabindex=\"1\">"+ UtilEscapeHTML(media.song) +"</a>";
+			listItem += "    <a href=\"javascript:;\" class=\"jplayer-playlist-vinyl-album " + this.options.playlistOptions.itemClass + "\" title=\""+UtilEscapeHTML(media.album)+"\" tabindex=\"1\">"+ UtilEscapeHTML(media.album) +"</a>";
             listItem += "  </div>";
 			listItem += "</li>";
 			//  this.parentNode.parentNode.className =\"jplayer-playlist-li-expanding\";this.parentNode.children[0].className =\"jplayer-playlist-vinyl jplayer-playlist-vinylPlaying\";this.parentNode.children[1].className =\"jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying\";
@@ -362,12 +363,13 @@
 				if(this.original.length === 1) {
 					this.select(0);
 					this.play(0);
-				} else {
-					if (!($('.jp-play').css('display') == 'none')){
-						//then it's stopped or paused
-						this.play(this.playlist.length - 1);
-					}
 				}
+				//else {
+				//	if (!($('.jp-play').css('display') == 'none')){
+				//		//then it's stopped or paused
+				//		this.play(this.playlist.length - 1);
+				//	}
+				//}
 			}
 		},
 		remove: function(index) {

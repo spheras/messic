@@ -83,9 +83,28 @@ function initMessic(){
 				    var posts = $($.parseHTML(data)).find("#messic-page-content").children();
 				    $("#messic-page-content").append(posts);
 				    initSettings(false);
+					window.scrollTo(0,0);
 				}
 			});
 			
+		}
+		VAR_changeSection(nextFunction);
+    });
+
+	$("#messic-menu-playlist").click(function(){
+		var self=this;
+		var nextFunction=function(){
+			selectOption(self);
+			$.ajax({
+				url: "playlist.do",
+				success: function(data){
+					$("#messic-page-content").empty();
+				    var posts = $($.parseHTML(data)).find("#messic-playlist-content").children();
+				    $("#messic-page-content").append(posts);
+					window.scrollTo(0,0);
+				    initPlaylist();
+				}
+			});
 		}
 		VAR_changeSection(nextFunction);
     });
@@ -95,6 +114,7 @@ function initMessic(){
 		var nextFunction=function(){
 			selectOption(self);
 			mainCreateRandomLists();
+			window.scrollTo(0,0);
 			VAR_changeSection=function(nextFunction){
 				nextFunction();
 			}
@@ -111,6 +131,7 @@ function initMessic(){
 				$("#messic-page-content").empty();
 		        var posts = $($.parseHTML(data)).filter('#content').children();
 		        $("#messic-page-content").append(posts);
+				window.scrollTo(0,0);
 	        });
 
 			VAR_changeSection=function(nextFunction){
@@ -133,6 +154,7 @@ function initMessic(){
 					var posts = $($.parseHTML(data)).filter('#content').children();
 					$("#messic-page-content").append(posts);
 					initUpload();
+					window.scrollTo(0,0);
 				}
 			});
 			
@@ -149,6 +171,7 @@ function initMessic(){
 				var posts = $($.parseHTML(data)).filter('#content').children();
 				$("#messic-page-content").append(posts);
 				initExplore();
+				window.scrollTo(0,0);
 			});
 			VAR_changeSection=function(nextFunction){
 				nextFunction();
@@ -166,6 +189,7 @@ function initMessic(){
 
 	$("#messic-search-do").click(function(){
 	    mainSearch();
+		window.scrollTo(0,0);
 	});
 
 	$(".messic-playlist-action").hover(function(){
@@ -240,6 +264,9 @@ function showAuthorPage(authorSid){
 
 function mainSearch(){
 	var content=$("#messic-search-text").val();
+	if(content.length<=0){
+		return;
+	}
 	$.getJSON( "services/search?content="+content, function( data ) {
 		if(data){
 			var code=mainCreateRandomList(data);
@@ -329,6 +356,7 @@ function mainCreateRandomList(randomlist, lastTitleType){
 							var song=randomlist.songs[j];
 							code=code+"<li>";
 		            		code=code+"    <div class=\"messic-main-randomlist-albumcover\" title=\""+UtilEscapeHTML(song.album.author.name)+"\n"+UtilEscapeHTML(song.album.name)+"\n"+UtilEscapeHTML(song.name)+"\" onclick=\"exploreEditAlbum('"+song.album.sid+"')\">";
+		            		code=code+"        <div class=\"messic-main-randomlist-menu\" title=\""+messicLang.playlistAddToPlaylist+"\" onclick=\"event.stopPropagation();playlistAddToPlaylist(["+song.sid+"]);\"></div>";
 		            		code=code+"        <div class=\"messic-main-randomlist-add\" onclick=\"if(event){event.stopPropagation();}addSong('raro',";
 
 		            		code=code+"'"+UtilEscapeJS(song.album.author.name)+"',";
@@ -337,7 +365,7 @@ function mainCreateRandomList(randomlist, lastTitleType){
 		            		code=code+song.sid+",";
 		            		code=code+"'"+UtilEscapeJS(song.name)+"');\"></div>";
 
-							code=code+"        <img src=\"services/albums/"+song.album.sid+"/cover?messic_token="+VAR_MessicToken+"\"></img>";
+							code=code+"        <img src=\"services/albums/"+song.album.sid+"/cover?messic_token="+VAR_MessicToken+"&"+UtilGetAlbumRandom(song.album.sid)+"\"></img>";
 		            		code=code+"        <div class=\"messic-main-randomlist-vinyl\"></div>";
 							code=code+"    </div>"
 							code=code+"    <div class=\"messic-main-randomlist-albumauthor\" title=\""+UtilEscapeHTML(song.album.author.name)+"\" onclick=\"showAuthorPage("+song.album.author.sid+")\">"+UtilEscapeHTML(song.album.author.name)+"</div>";
@@ -396,13 +424,15 @@ function addAlbum(albumSid){
 					UtilEscapeHTML(data.songs[z].name)
 				   );
 		}
-		UtilShowInfo("Great! " + data.songs.length + " songs added to the playlist!");
+		UtilShowInfo(data.songs.length + " " + messicLang.songsadded);
 	});
 }
 
 //Add a song to the playlist of songs
 function addSong(titleA,authorName,albumSid,albumName,songSid,songName){
 		    playlist.add({
+		    	"albumSid":albumSid,
+		    	"songSid":songSid,
 		        title:titleA,
 		        mp3:"services/songs/"+songSid+"/audio?messic_token="+VAR_MessicToken,
 		        author: authorName,
@@ -441,4 +471,32 @@ function playVinyl(index){
 	this.parentNode.children[0].className =\"jplayer-playlist-vinyl jplayer-playlist-vinylPlaying\";
 	this.parentNode.children[1].className =\"jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying\";
 	*/
+}
+
+/* function to download the current playlist which is playing now */
+function downloadCurrentPlaylist(){
+	var songs="";
+	$("#messic-playlist-container .jplayer-playlist-vinyl-container").each(function(){
+		if(songs.length>0){
+			songs=songs+":";
+		}
+		songs=songs+$(this).data("songsid");
+	});
+	
+	if(songs.length>0){
+		var url='services/songs/'+songs+'/zip?messic_token='+VAR_MessicToken;    
+		window.open(url);
+	}
+}
+
+/**
+ * Function to create a new playlist with the current queue of songs
+ */
+function loveCurrentPlaylist(){
+	var songSids=new Array();
+	$("#messic-playlist-container .jplayer-playlist-vinyl-container").each(function(){
+		songSids.push($(this).data("songsid"));
+	});
+
+	playlistCreateNewPlaylist(songSids);
 }

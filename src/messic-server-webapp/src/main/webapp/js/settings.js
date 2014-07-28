@@ -749,7 +749,7 @@ function continueSendData(flagNewUser, userData){
            }else{
 	       		$("#messic-user-settings-button-savechanges").hide();
 	    		$("#messic-user-settings-button-cancelchanges").hide();
-	    		UtilShowInfo("Changes Saved!");
+	    		UtilShowInfo(messicLang.settingsChangesSaved);
            }
 	  	}
 	});	

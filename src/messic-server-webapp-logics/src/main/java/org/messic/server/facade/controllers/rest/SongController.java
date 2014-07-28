@@ -19,8 +19,10 @@
 package org.messic.server.facade.controllers.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiError;
@@ -136,22 +138,89 @@ public class SongController
         try
         {
             byte[] content = songAPI.getAudioSong( user, songSid );
+
             HttpHeaders headers = new HttpHeaders();
 
             // TODO some mp3 songs fail with application/octet-stream
             // MP3 files must have the content type of audio/mpeg or application/octet-stream
             // ogg files must have the content type of application/ogg
-            
+
             headers.setContentType( MediaType.parseMediaType( "audio/mpeg" ) );
-            headers.setContentLength( content.length );
-            
-            if(dlna!=null && dlna==true){
+            if(request.getHeader( "Range" )==null){
+                headers.setContentLength( content.length );
+                headers.add( "Content-Range", "bytes 0-" + content.length + "/" + content.length );
+            }else{
+                String range=request.getHeader( "Range" );
+                String[] sbytes=range.split( "=" )[1].split( "-" );
+                int from=Integer.valueOf( sbytes[0] );
+                int to=content.length;
+                if(sbytes.length>1){
+                    to=Integer.valueOf( sbytes[1] );
+                }
+                byte[] destino=new byte[to-from];
+                System.arraycopy( content, from, destino, 0, to-from);
+                
+                headers.setContentLength( destino.length );
+                headers.add( "Content-Range", "bytes "+from+"-" + to + "/" + content.length );
+                content=destino;
+            }
+
+            if ( dlna != null && dlna == true )
+            {
+                headers.setConnection( "close" );
+                headers.add( "EXT", null );
+                headers.add( "Accept-Ranges", "bytes" );
                 headers.add( "transferMode.dlna.org", "Streaming" );
                 headers.add( "contentFeatures.dlna.org", "DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_CI=0" );
                 headers.add( "realTimeInfo.dlna.org", "DLNA.ORG_TLAG=*" );
+                headers.setDate( System.currentTimeMillis() );
             }
 
-            return new ResponseEntity<byte[]>( content, headers, HttpStatus.OK );
+            if ( request.getMethod().equalsIgnoreCase( "GET" ) )
+            {
+                return new ResponseEntity<byte[]>( content, headers, HttpStatus.OK );
+            }
+            else
+            {
+                return new ResponseEntity<byte[]>( new byte[0], headers, HttpStatus.OK );
+            }
+        }
+        catch ( IOException ioe )
+        {
+            ioe.printStackTrace();
+            throw new IOMessicRESTException( ioe );
+        }
+        catch ( Exception e )
+        {
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
+    @ApiMethod( path = "/songs/{songSids}/zip", verb = ApiVerb.GET, description = "Get a set of songs zipped", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
+        @ApiError( code = IOMessicRESTException.VALUE, description = "IO error trying to get the songs resources" ) } )
+    @RequestMapping( value = "/{songSids}/zip", method = RequestMethod.GET )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    public void getSongsZip( @ApiParam( name = "songSids", description = "song sids SEPARATED BY :", paramType = ApiParamType.PATH, required = true )
+                             @PathVariable
+                             String songSids, HttpServletResponse response )
+        throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException
+    {
+
+        User user = SecurityUtil.getCurrentUser();
+        try
+        {
+            ArrayList<Long> sids = new ArrayList<Long>();
+            String[] s = songSids.split( ":" );
+            for ( String sid : s )
+            {
+                sids.add( Long.valueOf( sid ) );
+            }
+
+            songAPI.getSongsZip( user, sids, response.getOutputStream() );
         }
         catch ( IOException ioe )
         {

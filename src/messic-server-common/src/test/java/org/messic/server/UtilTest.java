@@ -37,9 +37,10 @@ public class UtilTest
         result = Util.replaceIllegalFilenameCharacters( fileName, '_' );
         Assert.assertTrue( result.equals( "04-From _et's see.m_3" ) );
         
-        fileName ="07 - (You Take) This Heart of Mine.mp3";
+        fileName ="07 - (You Are) This Body of Milk.mp3";
         result = Util.replaceIllegalFilenameCharacters( fileName, '_' );
-        Assert.assertTrue( result.equals( "07 - _You Take_ This Heart of Mine.mp3" ) );
+        Assert.assertTrue( result.equals( "07 - _You Are_ This Body of Milk.mp3" ) );
+        
     }
 
 }

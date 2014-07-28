@@ -18,12 +18,39 @@
  */
 package org.messic.server.datamodel.dao;
 
+import java.util.List;
 
+import org.messic.server.datamodel.MDOPlaylist;
 
 /**
  * DAO for Playlist table
  */
-public interface DAOPlaylist extends DAOResource
+public interface DAOPlaylist
+    extends DAO<MDOPlaylist>
 {
-	
+
+    /***
+     * Obtain a certain playlist
+     * 
+     * @param username {@link String} user scope
+     * @param sid long sid of the playlist to obtain
+     * @return {@link MDOPlaylist}
+     */
+    MDOPlaylist get( String username, long sid );
+
+    /**
+     * return all the playlist of the user
+     * 
+     * @param username {@link String} user scope
+     * @return {@link List}<MdoPlaylist/> the list of playlists
+     */
+    List<MDOPlaylist> getAll( String username );
+
+    /**
+     * return a playlist searching by name
+     * @param username {@link String} user scope
+     * @param name {@link String} name of the playlist to search
+     * @return {@link MDOPlaylist} playlist founded
+     */
+    MDOPlaylist getByName(String username, String name);
 }

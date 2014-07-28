@@ -61,11 +61,19 @@ public interface DAOAlbum extends DAO<MDOAlbum>
 
 	/**
 	 * return all the albums of an author, null if author not found
-	 * @param authorSid int sid of the author scope
+	 * @param authorSid long sid of the author scope
 	 * @param username {@link String} user scope
 	 * @return {@link List}<MDOAlbum/> list of albums of the author
 	 */
 	List<MDOAlbum> getAll(long authorSid, String username);
+
+	   /**
+     * return all the albums which have a genre
+     * @param genreSid long sid of the genre scope
+     * @param username {@link String} user scope
+     * @return {@link List}<MDOAlbum/> list of albums with the genre
+     */
+    List<MDOAlbum> getAllOfGenre(long genreSid, String username);
 
 	/**
 	 * Return an album with id equals to albumSid param
@@ -108,4 +116,13 @@ public interface DAOAlbum extends DAO<MDOAlbum>
 	 * @return {@link MDOArtwork} which is the cover of the album
 	 */
     MDOArtwork getAlbumCover( long albumSid, String username );
+    
+    /**
+     * Set an artwork resource from the album as cover of the album
+     * @param resourceSid long sid of the resource to be set as cover
+     * @param albumSid long sid of the album which have the resource
+     * @param userSid long isd of the user scope
+     */
+    void setAlbumCover( long resourceSid, long albumSid, long userSid );
+
 }

@@ -44,8 +44,8 @@
 			                </li>
 			            </ul>
 						<div class="messic-upload-song-separator"></div>
-						<button id="messic-upload-album-send"><fmt:message key="upload-button-send" bundle="${message}"/></button>
-						<button id="messic-upload-album-wizard"><fmt:message key="upload-button-wizard" bundle="${message}"/></button>
+						<button id="messic-upload-album-send" class="button play"><fmt:message key="upload-button-send" bundle="${message}"/></button>
+						<button id="messic-upload-album-wizard" class="button hot_drink"><fmt:message key="upload-button-wizard" bundle="${message}"/></button>
 						<div class="divclearer"></div>
 			        </div>
 				</div>

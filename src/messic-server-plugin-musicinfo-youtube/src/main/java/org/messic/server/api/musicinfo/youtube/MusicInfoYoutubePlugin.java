@@ -96,14 +96,6 @@ public class MusicInfoYoutubePlugin
         return EN_DESCRIPTION;
     }
 
-    public static void main( String[] args )
-        throws IOException
-    {
-        MusicInfoYoutubePlugin miyp = new MusicInfoYoutubePlugin();
-        String searched = miyp.search( new Locale( "es" ), "radiohead" );
-        System.out.println( searched );
-    }
-
     private String search( Locale locale, String search )
         throws IOException
     {

@@ -28,6 +28,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -54,7 +55,8 @@ public class MDOSong
     @OneToMany( cascade = { CascadeType.REMOVE } )
     private List<MDOGenericTAG> extraTags;
 
-    @ManyToMany( mappedBy = "songs" )
+    @ManyToMany( targetEntity = MDOPlaylist.class, fetch = FetchType.LAZY )
+    @JoinTable( name = "PLAYLIST_CONTENT", joinColumns = @JoinColumn( name = "PLAYLIST" ), inverseJoinColumns = @JoinColumn( name = "SONG" ) )
     private Set<MDOPlaylist> playlists;
 
     /**

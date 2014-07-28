@@ -53,3 +53,47 @@ function authorShowAuthorInfo(authorName, pluginName, div) {
 		$(contentdiv).append(resulthtml);
 	});
 }
+
+/* Remove the author */
+function authorRemove(authorSid) {
+	$.confirm({
+				'title' : messicLang.authorRemoveTitle,
+				'message' : messicLang.authorRemoveContent,
+				'buttons' : {
+					'Yes' : {
+						'title' : messicLang.confirmationYes,
+						'class' : 'blue',
+						'action' : function() {
+
+							$.ajax({
+										url : 'services/authors/' + authorSid,
+										type : 'DELETE',
+										success : function(result) {
+											UtilShowInfo(messicLang.authorRemoveOK);
+											$.get(
+															"explore.do",
+															function(data) {
+																$("#messic-page-content").empty();
+																var posts = $($.parseHTML(data)).filter('#content').children();
+																$("#messic-page-content").append(posts);
+																initExplore();
+															});
+										},
+										fail : function(result) {
+											UtilShowInfo(messicLang.authorRemoveFail);
+										}
+									});
+
+						}
+					},
+					'No' : {
+						'title' : messicLang.confirmationNo,
+						'class' : 'gray',
+						'action' : function() {
+							UtilShowInfo(messicLang.authorRemoveCancel);
+						} // Nothing to do in this case. You can as well omit
+							// the action property.
+					}
+				}
+			});
+}

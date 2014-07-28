@@ -92,9 +92,6 @@ public class DAOJPAAlbum
         return results;
     }
 
-    
-    
-    
     @Override
     public List<MDOAlbum> getAll( long authorSid, String username )
     {
@@ -120,6 +117,23 @@ public class DAOJPAAlbum
             return albums;
         }
         return null;
+    }
+
+    @Override
+    public void setAlbumCover( long resourceSid, long albumSid, long userSid )
+    {
+        Query query =
+            entityManager.createQuery( "UPDATE MDOArtwork a set a.cover = false WHERE a.owner.sid= :userSid AND a.album.sid= :albumSid" );
+        query.setParameter( "userSid", userSid );
+        query.setParameter( "albumSid", albumSid );
+        query.executeUpdate();
+
+        query =
+            entityManager.createQuery( "UPDATE MDOArtwork a set a.cover = true WHERE a.owner.sid= :userSid AND a.album.sid= :albumSid AND a.sid = :resourceSid" );
+        query.setParameter( "resourceSid", resourceSid );
+        query.setParameter( "albumSid", albumSid );
+        query.setParameter( "userSid", userSid );
+        query.executeUpdate();
     }
 
     @Override
@@ -189,7 +203,7 @@ public class DAOJPAAlbum
     }
 
     @Override
-    public void setNullGenre(MDOGenre genre )
+    public void setNullGenre( MDOGenre genre )
     {
         // ((a.owner.login = :userName) AND (
         Query query =
@@ -199,6 +213,19 @@ public class DAOJPAAlbum
         query.setParameter( "userSid", genre.getOwner().getSid() );
 
         query.executeUpdate();
+    }
+
+    @Override
+    public List<MDOAlbum> getAllOfGenre( long genreSid, String username )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) AND (a.genre.sid = :genreSid)  ORDER BY UPPER(a.genre.name), UPPER(a.name)" );
+        query.setParameter( "userName", username );
+        query.setParameter( "genreSid", genreSid );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbum> results = query.getResultList();
+        return results;
     }
 
 }

@@ -22,6 +22,28 @@
  * for the JavaScript code in this page.
  *
  */
+
+//This function obtain a random number for an existing album
+//its very interesting to obtain random numbers and random urls (preventing caching) (but only for album)
+var MESSIC_ALBUM_RANDOM_MAP = {};
+function UtilGetAlbumRandom(albumSid){
+	if(albumSid in MESSIC_ALBUM_RANDOM_MAP){
+		return MESSIC_ALBUM_RANDOM_MAP[albumSid];
+	}else{
+		MESSIC_ALBUM_RANDOM_MAP[albumSid]=UtilGetRandom(0,9999999999);
+	}
+}
+//reset the random number stablished at the function UtilGetAlbumRandom
+function UtilResetAlbumRandom(albumSid){
+	MESSIC_ALBUM_RANDOM_MAP[albumSid]=UtilGetRandom(0,9999999999);
+	// add a item
+	//map[key1] = value1;
+	// or remove it
+	//delete map[key1];
+	// or determine whether a key exists
+	//key1 in map;
+}
+
 function UtilGetRandom(min,max){
 	return Math.floor(Math.random()*(max-min+1)+min);
 }
@@ -89,7 +111,9 @@ function UtilHideWait(){
 }
 
 function UtilShowInfo(info){
-	UtilShowInfoDelay(info,2500);
+	var min_delay=2000;
+	var delay=min_delay + info.length*500;
+	UtilShowInfoDelay(info,delay);
 }
 /**
  * Show messages from messic. A set of phrases can be showed, once after other. Phrases must be separated by "||"

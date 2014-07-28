@@ -187,6 +187,26 @@
     margin-left: 40px;
 }
 
+
+.messic-main-randomlist-albumcover:hover .messic-main-randomlist-menu {
+    opacity: 1;
+}
+.messic-main-randomlist-menu {
+    background: none repeat scroll 0 0 white;
+    border: 2px solid #333333;
+    height: 10px;
+    margin-left: 83px;
+    margin-top: 15px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    transition: opacity 0.45s ease-in-out 0s;
+    width: 10px;
+    z-index: 3;
+    cursor:pointer;
+}
+
+
 .messic-main-randomlist-albumcover:hover .messic-main-randomlist-add{
     opacity: 1;
 }

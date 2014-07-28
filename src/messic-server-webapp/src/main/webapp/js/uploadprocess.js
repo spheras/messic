@@ -100,6 +100,8 @@ var UploadAlbumProcess=function (album){
 	}
 
 	this.uploadAll=function(resources){
+		var up=new UploadPool();
+		
 		resourceRestToUpload=resourceRestToUpload+resources.length;
 		for(var i=0;i<resources.length;i++){
 			var code="<div class=\"messic-upload-finishbox-resource\"><div class=\"messic-upload-finishbox-resource-status\"></div><div class=\"messic-upload-finishbox-resource-filename\">"+UtilEscapeHTML(resources[i].file.name)+"</div><div class=\"messic-upload-finishbox-resource-progress\"><div class=\"messic-upload-finishbox-resource-progressbar\"></div></div></div>";
@@ -108,62 +110,61 @@ var UploadAlbumProcess=function (album){
 			domElement.find('.messic-upload-finishbox-content').append(resourceElement);
 
 			if(!resources[i].uploaded){
+				
+				var successFunction=function(resource,album,self){
+					var myfunction=function(){
+						resource.domElement.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-finished');
+						resource.domElement.find('.messic-upload-finishbox-resource-progressbar').width('100%');
+						resourceRestToUpload=resourceRestToUpload-1;
+						resource.uploaded=true;
+						if(resourceRestToUpload==0){
+							ending.call(self);
+						}
+					}
+					return myfunction;
+		        }(resources[i],this.album, this);
+					
+				var errorFunction=function(resource,album,self){
+					var myfunction=function(){
+						resource.domElement.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-failed');
+						resourceRestToUpload=resourceRestToUpload-1;
+						if(resourceRestToUpload==0){
+							ending();
+						}
+					}
+					return myfunction;
+		        }(resources[i],this.album, this);
 
-				//reading the file to show the image
-	    		var reader = new FileReader();
-				// Closure to capture the file information.
-				reader.onload = (function(resource,album, self) {
-		        	return function(e) {
-						    var bin = e.target.result;
-						     $.ajax({
-						        url: 'services/albums/'+album.code+"?fileName="+encodeURIComponent(resource.file.name),
-						        type: 'PUT',
-						        //Ajax success
-						        success: function(){
-									resource.domElement.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-finished');
-									resource.domElement.find('.messic-upload-finishbox-resource-progressbar').width('100%');
-									resourceRestToUpload=resourceRestToUpload-1;
-									resource.uploaded=true;
-									if(resourceRestToUpload==0){
-										ending.call(self);
-									}
-						        },
-						        error: function(){
-									resource.domElement.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-failed');
-									resourceRestToUpload=resourceRestToUpload-1;
-									if(resourceRestToUpload==0){
-										ending();
-									}
-						        },
-								xhr: function()
-								{
-									 var xhr = new window.XMLHttpRequest();
-									 //Upload progress
-									 xhr.upload.addEventListener("progress", function(evt){
-									   if (evt.lengthComputable) {
-									     var percentComplete = evt.loaded / evt.total;
-									     //Do something with upload progress
-									     //console.log(percentComplete);
+				var xhrFunction=function(resource,album,self){
+					var myfunction=function(){
+						 var xhr = new window.XMLHttpRequest();
+						 //Upload progress
+						 xhr.upload.addEventListener("progress", function(evt){
+						   if (evt.lengthComputable) {
+						     var percentComplete = evt.loaded / evt.total;
+						     //Do something with upload progress
+						     //console.log(percentComplete);
 
-											// calculate upload progress
-											resource.domElement.find('.messic-upload-finishbox-resource-progressbar').width((percentComplete*100)+'%');
-									   }
-									 }, false);
-									 return xhr;
-								},
-						        processData: false,
-						        data: bin
-						    });
-			        };
-			    })(resources[i],this.album, this);
-				// Read in the image file as a data URL.
-				reader.readAsArrayBuffer(resources[i].file);
+								// calculate upload progress
+								resource.domElement.find('.messic-upload-finishbox-resource-progressbar').width((percentComplete*100)+'%');
+						   }
+						 }, false);
+						 return xhr;
+					}
+					return myfunction;
+		        }(resources[i],this.album, this);
+
+				up.addUpload(this.album.code, resources[i].file, successFunction, errorFunction, xhrFunction);
+
 			}else{
 				resourceRestToUpload=resourceRestToUpload-1;
 				resourceElement.find('.messic-upload-finishbox-resource-progressbar').width('100%');
 				resourceElement.find('.messic-upload-finishbox-resource-status').addClass('messic-upload-finished');
 			}
 		}
+		//starting the pool upload
+		up.start();
+		
 	}
 
 	function ending(){
@@ -172,11 +173,11 @@ var UploadAlbumProcess=function (album){
 			type: 'POST',
 			success: function(){
 				domElement.find('.messic-upload-finishbox-cover').addClass("messic-upload-finishbox-ok");
-				UtilShowInfo("Album uploaded successfully!");
+				UtilShowInfo(messicLang.uploadSucesfull);
 			},
 			error: function(e){
 				domElement.find('.messic-upload-finishbox-cover').addClass("messic-upload-finishbox-fail");
-				UtilShowInfo("ERROR uploading album!");
+				UtilShowInfo(messicLang.uploadError);
 			},
 			processData: false,
 			data: JSON.stringify(this.albumData),

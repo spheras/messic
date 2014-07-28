@@ -59,6 +59,14 @@
 .messic-album-songs-body-songaction-play:active {
     background-position: -22px 1px;
 }
+.messic-album-songs-body-songaction-cover{
+    background: url("album/setcover.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 30px;
+    width: 30px;
+}
+.messic-album-songs-body-songaction-cover:hover{
+    background-position: -30px 0;
+}
 .messic-album-songs-body-songaction-show{
     background: url("album/show.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 30px;
@@ -72,6 +80,14 @@
 }
 .messic-album-songs-body-songaction-play {
     background: url("album/play.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 25px;
+    width: 27px;
+}
+.messic-album-songs-body-songaction-addtoplaylist:hover {
+    background-position: -27px 0;
+}
+.messic-album-songs-body-songaction-addtoplaylist {
+    background: url("album/addToPlaylist.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 25px;
     width: 27px;
 }
@@ -405,7 +421,7 @@
     right: 0px;
     margin-top: 12px;
     position: absolute;
-    width: 100px;
+    width: 138px;
     height: 30px;
 }
 .messic-album-songs-bodyfield.messic-album-songs-body-artworkaction {
@@ -529,7 +545,7 @@
     height: 20px;
     right: 0px;
     position: absolute;
-    width: 133px;
+    width: 168px;
 }
 
 #messic-album-songs-body .messic-album-songs-bodyrow-edit:hover .messic-album-songs-body-songaction{
@@ -594,6 +610,22 @@
 }
 #messic-album-menuoption-download:after {
     background: url("album/download.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 25px;
+    margin-left: 13px;
+    margin-top: 5px;
+    width: 29px;
+}
+
+#messic-album-menuoption-addplaylist:hover:after {
+    background-position: -29px 0;
+}
+#messic-album-menuoption-addplaylist:active:after {
+    margin-top: 8px;
+}
+#messic-album-menuoption-addplaylist:after {
+    background: url("album/addToPlaylist.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     content: "";
     display: block;
     height: 25px;
@@ -909,4 +941,131 @@
     top: 50%;
     width: 600px;
     z-index: 1000000;
+}
+
+
+.messic-musicinfo-tagwizard-albumtitle{
+    float: left;
+    text-align: right;
+    width: 61px;
+    color: #888888;
+    font-family: roboto-bold;
+    margin-bottom: -4px;
+    margin-top: 5px;
+}
+
+.messic-musicinfo-tagwizard-albumfield{
+    background: none repeat scroll 0 0 #fafafa;
+    border: 1px dashed #aaaaaa;
+    border-radius: 1px;
+    float: left;
+    margin-bottom: 10px;
+    margin-left: 4px;
+    max-height: 17px;
+    min-height: 18px;
+    overflow: hidden;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    text-indent: 7px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 198px;
+    word-break: keep-all;
+}
+
+.messic-musicinfo-tagwizard-albumcontainer {
+    background: none repeat scroll 0 0 #f4f4f4;
+    border-radius: 9px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    font-family: roboto;
+    font-size: 0.8em;
+    height: auto;
+    margin-bottom: 10px;
+    margin-left: -8px;
+    padding: 10px;
+    width: 427px;
+}
+.messic-musicinfo-tagwizard-albuminfo-head {
+    float: left;
+    margin-right: 10px;
+    width: 265px;
+}
+
+.messic-musicinfo-tagwizard-albuminfo-body {
+    float: left;
+    width: 152px;
+}
+.messic-musicinfo-tagwizard-albumsong-track {
+    float: left;
+    width: 10%;
+}
+.messic-musicinfo-tagwizard-albumsong-name {
+    float: left;
+    width: 90%;
+}
+
+.messic-musicinfo-tagwizard-albumfield.messic-musicinfo-tagwizard-albumfield-comments {
+    height: auto;
+    max-height: 200px;
+    overflow-x: auto;
+    overflow-y: scroll;
+    text-overflow: initial;
+    white-space: normal;
+    word-break: initial;
+}
+
+.messic-musicinfo-duckduckgoimages-imagecontainer > img:hover {
+    border: 4px solid #444444;
+}
+.messic-musicinfo-duckduckgoimages-imagecontainer > img {
+    border: 4px solid white;
+    border-radius: 5px;
+    float: left;
+    height: 100px;
+    margin: 3px;
+    padding: 0;
+    width: 100px;
+}
+.messic-musicinfo-duckduckgoimages-imagecontainer > div {
+    color: red;
+    font-family: amaranth;
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+}
+.messic-musicinfo-duckduckgoimages-overlay {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2147483647;
+}
+.messic-musicinfo-duckduckgoimages-overlay > img {
+    border: 5px solid white;
+    border-radius: 10px;
+    height: 400px;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -200px;
+    position: absolute;
+    top: 50%;
+    width: 400px;
+}
+
+.messic-musicinfo-duckduckgoimages-zoom {
+    background: url("album/zoom.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    height: 33px;
+    left: 50%;
+    margin-left: 165px;
+    margin-top: -178px;
+    position: absolute;
+    top: 50%;
+    width: 35px;
+}
+.messic-musicinfo-duckduckgoimages-zoom:hover {
+    background-position: -36px center;
 }

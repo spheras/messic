@@ -37,7 +37,7 @@
 
 		<dependency>
 			<groupId>org.messic</groupId>
-			<artifactId>messic-server-logics</artifactId>
+			<artifactId>messic-server-api</artifactId>
 		</dependency>
 
 		<dependency>

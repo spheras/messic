@@ -57,6 +57,30 @@ public class AuthorController
     @Autowired
     public DAOUser userDAO;
 
+    @ApiMethod( path = "/authors/{authorSid}", verb = ApiVerb.DELETE, description = "Remove an author (and all its content) with sid {authorSid}", produces = {} )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
+    @RequestMapping( value = "/{authorSid}", method = RequestMethod.DELETE )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    public void removeAuthor( @PathVariable
+                              @ApiParam( name = "authorSid", description = "Sid of the author to remove", paramType = ApiParamType.PATH, required = true )
+                              Long authorSid )
+        throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
+    {
+        User user = SecurityUtil.getCurrentUser();
+        try
+        {
+            authorAPI.remove( user, authorSid );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
     @ApiMethod( path = "/authors?filterName=xxxx&albumsInfo=true|false&songsInfo=true|false", verb = ApiVerb.GET, description = "Get all authors", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),

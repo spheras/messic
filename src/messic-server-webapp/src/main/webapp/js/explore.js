@@ -38,7 +38,7 @@ function initExplore(){
 				exploreByAuthor();
 				
 			})
-		}else{
+		}else if(type=="album"){
 			$(this).click(function(){
 				if(!$(this).hasClass("messic-explore-orderby-selected")){
 					$(".messic-explore-orderby-selected").removeClass("messic-explore-orderby-selected");
@@ -47,13 +47,86 @@ function initExplore(){
 				$(".messic-explore-values").empty();
 				exploreByAlbum();
 			})
+		}else if(type=="genre"){
+			$(this).click(function(){
+				if(!$(this).hasClass("messic-explore-orderby-selected")){
+					$(".messic-explore-orderby-selected").removeClass("messic-explore-orderby-selected");
+					$(this).addClass("messic-explore-orderby-selected");
+				}
+				$(".messic-explore-values").empty();
+				exploreByGenre();
+			})
+		}else if(type=="date"){
+			$(this).click(function(){
+				if(!$(this).hasClass("messic-explore-orderby-selected")){
+					$(".messic-explore-orderby-selected").removeClass("messic-explore-orderby-selected");
+					$(this).addClass("messic-explore-orderby-selected");
+				}
+				$(".messic-explore-values").empty();
+				exploreByDate();
+			})
 		}
 	});
 
 	exploreByAuthor();
 }
 
-//Fill the web page with the whole list of albums, ordered by name
+//Fill the web page with the whole list of albums, ordered by genre
+function exploreByGenre(){
+	$.getJSON( "services/genres",function( data ) {
+		$(".messic-explore-words").empty();
+		var lastChar="";
+		
+		for(var i=0;i<data.length;i++){
+			var genre=data[i];
+			if(genre){
+				var code="";
+				var firstword=genre.name.substring(0,1).toUpperCase();
+				var changedWord=false;
+				if(i==0 || lastChar!=firstword){
+					code=code+"<a name=\"messic-explore-word"+firstword+"\" class=\"messic-explore-anchor\"></a>";
+					lastChar=firstword;
+					changedWord=true;
+				}
+				code=code+"<div class=\"messic-explore-authortitle\" title=\""+genre.name+"\"><div class=\"messic-explore-authortitle-text\"\">"+genre.name+"</div>";
+				if(changedWord){
+					code=code+"<div class=\"messic-explore-albumstartword\">"+lastChar.toUpperCase()+"</div>";
+					
+					codewords="<a class=\"messic-explore-word\" href=\"#messic-explore-word"+lastChar.toUpperCase()+"\">"+lastChar.toUpperCase()+"</a>";
+					$(".messic-explore-words").append(codewords);
+				}
+
+				
+				$.ajax({
+					  url: "services/albums?filterGenreSid="+genre.sid,
+					  dataType: 'json',
+					  async: false,
+					  success: function(dataAlbums) {
+							for(var j=0;j<dataAlbums.length;j++){
+								
+								var album=dataAlbums[j];
+								code=code+"<div class=\"messic-explore-albumcontainer\" title=\""+album.name+"\">";
+				        		code=code+"    <div class=\"messic-explore-albumcover\">";
+				        		code=code+"        <div class=\"messic-explore-add\" onclick=\"addAlbum("+album.sid+")\"></div>";
+				        		code=code+"        <div class=\"messic-explore-vinyl-detail\" title=\"Edit Album\" onclick=\"exploreEditAlbum("+album.sid+")\">...</div>";
+								code=code+"        <img  src=\"services/albums/"+album.sid+"/cover?messic_token="+VAR_MessicToken+"&"+UtilGetAlbumRandom(album.sid)+"\" onclick=\"exploreEditAlbum("+album.sid+")\"></img>";
+				        		code=code+"        <div class=\"messic-explore-vinyl\"></div>";
+								code=code+"    </div>"
+								code=code+"    <div class=\"messic-explore-albumtitle\" title=\""+album.name+"\">"+album.name+"</div>";
+								code=code+"</div>";
+							}
+					  }
+				});
+				
+				code=code+"</div>";
+				$(".messic-explore-values").append(code);
+			}
+		}
+	});
+	
+}
+
+//Fill the web page with the whole list of albums, ordered by album
 function exploreByAlbum(){
 	$.getJSON( "services/albums?authorInfo=true&songsInfo=false",function( data ) {
 		
@@ -84,7 +157,7 @@ function exploreByAlbum(){
 	        		code=code+"    <div class=\"messic-explore-albumcover\">";
 	        		code=code+"        <div class=\"messic-explore-add\" onclick=\"addAlbum("+data[i].sid+")\"></div>";
 	        		code=code+"        <div class=\"messic-explore-vinyl-detail\" title=\"Edit Album\" onclick=\"exploreEditAlbum("+data[i].sid+")\">...</div>";
-					code=code+"        <img  src=\"services/albums/"+data[i].sid+"/cover?messic_token="+VAR_MessicToken+"\" onclick=\"exploreEditAlbum("+data[i].sid+")\"></img>";
+					code=code+"        <img  src=\"services/albums/"+data[i].sid+"/cover?messic_token="+VAR_MessicToken+"&"+UtilGetAlbumRandom(data[i].sid)+"\" onclick=\"exploreEditAlbum("+data[i].sid+")\"></img>";
 	        		code=code+"        <div class=\"messic-explore-vinyl\"></div>";
 					code=code+"    </div>"
 					code=code+"    <div class=\"messic-explore-albumtitle\" title=\""+data[i].name+"\">"+data[i].name+"</div>";
@@ -130,13 +203,13 @@ function exploreByAuthor(){
 			//we add some albums, just to debug and test
 			//var debugRandom=UtilGetRandom(1,5);
 			//for(var debug=0;debug<debugRandom;debug++){
-				for(var j=0;j<data[i].albums.length;j++){
+				for(var j=0;data[i].albums && j<data[i].albums.length;j++){
 					var album=data[i].albums[j];
 					code=code+"<div class=\"messic-explore-albumcontainer\" title=\""+album.name+"\">";
 	        		code=code+"    <div class=\"messic-explore-albumcover\">";
 	        		code=code+"        <div class=\"messic-explore-add\" onclick=\"addAlbum("+album.sid+")\"></div>";
 	        		code=code+"        <div class=\"messic-explore-vinyl-detail\" title=\"Edit Album\" onclick=\"exploreEditAlbum("+album.sid+")\">...</div>";
-					code=code+"        <img  src=\"services/albums/"+album.sid+"/cover?messic_token="+VAR_MessicToken+"\" onclick=\"exploreEditAlbum("+album.sid+")\"></img>";
+					code=code+"        <img  src=\"services/albums/"+album.sid+"/cover?messic_token="+VAR_MessicToken+"&"+UtilGetAlbumRandom(album.sid)+"\" onclick=\"exploreEditAlbum("+album.sid+")\"></img>";
 	        		code=code+"        <div class=\"messic-explore-vinyl\"></div>";
 					code=code+"    </div>"
 					code=code+"    <div class=\"messic-explore-albumtitle\" title=\""+album.name+"\">"+album.name+"</div>";

@@ -328,7 +328,12 @@
     white-space: nowrap;
     word-wrap: normal;
 }
-
+#messic-upload-wizard-authorname {
+    background: none repeat scroll 0 0 rgba(255, 0, 0, 0.15);
+}
+#messic-upload-wizard-albumtitle {
+    background: none repeat scroll 0 0 rgba(255, 0, 0, 0.15);
+}
 #messic-upload-content{
     background: #FF0000;
     clear:left;

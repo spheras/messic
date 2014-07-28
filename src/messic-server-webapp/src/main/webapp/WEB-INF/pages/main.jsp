@@ -21,7 +21,7 @@
 					<form id="messic-search-form">
 		    			<input type="text" id="messic-search-text" placeholder="<fmt:message key="main-search" bundle="${ message }"/>"></input>
 		    			<a href="#" id="messic-search-do"></a>
-		    			<a id="messic-main-logout">logout</a>
+		    			<a id="messic-main-logout"><fmt:message key="main-logout" bundle="${ message }"/></a>
 		    		</form>
             	</div>
 				<ul id="messic-menu">
@@ -46,8 +46,10 @@
 			<div id="messic-playlist-background">
 
 			<div id="messic-playlist-actions">
-		    	<div id="messic-playlist-action-clear" class="messic-playlist-action" onclick="clearPlaylist()"></div>
-		    	<div id="messic-playlist-action-fx" class="messic-playlist-action" onclick="showFx()"></div>
+		    	<div id="messic-playlist-action-clear" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-clear" bundle="${ message }"/>" onclick="clearPlaylist()"></div>
+		    	<div id="messic-playlist-action-fx" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-fx" bundle="${ message }"/>" onclick="showFx()"></div>
+		    	<div id="messic-playlist-action-download" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-download" bundle="${ message }"/>" onclick="downloadCurrentPlaylist()"></div>
+		    	<div id="messic-playlist-action-love" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-love" bundle="${ message }"/>" onclick="loveCurrentPlaylist()"></div>
 	    	</div>
 
 
