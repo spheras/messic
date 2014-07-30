@@ -397,19 +397,6 @@ p strong{
     z-index: 99999;
     text-shadow: 0px 1px 1px rgba(0,0,0,0.8);
     text-align: center;
-
-    animation-name: messic-smallinfo-fadeinout;
-    animation-duration:1.5s;
-    animation-iteration-count: 1;
-    animation-timing-function: linear;
-    animation-direction: normal;
-
-    -webkit-animation-name: messic-smallinfo-fadeinout;
-    -webkit-animation-duration:1.5s;
-    -webkit-animation-iteration-count: 1;
-    -webkit-animation-timing-function: linear;
-    -webkit-animation-direction: normal;
-    opacity: 0;    
 }
 
 @keyframes messic-smallinfo-fadeinout
@@ -675,10 +662,11 @@ p strong{
 	border-width: 150px;
 	height: auto;
 	min-height:500px;
-	margin: 50px auto 0;
+	margin: 50px 10% 0;
 	position: relative;
-	width: 920px;
+	width: auto;
     padding-bottom: 300px;
+
 }
 #messic-page-border:after{
     background: url("base/page-ribbon.png") no-repeat;
@@ -702,7 +690,14 @@ p strong{
     left: -109px;
     position: relative;
     top: -85px;
-    width: 1144px;
+    /* Firefox */
+	width: -moz-calc(100% + 225px);
+	/* WebKit */
+	width: -webkit-calc(100% + 225px);
+	/* Opera */
+	width: -o-calc(100% + 225px);
+	/* Standard */
+    width: calc(100% + 225px);
 }
 
 #messic-page-content h1{

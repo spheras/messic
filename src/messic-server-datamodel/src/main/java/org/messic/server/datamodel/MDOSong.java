@@ -32,6 +32,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.messic.server.Util;
@@ -52,12 +53,18 @@ public class MDOSong
     @Column( name = "TRACK", nullable = false )
     private Integer track;
 
+    @Column( name = "RATE", nullable = true )
+    private Integer rate;
+
     @OneToMany( cascade = { CascadeType.REMOVE } )
     private List<MDOGenericTAG> extraTags;
 
     @ManyToMany( targetEntity = MDOPlaylist.class, fetch = FetchType.LAZY )
     @JoinTable( name = "PLAYLIST_CONTENT", joinColumns = @JoinColumn( name = "PLAYLIST" ), inverseJoinColumns = @JoinColumn( name = "SONG" ) )
     private Set<MDOPlaylist> playlists;
+
+    @OneToOne( targetEntity = MDOSongStatistics.class, fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE } )
+    private MDOSongStatistics statistics;
 
     /**
      * Problem with inheritance and mappedby
@@ -134,6 +141,58 @@ public class MDOSong
         String resultExtension = Util.replaceIllegalFilenameCharacters( extension, illegalCharacterReplacement );
         result = result + "." + resultExtension;
         return result;
+    }
+
+    /**
+     * @return the rate
+     */
+    public Integer getRate()
+    {
+        if ( this.rate == null )
+        {
+            this.rate = 0;
+        }
+        return rate;
+    }
+
+    /**
+     * @param rate the rate to set
+     */
+    public void setRate( Integer rate )
+    {
+        this.rate = rate;
+    }
+
+    /**
+     * @return the extraTags
+     */
+    public List<MDOGenericTAG> getExtraTags()
+    {
+        return extraTags;
+    }
+
+    /**
+     * @param extraTags the extraTags to set
+     */
+    public void setExtraTags( List<MDOGenericTAG> extraTags )
+    {
+        this.extraTags = extraTags;
+    }
+
+    /**
+     * @return the statistics
+     */
+    public MDOSongStatistics getStatistics()
+    {
+        return statistics;
+    }
+
+    /**
+     * @param statistics the statistics to set
+     */
+    public void setStatistics( MDOSongStatistics statistics )
+    {
+        this.statistics = statistics;
     }
 
 }

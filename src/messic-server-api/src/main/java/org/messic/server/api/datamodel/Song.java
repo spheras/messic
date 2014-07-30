@@ -26,83 +26,127 @@ import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOSong;
 
 @XmlRootElement
-@ApiObject(name="Song", description="A song of an album")
-public class Song extends File{
-	@ApiObjectField(description="identificator of the song")
-	private long sid;
-	@ApiObjectField(description="track of the song")
-	private int track;
-	@ApiObjectField(description="name of the song")
-	private String name;
-	
-	
-	/**
-	 * Constructor
-	 * @param sid long sid of the song
-	 * @param track int track of the song
-	 * @param name {@link String} name of the song
-	 */
-	public Song(long sid, int track, String name){
-	    this.sid=sid;
-	    this.track=track;
-	    this.name=name;
-	}
-	/**
-	 * default constructor
-	 */
-	public Song(){
-		super();
-	}
-	
-	/**
-	 * copy constructor
-	 * @param mdosong {@link MDOSong}
-	 * @param album {@link Album} this is not an {@link MDOAlbum} to avoid cross references
-	 */
-	public Song(MDOSong mdosong, Album album){
-		setSid(mdosong.getSid());
-		setTrack(mdosong.getTrack());
-		setName(mdosong.getName());
-		setAlbum(album);
-		setFileName(mdosong.getLocation());
-	}
+@ApiObject( name = "Song", description = "A song of an album" )
+public class Song
+    extends File
+{
+    @ApiObjectField( description = "identificator of the song" )
+    private long sid;
 
-	/**
-	 * copy constructor
-	 * @param mdosong {@link MDOSong}
-	 */
-	public Song(MDOSong mdosong){
-	    if(mdosong!=null){
-	        setSid(mdosong.getSid());
-	        setTrack(mdosong.getTrack());
-	        setName(mdosong.getName());
-	        Album album=new Album(mdosong.getAlbum(),true,false,false);
-	        setAlbum(album);
-	        setFileName(mdosong.getLocation());
-	    }
-	}
+    @ApiObjectField( description = "track of the song" )
+    private int track;
 
-	public final long getSid() {
-		return sid;
-	}
+    @ApiObjectField( description = "name of the song" )
+    private String name;
 
-	public final void setSid(long sid) {
-		this.sid = sid;
-	}
+    @ApiObjectField( description = "rate of the song" )
+    private int rate;
 
-	public final int getTrack() {
-		return track;
-	}
+    /**
+     * Constructor
+     * 
+     * @param sid long sid of the song
+     * @param track int track of the song
+     * @param name {@link String} name of the song
+     * @param rate int rate of the song
+     */
+    public Song( long sid, int track, String name, int rate )
+    {
+        this.sid = sid;
+        this.track = track;
+        this.name = name;
+        this.rate = rate;
+    }
 
-	public final void setTrack(int track) {
-		this.track = track;
-	}
+    /**
+     * default constructor
+     */
+    public Song()
+    {
+        super();
+    }
 
-	public final String getName() {
-		return name;
-	}
+    /**
+     * copy constructor
+     * 
+     * @param mdosong {@link MDOSong}
+     * @param album {@link Album} this is not an {@link MDOAlbum} to avoid cross references
+     */
+    public Song( MDOSong mdosong, Album album )
+    {
+        setSid( mdosong.getSid() );
+        setTrack( mdosong.getTrack() );
+        setName( mdosong.getName() );
+        setAlbum( album );
+        setFileName( mdosong.getLocation() );
+        setRate( mdosong.getRate() );
+    }
 
-	public final void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * copy constructor
+     * 
+     * @param mdosong {@link MDOSong}
+     */
+    public Song( MDOSong mdosong, boolean includeAlbumInfo, boolean includeAuthorInfo )
+    {
+        if ( mdosong != null )
+        {
+            setSid( mdosong.getSid() );
+            setTrack( mdosong.getTrack() );
+            setName( mdosong.getName() );
+            if ( includeAlbumInfo )
+            {
+                Album album = new Album( mdosong.getAlbum(), includeAuthorInfo, false, false );
+                setAlbum( album );
+            }
+            setFileName( mdosong.getLocation() );
+            setRate( mdosong.getRate() );
+        }
+    }
+
+    public final long getSid()
+    {
+        return sid;
+    }
+
+    public final void setSid( long sid )
+    {
+        this.sid = sid;
+    }
+
+    public final int getTrack()
+    {
+        return track;
+    }
+
+    public final void setTrack( int track )
+    {
+        this.track = track;
+    }
+
+    public final String getName()
+    {
+        return name;
+    }
+
+    public final void setName( String name )
+    {
+        this.name = name;
+    }
+
+    /**
+     * @return the rate
+     */
+    public int getRate()
+    {
+        return rate;
+    }
+
+    /**
+     * @param rate the rate to set
+     */
+    public void setRate( int rate )
+    {
+        this.rate = rate;
+    }
 }

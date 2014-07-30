@@ -19,7 +19,9 @@
 package org.messic.server.api;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import org.messic.server.api.datamodel.RandomList;
 import org.messic.server.api.datamodel.User;
@@ -48,11 +50,20 @@ public class APIRandomLists
     {
         ArrayList<RandomList> result = new ArrayList<RandomList>();
 
+        long seed = System.nanoTime();
+        ArrayList<RandomListPlugin> lplugins = new ArrayList<RandomListPlugin>();
         for ( int i = 0; i < plugins.length; i++ )
         {
-            RandomListPlugin rlp = plugins[i];
+            lplugins.add( plugins[i] );
+        }
+
+        Collections.shuffle( lplugins, new Random( seed ) );
+
+        for ( int i = 0; i < lplugins.size() && i < 4; i++ )
+        {
+            RandomListPlugin rlp = lplugins.get( i );
             RandomList rl = rlp.getRandomList( user );
-            if ( rl != null )
+            if ( rl != null && rl.getSongs().size() > 0 )
             {
                 result.add( rl );
             }

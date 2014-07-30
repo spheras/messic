@@ -26,38 +26,37 @@ import org.messic.server.api.datamodel.RandomList;
 import org.messic.server.api.datamodel.Song;
 import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOAlbum;
-import org.messic.server.datamodel.MDOGenre;
 import org.messic.server.datamodel.MDOSong;
 import org.messic.server.datamodel.dao.DAOAlbum;
-import org.messic.server.datamodel.dao.DAOGenre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GenreRandomListPlugin
+public class DateRandomListPlugin
     implements RandomListPlugin
 {
-    @Autowired
-    private DAOGenre daoGenre;
-
     @Autowired
     private DAOAlbum daoAlbum;
 
     @Override
     public RandomList getRandomList( User user )
     {
-        List<MDOGenre> randomGenreList = daoGenre.getRandomGenre( user.getLogin(), 1 );
-        if ( randomGenreList != null && randomGenreList.size() > 0 )
+        //int year = Calendar.getInstance().get( Calendar.YEAR );
+        int fromYear = daoAlbum.findOldestAlbum( user.getLogin() ); // Util.randInt( 1920, year );
+        int toYear = fromYear + 10;// Util.randInt( fromYear, year );
+        List<MDOAlbum> albums = daoAlbum.findAlbumsBasedOnDate( user.getLogin(), fromYear, toYear );
+
+        if ( albums != null && albums.size() > 0 )
         {
-            List<MDOAlbum> albumList = daoAlbum.getAll( user.getLogin(), randomGenreList.get( 0 ) );
+            RandomList rl = new RandomList( "RandomListName-Date", "RandomListTitle-Date" );
+            rl.addDetail( fromYear + " - " + toYear );
 
-            RandomList rl = new RandomList( "RandomListName-Genre", "RandomListTitle-Genre" );
-            rl.addDetail( randomGenreList.get( 0 ).getName() );
-
-            for ( int i = 0; i < albumList.size() && i < MAX_ELEMENTS; i++ )
+            for ( int i = 0; i < albums.size() && rl.getSongs().size() < MAX_ELEMENTS; i++ )
             {
-                for ( MDOSong mdoSong : albumList.get( i ).getSongs() )
+                List<MDOSong> songs = albums.get( i ).getSongs();
+                for ( int j = 0; j < songs.size() && rl.getSongs().size() < MAX_ELEMENTS; j++ )
                 {
+                    MDOSong mdoSong = songs.get( j );
                     Song song = new Song( mdoSong, true, true );
                     rl.addSong( song );
                 }

@@ -119,7 +119,6 @@
     z-index: 3;
 }
 #messic-author-container {
-    width: 650px;
     float:left;
 }
 
@@ -127,7 +126,7 @@
     float: left;
     margin-top: 16px;
     min-height: 296px;
-    width: 364px;
+    max-width: 364px;
 }
 
 .messic-author-songs-bodyfield.messic-author-songs-body-songtrack {

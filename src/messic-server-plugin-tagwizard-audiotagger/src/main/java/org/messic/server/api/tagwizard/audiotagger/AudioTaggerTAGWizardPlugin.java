@@ -178,7 +178,7 @@ public class AudioTaggerTAGWizardPlugin
         AudioFileIO.write( f );
     }
 
-    public List<SongTags> getTags( Album album, File[] f )
+    public List<SongTags> getTags( Album album, File[] f, Song[] songsWizard )
     {
         // first, obtain the tags
         ArrayList<SongTags> tags = new ArrayList<SongTags>();
@@ -224,6 +224,7 @@ public class AudioTaggerTAGWizardPlugin
             if ( tag != null )
             {
                 SongTags ti = new SongTags();
+                ti.filename = f[i].getName();
                 String artist = tag.getFirst( FieldKey.ARTIST );
                 String composer = tag.getFirst( FieldKey.COMPOSER );
                 if ( artist.length() < composer.length() )
@@ -249,6 +250,33 @@ public class AudioTaggerTAGWizardPlugin
                 ti.track = tag.getFirst( FieldKey.TRACK );
                 ti.title = tag.getFirst( FieldKey.TITLE );
 
+                // trying to put the best track number (based on filename or based on mp3 tags)
+                int trackNumber = -1;
+                try
+                {
+                    trackNumber = Integer.valueOf( ti.track );
+                }
+                catch ( Exception e )
+                {
+                }
+                if ( songsWizard[i].track != trackNumber )
+                {
+                    if ( trackNumber <= 0 )
+                    {
+                        ti.track = "" + songsWizard[i].track;
+                    }
+                }
+
+                // trying to put the best song name (based on filename or based on mp3 tags)
+                if ( !songsWizard[i].name.equals( ti.title ) )
+                {
+                    if ( ti.title.trim().length() <= 0 )
+                    {
+                        ti.title = songsWizard[i].name;
+                    }
+                }
+
+                // finally adding to the tags list
                 tags.add( ti );
             }
             else
@@ -259,8 +287,9 @@ public class AudioTaggerTAGWizardPlugin
                 ti.tags.put( TAGInfo.YEAR, new TAGInfo( "" ) );
                 ti.tags.put( TAGInfo.COMMENT, new TAGInfo( "" ) );
                 ti.tags.put( TAGInfo.GENRE, new TAGInfo( "" ) );
-                ti.track = "0";
-                ti.title = "unkown";
+                ti.track = "" + songsWizard[i].track;
+                ti.title = songsWizard[i].name;
+                ti.filename = f[i].getName();
                 tags.add( ti );
             }
         }

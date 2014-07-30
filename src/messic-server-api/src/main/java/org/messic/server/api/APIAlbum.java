@@ -46,6 +46,7 @@ import org.messic.server.datamodel.MDOGenre;
 import org.messic.server.datamodel.MDOMessicSettings;
 import org.messic.server.datamodel.MDOOtherResource;
 import org.messic.server.datamodel.MDOSong;
+import org.messic.server.datamodel.MDOSongStatistics;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOAlbum;
 import org.messic.server.datamodel.dao.DAOAlbumResource;
@@ -55,6 +56,7 @@ import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOPhysicalResource;
 import org.messic.server.datamodel.dao.DAOPlaylist;
 import org.messic.server.datamodel.dao.DAOSong;
+import org.messic.server.datamodel.dao.DAOSongStatistics;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -78,6 +80,9 @@ public class APIAlbum
 
     @Autowired
     private DAOSong daoSong;
+
+    @Autowired
+    private DAOSongStatistics daoSongStatistics;
 
     @Autowired
     private DAOUser daoUser;
@@ -540,7 +545,13 @@ public class APIAlbum
 
                 if ( song.getSid() <= 0 )
                 {
+                    MDOSongStatistics ss = new MDOSongStatistics();
+                    ss.setTimesplayed( 0 );
+                    ss.setTimesstopped( 0 );
+                    daoSongStatistics.save( ss );
+
                     // new song
+                    mdoSong.setStatistics( ss );
                     mdoSong.setTrack( song.getTrack() );
                     mdoSong.setName( song.getName() );
                     String secureExtension = song.calculateSecureExtension( replacementChar );

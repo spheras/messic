@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 public class SongTags {
 	public byte[] coverArt;
+	public String filename;
 	public HashMap<String, TAGInfo> tags = new HashMap<String, TAGInfo>();
 	public String track="0";
 	

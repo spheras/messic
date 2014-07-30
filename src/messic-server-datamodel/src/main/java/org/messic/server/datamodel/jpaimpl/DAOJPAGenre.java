@@ -23,7 +23,6 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.messic.server.datamodel.MDOGenre;
-import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOGenre;
 import org.springframework.stereotype.Component;
 

@@ -84,12 +84,12 @@
     width: 27px;
 }
 .messic-album-songs-body-songaction-addtoplaylist:hover {
-    background-position: -27px 0;
+    background-position: -18px 0;
 }
 .messic-album-songs-body-songaction-addtoplaylist {
     background: url("album/addToPlaylist.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 25px;
-    width: 27px;
+    width: 18px;
 }
 #messic-album-cover {
 	display: block;
@@ -234,7 +234,7 @@
     clear: both;
     overflow: hidden;
     position: relative;
-    width: 600px;
+    max-width: 600px;
 }
 
 .messic-album-songs-headfield {
@@ -477,6 +477,36 @@
     width: 29px;
 }
 
+.messic-album-songs-bodyrow.messic-album-songs-bodyrow-rate0:before, .messic-album-songs-bodyrow.messic-album-songs-bodyrow-rate1:before {
+    background: url("playlist/vinyl-icons.png") repeat scroll 0px 0px rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    position: absolute;
+    height: 20px;
+    width: 21px;
+    margin-top: 5px;
+    cursor:pointer;
+}
+.messic-album-songs-bodyrow.messic-album-songs-bodyrow-rate2:before {
+    background: url("playlist/vinyl-icons.png") repeat scroll -21px 0px rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    position: absolute;
+    height: 20px;
+    width: 21px;
+    margin-top: 5px;
+    cursor:pointer;
+}
+.messic-album-songs-bodyrow.messic-album-songs-bodyrow-rate3:before {
+    background: url("playlist/vinyl-icons.png") repeat scroll -42px 0px rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    position: absolute;
+    height: 20px;
+    width: 21px;
+    margin-top: 5px;
+    cursor:pointer;
+}
 .messic-album-songs-bodyrow {
 	clear: left;
 	color: #333333;
@@ -619,19 +649,19 @@
 }
 
 #messic-album-menuoption-addplaylist:hover:after {
-    background-position: -29px 0;
-}
-#messic-album-menuoption-addplaylist:active:after {
-    margin-top: 8px;
+    background-position: -18px 0;
 }
 #messic-album-menuoption-addplaylist:after {
     background: url("album/addToPlaylist.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     content: "";
     display: block;
     height: 25px;
-    margin-left: 13px;
+    margin-left: 18px;
     margin-top: 5px;
-    width: 29px;
+    width: 18px;
+}
+#messic-album-menuoption-addplaylist:active:after {
+    margin-top: 8px;
 }
 
 
@@ -703,7 +733,8 @@
 #messic-album-container {
 	float: left;
 	overflow: hidden;
-	width: 650px;
+	width: 100%;
+	max-width: 620px;
 }
 
 #messic-album-plugincontainer {

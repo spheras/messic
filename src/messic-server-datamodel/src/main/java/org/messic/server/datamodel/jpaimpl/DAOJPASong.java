@@ -122,4 +122,37 @@ public class DAOJPASong
         }
         return result;
     }
+
+    @Override
+    public List<MDOSong> getAllOrderByMostPlayed( String username )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName) and (a.statistics.timesplayed>0) ORDER BY (a.statistics.timesplayed) DESC" );
+        query.setParameter( "userName", username );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOSong> results = query.getResultList();
+        return results;
+    }
+
+    @Override
+    public List<MDOSong> getAllOrderByLessPlayed( String username )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName) ORDER BY (a.statistics.timesplayed) ASC" );
+        query.setParameter( "userName", username );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOSong> results = query.getResultList();
+
+        query =
+            entityManager.createQuery( "from MDOSong as a where (a.statistics is null) AND (a.owner.login = :userName)" );
+        query.setParameter( "userName", username );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOSong> otherResults = query.getResultList();
+
+        otherResults.addAll( results );
+        return otherResults;
+    }
 }

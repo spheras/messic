@@ -59,10 +59,9 @@
 .messic-main-randomlist .viewport { 
     float: left;
     height: 155px;
-    margin-top: -75px;
     overflow: hidden;
     position: relative;
-    width: 1076px;
+    width: 100%;
 
 }
 .messic-main-randomlist .buttons:hover {
@@ -73,6 +72,15 @@
 .messic-main-randomlist .buttons:active {
     box-shadow: 0px 0px 10px rgba(20,100,255,1);
 } 
+
+.messic-main-randomlist .buttons.next {
+    margin-right: -39px;
+    margin-top: 30px;
+}
+.messic-main-randomlist .buttons.prev{
+	margin-left: -40px;
+    margin-top: 30px;
+}
 .messic-main-randomlist .buttons.prev:before {
     content: "\25C0";
     line-height: 50px;
@@ -175,7 +183,7 @@
 .messic-main-randomlist .messic-main-randomlist-vinyl{
     background: url("playlist/vinyl.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 85px;
-    margin-left: 25px;
+    margin-left: 33px;
     margin-top: -94px;
     position: relative;
     width: 85px;
@@ -183,29 +191,37 @@
     transition-property:margin-left;
     transition-duration:0.3s;
 }
-.messic-main-randomlist li:hover .messic-main-randomlist-vinyl{
-    margin-left: 40px;
+.messic-main-randomlist .messic-main-randomlist-vinyl.messic-main-randomlist-vinyl-ratetwo{
+	background: url("playlist/vinyl-red.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
+.messic-main-randomlist .messic-main-randomlist-vinyl.messic-main-randomlist-vinyl-ratethree{
+	background: url("playlist/vinyl-gold.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist li:hover .messic-main-randomlist-vinyl{
+    margin-left: 55px;
+}
+
 
 
 .messic-main-randomlist-albumcover:hover .messic-main-randomlist-menu {
     opacity: 1;
 }
+.messic-main-randomlist-menu:hover {
+    background: url("home/more.png") repeat scroll 24px 0 rgba(0, 0, 0, 0);
+}
 .messic-main-randomlist-menu {
-    background: none repeat scroll 0 0 white;
-    border: 2px solid #333333;
-    height: 10px;
-    margin-left: 83px;
-    margin-top: 15px;
+    background: url("home/more.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 24px;
+    margin-left: 77px;
+    margin-top: 9px;
     opacity: 0;
     position: absolute;
     top: 0;
     transition: opacity 0.45s ease-in-out 0s;
-    width: 10px;
+    width: 24px;
     z-index: 3;
-    cursor:pointer;
 }
-
 
 .messic-main-randomlist-albumcover:hover .messic-main-randomlist-add{
     opacity: 1;
@@ -268,12 +284,29 @@
     border-bottom-right-radius: 7px;
 }
 
+.messic-main-randomlist-viewportcontainer {
+    height: 100%;
+    margin-top: -75px;
+    overflow: hidden;
+    padding-left: 70px;
+    padding-right: 70px;
+}
+
 .messic-main-randomlist-title-container{
     height: 47px;
     left: 66px;
     position: relative;
     top: -79px;
-    width: 1036px;
+    overflow: hidden;
+    /* Firefox */
+	width: -moz-calc(100% - 52px);
+	/* WebKit */
+	width: -webkit-calc(100% - 52px);
+	/* Opera */
+	width: -o-calc(100% - 52px);
+	/* Standard */
+    width: calc(100% - 52px);
+    
 }
 .messic-main-randomlist-title-container:before{
     background: url("home/mark.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -349,4 +382,122 @@
     position: absolute;
     width: 36px;
     margin-top: 4px;
+}
+
+
+#messic-main-songoptions-overlay {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2147483647;
+}
+
+.messic-main-songoptions-bubble:before {
+    border-color: #666 transparent transparent #666;
+    border-image: none;
+    border-style: solid;
+    border-width: 10px;
+    content: "";
+    height: 0;
+    left: 32px;
+    position: absolute;
+    top: 44px;
+    width: 0;
+}
+.messic-main-songoptions-bubble:after {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #fff transparent transparent #fff;
+    border-image: none;
+    border-style: solid;
+    border-width: 8px;
+    content: "";
+    height: 0;
+    left: 35px;
+    position: absolute;
+    top: 41px;
+    width: 0;
+}
+.messic-main-songoptions-bubble {
+    background: none repeat scroll 0 0 white;
+    border: 4px solid #666;
+    border-radius: 10px;
+    height: 31px;
+    margin-left: -31px;
+    margin-top: -51px;
+    padding: 5px;
+    position: absolute;
+    width: 165px;
+}
+
+.messic-main-songoptions-addtoplaylist:hover {
+    background-position: -18px 0;
+}
+
+.messic-main-songoptions-addtoplaylist:after {
+    background: none repeat scroll 0 0 white;
+    border-right: 2px dotted #888888;
+    content: "";
+    display: block;
+    height: 24px;
+    margin-left: 31px;
+    pointer-events: none;
+    position: relative;
+    width: 5px;
+}
+.messic-main-songoptions-addtoplaylist {
+    background: url("album/addToPlaylist.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    float: left;
+    height: 24px;
+    margin-left: 8px;
+    margin-right: 30px;
+    margin-top: 4px;
+    width: 18px;
+}
+
+.messic-main-songoptions-rate-one {
+    background: url("album/rate.png") repeat scroll 0 -56px rgba(0, 0, 0, 0);
+    height: 28px;
+    width: 30px;
+    float: left;
+    cursor: pointer;
+}
+.messic-main-songoptions-rate-one:hover {
+    background: url("album/rate.png") repeat scroll 0px -28px rgba(0, 0, 0, 0);
+}
+.messic-main-songoptions-rate-one.messic-main-songoptions-rate-selected, .messic-main-songoptions-rate-one:active{
+    background: url("album/rate.png") repeat scroll 0px 0px rgba(0, 0, 0, 0);
+}
+.messic-main-songoptions-rate-two {
+    background: url("album/rate.png") repeat scroll -30px -56px rgba(0, 0, 0, 0);
+    height: 28px;
+    width: 30px;
+    float: left;
+    margin-right: 7px;
+    cursor: pointer;
+}
+.messic-main-songoptions-rate-two:hover {
+    background: url("album/rate.png") repeat scroll -30px -28px rgba(0, 0, 0, 0);
+}
+.messic-main-songoptions-rate-two.messic-main-songoptions-rate-selected, .messic-main-songoptions-rate-two:active {
+    background: url("album/rate.png") repeat scroll -30px 0px rgba(0, 0, 0, 0);
+}
+.messic-main-songoptions-rate-three {
+    background: url("album/rate.png") repeat scroll -60px -56px rgba(0, 0, 0, 0);
+    height: 28px;
+    width: 30px;
+    float: left;
+    cursor: pointer;
+}
+.messic-main-songoptions-rate-three:hover {
+    background: url("album/rate.png") repeat scroll -60px -28px rgba(0, 0, 0, 0);
+}
+.messic-main-songoptions-rate-three.messic-main-songoptions-rate-selected, .messic-main-songoptions-rate-three:active {
+    background: url("album/rate.png") repeat scroll -60px 0px rgba(0, 0, 0, 0);
 }

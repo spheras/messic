@@ -31,36 +31,45 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Component
-public class APISearch {
+public class APISearch
+{
     @Autowired
     private DAOSong daoSong;
+
     @Autowired
     private DAOAuthor daoAuthor;
-    
-	@Transactional
-    public RandomList search(String userName, String content){
-    	RandomList rl=new RandomList("RandomListName-Search","RandomListTitle-Search");
-		String[] details=content.split(" ");
-		for(int i=0;i<details.length;i++){
-			if(details[i].startsWith("\"")){
-				String contentDetail=details[i];
-				while(!contentDetail.endsWith("\"") && i<details.length){
-					i++;
-					contentDetail=contentDetail+" " +details[i];
-				}
-				rl.addDetail(contentDetail.substring(1, contentDetail.length()-1));
-			}else{
-				rl.addDetail(details[i]);
-			}
-		}
-		
-		List<MDOSong> songs=daoSong.genericFind(userName, rl.getDetails());
-		for (MDOSong mdoSong : songs) {
-			Song song=new Song(mdoSong);
-			rl.addSong(song);
-		}
-		
-		return rl;
-	}
+
+    @Transactional
+    public RandomList search( String userName, String content )
+    {
+        RandomList rl = new RandomList( "RandomListName-Search", "RandomListTitle-Search" );
+        String[] details = content.split( " " );
+        for ( int i = 0; i < details.length; i++ )
+        {
+            if ( details[i].startsWith( "\"" ) )
+            {
+                String contentDetail = details[i];
+                while ( !contentDetail.endsWith( "\"" ) && i < details.length )
+                {
+                    i++;
+                    contentDetail = contentDetail + " " + details[i];
+                }
+                rl.addDetail( contentDetail.substring( 1, contentDetail.length() - 1 ) );
+            }
+            else
+            {
+                rl.addDetail( details[i] );
+            }
+        }
+
+        List<MDOSong> songs = daoSong.genericFind( userName, rl.getDetails() );
+        for ( MDOSong mdoSong : songs )
+        {
+            Song song = new Song( mdoSong, true, true );
+            rl.addSong( song );
+        }
+
+        return rl;
+    }
 
 }

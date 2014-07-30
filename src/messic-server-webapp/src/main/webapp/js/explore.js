@@ -45,7 +45,7 @@ function initExplore(){
 					$(this).addClass("messic-explore-orderby-selected");
 				}
 				$(".messic-explore-values").empty();
-				exploreByAlbum();
+				exploreByAlbum(false);
 			})
 		}else if(type=="genre"){
 			$(this).click(function(){
@@ -63,13 +63,14 @@ function initExplore(){
 					$(this).addClass("messic-explore-orderby-selected");
 				}
 				$(".messic-explore-values").empty();
-				exploreByDate();
+				exploreByAlbum(true);
 			})
 		}
 	});
 
 	exploreByAuthor();
 }
+
 
 //Fill the web page with the whole list of albums, ordered by genre
 function exploreByGenre(){
@@ -113,6 +114,7 @@ function exploreByGenre(){
 				        		code=code+"        <div class=\"messic-explore-vinyl\"></div>";
 								code=code+"    </div>"
 								code=code+"    <div class=\"messic-explore-albumtitle\" title=\""+album.name+"\">"+album.name+"</div>";
+								code=code+"    <div class=\"messic-explore-albumauthortitle\" title=\""+album.author.name+"\">"+album.author.name+"</div>";
 								code=code+"</div>";
 							}
 					  }
@@ -122,13 +124,24 @@ function exploreByGenre(){
 				$(".messic-explore-values").append(code);
 			}
 		}
+		
+		$(".messic-explore-add").hover(function(){
+			$("#messic-playlist-background").addClass("interesting");
+		},function(){
+			$("#messic-playlist-background").removeClass("interesting");
+		});
+		
 	});
 	
 }
 
 //Fill the web page with the whole list of albums, ordered by album
-function exploreByAlbum(){
+function exploreByAlbum(orderByDate){
 	$.getJSON( "services/albums?authorInfo=true&songsInfo=false",function( data ) {
+		
+		if(orderByDate){
+			data.sort(function(a,b) { return parseFloat(a.year) - parseFloat(b.year) } );
+		}
 		
 		$(".messic-explore-words").empty();
 		
@@ -154,6 +167,13 @@ function exploreByAlbum(){
 			}
 			
 
+					if(orderByDate){
+						if(data[i].year){
+							code=code+"    <label class=\"messic-explore-date\">"+data[i].year+"</label>";
+						}else{
+							code=code+"    <label class=\"messic-explore-date\">???</label>";
+						}
+					}
 	        		code=code+"    <div class=\"messic-explore-albumcover\">";
 	        		code=code+"        <div class=\"messic-explore-add\" onclick=\"addAlbum("+data[i].sid+")\"></div>";
 	        		code=code+"        <div class=\"messic-explore-vinyl-detail\" title=\"Edit Album\" onclick=\"exploreEditAlbum("+data[i].sid+")\">...</div>";

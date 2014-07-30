@@ -70,6 +70,8 @@ function loginSucessfull(messic_token){
 $(document).ready(function() {	
 
 	
+	//alert("supported:"+UtilSupportsMedia("audio/mpeg","audio"))
+	
 	var loginWindow = $("#messic-login-window");
 	var loginShadow = $("#messic-login-shadow");
 

@@ -7,6 +7,7 @@
     padding-right: 27px;
     position: relative;
     pointer-events: none;
+    max-width: 300px;
 }
 
 .messic-user-settings-container {
@@ -33,7 +34,17 @@
     float: left;
     height: 100%;
     margin-top: -15px;
-    width: 620px;
+    
+    /* Firefox */
+	width: -moz-calc(100% - 190px);
+	/* WebKit */
+	width: -webkit-calc(100% - 190px);
+	/* Opera */
+	width: -o-calc(100% - 190px);
+	/* Standard */
+    width: calc(100% - 190px);
+    
+    
 }
 
 .messic-user-settings-menu-option-selected {
@@ -65,10 +76,19 @@
     color: #999999;
     float: left;
     font-family: Amaranth !important;
-    font-size: 2.5em;
+    font-size: 1.5em;
     margin-top: -47px;
     text-align: left;
-    width: 615px;
+    
+    /* Firefox */
+	width: -moz-calc(100% - 235px);
+	/* WebKit */
+	width: -webkit-calc(100% - 235px);
+	/* Opera */
+	width: -o-calc(100% - 235px);
+	/* Standard */
+    width: calc(100% - 235px);
+    
 }
 
 
@@ -159,7 +179,7 @@
 
 .messic-user-settings-buttons {
     float: left;
-    width: 630px;
+    width: calc(100% - 190px);
 }
 .messic-user-settings-buttons button.skull {
     float: right;

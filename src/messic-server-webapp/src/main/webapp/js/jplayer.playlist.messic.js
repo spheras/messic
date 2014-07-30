@@ -271,8 +271,16 @@
 
             //let's modify it for messic
             listItem += "  <div class=\"jplayer-playlist-vinyl-container\" data-albumSid=\""+media.albumSid+"\" data-songSid=\""+media.songSid+"\" >";
-			listItem += "    <div class=\"jplayer-playlist-vinyl jplayer-playlist-vinylHide\"></div>";
-			listItem += "    <div onclick=\"event.stopPropagation();playlistAddToPlaylist(["+media.songSid+"]);\" title=\""+messicLang.playlistAddToPlaylist+"\" class=\"jplayer-playlist-song-menu\"></div>";
+			listItem += "    <div class=\"jplayer-playlist-vinyl jplayer-playlist-vinylHide";
+			
+			if(media.songRate==2){
+        		listItem +=" jplayer-playlist-vinyl-ratetwo";
+			}else if(media.songRate>2){
+        		listItem +=" jplayer-playlist-vinyl-ratethree";
+			}
+			listItem +="\"></div>";
+			
+			listItem += "    <div onclick=\"event.stopPropagation();mainShowSongOptions("+media.songSid+",this,$(this).parent(),"+media.songRate+");\" title=\""+messicLang.playlistmoreoptions+"\" class=\"jplayer-playlist-song-menu\"></div>";
 			listItem += "    <a href=\"javascript:;\" class=\"jplayer-playlist-remove jp-playlist-item-remove\"></a>";
 			listItem += "    <div class=\"jplayer-playlist-vinylHand\"></div>";
 			listItem += "    <img class=\"jplayer-playlist-vinylbox\" src=\""+media.boxart+"\"></img>";
@@ -444,7 +452,14 @@
 			if(0 <= index && index < this.playlist.length) {
 				if(this.playlist.length) {
 					this.select(index);
+					
 					$(this.cssSelector.jPlayer).jPlayer("play");
+//					var sb=$(".jp-seek-bar");
+//					var self=this;
+//					$(this.cssSelector.jPlayer).bind($.jPlayer.event.playing, function(event) {
+//						$(self.cssSelector.jPlayer).unbind($.jPlayer.event.playing);
+//						sb.click();
+//					});
 				}
 			} else if(index === undefined) {
 				$(this.cssSelector.jPlayer).jPlayer("play");

@@ -2,28 +2,19 @@
 	clear:left;	
 }
 
-.messic-explore-words:before {
-    background: url("home/ribbon-blue.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-    content: "Index";
-    font-family: roboto-bold;
-    height: 77px;
-    left: -67px;
-    padding-top: 11px;
-    position: absolute;
-    text-indent: 56px;
-    top: 2px;
-    width: 142px;
-}
-
 .messic-explore-values:after {
     clear: both;
     content: "";
     display: block;
 }
-.messic-explore-orderbytitle{
-	float:left;
-	margin-top: -35px;
-	color: #999999;
+.messic-explore-orderbytitle {
+    color: #999999;
+    display: block;
+    float: left;
+    height: 27px;
+    margin-bottom: 0;
+    margin-top: -35px;
+    width: 100%;
 }
 
 .messic-explore-values ul {
@@ -50,7 +41,7 @@
     color: #333333;
     float: left;
     font-family: Amaranth;
-    font-size: 1.5em;
+    /* font-size: 1.5em; */
     margin-bottom: 33px;
     margin-right: 20px;
     padding-right: 20px;
@@ -173,24 +164,27 @@
     opacity: 1;
 }
 
+
+.messic-explore-orderby.messic-explore-orderby-selected {
+    background: linear-gradient(rgba(0, 200, 200, 0.43), rgba(0, 200, 200, 0.89)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px dotted rgba(0, 0, 0, 0.04);
+    box-shadow: 1px 1px 8px #00c8c8;
+    color: #ffffff;
+    font-weight: bold;
+    height: 24px;
+    text-decoration: underline;
+}
 .messic-explore-orderby {
     background: none repeat scroll 0 0 rgba(0, 200, 200, 0.12);
     border-radius: 5px;
-    color: #CCCCCC;
+    color: #cccccc;
     cursor: pointer;
+    display: block;
     float: left;
-    margin: -35px 3px 18px 13px;
+    height: 25px;
+    margin-right: 10px;
     padding: 0 10px;
 }
-
-.messic-explore-orderby-selected {
-    background: linear-gradient(rgba(0, 200, 200, 0.43), rgba(0, 200, 200, 0.89)) repeat scroll 0 0 rgba(0, 0, 0, 0);
-    border: 1px dotted rgba(0, 0, 0, 0.04);
-    box-shadow: 1px 1px 8px #00C8C8;
-    color: #FFFFFF;
-    font-weight: bold;
-    text-decoration: underline;
- }
 
 .messic-explore-word:hover {
     font-size: 1.8em;
@@ -213,15 +207,29 @@
     margin-right: 10px;
 }
 
+.messic-explore-words:before {
+    background: url("home/ribbon-blue.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "Index";
+    font-family: roboto-bold;
+    height: 77px;
+    left: -67px;
+    margin-top: -15px;
+    padding-top: 11px;
+    position: absolute;
+    text-indent: 56px;
+    width: 142px;
+}
 .messic-explore-words {
-    border: 6px dashed #EEEEEE;
+    border: 6px dashed #eeeeee;
     border-radius: 8px;
     clear: left;
-    color: #FFFFFF;
+    color: #ffffff;
     display: block;
+    float: left;
     height: 40px;
     margin-bottom: 53px;
     margin-left: 13px;
+    margin-top: 28px;
     padding: 2px 2px 2px 55px;
 }
 .messic-explore-list {

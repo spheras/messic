@@ -48,18 +48,19 @@ public class Playlist
         super();
     }
 
-    public Playlist( MDOPlaylist mdoplaylist, boolean copySongs)
+    public Playlist( MDOPlaylist mdoplaylist, boolean copySongs )
     {
         this.setSid( mdoplaylist.getSid() );
         this.setName( mdoplaylist.getName() );
-        if ( mdoplaylist.getSongs() != null && copySongs)
+        if ( mdoplaylist.getSongs() != null && copySongs )
         {
             Iterator<MDOSong> songs = mdoplaylist.getSongs().iterator();
             while ( songs.hasNext() )
             {
                 MDOSong mdosong = songs.next();
-                if(mdosong!=null){
-                    Song song = new Song( mdosong );
+                if ( mdosong != null )
+                {
+                    Song song = new Song( mdosong, true, true );
                     addSong( song );
                 }
             }

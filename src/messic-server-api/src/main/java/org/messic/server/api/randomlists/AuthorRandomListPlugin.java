@@ -53,14 +53,17 @@ public class AuthorRandomListPlugin
             while ( albumsit.hasNext() )
             {
                 MDOAlbum album = albumsit.next();
-                for ( MDOSong mdoSong : album.getSongs() )
+                List<MDOSong> songs = album.getSongs();
+                for ( int i = 0; i < songs.size() && rl.getSongs().size() < MAX_ELEMENTS; i++ )
                 {
-                    Song song = new Song( mdoSong );
+                    MDOSong mdoSong = songs.get( i );
+                    Song song = new Song( mdoSong, true, true );
                     rl.addSong( song );
                 }
             }
             long seed = System.nanoTime();
-            if(rl.getSongs()!=null){
+            if ( rl.getSongs() != null )
+            {
                 Collections.shuffle( rl.getSongs(), new Random( seed ) );
             }
             return rl;

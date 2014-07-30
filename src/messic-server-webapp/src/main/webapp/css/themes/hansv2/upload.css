@@ -148,6 +148,26 @@
     margin-right: 33px;
 }
 
+.messic-upload-wizard-pluginresult-warning:before {
+    background: url("upload/dialog_warning.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    float: left;
+    height: 48px;
+    position: relative;
+    transform: scale(0.8);
+    width: 48px;
+}
+.messic-upload-wizard-pluginresult-warning {
+    background: none repeat scroll 0 0 rgba(255, 255, 0, 0.21);
+    border: 2px solid #aaaa00;
+    border-radius: 16px;
+    color: rgb(60, 60, 0);
+    font-family: roboto;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
 
 #messic-upload-wizard-window {
     background: none repeat scroll 0 0 #FFFFFF;
@@ -335,7 +355,6 @@
     background: none repeat scroll 0 0 rgba(255, 0, 0, 0.15);
 }
 #messic-upload-content{
-    background: #FF0000;
     clear:left;
 }
 .messic-upload-container-border{
@@ -492,6 +511,12 @@
     padding: 8px 0px 8px 8px;
     margin-top: -12px;
     margin-left: -53px;
+}
+
+
+.messic-upload-song-content-header-realfilename {
+    color: #aaaaaa;
+    margin-left: 55px;
 }
 
 .messic-upload-song-content-header-filename,

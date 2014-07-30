@@ -117,7 +117,8 @@
 		<script src="js/vendor/kendoui/kendo.web.min.js"></script>
         <script src="js/vendor/jplayer/jquery.jplayer.min.js"></script>
         <script src="js/vendor/jquery.tinyscrollbar.min.js"></script>
-        <script src="js/vendor/jquery.tinycarousel.min.js"></script>
+        <!-- <script src="js/vendor/jquery.tinycarousel.min.js"></script> -->
+        <script src="js/vendor/jquery.tinycarousel.js"></script>
         <script src="js/jplayer.playlist.messic.js"></script>
         <script src="lang.do"></script>
         <script src="js/utils.js"></script>

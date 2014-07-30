@@ -288,6 +288,25 @@ function uploadValidate(){
 }
 
 
+/**
+ * Reorder songs based on the track number
+ */
+function uploadReorderSongs(){
+	var divs=$(".messic-upload-song-content-songs-filedelete");
+	
+	divs.sort(function(a,b) { 
+		return $(a).find(".messic-upload-song-content-header-tracknumber").val() - $(b).find(".messic-upload-song-content-header-tracknumber").val() 
+	});
+
+	divs.detach();
+	var content=$("#messic-upload-song-content-songs");
+	
+	for(var i=0;i<divs.length;i++){
+		content.append(divs[i]);
+	}
+	
+}
+
 /* Sends all the album information and songs to the server */
 function uploadSend(){
 	if(uploadValidate()){

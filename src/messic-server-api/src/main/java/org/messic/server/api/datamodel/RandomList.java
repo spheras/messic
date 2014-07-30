@@ -78,6 +78,9 @@ public class RandomList{
 	}
 
 	public List<Song> getSongs() {
+        if(this.songs==null){
+            this.songs=new ArrayList<Song>();
+        }
 		return songs;
 	}
 

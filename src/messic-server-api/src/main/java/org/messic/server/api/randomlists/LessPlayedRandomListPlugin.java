@@ -18,44 +18,47 @@
  */
 package org.messic.server.api.randomlists;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import org.messic.server.api.datamodel.RandomList;
 import org.messic.server.api.datamodel.Song;
 import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOSong;
+import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOSong;
+import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RandomRandomListPlugin
+public class LessPlayedRandomListPlugin
     implements RandomListPlugin
 {
     @Autowired
     private DAOSong daoSong;
 
+    @Autowired
+    private DAOUser daoUser;
+
     @Override
     public RandomList getRandomList( User user )
     {
-        // first list, getting all the songs shuffled
-        List<MDOSong> songs = daoSong.getAll( user.getLogin() );
-        if ( songs.size() > 0 )
+        MDOUser mdoUser = daoUser.getUserByLogin( user.getLogin() );
+        if ( !mdoUser.getAllowStatistics() )
         {
-            RandomList rl = new RandomList( "RandomListName-Random", "RandomListTitle-Random" );
-            long seed = System.nanoTime();
-            Collections.shuffle( songs, new Random( seed ) );
-
-            for ( int i = 0; i < songs.size() && i < MAX_ELEMENTS; i++ )
-            {
-                MDOSong mdoSong = songs.get( i );
-                    Song song = new Song( mdoSong, true, true );
-                    rl.addSong( song );
-            }
-            return rl;
+            return null;
         }
-        return null;
+        RandomList rl = new RandomList( "RandomListName-LessPlayed", "RandomListTitle-LessPlayed" );
+
+        List<MDOSong> songs = daoSong.getAllOrderByLessPlayed( user.getLogin() );
+        for ( int j = 0; j < songs.size() && rl.getSongs().size() < MAX_ELEMENTS; j++ )
+        {
+            MDOSong mdoSong = songs.get( j );
+            Song song = new Song( mdoSong, true, true );
+            rl.addSong( song );
+        }
+
+        return rl;
     }
+
 }

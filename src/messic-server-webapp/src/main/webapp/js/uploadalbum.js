@@ -268,6 +268,7 @@ var UploadAlbum=function(){
 					reader.readAsDataURL(f);
 		    	}else if(f.type.match('audio.*')){
 		    		code=code+'<li class="messic-upload-song-content-songs-filedelete">';
+			    	code=code+'  <div class="messic-upload-song-content-header-realfilename">'+f.name+'</div>';
 			    	code=code+'  <div class="messic-upload-song-content-header-track">';
 			    	code=code+'    <input type="number" value="" class="messic-upload-song-content-header-tracknumber"/>';
 			    	code=code+'  </div>';
@@ -370,6 +371,8 @@ var UploadAlbum=function(){
 		{
 			divContent.append(this.audioResources[i].domElement);
 		}
+		uploadReorderSongs();
+		
 		//adding image resources
 		for(var i=0;i<this.imageResources.length;i++)
 		{
@@ -432,7 +435,6 @@ var UploadAlbum=function(){
 
 		return false;
 	}
-
 
 
 	/* Wizard function to try to obtain information from the audio resources to upload */
@@ -609,15 +611,15 @@ var UploadAlbum=function(){
 			
 			newcode=newcode+"<div id=\"messic-upload-wizard-title\">"+messicLang.uploadWizardTitle2+"</div>";
 			newcode=newcode+"<div id=\"messic-upload-wizard-albuminfo-head\">";
-			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\">Author</div>";
+			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\">"+messicLang.uploadAuthorTitle+"</div>";
 			newcode=newcode+"<input type=\"text\" id=\"messic-upload-wizard-authorname\" class=\"messic-upload-wizard-albuminfofield\" value=\""+UtilEscapeHTML(data[0].albums[0].author.name)+"\"/>";
-			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\">Title</div>";
+			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\">"+messicLang.uploadAlbumTitle+"</div>";
 			newcode=newcode+"<input type=\"text\" id=\"messic-upload-wizard-albumtitle\" class=\"messic-upload-wizard-albuminfofield\" value=\""+UtilEscapeHTML(data[0].albums[0].name)+"\"/>";
-			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\" min=\"1900\" max=\"4000\">Year</div>";
+			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\" min=\"1900\" max=\"4000\">"+messicLang.uploadYearTitle+"</div>";
 			newcode=newcode+"<input type=\"number\" id=\"messic-upload-wizard-albumyear\" class=\"messic-upload-wizard-albuminfofield\" value=\""+UtilEscapeHTML(data[0].albums[0].year)+"\"/>";
-			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\">Genre</div>";
+			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\">"+messicLang.uploadGenreTitle+"</div>";
 			newcode=newcode+"<input type=\"text\" id=\"messic-upload-wizard-genre\" class=\"messic-upload-wizard-albuminfofield\" value=\""+UtilEscapeHTML(data[0].albums[0].genre.name)+"\"/>";
-			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\">Comments</div>";
+			newcode=newcode+"<div class=\"messic-upload-wizard-albumtitle\">"+messicLang.uploadCommentsTitle+"</div>";
 			newcode=newcode+"<textarea  maxlength=\"255\" type=\"text\" id=\"messic-upload-wizard-albumcomments\" class=\"messic-upload-wizard-albuminfofield\">"+UtilEscapeHTML(data[0].albums[0].comments)+"</textarea/>";
 			newcode=newcode+"</div>";
 			newcode=newcode+"<div id=\"messic-upload-wizard-albuminfo-body\" class=\"messic-upload-wizard-albuminfo-body-real\">";
@@ -626,14 +628,15 @@ var UploadAlbum=function(){
 			if(data[0].albums[0].songs){
 				for(var j=0;j<data[0].albums[0].songs.length;j++){
 					var song=data[0].albums[0].songs[j];
+					newcode=newcode+"<label>"+song.fileName+"</label>";
 					newcode=newcode+"<input type=\"number\" class=\"messic-upload-wizard-albumsong-track\" value=\""+song.track+"\"/>";
 					newcode=newcode+"<input type=\"text\" class=\"messic-upload-wizard-albumsong-name\" value=\""+song.name+"\"/>";
 				}
 			}
 			newcode=newcode+"</div>";
 			newcode=newcode+"<div id=\"messic-upload-wizard-albuminfo-actions\">";
-			newcode=newcode+"  <button id=\"messic-upload-wizard-ok\">Choose this</button>";
-			newcode=newcode+"  <button id=\"messic-upload-wizard-cancel\" onclick=\"$('#messic-upload-wizard-window').remove()\">Cancelar</button>";
+			newcode=newcode+"  <button id=\"messic-upload-wizard-ok\">"+messicLang.uploadWizardChooseThis+"</button>";
+			newcode=newcode+"  <button id=\"messic-upload-wizard-cancel\" onclick=\"$('#messic-upload-wizard-window').remove()\">"+messicLang.uploadWizardCancel+"</button>";
 			newcode=newcode+"</div>";
 
 			
@@ -660,23 +663,29 @@ var UploadAlbum=function(){
 	    		//trying to catch the songs tracks and names
 	    		var divtracks=$(".messic-upload-wizard-albuminfo-body-real .messic-upload-wizard-albumsong-track");
 	    		var divnames=$(".messic-upload-wizard-albuminfo-body-real .messic-upload-wizard-albumsong-name");
+	    		var divfilenames=$(".messic-upload-wizard-albuminfo-body-real label");
+	    		var divrealfilenames=$(".messic-upload-song-content-header-realfilename");
 	    		var divfilerows=$(".messic-upload-song-content-songs-filedelete");
 	    		for(var i=0;i<divtracks.length;i++){
 	    			var track=divtracks.eq(i).val();
 	    			var name=divnames.eq(i).val();
-	    			if(divfilerows.length>i){
-	    				var divfiletrack=divfilerows.eq(i).find(".messic-upload-song-content-header-tracknumber");
-	    				if(divfiletrack.length>0){
-	    					divfiletrack.val(track)
-	    				}
-	    				var divfilename=divfilerows.eq(i).find(".messic-upload-song-content-header-filename");
-	    				if(divfilename.length>0){
-	    					divfilename.val(name)
+	    			var filename=divfilenames.eq(i).text();
+	    			for(var j=0;j<divrealfilenames.length;j++){
+	    				if(divrealfilenames.eq(j).text()==filename){
+		    				var divfiletrack=divfilerows.eq(j).find(".messic-upload-song-content-header-tracknumber");
+		    				if(divfiletrack.length>0){
+		    					divfiletrack.val(track)
+		    				}
+		    				var divfilename=divfilerows.eq(j).find(".messic-upload-song-content-header-filename");
+		    				if(divfilename.length>0){
+		    					divfilename.val(name)
+		    				}
 	    				}
 	    			}
 	    		}
 	    		
 				$("#messic-upload-wizard-window").remove();
+				uploadReorderSongs();
 			});
 			
 			UtilHideWait();
@@ -707,7 +716,7 @@ var UploadAlbum=function(){
 							songs: []
 					}
 					
-					var bodychildren=$("#messic-upload-wizard-albuminfo-body").children();
+					var bodychildren=$("#messic-upload-wizard-albuminfo-body input");
 					for(var i=0;i<bodychildren.length;i=i+2){
 						var song={
 								track: bodychildren.eq(i).val(),
@@ -716,7 +725,7 @@ var UploadAlbum=function(){
 						albumHelpInfo.songs.push(song);
 					}
 					
-					UtilShowWait("Wait until loading info from " + pluginname);
+					UtilShowWait(messicLang.uploadWizardWaitProvider + " " + pluginname);
 
 					$.ajax({
 						url: "services/albums/"+albumCode+"/wizard?pluginName="+pluginname,  //Server script to process data
@@ -725,25 +734,32 @@ var UploadAlbum=function(){
 							UtilHideWait();
 							if(data[0].albums && data[0].albums.length>0){
 								var plugincode="<div id=\"messic-upload-wizard-plugin-content\">";
-								plugincode=plugincode+"  <div class=\"messic-upload-wizard-albuminfo-title\">Results from provider "+pluginname+"</div>";
+								plugincode=plugincode+"  <div class=\"messic-upload-wizard-albuminfo-title\">"+messicLang.uploadWizardResultsFromProvider + " " + pluginname+"</div>";
 								
 								var albums=data[0].albums;
 								for(var j=0;j<albums.length;j++){
 									plugincode=plugincode+"<div class=\"messic-upload-wizard-pluginresult\">";
 									plugincode=plugincode+"  <div class=\"messic-upload-wizard-albuminfo-actions\">";
-									plugincode=plugincode+"    <a class=\"messic-upload-wizard-albuminfo-action-select\" href=\"#\">Select</a>";
-									plugincode=plugincode+"    <a href=\"#\" onclick=\"$(this).parent().parent().remove(); if($('.messic-upload-wizard-pluginresult').length<=0){$('#messic-upload-wizard-plugins-content').empty();$('.messic-upload-wizard-menuitem-selected').removeClass('messic-upload-wizard-menuitem-selected');}\">Remove</a>";
+									plugincode=plugincode+"    <a class=\"messic-upload-wizard-albuminfo-action-select\" href=\"#\">"+messicLang.uploadWizardChooseThis+"</a>";
+									plugincode=plugincode+"    <a href=\"#\" onclick=\"$(this).parent().parent().remove(); if($('.messic-upload-wizard-pluginresult').length<=0){$('#messic-upload-wizard-plugins-content').empty();$('.messic-upload-wizard-menuitem-selected').removeClass('messic-upload-wizard-menuitem-selected');}\">"+messicLang.uploadWizardRemove+"</a>";
 									plugincode=plugincode+"  </div>";
+									
+									if((bodychildren.length/2)!=albums[j].songs.length){
+										plugincode=plugincode+"<div class=\"messic-upload-wizard-pluginresult-warning\">";
+										plugincode=plugincode+messicLang.uploadWizardPluginWarning;
+										plugincode=plugincode+"</div>";
+									}
+									
 									plugincode=plugincode+"  <div class=\"messic-upload-wizard-albuminfo-head\">";
-									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albumtitle\">Author</div>";
+									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albumtitle\">"+messicLang.uploadAuthorTitle+"</div>";
 									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albuminfofield messic-upload-wizard-albuminfofield-author\" title=\""+UtilEscapeHTML(albums[j].author.name)+"\">"+UtilEscapeHTML(albums[j].author.name)+"</div>";
-									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albumtitle\">Title</div>";
+									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albumtitle\">"+messicLang.uploadAlbumTitle+"</div>";
 									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albuminfofield messic-upload-wizard-albuminfofield-title\" title=\""+UtilEscapeHTML(albums[j].name)+"\">"+UtilEscapeHTML(albums[j].name)+"</div>";
-									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albumtitle\">Year</div>";
+									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albumtitle\">"+messicLang.uploadYearTitle+"</div>";
 									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albuminfofield messic-upload-wizard-albuminfofield-year\" title=\""+UtilEscapeHTML(albums[j].year)+"\">"+UtilEscapeHTML(albums[j].year)+"</div>";
-									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albumtitle\">Genre</div>";
+									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albumtitle\">"+messicLang.uploadGenreTitle+"</div>";
 									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albuminfofield messic-upload-wizard-albuminfofield-genre\" title=\""+UtilEscapeHTML(albums[j].genre.name)+"\">"+UtilEscapeHTML(albums[j].genre.name)+"</div>";
-									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albumtitle\">Comments</div>";
+									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albumtitle\">"+messicLang.uploadCommentsTitle+"</div>";
 									plugincode=plugincode+"    <div class=\"messic-upload-wizard-albuminfofield messic-upload-wizard-albuminfofield-comments\" title=\""+UtilEscapeHTML(albums[j].comments)+"\">"+UtilEscapeHTML(albums[j].comments)+"</div>";
 									plugincode=plugincode+"  </div>";
 									plugincode=plugincode+"  <div class=\"messic-upload-wizard-albuminfo-body\">";
@@ -779,26 +795,59 @@ var UploadAlbum=function(){
 									}
 						    		$("#messic-upload-album-comments").text(comments);
 
+						    		$("#messic-upload-wizard-authorname").val(divpluginresult.find(".messic-upload-wizard-albuminfofield-author").text());
+						    		$("#messic-upload-wizard-albumtitle").val(divpluginresult.find(".messic-upload-wizard-albuminfofield-title").text());
+						    		$("#messic-upload-wizard-albumyear").val(divpluginresult.find(".messic-upload-wizard-albuminfofield-year").text());
+						    		$("#messic-upload-wizard-genre").val(divpluginresult.find(".messic-upload-wizard-albuminfofield-genre").text());
+						    		$("#messic-upload-wizard-albumcomments").val(comments);
+						    		
 						    		//trying to catch the songs tracks and names
-						    		var divtracks=divpluginresult.find(".messic-upload-wizard-albumsong-track");
-						    		var divnames=divpluginresult.find(".messic-upload-wizard-albumsong-name");
-						    		var divfilerows=$(".messic-upload-song-content-songs-filedelete");
-						    		for(var i=0;i<divtracks.length;i++){
-						    			var track=divtracks.eq(i).text();
-						    			var name=divnames.eq(i).text();
-						    			if(divfilerows.length>i){
-						    				var divfiletrack=divfilerows.eq(i).find(".messic-upload-song-content-header-tracknumber");
-						    				if(divfiletrack.length>0){
-						    					divfiletrack.val(track)
-						    				}
-						    				var divfilename=divfilerows.eq(i).find(".messic-upload-song-content-header-filename");
-						    				if(divfilename.length>0){
-						    					divfilename.val(name)
+						    		var divtracksP=divpluginresult.find(".messic-upload-wizard-albumsong-track");
+						    		var divnamesP=divpluginresult.find(".messic-upload-wizard-albumsong-name");
+						    		var divtracksO=$("#messic-upload-wizard-albuminfo-body .messic-upload-wizard-albumsong-track");
+						    		var divnamesO=$("#messic-upload-wizard-albuminfo-body .messic-upload-wizard-albumsong-name");
+
+						    		var lastTrackNumber=divtracksP.eq(0).text();
+						    		var sameTrackNumber=0;
+						    		for(var i=1;i<divtracksP.length;i++){
+						    			var trackP=divtracksP.eq(i).text();
+						    			if(trackP==lastTrackNumber){
+						    				sameTrackNumber++;
+						    			}
+						    		}
+
+						    		for(var i=0;i<divtracksP.length;i++){
+						    			var trackP=divtracksP.eq(i).text();
+						    			var nameP=divnamesP.eq(i).text();
+						    			var founded=false;
+						    			
+						    			for(var j=0;j<divtracksO.length;j++){
+						    				var trackO=divtracksO.eq(j).val();
+						    				var nameO=divnamesO.eq(j).val();
+						    				//if it seems a valid track number
+						    				if(trackP>0 && (sameTrackNumber==0 || trackP!=lastTrackNumber)){
+							    				if(trackP==trackO){
+							    					founded=true;
+							    					divtracksO.eq(j).val(trackP);
+							    					divnamesO.eq(j).val(nameP);
+							    				}
+						    				}else{
+						    					if(nameP==nameO){
+						    						founded=true;
+						    						//divtracksO.eq(j).val(trackP);
+						    						divnamesO.eq(j).val(nameP);
+							    					break;
+						    					}else if(UtilStringComparator(nameP,nameO)>70){
+						    						founded=true;
+						    						//divtracksO.eq(j).val(trackP);
+						    						divnamesO.eq(j).val(nameP);
+							    					break;
+						    					}
 						    				}
 						    			}
 						    		}
 						    		
-						    		$("#messic-upload-wizard-window").remove();
+						    		$("#messic-upload-wizard-ok").click();
 								});
 
 								$("#messic-upload-wizard-plugins-content").empty();							
@@ -834,12 +883,12 @@ var UploadAlbum=function(){
 		for(var i=0;i<this.audioResources.length;i++){
 			var name=this.audioResources[i].getSongName();
 			if(!name || name.length==0){
-				UtilShowInfo("All tracks must have a name!");
+				UtilShowInfo(messicLang.uploadErrorTracksWithoutName);
 				return false;
 			}
 			var track=this.audioResources[i].getSongTrack();
 			if(!track || track.length==0){
-				UtilShowInfo("All songs must have a track number!");
+				UtilShowInfo(messicLang.uploadErrorTrackWithoutNumber);
 				return false;
 			}
 		}
@@ -856,7 +905,7 @@ var UploadAlbum=function(){
 			}
 
 			if(repetitions>1){
-				UtilShowInfo("Error!! song with name:'"+name + "' is repeated!");
+				UtilShowInfo(messicLang.uploadErrorNameRepeated+" '"+name + "'");
 				return false;
 			}
 		}

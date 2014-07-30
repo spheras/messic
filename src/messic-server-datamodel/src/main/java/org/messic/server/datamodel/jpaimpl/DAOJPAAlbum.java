@@ -189,6 +189,21 @@ public class DAOJPAAlbum
     }
 
     @Override
+    public List<MDOAlbum> findAlbumsBasedOnDate( String username, int fromYear, int toYear )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) AND (a.year >= :fromYear) AND (a.year <= :toYear) ORDER BY a.year" );
+        query.setParameter( "userName", username );
+        query.setParameter( "fromYear", fromYear );
+        query.setParameter( "toYear", toYear );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbum> results = query.getResultList();
+        return results;
+
+    }
+
+    @Override
     public List<MDOAlbum> findSimilarAlbums( long authorSid, String albumName, String username )
     {
         Query query =
@@ -226,6 +241,31 @@ public class DAOJPAAlbum
         @SuppressWarnings( "unchecked" )
         List<MDOAlbum> results = query.getResultList();
         return results;
+    }
+
+    @Override
+    public int findOldestAlbum( String username )
+    {
+        Query query =
+            entityManager.createQuery( "Select MIN(a.year) from MDOAlbum as a where (a.owner.login = :userName)" );
+        query.setParameter( "userName", username );
+
+        @SuppressWarnings( "rawtypes" )
+        List result = query.getResultList();
+        if ( result != null )
+        {
+            Object obj = result.get( 0 );
+            if ( obj != null )
+            {
+                int min = (Integer) result.get( 0 );
+                return min;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        return 0;
     }
 
 }

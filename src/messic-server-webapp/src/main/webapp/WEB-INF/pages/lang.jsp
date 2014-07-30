@@ -35,6 +35,20 @@ messicLang = {
 	uploadError: '<fmt:message key="js-upload-error" bundle="${message}"/>',
 	uploadSucesfull: '<fmt:message key="js-upload-sucesfull" bundle="${message}"/>',
 	uploadWizardAtLeast: '<fmt:message key="js-upload-wizard-atleast" bundle="${message}"/>',
+	uploadWizardWaitProvider: '<fmt:message key="js-upload-wizard-waitprovider" bundle="${message}"/>',
+	uploadAuthorTitle: '<fmt:message key="upload-author" bundle="${message}"/>',
+	uploadAlbumTitle: '<fmt:message key="upload-title" bundle="${message}"/>',
+	uploadYearTitle: '<fmt:message key="upload-year" bundle="${message}"/>',
+	uploadGenreTitle: '<fmt:message key="upload-genre" bundle="${message}"/>',
+	uploadCommentsTitle: '<fmt:message key="upload-comments" bundle="${message}"/>',
+	uploadWizardChooseThis: '<fmt:message key="js-upload-wizard-choosethis" bundle="${message}"/>',
+	uploadWizardCancel: '<fmt:message key="js-upload-wizard-cancel" bundle="${message}"/>',
+	uploadWizardResultsFromProvider: '<fmt:message key="js-upload-wizard-resultsfromprovider" bundle="${message}"/>',
+	uploadErrorTracksWithoutName: '<fmt:message key="js-upload-error-trackswithoutname" bundle="${message}"/>',
+	uploadErrorTrackWithoutNumber: '<fmt:message key="js-upload-error-trackwithoutnumber" bundle="${message}"/>',
+	uploadErrorNameRepeated: '<fmt:message key="js-upload-error-namerepeated" bundle="${message}"/>',
+	uploadWizardRemove: '<fmt:message key="js-upload-wizard-remove" bundle="${message}"/>',
+	uploadWizardPluginWarning: '<fmt:message key="js-upload-wizard-pluginwarning" bundle="${message}"/>',
 	
 	confirmationYes: '<fmt:message key="js-confirmation-yes" bundle="${message}"/>',
 	confirmationNo: '<fmt:message key="js-confirmation-no" bundle="${message}"/>',
@@ -136,7 +150,8 @@ messicLang = {
 	playlistSelectOneTitle: '<fmt:message key="js-playlist-selectone-title" bundle="${message}"/>',
 	playlistOrCreateTitle: '<fmt:message key="js-playlist-orcreate-title" bundle="${message}"/>',
 	playlistSelectNone: '<fmt:message key="js-playlist-selectnone-title" bundle="${message}"/>',
-	playlistAddToPlaylist: '<fmt:message key="js-playlist-addtoplaylist-title" bundle="${message}"/>',
+	playlistmoreoptions: '<fmt:message key="js-playlist-moreoptions-title" bundle="${message}"/>',
+	playlistAddToPlaylist: '<fmt:message key="album-addplaylist-title" bundle="${message}"/>',
 	
 	messicMessagesWelcome1:  '<fmt:message key="js-messic-messages-welcome1" bundle="${message}"/>',
 	messicMessagesWelcome1_1:  '<fmt:message key="js-messic-messages-welcome1_1" bundle="${message}"/>',
@@ -188,6 +203,24 @@ messicLang = {
 		}
 		if(what=='RandomListTitle-Search'){
 			return '<fmt:message key="js-randomlisttitle-search" bundle="${message}"/>';
+		}
+		if(what=='RandomListName-Date'){
+			return '<fmt:message key="js-randomlistname-date" bundle="${message}"/>';
+		}
+		if(what=='RandomListTitle-Date'){
+			return '<fmt:message key="js-randomlisttitle-date" bundle="${message}"/>';
+		}
+		if(what=='RandomListName-MostPlayed'){
+			return '<fmt:message key="js-randomlistname-mostplayed" bundle="${message}"/>';
+		}
+		if(what=='RandomListTitle-MostPlayed'){
+			return '<fmt:message key="js-randomlisttitle-mostplayed" bundle="${message}"/>';
+		}
+		if(what=='RandomListName-LessPlayed'){
+			return '<fmt:message key="js-randomlistname-lessplayed" bundle="${message}"/>';
+		}
+		if(what=='RandomListTitle-LessPlayed'){
+			return '<fmt:message key="js-randomlisttitle-lessplayed" bundle="${message}"/>';
 		}
 	}
 }

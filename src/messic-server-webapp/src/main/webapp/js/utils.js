@@ -112,7 +112,7 @@ function UtilHideWait(){
 
 function UtilShowInfo(info){
 	var min_delay=2000;
-	var delay=min_delay + info.length*500;
+	var delay=min_delay + info.length*100;
 	UtilShowInfoDelay(info,delay);
 }
 /**
@@ -179,7 +179,7 @@ function UtilShowInfoDelay(info, delay){
 	var code="<div class='messic-smallinfo'>"+info+"</div>";
 	$('body').append($(code));
 	setTimeout(function () {
-		$('.messic-smallinfo').remove();
+		$('.messic-smallinfo').fadeOut().remove();
 	}, delay);
 	//$('.messic-smallinfo').delay(delay).remove();
 }
@@ -306,4 +306,121 @@ function UtilLoadJSFile(src, callback) {
     };
     document.getElementsByTagName('head')[0].appendChild(s);
 	return s;
+}
+
+/**
+ * Function that compare two strings and return the % of similarity
+ * @param s string 
+ * @param t string
+ * @returns % of similarity
+ */
+function UtilStringComparator(s, t){
+	
+	var levenshtein=UtilLevDist(s,t);
+	var longest=s.length;
+	if(t.length>s.length){
+		longest=t.length;
+	}
+	return (1- levenshtein / longest) * 100;
+}
+
+/**
+ * http://stackoverflow.com/questions/11919065/sort-an-array-by-the-levenshtein-distance-with-best-performance-in-javascript
+ * http://www.merriampark.com/ld.htm, http://www.mgilleland.com/ld/ldjavascript.htm, Damerau–Levenshtein distance (Wikipedia)
+ * @param s string 
+ * @param t string
+ * @returns the distance between two strings
+ */
+function UtilLevDist(s, t) {
+    var d = []; //2d matrix
+
+    // Step 1
+    var n = s.length;
+    var m = t.length;
+
+    if (n == 0) return m;
+    if (m == 0) return n;
+
+    //Create an array of arrays in javascript (a descending loop is quicker)
+    for (var i = n; i >= 0; i--) d[i] = [];
+
+    // Step 2
+    for (var i = n; i >= 0; i--) d[i][0] = i;
+    for (var j = m; j >= 0; j--) d[0][j] = j;
+
+    // Step 3
+    for (var i = 1; i <= n; i++) {
+        var s_i = s.charAt(i - 1);
+
+        // Step 4
+        for (var j = 1; j <= m; j++) {
+
+            //Check the jagged ld total so far
+            if (i == j && d[i][j] > 4) return n;
+
+            var t_j = t.charAt(j - 1);
+            var cost = (s_i == t_j) ? 0 : 1; // Step 5
+
+            //Calculate the minimum
+            var mi = d[i - 1][j] + 1;
+            var b = d[i][j - 1] + 1;
+            var c = d[i - 1][j - 1] + cost;
+
+            if (b < mi) mi = b;
+            if (c < mi) mi = c;
+
+            d[i][j] = mi; // Step 6
+
+            //Damerau transposition
+            if (i > 1 && j > 1 && s_i == t.charAt(j - 2) && s.charAt(i - 2) == t_j) {
+                d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + cost);
+            }
+        }
+    }
+
+    // Step 7
+    return d[n][m];
+}
+
+/**
+ * Return the mime of a certain extension
+ * @param filetype, structure with mimetype and container
+ */
+function UtilGetMime(filetype){
+	var mimetype = '';
+	var media_container = 'video';
+	switch(filetype){
+		case 'mp4':
+			mimetype = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"';
+		break;
+		case 'ogg':
+			mimetype = 'video/ogg; codecs="theora, vorbis"';
+		break;
+		case 'webm':
+			mimetype = 'video/webm; codecs="vp8, vorbis"';
+		break;
+		case 'mp3':
+			mimetype = 'audio/mpeg';
+			media_container = 'audio';
+		break;
+	}
+	return {'mimetype':mimetype,'container':media_container};
+}
+
+/**
+ * Function to now if a certain mime is supported by the navigator.
+ * See this function in conjuntion with the UtilGetMime
+ * @param mimetype
+ * @param container
+ * @returns {Boolean}
+ */
+function UtilSupportsMedia (mimetype, container) {
+	var elem = document.createElement(container);
+	if(typeof elem.canPlayType == 'function'){
+		var playable = elem.canPlayType(mimetype);
+		if((playable.toLowerCase() == 'maybe')||(playable.toLowerCase() == 'probably')){
+			return true;
+		}
+	}
+	return false;
 }

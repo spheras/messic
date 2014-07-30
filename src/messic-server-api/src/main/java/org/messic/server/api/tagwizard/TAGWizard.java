@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.messic.server.api.APISong;
 import org.messic.server.api.configuration.MessicConfig;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Author;
@@ -52,6 +53,9 @@ public class TAGWizard
 
     @Autowired
     public MessicConfig messicConfig;
+
+    @Autowired
+    public APISong apiSong;
 
     /**
      * Obtain a tagwizard plugin with the name
@@ -177,7 +181,19 @@ public class TAGWizard
         throws IOException
     {
         AudioTaggerTAGWizardPlugin plugin = new AudioTaggerTAGWizardPlugin();
-        List<SongTags> tags = plugin.getTags( getServiceAlbum( albumHelpInfo ), f );
+
+        org.messic.server.api.tagwizard.service.Song[] ssongs =
+            new org.messic.server.api.tagwizard.service.Song[f.length];
+        for ( int i = 0; i < f.length; i++ )
+        {
+            Song sdiscovered = apiSong.getSongInfoFromFileName( f[i].getName() );
+            org.messic.server.api.tagwizard.service.Song sservice = new org.messic.server.api.tagwizard.service.Song();
+            sservice.track = sdiscovered.getTrack();
+            sservice.name = sdiscovered.getName();
+            ssongs[i] = sservice;
+        }
+
+        List<SongTags> tags = plugin.getTags( getServiceAlbum( albumHelpInfo ), f, ssongs );
         if ( tags == null )
         {
             tags = new ArrayList<SongTags>();
@@ -238,6 +254,7 @@ public class TAGWizard
             }
             song.setTrack( trackNumber );
             song.setName( tagInfo.title );
+            song.setFileName( tagInfo.filename );
             album.addSong( song );
         }
 
@@ -268,7 +285,7 @@ public class TAGWizard
                 }
             }
 
-            if ( genre != null && founded!=null)
+            if ( genre != null && founded != null )
             {
                 return new Genre( founded );
             }

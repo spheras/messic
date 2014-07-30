@@ -369,8 +369,8 @@ function albumSaveChangesDefinitely(albumSid,authorCreation){
 				}
 
 				//edit year of the album
-				var yeardiv=$("#messic-album-year-textedit").data("kendoNumericTextBox");
-				if(yeardiv){
+				var yeardiv=$("#messic-album-year-textedit");
+				if(yeardiv.length>0){
 					data.year=yeardiv.val();
 				}
 
@@ -516,7 +516,7 @@ function albumAddFiles(files) {
 }
 
 /* function to edit an existing song in the album */
-function albumEditSong(sid,track,name,authorName,albumName,divButton){
+function albumEditSong(sid,track,name,authorName,albumName,divButton, rate){
 	albumEditStatus();
 	var code = "<div>";
 	code = code + "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-songtrack\" value=\"" + track + "\" data-sid=\""+sid+"\">";
@@ -524,7 +524,7 @@ function albumEditSong(sid,track,name,authorName,albumName,divButton){
 	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-songaction\">";
 	code = code + "    <div title=\""+messicLang.albumSongDelete+"\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveSong('"+sid+"','"+track+"-"+UtilEscapeJS(name)+"',$(this).parent().parent())\"></div>";
 	code = code + "    <div title=\""+messicLang.albumSongPlay+"\" class=\"messic-album-songs-body-songaction-play\" onclick=\""+
-	"addSong('"+UtilEscapeJS(name)+"','"+UtilEscapeJS(authorName)+"','"+UtilEscapeJS(albumName)+"','"+UtilEscapeJS(name)+"')"+"\"></div>";
+	"addSong('"+UtilEscapeJS(name)+"','"+UtilEscapeJS(authorName)+"','"+UtilEscapeJS(albumName)+"','"+UtilEscapeJS(name)+"',"+rate+")"+"\"></div>";
 	code = code + "  </div>";
 	code = code + "  <div class=\"divclearer\"></div>";
 	code = code + "</div>";

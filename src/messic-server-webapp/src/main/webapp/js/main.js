@@ -63,6 +63,9 @@ function initMessic(){
             wmode: "window",
             errorAlerts: true,
       		swfPath: "js/vendor/jplayer",
+      		solution: 'html,flash',
+      		supplied: 'mp3',
+      		formats: ['mp3'],
         }
     );
 
@@ -271,7 +274,7 @@ function mainSearch(){
 		if(data){
 			var code=mainCreateRandomList(data);
 		    $("#messic-page-content").prepend($(code));
-			$(".messic-main-randomlist").tinycarousel({display:9,duration:800});
+			$(".messic-main-randomlist").tinycarousel({display:9,duration:800, infinite:false});
 
 			$(".messic-main-randomlist-add").hover(function(){
 				$("#messic-playlist-background").addClass("interesting");
@@ -347,6 +350,7 @@ function mainCreateRandomList(randomlist, lastTitleType){
 				}
 				code=code+"     </div>";
 				code=code+"  </div>";
+				code=code+"	 <div class=\"messic-main-randomlist-viewportcontainer\">";
 				code=code+"  <a class=\"buttons prev\" href=\"#\"></a>";
 				code=code+"  <div class=\"viewport\">";
 				code=code+"      <ul class=\"overview\">";
@@ -356,17 +360,24 @@ function mainCreateRandomList(randomlist, lastTitleType){
 							var song=randomlist.songs[j];
 							code=code+"<li>";
 		            		code=code+"    <div class=\"messic-main-randomlist-albumcover\" title=\""+UtilEscapeHTML(song.album.author.name)+"\n"+UtilEscapeHTML(song.album.name)+"\n"+UtilEscapeHTML(song.name)+"\" onclick=\"exploreEditAlbum('"+song.album.sid+"')\">";
-		            		code=code+"        <div class=\"messic-main-randomlist-menu\" title=\""+messicLang.playlistAddToPlaylist+"\" onclick=\"event.stopPropagation();playlistAddToPlaylist(["+song.sid+"]);\"></div>";
+		            		code=code+"        <div class=\"messic-main-randomlist-menu\" title=\""+messicLang.playlistmoreoptions+"\" onclick=\"event.stopPropagation();mainShowSongOptions("+song.sid+",this,$(this).parent(),"+song.rate+");\"></div>";
 		            		code=code+"        <div class=\"messic-main-randomlist-add\" onclick=\"if(event){event.stopPropagation();}addSong('raro',";
 
 		            		code=code+"'"+UtilEscapeJS(song.album.author.name)+"',";
 		            		code=code+song.album.sid+",";
 		            		code=code+"'"+UtilEscapeJS(song.album.name)+"',";
 		            		code=code+song.sid+",";
-		            		code=code+"'"+UtilEscapeJS(song.name)+"');\"></div>";
+		            		code=code+"'"+UtilEscapeJS(song.name)+"',";
+		            		code=code+song.rate+");\"></div>";
 
 							code=code+"        <img src=\"services/albums/"+song.album.sid+"/cover?messic_token="+VAR_MessicToken+"&"+UtilGetAlbumRandom(song.album.sid)+"\"></img>";
-		            		code=code+"        <div class=\"messic-main-randomlist-vinyl\"></div>";
+							if(!song.rate || song.rate<=1){
+			            		code=code+"        <div class=\"messic-main-randomlist-vinyl\"></div>";
+							}else if(song.rate==2){
+			            		code=code+"        <div class=\"messic-main-randomlist-vinyl messic-main-randomlist-vinyl-ratetwo\"></div>";
+							}else if(song.rate>=3){
+			            		code=code+"        <div class=\"messic-main-randomlist-vinyl messic-main-randomlist-vinyl-ratethree\"></div>";
+							}
 							code=code+"    </div>"
 							code=code+"    <div class=\"messic-main-randomlist-albumauthor\" title=\""+UtilEscapeHTML(song.album.author.name)+"\" onclick=\"showAuthorPage("+song.album.author.sid+")\">"+UtilEscapeHTML(song.album.author.name)+"</div>";
 							code=code+"    <div class=\"messic-main-randomlist-albumtitle\" title=\""+UtilEscapeHTML(song.name)+"\" onclick=\"exploreEditAlbum('"+song.album.sid+"')\">"+UtilEscapeHTML(song.name)+"</div>";
@@ -379,6 +390,7 @@ function mainCreateRandomList(randomlist, lastTitleType){
 				code=code+"      </ul>";
 				code=code+"  </div>";
 				code=code+"  <a class=\"buttons next\" href=\"#\"></a>";
+				code=code+"  </div>";
 				code=code+"</div>";
 				return code;
 }
@@ -395,7 +407,7 @@ function mainCreateRandomLists(){
 			    $("#messic-page-content").append($(code));
 			}
 
-			$(".messic-main-randomlist").tinycarousel({display:9,duration:800});
+			$(".messic-main-randomlist").tinycarousel({display:9,duration:800, infinite:false});
 
 			$(".messic-main-randomlist-add").hover(function(){
 				$("#messic-playlist-background").addClass("interesting");
@@ -421,7 +433,8 @@ function addAlbum(albumSid){
 					data.sid,
 					UtilEscapeHTML(data.name),
 					data.songs[z].sid,
-					UtilEscapeHTML(data.songs[z].name)
+					UtilEscapeHTML(data.songs[z].name),
+					data.songs[z].rate
 				   );
 		}
 		UtilShowInfo(data.songs.length + " " + messicLang.songsadded);
@@ -429,7 +442,7 @@ function addAlbum(albumSid){
 }
 
 //Add a song to the playlist of songs
-function addSong(titleA,authorName,albumSid,albumName,songSid,songName){
+function addSong(titleA,authorName,albumSid,albumName,songSid,songName, rate){
 		    playlist.add({
 		    	"albumSid":albumSid,
 		    	"songSid":songSid,
@@ -438,6 +451,7 @@ function addSong(titleA,authorName,albumSid,albumName,songSid,songName){
 		        author: authorName,
 		        album: albumName,
 		        song: songName,
+		        "songRate": rate,
 		        boxart: "services/albums/"+albumSid+"/cover?messic_token="+VAR_MessicToken
 			});
 			$("#messic-playlist").tinyscrollbar_update('bottom');
@@ -455,16 +469,22 @@ function playVinyl(index){
 	//first, remove the current player
 	oldli.removeClass("jplayer-playlist-li-expanding");
 	oldli.addClass("jplayer-playlist-li");
-	oldli.find(".jplayer-playlist-vinyl").attr("class","jplayer-playlist-vinyl jplayer-playlist-vinylHide");
-	oldli.find(".jplayer-playlist-vinylHand").attr("class","jplayer-playlist-vinylHand");
+	oldli.find(".jplayer-playlist-vinyl").removeClass("jplayer-playlist-vinylPlaying");
+	oldli.find(".jplayer-playlist-vinyl").addClass("jplayer-playlist-vinylHide");
+	oldli.find(".jplayer-playlist-vinylHand").removeClass("jplayer-playlist-vinylHandPlaying");
+	//oldli.find(".jplayer-playlist-vinyl").attr("class","jplayer-playlist-vinyl jplayer-playlist-vinylHide");
+	//oldli.find(".jplayer-playlist-vinylHand").attr("class","jplayer-playlist-vinylHand");
 
 	//last, add the new player
 	var vinyl=newli.find(".jplayer-playlist-vinyl");
 	var vinylHand=newli.find(".jplayer-playlist-vinylHand");
 	newli.removeClass("jplayer-playlist-li");
 	newli.addClass("jplayer-playlist-li-expanding");
-	vinyl.attr("class","jplayer-playlist-vinyl jplayer-playlist-vinylPlaying");
-	vinylHand.attr("class","jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying");
+	vinyl.removeClass("jplayer-playlist-vinylHide");
+	vinyl.addClass("jplayer-playlist-vinylPlaying");
+	vinylHand.addClass("jplayer-playlist-vinylHandPlaying");
+	//vinyl.attr("class","jplayer-playlist-vinyl jplayer-playlist-vinylPlaying");
+	//vinylHand.attr("class","jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying");
 
 	/*
 	this.parentNode.parentNode.className =\"jplayer-playlist-li-expanding\";
@@ -499,4 +519,141 @@ function loveCurrentPlaylist(){
 	});
 
 	playlistCreateNewPlaylist(songSids);
+}
+
+/**
+ * function to show more song options like add to playlist or rate it
+ * @param songSid sid of the song
+ * @param divCaller div calling this function, the bubble will be next to it
+ * @param songRate current rate of the song
+ */
+function mainShowSongOptions(songSid, divCaller, parentDiv, songRate){
+	var position = $(divCaller).offset();
+	position.top=position.top - $(window).scrollTop();
+	position.left=position.left - $(window).scrollLeft();
+	
+	var code="<div id=\"messic-main-songoptions-overlay\" onclick=\"$(this).fadeOut().remove();\">";
+	code=code+"  <div class=\"messic-main-songoptions-bubble\">";
+	code=code+"    <div class=\"messic-main-songoptions-addtoplaylist\" title=\""+messicLang.playlistAddToPlaylist+"\" onclick=\"playlistAddToPlaylist(["+songSid+"]);$(this).parent().parent().remove();\"></div>";
+	code=code+"    <div class=\"messic-main-songoptions-rate-container\">";
+	code=code+"      <div class=\"messic-main-songoptions-rate-one";
+		if(songRate && songRate>=1){
+			code=code+" messic-main-songoptions-rate-selected";
+		}
+		code=code+"\"></div>";
+	code=code+"      <div class=\"messic-main-songoptions-rate-two";
+		if(songRate && songRate>=2){
+			code=code+" messic-main-songoptions-rate-selected";
+		}
+		code=code+"\"></div>";
+	code=code+"      <div class=\"messic-main-songoptions-rate-three";
+		if(songRate && songRate>=3){
+			code=code+" messic-main-songoptions-rate-selected";
+		}
+		code=code+"\"></div>";
+	code=code+"    </div>";
+	code=code+"  </div>";
+	code=code+"</div>";
+	
+	$(code).hide().appendTo('body').fadeIn();
+	
+	$("#messic-main-songoptions-overlay .messic-main-songoptions-rate-one").click(function(){
+		mainSongRate(songSid,1,parentDiv);
+	});
+	$("#messic-main-songoptions-overlay .messic-main-songoptions-rate-two").click(function(){
+		mainSongRate(songSid,2,parentDiv);
+	});
+	$("#messic-main-songoptions-overlay .messic-main-songoptions-rate-three").click(function(){
+		mainSongRate(songSid,3,parentDiv);
+	});
+	
+	$(".messic-main-songoptions-bubble").css(position);
+}
+
+/**
+ * Rate a song
+ * @param songSid sid of the song to rate
+ * @param newRate new rate (1,2,3)
+ */
+function mainSongRate(songSid, newRate, parentDiv){
+	$.getJSON( "services/songs?filterSongSid="+songSid+"&albumInfo=false&authorInfo=false",function(data){
+		var song=data[0];
+		song.rate=newRate;
+		
+		$.ajax({
+			url: 'services/songs',  //Server script to process data
+			type: 'POST',
+			success: function(){
+				if(parentDiv){
+					var divs=$(parentDiv).find(".messic-main-randomlist-vinyl-ratetwo");
+					if(divs.length>0){
+						if(newRate!=2){
+							divs.removeClass("messic-main-randomlist-vinyl-ratetwo");
+							if(newRate>2){
+								divs.addClass("messic-main-randomlist-vinyl-ratethree");
+							}
+						}
+					}else{
+						divs=$(parentDiv).find(".messic-main-randomlist-vinyl-ratethree");
+						if(divs.length>0){
+							if(newRate!=3){
+								divs.removeClass("messic-main-randomlist-vinyl-ratethree");
+								if(newRate==2){
+									divs.addClass("messic-main-randomlist-vinyl-ratetwo");
+								}
+							}
+						}else{
+							divs=$(parentDiv).find(".jplayer-playlist-vinyl-ratetwo");
+							if(divs.length>0){
+								if(newRate!=2){
+									divs.removeClass("jplayer-playlist-vinyl-ratetwo");
+									if(newRate>2){
+										divs.addClass("jplayer-playlist-vinyl-ratethree");
+									}
+								}
+							}else{
+								divs=$(parentDiv).find(".jplayer-playlist-vinyl-ratethree");
+								if(divs.length>0){
+									if(newRate!=3){
+										divs.removeClass("jplayer-playlist-vinyl-ratethree");
+										if(newRate==2){
+											divs.addClass("jplayer-playlist-vinyl-ratetwo");
+										}
+									}
+								}else{
+									//	then it doesn't have any rate?
+									divs=$(parentDiv).find(".jplayer-playlist-vinyl");
+									if(divs.length>0){
+										if(newRate==2){
+											divs.addClass("jplayer-playlist-vinyl-ratetwo");
+										}else if(newRate>2){
+											divs.addClass("jplayer-playlist-vinyl-ratethree");
+										}
+										
+									}else{
+										divs=$(parentDiv).find(".messic-main-randomlist-vinyl");
+										if(divs.length>0){
+											if(newRate==2){
+												divs.addClass("messic-main-randomlist-vinyl-ratetwo");
+											}else if(newRate>2){
+												divs.addClass("messic-main-randomlist-vinyl-ratethree");
+											}
+										}										
+									}
+								}
+							}
+						}
+					}
+					
+				}
+			},
+			error: function(e){
+				UtilShowInfo(e);
+			},
+			processData: false,
+			data: JSON.stringify(song),
+			contentType: "application/json"
+		});
+
+	});	
 }

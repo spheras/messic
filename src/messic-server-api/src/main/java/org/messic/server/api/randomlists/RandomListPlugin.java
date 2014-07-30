@@ -24,6 +24,11 @@ import org.messic.server.api.datamodel.User;
 public interface RandomListPlugin
 {
     /**
+     * Max number of elements that should be at the list
+     */
+    public static int MAX_ELEMENTS = 40;
+
+    /**
      * Obtain the randomlist
      * 
      * @param user {@link User} user scope

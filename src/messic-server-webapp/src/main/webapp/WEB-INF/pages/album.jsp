@@ -67,13 +67,13 @@
 					</div>
 					<div id="messic-album-songs-body">
 						<c:forEach var="song" items="${album.songs}">
-							<div class="messic-album-songs-bodyrow">
+							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-rate${song.rate}">
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songtrack">${messic:escapeHTML(song.track)}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songname">${messic:escapeHTML(song.name)}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songaction">
 									<div title="<fmt:message key="album-addplaylist-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-addtoplaylist" onclick="albumAddSongToPlaylist('${messic:escapeAll(song.sid)}')"></div>
-									<div title="<fmt:message key="album-songplay-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-play" onclick="addSong('${messic:escapeAll(song.name)}','${messic:escapeAll(album.author.name)}','${messic:escapeAll(album.sid)}','${messic:escapeAll(album.name)}','${messic:escapeAll(song.sid)}','${messic:escapeAll(song.name)}')"></div>
-									<div title="<fmt:message key="album-songedit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditSong(${messic:escapeAll(song.sid)},'${messic:escapeAll(song.track)}','${messic:escapeAll(song.name)}','${messic:escapeAll(song.album.author.name)}','${messic:escapeAll(song.album.name)}',this)"></div>
+									<div title="<fmt:message key="album-songplay-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-play" onclick="addSong('${messic:escapeAll(song.name)}','${messic:escapeAll(album.author.name)}','${messic:escapeAll(album.sid)}','${messic:escapeAll(album.name)}','${messic:escapeAll(song.sid)}','${messic:escapeAll(song.name)}',${messic:escapeAll(song.rate)})"></div>
+									<div title="<fmt:message key="album-songedit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditSong(${messic:escapeAll(song.sid)},'${messic:escapeAll(song.track)}','${messic:escapeAll(song.name)}','${messic:escapeAll(song.album.author.name)}','${messic:escapeAll(song.album.name)}',this,${messic:escapeAll(song.rate)})"></div>
 									<div title="<fmt:message key="album-songdownload-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-download" onclick="albumDownloadSong(${messic:escapeAll(song.sid)})"></div>
 									<div title="<fmt:message key="album-songdelete-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveSong('${messic:escapeAll(song.sid)}','${messic:escapeAll(song.track)}-${messic:escapeAll(song.name)}',$(this).parent().parent())"></div>
 								</div>

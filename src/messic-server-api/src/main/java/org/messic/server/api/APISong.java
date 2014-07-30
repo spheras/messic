@@ -22,18 +22,30 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.FileUtils;
 import org.messic.server.Util;
 import org.messic.server.api.datamodel.Song;
 import org.messic.server.api.datamodel.User;
+import org.messic.server.api.exceptions.SidNotFoundMessicException;
+import org.messic.server.datamodel.MDOAlbum;
+import org.messic.server.datamodel.MDOAuthor;
+import org.messic.server.datamodel.MDOMessicSettings;
 import org.messic.server.datamodel.MDOSong;
+import org.messic.server.datamodel.MDOSongStatistics;
+import org.messic.server.datamodel.MDOUser;
+import org.messic.server.datamodel.dao.DAOAlbum;
 import org.messic.server.datamodel.dao.DAOAuthor;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOPlaylist;
 import org.messic.server.datamodel.dao.DAOSong;
+import org.messic.server.datamodel.dao.DAOSongStatistics;
+import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,10 +61,125 @@ public class APISong
     private DAOSong daoSong;
 
     @Autowired
+    private DAOSongStatistics daoSongStatistics;
+
+    @Autowired
+    private DAOUser daoUser;
+
+    @Autowired
     private DAOAuthor daoAuthor;
 
     @Autowired
+    private DAOAlbum daoAlbum;
+
+    @Autowired
     private DAOPlaylist daoPlaylist;
+
+    public List<Song> getSongsOfAuthor( User user, long authorSid, boolean includeAlbumInfo, boolean includeAuthorInfo )
+        throws SidNotFoundMessicException
+    {
+        MDOAuthor mdoauthor = daoAuthor.get( user.getLogin(), authorSid );
+        if ( mdoauthor != null )
+        {
+            List<Song> result = new ArrayList<Song>();
+            Set<MDOAlbum> albums = mdoauthor.getAlbums();
+            for ( MDOAlbum mdoalbum : albums )
+            {
+                List<MDOSong> songs = mdoalbum.getSongs();
+                for ( MDOSong mdoSong : songs )
+                {
+                    Song song = new Song( mdoSong, includeAlbumInfo, includeAuthorInfo );
+                    result.add( song );
+                }
+            }
+            return result;
+        }
+        else
+        {
+            throw new SidNotFoundMessicException();
+        }
+    }
+
+    public List<Song> getSongsOfAlbum( User user, long albumSid, boolean includeAlbumInfo, boolean includeAuthorInfo )
+        throws SidNotFoundMessicException
+    {
+        MDOAlbum mdoalbum = daoAlbum.getAlbum( albumSid, user.getLogin() );
+        if ( mdoalbum != null )
+        {
+            List<Song> result = new ArrayList<Song>();
+            List<MDOSong> songs = mdoalbum.getSongs();
+            for ( MDOSong mdoSong : songs )
+            {
+                Song song = new Song( mdoSong, includeAlbumInfo, includeAuthorInfo );
+                result.add( song );
+            }
+            return result;
+        }
+        else
+        {
+            throw new SidNotFoundMessicException();
+        }
+    }
+
+    @Transactional
+    public Song getSong( User user, long songSid, boolean includeAlbumInfo, boolean includeAuthorInfo )
+        throws SidNotFoundMessicException, IOException
+    {
+        MDOSong mdosong = daoSong.get( user.getLogin(), songSid );
+        if ( mdosong != null )
+        {
+            Song song = new Song( mdosong, includeAlbumInfo, includeAuthorInfo );
+            return song;
+        }
+        else
+        {
+            throw new SidNotFoundMessicException();
+        }
+    }
+
+    @Transactional
+    public void updateSong( User user, Song song )
+        throws SidNotFoundMessicException, IOException
+    {
+        MDOSong mdosong = daoSong.get( user.getLogin(), song.getSid() );
+        if ( mdosong != null )
+        {
+            String oldLocation = mdosong.calculateAbsolutePath( daoSettings.getSettings() );
+            boolean nameChanged = !song.getName().equals( mdosong.getName() );
+
+            try
+            {
+                if ( nameChanged )
+                {
+                    mdosong.setName( song.getName() );
+                }
+                mdosong.setRate( song.getRate() );
+                mdosong.setTrack( song.getTrack() );
+
+                daoSong.save( mdosong );
+            }
+            finally
+            {
+                if ( nameChanged )
+                {
+                    String newLocation = mdosong.calculateAbsolutePath( daoSettings.getSettings() );
+                    File fOld = new File( oldLocation );
+                    if ( fOld.exists() )
+                    {
+                        FileUtils.moveFile( fOld, new File( newLocation ) );
+                    }
+                    else
+                    {
+                        throw new IOException( "The song file doesn't exist!!" );
+                    }
+                }
+            }
+        }
+        else
+        {
+            throw new SidNotFoundMessicException();
+        }
+    }
 
     @Transactional
     public void getSongsZip( User user, List<Long> desiredSongs, OutputStream os )
@@ -96,25 +223,25 @@ public class APISong
         if ( song != null )
         {
 
-//            // we should remove manually all the playlist links
-//            Set<MDOPlaylist> playlists = song.getPlaylists();
-//            for ( MDOPlaylist mdoPlaylist : playlists )
-//            {
-//                List<MDOSong> psongs = mdoPlaylist.getSongs();
-//                for ( int i = 0; i < psongs.size(); i++ )
-//                {
-//                    MDOSong mdoSong2 = psongs.get( i );
-//                    if ( mdoSong2 != null )
-//                    {
-//                        if ( mdoSong2.getSid() == song.getSid() )
-//                        {
-//                            psongs.remove( i );
-//                            i = i - 1;
-//                        }
-//                    }
-//                }
-//                daoPlaylist.save( mdoPlaylist );
-//            }
+            // // we should remove manually all the playlist links
+            // Set<MDOPlaylist> playlists = song.getPlaylists();
+            // for ( MDOPlaylist mdoPlaylist : playlists )
+            // {
+            // List<MDOSong> psongs = mdoPlaylist.getSongs();
+            // for ( int i = 0; i < psongs.size(); i++ )
+            // {
+            // MDOSong mdoSong2 = psongs.get( i );
+            // if ( mdoSong2 != null )
+            // {
+            // if ( mdoSong2.getSid() == song.getSid() )
+            // {
+            // psongs.remove( i );
+            // i = i - 1;
+            // }
+            // }
+            // }
+            // daoPlaylist.save( mdoPlaylist );
+            // }
 
             // first, removing the song file
             String path = song.calculateAbsolutePath( daoSettings.getSettings() );
@@ -125,13 +252,30 @@ public class APISong
         }
     }
 
-    public byte[] getAudioSong( User mdouser, long sid )
+    @Transactional
+    public byte[] getAudioSong( User user, long sid )
         throws IOException
     {
-        MDOSong song = daoSong.get( mdouser.getLogin(), sid );
+        MDOUser mdouser = daoUser.getUserByLogin( user.getLogin() );
+
+       MDOSong song = daoSong.get( mdouser.getLogin(), sid );
         if ( song != null )
         {
-            String filePath = song.calculateAbsolutePath( daoSettings.getSettings() );
+            MDOMessicSettings settings=daoSettings.getSettings();
+            
+            if(mdouser.getAllowStatistics()){
+                MDOSongStatistics statistics=song.getStatistics();
+                if(statistics==null){
+                    statistics=new MDOSongStatistics();
+                    daoSongStatistics.save( statistics );
+                    statistics=daoSongStatistics.getStatistics( user.getLogin(), song.getSid() );
+                    song.setStatistics( statistics );
+                }
+                statistics.addTimePlayed();
+                daoSong.save( song );
+            }
+            
+            String filePath = song.calculateAbsolutePath( settings );
             File fsong = new File( filePath );
             if ( fsong.exists() )
             {
@@ -220,7 +364,7 @@ public class APISong
                             {
                                 trackName = trackName.substring( 0, wheredot );
                             }
-                            return new Song( 0, trackn, trackName.trim() );
+                            return new Song( 0, trackn, trackName.trim(), 0 );
                         }
                         catch ( Exception e )
                         {
@@ -264,7 +408,7 @@ public class APISong
                     {
                         trackName = trackName.substring( 0, wheredot );
                     }
-                    return new Song( 0, Integer.valueOf( trackn ), trackName.trim() );
+                    return new Song( 0, Integer.valueOf( trackn ), trackName.trim(), 0 );
                 }
             }
         }
@@ -275,7 +419,7 @@ public class APISong
         {
             trackName = trackName.substring( 0, wheredot );
         }
-        return new Song( -1, -1, trackName );
+        return new Song( -1, -1, trackName, 0 );
     }
 
 }

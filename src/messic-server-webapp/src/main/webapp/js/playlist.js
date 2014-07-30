@@ -91,7 +91,13 @@ function playlistShow(playlistSid, div){
 			            		code=code+song.sid+",";
 			            		code=code+"'"+UtilEscapeJS(song.name)+"');\"></div>";
 							code=code+"      <img src=\"services/albums/"+song.album.sid+"/cover?messic_token="+VAR_MessicToken+"&"+UtilGetAlbumRandom(song.album.sid)+"\"></img>";
-		            		code=code+"      <div class=\"messic-albumentity-vinyl\"></div>";
+							if(!song.rate || song.rate<=1){
+			            		code=code+"      <div class=\"messic-albumentity-vinyl\"></div>";
+							}else if(song.rate==2){
+			            		code=code+"      <div class=\"messic-albumentity-vinyl messic-albumentity-vinyl-ratetwo\"></div>";
+							}else if(song.rate>=3){
+			            		code=code+"      <div class=\"messic-albumentity-vinyl messic-albumentity-vinyl-ratethree\"></div>";
+							}
 							code=code+"  </div>"
 							code=code+"  <div class=\"messic-albumentity-albumauthor\" title=\""+UtilEscapeHTML(song.album.author.name)+"\" onclick=\"showAuthorPage("+song.album.author.sid+")\">"+UtilEscapeHTML(song.album.author.name)+"</div>";
 							code=code+"  <div class=\"messic-albumentity-albumtitle\" title=\""+UtilEscapeHTML(song.name)+"\" onclick=\"exploreEditAlbum('"+song.album.sid+"')\">"+UtilEscapeHTML(song.name)+"</div>";
