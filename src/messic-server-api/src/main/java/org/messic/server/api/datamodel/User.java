@@ -97,7 +97,7 @@ public class User
         mdouser.setEmail( getEmail() );
         mdouser.setLogin( getLogin() );
         mdouser.setName( getName() );
-        mdouser.setPassword( getPassword() );
+        //mdouser.setPassword( getPassword() ); we can't set the password, because it need to be hashed
         mdouser.setStorePath( getStorePath() );
 
         return mdouser;

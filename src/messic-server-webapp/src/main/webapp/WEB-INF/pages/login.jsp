@@ -137,6 +137,7 @@
         <script src="js/settings.js"></script>
         <script src="js/apidoc.js"></script>
         <script src="js/jquery.confirm.js"></script>
+        <script src="js/about.js"></script>
 
 		<%
 		boolean firstTime=(Boolean)request.getAttribute("firstTime");

@@ -25,7 +25,6 @@
 
 function initAPIDoc(div){
 		$.getJSON( "services/jsondoc", function( data ) {
-			$(div).empty();
 			var code="";
 			code=code+"<div class='messic-restapi'>";
 			code=code+"  <div class='messic-restapi-info'>";

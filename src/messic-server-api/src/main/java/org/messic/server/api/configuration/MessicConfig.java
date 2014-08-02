@@ -52,9 +52,10 @@ public class MessicConfig
         {
             try
             {
-                FileInputStream fis = new FileInputStream( f );
-                String port = new String( Util.readInputStream( fis ) );
-                return port;
+                Properties pcurrentport = new Properties();
+                pcurrentport.load( new FileInputStream( f ) );
+                String currentPort = pcurrentport.getProperty( "currentPort" );
+                return currentPort;
             }
             catch ( Exception e )
             {
@@ -65,6 +66,43 @@ public class MessicConfig
         else
         {
             return "";
+        }
+    }
+
+    public static boolean isSecured()
+    {
+        File f = new File( "./currentport" );
+        if ( f.exists() )
+        {
+            Properties pcurrentport = new Properties();
+            try
+            {
+                pcurrentport.load( new FileInputStream( f ) );
+                String ssecured = pcurrentport.getProperty( "secured" );
+                try
+                {
+                    Boolean secured = Boolean.valueOf( ssecured );
+                    return secured;
+                }
+                catch ( Exception e )
+                {
+                    return false;
+                }
+            }
+            catch ( FileNotFoundException e1 )
+            {
+                e1.printStackTrace();
+                return false;
+            }
+            catch ( IOException e1 )
+            {
+                e1.printStackTrace();
+                return false;
+            }
+        }
+        else
+        {
+            return false;
         }
     }
 

@@ -61,7 +61,7 @@ public class MusicInfoDiscogsTagWizardPlugin
         {
             String url = (String) this.configuration.get( MessicPlugin.CONFIG_PROXY_URL );
             String port = (String) this.configuration.get( MessicPlugin.CONFIG_PROXY_PORT );
-            if ( url != null && port != null )
+            if ( url != null && port != null && url.length() > 0 && port.length() > 0 )
             {
                 SocketAddress addr = new InetSocketAddress( url, Integer.valueOf( port ) );
                 Proxy proxy = new Proxy( Proxy.Type.HTTP, addr );
@@ -231,7 +231,7 @@ public class MusicInfoDiscogsTagWizardPlugin
             album.author = authorName;
             album.name = albumName;
             return search( album );
-            
+
         }
         catch ( IOException e )
         {
@@ -249,9 +249,9 @@ public class MusicInfoDiscogsTagWizardPlugin
             Album album = new Album();
             album.author = authorName;
             album.name = albumName;
-            album.songs=new ArrayList<Song>();
-            Song song=new Song();
-            song.name=songName;
+            album.songs = new ArrayList<Song>();
+            Song song = new Song();
+            song.name = songName;
             album.songs.add( song );
             return search( album );
         }

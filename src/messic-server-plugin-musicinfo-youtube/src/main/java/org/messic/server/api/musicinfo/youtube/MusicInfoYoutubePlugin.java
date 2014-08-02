@@ -61,7 +61,7 @@ public class MusicInfoYoutubePlugin
         {
             String url = (String) this.configuration.get( MessicPlugin.CONFIG_PROXY_URL );
             String port = (String) this.configuration.get( MessicPlugin.CONFIG_PROXY_PORT );
-            if ( url != null && port != null )
+            if ( url != null && port != null && url.length() > 0 && port.length() > 0 )
             {
                 SocketAddress addr = new InetSocketAddress( url, Integer.valueOf( port ) );
                 Proxy proxy = new Proxy( Proxy.Type.HTTP, addr );

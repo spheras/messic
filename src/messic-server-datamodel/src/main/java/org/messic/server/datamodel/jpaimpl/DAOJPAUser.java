@@ -129,7 +129,7 @@ public class DAOJPAUser
 
     @Override
     @Transactional
-    public MDOUser saveUser( MDOUser user, boolean updatePassword )
+    public MDOUser saveUser( MDOUser user, boolean updatePassword, String newPassword )
     {
         // just to check if the password have changed, because we only save the hash of the password, not the password
         // itself
@@ -139,13 +139,13 @@ public class DAOJPAUser
             if ( updatePassword )
             {
                 // hashing the password
-                user.setPassword( getHashPassword( user.getPassword() ) );
+                user.setPassword( getHashPassword( newPassword ) );
             }
         }
         else
         {
             // hashing the password
-            user.setPassword( getHashPassword( user.getPassword() ) );
+            user.setPassword( getHashPassword( newPassword ) );
         }
 
         this.save( user );

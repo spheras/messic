@@ -97,4 +97,10 @@ public class CustomUsernamePasswordAuthenticationFilter
         return MessicConfig.getCurrentPort();
     }
 
+    @Override
+    public boolean isSecured()
+    {
+        return MessicConfig.isSecured();
+    }
+
 }

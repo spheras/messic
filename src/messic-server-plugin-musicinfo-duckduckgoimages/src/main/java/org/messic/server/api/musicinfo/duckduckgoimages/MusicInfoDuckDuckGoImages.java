@@ -61,7 +61,7 @@ public class MusicInfoDuckDuckGoImages
         {
             String url = (String) this.configuration.get( MessicPlugin.CONFIG_PROXY_URL );
             String port = (String) this.configuration.get( MessicPlugin.CONFIG_PROXY_PORT );
-            if ( url != null && port != null )
+            if ( url != null && port != null && url.length() > 0 && port.length() > 0 )
             {
                 SocketAddress addr = new InetSocketAddress( url, Integer.valueOf( port ) );
                 Proxy proxy = new Proxy( Proxy.Type.HTTP, addr );
@@ -112,19 +112,26 @@ public class MusicInfoDuckDuckGoImages
         htmlCode = htmlCode + "       $('.messic-musicinfo-duckduckgoimages-overlay').remove();";
         htmlCode = htmlCode + "  }";
         htmlCode = htmlCode + "  function musicInfoDuckDuckGoImagesShow(url){";
-        htmlCode = htmlCode + "      var code= '<div class=\"messic-musicinfo-duckduckgoimages-overlay\" onclick=\"musicInfoDuckDuckGoImagesDestroy()\">';";
+        htmlCode =
+            htmlCode
+                + "      var code= '<div class=\"messic-musicinfo-duckduckgoimages-overlay\" onclick=\"musicInfoDuckDuckGoImagesDestroy()\">';";
         htmlCode = htmlCode + "      code=code+'  <image src=\"'+url+'\" />';";
-        htmlCode = htmlCode + "      code=code+'  <a class=\"messic-musicinfo-duckduckgoimages-zoom\" href=\"'+url+'\" target=\"_blank\"></a>';";
+        htmlCode =
+            htmlCode
+                + "      code=code+'  <a class=\"messic-musicinfo-duckduckgoimages-zoom\" href=\"'+url+'\" target=\"_blank\"></a>';";
         htmlCode = htmlCode + "      code=code+'</div>';";
         htmlCode = htmlCode + "      $(code).hide().appendTo('body').fadeIn();";
         htmlCode = htmlCode + "  }";
         htmlCode = htmlCode + "</script>";
 
         htmlCode = htmlCode + "<div class=\"messic-musicinfo-duckduckgoimages-imagecontainer\">";
-        htmlCode = htmlCode + "  <div>we &lt;3 <a href=\"http://www.duckduckgo.com\" target=\"_blank\">DuckDuckGo</a></div>";
+        htmlCode =
+            htmlCode + "  <div>we &lt;3 <a href=\"http://www.duckduckgo.com\" target=\"_blank\">DuckDuckGo</a></div>";
         for ( String urlimage : urlImages )
         {
-            htmlCode = htmlCode + " <img src=\"" + urlimage + "\" onclick=\"musicInfoDuckDuckGoImagesShow('"+urlimage+"')\"/>";
+            htmlCode =
+                htmlCode + " <img src=\"" + urlimage + "\" onclick=\"musicInfoDuckDuckGoImagesShow('" + urlimage
+                    + "')\"/>";
         }
         htmlCode = htmlCode + "</div>";
 

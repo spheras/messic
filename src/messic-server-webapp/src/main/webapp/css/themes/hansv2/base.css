@@ -462,6 +462,16 @@ p strong{
     transition-property:top;
     transition-duration:0.5s;
 }
+
+#messic-top:hover{
+    top:0px;
+}
+#messic-top.messic-top-opened{
+	top:0px;
+}
+#messic-top.messic-top-closed{
+	top:-52px;
+}
 #messic-top-background{
     background: linear-gradient(#8f8f8f, #696969) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-bottom: 16px solid #474747;
@@ -470,10 +480,14 @@ p strong{
     width: 100%;
 }
 
-#messic-top:hover{
-    top:0px;
+#messic-top-openmenu{
+    background: url("base/openmenu.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 43px;
+    left: 0;
+    position: absolute;
+    top: 68px;
+    width: 79px;
 }
-
 
 
 /* MESSIC MENU BUTTONS */
@@ -662,12 +676,19 @@ p strong{
 	border-width: 150px;
 	height: auto;
 	min-height:500px;
-	margin: 50px 10% 0;
+	margin: 50px 40px 0;
 	position: relative;
 	width: auto;
     padding-bottom: 300px;
 
 }
+
+@media screen and (min-width:1100px){
+	#messic-page-border{
+		margin: 50px 10% 0;
+	}
+}
+
 #messic-page-border:after{
     background: url("base/page-ribbon.png") no-repeat;
     width:191px;

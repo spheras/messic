@@ -61,8 +61,8 @@
 }
 .messic-album-songs-body-songaction-cover{
     background: url("album/setcover.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
-    height: 30px;
-    width: 30px;
+    height: 26px;
+    width: 26px;
 }
 .messic-album-songs-body-songaction-cover:hover{
     background-position: -30px 0;
@@ -296,6 +296,11 @@
     z-index: 1000000;
 }
 
+/* for those widgets without hover event */
+#messic-album-songs-body .messic-album-songs-bodyrow.messic-album-songs-bodyrow-selected .messic-album-songs-body-otheraction {
+	display: block;
+}
+
 #messic-album-songs-body .messic-album-songs-bodyrow:hover .messic-album-songs-body-otheraction{
 	display: block;
 }
@@ -414,9 +419,20 @@
 }
 
 
-#messic-album-songs-body .messic-album-songs-bodyrow-artwork-new:hover .messic-album-songs-body-artworkaction {
+#messic-album-songs-body .messic-album-songs-bodyrow-artwork-new .messic-album-songs-body-artworkaction {
     width: 70px;
 }
+
+
+/* for those widgets without hover event */
+#messic-album-songs-body .messic-album-songs-bodyrow.messic-album-songs-bodyrow-selected .messic-album-songs-body-artworkaction {
+    right: 0px;
+    margin-top: 12px;
+    position: absolute;
+    width: 138px;
+    height: 30px;
+}
+
 #messic-album-songs-body .messic-album-songs-bodyrow:hover .messic-album-songs-body-artworkaction {
     right: 0px;
     margin-top: 12px;
@@ -436,7 +452,9 @@
 }
 
 
-
+#messic-album-songs-body .messic-album-songs-bodyrow.messic-album-songs-bodyrow-selected {
+	background: none repeat scroll 0 0 #90F0E8;
+}
 #messic-album-songs-body .messic-album-songs-bodyrow:hover {
 	background: none repeat scroll 0 0 #90F0E8;
 }
@@ -566,11 +584,18 @@
     width: 392px;
 }
 
-#messic-album-songs-body .messic-album-songs-bodyrow.messic-album-songs-bodyrow.messic-album-songs-bodyrow-new:hover .messic-album-songs-body-songaction {
+#messic-album-songs-body .messic-album-songs-bodyrow.messic-album-songs-bodyrow.messic-album-songs-bodyrow-new .messic-album-songs-body-songaction {
     right: 0px;
     opacity: 1;
 }
 
+/* for those widgets without hover event */
+#messic-album-songs-body .messic-album-songs-bodyrow.messic-album-songs-bodyrow-selected .messic-album-songs-body-songaction {
+    height: 20px;
+    position: absolute;
+    right: 0;
+    width: 168px;
+}
 #messic-album-songs-body .messic-album-songs-bodyrow:hover .messic-album-songs-body-songaction {
     height: 20px;
     right: 0px;
@@ -578,6 +603,15 @@
     width: 168px;
 }
 
+
+/* for those widgets without hover event */
+#messic-album-songs-body .messic-album-songs-bodyrow.messic-album-songs-bodyrow-edit.messic-album-songs-bodyrow-selected .messic-album-songs-body-songaction {
+    height: 20px;
+    position: absolute;
+    right: 4px;
+    width: 63px;
+    padding-top: 3px;	
+}
 #messic-album-songs-body .messic-album-songs-bodyrow-edit:hover .messic-album-songs-body-songaction{
     height: 20px;
     position: absolute;

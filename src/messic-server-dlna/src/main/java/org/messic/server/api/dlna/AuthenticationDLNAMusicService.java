@@ -18,5 +18,11 @@ public interface AuthenticationDLNAMusicService
      * @return
      */
     String getCurrentPort();
+    
+    /**
+     * Check if messic is secured by https 
+     * @return
+     */
+    boolean isSecured();
 
 }

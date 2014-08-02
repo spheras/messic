@@ -203,9 +203,6 @@
 
 
 
-.messic-main-randomlist-albumcover:hover .messic-main-randomlist-menu {
-    opacity: 1;
-}
 .messic-main-randomlist-menu:hover {
     background: url("home/more.png") repeat scroll 24px 0 rgba(0, 0, 0, 0);
 }
@@ -215,7 +212,7 @@
     height: 24px;
     margin-left: 77px;
     margin-top: 9px;
-    opacity: 0;
+    opacity: 1; /* for those devices without hover event */
     position: absolute;
     top: 0;
     transition: opacity 0.45s ease-in-out 0s;

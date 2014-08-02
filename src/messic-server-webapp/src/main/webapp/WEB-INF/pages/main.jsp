@@ -17,6 +17,7 @@
 	        <div id="messic-decorator2"></div>
 
             <div id="messic-top">
+            	<div id="messic-top-openmenu" onclick="mainOpenTopMenu()"></div>
             	<div id="messic-top-background">
 					<form id="messic-search-form">
 		    			<input type="text" id="messic-search-text" placeholder="<fmt:message key="main-search" bundle="${ message }"/>"></input>
@@ -44,7 +45,9 @@
 
 
 			<div id="messic-playlist-background">
-
+			
+			<div id="messic-playlist-open" onclick="mainOpenPlaylistMenu()"></div>
+			
 			<div id="messic-playlist-actions">
 		    	<div id="messic-playlist-action-clear" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-clear" bundle="${ message }"/>" onclick="clearPlaylist()"></div>
 		    	<div id="messic-playlist-action-fx" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-fx" bundle="${ message }"/>" onclick="showFx()"></div>

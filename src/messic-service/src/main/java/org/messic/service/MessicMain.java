@@ -26,6 +26,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -57,6 +58,12 @@ public class MessicMain
         throws BundleException, InterruptedException, IOException
     {
 
+        File flagStarted = new File( "./conf/messicStarted" );
+        if ( flagStarted.exists() )
+        {
+            flagStarted.delete();
+        }
+
         AnimatedGifSplashScreen agss = null;
         System.out.println( "isHeadless?" + GraphicsEnvironment.isHeadless() );
         if ( !GraphicsEnvironment.isHeadless() )
@@ -86,6 +93,11 @@ public class MessicMain
         }
 
         System.out.println( END_LOG );
+
+        // just a file to know that it has been started
+        FileOutputStream fos = new FileOutputStream( flagStarted );
+        fos.write( END_LOG.getBytes() );
+        fos.close();
     }
 
     /**
@@ -231,9 +243,55 @@ public class MessicMain
         return installedBundles;
     }
 
+    private static void copyFile( File source, File dest )
+        throws IOException
+    {
+        FileChannel sourceChannel = null;
+        FileChannel destChannel = null;
+        try
+        {
+            sourceChannel = new FileInputStream( source ).getChannel();
+            destChannel = new FileOutputStream( dest ).getChannel();
+            destChannel.transferFrom( sourceChannel, 0, sourceChannel.size() );
+        }
+        finally
+        {
+            sourceChannel.close();
+            destChannel.close();
+        }
+    }
+
+    /**
+     * Set the jetty configuration
+     */
     private static void setJettyConfig()
     {
-        String messicPort = mc.getConfiguration().getProperty( "messic-port" );
+        boolean secureProtocol = mc.isMessicSecureProtocol();
+        String messicHttpPort = mc.getHttpPort();
+        String messicHttpsPort = mc.getHttpsPort();
+        String messicPort = ( secureProtocol ? messicHttpsPort : messicHttpPort );
+
+        try
+        {
+
+            if ( secureProtocol )
+            {
+                File ffrom = new File( "./jetty/etc/jetty-selector-ssl.xml" );
+                File fto = new File( "./jetty/etc/jetty-selector.xml" );
+                copyFile( ffrom, fto );
+            }
+            else
+            {
+                File ffrom = new File( "./jetty/etc/jetty-selector-normal.xml" );
+                File fto = new File( "./jetty/etc/jetty-selector.xml" );
+                copyFile( ffrom, fto );
+            }
+        }
+        catch ( IOException ioe )
+        {
+            ioe.printStackTrace();
+        }
+
         int port = 0;
         if ( messicPort != null )
         {
@@ -247,21 +305,26 @@ public class MessicMain
             }
             if ( port == 0 || !isPortAvailable( port ) )
             {
-                port = findValidPort();
+                port = findValidPort( secureProtocol );
             }
         }
         else
         {
-            port = findValidPort();
+            port = findValidPort( secureProtocol );
         }
 
-        System.setProperty( "jetty.port", "" + port );
+        System.setProperty( "messicTimeout", mc.getMessicTimeout() );
+        System.setProperty( "messicPort", "" + port );
+        System.setProperty( "messicSecurePort", "" + port );
         System.setProperty( "jetty.home", "./jetty" );
 
         try
         {
+            Properties pcurrentPort = new Properties();
+            pcurrentPort.put( "currentPort", "" + port );
+            pcurrentPort.put( "secured", "" + secureProtocol );
             FileOutputStream fos = new FileOutputStream( "./currentport" );
-            fos.write( ( "" + port ).getBytes() );
+            pcurrentPort.store( fos, "The last launched port of messic" );
             fos.close();
         }
         catch ( Exception e )
@@ -270,18 +333,35 @@ public class MessicMain
         }
     }
 
-    private static int findValidPort()
+    private static int findValidPort( boolean https )
     {
         if ( OSValidator.isWindows() )
         {
-            // lets try with port 80
-            if ( isPortAvailable( 80 ) )
+            if ( !https )
             {
-                return 80;
+                // lets try with port 80
+                if ( isPortAvailable( 80 ) )
+                {
+                    return 80;
+                }
+            }
+            else
+            {
+                // lets try with port 443
+                if ( isPortAvailable( 443 ) )
+                {
+                    return 443;
+                }
             }
         }
 
-        for ( int i = 8081; i < 9090; i++ )
+        int i = 8080;
+        if ( https )
+        {
+            i = 8543;
+        }
+
+        for ( ; i < 9090; i++ )
         {
             if ( isPortAvailable( i ) )
             {

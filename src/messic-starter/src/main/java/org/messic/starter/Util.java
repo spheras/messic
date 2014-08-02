@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,11 +14,20 @@ import java.net.NetworkInterface;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.security.MessageDigest;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 
-import com.mkyong.core.OSValidator;
+import javax.swing.JOptionPane;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
 
 import sun.tools.jps.JpsOut;
+
+import com.mkyong.core.OSValidator;
 
 public class Util
 {
@@ -25,7 +35,7 @@ public class Util
         throws Exception
     {
         String port = getCurrentPort();
-        return "http://" + getInternalIp() + ":" + port + "/messic";
+        return ( isSecured() ? "https" : "http" ) + "://" + getInternalIp() + ":" + port + "/messic";
     }
 
     /**
@@ -57,9 +67,10 @@ public class Util
         {
             try
             {
-                FileInputStream fis = new FileInputStream( f );
-                String port = new String( readInputStream( fis ) );
-                return port;
+                Properties pcurrentport = new Properties();
+                pcurrentport.load( new FileInputStream( f ) );
+                String currentPort = pcurrentport.getProperty( "currentPort" );
+                return currentPort;
             }
             catch ( Exception e )
             {
@@ -70,6 +81,43 @@ public class Util
         else
         {
             return "";
+        }
+    }
+
+    public static boolean isSecured()
+    {
+        File f = new File( "./currentport" );
+        if ( f.exists() )
+        {
+            Properties pcurrentport = new Properties();
+            try
+            {
+                pcurrentport.load( new FileInputStream( f ) );
+                String ssecured = pcurrentport.getProperty( "secured" );
+                try
+                {
+                    Boolean secured = Boolean.valueOf( ssecured );
+                    return secured;
+                }
+                catch ( Exception e )
+                {
+                    return false;
+                }
+            }
+            catch ( FileNotFoundException e1 )
+            {
+                e1.printStackTrace();
+                return false;
+            }
+            catch ( IOException e1 )
+            {
+                e1.printStackTrace();
+                return false;
+            }
+        }
+        else
+        {
+            return false;
         }
     }
 
@@ -248,19 +296,11 @@ public class Util
     {
         if ( OSValidator.isWindows() )
         {
-            System.out.println( "TODO windows launching" );
-        }
-        else if ( OSValidator.isMac() )
-        {
-            System.out.println( "TODO mac launching" );
-        }
-        else if ( OSValidator.isUnix() )
-        {
             Long messicProcessNumber = Util.getMessicProcess();
-            Runtime.getRuntime().exec( new String[] { "kill", "" + messicProcessNumber } );
+            Runtime.getRuntime().exec( new String[] { "taskkill", "/PID", "" + messicProcessNumber } );
             try
             {
-                Thread.sleep( 1000 );
+                Thread.sleep( 5000 );
             }
             catch ( InterruptedException e )
             {
@@ -268,7 +308,115 @@ public class Util
             }
 
         }
+        else if ( OSValidator.isMac() || OSValidator.isUnix() )
+        {
+            Long messicProcessNumber = Util.getMessicProcess();
+            Runtime.getRuntime().exec( new String[] { "kill", "" + messicProcessNumber } );
+            try
+            {
+                Thread.sleep( 5000 );
+            }
+            catch ( InterruptedException e )
+            {
+                e.printStackTrace();
+            }
+        }
 
+    }
+
+    private static String getHashPassword( String newPassword )
+    {
+        String pass;
+        MessageDigest md;
+        try
+        {
+
+            byte[] hashPassword = newPassword.getBytes( "UTF-8" );
+
+            md = MessageDigest.getInstance( "MD5" );
+            byte[] encpass = md.digest( hashPassword );
+
+            // converting byte array to Hexadecimal String
+            StringBuilder sb = new StringBuilder( 2 * encpass.length );
+            for ( byte b : encpass )
+            {
+                sb.append( String.format( "%02x", b & 0xff ) );
+            }
+            pass = sb.toString();
+
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            pass = newPassword;
+        }
+
+        return pass;
+    }
+
+    public static void resetAdminPassword( Properties ml )
+    {
+
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+
+        try
+        {
+            session.beginTransaction();
+
+            Query query =
+                session.createSQLQuery( "UPDATE USERS a set a.PASSWORD='" + getHashPassword( "12345" )
+                    + "' WHERE a.ADMINISTRATOR = true" );
+            query.executeUpdate();
+
+            query = session.createSQLQuery( "SELECT LOGIN FROM USERS a WHERE a.ADMINISTRATOR = true" );
+            List results = query.list();
+
+            JOptionPane.showMessageDialog( null, ml.getProperty( "messic-password-reseted1" ) + " '" + results.get( 0 )
+                + "' " + ml.getProperty( "messic-password-reseted2" ) + " '12345'" );
+
+            JOptionPane.showMessageDialog( null, ml.getProperty( "messic-shutdown" ) );
+
+            session.flush();
+            session.getTransaction().commit();
+            System.exit( 0 );
+        }
+        catch ( IndexOutOfBoundsException iobe )
+        {
+            iobe.printStackTrace();
+            JOptionPane.showMessageDialog( null, ml.getProperty( "messic-password-reset-noaccount" ) );
+            session.getTransaction().rollback();
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog( null, ml.getProperty( "messic-password-reseted-error" ) );
+            session.getTransaction().rollback();
+        }
+        finally
+        {
+            HibernateUtil.closeSessionFactory();
+        }
+    }
+
+    public static Properties getMultilanguage()
+    {
+        Locale locale = Locale.getDefault();
+        String language = locale.getLanguage();
+        InputStream is = Util.class.getResourceAsStream( "/language-" + language + ".properties" );
+        if ( is == null )
+        {
+            is = Util.class.getResourceAsStream( "/language.properties" );
+        }
+        Properties prop = new Properties();
+        try
+        {
+            prop.load( is );
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace();
+        }
+        return prop;
     }
 
     /**
@@ -280,95 +428,82 @@ public class Util
     public static void launchMessicService( final MessicLaunchedObserver observer )
         throws IOException, InterruptedException
     {
-        if ( OSValidator.isWindows() )
-        {
-            System.out.println( "TODO windows launching" );
-        }
-        else if ( OSValidator.isMac() )
-        {
-            System.out.println( "TODO mac launching" );
-        }
-        else if ( OSValidator.isUnix() )
+        if ( OSValidator.isWindows() || OSValidator.isMac() || OSValidator.isUnix() )
         {
             File f = new File( "." );
             System.out.println( "launching from: " + f.getAbsolutePath() );
 
-            String classpath = getClasspath();
+            String classpath = getClasspath( OSValidator.isWindows() );
+
             System.out.println( "./bin/jre1.8.0_05/bin/java " + "-cp \"" + classpath
                 + "\" org.messic.service.MessicMain" );
-            String[] params =
-                new String[] { "./bin/jre1.8.0_05/bin/java", "-cp", classpath, "org.messic.service.MessicMain" };
+            String[] params = null;
+            String paramJava = "./bin/jre1.8.0_05/bin/java";
+            String paramCP = "-cp";
+            String paramMainClass = "org.messic.service.MessicMain";
+            if ( OSValidator.isWindows() )
+            {
+                // params =
+                // new String[] { "cmd", "/c", "start", "\"MessicService\"", paramJava, paramCP, classpath,
+                // paramMainClass };
+                // params = new String[] { paramJava, paramCP, classpath, paramMainClass };
+
+                params = new String[] { "wscript", ".\\bin\\messicservice.vbs", classpath };
+            }
+            else
+            {
+                params = new String[] { paramJava, paramCP, classpath, paramMainClass };
+            }
+
+            final File fFlagStarted = new File( "./conf/messicStarted" );
+            if ( fFlagStarted.exists() )
+            {
+                fFlagStarted.delete();
+            }
+
             final Process p = Runtime.getRuntime().exec( params );
 
-            Thread tErrorStream = new Thread()
+            if ( OSValidator.isWindows() )
             {
-                public void run()
+                Thread tWait = new Thread()
                 {
-                    InputStream is = p.getErrorStream();
-
-                    StringBuffer sb = new StringBuffer();
-                    byte[] buffer = new byte[1024];
-                    int cant = 0;
-                    try
+                    public void run()
                     {
-                        cant = is.read( buffer );
-                    }
-                    catch ( IOException e )
-                    {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    boolean ended = false;
-                    while ( cant > 0 && ended == false )
-                    {
-                        String news = new String( buffer, 0, cant );
-                        sb.append( news );
-                        System.out.print( news );
                         try
                         {
-                            cant = is.read( buffer );
+                            while ( !fFlagStarted.exists() )
+                            {
+                                Thread.sleep( 500 );
+                            }
+                            if ( observer != null )
+                            {
+                                observer.messicLaunched();
+                            }
+                            Thread.sleep( 1000 );
                         }
-                        catch ( IOException e )
+                        catch ( InterruptedException e )
                         {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
-                        }
-                    }
-                };
-            };
-            tErrorStream.start();
-
-            Thread tInputStream = new Thread()
-            {
-                public void run()
-                {
-                    InputStream is = p.getInputStream();
-
-                    StringBuffer sb = new StringBuffer();
-                    byte[] buffer = new byte[1024];
-                    int cant = 0;
-                    try
-                    {
-                        cant = is.read( buffer );
-                    }
-                    catch ( IOException e )
-                    {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    boolean ended = false;
-                    while ( cant > 0 && ended == false )
-                    {
-                        String news = new String( buffer, 0, cant );
-                        sb.append( news );
-                        if ( sb.indexOf( "[MESSIC] Service started" ) >= 0 )
-                        {
                             if ( observer != null )
                             {
                                 observer.messicLaunched();
                             }
                         }
-                        System.out.print( news );
+                    };
+                };
+                tWait.start();
+            }
+            else
+            {
+                Thread tErrorStream = new Thread()
+                {
+                    public void run()
+                    {
+                        InputStream is = p.getErrorStream();
+
+                        StringBuffer sb = new StringBuffer();
+                        byte[] buffer = new byte[1024];
+                        int cant = 0;
                         try
                         {
                             cant = is.read( buffer );
@@ -378,11 +513,75 @@ public class Util
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
-                    }
+                        boolean ended = false;
+                        while ( cant > 0 && ended == false )
+                        {
+                            String news = new String( buffer, 0, cant );
+                            sb.append( news );
+                            System.out.print( news );
+                            try
+                            {
+                                cant = is.read( buffer );
+                            }
+                            catch ( IOException e )
+                            {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    };
                 };
+                tErrorStream.start();
 
-            };
-            tInputStream.start();
+                Thread tInputStream = new Thread()
+                {
+                    public void run()
+                    {
+                        InputStream is = p.getInputStream();
+
+                        StringBuffer sb = new StringBuffer();
+                        byte[] buffer = new byte[1024];
+                        int cant = 0;
+                        try
+                        {
+                            cant = is.read( buffer );
+                        }
+                        catch ( IOException e )
+                        {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        boolean ended = false;
+                        boolean launched = false;
+                        while ( cant > 0 && ended == false )
+                        {
+                            String news = new String( buffer, 0, cant );
+                            sb.append( news );
+                            if ( sb.indexOf( "[MESSIC] Service started" ) >= 0 )
+                            {
+                                if ( observer != null & !launched )
+                                {
+                                    observer.messicLaunched();
+                                    launched = true;
+                                }
+                            }
+                            System.out.print( news );
+                            try
+                            {
+                                cant = is.read( buffer );
+                            }
+                            catch ( IOException e )
+                            {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+
+                };
+                tInputStream.start();
+
+            }
 
         }
         else
@@ -391,7 +590,7 @@ public class Util
         }
     }
 
-    private static String getClasspath()
+    private static String getClasspath( boolean windows )
     {
         String result = "";
         File classpathfolder = new File( "./classpath" );
@@ -400,7 +599,7 @@ public class Util
         {
             if ( files[i].getName().endsWith( ".jar" ) )
             {
-                result = result + "./classpath/" + files[i].getName() + ":";
+                result = result + "./classpath/" + files[i].getName() + ( windows ? ";" : ":" );
             }
         }
         result = result.substring( 0, result.length() - 1 );

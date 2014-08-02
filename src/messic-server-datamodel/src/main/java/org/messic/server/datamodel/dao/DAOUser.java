@@ -94,8 +94,9 @@ public interface DAOUser
      * 
      * @param user
      * @param updatePassword boolean flag to know if its necessary to update the password
+     * @param newPassword {@link String} the new password to be hashed and stored
      * @return
      */
-    MDOUser saveUser( MDOUser user, boolean updatePassword );
+    MDOUser saveUser( MDOUser user, boolean updatePassword, String newPassword );
 
 }

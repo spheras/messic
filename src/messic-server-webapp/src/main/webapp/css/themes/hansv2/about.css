@@ -1,13 +1,49 @@
+
+.messic-about-title:before {
+    background: url("about/triangle.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 27px;
+    margin-left: -16px;
+    margin-top: 1px;
+    position: absolute;
+    width: 14px;
+}
 .messic-about-title {
-    background: none repeat scroll 0 0 #f4f4f4;
+    background: none repeat scroll 0 0 #eeeeee;
+    border-bottom: 1px solid #aaaaaa;
+    border-radius: 11px;
     cursor: pointer;
-    font-family: roboto-bold;
-    font-size: 18px;
-    height: 28px;
+    height: 24px;
+    margin-left: 30px;
+    margin-right: 40px;
     margin-top: 10px;
     overflow: hidden;
     padding: 6px;
+    text-indent: 18px;
 }
+
+.messic-about-title.messic-about-title-expanded .messic-about-title-title {
+    background: none repeat scroll 0 0 #88eeee;
+    border-radius: 4px;
+    margin-bottom: 30px;
+}
+.messic-about-title-title {
+    font-family: roboto-bold;
+    font-size: 1.2em;
+}
+.messic-about-title:hover {
+    background: none repeat scroll 0 0 #88eeee;
+}
+.messic-about-title.messic-about-title-expanded:before {
+    transform: rotate(90deg);
+}
+.messic-about-title.messic-about-title-expanded {
+    background: none repeat scroll 0 0 white;
+    border: 4px dashed #555555;
+    height: auto;
+}
+
 #messic-about-tape{
     /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
     animation: 1.5s ease 0s normal none 1 messic-about-tape-comein;
@@ -111,3 +147,15 @@
 	to { opacity:1; top: -10000px;}
 }
 
+#messic-about-faq > ul {
+    list-style: none outside none;
+}
+
+
+
+#messic-about-faq h1 {
+    border-bottom: 1px dashed #888888;
+    color: #33aaaa;
+    text-align: left;
+    text-indent: 0;
+}

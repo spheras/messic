@@ -12,23 +12,71 @@
 		</c:if>
 		    
 		<div id="content">
-			<div id="messic-about-version" class="messic-about-title">Messic Version</div>
-			<div id="messic-about-faq" class="messic-about-title">FAQ
+			<div id="messic-about-version" class="messic-about-title" onclick="aboutShowMessicVersion();">
+				<div class="messic-about-title-title">About Messic</div>
+			</div>
+			<div id="messic-about-faq" class="messic-about-title">
+				<div onclick="aboutExpandMenu($(this).parent())" class="messic-about-title-title">FAQ</div>
+				<ul>
+					<li>
+						<h1>What is Messic</h1>
+						Messic comes from the union of two words:
+						<ul>
+							<li>
+					    		<b>Mess</b>: A dirty or untidy state of things or of a place
+					    	</li>
+							<li>
+							    <b>Music</b>: Vocal or instrumental sounds (or both) combined in such a way as to produce beauty of form, harmony, and expression of emotion
+					    	</li>
+					    </ul>
+					
+					The aim for the project is to convert this mess of music in a real ordered music, an ordered catalog music and play it in a confortable way. The main characteristics are:
+					
+						<ul>
+							<li>
+							    It order our catalog of music as automatic as possible, and it is owned only by you. You can go always to the file system where you are saving it and get it.
+					    	</li>
+							<li>
+							    It play the music in a very very confortable and beautiful interface.
+					    	</li>
+							<li>
+							    It is executed via web, so we could publish this service at home for every device.
+					    	</li>
+							<li>
+							    It is multiuser.
+					    	</li>
+							<li>
+							    It's focused at home catalog music. We want to manage and listen to our own catalog of music.
+					    	</li>
+					    </ul>
+					</li>
+					<li>
+						<h1>Does Messic use a secure protocol SSL/TLS?</h1>
+						Initially no, because it's intended to be at your home, inside your home network.  But if you need, you can do it by modifying the configuration file.
+						Just go to the file [messic_folder]/conf/config.properties (under the installation directory), and modify the 'messic-secure' parameter. Just put it to TRUE.
+						After a restart of the messic service, the connections will be done through the new https port, and probably your navigator will advise you because the messic certificate doesn't correspond to the url, and so on. This is normal, but if you want also to fix it, you only need to go to the folder [messic_folder]/jetty/etc/ and you will find there all the jetty configuration. Just touch the jetty-selector-ssl.xml file with your own configuration. 
+					</li>
+					<li>
+						<h1>How can I help the project?</h1>
+						We need help. 
+					</li>
+					<li>
+						<h1>Can I use Messic for free?</h1>
+						Yes, its free in both senses.  It has a GPLv3 license.
+					</li>
+					<li>
+						<h1>Where is the source code?</h1>
+						Just here: <a href="https://github.com/spheras/messic" target="_blank">https://github.com/spheras/messic</a>
+					</li>
+				</ul>
 				<p>
-					<h1>What is Messic</h1>
-					bla bla bla bla
-					<h1>What means "Messic"</h1>
-					bla bla bla bla
-					<h1>How can you help the project?</h1>
-					bla bla bla bla
-					<h1>Can I use Messic for free?</h1>
-					bla bla bla bla
-					<h1>Where is the source code?</h1>
-					bla bla bla bla
 				</p>
 			</div>
-			<div id="messic-about-update" class="messic-about-title">Messic Update</div>
-			<div id="messic-about-contributors" class="messic-about-title">Contributors
+			<div id="messic-about-update" class="messic-about-title">
+				<div onclick="aboutExpandMenu($(this).parent())" class="messic-about-title-title">Messic Update</div>
+			</div>
+			<div id="messic-about-contributors" class="messic-about-title">
+				<div onclick="aboutExpandMenu($(this).parent())" class="messic-about-title-title">Contributors</div>
 				<p>
 					Messic is an open source GPLv3 project, but it has been build thanks to the support of a lot of existing libraries and graphical resources which are also open sources.  This project is the way to say to all these people, thanks!
 					At the current state of the project, there are not a significant number of contributors, but we hope to grown in the future. So please, If you can help us to improve, don't lost time and contact with us (see FAQ).
@@ -54,7 +102,8 @@
 					</ul>				
 				</p>
 			</div>
-			<div id="messic-about-license" class="messic-about-title">License
+			<div id="messic-about-license" class="messic-about-title">
+				<div onclick="aboutExpandMenu($(this).parent())" class="messic-about-title-title">License</div>
 				<p>
 					<h3 style="text-align: center;">GNU GENERAL PUBLIC LICENSE</h3>
 					<p style="text-align: center;">Version 3, 29 June 2007</p>
@@ -740,45 +789,7 @@
 					Public License instead of this License.  But first, please read
 					&lt;<a href="http://www.gnu.org/philosophy/why-not-lgpl.html">http://www.gnu.org/philosophy/why-not-lgpl.html</a>&gt;.</p>
 			</div>
-			<div id="messic-about-api" class="messic-about-title">API for developers</div>
-            <div id="messic-about-window" onclick="$(this).remove()" style="display:none">
-		        <div id="messic-about-close" onclick="$(this).parent().remove()"></div>
-		        <div id="messic-about-tape">
-			        <div id="messic-tape-leftwheel" class="messic-tape-wheel"></div>
-			        <div id="messic-tape-rightwheel" class="messic-tape-wheel"></div>
-		        </div>
-		        <div id="messic-about-page">
-			        <div id="messic-about-page-content">
-				        <h2>Messic</h2>
-                        <p> <b>Date:</b> 2013 </p>
-                        <p> <b>Version:&nbsp;</b>${version}</p>
-                        <br>
-                        Copyright (C) 2013 - 2014
-                        <br><br>
-                        This program is free software: you can redistribute it and/or modify
-                        it under the terms of the GNU General Public License as published by
-                        the Free Software Foundation, either version 3 of the License, or
-                        (at your option) any later version.<br><br>
-                        This program is distributed in the hope that it will be useful,
-                        but WITHOUT ANY WARRANTY; without even the implied warranty of
-                        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-                        GNU General Public License for more details.<br><br>
-                        You should have received a copy of the GNU General Public License
-                        along with this program.  If not, see <a href="http://www.gnu.org/licenses/" target="_blank">http://www.gnu.org/licenses/</a>.                            
-                        <br><br><br>
-				        <h3> Third Party resources </h3>
-                        <ul>
-                            <li><a href="http://subtlepatterns.com/honey-im-subtle/" target="_blank">Honey Subtle</a>: Pattern used for background provided from <a href="http://subtlepatterns.com/" target="_blank">subtlepatterns</a>.</li>
-                            <li><a href="http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/" target="_blank">Free PSD retro audio Tape</a>: Audio tape design from <a href="http://freepsdfiles.net/" target="_blank">free psd files.</a></li>
-                        </ul>
-                        <br>
-                        <br>
-				        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at mi et magna congue fringilla. Curabitur sit amet libero vitae est consectetur pharetra. Sed ac ante nec purus lacinia dignissim ut id nisl. Proin tempus tempor magna, ac molestie orci rutrum ut. Phasellus tristique dui eu urna convallis, condimentum euismod ligula auctor. Etiam arcu turpis, euismod ac risus sed, dapibus rutrum mi. Nunc posuere vulputate nibh at dignissim. Duis et erat facilisis, accumsan metus ac, pellentesque sapien. Praesent nisi nunc, auctor eu sem nec, ornare facilisis ante. Quisque vel justo ac lacus fermentum sollicitudin. Quisque sit amet orci eget ligula placerat suscipit a quis tellus. Aliquam sodales rhoncus feugiat. Nullam at ligula a nulla gravida mattis. Quisque urna augue, consectetur vitae ultricies non, volutpat et diam.</p>
-				        <p>Nunc scelerisque suscipit malesuada. Nullam vitae justo bibendum turpis pulvinar aliquam eget ac elit. Ut fermentum a tortor ac rhoncus. Maecenas sed massa est. Integer facilisis dui id varius ullamcorper. Morbi et scelerisque libero. Integer dictum eu nunc ac consectetur.</p>
-				        <p>Nullam et placerat eros, at laoreet tortor. Proin pretium pharetra massa ac placerat. Curabitur rhoncus dolor odio. Sed a est vel urna semper mattis. Donec et nibh ut metus sagittis suscipit. Nullam aliquam ligula nec dolor porttitor, a porttitor lorem porta. Proin tristique augue vitae quam varius convallis. Praesent quis ipsum felis. Ut ullamcorper lectus libero, vitae fermentum metus aliquet nec. Praesent at porta nunc. In gravida, tellus nec tincidunt egestas, erat purus suscipit urna, eget sodales magna tellus ut tortor. Maecenas ut rhoncus arcu, nec placerat nisl. Nam vestibulum mauris dui, at varius felis laoreet non.</p>
-			        </div>
-		        </div>
-            </div>
+			<div id="messic-about-api" class="messic-about-title" ><div onclick="aboutExpandMenu($(this).parent())" class="messic-about-title-title">API for developers</div></div>
 		</div>
     </body>
 </html>

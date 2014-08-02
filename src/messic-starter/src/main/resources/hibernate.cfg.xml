@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!-- Database connection settings -->
+		<property name="connection.url">jdbc:h2:./db/db;DB_CLOSE_DELAY=-1</property>
+		<property name="connection.driver_class">org.h2.Driver</property>
+		<property name="connection.username">messic</property>
+		<property name="connection.password">cissem</property>
+		<property name="transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory
+		</property>
+
+		<!-- SQL dialect - generate SQL for a particular database -->
+		<property name="dialect">org.hibernate.dialect.H2Dialect
+		</property>
+
+		<!-- Echo all executed SQL statements -->
+		<property name="show_sql">true</property>
+
+		<!-- Enable Hibernate's automatic session context management -->
+		<property name="current_session_context_class">thread</property>
+		<!-- Mapping resource configuration files -->
+		<!-- <mapping resource="src/com/bookstore/bookapp.hbm.xml" /> -->
+	</session-factory>
+</hibernate-configuration>
+

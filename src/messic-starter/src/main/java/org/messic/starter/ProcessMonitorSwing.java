@@ -1,13 +1,21 @@
 package org.messic.starter;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,9 +29,9 @@ public class ProcessMonitorSwing
     extends JFrame
 {
 
-    private JPanel contentPane;
+    private JPanel contentPaneStarted;
 
-    private JTextField txtHttpmessic;
+    private JTextField textFieldURL;
 
     /**
      * Launch the application.
@@ -55,27 +63,39 @@ public class ProcessMonitorSwing
     public ProcessMonitorSwing()
         throws Exception
     {
-        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        setBounds( 100, 100, 488, 338 );
-        contentPane = new JPanel();
-        contentPane.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
-        setContentPane( contentPane );
-        contentPane.setLayout( null );
+        setTitle("Messic Monitor");
+        ArrayList<Image> icons = new ArrayList<Image>();
+        icons.add( Toolkit.getDefaultToolkit().getImage( ProcessMonitorSwing.class.getResource( "/logotipo-32x32.png" ) ) );
+        icons.add( Toolkit.getDefaultToolkit().getImage( ProcessMonitorSwing.class.getResource( "/logotipo-64x64.png" ) ) );
+        icons.add( Toolkit.getDefaultToolkit().getImage( ProcessMonitorSwing.class.getResource( "/logotipo-128x128.png" ) ) );
+        icons.add( Toolkit.getDefaultToolkit().getImage( ProcessMonitorSwing.class.getResource( "/logotipo-256x256.png" ) ) );
+        setIconImages( icons );
+        setResizable( false );
+        final Properties ml = Util.getMultilanguage();
 
-        JLabel lblMessicMonitor = new JLabel( "Messic Monitor" );
+        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        setBounds( 100, 100, 506, 462 );
+        contentPaneStarted = new JPanel();
+        contentPaneStarted.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+        setContentPane( contentPaneStarted );
+        contentPaneStarted.setLayout( null );
+
+        JLabel lblMessicMonitor = new JLabel( ml.getProperty( "messic-title" ) );
         lblMessicMonitor.setBounds( 12, 0, 438, 36 );
         lblMessicMonitor.setFont( new Font( "Dialog", Font.BOLD, 30 ) );
         lblMessicMonitor.setHorizontalAlignment( SwingConstants.CENTER );
-        contentPane.add( lblMessicMonitor );
+        contentPaneStarted.add( lblMessicMonitor );
 
-        JLabel lblMessicServiceIs = new JLabel( "Messic Service is currently:" );
+        JLabel lblMessicServiceIs = new JLabel( ml.getProperty( "messic-service-status-title" ) );
         lblMessicServiceIs.setHorizontalAlignment( SwingConstants.RIGHT );
         lblMessicServiceIs.setFont( new Font( "Dialog", Font.BOLD, 14 ) );
         lblMessicServiceIs.setBounds( 12, 48, 252, 17 );
-        contentPane.add( lblMessicServiceIs );
+        contentPaneStarted.add( lblMessicServiceIs );
 
-        boolean running = Util.isMessicRunning();
-        JLabel lblRunning = new JLabel( ( running ? "STARTED" : "STOPPED" ) );
+        final boolean running = Util.isMessicRunning();
+        final JLabel lblRunning =
+            new JLabel( ( running ? ml.getProperty( "messic-service-status-started" )
+                            : ml.getProperty( "messic-service-status-stopped" ) ) );
         if ( running )
         {
             lblRunning.setForeground( Color.GREEN );
@@ -87,19 +107,129 @@ public class ProcessMonitorSwing
         lblRunning.setHorizontalAlignment( SwingConstants.LEFT );
         lblRunning.setFont( new Font( "Dialog", Font.BOLD, 16 ) );
         lblRunning.setBounds( 276, 48, 95, 17 );
-        contentPane.add( lblRunning );
+        contentPaneStarted.add( lblRunning );
 
-        final JButton btnStop = new JButton( ( running ? "STOP" : "START" ) );
+        final JButton btnStop =
+            new JButton(
+                         ( running ? ml.getProperty( "messic-service-stop" ) : ml.getProperty( "messic-service-start" ) ) );
+
+        btnStop.setBounds( 379, 44, 95, 25 );
+        contentPaneStarted.add( btnStop );
+        // }
+
+        JButton button = new JButton( ml.getProperty( "messic-password-reset" ) );
+        button.setForeground( Color.RED );
+        button.setBackground( Color.RED );
+        button.addActionListener( new ActionListener()
+        {
+            public void actionPerformed( ActionEvent e )
+            {
+                ProcessMonitorSwing.this.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+
+                Util.resetAdminPassword( ml );
+                ProcessMonitorSwing.this.setCursor( Cursor.getDefaultCursor() );
+            }
+        } );
+        button.setBounds( 82, 318, 355, 25 );
+        contentPaneStarted.add( button );
+
+        JLabel label = new JLabel( ml.getProperty( "messic-password-reset-explanation" ) );
+        label.setForeground( Color.DARK_GRAY );
+        label.setHorizontalAlignment( SwingConstants.CENTER );
+        label.setBounds( 12, 351, 480, 70 );
+        contentPaneStarted.add( label );
+
+        final JPanel panelstarted = new JPanel();
+        panelstarted.setBounds( 12, 81, 480, 225 );
+        contentPaneStarted.add( panelstarted );
+        panelstarted.setLayout( null );
+
+        JLabel label_1 = new JLabel( ml.getProperty( "messic-service-explanation" ) );
+        label_1.setBounds( 12, 85, 456, 139 );
+        label_1.setHorizontalAlignment( SwingConstants.CENTER );
+        panelstarted.add( label_1 );
+
+        JButton button_1 = new JButton( ml.getProperty( "messic-service-opennavigator" ) );
+        button_1.addActionListener( new ActionListener()
+        {
+            public void actionPerformed( ActionEvent e )
+            {
+                try
+                {
+                    Desktop.getDesktop().browse( new URI( textFieldURL.getText() ) );
+                }
+                catch ( IOException e1 )
+                {
+                    e1.printStackTrace();
+                }
+                catch ( URISyntaxException e1 )
+                {
+                    e1.printStackTrace();
+                }
+            }
+        } );
+        button_1.setBounds( 44, 60, 329, 25 );
+        panelstarted.add( button_1 );
+
+        textFieldURL = new JTextField();
+        textFieldURL.setBounds( 44, 29, 329, 27 );
+        textFieldURL.setText( Util.getMessicInternalURL() );
+        textFieldURL.setInheritsPopupMenu( true );
+        textFieldURL.setEditable( false );
+        textFieldURL.setColumns( 10 );
+        textFieldURL.setBackground( Color.WHITE );
+        panelstarted.add( textFieldURL );
+
+        JButton button_2 = new JButton( ml.getProperty( "messic-url-copy" ) );
+        button_2.addActionListener( new ActionListener()
+        {
+            public void actionPerformed( ActionEvent e )
+            {
+                Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clpbrd.setContents( new StringSelection( textFieldURL.getText() ), null );
+            }
+        } );
+        button_2.setBounds( 385, 26, 80, 25 );
+        panelstarted.add( button_2 );
+
+        JLabel label_2 = new JLabel( ml.getProperty( "messic-service-url-title" ) );
+        label_2.setBounds( 12, 0, 408, 38 );
+        label_2.setHorizontalAlignment( SwingConstants.CENTER );
+        panelstarted.add( label_2 );
+
+        if ( running )
+        {
+            panelstarted.setVisible( true );
+        }
+        else
+        {
+            panelstarted.setVisible( false );
+        }
+
         btnStop.addActionListener( new ActionListener()
         {
             public void actionPerformed( ActionEvent e )
             {
-                if ( btnStop.getText().equals( "STOP" ) )
+                if ( btnStop.getText().equals( ml.getProperty( "messic-service-stop" ) ) )
                 {
                     try
                     {
                         Util.stopMessicService();
-                        btnStop.setText( "START" );
+                        btnStop.setText( ml.getProperty( "messic-service-start" ) );
+                        try
+                        {
+                            textFieldURL.setText( Util.getMessicInternalURL() );
+                        }
+                        catch ( Exception e1 )
+                        {
+                            e1.printStackTrace();
+                        }
+
+                        lblRunning.setText( ml.getProperty( "messic-service-status-stopped" ) );
+                        lblRunning.setForeground( Color.RED );
+
+                        panelstarted.setVisible( false );
+
                     }
                     catch ( IOException e1 )
                     {
@@ -110,8 +240,29 @@ public class ProcessMonitorSwing
                 {
                     try
                     {
-                        Util.launchMessicService(null);
-                        btnStop.setText( "STOP" );
+                        ProcessMonitorSwing.this.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
+
+                        Util.launchMessicService( new MessicLaunchedObserver()
+                        {
+                            @Override
+                            public void messicLaunched()
+                            {
+                                btnStop.setText( ml.getProperty( "messic-service-stop" ) );
+                                lblRunning.setText( ml.getProperty( "messic-service-status-started" ) );
+                                lblRunning.setForeground( Color.GREEN );
+                                try
+                                {
+                                    textFieldURL.setText( Util.getMessicInternalURL() );
+                                }
+                                catch ( Exception e1 )
+                                {
+                                    e1.printStackTrace();
+                                }
+                                panelstarted.setVisible( true );
+                                ProcessMonitorSwing.this.setCursor( Cursor.getDefaultCursor() );
+                            }
+                        } );
+
                     }
                     catch ( IOException e1 )
                     {
@@ -125,66 +276,5 @@ public class ProcessMonitorSwing
                 }
             }
         } );
-        btnStop.setBounds( 379, 44, 95, 25 );
-        contentPane.add( btnStop );
-
-        if ( running )
-        {
-            JLabel lblThisIsThe = new JLabel( "This is the URL to open the Messic User Interface" );
-            lblThisIsThe.setHorizontalAlignment( SwingConstants.CENTER );
-            lblThisIsThe.setBounds( 12, 92, 424, 15 );
-            contentPane.add( lblThisIsThe );
-
-            txtHttpmessic = new JTextField();
-            txtHttpmessic.setInheritsPopupMenu( true );
-            txtHttpmessic.setBackground( Color.WHITE );
-            txtHttpmessic.setEditable( false );
-            txtHttpmessic.setText( Util.getMessicInternalURL() );
-            txtHttpmessic.setBounds( 22, 119, 374, 19 );
-            contentPane.add( txtHttpmessic );
-            txtHttpmessic.setColumns( 10 );
-
-            JButton btnOpenUrlWith = new JButton( "Open URL with Default Navigator" );
-            btnOpenUrlWith.addActionListener( new ActionListener()
-            {
-                public void actionPerformed( ActionEvent e )
-                {
-                    // open navigator
-                    Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-                    if ( desktop != null && desktop.isSupported( Desktop.Action.BROWSE ) )
-                    {
-                        try
-                        {
-                            desktop.browse( new URI( txtHttpmessic.getText() ) );
-                        }
-                        catch ( Exception ex )
-                        {
-                            ex.printStackTrace();
-                        }
-                    }
-                }
-            } );
-            btnOpenUrlWith.setBounds( 105, 150, 302, 25 );
-            contentPane.add( btnOpenUrlWith );
-
-            JLabel lblRememberThatMessic =
-                new JLabel(
-                            "<html>Remember that messic interface can be showed in any navigator of your network (yeah! included other pcs, tablets, ...) <br><br> The only thing you need is to open a navigator (preferible a modern one like Firefox) and put above URL.</html>" );
-            lblRememberThatMessic.setHorizontalAlignment( SwingConstants.CENTER );
-            lblRememberThatMessic.setBounds( 12, 182, 462, 120 );
-            contentPane.add( lblRememberThatMessic );
-
-            JButton btnCopy = new JButton( "copy" );
-            btnCopy.addActionListener( new ActionListener()
-            {
-                public void actionPerformed( ActionEvent e )
-                {
-                    txtHttpmessic.selectAll();
-                    txtHttpmessic.copy();
-                }
-            } );
-            btnCopy.setBounds( 403, 116, 71, 25 );
-            contentPane.add( btnCopy );
-        }
     }
 }

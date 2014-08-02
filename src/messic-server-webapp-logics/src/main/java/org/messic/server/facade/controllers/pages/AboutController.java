@@ -46,4 +46,13 @@ public class AboutController
         return model;
     }
 
+
+    @RequestMapping("/abouttape.do")
+    protected ModelAndView abouttape( HttpServletRequest arg0, HttpServletResponse arg1 )
+        throws Exception
+    {
+        ModelAndView model = new ModelAndView( "abouttape" );
+
+        return model;
+    }
 }

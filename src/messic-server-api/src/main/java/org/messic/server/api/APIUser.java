@@ -50,7 +50,7 @@ public class APIUser
     {
         MDOUser mdoUserToReset = daoUser.getUserById( sid );
         mdoUserToReset.setPassword( "123456" );
-        daoUser.saveUser( mdoUserToReset, true );
+        daoUser.saveUser( mdoUserToReset, true, mdoUserToReset.getPassword() );
     }
 
     public void removeUser( Long sid, boolean removeMusicContent )
@@ -128,7 +128,7 @@ public class APIUser
         }
 
         MDOUser newUser = user.updateMDOUser( null );
-        daoUser.saveUser( newUser, true );
+        daoUser.saveUser( newUser, true, user.getPassword() );
 
         MDOUser userCreated = daoUser.getUserByLogin( user.getLogin() );
 
@@ -209,7 +209,7 @@ public class APIUser
 
         mdoUser = user.updateMDOUser( mdoUser );
 
-        this.daoUser.saveUser( mdoUser, user.getPassword() != mdoUser.getPassword() );
+        this.daoUser.saveUser( mdoUser, user.getPassword() != mdoUser.getPassword(), user.getPassword() );
 
         this.dlnaServer.refreshServer();
 

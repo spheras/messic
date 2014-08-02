@@ -124,6 +124,18 @@ public class DAOJPASong
     }
 
     @Override
+    public List<MDOSong> getLovedSongs( String username )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName) and (a.rate=2 or a.rate=3) ORDER BY (a.statistics.timesplayed) DESC" );
+        query.setParameter( "userName", username );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOSong> results = query.getResultList();
+        return results;
+    }
+
+    @Override
     public List<MDOSong> getAllOrderByMostPlayed( String username )
     {
         Query query =

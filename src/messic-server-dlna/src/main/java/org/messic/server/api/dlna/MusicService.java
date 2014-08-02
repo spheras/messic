@@ -126,7 +126,7 @@ public class MusicService
 
         Long sid = Long.valueOf( containerId );
 
-        if ( sid > 0 && vc!=null)
+        if ( sid > 0 && vc != null )
         {
             authors = new ArrayList<MDOAuthor>();
             String username = this.daoUsers.getUserById( sid ).getLogin();
@@ -295,6 +295,16 @@ public class MusicService
         return this.authenticationSessionManager.getCurrentPort();
     }
 
+    /**
+     * return if messic is secured by https
+     * 
+     * @return boolean
+     */
+    public boolean isSecured()
+    {
+        return this.authenticationSessionManager.isSecured();
+    }
+
     @Transactional
     public List<MusicTrack> getSongs( String containerId, long startIndex, long maxCount, VisualContainer vc )
     {
@@ -347,8 +357,8 @@ public class MusicService
             try
             {
                 originalUri =
-                    new URI( "http://" + Util.getInternalIp() + ":" + getCurrentPort() + "/messic/services/songs/"
-                        + song.getSid() + "/audio?dlna=true&messic_token=" + token );
+                    new URI( ( isSecured() ? "https" : "http" ) + "://" + Util.getInternalIp() + ":" + getCurrentPort()
+                        + "/messic/services/songs/" + song.getSid() + "/audio?dlna=true&messic_token=" + token );
             }
             catch ( URISyntaxException e )
             {

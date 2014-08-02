@@ -31,26 +31,28 @@ public class Starter
         if ( !GraphicsEnvironment.isHeadless() )
         {
             final boolean messicRunning = Util.isMessicRunning();
-            if ( !messicRunning )
-            {
-                Util.launchMessicService( new MessicLaunchedObserver()
-                {
+            showMonitor( messicRunning );
 
-                    @Override
-                    public void messicLaunched()
-                    {
-                        try
-                        {
-                            showMonitor( messicRunning );
-                        }
-                        catch ( Exception e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                } );
-            }
+            // if ( !messicRunning )
+            // {
+            // Util.launchMessicService( new MessicLaunchedObserver()
+            // {
+            //
+            // @Override
+            // public void messicLaunched()
+            // {
+            // try
+            // {
+            // showMonitor( messicRunning );
+            // }
+            // catch ( Exception e )
+            // {
+            // // TODO Auto-generated catch block
+            // e.printStackTrace();
+            // }
+            // }
+            // } );
+            // }
         }
         else
         {
@@ -62,7 +64,7 @@ public class Starter
                 }
                 else if ( args[0].toUpperCase().equals( "START" ) )
                 {
-                    Util.launchMessicService( null);
+                    Util.launchMessicService( null );
                 }
             }
         }
@@ -73,7 +75,6 @@ public class Starter
     {
         ProcessMonitorSwing pm = new ProcessMonitorSwing();
         pm.setVisible( true );
-
     }
 
 }

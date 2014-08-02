@@ -540,7 +540,7 @@ function albumEditSong(sid,track,name,authorName,albumName,divButton, rate){
 function albumEditArtwork(sid,name,divButton){
 	albumEditStatus();
 	var code = "<div>";
-	code=code+"<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork\">";
+	code=code+"<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork\" onclick=\"albumRowSelected(this);\">";
 	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artwork\"><img src=\"services/albums/"+sid+"/resource?messic_token="+VAR_MessicToken+"\" onclick=\"albumShowArtwork('"+sid+"')\"/></div>";
 	code=code+"  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkname\" value=\"" + name + "\" data-sid=\""+sid+"\">";
 	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkaction\">";
@@ -584,7 +584,7 @@ function albumAddFileAudio(file) {
 					"services/songs/" + file.name + "/wizard",
 					function(data) {
 
-						var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-new\">";
+						var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-new\" onclick=\"albumRowSelected(this);\">";
 						code = code
 								+ "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-songtrack\" value=\""
 								+ data.track + "\">";
@@ -684,7 +684,7 @@ function albumRemoveLocalResource(div){
 
 /* function to add an image file to the album */
 function albumAddFileImage(file) {
-	var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork messic-album-songs-bodyrow-artwork-new\">";
+	var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork messic-album-songs-bodyrow-artwork-new\"  onclick=\"albumRowSelected(this);\">";
 	code = code
 			+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artwork\" onclick=\"albumShowLocalArtwork($(this).parent())\"></div>";
 	code = code
@@ -732,7 +732,7 @@ function albumAddFileImage(file) {
 }
 /* function to add an other file to the album */
 function albumAddFileOther(file) {
-	var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-other messic-album-songs-bodyrow-other-new\">";
+	var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-other messic-album-songs-bodyrow-other-new\"  onclick=\"albumRowSelected(this);\">";
 	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-otherfile\">...</div>";
 	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-othername\">"+ file.name + "</div>";
 	code = code	+ "  <div class=\"messic-album-songs-uploading\"><div class=\"messic-album-songs-uploading-percent\"></div></div>";
@@ -981,4 +981,15 @@ function albumAddSongToPlaylist(songSid){
 	var songSids=new Array();
 	songSids.push(songSid);
 	playlistAddToPlaylist(songSids);
+}
+
+/**
+ * Function that select a row
+ * This is useful for those devices without hover event
+ * @param divRow
+ */
+function albumRowSelected(divRow){
+	var div=$(divRow);
+	$(".messic-album-songs-bodyrow-selected").removeClass("messic-album-songs-bodyrow-selected");
+	div.addClass("messic-album-songs-bodyrow-selected");
 }

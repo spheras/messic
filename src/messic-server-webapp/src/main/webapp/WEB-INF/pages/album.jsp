@@ -67,7 +67,7 @@
 					</div>
 					<div id="messic-album-songs-body">
 						<c:forEach var="song" items="${album.songs}">
-							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-rate${song.rate}">
+							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-rate${song.rate}" onclick="albumRowSelected(this);">
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songtrack">${messic:escapeHTML(song.track)}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songname">${messic:escapeHTML(song.name)}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-songaction">
@@ -81,7 +81,7 @@
 							</div>
 						</c:forEach>				
 						<c:forEach var="artwork" items="${album.artworks}">
-							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork">
+							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork" onclick="albumRowSelected(this);">
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artwork"><img src="services/albums/${messic:escapeHTML(artwork.sid)}/resource?messic_token=${token}" onclick="albumShowArtwork('${messic:escapeAll(album.sid)}','${messic:escapeAll(artwork.sid)}')"/></div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkname">${messic:escapeHTML(artwork.fileName)}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-artworkaction">
@@ -94,7 +94,7 @@
 							</div>
 						</c:forEach>
 						<c:forEach var="other" items="${album.others}">
-							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-other">
+							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-other" onclick="albumRowSelected(this);">
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-otherfile">..</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-othername">${messic:escapeHTML(other.fileName)}</div>
 								<div class="messic-album-songs-bodyfield messic-album-songs-body-otheraction">

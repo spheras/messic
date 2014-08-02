@@ -135,6 +135,7 @@ function initMessic(){
 		        var posts = $($.parseHTML(data)).filter('#content').children();
 		        $("#messic-page-content").append(posts);
 				window.scrollTo(0,0);
+				initAbout();
 	        });
 
 			VAR_changeSection=function(nextFunction){
@@ -656,4 +657,35 @@ function mainSongRate(songSid, newRate, parentDiv){
 		});
 
 	});	
+}
+
+
+/**
+ * Function to remain opened or closed the top menu
+ * this is useful for devices without hover
+ */
+function mainOpenTopMenu(){
+	var div=$("#messic-top");
+	if(div.hasClass("messic-top-opened")){
+		div.removeClass("messic-top-opened");
+		div.addClass("messic-top-closed");	
+	}else{
+		div.addClass("messic-top-opened");	
+		div.removeClass("messic-top-closed");
+	}
+}
+
+/**
+ * Function to remain opened or closed the playlist queue menu
+ * this is useful for devices without hover
+ */
+function mainOpenPlaylistMenu(){
+	var div=$("#messic-playlist-background");
+	if(div.hasClass("messic-playlist-background-opened")){
+		div.removeClass("messic-playlist-background-opened");
+		div.addClass("messic-playlist-background-closed");	
+	}else{
+		div.addClass("messic-playlist-background-opened");	
+		div.removeClass("messic-playlist-background-closed");
+	}
 }

@@ -5,9 +5,7 @@
 	<id>bin</id>
 	<formats>
 		<format>tar.gz</format>
-		<!-- 
-		<format>tar.bz2</format>
-		 -->
+		<!-- <format>tar.bz2</format> -->
 		<format>zip</format>
 		<format>dir</format>
 	</formats>
@@ -36,12 +34,13 @@
 			</includes>
 		</fileSet>
 
-		<!-- Files from Local -->		
+		<!-- Files from Local -->
 		<fileSet>
 			<directory>${project.basedir}/jvm</directory>
 			<outputDirectory>/jvm</outputDirectory>
 			<includes>
 				<include>*.tar.gz</include>
+				<include>*.zip</include>
 			</includes>
 		</fileSet>
 		<fileSet>
@@ -58,7 +57,6 @@
 				<include>README*</include>
 				<include>LICENSE*</include>
 				<include>NOTICE*</include>
-				<include>messic-linux.sh</include>
 			</includes>
 		</fileSet>
 		<fileSet>
@@ -73,6 +71,16 @@
 			<outputDirectory>docs</outputDirectory>
 		</fileSet>
 	</fileSets>
+
+	<files>
+		<file>
+			<!-- just copying the config.properties, but the standard file, to avoid 
+				problems with the touched config.properties for debug -->
+			<source>../messic-service/conf/config-new.properties</source>
+			<outputDirectory>/conf</outputDirectory>
+			<destName>config.properties</destName>
+		</file>
+	</files>
 
 
 	<!-- Dependencies -->
@@ -90,5 +98,5 @@
 			<scope>system</scope>
 		</dependencySet>
 	</dependencySets>
-	
+
 </assembly>

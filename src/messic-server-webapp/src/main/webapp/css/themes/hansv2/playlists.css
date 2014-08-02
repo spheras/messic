@@ -207,6 +207,9 @@
 .messic-playlist-content-list-playlist:hover .messic-playlist-content-list-playlist-actions {
     display: block;
 }
+.messic-playlist-content-list-playlist.messic-playlist-content-list-playlist-selected .messic-playlist-content-list-playlist-actions{
+    display: block;
+}
 .messic-playlist-content-list-playlist-actions-remove{
     background: url("album/delete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 25px;

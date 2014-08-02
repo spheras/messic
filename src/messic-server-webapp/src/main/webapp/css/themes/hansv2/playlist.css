@@ -1,6 +1,10 @@
 @import url('jplayer/messic.blue.monday/jplayer.blue.monday.css');
 
-
+/** for those devices without hover event */
+#messic-playlist-background.messic-playlist-background-opened #messic-playlist-actions {
+    display: block;
+    opacity: 1;
+}
 
 #messic-playlist-background:hover #messic-playlist-actions {
     display: block;
@@ -113,6 +117,13 @@
 .noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
 /*******************************************************************/
 
+/** for devices without hover */
+#messic-playlist-background.messic-playlist-background-opened #jquery_jplayer_content {
+    animation: 0s ease 0s normal none 1 none;
+    display: block;
+    opacity: 1;
+}
+
 /* player content position - TODO maybe this should be done outside, at jplayer skin*/
 #jquery_jplayer_content{
     bottom: 100px;
@@ -189,6 +200,27 @@
 #messic-playlist-background:hover,#messic-playlist-background.interesting{
     bottom: 0px;
 }
+
+
+#messic-playlist-open{
+    background: url("playlist/openplaylist.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 42px;
+    left: 0;
+    position: absolute;
+    top: -21px;
+    width: 73px;
+    z-index: 1;	
+}
+/** the background of the playlist */
+
+/**for devices without hover **/
+#messic-playlist-background.messic-playlist-background-opened{
+	bottom:0px;
+}
+#messic-playlist-background.messic-playlist-background-closed{
+	bottom: -122px;
+}
+
 /** the background of the playlist */
 #messic-playlist-background
 {

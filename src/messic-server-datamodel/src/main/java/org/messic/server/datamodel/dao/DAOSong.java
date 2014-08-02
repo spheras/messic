@@ -28,6 +28,15 @@ import org.messic.server.datamodel.MDOSong;
 public interface DAOSong
     extends DAO<MDOSong>
 {
+
+    /**
+     * Get all the loved songs by the users. It means those songs which have rate 2 or 3
+     * 
+     * @param username {@link String} user scope
+     * @return {@link List}<MDOSong/> list of songs which are loved by the user
+     */
+    List<MDOSong> getLovedSongs( String username );
+
     /**
      * Get a song with a certain sid
      * 
