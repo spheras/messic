@@ -66,6 +66,16 @@ public class DAOJPAPlaylist
     }
 
     @Override
+    public List<MDOPlaylist> getAllDLNA()
+    {
+        Query query = entityManager.createQuery( "from MDOPlaylist as a where (a.owner.allowDLNA = true)" );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOPlaylist> results = query.getResultList();
+        return results;
+    }
+
+    @Override
     public MDOPlaylist getByName( String username, String name )
     {
         Query query =
@@ -75,7 +85,7 @@ public class DAOJPAPlaylist
 
         @SuppressWarnings( "unchecked" )
         List<MDOPlaylist> results = query.getResultList();
-        if ( results != null && results.size()>0 )
+        if ( results != null && results.size() > 0 )
         {
             return results.get( 0 );
         }

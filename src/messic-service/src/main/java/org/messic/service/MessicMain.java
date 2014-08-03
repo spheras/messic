@@ -318,6 +318,23 @@ public class MessicMain
         System.setProperty( "messicSecurePort", "" + port );
         System.setProperty( "jetty.home", "./jetty" );
 
+        File ftmp = new File( "./jetty/work" );
+        if ( ftmp.exists() )
+        {
+            try
+            {
+                FileUtils.deleteDirectory( ftmp );
+            }
+            catch ( IOException e )
+            {
+                e.printStackTrace();
+            }
+        }
+        ftmp.mkdirs();
+        // this tmpdir is for the war extraction. It's needed, if not, it get the path from the bundle osgi, and it
+        // sometimes contains url paths, like %20%, and so on.
+        System.setProperty( "java.io.tmpdir", "./jetty/work" );
+
         try
         {
             Properties pcurrentPort = new Properties();

@@ -45,16 +45,19 @@ import org.fourthline.cling.support.model.dlna.DLNAProfileAttribute;
 import org.fourthline.cling.support.model.dlna.DLNAProfiles;
 import org.fourthline.cling.support.model.dlna.DLNAProtocolInfo;
 import org.fourthline.cling.support.model.item.MusicTrack;
+import org.fourthline.cling.support.model.item.PlaylistItem;
 import org.messic.server.Util;
 import org.messic.server.api.dlna.chii2.mediaserver.api.content.container.VisualContainer;
 import org.messic.server.api.dlna.chii2.mediaserver.content.common.container.messic.MessicContainer;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOAuthor;
+import org.messic.server.datamodel.MDOPlaylist;
 import org.messic.server.datamodel.MDOSong;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOAlbum;
 import org.messic.server.datamodel.dao.DAOAuthor;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
+import org.messic.server.datamodel.dao.DAOPlaylist;
 import org.messic.server.datamodel.dao.DAOSong;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +72,9 @@ public class MusicService
 {
     @Autowired
     private DAOSong daosong;
+
+    @Autowired
+    private DAOPlaylist daoPlaylist;
 
     @Autowired
     private DAOAlbum daoalbum;
@@ -303,6 +309,93 @@ public class MusicService
     public boolean isSecured()
     {
         return this.authenticationSessionManager.isSecured();
+    }
+
+    @Transactional
+    public List<PlaylistItem> getPlaylists( String containerId, long startIndex, long maxCount, VisualContainer vc )
+    {
+        List<PlaylistItem> result = new ArrayList<PlaylistItem>();
+        List<MDOPlaylist> playlists = this.daoPlaylist.getAllDLNA();
+
+        for ( long i = startIndex; i < startIndex + maxCount && i < playlists.size(); i++ )
+        {
+            MDOPlaylist mdop = playlists.get( (int) i );
+
+            HashMap<MDOAuthor, String> authors = new HashMap<MDOAuthor, String>();
+            List<MDOSong> songs = mdop.getSongs();
+            for ( int j = 0; j < songs.size(); j++ )
+            {
+                MDOSong song = songs.get( j );
+                authors.put( song.getAlbum().getAuthor(), "" );
+            }
+
+            PlaylistItem pli = new PlaylistItem();
+            pli.setTitle( mdop.getName() );
+            pli.setDescription( mdop.getName() );
+            pli.setLongDescription( mdop.getName() );
+            pli.setDate( "24/01/2013" );
+            MDOAuthor[] mdoauthors = new MDOAuthor[authors.size()];
+            authors.keySet().toArray( mdoauthors );
+            PersonWithRole[] persons = new PersonWithRole[mdoauthors.length];
+            for ( int k = 0; k < mdoauthors.length; k++ )
+            {
+                MDOAuthor mdoa = mdoauthors[k];
+                PersonWithRole pwr = new PersonWithRole( mdoa.getName() );
+                persons[k] = pwr;
+            }
+            pli.setArtists( persons );
+
+            pli.setParentID( mdop.getOwner().getSid() + "" );
+            pli.setId( mdop.getOwner().getSid() + MessicContainer.SEPARATOR );
+
+            for ( int l = 0; l < mdop.getSongs().size(); l++ )
+            {
+                MDOSong song = mdop.getSongs().get( l );
+
+                MDOUser user = song.getOwner();
+                String token = loginDLNA( user.getLogin(), user.getPassword() );
+
+                Res resource = new Res();
+                EnumMap<DLNAAttribute.Type, DLNAAttribute> dlnaAttributes =
+                    new EnumMap<DLNAAttribute.Type, DLNAAttribute>( DLNAAttribute.Type.class );
+
+                URI originalUri = null;
+                try
+                {
+                    originalUri =
+                        new URI( ( isSecured() ? "https" : "http" ) + "://" + Util.getInternalIp() + ":"
+                            + getCurrentPort() + "/messic/services/songs/" + song.getSid()
+                            + "/audio?dlna=true&messic_token=" + token );
+                }
+                catch ( URISyntaxException e )
+                {
+                    e.printStackTrace();
+                }
+                catch ( Exception e )
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                resource.setValue( originalUri.toString() );
+                DLNAProfiles originalProfile = DLNAProfiles.MP3;
+                dlnaAttributes.put( DLNAAttribute.Type.DLNA_ORG_PN, new DLNAProfileAttribute( originalProfile ) );
+                dlnaAttributes.put( DLNAAttribute.Type.DLNA_ORG_OP, new DLNAOperationsAttribute( DLNAOperations.RANGE ) );
+                dlnaAttributes.put( DLNAAttribute.Type.DLNA_ORG_CI,
+                                    new DLNAConversionIndicatorAttribute( DLNAConversionIndicator.NONE ) );
+                dlnaAttributes.put( DLNAAttribute.Type.DLNA_ORG_FLAGS,
+                                    new DLNAFlagsAttribute( DLNAFlags.STREAMING_TRANSFER_MODE,
+                                                            DLNAFlags.BACKGROUND_TRANSFERT_MODE, DLNAFlags.DLNA_V15 ) );
+
+                resource.setProtocolInfo( new DLNAProtocolInfo( Protocol.HTTP_GET, ProtocolInfo.WILDCARD, "audio/mp3",
+                                                                dlnaAttributes ) );
+
+                pli.addResource( resource );
+
+            }
+
+            result.add( pli );
+        }
+        return result;
     }
 
     @Transactional

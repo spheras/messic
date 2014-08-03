@@ -10,89 +10,34 @@
 <!-- ============================================================= -->
 <Configure id="Server" class="org.eclipse.jetty.server.Server">
 
-	<New id="sslContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory">
-	    <Set name="keyStorePath">./jetty/etc/keystore_messic.jks</Set>
-	    <Set name="keyStorePassword">cissem</Set>
-	    <Set name="trustStorePath">./jetty/etc/keystore_messic.jks</Set>
-	    <Set name="trustStorePassword">cissem</Set>
-	    <Set name="protocol">TLSv1</Set>
-	</New>
-	
-	
-    <New id="tlsHttpConfig" class="org.eclipse.jetty.server.HttpConfiguration">
-        <Arg>
-            <New id="httpConfig" class="org.eclipse.jetty.server.HttpConfiguration">
-                <Set name="secureScheme">https</Set>
-                <Set name="securePort">
-					<SystemProperty name="messicSecurePort" default="8443"/>
-                </Set>
-                <Set name="outputBufferSize">32768</Set>
-                <Set name="requestHeaderSize">8192</Set>
-                <Set name="responseHeaderSize">8192</Set>
-
-                <!-- Uncomment to enable handling of X-Forwarded- style headers
-                <Call name="addCustomizer">
-                    <Arg><New class="org.eclipse.jetty.server.ForwardedRequestCustomizer"/></Arg>
-                </Call>
-                -->
-            </New>
+  <!-- =========================================================== -->
+  <!-- Add a HTTP Connector.                                       -->
+  <!-- Configure an o.e.j.server.ServerConnector with a single     -->
+  <!-- HttpConnectionFactory instance using the common httpConfig  -->
+  <!-- instance defined in jetty.xml                               -->
+  <!--                                                             -->
+  <!-- Consult the javadoc of o.e.j.server.ServerConnector and     -->
+  <!-- o.e.j.server.HttpConnectionFactory for all configuration    -->
+  <!-- that may be set here.                                       -->
+  <!-- =========================================================== -->
+  <Call name="addConnector">
+    <Arg>
+      <New class="org.eclipse.jetty.server.ServerConnector">
+        <Arg name="server"><Ref refid="Server" /></Arg>
+        <Arg name="factories">
+          <Array type="org.eclipse.jetty.server.ConnectionFactory">
+            <Item>
+              <New class="org.eclipse.jetty.server.HttpConnectionFactory">
+                <Arg name="config"><Ref refid="httpConfig" /></Arg>
+              </New>
+            </Item>
+          </Array>
         </Arg>
-        <Call name="addCustomizer">
-            <Arg>
-                <New class="org.eclipse.jetty.server.SecureRequestCustomizer"/>
-            </Arg>
-        </Call>
-    </New>
-
-	<!-- =========================================================== -->
-	<!-- Add a HTTP Connector. -->
-	<!-- Configure an o.e.j.server.ServerConnector with a single -->
-	<!-- HttpConnectionFactory instance using the common httpConfig -->
-	<!-- instance defined in jetty.xml -->
-	<!-- -->
-	<!-- Consult the javadoc of o.e.j.server.ServerConnector and -->
-	<!-- o.e.j.server.HttpConnectionFactory for all configuration -->
-	<!-- that may be set here. -->
-	<!-- =========================================================== -->
-	<Call name="addConnector" id="sslConnector">
-
-		<Arg>
-			<New class="org.eclipse.jetty.server.ServerConnector">
-				<Arg name="server">
-					<Ref refid="Server" />
-				</Arg>
-				<Arg name="factories">
-					<Array type="org.eclipse.jetty.server.ConnectionFactory">
-						<Item>
-							<New class="org.eclipse.jetty.server.SslConnectionFactory">
-								<Arg name="next">http/1.1</Arg>
-								<Arg name="sslContextFactory">
-									<Ref refid="sslContextFactory" />
-								</Arg>
-							</New>
-						</Item>
-						<Item>
-							<New class="org.eclipse.jetty.server.HttpConnectionFactory">
-								<Arg name="config">
-									<Ref refid="tlsHttpConfig" />
-								</Arg>
-							</New>
-						</Item>
-					</Array>
-				</Arg>
-				
-				<Set name="host">
-					<Property name="jetty.host" />
-				</Set>
-				<Set name="port">
-					<SystemProperty name="messicSecurePort" default="8443"/>
-				</Set>
-				<Set name="idleTimeout">
-					<SystemProperty name="messicTimeout" default="30000" />
-				</Set>
-			</New>
-		</Arg>
-
-	</Call>
+        <Set name="host"><Property name="jetty.host" /></Set>
+        <Set name="port"><SystemProperty name="messicPort" default="8080"/></Set>
+        <Set name="idleTimeout"><SystemProperty name="messicTimeout" default="86400000"/></Set>
+      </New>
+    </Arg>
+  </Call>
 
 </Configure>

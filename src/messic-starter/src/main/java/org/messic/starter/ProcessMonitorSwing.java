@@ -63,7 +63,7 @@ public class ProcessMonitorSwing
     public ProcessMonitorSwing()
         throws Exception
     {
-        setTitle("Messic Monitor");
+        setTitle( "Messic Monitor" );
         ArrayList<Image> icons = new ArrayList<Image>();
         icons.add( Toolkit.getDefaultToolkit().getImage( ProcessMonitorSwing.class.getResource( "/logotipo-32x32.png" ) ) );
         icons.add( Toolkit.getDefaultToolkit().getImage( ProcessMonitorSwing.class.getResource( "/logotipo-64x64.png" ) ) );
@@ -118,7 +118,7 @@ public class ProcessMonitorSwing
         // }
 
         JButton button = new JButton( ml.getProperty( "messic-password-reset" ) );
-        button.setForeground( Color.RED );
+        button.setForeground( Color.WHITE );
         button.setBackground( Color.RED );
         button.addActionListener( new ActionListener()
         {

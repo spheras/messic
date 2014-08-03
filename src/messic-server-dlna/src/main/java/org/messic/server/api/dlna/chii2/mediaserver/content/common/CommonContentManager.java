@@ -254,11 +254,10 @@ public class CommonContentManager
                 break;
             case SEARCH_AUDIO:
                 System.out.println( "searching audio songs!" );
-                // AudioItem ai=new AudioItem();
                 return musicService.getSongs( containerId, startIndex, requestCount, null );
             case SEARCH_PLAYLIST:
                 System.out.println( "Searching playlists!" );
-                break;
+                return musicService.getPlaylists( containerId, startIndex, requestCount, null );
         }
         return results;
     }

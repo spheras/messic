@@ -98,6 +98,28 @@ public class Util
     }
 
     /**
+     * Read a binary file in streaming, writing directly to the outputstream
+     * 
+     * @param filePath
+     * @param os {@link OutputStream} outputstream where the file will be writed
+     * @return
+     * @throws IOException
+     */
+    public static void streamFile( String filePath, OutputStream os )
+        throws IOException
+    {
+        FileInputStream fis = new FileInputStream( new File( filePath ) );
+        byte[] buffer = new byte[1024];
+        int cant = fis.read( buffer );
+        while ( cant > 0 )
+        {
+            os.write( buffer, 0, cant );
+            cant = fis.read( buffer );
+        }
+        fis.close();
+    }
+
+    /**
      * Read a binary file
      * 
      * @param filePath
@@ -441,17 +463,17 @@ public class Util
     }
 
     /**
-     * http://stackoverflow.com/questions/363681/generating-random-integers-in-a-range-with-java
-     * Returns a pseudo-random number between min and max, inclusive.
-     * The difference between min and max can be at most
+     * http://stackoverflow.com/questions/363681/generating-random-integers-in-a-range-with-java Returns a pseudo-random
+     * number between min and max, inclusive. The difference between min and max can be at most
      * <code>Integer.MAX_VALUE - 1</code>.
-     *
+     * 
      * @param min Minimum value
-     * @param max Maximum value.  Must be greater than min.
+     * @param max Maximum value. Must be greater than min.
      * @return Integer between min and max, inclusive.
      * @see java.util.Random#nextInt(int)
      */
-    public static int randInt(int min, int max) {
+    public static int randInt( int min, int max )
+    {
 
         // NOTE: Usually this should be a field rather than a method
         // variable so that it is not re-seeded every call.
@@ -459,7 +481,7 @@ public class Util
 
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive
-        int randomNum = rand.nextInt((max - min) + 1) + min;
+        int randomNum = rand.nextInt( ( max - min ) + 1 ) + min;
 
         return randomNum;
     }

@@ -4,11 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>messic-assembly</artifactId>
 	<name>Messic Assembly</name>
+	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>org.messic</groupId>
 		<artifactId>messic</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0.0-alpha</version>
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
 
@@ -25,14 +26,47 @@
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.4</version>
-				<configuration>
-					<descriptor>src/assembly/dep.xml</descriptor>
-				</configuration>
-				<!-- <executions> <execution> <id>linux</id> <configuration> <descriptor>src/assembly/dep-linux.xml</descriptor> 
-					</configuration> </execution> <execution> <id>windows</id> <configuration> 
-					<descriptor>src/assembly/dep-w.xml</descriptor> </configuration> </execution> 
-					</executions> -->
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>src/assembly/dep-windows.xml</descriptor>
+								<descriptor>src/assembly/dep-linux.xml</descriptor>
+								<descriptor>src/assembly/dep-mac.xml</descriptor>
+							</descriptors>
+
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<configuration>
+							<tasks>
+								<!-- after the assemblies, we need to decompress jvm for windows, and then generate the final .zip  -->
+								<unzip
+									src="${project.basedir}/jvm/jre-8u5-windows-i586.zip"
+									dest="${project.basedir}/target/${project.build.finalName}-windows/${project.build.finalName}/bin" />
+								<zip
+									basedir="${project.basedir}/target/${project.build.finalName}-windows"
+									destfile="${project.basedir}/target/${project.build.finalName}-windows.zip" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
@@ -40,12 +74,10 @@
 		<dependency>
 			<groupId>org.messic</groupId>
 			<artifactId>messic-starter</artifactId>
-			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.messic</groupId>
 			<artifactId>messic-service</artifactId>
-			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun</groupId>

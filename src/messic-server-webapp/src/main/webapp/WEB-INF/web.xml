@@ -11,18 +11,25 @@
 
 	<!-- spring context configuration -->
 	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>org.messic.server.spring.MessicWebApplicationContext</param-value>
+	</context-param>
+
+
+	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			/WEB-INF/spring/services.xml
-			/WEB-INF/spring/security.xml
-			/WEB-INF/spring/spring-jpa.xml
-			/WEB-INF/spring/controllers.xml
+			classpath:/springconfig/services.xml
+			classpath:/springconfig/services.xml
+			classpath:/springconfig/security.xml
+			classpath:/springconfig/spring-jpa.xml
+			classpath:/springconfig/controllers.xml
 		</param-value>
 	</context-param>
 	<!-- log4j configuration -->
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
-		<param-value>WEB-INF/log4j.xml</param-value>
+		<param-value>classpath:/springconfig/log4j.xml</param-value>
 	</context-param>
 
 	<!-- Security Filter -->
@@ -51,11 +58,10 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-	<!-- Spring Listener -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
 	<!-- Log4j Listener -->
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
@@ -64,7 +70,8 @@
 	<!-- Messic Servlet -->
 	<servlet>
 		<servlet-name>messic</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<servlet-class>org.messic.server.spring.MessicServlet</servlet-class>
+		<!-- <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 

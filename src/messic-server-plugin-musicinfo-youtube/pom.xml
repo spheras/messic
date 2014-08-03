@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.messic</groupId>
 		<artifactId>messic</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0.0-alpha</version>
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
 	

@@ -47,10 +47,18 @@ public interface DAOPlaylist
     List<MDOPlaylist> getAll( String username );
 
     /**
+     * return all the playlist of users that allow dlna
+     * 
+     * @return {@link List}<MdoPlaylist/> the list of playlists
+     */
+    List<MDOPlaylist> getAllDLNA();
+
+    /**
      * return a playlist searching by name
+     * 
      * @param username {@link String} user scope
      * @param name {@link String} name of the playlist to search
      * @return {@link MDOPlaylist} playlist founded
      */
-    MDOPlaylist getByName(String username, String name);
+    MDOPlaylist getByName( String username, String name );
 }

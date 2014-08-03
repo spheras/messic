@@ -16,7 +16,6 @@ public class MessicDataSource
         messic_path = messic_path.replaceAll( "\\\\", "\\\\\\\\" );
         String newURL = url.replaceAll( "MESSIC_PATH", messic_path );
         super.setUrl( newURL );
-        System.out.println( "pozi" );
     }
 
 }

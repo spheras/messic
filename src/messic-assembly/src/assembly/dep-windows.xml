@@ -2,9 +2,8 @@
 	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-	<id>linux</id>
+	<id>windows</id>
 	<formats>
-		<format>tar.gz</format>
 		<format>dir</format>
 	</formats>
 	<fileSets>
@@ -34,18 +33,12 @@
 
 		<!-- Files from Local -->
 		<fileSet>
-			<directory>${project.basedir}/jvm</directory>
-			<outputDirectory>/jvm</outputDirectory>
-			<includes>
-				<include>jre-8u5-linux-i586.tar.gz</include>
-				<include>jre-8u5-linux-x64.tar.gz</include>
-			</includes>
-		</fileSet>
-		<fileSet>
 			<directory>${project.basedir}/bin</directory>
 			<outputDirectory>/bin</outputDirectory>
 			<includes>
-				<include>messic.sh</include>
+				<include>messic.exe</include>
+				<include>messic.properties</include>
+				<include>messicservice.vbs</include>
 			</includes>
 		</fileSet>
 		<fileSet>

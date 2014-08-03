@@ -8,7 +8,7 @@
 	<groupId>org.messic</groupId>
 	<artifactId>messic</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0-alpha</version>
 
 	<licenses>
 		<license>
@@ -22,6 +22,7 @@
 	<properties>
 		<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
 		<org.springframework.security.version>3.2.0.RELEASE</org.springframework.security.version>
+		<messic.version>1.0.0-alpha</messic.version>
 	</properties>
 
 	<modules>
@@ -93,43 +94,53 @@
 
 			<dependency>
 				<groupId>org.messic</groupId>
+				<artifactId>messic-starter</artifactId>
+				<version>${messic.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.messic</groupId>
+				<artifactId>messic-service</artifactId>
+				<version>${messic.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.messic</groupId>
 				<artifactId>messic-server-common</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>${messic.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.messic</groupId>
 				<artifactId>messic-server-dlna</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>${messic.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.messic</groupId>
 				<artifactId>messic-server-plugin-tagwizard-audiotagger</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>${messic.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.messic</groupId>
 				<artifactId>messic-server-osgiservices</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>${messic.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.messic</groupId>
 				<artifactId>messic-server-api</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>${messic.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.messic</groupId>
 				<artifactId>messic-server-datamodel</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>${messic.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.messic</groupId>
 				<artifactId>messic-server-webapp</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>${messic.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.messic</groupId>
 				<artifactId>messic-server-webapp-logics</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>${messic.version}</version>
 			</dependency>
 
 			<dependency>
@@ -425,7 +436,7 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
+
 	<repositories>
 		<!-- this repository is for jCaptcha -->
 		<repository>

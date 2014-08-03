@@ -21,6 +21,7 @@ package org.messic.server.api;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -252,34 +253,46 @@ public class APISong
         }
     }
 
+    public class AudioSongStream
+    {
+        public InputStream is;
+
+        public long contentLength;
+    }
+
     @Transactional
-    public byte[] getAudioSong( User user, long sid )
+    public AudioSongStream getAudioSong( User user, long sid )
         throws IOException
     {
         MDOUser mdouser = daoUser.getUserByLogin( user.getLogin() );
 
-       MDOSong song = daoSong.get( mdouser.getLogin(), sid );
+        MDOSong song = daoSong.get( mdouser.getLogin(), sid );
         if ( song != null )
         {
-            MDOMessicSettings settings=daoSettings.getSettings();
-            
-            if(mdouser.getAllowStatistics()){
-                MDOSongStatistics statistics=song.getStatistics();
-                if(statistics==null){
-                    statistics=new MDOSongStatistics();
+            MDOMessicSettings settings = daoSettings.getSettings();
+
+            if ( mdouser.getAllowStatistics() )
+            {
+                MDOSongStatistics statistics = song.getStatistics();
+                if ( statistics == null )
+                {
+                    statistics = new MDOSongStatistics();
                     daoSongStatistics.save( statistics );
-                    statistics=daoSongStatistics.getStatistics( user.getLogin(), song.getSid() );
+                    statistics = daoSongStatistics.getStatistics( user.getLogin(), song.getSid() );
                     song.setStatistics( statistics );
                 }
                 statistics.addTimePlayed();
                 daoSong.save( song );
             }
-            
+
             String filePath = song.calculateAbsolutePath( settings );
             File fsong = new File( filePath );
             if ( fsong.exists() )
             {
-                return Util.readFile( filePath );
+                AudioSongStream ass = new AudioSongStream();
+                ass.is = new FileInputStream( fsong );
+                ass.contentLength = fsong.length();
+                return ass;
             }
         }
 

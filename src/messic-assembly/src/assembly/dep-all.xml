@@ -30,7 +30,7 @@
 			<directory>../messic-service/jetty</directory>
 			<outputDirectory>/jetty</outputDirectory>
 			<includes>
-				<include>**/*</include>
+				<include>etc/*</include>
 			</includes>
 		</fileSet>
 
