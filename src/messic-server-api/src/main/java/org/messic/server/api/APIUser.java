@@ -209,7 +209,7 @@ public class APIUser
 
         mdoUser = user.updateMDOUser( mdoUser );
 
-        this.daoUser.saveUser( mdoUser, user.getPassword() != mdoUser.getPassword(), user.getPassword() );
+        this.daoUser.saveUser( mdoUser, !user.getPassword().equals( mdoUser.getPassword()), user.getPassword() );
 
         this.dlnaServer.refreshServer();
 

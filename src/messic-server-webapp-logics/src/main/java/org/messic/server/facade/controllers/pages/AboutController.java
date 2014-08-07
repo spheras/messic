@@ -21,6 +21,7 @@ package org.messic.server.facade.controllers.pages;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.messic.server.datamodel.MDOMessicSettings;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,25 +34,26 @@ public class AboutController
     @Autowired
     private DAOMessicSettings daosettings;
 
-    @RequestMapping("/about.do")
+    @RequestMapping( "/about.do" )
     protected ModelAndView about( HttpServletRequest arg0, HttpServletResponse arg1 )
         throws Exception
     {
         ModelAndView model = new ModelAndView( "about" );
-        
-        String version=getClass().getPackage().getImplementationVersion();
-        //TODO obtain version 
-        model.addObject( "version", version );
+
+        MDOMessicSettings settings = daosettings.getSettings();
+        model.addObject( "version", settings.getVersion() );
 
         return model;
     }
 
-
-    @RequestMapping("/abouttape.do")
+    @RequestMapping( "/abouttape.do" )
     protected ModelAndView abouttape( HttpServletRequest arg0, HttpServletResponse arg1 )
         throws Exception
     {
         ModelAndView model = new ModelAndView( "abouttape" );
+
+        MDOMessicSettings settings = daosettings.getSettings();
+        model.addObject( "version", settings.getVersion() );
 
         return model;
     }

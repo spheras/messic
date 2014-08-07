@@ -120,6 +120,7 @@
 }
 #messic-author-container {
     float:left;
+    max-width: 535px;
 }
 
 #messic-author-songs-container {

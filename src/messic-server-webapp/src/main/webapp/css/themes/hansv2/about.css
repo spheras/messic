@@ -154,8 +154,12 @@
 
 
 #messic-about-faq h1 {
+    background: none repeat scroll 0 0 #ddffff;
     border-bottom: 1px dashed #888888;
     color: #33aaaa;
+    font-size: 1.5em;
+    margin-bottom: 0;
+    margin-top: 31px;
     text-align: left;
     text-indent: 0;
 }

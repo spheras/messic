@@ -4,7 +4,10 @@
 <hibernate-configuration>
 	<session-factory>
 		<!-- Database connection settings -->
+		<!--
+		This is done by code, at HibernateUtil.java 
 		<property name="connection.url">jdbc:h2:./db/db;DB_CLOSE_DELAY=-1</property>
+		 -->
 		<property name="connection.driver_class">org.h2.Driver</property>
 		<property name="connection.username">messic</property>
 		<property name="connection.password">cissem</property>

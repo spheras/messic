@@ -44,24 +44,23 @@ public class MDOMessicSettings
     @Column( name = "SID", nullable = false, unique = true )
     private Long sid;
 
+    @Column( name = "ILLEGALCHARACTERREPLACEMENT", nullable = true )
+    /* string whicn will replace all those illegal characters at filename adn paths */
+    private char illegalCharacterReplacement = '_';
+
+    @Column( name = "ALLOWUSERCREATION", nullable = false )
+    /* flag to know if its available the option to create new users by non messic users */
+    private boolean allowUserCreation = true;
+
     @Column( name = "GENERICBASESTOREPATH", nullable = true )
     private String genericBaseStorePath;
 
-    @Column( name = "ILLEGALCHARACTERREPLACEMENT", nullable = true )
-    /* string whicn will replace all those illegal characters at filename adn paths */
-    private char illegalCharacterReplacement='_';
-    
-    @Column( name = "ALLOWUSERCREATION", nullable = false)
-    /* flag to know if its available the option to create new users by non messic users */
-    private boolean allowUserCreation=true;
-    
-    @Column( name = "ALLOWUSERSPECIFICFOLDER", nullable = false)
-    /* flag to know if users can specify their folder to store music, or its just a subfolder of the generic messic folder */
-    private boolean allowUserSpecificFolder=false;
-    
-    @Column( name = "ALLOWDLNA", nullable = false)
+    @Column( name = "ALLOWDLNA", nullable = false )
     /* flag to know is allowed the DLNA share content */
-    private boolean allowDLNA=true;
+    private boolean allowDLNA = true;
+    
+    @Column( name = "VERSION", nullable = true )
+    private String version;
 
     /**
      * @constructor
@@ -123,22 +122,6 @@ public class MDOMessicSettings
     }
 
     /**
-     * @return the allowUserSpecificFolder
-     */
-    public boolean isAllowUserSpecificFolder()
-    {
-        return allowUserSpecificFolder;
-    }
-
-    /**
-     * @param allowUserSpecificFolder the allowUserSpecificFolder to set
-     */
-    public void setAllowUserSpecificFolder( boolean allowUserSpecificFolder )
-    {
-        this.allowUserSpecificFolder = allowUserSpecificFolder;
-    }
-
-    /**
      * @return the allowDLNA
      */
     public boolean isAllowDLNA()
@@ -152,6 +135,22 @@ public class MDOMessicSettings
     public void setAllowDLNA( boolean allowDLNA )
     {
         this.allowDLNA = allowDLNA;
+    }
+
+    /**
+     * @return the version
+     */
+    public String getVersion()
+    {
+        return version;
+    }
+
+    /**
+     * @param version the version to set
+     */
+    public void setVersion( String version )
+    {
+        this.version = version;
     }
 
 }

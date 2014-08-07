@@ -12,6 +12,7 @@
 		</c:if>
 		    
 		<div id="content">
+			<label class="messic-about-version">Messic Version: ${version}</label>
 			<div id="messic-about-version" class="messic-about-title" onclick="aboutShowMessicVersion();">
 				<div class="messic-about-title-title">About Messic</div>
 			</div>
@@ -30,7 +31,7 @@
 					    	</li>
 					    </ul>
 					
-					The aim for the project is to convert this mess of music in a real ordered music, an ordered catalog music and play it in a confortable way. The main characteristics are:
+					The aim for the project is to convert this mess of music in a real ordered and cataloged music, playing it also in a confortable way. The main characteristics are:
 					
 						<ul>
 							<li>
@@ -52,13 +53,13 @@
 					</li>
 					<li>
 						<h1>Does Messic use a secure protocol SSL/TLS?</h1>
-						Initially no, because it's intended to be at your home, inside your home network.  But if you need, you can do it by modifying the configuration file.
-						Just go to the file [messic_folder]/conf/config.properties (under the installation directory), and modify the 'messic-secure' parameter. Just put it to TRUE.
-						After a restart of the messic service, the connections will be done through the new https port, and probably your navigator will advise you because the messic certificate doesn't correspond to the url, and so on. This is normal, but if you want also to fix it, you only need to go to the folder [messic_folder]/jetty/etc/ and you will find there all the jetty configuration. Just touch the jetty-selector-ssl.xml file with your own configuration. 
+						Initially no, because it's intended to be at your home, inside your home network.  But if you need, you can do it by modifying the configuration.
+						<br>Just open the messic monitor and open the configuration section.  From there you can modify a set of options, and also to enable the security (also you can specify the https protocol).
+						<br>After a restart of the messic service, the connections will be done through the new https port, and probably your navigator will advise you because the messic certificate doesn't correspond to the url, and so on. This is normal, but if you want also to fix it, you only need to go to the folder [messic_folder]/jetty/etc/ and you will find there all the jetty configuration. Just touch the jetty-selector-ssl.xml file with your own configuration. 
 					</li>
 					<li>
 						<h1>How can I help the project?</h1>
-						We need help. 
+						We need a lot of help.  For example, translations of messic to other languages. At this time, we have not defined a protocol for external helps, but we will do. I think that the best way could be forking the project and pull request. You have a guide <a href="https://guides.github.com/activities/contributing-to-open-source/" target="_blank">here</a>.
 					</li>
 					<li>
 						<h1>Can I use Messic for free?</h1>
@@ -67,6 +68,10 @@
 					<li>
 						<h1>Where is the source code?</h1>
 						Just here: <a href="https://github.com/spheras/messic" target="_blank">https://github.com/spheras/messic</a>
+					</li>
+					<li>
+						<h1>I want to move my music folder to other place. How can I do?</h1>
+						OK, it's very easy. All the necessary information is inside your folder (included database). So you just need to stop messic service, move the WHOLE folder (which is configured at the messic monitor).  After that, open the messic monitor and update the new location in the configure section.  Finally, you can launch the messic service with this new location.
 					</li>
 				</ul>
 				<p>
@@ -84,19 +89,24 @@
 				<p>
 					Here is the list of the current contributors:<br>
 					<ul>
-						<li>José Amuedo, as the main contributor of this project.</li>
-						<li>Manuel Hans, creator of the data model and security especifications</li>
-						<li>Francisco Javier Coira, supporting tools and dynamic OSGI extensions</li>
+						<li><u>José Amuedo</u>, as the main contributor of this project.</li>
+						<li><u>Manuel Hans</u>, creator of the data model and security especifications</li>
+						<li><u>Francisco Javier Coira</u>, supporting tools and dynamic OSGI extensions</li>
+						<li><u>Juan Luis Casimiro</u>, security issues and linux scripts</li>
 					</ul>				
 				</p>
 				<p>
-					Graphical resources used by Messic from third parties:<br>
+					Graphical resources used by the Messic UI from third parties:<br>
 					<ul>
-						<li>http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/128/Places-user-trash-icon.png</li>
+						<li>A lot of graphical resources from <a href="http://freepsdfiles.net" target="_blank">Free PSD Files</a></li>
+						<li>Background patterns from <a href="http://subtlepatterns.com" target="_blank">Subtle Patterns</a>
+						<li>Some <a href="http://en.wikipedia.org/wiki/Oxygen_Project" target="_blank">Oxygen</a> icons </li>
+						<li>A set of icons from <a href="http://brankic1979.com/icons/" target="_blank">Brankic1979</a></li>
+						<li>Ribbons from <a href="http://365psd.com/day/author/alexandren/" target="_blank">Alexandre Naud</a> at <a href="http://365psd.com">365psd</a></li>
 					</ul>
 				</p>
 				<p>
-					Other projects whose code/libraries Messic uses:<br>
+					Third projects and software libraries used:<br>
 					<ul>
 						<li></li>
 					</ul>				

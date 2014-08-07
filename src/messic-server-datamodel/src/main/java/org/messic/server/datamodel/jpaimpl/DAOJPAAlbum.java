@@ -31,8 +31,10 @@ import org.messic.server.datamodel.MDOAuthor;
 import org.messic.server.datamodel.MDOGenre;
 import org.messic.server.datamodel.dao.DAOAlbum;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class DAOJPAAlbum
     extends DAOJPA<MDOAlbum>
     implements DAOAlbum
@@ -44,7 +46,8 @@ public class DAOJPAAlbum
     }
 
     @Override
-    public List<MDOAlbum> getAll( String username, MDOGenre genre )
+    @Transactional
+   public List<MDOAlbum> getAll( String username, MDOGenre genre )
     {
         Query query =
             entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) and (a.genre.sid = :genreSid)" );
@@ -57,6 +60,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public List<MDOAlbum> getAllDLNA()
     {
         Query query =
@@ -68,6 +72,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public List<MDOAlbum> getAll( String username )
     {
         Query query =
@@ -80,6 +85,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public List<MDOAlbum> findSimilarAlbums( String albumName, String username )
     {
         Query query =
@@ -93,6 +99,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public List<MDOAlbum> getAll( long authorSid, String username )
     {
         Query query =
@@ -120,6 +127,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public void setAlbumCover( long resourceSid, long albumSid, long userSid )
     {
         Query query =
@@ -137,6 +145,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public MDOArtwork getAlbumCover( long albumSid, String username )
     {
         Query query =
@@ -154,6 +163,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public MDOAlbum getAlbum( long albumSid, String username )
     {
         Query query =
@@ -171,6 +181,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public MDOAlbum getByName( String authorName, String albumName, String username )
     {
         Query query =
@@ -189,6 +200,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public List<MDOAlbum> findAlbumsBasedOnDate( String username, int fromYear, int toYear )
     {
         Query query =
@@ -204,6 +216,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public List<MDOAlbum> findSimilarAlbums( long authorSid, String albumName, String username )
     {
         Query query =
@@ -218,6 +231,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public void setNullGenre( MDOGenre genre )
     {
         // ((a.owner.login = :userName) AND (
@@ -231,6 +245,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public List<MDOAlbum> getAllOfGenre( long genreSid, String username )
     {
         Query query =
@@ -244,6 +259,7 @@ public class DAOJPAAlbum
     }
 
     @Override
+    @Transactional
     public int findOldestAlbum( String username )
     {
         Query query =

@@ -121,37 +121,9 @@ public class APIAlbum
         MDOAlbum album = this.daoAlbum.getAlbum( albumSid, user.getLogin() );
         if ( album != null )
         {
-            // // we should remove manually all the playlist links
-            // List<MDOSong> songs = album.getSongs();
-            // for ( MDOSong mdoSong : songs )
-            // {
-            // if ( mdoSong != null )
-            // {
-            // Set<MDOPlaylist> playlists = mdoSong.getPlaylists();
-            // for ( MDOPlaylist mdoPlaylist : playlists )
-            // {
-            // List<MDOSong> psongs = mdoPlaylist.getSongs();
-            // for ( int i = 0; i < psongs.size(); i++ )
-            // {
-            // MDOSong mdoSong2 = psongs.get( i );
-            // if ( mdoSong2 != null )
-            // {
-            // if ( mdoSong2.getSid() == mdoSong.getSid() )
-            // {
-            // psongs.remove( i );
-            // i = i - 1;
-            // }
-            // }
-            // }
-            // daoPlaylists.save( mdoPlaylist );
-            // }
-            // }
-            // }
-
-            if ( album.getAuthor().getAlbums().size() <= 1 )
+            MDOAuthor author = album.getAuthor();
+            if ( author.getAlbums().size() <= 1 )
             {
-                // first, removing the author folder
-                MDOAuthor author = album.getAuthor();
                 File fpath = new File( author.calculateAbsolutePath( daoSettings.getSettings() ) );
                 FileUtils.deleteDirectory( fpath );
                 // after, removing the author data from database

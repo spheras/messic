@@ -25,8 +25,10 @@ import javax.persistence.Query;
 import org.messic.server.datamodel.MDOSongStatistics;
 import org.messic.server.datamodel.dao.DAOSongStatistics;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class DAOJPASongStatistics
     extends DAOJPA<MDOSongStatistics>
     implements DAOSongStatistics
@@ -38,6 +40,7 @@ public class DAOJPASongStatistics
     }
 
     @Override
+    @Transactional
     public MDOSongStatistics getStatistics( String username, long songSid )
     {
         Query query =

@@ -28,8 +28,10 @@ import javax.persistence.Query;
 import org.messic.server.datamodel.MDOSong;
 import org.messic.server.datamodel.dao.DAOSong;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class DAOJPASong
     extends DAOJPA<MDOSong>
     implements DAOSong
@@ -41,6 +43,7 @@ public class DAOJPASong
     }
 
     @Override
+    @Transactional
     public MDOSong get( String username, long sid )
     {
         Query query =
@@ -58,6 +61,7 @@ public class DAOJPASong
     }
 
     @Override
+    @Transactional
     public List<MDOSong> getAll( String username )
     {
         Query query = entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName)" );
@@ -69,6 +73,7 @@ public class DAOJPASong
     }
 
     @Override
+    @Transactional
     public List<MDOSong> getAllDLNA()
     {
         Query query = entityManager.createQuery( "from MDOSong as a where (a.owner.allowDLNA= true)" );
@@ -79,6 +84,7 @@ public class DAOJPASong
     }
 
     @Override
+    @Transactional
     public List<MDOSong> genericFind( String username, List<String> searches )
     {
         HashMap<Long, MDOSong> finalResult = new HashMap<Long, MDOSong>();
@@ -124,6 +130,7 @@ public class DAOJPASong
     }
 
     @Override
+    @Transactional
     public List<MDOSong> getLovedSongs( String username )
     {
         Query query =
@@ -136,6 +143,7 @@ public class DAOJPASong
     }
 
     @Override
+    @Transactional
     public List<MDOSong> getAllOrderByMostPlayed( String username )
     {
         Query query =
@@ -148,6 +156,7 @@ public class DAOJPASong
     }
 
     @Override
+    @Transactional
     public List<MDOSong> getAllOrderByLessPlayed( String username )
     {
         Query query =

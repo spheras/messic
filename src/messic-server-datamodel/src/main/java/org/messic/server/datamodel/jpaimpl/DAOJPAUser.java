@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class DAOJPAUser
     extends DAOJPA<MDOUser>
     implements DAOUser
@@ -46,6 +47,7 @@ public class DAOJPAUser
      * @return {@link MDOUser} user found, null if not found
      */
     @Override
+    @Transactional
     public MDOUser getUserByLogin( String username )
     {
         Query query = entityManager.createQuery( "from MDOUser as p where p.login = :login" );
@@ -68,6 +70,8 @@ public class DAOJPAUser
      * @param username {@link String} username
      * @return boolean true->yes, it exists
      */
+    @Transactional
+    @Override
     public boolean existUser( String username )
     {
         return ( getUserByLogin( username ) != null );
@@ -80,6 +84,8 @@ public class DAOJPAUser
      * @param hashpass
      * @return
      */
+    @Transactional
+    @Override
     public MDOUser authenticate( String username, String hashpass )
     {
         Query query = entityManager.createQuery( "from User as p where p.login = :login and p.password = :password" );
@@ -161,6 +167,7 @@ public class DAOJPAUser
     }
 
     @Override
+    @Transactional
     public boolean existUsers()
     {
         Query query = entityManager.createQuery( "SELECT COUNT(sid) FROM MDOUser" );
@@ -176,6 +183,7 @@ public class DAOJPAUser
     }
 
     @Override
+    @Transactional
     public List<MDOUser> getDLNAUsers()
     {
         Query query = entityManager.createQuery( "from MDOUser as a where (a.allowDLNA = true)" );
@@ -186,6 +194,7 @@ public class DAOJPAUser
     }
 
     @Override
+    @Transactional
     public long countAllowedDLNAUsers()
     {
         Query query = entityManager.createQuery( "SELECT COUNT(sid) FROM MDOUser as p where p.allowDLNA=true" );
@@ -202,6 +211,7 @@ public class DAOJPAUser
     }
 
     @Override
+    @Transactional
     public MDOUser getUserById( Long userSid )
     {
         MDOUser user = get( userSid );

@@ -19,11 +19,13 @@
 package org.messic.server.datamodel.dao;
 
 import org.messic.server.datamodel.MDOResource;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * DAO for Resource table
  */
+@Transactional
 public interface DAOResource extends DAO<MDOResource>
 {
 	

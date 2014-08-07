@@ -21,12 +21,14 @@ package org.messic.server.datamodel.dao;
 import java.util.List;
 
 import org.messic.server.datamodel.MDOAuthor;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
 /**
  * DAO for Author table
  */
+@Transactional
 public interface DAOAuthor extends DAO<MDOAuthor>
 {
 	
@@ -36,6 +38,7 @@ public interface DAOAuthor extends DAO<MDOAuthor>
 	 * @param number int number of limited results
 	 * @return {@link List}<MDOAuthor/>
 	 */
+    @Transactional
     List<MDOAuthor> getRandomAuthors(String username, int number);
 
 
@@ -44,6 +47,7 @@ public interface DAOAuthor extends DAO<MDOAuthor>
      * @param username {@link String} user scope
      * @return {@link List}<String/>
      */
+    @Transactional
     List<String> getFirstCharacters(String username);
 
 	/**
@@ -53,6 +57,7 @@ public interface DAOAuthor extends DAO<MDOAuthor>
 	 * @param username {@link String} username scope
 	 * @return {@link List}<MDOAuthor/> list of similar authors
 	 */
+    @Transactional
 	List<MDOAuthor> findSimilarAuthors(String authorName, boolean contains, String username);
 
 	/**
@@ -60,12 +65,14 @@ public interface DAOAuthor extends DAO<MDOAuthor>
 	 * @param username {@link String} user scope
 	 * @return
 	 */
+    @Transactional
 	List<MDOAuthor> getAll(String username);
 
    /**
      * return all the authors, but only from users that allow DLNA
      * @return
      */
+    @Transactional
     List<MDOAuthor> getAllDLNA();
 
 	/**
@@ -74,6 +81,7 @@ public interface DAOAuthor extends DAO<MDOAuthor>
 	 * @param username {@link String} user scope
 	 * @return {@link MDOAuthor} found, null if none
 	 */
+    @Transactional
 	MDOAuthor getByName(String authorName, String username);
 	
 	/**
@@ -82,5 +90,6 @@ public interface DAOAuthor extends DAO<MDOAuthor>
 	 * @param authorSid long sid of the author to get
 	 * @return {@link MDOAuthor} author found, null if not
 	 */
+    @Transactional
 	MDOAuthor get(String username, long authorSid);
 }

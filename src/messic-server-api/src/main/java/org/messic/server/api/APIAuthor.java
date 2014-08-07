@@ -20,6 +20,7 @@ package org.messic.server.api;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -62,29 +63,9 @@ public class APIAuthor
         MDOAuthor author = daoAuthor.get( user.getLogin(), authorSid );
         if ( author != null )
         {
-            Iterator<MDOAlbum> itAlbums = author.getAlbums().iterator();
-            boolean authorRemoved = false;
-            while ( itAlbums.hasNext() )
-            {
-                MDOAlbum album = itAlbums.next();
-                boolean authorr = false;
-                authorr = apiAlbum.remove( user, album.getSid() );
-                if ( !authorRemoved )
-                {
-                    authorRemoved = authorr;
-                }
-            }
-
-            if ( !authorRemoved )
-            {
-                author = daoAuthor.get( user.getLogin(), authorSid );
-                if ( author != null )
-                {
-                    String path = author.calculateAbsolutePath( daoSettings.getSettings() );
-                    daoAuthor.remove( author );
-                    FileUtils.deleteDirectory( new File( path ) );
-                }
-            }
+            String path = author.calculateAbsolutePath( daoSettings.getSettings() );
+            daoAuthor.remove( author );
+            FileUtils.deleteDirectory( new File( path ) );
         }
     }
 

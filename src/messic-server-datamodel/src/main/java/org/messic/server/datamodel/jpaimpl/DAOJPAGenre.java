@@ -25,8 +25,10 @@ import javax.persistence.Query;
 import org.messic.server.datamodel.MDOGenre;
 import org.messic.server.datamodel.dao.DAOGenre;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class DAOJPAGenre
     extends DAOJPA<MDOGenre>
     implements DAOGenre
@@ -38,6 +40,7 @@ public class DAOJPAGenre
     }
 
     @Override
+    @Transactional
     public List<MDOGenre> getAll( String username )
     {
         Query query = entityManager.createQuery( "from MDOGenre as a where (a.owner.login= :userName)" );
@@ -48,6 +51,7 @@ public class DAOJPAGenre
     }
 
     @Override
+    @Transactional
     public List<MDOGenre> getRandomGenre( String username, int number )
     {
         Query query =
@@ -63,6 +67,7 @@ public class DAOJPAGenre
      * @TODO limit to the valid genres for the user?
      */
     @Override
+    @Transactional
     public List<MDOGenre> findSimilarGenre( String genreName, String username )
     {
         Query query =
@@ -76,6 +81,7 @@ public class DAOJPAGenre
     }
 
     @Override
+    @Transactional
     public MDOGenre getGenre( String username, Long genreSid )
     {
         Query query =
@@ -95,6 +101,8 @@ public class DAOJPAGenre
         }
     }
 
+    @Override
+    @Transactional
     public MDOGenre getGenre( String username, String genreName )
     {
         Query query =
@@ -114,6 +122,8 @@ public class DAOJPAGenre
         }
     }
 
+    @Override
+    @Transactional
     public MDOGenre getByName( String username, String genreName )
     {
         Query query =

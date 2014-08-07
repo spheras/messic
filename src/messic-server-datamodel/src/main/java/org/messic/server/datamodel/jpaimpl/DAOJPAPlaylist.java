@@ -25,8 +25,10 @@ import javax.persistence.Query;
 import org.messic.server.datamodel.MDOPlaylist;
 import org.messic.server.datamodel.dao.DAOPlaylist;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class DAOJPAPlaylist
     extends DAOJPA<MDOPlaylist>
     implements DAOPlaylist
@@ -38,6 +40,7 @@ public class DAOJPAPlaylist
     }
 
     @Override
+    @Transactional
     public MDOPlaylist get( String username, long sid )
     {
         Query query =
@@ -55,6 +58,7 @@ public class DAOJPAPlaylist
     }
 
     @Override
+    @Transactional
     public List<MDOPlaylist> getAll( String username )
     {
         Query query = entityManager.createQuery( "from MDOPlaylist as a where (a.owner.login = :userName)" );
@@ -66,6 +70,7 @@ public class DAOJPAPlaylist
     }
 
     @Override
+    @Transactional
     public List<MDOPlaylist> getAllDLNA()
     {
         Query query = entityManager.createQuery( "from MDOPlaylist as a where (a.owner.allowDLNA = true)" );
@@ -76,6 +81,7 @@ public class DAOJPAPlaylist
     }
 
     @Override
+    @Transactional
     public MDOPlaylist getByName( String username, String name )
     {
         Query query =

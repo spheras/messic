@@ -21,10 +21,12 @@ package org.messic.server.datamodel.dao;
 import java.util.List;
 
 import org.messic.server.datamodel.MDOUser;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * DAO for User table
  */
+@Transactional
 public interface DAOUser
     extends DAO<MDOUser>
 {
@@ -34,6 +36,7 @@ public interface DAOUser
      * @param user {@link String} login user
      * @return {@link MDOUser} foudned
      */
+    @Transactional
     MDOUser getUserByLogin( String user );
 
     /**
@@ -42,6 +45,7 @@ public interface DAOUser
      * @param userSid {@link Long} sid for the user to search
      * @return {@link MDOUser} founded
      */
+    @Transactional
     MDOUser getUserById( Long userSid );
 
     /**
@@ -49,6 +53,7 @@ public interface DAOUser
      * 
      * @param userSid Long sid to remove
      */
+    @Transactional
     void removeUser( Long userSid );
 
     /**
@@ -57,6 +62,7 @@ public interface DAOUser
      * @param user {@link String} username to check
      * @return boolean
      */
+    @Transactional
     boolean existUser( String user );
 
     /**
@@ -64,6 +70,7 @@ public interface DAOUser
      * 
      * @return boolean, true->yes, exist at least one user, false->no, there is no user at the database
      */
+    @Transactional
     boolean existUsers();
 
     /**
@@ -73,6 +80,7 @@ public interface DAOUser
      * @param password {@link String}
      * @return {@link MDOUser} user authenticated
      */
+    @Transactional
     MDOUser authenticate( String user, String password );
 
     /**
@@ -80,6 +88,7 @@ public interface DAOUser
      * 
      * @return long
      */
+    @Transactional
     long countAllowedDLNAUsers();
 
     /**
@@ -87,6 +96,7 @@ public interface DAOUser
      * 
      * @return {@link List}<MDOUser/>
      */
+    @Transactional
     List<MDOUser> getDLNAUsers();
 
     /**
@@ -97,6 +107,7 @@ public interface DAOUser
      * @param newPassword {@link String} the new password to be hashed and stored
      * @return
      */
+    @Transactional
     MDOUser saveUser( MDOUser user, boolean updatePassword, String newPassword );
 
 }

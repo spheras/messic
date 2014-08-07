@@ -56,9 +56,6 @@ public class User
     @ApiObjectField( description = "flag to know the user content is allowed to be shared by a DLNA protocol" )
     private Boolean allowDLNA = true; // true by default
 
-    @ApiObjectField( description = "Path to store their songs" )
-    private String storePath = "";
-
     /**
      * Default constructor
      */
@@ -90,15 +87,14 @@ public class User
             mdouser.setSid( null );
             mdouser.setAdministrator( getAdministrator() );
         }
-        
+
         mdouser.setAllowDLNA( getAllowDLNA() );
         mdouser.setAllowStatistics( getAllowStatistics() );
         mdouser.setAvatar( getAvatar() );
         mdouser.setEmail( getEmail() );
         mdouser.setLogin( getLogin() );
         mdouser.setName( getName() );
-        //mdouser.setPassword( getPassword() ); we can't set the password, because it need to be hashed
-        mdouser.setStorePath( getStorePath() );
+        // mdouser.setPassword( getPassword() ); we can't set the password, because it need to be hashed
 
         return mdouser;
     }
@@ -128,7 +124,6 @@ public class User
             this.setName( mdoUser.getName() );
             this.setPassword( mdoUser.getPassword() );
             this.setSid( mdoUser.getSid() );
-            this.setStorePath( mdoUser.getStorePath() );
             this.setAllowStatistics( mdoUser.getAllowStatistics() );
             this.setAllowDLNA( mdoUser.getAllowDLNA() );
         }
@@ -192,16 +187,6 @@ public class User
     public void setAdministrator( Boolean administrator )
     {
         this.administrator = administrator;
-    }
-
-    public String getStorePath()
-    {
-        return storePath;
-    }
-
-    public void setStorePath( String storePath )
-    {
-        this.storePath = storePath;
     }
 
     /**

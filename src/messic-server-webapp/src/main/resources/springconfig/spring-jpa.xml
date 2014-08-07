@@ -16,7 +16,7 @@ http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
  		<bean id="dataSource" class="org.messic.server.datamodel.datasource.MessicDataSource"
                 destroy-method="close" 
                 p:driverClassName="org.h2.Driver"
-                p:url="jdbc:h2:MESSIC_PATH/db;DB_CLOSE_DELAY=-1"
+                p:url="jdbc:h2:MESSIC_PATH/.database/db;DB_CLOSE_DELAY=-1"
                 p:username="messic"
                 p:password="cissem" />
                 

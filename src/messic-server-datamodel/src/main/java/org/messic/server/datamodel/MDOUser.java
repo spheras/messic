@@ -80,9 +80,6 @@ public class MDOUser
     @Column( name = "ALLOWDLNA", nullable = false )
     private Boolean allowDLNA = true; // by default, true
 
-    @Column( name = "STOREPATH", nullable = false )
-    private String storePath;
-
     /**
      * @constructor
      */
@@ -91,8 +88,7 @@ public class MDOUser
         super();
     }
 
-    public MDOUser( String name, String email, byte[] avatar, String login, String password, Boolean administrator,
-                    String basePath )
+    public MDOUser( String name, String email, byte[] avatar, String login, String password, Boolean administrator )
     {
         this.name = name;
         this.email = email;
@@ -100,7 +96,6 @@ public class MDOUser
         this.login = login;
         this.password = password;
         this.administrator = administrator;
-        this.storePath = basePath;
     }
 
     public Long getSid()
@@ -173,18 +168,6 @@ public class MDOUser
         this.administrator = administrator;
     }
 
-    public String getStorePath()
-    {
-        String resultStorePath = this.storePath;
-        if ( this.storePath == null || this.storePath.length() == 0
-            || this.storePath.equals( Util.GENERIC_BASE_STORE_PATH_VAR ) )
-        {
-            resultStorePath = Util.GENERIC_BASE_STORE_PATH_VAR + File.separatorChar + getLogin();
-        }
-
-        return resultStorePath;
-    }
-
     /**
      * calculate the absolute store path for this user.
      * 
@@ -193,9 +176,8 @@ public class MDOUser
      */
     public String calculateAbsolutePath( MDOMessicSettings settings )
     {
-        String path = getStorePath();
-        path = path.replace( Util.GENERIC_BASE_STORE_PATH_VAR, settings.getGenericBaseStorePath() );
-        return path + File.separatorChar + this.getLogin();
+        String path = settings.getGenericBaseStorePath() + File.separatorChar + this.getLogin();
+        return path;
     }
 
     /**
@@ -210,11 +192,6 @@ public class MDOUser
         String basePath = calculateAbsolutePath( settings );
         basePath = basePath + File.separatorChar + Util.TEMPORAL_FOLDER + File.separatorChar + albumCode;
         return basePath;
-    }
-
-    public void setStorePath( String storePath )
-    {
-        this.storePath = storePath;
     }
 
     /**

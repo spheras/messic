@@ -21,10 +21,12 @@ package org.messic.server.datamodel.dao;
 import java.util.List;
 
 import org.messic.server.datamodel.MDOSong;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * DAO for Song table
  */
+@Transactional
 public interface DAOSong
     extends DAO<MDOSong>
 {
@@ -35,6 +37,7 @@ public interface DAOSong
      * @param username {@link String} user scope
      * @return {@link List}<MDOSong/> list of songs which are loved by the user
      */
+    @Transactional
     List<MDOSong> getLovedSongs( String username );
 
     /**
@@ -44,6 +47,7 @@ public interface DAOSong
      * @param sid long sid of the song
      * @return {@link MDOSong} song founded
      */
+    @Transactional
     MDOSong get( String username, long sid );
 
     /**
@@ -52,6 +56,7 @@ public interface DAOSong
      * @param username {@link String} username
      * @return {@link List}<MDOSong/> list of songs
      */
+    @Transactional
     List<MDOSong> getAll( String username );
 
     /**
@@ -60,6 +65,7 @@ public interface DAOSong
      * @param username {@link String} username
      * @return {@link List}<MDOSong/> list of songs ordered
      */
+    @Transactional
     List<MDOSong> getAllOrderByMostPlayed( String username );
 
     /**
@@ -68,6 +74,7 @@ public interface DAOSong
      * @param username user scope
      * @return list of songs ordered by the less played
      */
+    @Transactional
     List<MDOSong> getAllOrderByLessPlayed( String username );
 
     /**
@@ -75,6 +82,7 @@ public interface DAOSong
      * 
      * @return {@link List}<MDOSong/> list of songs
      */
+    @Transactional
     List<MDOSong> getAllDLNA();
 
     /**
@@ -84,6 +92,7 @@ public interface DAOSong
      * @param List<String/> searches a list of contents related with songs
      * @return {@link List}<MDOSong/> List of songs that match to the search
      */
+    @Transactional
     List<MDOSong> genericFind( String username, List<String> searches );
 
 }

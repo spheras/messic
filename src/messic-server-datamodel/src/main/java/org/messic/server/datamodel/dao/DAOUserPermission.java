@@ -19,11 +19,13 @@
 package org.messic.server.datamodel.dao;
 
 import org.messic.server.datamodel.MDOUserPermission;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * DAO for UserPermission table
  */
+@Transactional
 public interface DAOUserPermission extends DAO<MDOUserPermission>
 {
 	

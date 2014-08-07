@@ -45,7 +45,6 @@
 		<module>../messic-updater-bundle</module>
 		<module>../messic-service</module>
 		<module>../messic-starter</module>
-		<module>../messic-assembly</module>
 	</modules>
 
 	<dependencies>

@@ -84,7 +84,7 @@
 							file="${project.build.directory}/${project.build.finalName}.jar">
 							<manifest>
 								<attribute name="Bundle-Classpath"
-									value="WEB-INF/lib/messic-server-osgiservices-1.0-SNAPSHOT.jar" />
+									value="WEB-INF/lib/messic-server-osgiservices-${project.version}.jar" />
 							</manifest>
 						</jar>
 

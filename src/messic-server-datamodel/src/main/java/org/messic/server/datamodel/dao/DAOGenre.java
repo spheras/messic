@@ -21,10 +21,12 @@ package org.messic.server.datamodel.dao;
 import java.util.List;
 
 import org.messic.server.datamodel.MDOGenre;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * DAO for Author table
  */
+@Transactional
 public interface DAOGenre
     extends DAO<MDOGenre>
 {
@@ -34,6 +36,7 @@ public interface DAOGenre
      * @param username String user scope
      * @return list of genres of this user
      */
+    @Transactional
     List<MDOGenre> getAll( String username );
 
     /**
@@ -43,6 +46,7 @@ public interface DAOGenre
      * @param number int max number of genres
      * @return List<MDOGenre/> the list of genres
      */
+    @Transactional
     List<MDOGenre> getRandomGenre( String username, int number );
 
     /**
@@ -52,6 +56,7 @@ public interface DAOGenre
      * @param username {@link String} user scope
      * @return {@link MDOGenre} similar genres
      */
+    @Transactional
     List<MDOGenre> findSimilarGenre( String genreName, String username );
 
     /**
@@ -60,6 +65,7 @@ public interface DAOGenre
      * @param genreName {@link String} genreName to search
      * @return {@link MDOGenre} founded (null if none)
      */
+    @Transactional
     MDOGenre getGenre( String username, String genreName );
 
     /**
@@ -69,6 +75,7 @@ public interface DAOGenre
      * @param username {@link String} user scope
      * @return {@link MDOGenre} found, null if none
      */
+    @Transactional
     MDOGenre getByName( String username, String genreName );
 
     /**
@@ -78,6 +85,7 @@ public interface DAOGenre
      * @param genreSid sid to search
      * @return {@link MDOGenre} found
      */
+    @Transactional
     MDOGenre getGenre( String username, Long genreSid );
 
 }

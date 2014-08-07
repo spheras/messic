@@ -58,6 +58,18 @@ public class MessicMain
         throws BundleException, InterruptedException, IOException
     {
 
+        String musicFolder = "";
+        if ( args.length > 0 )
+        {
+            musicFolder = args[0];
+            File fMusicFolder = new File( musicFolder );
+            if ( !fMusicFolder.exists() )
+            {
+                fMusicFolder.mkdirs();
+            }
+        }
+        System.setProperty( "messic.musicfolder", musicFolder );
+
         File flagStarted = new File( "./conf/messicStarted" );
         if ( flagStarted.exists() )
         {

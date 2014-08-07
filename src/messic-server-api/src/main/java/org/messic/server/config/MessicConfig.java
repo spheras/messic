@@ -1,4 +1,4 @@
-package org.messic.server.api.configuration;
+package org.messic.server.config;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,6 +14,54 @@ import org.springframework.stereotype.Component;
 public class MessicConfig
 {
     private Properties configuration;
+
+    public static class MessicVersion
+    {
+        public MessicVersion( String version )
+        {
+            this.sversion = version;
+            String[] parts = version.split( "\\." );
+            this.version = Integer.valueOf( parts[0] );
+            this.revision = Integer.valueOf( parts[1] );
+            if ( parts[2].indexOf( "-" ) >= 0 )
+            {
+                String[] subparts = parts[2].split( "-" );
+                this.compilation = Integer.valueOf( subparts[0] );
+                this.semantic = subparts[1];
+            }
+            else
+            {
+                this.compilation = Integer.valueOf( parts[2] );
+            }
+        }
+
+        public String sversion;
+
+        public int version;
+
+        public int revision;
+
+        public int compilation;
+
+        public String semantic;
+    }
+
+    public static MessicVersion getCurrentVersion()
+    {
+        InputStream is = MessicConfig.class.getResourceAsStream( "/messic.version" );
+        try
+        {
+            byte[] data = Util.readInputStream( is );
+            String sdata = new String( data );
+            MessicVersion mv = new MessicVersion( sdata );
+            return mv;
+        }
+        catch ( IOException e )
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public MessicConfig()
     {

@@ -60,7 +60,6 @@ public class SettingsViewController
             if ( settings.isAllowUserCreation() || user.getAdministrator() )
             {
                 model.addObject( "creation", true );
-                user.setStorePath( settings.getGenericBaseStorePath() );
             }
             else
             {
@@ -96,7 +95,6 @@ public class SettingsViewController
         }
 
         model.addObject( "user", user );
-        model.addObject( "allowSpecificMusicFolder", ( user.getAdministrator() || settings.isAllowUserSpecificFolder() ) );
         model.addObject( "genres", apiGenre.getAll( user ) );
 
         return model;

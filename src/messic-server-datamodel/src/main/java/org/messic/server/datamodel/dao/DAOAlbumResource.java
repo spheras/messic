@@ -19,12 +19,14 @@
 package org.messic.server.datamodel.dao;
 
 import org.messic.server.datamodel.MDOAlbumResource;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
 /**
  * DAO for PhysicalResource table
  */
+@Transactional
 public interface DAOAlbumResource extends DAO<MDOAlbumResource>
 {
     /**
@@ -33,5 +35,6 @@ public interface DAOAlbumResource extends DAO<MDOAlbumResource>
      * @param sid long sid of the resource
      * @return {@link MDOAlbumResource}
      */
+    @Transactional
     MDOAlbumResource get(String username, long sid);	
 }

@@ -19,12 +19,14 @@
 package org.messic.server.datamodel.dao;
 
 import org.messic.server.datamodel.MDOPhysicalResource;
+import org.springframework.transaction.annotation.Transactional;
 
 
 
 /**
  * DAO for PhysicalResource table
  */
+@Transactional
 public interface DAOPhysicalResource extends DAO<MDOPhysicalResource>
 {
 	

@@ -32,38 +32,49 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class LoginController
 {
-    
+
     @Autowired
     private DAOMessicSettings daosettings;
+
     @Autowired
     private DAOUser daouser;
 
-	@RequestMapping("/login.do")
+    @RequestMapping( "/login.do" )
     protected ModelAndView login( HttpServletRequest arg0, HttpServletResponse arg1 )
         throws Exception
     {
         ModelAndView model = new ModelAndView( "login" );
 
-        MDOMessicSettings settings=daosettings.getSettings();
-        long usersCount=daouser.getCount( );
-        
-        if(settings.isAllowUserCreation()){
+        MDOMessicSettings settings = daosettings.getSettings();
+        long usersCount = daouser.getCount();
+
+        model.addObject( "version", settings.getVersion() );
+        if ( settings.isAllowUserCreation() )
+        {
             model.addObject( "allowUserCreation", true );
-        }else{
-            //if there is no users in the database, it's allowed (if no there will never exist an user!)
-            if(usersCount<=0){
+        }
+        else
+        {
+            // if there is no users in the database, it's allowed (if no there will never exist an user!)
+            if ( usersCount <= 0 )
+            {
                 model.addObject( "allowUserCreation", true );
-            }else{
+            }
+            else
+            {
                 model.addObject( "allowUserCreation", false );
             }
         }
-        
-        if(usersCount<=0){
-            model.addObject("firstTime",true);
-        }else{
-            model.addObject("firstTime",false);
+
+        if ( usersCount <= 0 )
+        {
+            model.addObject( "firstTime", true );
         }
-        
+        else
+        {
+            model.addObject( "firstTime", false );
+        }
+
         return model;
     }
 

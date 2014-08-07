@@ -23,10 +23,12 @@ import java.util.List;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOArtwork;
 import org.messic.server.datamodel.MDOGenre;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * DAO for Album table
  */
+@Transactional
 public interface DAOAlbum
     extends DAO<MDOAlbum>
 {
@@ -36,6 +38,7 @@ public interface DAOAlbum
      * @param username user scope
      * @return int el año más antiguo
      */
+    @Transactional
     int findOldestAlbum( String username );
 
     /**
@@ -46,6 +49,7 @@ public interface DAOAlbum
      * @param toYear Year to ending to search
      * @return
      */
+    @Transactional
     List<MDOAlbum> findAlbumsBasedOnDate( String username, int fromYear, int toYear );
 
     /**
@@ -53,6 +57,7 @@ public interface DAOAlbum
      * 
      * @param genre {@link MDOGenre} genre to search
      */
+    @Transactional
     void setNullGenre( MDOGenre genre );
 
     /**
@@ -60,6 +65,7 @@ public interface DAOAlbum
      * 
      * @return List of albums shared
      */
+    @Transactional
     List<MDOAlbum> getAllDLNA();
 
     /**
@@ -69,6 +75,7 @@ public interface DAOAlbum
      * @param genre {@link MDOGenre} genre to search
      * @return
      */
+    @Transactional
     List<MDOAlbum> getAll( String username, MDOGenre genre );
 
     /**
@@ -77,6 +84,7 @@ public interface DAOAlbum
      * @param username {@link String} user scope
      * @return
      */
+    @Transactional
     List<MDOAlbum> getAll( String username );
 
     /**
@@ -86,6 +94,7 @@ public interface DAOAlbum
      * @param username {@link String} user scope
      * @return {@link List}<MDOAlbum/> list of albums of the author
      */
+    @Transactional
     List<MDOAlbum> getAll( long authorSid, String username );
 
     /**
@@ -95,6 +104,7 @@ public interface DAOAlbum
      * @param username {@link String} user scope
      * @return {@link List}<MDOAlbum/> list of albums with the genre
      */
+    @Transactional
     List<MDOAlbum> getAllOfGenre( long genreSid, String username );
 
     /**
@@ -104,6 +114,7 @@ public interface DAOAlbum
      * @param username {@link String} username scope
      * @return {@link MDOAlbum} album with sid equal to albumSid param
      */
+    @Transactional
     MDOAlbum getAlbum( long albumSid, String username );
 
     /**
@@ -113,6 +124,7 @@ public interface DAOAlbum
      * @param username
      * @return {@link List}<MDOAlbum/> list of albums similars
      */
+    @Transactional
     List<MDOAlbum> findSimilarAlbums( String albumName, String username );
 
     /**
@@ -123,6 +135,7 @@ public interface DAOAlbum
      * @param username {@link String} username scope
      * @return {@link List}<MDOAlbum/> list of similar albums
      */
+    @Transactional
     List<MDOAlbum> findSimilarAlbums( long authorSid, String albumName, String username );
 
     /**
@@ -133,6 +146,7 @@ public interface DAOAlbum
      * @param username {@link String} user scope
      * @return {@link MDOAlbum} found, null if none
      */
+    @Transactional
     MDOAlbum getByName( String authorName, String albumName, String username );
 
     /**
@@ -142,6 +156,7 @@ public interface DAOAlbum
      * @param username {@link String} user scope
      * @return {@link MDOArtwork} which is the cover of the album
      */
+    @Transactional
     MDOArtwork getAlbumCover( long albumSid, String username );
 
     /**
@@ -151,6 +166,7 @@ public interface DAOAlbum
      * @param albumSid long sid of the album which have the resource
      * @param userSid long isd of the user scope
      */
+    @Transactional
     void setAlbumCover( long resourceSid, long albumSid, long userSid );
 
 }

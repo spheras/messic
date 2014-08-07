@@ -33,11 +33,11 @@
 				</div>
 				
 				<div id="messic-album-menu">
+					<div id="messic-album-menuoption-save" class="messic-album-menuoption" title="<fmt:message key="album-savealbum-title" bundle="${message}"/>" onclick="albumSaveChanges(${messic:escapeAll(album.sid)})"></div>
+					<div id="messic-album-menuoption-discard" class="messic-album-menuoption" title="<fmt:message key="album-discardalbum-title" bundle="${message}"/>" onclick="albumDiscardChanges(${messic:escapeAll(album.sid)})"></div>
 					<div id="messic-album-menuoption-remove" class="messic-album-menuoption" title="<fmt:message key="album-removealbum-title" bundle="${message}"/>" onclick="albumRemove(${messic:escapeAll(album.sid)})"></div>
 					<div id="messic-album-menuoption-download" class="messic-album-menuoption" title="<fmt:message key="album-downloadalbum-title" bundle="${message}"/>" onclick="albumDownload(${messic:escapeAll(album.sid)})"></div>
 					<div id="messic-album-menuoption-addplaylist" class="messic-album-menuoption" title="<fmt:message key="album-addplaylist-title" bundle="${message}"/>" onclick="albumAddToPlaylist(${messic:escapeAll(album.sid)})"></div>
-					<div id="messic-album-menuoption-save" class="messic-album-menuoption" title="<fmt:message key="album-savealbum-title" bundle="${message}"/>" onclick="albumSaveChanges(${messic:escapeAll(album.sid)})"></div>
-					<div id="messic-album-menuoption-discard" class="messic-album-menuoption" title="<fmt:message key="album-discardalbum-title" bundle="${message}"/>" onclick="albumDiscardChanges(${messic:escapeAll(album.sid)})"></div>
 				</div>
 				<div id="messic-album-year" class="messic-album-predata messic-album-editable">
 					<div><fmt:message key="album-year-title" bundle="${message}"/></div>

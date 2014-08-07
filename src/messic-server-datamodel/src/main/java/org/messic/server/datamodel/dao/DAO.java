@@ -21,20 +21,31 @@ package org.messic.server.datamodel.dao;
 import java.util.List;
 
 import org.messic.server.datamodel.MDO;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * DAO Generic Interface
+ * 
  * @param <T> extends {@link MDO}
  */
+@Transactional
 public interface DAO<T extends MDO>
 {
+    @Transactional
     T get( Long id );
 
+    @Transactional
+    T merge( T c );
+
+    @Transactional
     List<T> getAll();
 
+    @Transactional
     long getCount();
 
+    @Transactional
     void save( T object );
 
+    @Transactional
     void remove( T object );
 }

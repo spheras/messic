@@ -28,6 +28,7 @@ import org.messic.server.datamodel.MDO;
 import org.messic.server.datamodel.dao.DAO;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class DAOJPA<T extends MDO>
     implements DAO<T>
 {
@@ -47,7 +48,7 @@ public class DAOJPA<T extends MDO>
         this.type = type;
     }
 
-    @Transactional( readOnly = true )
+    @Transactional
     public T get( Long id )
     {
         if ( id == null )
@@ -60,8 +61,14 @@ public class DAOJPA<T extends MDO>
         }
     }
 
+    @Transactional
+    public T merge( T c )
+    {
+        return entityManager.merge( c );
+    }
+
     @SuppressWarnings( "unchecked" )
-    @Transactional( readOnly = true )
+    @Transactional
     public List<T> getAll()
     {
         return entityManager.createQuery( "from " + type.getName() ).getResultList();
@@ -74,11 +81,13 @@ public class DAOJPA<T extends MDO>
         return (Long) q.getSingleResult();
     }
 
+    @Transactional
     public void save( T object )
     {
         entityManager.persist( object );
     }
 
+    @Transactional
     public void remove( T object )
     {
         entityManager.remove( object );

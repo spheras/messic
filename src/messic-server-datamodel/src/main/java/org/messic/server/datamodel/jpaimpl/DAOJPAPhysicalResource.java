@@ -21,8 +21,10 @@ package org.messic.server.datamodel.jpaimpl;
 import org.messic.server.datamodel.MDOPhysicalResource;
 import org.messic.server.datamodel.dao.DAOPhysicalResource;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class DAOJPAPhysicalResource
     extends DAOJPA<MDOPhysicalResource>
     implements DAOPhysicalResource

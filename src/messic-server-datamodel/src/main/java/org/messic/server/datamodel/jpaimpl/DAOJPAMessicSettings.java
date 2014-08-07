@@ -26,8 +26,10 @@ import javax.persistence.Query;
 import org.messic.server.datamodel.MDOMessicSettings;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class DAOJPAMessicSettings
     extends DAOJPA<MDOMessicSettings>
     implements DAOMessicSettings
@@ -39,6 +41,7 @@ public class DAOJPAMessicSettings
     }
 
     @Override
+    @Transactional
     public MDOMessicSettings getSettings()
     {
         Query query = entityManager.createQuery( "from MDOMessicSettings" );
@@ -55,19 +58,20 @@ public class DAOJPAMessicSettings
         }
     }
 
+    @Transactional
     private MDOMessicSettings createBasicSettings()
     {
         MDOMessicSettings ms = new MDOMessicSettings();
         ms.setGenericBaseStorePath( System.getProperty( "user.home" ) + File.separatorChar + "messic-data" );
         ms.setIllegalCharacterReplacement( '_' );
         ms.setAllowUserCreation( true );
-        ms.setAllowUserSpecificFolder( false );
         ms.setAllowDLNA( true );
         saveSettings( ms );
         return ms;
     }
 
     @Override
+    @Transactional
     public MDOMessicSettings setSettings( Long sid, String genericBaseStorePath )
     {
         MDOMessicSettings settings = entityManager.getReference( MDOMessicSettings.class, sid );
@@ -77,6 +81,7 @@ public class DAOJPAMessicSettings
     }
 
     @Override
+    @Transactional
     public void saveSettings( MDOMessicSettings newSettings )
     {
         entityManager.persist( newSettings );

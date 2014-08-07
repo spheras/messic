@@ -19,10 +19,12 @@
 package org.messic.server.datamodel.dao;
 
 import org.messic.server.datamodel.MDOSongStatistics;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * DAO for Author table
  */
+@Transactional
 public interface DAOSongStatistics
     extends DAO<MDOSongStatistics>
 {
@@ -32,6 +34,7 @@ public interface DAOSongStatistics
      * @param songSid long sid of the song to search
      * @return {@link MDOSongStatistics}
      */
+    @Transactional
     MDOSongStatistics getStatistics( String username, long songSid );
 
 }

@@ -36,6 +36,7 @@ import org.jsondoc.core.annotation.ApiResponseObject;
 import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.server.Util;
+import org.messic.server.UtilSubInputStream;
 import org.messic.server.api.APIAlbum;
 import org.messic.server.api.APIAuthor;
 import org.messic.server.api.APISong;
@@ -179,6 +180,7 @@ public class SongController
                 headers.add( "Content-Range", "bytes 0-" + ass.contentLength + "/" + ass.contentLength );
 
                 InputStreamResource inputStreamResource = new InputStreamResource( ass.is );
+
                 if ( request.getMethod().equalsIgnoreCase( "GET" ) )
                 {
                     return new ResponseEntity( inputStreamResource, headers, HttpStatus.OK );
@@ -191,7 +193,6 @@ public class SongController
             else
             {
                 APISong.AudioSongStream ass = songAPI.getAudioSong( user, songSid );
-                byte[] content = Util.readInputStream( ass.is );
 
                 String range = request.getHeader( "Range" );
                 String[] sbytes = range.split( "=" )[1].split( "-" );
@@ -201,24 +202,21 @@ public class SongController
                 {
                     to = Integer.valueOf( sbytes[1] );
                 }
-                byte[] destino = new byte[to - from];
 
-                System.arraycopy( content, from, destino, 0, to - from );
-
-                headers.setContentLength( destino.length );
+                headers.setContentLength( to - from );
                 headers.add( "Content-Range", "bytes " + from + "-" + to + "/" + ass.contentLength );
-                content = destino;
 
                 if ( request.getMethod().equalsIgnoreCase( "GET" ) )
                 {
-                    return new ResponseEntity<byte[]>( content, headers, HttpStatus.OK );
+                    UtilSubInputStream usi = new UtilSubInputStream( ass.is, from, to );
+                    InputStreamResource inputStreamResource = new InputStreamResource( usi );
+                    return new ResponseEntity( inputStreamResource, headers, HttpStatus.OK );
                 }
                 else
                 {
                     return new ResponseEntity<byte[]>( new byte[0], headers, HttpStatus.OK );
                 }
             }
-
         }
         catch ( IOException ioe )
         {

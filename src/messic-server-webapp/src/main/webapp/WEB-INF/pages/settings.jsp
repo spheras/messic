@@ -118,25 +118,10 @@
 										<div class="divclearer"></div>
 									</li>
 									<li>
-										<input id="messic-user-settings-allowuserespecificmusicfolder" name="allowUserSpecificFolder" type="checkbox" <%if (settings.isAllowUserSpecificFolder()){%>checked<%}%>/>
-										<label><fmt:message key="settings-content-admin-allowuserspecificfolder-title" bundle="${ message }"/></label>
-										<div class="messic-user-settings-content-help"></div>
-										<div class="messic-user-settings-content-info"><fmt:message key="settings-content-admin-allowuserspecificfolder-info" bundle="${ message }"/></div>
-										<div class="divclearer"></div>
-									</li>
-									<li>
 										<label><fmt:message key="settings-content-admin-illegalcharacter-title" bundle="${ message }"/></label>
 										<input id="messic-user-settings-illegalcharacterreplacement" name="illegalCharacterReplacement" type="text" class="k-textbox" required value="${settings.getIllegalCharacterReplacement()}" pattern=".{1,1}"/>
 										<div class="messic-user-settings-content-help"></div>
 										<div class="messic-user-settings-content-info"><fmt:message key="settings-content-admin-illegalcharacter-info" bundle="${ message }"/></div>
-										<div class="divclearer"></div>
-									</li>
-									<li>
-										<label><fmt:message key="settings-content-admin-defaultmusicfolder-title" bundle="${ message }"/></label>
-										<input id="messic-user-settings-defaultstorepath" name="genericBaseStorePath" type="text" class="k-textbox" required value="${settings.getGenericBaseStorePath()}"/>
-										<div class="messic-user-settings-content-help"></div>
-										<div class="messic-user-settings-content-info"><fmt:message key="settings-content-admin-defaultmusicfolder-info1" bundle="${ message }"/></div>
-										<div class="messic-user-settings-content-info"><fmt:message key="settings-content-admin-defaultmusicfolder-info2" bundle="${ message }"/></div>
 										<div class="divclearer"></div>
 									</li>
 									<li>
@@ -181,22 +166,6 @@
 							<%}%>
 							<div id="messic-user-settings-content-music" class="messic-user-settings-container messic-user-settings-menu-notvisible">
 								<ul>
-									<li>
-										<%
-										boolean allowSpecificMusicFolder=(Boolean)request.getAttribute("allowSpecificMusicFolder");
-										%>
-										<label><fmt:message key="settings-content-music-musicdirectory-title" bundle="${ message }"/></label>
-										<input id="messic-user-settings-userStorePath" name="storePath" type="text" class="k-textbox" required value="${user.storePath}" <%if(!allowSpecificMusicFolder){ %>readonly<%}%>/>
-										<div class="messic-user-settings-content-help"></div>
-										<div class="messic-user-settings-content-info"><fmt:message key="settings-content-music-musicdirectory-info1" bundle="${ message }"/></div>
-										<div class="messic-user-settings-content-info"><fmt:message key="settings-content-music-musicdirectory-info2" bundle="${ message }"/></div>
-										<%
-										if(!allowSpecificMusicFolder){ 
-										%>
-										<div class="messic-user-settings-content-info"><fmt:message key="settings-content-music-musicdirectory-info3" bundle="${ message }"/></div>
-										<%} %>
-										<div class="divclearer"></div>
-									</li>
 									<li>
 										<input id="messic-user-settings-music-allowdlna" name="allowuserdlna" type="checkbox" <%if (user.getAllowDLNA()){%>checked<%}%>/>
 										<label><fmt:message key="settings-content-music-allowdlna-title" bundle="${ message }"/></label>

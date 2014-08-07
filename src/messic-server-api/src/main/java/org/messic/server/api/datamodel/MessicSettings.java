@@ -38,9 +38,6 @@ public class MessicSettings
     @ApiObjectField( description = "indicates if messic allows the auto user creation" )
     private boolean allowUserCreation = true;
 
-    @ApiObjectField( description = "indicates if messic allows the settings of an especific folder for the users (different from the default messic music store)" )
-    private boolean allowUserSpecificFolder = false;
-
     @ApiObjectField( description = "indicates if messic allows the dlna share content" )
     private boolean allowDLNA = true;
 
@@ -60,7 +57,6 @@ public class MessicSettings
         MDOMessicSettings mdoSettings = daoSettings.getSettings();
         mdoSettings.setAllowDLNA( this.isAllowDLNA() );
         mdoSettings.setAllowUserCreation( this.isAllowUserCreation() );
-        mdoSettings.setAllowUserSpecificFolder( this.isAllowUserSpecificFolder() );
         mdoSettings.setGenericBaseStorePath( this.getGenericBaseStorePath() );
         mdoSettings.setIllegalCharacterReplacement( this.getIllegalCharacterReplacement() );
         return mdoSettings;
@@ -76,7 +72,6 @@ public class MessicSettings
         this.genericBaseStorePath = mdoSettings.getGenericBaseStorePath();
         this.illegalCharacterReplacement = mdoSettings.getIllegalCharacterReplacement();
         this.allowUserCreation = mdoSettings.isAllowUserCreation();
-        this.allowUserSpecificFolder = mdoSettings.isAllowUserSpecificFolder();
         this.allowDLNA = mdoSettings.isAllowDLNA();
     }
 
@@ -126,22 +121,6 @@ public class MessicSettings
     public void setAllowUserCreation( boolean allowUserCreation )
     {
         this.allowUserCreation = allowUserCreation;
-    }
-
-    /**
-     * @return the allowUserSpecificFolder
-     */
-    public boolean isAllowUserSpecificFolder()
-    {
-        return allowUserSpecificFolder;
-    }
-
-    /**
-     * @param allowUserSpecificFolder the allowUserSpecificFolder to set
-     */
-    public void setAllowUserSpecificFolder( boolean allowUserSpecificFolder )
-    {
-        this.allowUserSpecificFolder = allowUserSpecificFolder;
     }
 
     /**

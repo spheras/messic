@@ -903,11 +903,13 @@
 }
 
 #messic-album-name-textedit {
-    width: 310px;
+    max-width: 240px;
+    width: auto;
 }
 
 #messic-album-author > span {
-    width: 312px;
+    width: auto;
+    max-width: 240px;
 }
 
 #messic-album-year > span {

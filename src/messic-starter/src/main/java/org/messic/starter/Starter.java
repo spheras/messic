@@ -73,7 +73,7 @@ public class Starter
     private static void showMonitor( boolean messicRunning )
         throws Exception
     {
-        ProcessMonitorSwing pm = new ProcessMonitorSwing();
+        ProcessMonitorWindow pm = new ProcessMonitorWindow();
         pm.setVisible( true );
     }
 

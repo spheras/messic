@@ -21,10 +21,12 @@ package org.messic.server.datamodel.dao;
 import java.util.List;
 
 import org.messic.server.datamodel.MDOPlaylist;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * DAO for Playlist table
  */
+@Transactional
 public interface DAOPlaylist
     extends DAO<MDOPlaylist>
 {
@@ -36,7 +38,8 @@ public interface DAOPlaylist
      * @param sid long sid of the playlist to obtain
      * @return {@link MDOPlaylist}
      */
-    MDOPlaylist get( String username, long sid );
+    @Transactional
+   MDOPlaylist get( String username, long sid );
 
     /**
      * return all the playlist of the user
@@ -44,6 +47,7 @@ public interface DAOPlaylist
      * @param username {@link String} user scope
      * @return {@link List}<MdoPlaylist/> the list of playlists
      */
+    @Transactional
     List<MDOPlaylist> getAll( String username );
 
     /**
@@ -51,6 +55,7 @@ public interface DAOPlaylist
      * 
      * @return {@link List}<MdoPlaylist/> the list of playlists
      */
+    @Transactional
     List<MDOPlaylist> getAllDLNA();
 
     /**
@@ -60,5 +65,6 @@ public interface DAOPlaylist
      * @param name {@link String} name of the playlist to search
      * @return {@link MDOPlaylist} playlist founded
      */
+    @Transactional
     MDOPlaylist getByName( String username, String name );
 }

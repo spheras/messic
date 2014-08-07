@@ -36,7 +36,6 @@
 			<directory>${project.basedir}/bin</directory>
 			<outputDirectory>/bin</outputDirectory>
 			<includes>
-				<include>messic.exe</include>
 				<include>messic.properties</include>
 				<include>messicservice.vbs</include>
 			</includes>
@@ -66,6 +65,11 @@
 			<source>../messic-service/conf/config-new.properties</source>
 			<outputDirectory>/conf</outputDirectory>
 			<destName>config.properties</destName>
+		</file>
+		<file>
+			<source>./bin/messic.exe</source>
+			<outputDirectory>./</outputDirectory>
+			<destName>messic.exe</destName>
 		</file>
 	</files>
 

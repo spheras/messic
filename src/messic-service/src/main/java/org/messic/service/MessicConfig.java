@@ -3,8 +3,11 @@ package org.messic.service;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 public class MessicConfig
@@ -17,11 +20,25 @@ public class MessicConfig
 
     public static final String MESSIC_HTTPSPORT = "messic-httpsport";
 
-    public static final String MESSIC_PROXYPORT = "proxy-url";
+    public static final String MESSIC_MUSICFOLDER = "messic-musicfolder";
 
-    public static final String MESSIC_PROXYURL = "proxy-port";
+    public static final String MESSIC_PROXYPORT = "proxy-port";
+
+    public static final String MESSIC_PROXYURL = "proxy-url";
 
     public static final String MESSIC_TIMEOUT = "messic-timeout";
+
+    public void save()
+        throws IOException
+    {
+        File f = new File( "./conf/config.properties" );
+        FileOutputStream fos = new FileOutputStream( f );
+        Date resultdate = new Date( System.currentTimeMillis() );
+        this.configuration.store( fos,
+                                  "Messic Configuration - Last Saved:"
+                                      + new SimpleDateFormat( "MM/dd/yyyy" ).format( resultdate ) );
+        fos.close();
+    }
 
     public MessicConfig()
     {
@@ -124,6 +141,18 @@ public class MessicConfig
             return null;
         }
         return messicHttpsPort;
+    }
+
+    /**
+     * Return the configured music folder
+     * 
+     * @return
+     */
+    public String getMusicFolder()
+    {
+
+        String messicMusicFolder = getConfiguration().getProperty( MESSIC_MUSICFOLDER );
+        return messicMusicFolder;
     }
 
     /**

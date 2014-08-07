@@ -297,7 +297,7 @@ public class Util
         if ( OSValidator.isWindows() )
         {
             Long messicProcessNumber = Util.getMessicProcess();
-            Runtime.getRuntime().exec( new String[] { "taskkill", "/PID", "" + messicProcessNumber,"/f" } );
+            Runtime.getRuntime().exec( new String[] { "taskkill", "/PID", "" + messicProcessNumber, "/f" } );
             try
             {
                 Thread.sleep( 5000 );
@@ -430,6 +430,8 @@ public class Util
     {
         if ( OSValidator.isWindows() || OSValidator.isMac() || OSValidator.isUnix() )
         {
+            MessicConfig mc = new MessicConfig();
+
             File f = new File( "." );
             System.out.println( "launching from: " + f.getAbsolutePath() );
 
@@ -441,6 +443,7 @@ public class Util
             String paramJava = "./bin/jre1.8.0_05/bin/java";
             String paramCP = "-cp";
             String paramMainClass = "org.messic.service.MessicMain";
+            String paramMusicFolder = mc.getMusicFolder();
             if ( OSValidator.isWindows() )
             {
                 // params =
@@ -448,11 +451,11 @@ public class Util
                 // paramMainClass };
                 // params = new String[] { paramJava, paramCP, classpath, paramMainClass };
 
-                params = new String[] { "wscript", ".\\bin\\messicservice.vbs", classpath };
+                params = new String[] { "wscript", ".\\bin\\messicservice.vbs", classpath, paramMusicFolder };
             }
             else
             {
-                params = new String[] { paramJava, paramCP, classpath, paramMainClass };
+                params = new String[] { paramJava, paramCP, classpath, paramMainClass, paramMusicFolder };
             }
 
             final File fFlagStarted = new File( "./conf/messicStarted" );

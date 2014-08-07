@@ -142,7 +142,7 @@ function UtilShowMessic(infoTitle,infoPhrases,nextFunction){
     
     $(markup).hide().appendTo('body').fadeIn();
 
-    $("#messicClose").keyup(function(event){
+    $("body").keyup(function(event){
         if(event.keyCode == 13){
             $("#messicClose").click();
         }

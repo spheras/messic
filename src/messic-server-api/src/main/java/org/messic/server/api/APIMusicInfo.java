@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.messic.server.api.configuration.MessicConfig;
 import org.messic.server.api.datamodel.MusicInfo;
 import org.messic.server.api.musicinfo.service.MusicInfoPlugin;
+import org.messic.server.config.MessicConfig;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
