@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.messic.server.api.tagwizard.service.Album;
 import org.messic.server.api.tagwizard.service.Song;
 import org.messic.server.api.tagwizard.service.TAGWizardPlugin;
@@ -44,6 +45,7 @@ import com.fasterxml.jackson.core.JsonToken;
 public class DiscogsTAGWizardPlugin
     implements TAGWizardPlugin
 {
+    private Logger log = Logger.getLogger( DiscogsTAGWizardPlugin.class );
 
     public static final String NAME = "Discogs";
 
@@ -160,7 +162,7 @@ public class DiscogsTAGWizardPlugin
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
 
         return null;
@@ -292,7 +294,7 @@ public class DiscogsTAGWizardPlugin
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
 
         return null;

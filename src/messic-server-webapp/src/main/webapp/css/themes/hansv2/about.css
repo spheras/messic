@@ -36,6 +36,8 @@
     background: none repeat scroll 0 0 #88eeee;
 }
 .messic-about-title.messic-about-title-expanded:before {
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
     transform: rotate(90deg);
 }
 .messic-about-title.messic-about-title-expanded {
@@ -46,6 +48,7 @@
 
 #messic-about-tape{
     /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
+    -webkit-animation: 1.5s ease 0s normal none 1 messic-about-tape-comein;
     animation: 1.5s ease 0s normal none 1 messic-about-tape-comein;
     background: url("about/tape.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 342px;
@@ -53,6 +56,8 @@
     margin-left: -250px;
     position: relative;
     top: 8px;
+    -webkit-transform: scale(0.8);
+    -ms-transform: scale(0.8);
     transform: scale(0.8);
     width: 546px;
     z-index: 2;
@@ -65,9 +70,13 @@
     opacity: 0;
     position: absolute;
     top: 0;
+    -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
+    -webkit-transition-property: opacity, -webkit-transform;
     transition-property: opacity, transform;
     width: 26px;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
     transform: scale(0);
 }
 #messic-about-window{
@@ -81,9 +90,14 @@
     z-index: 99999;
 }
 
+@-webkit-keyframes messic-about-tape-comein{
+	from { -webkit-transform:scale(3.5); transform:scale(3.5); opacity:0;}
+	to { -webkit-transform: scale(0.8); transform: scale(0.8); opacity:1;}
+}
+
 @keyframes messic-about-tape-comein{
-	from { transform:scale(3.5); opacity:0;}
-	to { transform: scale(0.8); opacity:1;}
+	from { -webkit-transform:scale(3.5); transform:scale(3.5); opacity:0;}
+	to { -webkit-transform: scale(0.8); transform: scale(0.8); opacity:1;}
 }
 
 
@@ -98,7 +112,9 @@
 	background: url("about/tape-left-wheel.png") repeat scroll 0 0 transparent;
 	left: 125px;
 	top: 125px;
+	-webkit-animation: tape-wheel-anim 1.5s infinite;
 	animation: tape-wheel-anim 1.5s infinite;
+	-webkit-animation-timing-function: linear;
 	animation-timing-function: linear;
 }
 #messic-about-tape #messic-tape-rightwheel{
@@ -106,13 +122,20 @@
     background: url("about/tape-right-wheel.png") repeat scroll 0 0 transparent;
 	left: 350px;
 	top: 125px;
+	-webkit-animation: tape-wheel-anim 2s infinite;
 	animation: tape-wheel-anim 2s infinite;
+	-webkit-animation-timing-function: linear;
 	animation-timing-function: linear;
 }
 
+@-webkit-keyframes tape-wheel-anim{
+	from { -webkit-transform:rotate(0deg); transform:rotate(0deg);}
+	to { -webkit-transform: rotate(360deg); transform: rotate(360deg);}
+}
+
 @keyframes tape-wheel-anim{
-	from { transform:rotate(0deg);}
-	to { transform: rotate(360deg);}
+	from { -webkit-transform:rotate(0deg); transform:rotate(0deg);}
+	to { -webkit-transform: rotate(360deg); transform: rotate(360deg);}
 }
 
 #messic-about-page{
@@ -131,6 +154,7 @@
     z-index: 1;
 }
 #messic-about-page-content{
+    -webkit-animation: 1400s ease 1.5s normal none infinite messic-about-page-scroll, 1s ease 1s normal none 1 messic-about-page-fadein;
     animation: 1400s ease 1.5s normal none infinite messic-about-page-scroll, 1s ease 1s normal none 1 messic-about-page-fadein;
     border-radius: 14px;
     opacity: 0;
@@ -138,9 +162,17 @@
     position: relative;
     width: 100%;
 }
+@-webkit-keyframes messic-about-page-fadein{
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
 @keyframes messic-about-page-fadein{
 	from { opacity: 0; }
 	to { opacity: 1; }
+}
+@-webkit-keyframes messic-about-page-scroll{
+	from { opacity:1; top:0px;}
+	to { opacity:1; top: -10000px;}
 }
 @keyframes messic-about-page-scroll{
 	from { opacity:1; top:0px;}
@@ -149,8 +181,13 @@
 
 #messic-about-faq > ul {
     list-style: none outside none;
+	margin-right: 40px;
 }
 
+
+#messic-about-page-content > a {
+    color: white;
+}
 
 
 #messic-about-faq h1 {

@@ -20,6 +20,7 @@ package org.messic.server.api.dlna;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.log4j.Logger;
 import org.fourthline.cling.model.meta.LocalDevice;
 import org.fourthline.cling.model.meta.RemoteDevice;
 import org.fourthline.cling.registry.Registry;
@@ -35,6 +36,8 @@ import org.springframework.stereotype.Component;
 public class DLNAServer
     implements ApplicationListener<ApplicationContextEvent>
 {
+    private Logger log = Logger.getLogger( DLNAServer.class );
+
     @Autowired
     private MusicService musicService;
 
@@ -74,7 +77,7 @@ public class DLNAServer
                                 }
                                 catch ( InterruptedException e )
                                 {
-                                    e.printStackTrace();
+                                    log.error( "failed!", e );
                                 }
                             };
                         };
@@ -83,7 +86,7 @@ public class DLNAServer
                     }
                     catch ( Exception e )
                     {
-                        e.printStackTrace();
+                        log.error( "failed!", e );
                     }
                     return;
                 }
@@ -106,7 +109,8 @@ public class DLNAServer
     public void stopServer()
     {
         this.flagStarted = false;
-        System.out.println( "Stopping Cling..." );
+
+        log.info( "Stopping DLNA Server..." );
         upnpService.destroy();
     }
 
@@ -119,9 +123,6 @@ public class DLNAServer
     public void InitMessic()
         throws InterruptedException
     {
-        for ( int i = 0; i < 100; i++ )
-            System.out.println( "SÑFLASLDJFSAÑDFJASDFJKLASDÑFASD JFJASDÑL FJASDÑL FJSDÑKL FJSDÑKL FJASDÑL FJASÑL FJ" );
-
         refreshServer();
     }
 
@@ -139,53 +140,53 @@ public class DLNAServer
 
             public void remoteDeviceDiscoveryStarted( Registry registry, RemoteDevice device )
             {
-                System.out.println( "Discovery started: " + device.getDisplayString() );
+                log.info( "Discovery started: " + device.getDisplayString() );
             }
 
             public void remoteDeviceDiscoveryFailed( Registry registry, RemoteDevice device, Exception ex )
             {
-                System.out.println( "Discovery failed: " + device.getDisplayString() + " => " + ex );
+                log.info( "Discovery failed: " + device.getDisplayString() + " => " + ex );
             }
 
             public void remoteDeviceAdded( Registry registry, RemoteDevice device )
             {
-                System.out.println( "Remote device available: " + device.getDisplayString() );
+                log.info( "Remote device available: " + device.getDisplayString() );
             }
 
             public void remoteDeviceUpdated( Registry registry, RemoteDevice device )
             {
-                System.out.println( "Remote device updated: " + device.getDisplayString() );
+                log.info( "Remote device updated: " + device.getDisplayString() );
             }
 
             public void remoteDeviceRemoved( Registry registry, RemoteDevice device )
             {
-                System.out.println( "Remote device removed: " + device.getDisplayString() );
+                log.info( "Remote device removed: " + device.getDisplayString() );
             }
 
             public void localDeviceAdded( Registry registry, LocalDevice device )
             {
-                System.out.println( "Local device added: " + device.getDisplayString() );
+                log.info( "Local device added: " + device.getDisplayString() );
             }
 
             public void localDeviceRemoved( Registry registry, LocalDevice device )
             {
-                System.out.println( "Local device removed: " + device.getDisplayString() );
+                log.info( "Local device removed: " + device.getDisplayString() );
             }
 
             public void beforeShutdown( Registry registry )
             {
-                System.out.println( "Before shutdown, the registry has devices: " + registry.getDevices().size() );
+                log.info( "Before shutdown, the registry has devices: " + registry.getDevices().size() );
             }
 
             public void afterShutdown()
             {
-                System.out.println( "Shutdown of registry complete!" );
+                log.info( "Shutdown of registry complete!" );
 
             }
         };
 
         // This will create necessary network resources for UPnP right away
-        System.out.println( "Starting Cling UPNP Server..." );
+        log.info( "Starting Cling UPNP Server..." );
         this.upnpService = new MediaServerServiceImpl();
         this.upnpService.init( listener, this.musicService );
     }

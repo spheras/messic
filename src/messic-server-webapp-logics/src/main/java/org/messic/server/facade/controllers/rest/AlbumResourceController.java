@@ -18,6 +18,7 @@
  */
 package org.messic.server.facade.controllers.rest;
 
+import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiError;
 import org.jsondoc.core.annotation.ApiErrors;
@@ -41,20 +42,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-
 /**
  * @author spheras
- *
  */
 @Controller
-@RequestMapping("/albumresources")
-@Api(name = "Album Resource services", description = "Methods for managing album resources -except songs-")
+@RequestMapping( "/albumresources" )
+@Api( name = "Album Resource services", description = "Methods for managing album resources -except songs-" )
 public class AlbumResourceController
 {
-	@Autowired
-	public APIAlbumResource albumResourceAPI;
-	@Autowired
-	public DAOUser userDAO;
+    private Logger log = Logger.getLogger( AlbumResourceController.class );
+
+    @Autowired
+    public APIAlbumResource albumResourceAPI;
+
+    @Autowired
+    public DAOUser userDAO;
 
     @ApiMethod( path = "/albumresources/{resourceSid}", verb = ApiVerb.DELETE, description = "Remove a resource with sid {resourceSid} from the album", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
@@ -64,8 +66,8 @@ public class AlbumResourceController
     @ResponseBody
     @ApiResponseObject
     public void removeSong( @PathVariable
-                             @ApiParam( name = "resourceSid", description = "Sid of the resource to get", paramType = ApiParamType.PATH, required = true )
-                             Long resourceSid )
+                            @ApiParam( name = "resourceSid", description = "Sid of the resource to get", paramType = ApiParamType.PATH, required = true )
+                            Long resourceSid )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
         User user = SecurityUtil.getCurrentUser();
@@ -75,10 +77,9 @@ public class AlbumResourceController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
-
 
 }

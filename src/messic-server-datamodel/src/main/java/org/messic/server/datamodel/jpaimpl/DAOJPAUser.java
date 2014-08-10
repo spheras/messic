@@ -23,6 +23,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.apache.log4j.Logger;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,7 @@ public class DAOJPAUser
     extends DAOJPA<MDOUser>
     implements DAOUser
 {
+    private static Logger log = Logger.getLogger( DAOJPAUser.class );
 
     public DAOJPAUser()
     {
@@ -126,7 +128,7 @@ public class DAOJPAUser
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             pass = newPassword;
         }
 

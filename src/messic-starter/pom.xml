@@ -45,6 +45,10 @@
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.messic</groupId>
+			<artifactId>messic-configuration</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

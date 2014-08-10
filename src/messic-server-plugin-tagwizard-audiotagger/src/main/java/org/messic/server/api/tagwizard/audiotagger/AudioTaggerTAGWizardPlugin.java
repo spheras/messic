@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.AudioFileIO;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -40,6 +41,7 @@ import org.messic.server.api.tagwizard.service.TAGInfo;
 
 public class AudioTaggerTAGWizardPlugin
 {
+    private Logger log = Logger.getLogger( AudioTaggerTAGWizardPlugin.class );
 
     public static final String NAME = "MESSIC TAGWIZARD";
 
@@ -76,7 +78,7 @@ public class AudioTaggerTAGWizardPlugin
                 }
                 catch ( Exception e2 )
                 {
-                    e.printStackTrace();
+                    log.error( "failed!", e );
                 }
             }
             try
@@ -91,7 +93,7 @@ public class AudioTaggerTAGWizardPlugin
                 }
                 catch ( Exception e2 )
                 {
-                    e.printStackTrace();
+                    log.error( "failed!", e );
                 }
             }
             try
@@ -106,7 +108,7 @@ public class AudioTaggerTAGWizardPlugin
                 }
                 catch ( Exception e2 )
                 {
-                    e.printStackTrace();
+                    log.error( "failed!", e );
                 }
             }
             try
@@ -121,7 +123,7 @@ public class AudioTaggerTAGWizardPlugin
                 }
                 catch ( Exception e2 )
                 {
-                    e.printStackTrace();
+                    log.error( "failed!", e );
                 }
             }
             try
@@ -136,7 +138,7 @@ public class AudioTaggerTAGWizardPlugin
                 }
                 catch ( Exception e2 )
                 {
-                    e.printStackTrace();
+                    log.error( "failed!", e );
                 }
             }
             try
@@ -151,7 +153,7 @@ public class AudioTaggerTAGWizardPlugin
                 }
                 catch ( Exception e2 )
                 {
-                    e.printStackTrace();
+                    log.error( "failed!", e );
                 }
             }
             try
@@ -166,13 +168,13 @@ public class AudioTaggerTAGWizardPlugin
                 }
                 catch ( Exception e2 )
                 {
-                    e.printStackTrace();
+                    log.error( "failed!", e );
                 }
             }
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
 
         AudioFileIO.write( f );
@@ -203,22 +205,19 @@ public class AudioTaggerTAGWizardPlugin
             }
             catch ( CannotReadException e )
             {
-                // TODO
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
             catch ( IOException e )
             {
-                // TODO
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
             catch ( ReadOnlyFileException e )
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
             catch ( Exception e )
             {
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
 
             if ( tag != null )

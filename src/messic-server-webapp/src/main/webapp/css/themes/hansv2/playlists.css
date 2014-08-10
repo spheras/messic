@@ -1,5 +1,8 @@
 
 #messic-playlist-content-list {
+    background:#CECECE; /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(#bbbbbb), color-stop(46px, #bbbbbb), color-stop(46px, #dddddd), to(#dddddd)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(top, #bbbbbb 0%, #bbbbbb 46px, #dddddd 46px, #dddddd 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(to bottom, #bbbbbb 0%, #bbbbbb 46px, #dddddd 46px, #dddddd 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -33,10 +36,14 @@
 }
 
 .messic-playlist-menuoption {
+    background:#CCCCCC; /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(#AAAAAA), color-stop(50%, #EEEEEE), to(#AAAAAA)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(#AAAAAA, #EEEEEE 50%, #AAAAAA) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(#AAAAAA, #EEEEEE 50%, #AAAAAA) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-left: 1px solid #AAAAAA;
     border-radius: 10px;
     border-right: 1px solid #AAAAAA;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
     box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
     cursor: pointer;
     float: left;
@@ -95,6 +102,8 @@
 
 .messic-albumentity-container:hover .messic-albumentity-remove {
     opacity: 1;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
     transform: scale(1);
 }
 .messic-albumentity-remove {
@@ -105,8 +114,12 @@
     margin-top: -10px;
     opacity: 0;
     position: absolute;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
     transform: scale(0);
+    -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
+    -webkit-transition-property: opacity, -webkit-transform;
     transition-property: opacity, transform;
     width: 26px;
     z-index: 3;
@@ -116,11 +129,14 @@
 .messic-albumentity-container.messic-albumentity-container-dragging {
     border: 7px solid #5555ff;
     border-radius: 35px;
+    -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
     height: 140px;
     margin-right: 11px;
     margin-top: 0;
     overflow: hidden;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
     transform: scale(1);
     width: 100px;
 }
@@ -179,9 +195,7 @@
     white-space: nowrap;
 
     /* Firefox */
-	max-width: -moz-calc(100% - 130px);
 	/* WebKit */
-	max-width: -webkit-calc(100% - 130px);
 	/* Opera */
 	max-width: -o-calc(100% - 130px);
 	/* Standard */
@@ -269,6 +283,9 @@
     z-index: 2147483647;
 }
 #messic-playlists-create-container {
+    background:#EEEEEE; /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(#D1D1D1), to(#FAFAFA));
+    background: -webkit-linear-gradient(#D1D1D1, #FAFAFA);
     background: linear-gradient(#D1D1D1,#FAFAFA);
     border-radius: 10px;
     height: 70px;
@@ -302,7 +319,9 @@
     margin-bottom: 0;
     margin-right: 12px;
     margin-top: 10px;
+    -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
+    -webkit-transition-property: margin-right;
     transition-property: margin-right;
     width: 111px;
 }
@@ -310,6 +329,7 @@
     background: none repeat scroll 0 0 / 100px auto rgba(0, 0, 0, 0);
     border: 1px solid rgba(0, 0, 0, 0.44);
     border-radius: 3px;
+    -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.34);
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.34);
     height: 100px;
     overflow: visible;
@@ -328,6 +348,7 @@
     opacity: 0;
     position: relative;
     top: 50%;
+    -webkit-transition: opacity 0.45s ease-in-out 0s;
     transition: opacity 0.45s ease-in-out 0s;
     width: 38px;
     z-index: 2;
@@ -357,7 +378,9 @@
     margin-left: 35px;
     margin-top: -94px;
     position: relative;
+    -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
+    -webkit-transition-property: margin-left;
     transition-property: margin-left;
     width: 85px;
     z-index: 0;
@@ -423,8 +446,12 @@ input.messic-playlist-content-list-playlist-name-edit {
 }
 
 #messic-playlists-select-container {
+    background:#BBBBBB; /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(#bbbbbb), color-stop(35px, #bbbbbb), color-stop(35px, #dddddd), to(#ffffff)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(top, #bbbbbb 0%, #bbbbbb 35px, #dddddd 35px, #ffffff 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(to bottom, #bbbbbb 0%, #bbbbbb 35px, #dddddd 35px, #ffffff 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-radius: 20px;
+    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
     height: 252px;
     left: 50%;

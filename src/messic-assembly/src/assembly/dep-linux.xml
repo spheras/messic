@@ -66,17 +66,6 @@
 		</fileSet>
 	</fileSets>
 
-	<files>
-		<file>
-			<!-- just copying the config.properties, but the standard file, to avoid 
-				problems with the touched config.properties for debug -->
-			<source>../messic-service/conf/config-new.properties</source>
-			<outputDirectory>/conf</outputDirectory>
-			<destName>config.properties</destName>
-		</file>
-	</files>
-
-
 	<!-- Dependencies -->
 	<dependencySets>
 		<dependencySet>

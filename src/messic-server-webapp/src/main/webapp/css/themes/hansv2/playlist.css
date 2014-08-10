@@ -26,15 +26,19 @@
     opacity: 0;
     position: absolute;
     right: 0;
-    top: -7px;
+    top: -12px;
+    -webkit-transition-duration: 1s;
     transition-duration: 1s;
+    -webkit-transition-property: opacity, top;
     transition-property: opacity, top;
     width: 200px;
     z-index: 1000;
 }
 .messic-playlist-action {
+    -webkit-background-origin: padding-box;
     background-origin: padding-box;
     background-repeat: no-repeat;
+    -webkit-background-size: auto auto;
     background-size: auto auto;
     bottom: -33px;
     cursor: pointer;
@@ -91,34 +95,41 @@
 
 /* styles for the playlist scrollbar */
 /* ---------------------------------------------------------*/
-#messic-playlist .viewport { width: 100%; height: 100%; overflow: hidden; position: relative; }
-#messic-playlist .overview { list-style: none; position: absolute; left: 0; top: 12px; }
+#messic-playlist .viewport { 
+    float: left;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+#messic-playlist .overview { list-style: none; position: absolute; left: 0; top: 15px; }
 
 #messic-playlist .thumb .end, #messic-playlist .thumb { 	background: #AAAAAA; }
 #messic-playlist .thumb .end, #messic-playlist .thumb:hover { 	background: #FFFFFF; }
 #messic-playlist .thumb .end, #messic-playlist .thumb:active { 	background: #4488FF; }
 
 #messic-playlist .scrollbar { position: absolute; float: right; width: 15px; bottom:0px;  height:10px; margin-bottom:10px;}
-#messic-playlist .track { background-color: #D8EEFD; height: 100%; width:13px; position: relative; padding: 0 1px; background: #222222;}
-#messic-playlist .thumb { 
-	-moz-border-radius: 14px 14px 14px 14px;
-    border-radius: 14px 14px 14px 14px;
+#messic-playlist .track { height: 100%; width:13px; position: relative; padding: 0 1px;}
+#messic-playlist .thumb {
+ border-radius: 14px 14px 14px 14px;
     cursor: pointer;
     height: 6px;
     overflow: hidden;
     position: absolute;
     top: 2px;
     width: 13px;
+    border: 1px solid #555555;
 }
 
 #messic-playlist .thumb .end { overflow: hidden; height: 5px; width: 13px; }
 #messic-playlist .end { display:none }
 #messic-playlist .disable{ display: none; }
-.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
+.noSelect { -ms-user-select: none; user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
 /*******************************************************************/
 
 /** for devices without hover */
 #messic-playlist-background.messic-playlist-background-opened #jquery_jplayer_content {
+    -webkit-animation: 0s ease 0s normal none 1 none;
     animation: 0s ease 0s normal none 1 none;
     display: block;
     opacity: 1;
@@ -132,11 +143,18 @@
     position: absolute;
     z-index: 1000;
 
+    -webkit-animation-name: messic-jplayer-fadeout-anim;
+
     animation-name: messic-jplayer-fadeout-anim;
+    -webkit-animation-duration: 0.5s;
     animation-duration: 0.5s;
+    -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in;
+    -webkit-animation-iteration-count: 1;
     animation-iteration-count: 1;
+    -webkit-animation-direction: ease-in;
     animation-direction: ease-in;
+    -webkit-animation-delay: 0s;
     animation-delay: 0s;
     -webkit-animation-name: messic-jplayer-fadeout-anim;
     -webkit-animation-duration: 0.5s;
@@ -160,11 +178,17 @@
 
 /* player and playlist visible when mouse hover playlist */ 
 #messic-playlist-background:hover  #jquery_jplayer_content{
+    -webkit-animation-name: messic-jplayer-fadein-anim;
     animation-name: messic-jplayer-fadein-anim;
+    -webkit-animation-duration: 0.5s;
     animation-duration: 0.5s;
+    -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in;
+    -webkit-animation-iteration-count: 1;
     animation-iteration-count: 1;
+    -webkit-animation-direction: ease-in;
     animation-direction: ease-in;
+    -webkit-animation-delay: 0s;
     animation-delay: 0s;
     -webkit-animation-name: messic-jplayer-fadein-anim;
     -webkit-animation-duration: 0.5s;
@@ -231,17 +255,28 @@
     overflow: visible;
 	  padding-bottom:10px;
     z-index: 100;
+    -webkit-transition-property: bottom;
     transition-property: bottom;
+    -webkit-transition-duration : 0.5s;
     transition-duration : 0.5s;
    	/** important to avoid selection when the scrollbar start */
+	  -ms-user-select: none;
 	  user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none;
 
 
+    -webkit-animation-name: messic-playlist-background-anim;
+
+
     animation-name: messic-playlist-background-anim;
+    -webkit-animation-duration: 1s;
     animation-duration: 1s;
+    -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in;
+    -webkit-animation-iteration-count: 1;
     animation-iteration-count: 1;
+    -webkit-animation-direction: ease-in;
     animation-direction: ease-in;
+    -webkit-animation-delay: 0s;
     animation-delay: 0s;
     -webkit-animation-name: messic-playlist-background-anim;
     -webkit-animation-duration: 1s;
@@ -266,36 +301,53 @@
 
 
 /** ---------------------------------------- */
-/** configuration of the playlsit and ul to show scrolls bars */
+/** configuration of the playlist and ul to show scrolls bars */
 #messic-playlist .mCSB_container{
 	overflow:visible;
 }
 
-#messic-playlist{
-	/* idea from here: http://cssdeck.com/labs/pressable-css-buttons, http://creativecan.com/2013/02/css3-button/ */
-  /*
-    -moz-box-sizing: border-box;
-    background-color: rgba(72, 72, 76, 0.8);
-    background-image: linear-gradient(rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.1));
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25) inset, 0 2px 0 rgba(255, 255, 255, 0.1) inset, 0 1.2em 0 rgba(255, 255, 255, 0.05) inset, 0 -0.2em 0 rgba(255, 255, 255, 0.1) inset, 0 -0.25em 0 rgba(0, 0, 0, 0.5) inset, 0 0.25em 0.25em rgba(0, 0, 0, 0.1);
-    color: #FFFFFF;
-  */
-  background: url("playlist/playlist-background.png") repeat scroll 0 15px rgba(0,0,0,0);
-  height: 100%;
-  margin: 20px auto;
-  overflow-x: visible;
-  overflow-y: hidden;
-  position: relative;
-  width: 100%;
-}
 
-#messic-playlist:before{
-  background: url("playlist/playlist-top.png") repeat;
-	width:100%;
-	height:17px;
-	position:absolute;
-	content: "";
-  z-index: 999;
+.playlist-moveprevious:hover:active {
+    background-position: -57px 0;
+}
+.playlist-moveprevious:hover {
+    background-position: -29px 0;
+}
+.playlist-moveprevious {
+    background: url("playlist/playlistqueue-buttons.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    float: left;
+    height: 106px;
+    margin-left: -32px;
+    margin-top: 23px;
+    width: 28px;
+    cursor: pointer;
+}
+.playlist-movenext:hover:active {
+    background-position: -56px 106px;
+}
+.playlist-movenext:hover {
+    background-position: -28px 106px;
+}
+.playlist-movenext {
+    background: url("playlist/playlistqueue-buttons.png") repeat scroll 0 106px rgba(0, 0, 0, 0);
+    cursor: pointer;
+    float: left;
+    height: 106px;
+    margin-left: 4px;
+    margin-right: -33px;
+    margin-top: 23px;
+    width: 28px;
+}
+#messic-playlist{
+    background: url("playlist/playlist-background-composed.png") repeat scroll 0 0 / 289px 138px rgba(0, 0, 0, 0);
+    height: 100%;
+    margin: 20px auto;
+    overflow-x: visible;
+    overflow-y: hidden;
+    padding-left: 33px;
+    padding-right: 33px;
+    position: relative;
+    width: auto;
 }
 
 #messic-playlist-container{
@@ -323,13 +375,17 @@
 	width: 77px; /** here we have the size of the vinyl */
     height: 125px; /** here we have the size of the vinyl */
     border-bottom: 0px;
+    -webkit-transition-property : margin-right;
     transition-property : margin-right; 
+    -webkit-transition-duration : 0.5s; 
     transition-duration : 0.5s;
 }
 /** when hover, we need more space to see a portionn of the vinyl disc */
 .jplayer-playlist-li:hover{
     margin-right: 40px;
+    -webkit-transition-property : margin-right;
     transition-property : margin-right; 
+    -webkit-transition-duration : 0.5s; 
     transition-duration : 0.5s;
 }
 
@@ -346,11 +402,18 @@
     height: 125px; /** here we have the size of the vinyl */
     border-bottom: 0px;
 
+    -webkit-animation-name: jplayer-playlist-li-expanding-animation;
+
     animation-name: jplayer-playlist-li-expanding-animation;
+    -webkit-animation-duration: 2s;
     animation-duration: 2s;
+    -webkit-animation-timing-function: ease-in-out;
     animation-timing-function: ease-in-out;
+    -webkit-animation-iteration-count: 1;
     animation-iteration-count: 1;
+    -webkit-animation-direction: normal;
     animation-direction: normal;
+    -webkit-animation-delay: 0s;
     animation-delay: 0s;
     -webkit-animation-name: jplayer-playlist-li-expanding-animation;
     -webkit-animation-duration: 2s;
@@ -415,7 +478,10 @@
     width: 85px;
     top:-3px;
 
+    -webkit-transition-property : left;
+
     transition-property : left; 
+    -webkit-transition-duration : 0.5s; 
     transition-duration : 0.5s;
 }
 /** the vinyl disc hided at the back*/
@@ -426,17 +492,25 @@
 /** the vinyl disc, when hover, showing an small portion of the disc */
 .jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinylHide{
     left:35px;
+    -webkit-transition-property : left;
     transition-property : left; 
+    -webkit-transition-duration : 0.5s; 
     transition-duration : 0.5s; 			
     z-index:1;
 }
 /** the vinyl disc but playing music */
 .jplayer-playlist-vinylPlaying{
+    -webkit-animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
     animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
+    -webkit-animation-duration: 2s,1.3s;
     animation-duration: 2s,1.3s; /*45 rpm*/
+    -webkit-animation-timing-function: ease,linear;
     animation-timing-function: ease,linear;
+    -webkit-animation-iteration-count: 1,infinite;
     animation-iteration-count: 1,infinite;
+    -webkit-animation-direction: normal,normal;
     animation-direction: normal,normal;
+    -webkit-animation-delay: 0s, 2s;
     animation-delay: 0s, 2s;
     -webkit-animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
     -webkit-animation-duration: 2s,1.3s; /* 45rpm*/
@@ -462,8 +536,8 @@
    10	0% { left: 2px; z-index: 5;}
 }
 @keyframes jplayer-playlist-vinylPlaying-rotate  {
-   from { transform: rotate(0deg); }
-   to   { transform: rotate(360deg); }
+   from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+   to   { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
 }
 @-webkit-keyframes jplayer-playlist-vinylPlaying-rotate /* Safari and Chrome */
 {
@@ -486,18 +560,31 @@
 
     z-index:10;
 
+    -webkit-transform-origin: 0 0 0;
+
+    -ms-transform-origin: 0 0 0;
+
     transform-origin: 0 0 0;
+    -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
     transform: rotate(-90deg);
     -webkit-transform-origin: 0 0 0;
     -webkit-transform: rotate(-90deg);
 }
 .jplayer-playlist-vinylHandPlaying{
+	-webkit-animation-fill-mode: forwards;
 	animation-fill-mode: forwards;/** the end state of the animation is the final state of the style */
+	-webkit-animation-name: jplayer-playlist-vinylhand-animation, jplayer-playlist-vinylhand-breakbeat;
 	animation-name: jplayer-playlist-vinylhand-animation, jplayer-playlist-vinylhand-breakbeat;
+	-webkit-animation-duration: 2s,3s;
 	animation-duration: 2s,3s;
+	-webkit-animation-timing-function: ease,linear;
 	animation-timing-function: ease,linear;
+	-webkit-animation-iteration-count: 1,infinite;
 	animation-iteration-count: 1,infinite;
+	-webkit-animation-direction: alternate,alternate;
 	animation-direction: alternate,alternate;
+	-webkit-animation-delay: 1s,3s;
 	animation-delay: 1s,3s;
 	-webkit-animation-fill-mode: forwards; /** the end state of the animation is the final state of the style */
 	-webkit-animation-name: jplayer-playlist-vinylhand-animation, jplayer-playlist-vinylhand-breakbeat;
@@ -508,23 +595,23 @@
 	-webkit-animation-delay: 1s,3s;
 }
 @keyframes jplayer-playlist-vinylhand-animation {
-   from { transform-origin: 0 0 0; transform: rotate(-90deg); bottom:-100px;}
-   to   { transform-origin: 0 0 0; transform: rotate(0deg); bottom: -85px}
+   from { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(-90deg); transform: rotate(-90deg); bottom:-100px;}
+   to   { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(0deg); transform: rotate(0deg); bottom: -85px}
 }
 @-webkit-keyframes jplayer-playlist-vinylhand-animation {
    from { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(-90deg); }
    to   { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(0deg); }
 }
 @keyframes jplayer-playlist-vinylhand-breakbeat {
-   0% { transform-origin: 0 0 0; transform: rotate(0deg); }
-   25% { transform-origin: 0 0 0; transform: rotate(2deg); }
-   26% { transform-origin: 0 0 0; transform: rotate(0deg); }
-   65% { transform-origin: 0 0 0; transform: rotate(4deg); }
-   66% { transform-origin: 0 0 0; transform: rotate(8deg); }
-   67% { transform-origin: 0 0 0; transform: rotate(4deg); }
-   95% { transform-origin: 0 0 0; transform: rotate(2deg); }
-   96% { transform-origin: 0 0 0; transform: rotate(0deg); }
-   100% { transform-origin: 0 0 0; transform: rotate(1deg); }
+   0% { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+   25% { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(2deg); transform: rotate(2deg); }
+   26% { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+   65% { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(4deg); transform: rotate(4deg); }
+   66% { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(8deg); transform: rotate(8deg); }
+   67% { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(4deg); transform: rotate(4deg); }
+   95% { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(2deg); transform: rotate(2deg); }
+   96% { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+   100% { -webkit-transform-origin: 0 0 0; transform-origin: 0 0 0; -webkit-transform: rotate(1deg); transform: rotate(1deg); }
 }
 @-webkit-keyframes jplayer-playlist-vinylhand-breakbeat {
     0% { -webkit-transform-origin: 0 0 0; -webkit-transform: rotate(0deg); }
@@ -548,9 +635,6 @@
   position: relative;
   width: 100%;
   z-index: 2;
-
-  -webkit-border-radius: 4px 4px 4px 4px;
-	-moz-border-radius: 4px 4px 4px 4px;
 	border-radius: 4px 4px 4px 4px;
 }
 
@@ -574,6 +658,7 @@
     opacity: 0;
     position: absolute;
     top: 0;
+    -webkit-transition: opacity 0.45s ease-in-out 0s;
     transition: opacity 0.45s ease-in-out 0s;
     width: 24px;
     z-index: 11;
@@ -591,6 +676,7 @@
 
    opacity: 0; /*by default we can't see it */
 	-webkit-transform: scale(0.8);
+	-ms-transform: scale(0.8);
 	transform: scale(0.8);
 
    transition: opacity .45s ease-in-out;
@@ -599,11 +685,17 @@
 }
 .jplayer-playlist-vinyl-container:hover .jplayer-playlist-remove:hover {
 	opacity: 1;
+    -webkit-animation-name: jplayer-playlist-remove-rotate;
     animation-name: jplayer-playlist-remove-rotate;
+    -webkit-animation-duration: 1s;
     animation-duration: 1s; /*45 rpm*/
+    -webkit-animation-timing-function: ease;
     animation-timing-function: ease;
+    -webkit-animation-iteration-count: 1;
     animation-iteration-count: 1;
+    -webkit-animation-direction: normal;
     animation-direction: normal;
+    -webkit-animation-delay: 0s;
     animation-delay: 0s;
     -webkit-animation-name: jplayer-playlist-remove-rotate;
     -webkit-animation-duration: 1s; /*45 rpm*/
@@ -613,6 +705,7 @@
     -webkit-animation-delay: 0s;
 
 	-webkit-transform: scale(1);
+	-ms-transform: scale(1);
 	transform: scale(1);
 }
 /** the play button appears only when the mouse is hover the container */
@@ -622,8 +715,8 @@
 
 /** ANIMATIONS */
 @keyframes jplayer-playlist-remove-rotate {
-  from { transform: rotate(0deg); }
-   to   { transform: rotate(1080deg); }
+  from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+   to   { -webkit-transform: rotate(1080deg); transform: rotate(1080deg); }
 }
 @-webkit-keyframes jplayer-playlist-remove-rotate /* Safari and Chrome */
 {
@@ -655,10 +748,16 @@
 .jplayer-playlist-vinyl-container:hover .jplayer-playlist-vinylPlayButton{
     opacity: 1;
 
+    -webkit-animation-name: jplayer-playlist-vinylplayButton-pulse;
+
     animation-name: jplayer-playlist-vinylplayButton-pulse;
+	-webkit-animation-duration: 0.5s;
 	animation-duration: 0.5s;
+	-webkit-animation-timing-function: ease;
 	animation-timing-function: ease;
+	-webkit-animation-iteration-count: infinite;
 	animation-iteration-count: infinite;
+	-webkit-animation-direction: alternate;
 	animation-direction: alternate;
     -webkit-animation-name: jplayer-playlist-vinylplayButton-pulse;
 	-webkit-animation-duration: 0.5s;
@@ -674,8 +773,8 @@
    to   { -webkit-transform: scale(1.0); }
 }
 @keyframes jplayer-playlist-vinylplayButton-pulse {
-   from { transform: scale(0.9); }
-   to   { transform: scale(1.0); }
+   from { -webkit-transform: scale(0.9); transform: scale(0.9); }
+   to   { -webkit-transform: scale(1.0); transform: scale(1.0); }
 }
 
 

@@ -39,6 +39,8 @@ import java.util.Properties;
 import java.util.ServiceLoader;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
+import org.messic.configuration.MessicConfig;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -47,6 +49,7 @@ import org.osgi.framework.launch.FrameworkFactory;
 
 public class MessicMain
 {
+    private static Logger log = Logger.getLogger( MessicMain.class );
 
     /** This is important to maintain because some others wait to this message to know that messic have been started */
     private static String END_LOG = "[MESSIC] Service started";
@@ -57,6 +60,10 @@ public class MessicMain
     public static void main( String[] args )
         throws BundleException, InterruptedException, IOException
     {
+
+        File f = new File( "." );
+        String absolutePath = f.getAbsolutePath();
+        System.setProperty( "messic.app.folder", absolutePath.substring( 0, absolutePath.length() - 2 ) );
 
         String musicFolder = "";
         if ( args.length > 0 )
@@ -77,7 +84,7 @@ public class MessicMain
         }
 
         AnimatedGifSplashScreen agss = null;
-        System.out.println( "isHeadless?" + GraphicsEnvironment.isHeadless() );
+        log.info( "isHeadless?" + GraphicsEnvironment.isHeadless() );
         if ( !GraphicsEnvironment.isHeadless() )
         {
             agss = new AnimatedGifSplashScreen();
@@ -93,9 +100,9 @@ public class MessicMain
             @Override
             public void run()
             {
-                System.out.println( "[MESSIC] stopping service" );
+                log.info( "[MESSIC] stopping service" );
                 closingEvent( framework );
-                System.out.println( "[MESSIC] service stopped" );
+                log.info( "[MESSIC] service stopped" );
             }
         } );
 
@@ -104,7 +111,7 @@ public class MessicMain
             agss.dispose();
         }
 
-        System.out.println( END_LOG );
+        log.info( END_LOG );
 
         // just a file to know that it has been started
         FileOutputStream fos = new FileOutputStream( flagStarted );
@@ -137,7 +144,7 @@ public class MessicMain
             }
             catch ( IOException e )
             {
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
         }
     }
@@ -153,15 +160,15 @@ public class MessicMain
         {
             framework.stop();
             framework.waitForStop( 30000 );
-            System.out.println( "Framework Stopped!" );
+            log.info( "OSGI Framework Stopped!" );
         }
         catch ( InterruptedException ie )
         {
-            ie.printStackTrace();
+            log.error( "failed!", ie );
         }
         catch ( BundleException be )
         {
-            be.printStackTrace();
+            log.error( "failed!", be );
         }
     }
 
@@ -198,12 +205,12 @@ public class MessicMain
         {
             if ( bundle.getLocation().indexOf( "-ns-" ) <= 0 )
             {
-                System.out.println( "Starting " + bundle.getLocation() );
+                log.info( "Starting " + bundle.getLocation() );
                 bundle.start();
             }
             else
             {
-                System.out.println( "NOT Starting " + bundle.getLocation() );
+                log.info( "NOT Starting " + bundle.getLocation() );
             }
         }
     }
@@ -247,7 +254,7 @@ public class MessicMain
             else
             {
                 String sfile = "file:" + folder + File.separatorChar + string;
-                System.out.println( "INSTALLING " + sfile );
+                log.info( "INSTALLING " + sfile );
                 installedBundles.add( context.installBundle( sfile ) );
             }
         }
@@ -301,7 +308,7 @@ public class MessicMain
         }
         catch ( IOException ioe )
         {
-            ioe.printStackTrace();
+            log.error( "failed!", ioe );
         }
 
         int port = 0;
@@ -339,7 +346,7 @@ public class MessicMain
             }
             catch ( IOException e )
             {
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
         }
         ftmp.mkdirs();
@@ -358,7 +365,7 @@ public class MessicMain
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
     }
 
@@ -468,11 +475,11 @@ public class MessicMain
         }
         catch ( FileNotFoundException e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
         return config;
     }

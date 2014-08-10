@@ -19,13 +19,13 @@
 package org.messic.server.facade.controllers.rest;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiBodyObject;
 import org.jsondoc.core.annotation.ApiError;
@@ -35,7 +35,6 @@ import org.jsondoc.core.annotation.ApiParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
 import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
-import org.messic.server.Util;
 import org.messic.server.UtilSubInputStream;
 import org.messic.server.api.APIAlbum;
 import org.messic.server.api.APIAuthor;
@@ -72,6 +71,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Api( name = "Song services", description = "Methods for managing songs" )
 public class SongController
 {
+    private static Logger log = Logger.getLogger( SongController.class );
+
     @Autowired
     public APISong songAPI;
 
@@ -103,7 +104,7 @@ public class SongController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -128,7 +129,7 @@ public class SongController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -220,7 +221,7 @@ public class SongController
         }
         catch ( IOException ioe )
         {
-            ioe.printStackTrace();
+            log.error( "failed!", ioe );
             throw new IOMessicRESTException( ioe );
         }
         catch ( Exception e )
@@ -257,11 +258,12 @@ public class SongController
         }
         catch ( IOException ioe )
         {
-            ioe.printStackTrace();
+            log.error( "failed!", ioe );
             throw new IOMessicRESTException( ioe );
         }
         catch ( Exception e )
         {
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -291,17 +293,17 @@ public class SongController
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new IOMessicRESTException( e );
         }
         catch ( SidNotFoundMessicException sm )
         {
-            sm.printStackTrace();
+            log.error( "failed!", sm );
             throw new NotFoundMessicRESTException( sm );
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -360,7 +362,7 @@ public class SongController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }

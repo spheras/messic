@@ -34,9 +34,13 @@
 }
 .messic-main-randomlist-name:hover .messic-main-randomlist-close {
     opacity: 1;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
     transform: scale(1);
 }
 .messic-main-randomlist-name .messic-main-randomlist-close:hover {
+    -webkit-transform: scale(1) rotate(360deg);
+    -ms-transform: scale(1) rotate(360deg);
     transform: scale(1) rotate(360deg);
 }
 .messic-main-randomlist-close {
@@ -47,9 +51,13 @@
     opacity: 0;
     position: absolute;
     top: 0;
+    -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
+    -webkit-transition-property: opacity, -webkit-transform;
     transition-property: opacity, transform;
     width: 26px;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
     transform: scale(0);
 }
 .messic-main-randomlist { 
@@ -70,6 +78,7 @@
     */
 }
 .messic-main-randomlist .buttons:active {
+    -webkit-box-shadow: 0px 0px 10px rgba(20,100,255,1);
     box-shadow: 0px 0px 10px rgba(20,100,255,1);
 } 
 
@@ -94,10 +103,13 @@
 .messic-main-randomlist .buttons { 
     background: none repeat scroll 0 0 rgba(10, 100, 255, 0.51);
     border-color: rgba(0, 0, 0, 0.4);
+    -webkit-border-image: none;
+    -o-border-image: none;
     border-image: none;
     border-radius: 50px;
     border-style: solid;
     border-width: 1px 1px 3px;
+    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset;
     color: #FFFFFF;
     display: block;
@@ -128,6 +140,7 @@
     background: none repeat scroll 0 0 / 100px auto rgba(0, 0, 0, 0);
     border: 1px solid rgba(0, 0, 0, 0.44);
     border-radius: 3px;
+    -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.34);
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.34);
     height: 100px;
     overflow: visible;
@@ -165,7 +178,9 @@
     margin-right: 12px;
     margin-top: 10px;
     width: 111px;
+    -webkit-transition-property:margin-right;
     transition-property:margin-right;
+    -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
 }
 .messic-main-randomlist .overview li:hover{
@@ -188,7 +203,9 @@
     position: relative;
     width: 85px;
     z-index: 0;
+    -webkit-transition-property:margin-left;
     transition-property:margin-left;
+    -webkit-transition-duration:0.3s;
     transition-duration:0.3s;
 }
 .messic-main-randomlist .messic-main-randomlist-vinyl.messic-main-randomlist-vinyl-ratetwo{
@@ -215,6 +232,7 @@
     opacity: 1; /* for those devices without hover event */
     position: absolute;
     top: 0;
+    -webkit-transition: opacity 0.45s ease-in-out 0s;
     transition: opacity 0.45s ease-in-out 0s;
     width: 24px;
     z-index: 3;
@@ -232,6 +250,7 @@
     opacity: 0;
     position: relative;
     top: 50%;
+    -webkit-transition: opacity 0.45s ease-in-out 0s;
     transition: opacity 0.45s ease-in-out 0s;
     width: 38px;
     cursor: pointer;
@@ -296,9 +315,7 @@
     top: -79px;
     overflow: hidden;
     /* Firefox */
-	width: -moz-calc(100% - 52px);
 	/* WebKit */
-	width: -webkit-calc(100% - 52px);
 	/* Opera */
 	width: -o-calc(100% - 52px);
 	/* Standard */
@@ -313,6 +330,9 @@
     width: 17px;
 }
 .messic-main-randomlist-title-container:after{
+    background:#DEDEDE; /* Old browsers */
+    background: -webkit-gradient(linear, left top, right top, from(#CCCCCC), to(#FFFFFF)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(left, #CCCCCC, #FFFFFF) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(to right, #CCCCCC, #FFFFFF) repeat scroll 0 0 rgba(0, 0, 0, 0);
     content: "";
     height: 1px;
@@ -360,10 +380,13 @@
 .messic-main-randomlist-playall:hover {
 	background: url("home/playallrandomlistanim.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 	-webkit-animation: homeplayallanim .6s steps(4) infinite;
-	   -moz-animation: homeplayallanim .6s steps(4) infinite;
 		-ms-animation: homeplayallanim .6s steps(4) infinite;
-		 -o-animation: homeplayallanim .6s steps(4) infinite;
 			animation: homeplayallanim .6s steps(4) infinite;
+}
+
+@-webkit-keyframes homeplayallanim {
+   from { background-position:    0px; }
+	 to { background-position: -144px; }
 }
 
 @keyframes homeplayallanim {
@@ -394,6 +417,8 @@
 
 .messic-main-songoptions-bubble:before {
     border-color: #666 transparent transparent #666;
+    -webkit-border-image: none;
+    -o-border-image: none;
     border-image: none;
     border-style: solid;
     border-width: 10px;
@@ -410,6 +435,8 @@
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
     border-color: #fff transparent transparent #fff;
+    -webkit-border-image: none;
+    -o-border-image: none;
     border-image: none;
     border-style: solid;
     border-width: 8px;

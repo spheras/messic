@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.messic.server.api.musicinfo.service.MusicInfoPlugin;
 import org.messic.server.api.plugin.MessicPlugin;
 
@@ -41,6 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MusicInfoDuckDuckGoImages
     implements MusicInfoPlugin
 {
+    private Logger log = Logger.getLogger( MusicInfoDuckDuckGoImages.class );
 
     public static final String NAME = "DuckDuckGoImages";
 
@@ -152,15 +154,15 @@ public class MusicInfoDuckDuckGoImages
         }
         catch ( JsonParseException e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
         catch ( JsonMappingException e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
 
         return result;
@@ -186,8 +188,7 @@ public class MusicInfoDuckDuckGoImages
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }
@@ -201,8 +202,7 @@ public class MusicInfoDuckDuckGoImages
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }
@@ -216,8 +216,7 @@ public class MusicInfoDuckDuckGoImages
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }

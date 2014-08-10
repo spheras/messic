@@ -26,6 +26,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiBodyObject;
 import org.jsondoc.core.annotation.ApiError;
@@ -76,6 +77,8 @@ import org.springframework.web.util.HtmlUtils;
 @Api( name = "Album services", description = "Methods for managing albums" )
 public class AlbumController
 {
+    private Logger log = Logger.getLogger( AlbumController.class );
+
     @Autowired
     public APIAlbum albumAPI;
 
@@ -160,7 +163,7 @@ public class AlbumController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -186,11 +189,12 @@ public class AlbumController
         }
         catch ( IOException ioe )
         {
-            ioe.printStackTrace();
+            log.error( "failed!", ioe );
             throw new IOMessicRESTException( ioe );
         }
         catch ( Exception e )
         {
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -214,7 +218,7 @@ public class AlbumController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -256,7 +260,7 @@ public class AlbumController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -329,7 +333,7 @@ public class AlbumController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -414,12 +418,12 @@ public class AlbumController
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new IOMessicRESTException( e );
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -454,10 +458,12 @@ public class AlbumController
         }
         catch ( IOException ioe )
         {
+            log.error( "failed!", ioe );
             throw new IOMessicRESTException( ioe );
         }
         catch ( Exception e )
         {
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
 
@@ -490,10 +496,12 @@ public class AlbumController
         }
         catch ( IOException e )
         {
+            log.error( "failed!", e );
             throw new IOMessicRESTException( e );
         }
         catch ( Exception e )
         {
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
 
@@ -542,7 +550,7 @@ public class AlbumController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }

@@ -1,5 +1,6 @@
 package org.messic.server.config;
 
+import org.messic.configuration.MessicConfig;
 import org.messic.server.datamodel.update.MessicDBUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

@@ -34,7 +34,9 @@ public class UtilSubInputStream
         throws IOException
     {
         super( in );
-        in.skip( from );
+        if(from>0){
+            in.skip( from );
+        }
         this.bytesToRead = to - from;
     }
 

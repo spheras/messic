@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import org.messic.configuration.MessicConfig;
 import org.messic.server.api.APISong;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Author;
@@ -36,7 +37,6 @@ import org.messic.server.api.tagwizard.audiotagger.AudioTaggerTAGWizardPlugin;
 import org.messic.server.api.tagwizard.service.SongTags;
 import org.messic.server.api.tagwizard.service.TAGInfo;
 import org.messic.server.api.tagwizard.service.TAGWizardPlugin;
-import org.messic.server.config.MessicConfig;
 import org.messic.server.datamodel.MDOGenre;
 import org.messic.server.datamodel.dao.DAOGenre;
 import org.osgi.framework.BundleContext;
@@ -232,7 +232,6 @@ public class TAGWizard
         }
         catch ( Exception e )
         {
-            // e.printStackTrace();
             album.setYear( 1900 );
         }
         album.setGenre( getBestGenre( user, getMostValued( tags, TAGInfo.GENRE ) ) );

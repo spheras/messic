@@ -29,9 +29,6 @@ import org.messic.server.datamodel.dao.DAOMessicSettings;
 @ApiObject( name = "MessicSettings", description = "Messic Settings" )
 public class MessicSettings
 {
-    @ApiObjectField( description = "generic base store path, default music store path" )
-    private String genericBaseStorePath = "";
-
     @ApiObjectField( description = "Illegal character replacement for paths and filenames" )
     private char illegalCharacterReplacement = '_';
 
@@ -57,7 +54,6 @@ public class MessicSettings
         MDOMessicSettings mdoSettings = daoSettings.getSettings();
         mdoSettings.setAllowDLNA( this.isAllowDLNA() );
         mdoSettings.setAllowUserCreation( this.isAllowUserCreation() );
-        mdoSettings.setGenericBaseStorePath( this.getGenericBaseStorePath() );
         mdoSettings.setIllegalCharacterReplacement( this.getIllegalCharacterReplacement() );
         return mdoSettings;
     }
@@ -69,26 +65,9 @@ public class MessicSettings
      */
     public MessicSettings( MDOMessicSettings mdoSettings )
     {
-        this.genericBaseStorePath = mdoSettings.getGenericBaseStorePath();
         this.illegalCharacterReplacement = mdoSettings.getIllegalCharacterReplacement();
         this.allowUserCreation = mdoSettings.isAllowUserCreation();
         this.allowDLNA = mdoSettings.isAllowDLNA();
-    }
-
-    /**
-     * @return the genericBaseStorePath
-     */
-    public String getGenericBaseStorePath()
-    {
-        return genericBaseStorePath;
-    }
-
-    /**
-     * @param genericBaseStorePath the genericBaseStorePath to set
-     */
-    public void setGenericBaseStorePath( String genericBaseStorePath )
-    {
-        this.genericBaseStorePath = genericBaseStorePath;
     }
 
     /**

@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.messic.server.api.musicinfo.service.MusicInfoPlugin;
 import org.messic.server.api.plugin.MessicPlugin;
 import org.messic.server.api.tagwizard.service.Album;
@@ -41,6 +42,8 @@ import org.osgi.framework.ServiceReference;
 public class MusicInfoDiscogsTagWizardPlugin
     implements MusicInfoPlugin
 {
+
+    private Logger log = Logger.getLogger( MusicInfoDiscogsTagWizardPlugin.class );
 
     public static final String NAME = "Discogs";
 
@@ -216,8 +219,7 @@ public class MusicInfoDiscogsTagWizardPlugin
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }
@@ -235,8 +237,7 @@ public class MusicInfoDiscogsTagWizardPlugin
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }
@@ -257,8 +258,7 @@ public class MusicInfoDiscogsTagWizardPlugin
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }

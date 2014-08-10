@@ -24,8 +24,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.messic.configuration.MessicConfig;
 import org.messic.server.api.dlna.AuthenticationDLNAMusicService;
-import org.messic.server.config.MessicConfig;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
@@ -92,15 +92,15 @@ public class CustomUsernamePasswordAuthenticationFilter
     }
 
     @Override
-    public String getCurrentPort()
+    public int getCurrentPort()
     {
-        return MessicConfig.getCurrentPort();
+        return MessicConfig.checkCurrentport().currentPort;
     }
 
     @Override
     public boolean isSecured()
     {
-        return MessicConfig.isSecured();
+        return MessicConfig.checkCurrentport().secure;
     }
 
 }

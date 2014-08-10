@@ -11,7 +11,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>Messic</title>
         <meta name="description" content="Messic for the music mess">
-        <meta name="viewport" content="width=device-width">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="shortcut icon" href="img/messic-icon.png" type="image/png">
 		<!-- For third-generation iPad with high-resolution Retina display: -->
@@ -116,7 +116,7 @@
 		<script src="js/vendor/jquery/jquery-ui.js"></script>
 		<script src="js/vendor/kendoui/kendo.web.min.js"></script>
         <script src="js/vendor/jplayer/jquery.jplayer.min.js"></script>
-        <script src="js/vendor/jquery.tinyscrollbar.min.js"></script>
+        <script src="js/vendor/jquery.tinyscrollbar.2.1.8.js"></script>
         <!-- <script src="js/vendor/jquery.tinycarousel.min.js"></script> -->
         <script src="js/vendor/jquery.tinycarousel.js"></script>
         <script src="js/jplayer.playlist.messic.js"></script>

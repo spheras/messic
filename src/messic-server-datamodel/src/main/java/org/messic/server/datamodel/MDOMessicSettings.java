@@ -28,6 +28,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.messic.server.datamodel.datasource.MessicDataSource;
+
 @Entity
 @Table( name = "SETTINGS" )
 public class MDOMessicSettings
@@ -52,13 +54,10 @@ public class MDOMessicSettings
     /* flag to know if its available the option to create new users by non messic users */
     private boolean allowUserCreation = true;
 
-    @Column( name = "GENERICBASESTOREPATH", nullable = true )
-    private String genericBaseStorePath;
-
     @Column( name = "ALLOWDLNA", nullable = false )
     /* flag to know is allowed the DLNA share content */
     private boolean allowDLNA = true;
-    
+
     @Column( name = "VERSION", nullable = true )
     private String version;
 
@@ -68,11 +67,6 @@ public class MDOMessicSettings
     public MDOMessicSettings()
     {
         super();
-    }
-
-    public MDOMessicSettings( String genericBaseStorePath )
-    {
-        setGenericBaseStorePath( genericBaseStorePath );
     }
 
     public Long getSid()
@@ -87,12 +81,7 @@ public class MDOMessicSettings
 
     public String getGenericBaseStorePath()
     {
-        return genericBaseStorePath;
-    }
-
-    public void setGenericBaseStorePath( String genericBaseStorePath )
-    {
-        this.genericBaseStorePath = genericBaseStorePath;
+        return MessicDataSource.databasePath;
     }
 
     public char getIllegalCharacterReplacement()

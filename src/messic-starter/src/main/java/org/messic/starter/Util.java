@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.messic.configuration.MessicConfig;
 
 import sun.tools.jps.JpsOut;
 

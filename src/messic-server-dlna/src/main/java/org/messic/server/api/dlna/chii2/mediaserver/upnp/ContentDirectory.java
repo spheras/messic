@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
 import org.fourthline.cling.model.message.StreamRequestMessage;
 import org.fourthline.cling.model.message.UpnpHeaders;
 import org.fourthline.cling.support.contentdirectory.AbstractContentDirectoryService;
@@ -38,6 +39,8 @@ import org.messic.server.api.dlna.chii2.transcoder.api.core.TranscoderService;
 public class ContentDirectory
     extends AbstractContentDirectoryService
 {
+    private static Logger log = Logger.getLogger( ContentDirectory.class );
+
     // Media Library
     private MediaLibraryService mediaLibrary;
 
@@ -249,7 +252,7 @@ public class ContentDirectory
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new ContentDirectoryException( ContentDirectoryErrorCode.CANNOT_PROCESS,
                                                  ExceptionUtils.getMessage( e ) );
         }

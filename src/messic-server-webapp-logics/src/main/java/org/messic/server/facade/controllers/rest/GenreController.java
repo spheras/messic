@@ -20,6 +20,7 @@ package org.messic.server.facade.controllers.rest;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiBodyObject;
 import org.jsondoc.core.annotation.ApiError;
@@ -55,6 +56,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Api( name = "Genre services", description = "Methods for managing genres" )
 public class GenreController
 {
+    private static Logger log = Logger.getLogger( GenreController.class );
+
     @Autowired
     public APIGenre genreAPI;
 
@@ -80,7 +83,7 @@ public class GenreController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -116,7 +119,7 @@ public class GenreController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -151,7 +154,7 @@ public class GenreController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -180,7 +183,7 @@ public class GenreController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }

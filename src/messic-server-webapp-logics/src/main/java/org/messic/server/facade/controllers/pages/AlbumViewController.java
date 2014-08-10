@@ -23,6 +23,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.messic.server.api.APIAlbum;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.User;
@@ -42,6 +43,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class AlbumViewController
 {
+    private Logger log = Logger.getLogger( AlbumViewController.class );
+
     @Autowired
     public APIAlbum apialbum;
 
@@ -78,7 +81,7 @@ public class AlbumViewController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
         return result;
     }

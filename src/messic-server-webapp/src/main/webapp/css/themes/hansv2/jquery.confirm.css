@@ -9,9 +9,10 @@ url: http://tutorialzine.com/2010/12/better-confirm-box-jquery-css3/
     position:fixed;
     top:0;
     left:0;
-    background:url('ie.png');
-    background: -moz-linear-gradient(rgba(11,11,11,0.1), rgba(11,11,11,0.6)) repeat-x rgba(11,11,11,0.2);
-    background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(11,11,11,0.1)), to(rgba(11,11,11,0.6))) repeat-x rgba(11,11,11,0.2);
+    background:#AAAAAA;
+    background:-webkit-gradient(linear, left top, left bottom, from(rgba(11,11,11,0.1)), to(rgba(11,11,11,0.6))) repeat-x rgba(11,11,11,0.2);
+    background:-webkit-linear-gradient(rgba(11,11,11,0.1), rgba(11,11,11,0.6)) repeat-x rgba(11,11,11,0.2);
+    background:linear-gradient(rgba(11,11,11,0.1),rgba(11,11,11,0.6)) repeat-x rgba(11,11,11,0.2);
     z-index:100000;
 }
 

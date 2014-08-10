@@ -27,6 +27,7 @@
 
 	<modules>
 		<module>../messic-server-osgiservices</module>
+		<module>../messic-configuration</module>
 		<module>../messic-server-common</module>
 		<module>../messic-server-datamodel</module>
 		<module>../messic-server-plugin-tagwizard-audiotagger</module>
@@ -104,6 +105,11 @@
 			<dependency>
 				<groupId>org.messic</groupId>
 				<artifactId>messic-server-common</artifactId>
+				<version>${messic.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.messic</groupId>
+				<artifactId>messic-configuration</artifactId>
 				<version>${messic.version}</version>
 			</dependency>
 			<dependency>

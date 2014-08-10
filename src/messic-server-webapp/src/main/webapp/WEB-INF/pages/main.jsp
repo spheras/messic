@@ -93,10 +93,12 @@
 
 
 			    <div id="messic-playlist" class="jp-playlist">
+			    	<div class="playlist-moveprevious"></div>
 					<div class="viewport">
 						<ul id="messic-playlist-container" class="overview"><li></li></ul>
 						<div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
 					</div>
+			    	<div class="playlist-movenext"></div>
 			    </div>
 			</div>
 			

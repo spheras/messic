@@ -1,7 +1,9 @@
 /* window container of the login form */
 /* ---------------------------------------- */
 #messic-login-window{
-	background: #ffffff; /* Old browsers */
+	background: #eeeeee; /* Old browsers */
+	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#c7c7c7));
+	background: -webkit-linear-gradient(top, #ffffff 0%, #c7c7c7 100%);
 	background: linear-gradient(to bottom, #ffffff 0%,#c7c7c7 100%);
 
 

@@ -21,6 +21,7 @@ package org.messic.server.facade.controllers.rest;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.ApiBodyObject;
 import org.jsondoc.core.annotation.ApiError;
 import org.jsondoc.core.annotation.ApiErrors;
@@ -57,6 +58,8 @@ import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 @RequestMapping( "/settings" )
 public class SettingsController
 {
+    private static Logger log = Logger.getLogger( SettingsController.class );
+
     private static final long ONE_HOUR = ( 6000 * 60 );
 
     @Autowired
@@ -235,7 +238,7 @@ public class SettingsController
             }
             catch ( InterruptedException e )
             {
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
         }
 

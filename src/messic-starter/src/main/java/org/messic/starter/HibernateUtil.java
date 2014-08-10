@@ -1,9 +1,8 @@
 package org.messic.starter;
 
-import java.util.Properties;
-
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.messic.configuration.MessicConfig;
 
 public class HibernateUtil
 {

@@ -22,9 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
+import org.messic.configuration.MessicConfig;
 import org.messic.server.api.datamodel.MusicInfo;
 import org.messic.server.api.musicinfo.service.MusicInfoPlugin;
-import org.messic.server.config.MessicConfig;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -34,6 +35,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class APIMusicInfo
 {
+
+    private Logger log = Logger.getLogger( APIMusicInfo.class );
 
     @Autowired
     private MessicConfig messicConfig;
@@ -78,7 +81,7 @@ public class APIMusicInfo
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
 
         return result;

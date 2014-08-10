@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.fourthline.cling.model.message.UpnpHeaders;
 import org.fourthline.cling.support.contentdirectory.DIDLParser;
 import org.fourthline.cling.support.model.DIDLObject;
@@ -57,6 +58,9 @@ import org.messic.server.api.dlna.chii2.transcoder.api.core.TranscoderService;
 public class CommonContentManager
     implements ContentManager
 {
+
+    Logger log = Logger.getLogger( CommonContentManager.class );
+
     // Root Container ID
     public final static String ROOT_ID = "0";
 
@@ -244,19 +248,19 @@ public class CommonContentManager
                 results = this.searchImage( containerId, searchCriteria, filter, startIndex, requestCount, orderBy );
                 break;
             case SEARCH_AUDIO_ALBUMS:
-                System.out.println( "searching audio albums!" );
+                log.info( "searching audio albums!" );
                 return musicService.getAlbums( containerId, startIndex, requestCount, null );
             case SEARCH_AUDIO_AUTHORS:
-                System.out.println( "searching audio authors!" );
+                log.info( "searching audio authors!" );
                 return musicService.getAuthors( containerId, startIndex, requestCount, null );
             case SEARCH_AUDIO_GENRE:
-                System.out.println( "searching audio genre!" );
+                log.info( "searching audio genre!" );
                 break;
             case SEARCH_AUDIO:
-                System.out.println( "searching audio songs!" );
+                log.info( "searching audio songs!" );
                 return musicService.getSongs( containerId, startIndex, requestCount, null );
             case SEARCH_PLAYLIST:
-                System.out.println( "Searching playlists!" );
+                log.info( "Searching playlists!" );
                 return musicService.getPlaylists( containerId, startIndex, requestCount, null );
         }
         return results;

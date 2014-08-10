@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiBodyObject;
 import org.jsondoc.core.annotation.ApiError;
@@ -66,6 +67,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Api( name = "Playlists services", description = "Methods for managing playlists" )
 public class PlaylistController
 {
+    private static Logger log = Logger.getLogger( PlaylistController.class );
+
     @Autowired
     public APIPlayLists playlistAPI;
 
@@ -92,7 +95,7 @@ public class PlaylistController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -128,7 +131,7 @@ public class PlaylistController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -155,7 +158,7 @@ public class PlaylistController
         }
         catch ( IOException e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new IOMessicRESTException( e );
         }
         catch ( SidNotFoundMessicException e )
@@ -212,7 +215,7 @@ public class PlaylistController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }

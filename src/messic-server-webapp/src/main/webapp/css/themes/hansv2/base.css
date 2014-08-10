@@ -246,7 +246,6 @@ input[type="text"]:focus, input[type="number"]:focus, input[type="password"]:foc
 }
 input[type="text"]:hover, input[type="number"]:hover, input[type="password"]:hover, input[type="email"]:hover, textarea:hover {
     -webkit-box-shadow: 0 0 3px rgba(0, 139, 139, 0.4);
-    -moz-box-shadow:    0 0 3px rgba(0, 139, 139, 0.4);
     box-shadow:         0 0 3px rgba(0, 139, 139, 0.4);
     border-color: rgba(0,139,139,0.5);
 }
@@ -268,9 +267,11 @@ input[type="text"]:hover, input[type="number"]:hover, input[type="password"]:hov
 }
 
 button {
+    background:#dedede; /* Old browsers */
 	/* generated here: http://css3buttongenerator.com/ */
- 	background: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#cccccc));
-    background: -moz-linear-gradient(center top , #FFFFFF, #CCCCCC) repeat scroll 0 0 transparent;
+ 	background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
+ 	background: -webkit-linear-gradient(#ffffff, #cccccc);
+ 	background: linear-gradient(#ffffff,#cccccc);
     border: 1px solid #C7C7C7;
     border-radius: 8px 2px 8px 2px;
 	-webkit-border-radius: 8px 2px 8px 2px;
@@ -285,7 +286,10 @@ button {
     text-decoration: none;
 	line-height: 30px;
 
+    -webkit-transition-property : padding;
+
     transition-property : padding; 
+    -webkit-transition-duration : 0.5s; 
     transition-duration : 0.5s;
 }
 button:focus {
@@ -295,8 +299,10 @@ button:focus {
     text-decoration: underline;
 }
 button:hover {
- 	background: -webkit-gradient(linear, 0 0, 0 100%, from(#FFFFFF), to(#DDDDDD));
-    background: -moz-linear-gradient(center top , #FFFFFF, #DDDDDD) repeat scroll 0 0 transparent;
+    background:#DEDEDE; /* Old browsers */
+ 	background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#DDDDDD));
+ 	background: -webkit-linear-gradient(#FFFFFF, #DDDDDD);
+ 	background: linear-gradient(#FFFFFF,#DDDDDD);
 	color:#008B8B;
 }
 button:active {
@@ -313,13 +319,17 @@ button:before
 	margin: 0px;
 	padding: 0 .2em;
 	pointer-events: none;
+    -webkit-transition-property : color;
     transition-property : color; 
+    -webkit-transition-duration : 0.5s; 
     transition-duration : 0.5s;
 }
 
 button:hover:before{
 	color:#008B8B;
+    -webkit-transition-property : color,font-size;
     transition-property : color,font-size; 
+    -webkit-transition-duration : 0.5s; 
     transition-duration : 0.5s;
 }
 a{
@@ -330,13 +340,17 @@ a{
 a:hover{
 	font-size:0.8em;
 	color:#008B8B;
+    -webkit-transition-property : color;
     transition-property : color; 
+    -webkit-transition-duration : 0.5s; 
     transition-duration : 0.5s;
 }
 a:visited{
 	font-size:0.8em;
 	color:#7a7a7a;
+    -webkit-transition-property : color;
     transition-property : color; 
+    -webkit-transition-duration : 0.5s; 
     transition-duration : 0.5s;
 }
 
@@ -377,6 +391,8 @@ p strong{
     left: -20px;
     position: absolute;
     top: -15px;
+    -webkit-transform: scale(0.8);
+    -ms-transform: scale(0.8);
     transform: scale(0.8);
     width: 48px;
 }
@@ -384,6 +400,7 @@ p strong{
 .messic-smallinfo{
     background: none repeat scroll 0 0 rgba(0, 203, 203, 0.6);
     border-radius: 8px;
+    -webkit-box-shadow: 0 0 2px #00BABA;
     box-shadow: 0 0 2px #00BABA;
     color: #FFFFFF;
     font-family: Roboto-black;
@@ -429,8 +446,12 @@ p strong{
 	position:fixed;
 	z-index:-1;
 
+	-webkit-animation-name: fadein;
+
 	animation-name: fadein;
+	-webkit-animation-duration:2s;
 	animation-duration:2s;
+	-webkit-animation-iteration-count: 1;
 	animation-iteration-count: 1;
 	-webkit-animation-name: fadein;
 	-webkit-animation-duration:2s;
@@ -444,8 +465,11 @@ p strong{
     position:fixed;
     top:0px;
     z-index:-2;
+    -webkit-animation-name: fadein;
     animation-name: fadein;
+    -webkit-animation-duration:2s;
     animation-duration:2s;
+    -webkit-animation-iteration-count: 1;
     animation-iteration-count: 1;
     -webkit-animation-name: fadein;
     -webkit-animation-duration:2s;
@@ -459,7 +483,9 @@ p strong{
     top: -52px;
     width: 100%;
     z-index: 8;    
+    -webkit-transition-property:top;    
     transition-property:top;
+    -webkit-transition-duration:0.5s;
     transition-duration:0.5s;
 }
 
@@ -473,6 +499,9 @@ p strong{
 	top:-52px;
 }
 #messic-top-background{
+    background-color: #696969;
+    background: -webkit-gradient(linear, left top, left bottom, from(#8f8f8f), to(#696969)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(#8f8f8f, #696969) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(#8f8f8f, #696969) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-bottom: 16px solid #474747;
     display: block;
@@ -508,6 +537,7 @@ p strong{
 	float:left;
 	list-style-type: none;
     margin-right:-15px;
+    cursor:pointer;
 }
 
 #messic-menu > li:before{
@@ -517,7 +547,9 @@ p strong{
     height: 100%;
     width: 100%;
     opacity:0;
+    -webkit-transition-property : opacity;
     transition-property : opacity; 
+    -webkit-transition-duration : 0.8s; 
     transition-duration : 0.8s;
 }
 
@@ -551,9 +583,12 @@ p strong{
     width: 99px;	
 }
 #messic-menu > li:hover.messic-menu-icon:after{
+    -ms-transform: rotate(-360deg);
     transform: rotate(-360deg);
     -webkit-transform: rotate(-360deg);
+    -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
+    -webkit-transition-property: -webkit-transform;
     transition-property: transform;
 }
 
@@ -605,13 +640,15 @@ p strong{
     position: relative;
     text-align:center;
     -webkit-box-shadow:  0 0 14px #00baba;
-    -moz-box-shadow:     0 0 14px #00baba;
     box-shadow:          0 0 14px #00baba;
     font-family: Amaranth;
     font-size: 0.8em;
     opacity:0;
+    -webkit-transition-property : opacity;
     transition-property : opacity; 
+    -webkit-transition-duration : 0.8s; 
     transition-duration : 0.8s;
+    -webkit-transition-delay: 1s;
     transition-delay: 1s;
     visibility:hidden;
 }
@@ -636,6 +673,7 @@ p strong{
 }
 
 #messic-search-text:hover{
+    -webkit-box-shadow: none;
     box-shadow: none;
 }
 
@@ -656,6 +694,7 @@ p strong{
 
 #messic-search:hover{
     border:none;
+    -webkit-box-shadow: none;
     box-shadow: none;
 }
 #messic-search-form #messic-main-logout {
@@ -671,7 +710,9 @@ p strong{
 
 #messic-page-border{
 	border-color: transparent;
-	border-image: url("base/page-border.png") 150 150 150 150 repeat repeat;
+	-webkit-border-image: url("base/page-border.png") 150 150 150 150 fill;
+	-o-border-image: url("base/page-border.png") 150 150 150 150 fill;
+	border-image: url("base/page-border.png") 150 150 150 150 fill;
 	border-style: solid;
 	border-width: 150px;
 	height: auto;
@@ -680,7 +721,7 @@ p strong{
 	position: relative;
 	width: auto;
     padding-bottom: 300px;
-
+    behavior: url(js/vendor/PIE-1.0.0/PIE.htc);
 }
 
 @media screen and (min-width:1100px){
@@ -712,9 +753,7 @@ p strong{
     position: relative;
     top: -85px;
     /* Firefox */
-	width: -moz-calc(100% + 225px);
 	/* WebKit */
-	width: -webkit-calc(100% + 225px);
 	/* Opera */
 	width: -o-calc(100% + 225px);
 	/* Standard */
@@ -733,7 +772,7 @@ this fill enables enough scroll to show the last element */
 	height:200px;
 }
 
-
+@-ms-viewport {     width: extend-to-zoom; zoom: 1.0;  }
 
 /* Start by setting display:none to make this hidden.
    Then we position it in relation to the viewport window
@@ -751,9 +790,13 @@ this fill enables enough scroll to show the last element */
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.81);
 }
 #messic-wait-box {
+    background:#F0F0F0; /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(200, 200, 200, 0.8))) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(rgba(255, 255, 255, 0.8), rgba(200, 200, 200, 0.8)) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(200, 200, 200, 0.8)) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: 2px solid #AAAAAA;
     border-radius: 20px;
+    -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
     display: block;
     height: 70px;
@@ -826,6 +869,7 @@ body.loading .modal {
     background: url("textures/light_noise_diagonal_@2X_darker.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: 5px solid #555555;
     border-radius: 7px;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
     font-family: Roboto;
     left: 50%;
@@ -855,6 +899,7 @@ body.loading .modal {
 
 #messicClose:hover {
     background: none repeat scroll 0 0 #aaffff;
+    -webkit-box-shadow: 0 0 20px rgba(100, 255, 255, 1);
     box-shadow: 0 0 20px rgba(100, 255, 255, 1);
     color: #ffffff;
     font-family: roboto-bold;
@@ -868,7 +913,9 @@ body.loading .modal {
     margin: 10px 10px 10px -75px;
     position: relative;
     text-align: center;
+    -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
+    -webkit-transition-property: background-color;
     transition-property: background-color;
     width: 150px;
 }
@@ -891,8 +938,12 @@ body.loading .modal {
 }
 
 #messicSkip:hover {
+    -webkit-transform: rotate(720deg);
+    -ms-transform: rotate(720deg);
     transform: rotate(720deg);
+    -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
+    -webkit-transition-property: -webkit-transform;
     transition-property: transform;
 }
 
@@ -922,6 +973,7 @@ table {
     border: 1px solid #ccc;
     border-collapse: unset;
     border-radius: 6px;
+    -webkit-box-shadow: 0 1px 2px #d1d1d1;
     box-shadow: 0 1px 2px #d1d1d1;
     color: #666;
     font-family: Roboto;
@@ -933,7 +985,6 @@ table th:first-child {
     border-left: medium none;
 }
 table th {
-    background: -moz-linear-gradient(center top , #ededed, #ebebeb) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-bottom: 1px solid #e0e0e0;
     border-left: 1px solid #cdcdcd;
     border-top: 1px solid #fafafa;
@@ -948,7 +999,6 @@ table tbody tr:hover {
 table tbody tr {
     padding-left: 20px;
     text-align: center;
-    background: -moz-linear-gradient(center top , #fbfbfb, #fafafa) repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 table tr:last-child td {

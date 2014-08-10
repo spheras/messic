@@ -188,7 +188,7 @@ public class DAOJPAAlbum
             entityManager.createQuery( "from MDOAlbum as a where (a.name = :albumName) AND (a.owner.login = :userName) AND (a.author.name = :authorName)" );
         query.setParameter( "albumName", "'" + albumName + "'" );
         query.setParameter( "userName", username );
-        query.setParameter( "authorName", authorName );
+        query.setParameter( "authorName", authorName.trim() );
 
         @SuppressWarnings( "unchecked" )
         List<MDOAlbum> results = query.getResultList();

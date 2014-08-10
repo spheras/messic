@@ -9,8 +9,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
+import org.apache.log4j.Logger;
 import org.fourthline.cling.DefaultUpnpServiceConfiguration;
 import org.fourthline.cling.binding.LocalServiceBindingException;
 import org.fourthline.cling.binding.annotations.AnnotationLocalServiceBinder;
@@ -51,7 +51,6 @@ import org.messic.server.api.dlna.chii2.transcoder.core.TranscoderServiceImpl;
  */
 public class MediaServerServiceImpl
 {
-
     // UDN
     private final UDN udn = UDN.uniqueSystemIdentifier( "Messic MediaServer v1" );
 
@@ -66,17 +65,18 @@ public class MediaServerServiceImpl
 
     // Library
     private MediaLibraryService mediaLibrary;
+
     // HTTP Server
     private HttpServerService httpService;
+
     // Transcoder
     private TranscoderService transcoder;
 
-    
     /**
      * Life Cycle Init
      */
     @SuppressWarnings( "unused" )
-    public void init( RegistryListener listener , MusicService musicService)
+    public void init( RegistryListener listener, MusicService musicService )
     {
         logger.info( "Messic Media Server MediaServerService (Core) init." );
 
@@ -122,11 +122,11 @@ public class MediaServerServiceImpl
             // Init UPnP stack
             upnpService = new MessicUpnpServiceImpl( configuration, listener );
             // Attach service and device
-            upnpService.getRegistry().addDevice( createUPnPDevice(musicService) );
+            upnpService.getRegistry().addDevice( createUPnPDevice( musicService ) );
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            logger.error( "failed!", e );
 
             logger.info( "Messic MediaServerService init with exception: {}." + e.getMessage() );
         }
@@ -150,7 +150,7 @@ public class MediaServerServiceImpl
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            logger.error( "failed!", e );
             logger.info( "Messic MediaServerService destory with exception: {}." + e.getMessage() );
         }
     }
@@ -164,7 +164,7 @@ public class MediaServerServiceImpl
      *             implementation class
      * @throws IOException
      */
-    public LocalDevice createUPnPDevice(final MusicService musicService)
+    public LocalDevice createUPnPDevice( final MusicService musicService )
         throws ValidationException, LocalServiceBindingException, IOException
     {
         // Device Type
@@ -207,7 +207,8 @@ public class MediaServerServiceImpl
             protected ContentDirectory createServiceInstance()
                 throws Exception
             {
-                return new ContentDirectory(upnpService,new MessicMediaLibraryService(),null,new TranscoderServiceImpl(), musicService);
+                return new ContentDirectory( upnpService, new MessicMediaLibraryService(), null,
+                                             new TranscoderServiceImpl(), musicService );
             }
         } );
 
@@ -235,7 +236,7 @@ public class MediaServerServiceImpl
     protected Icon createDefaultDeviceIcon()
         throws IOException
     {
-        return new Icon( "image/png", 48, 48, 24, "", new byte[]{0,0,0} );
+        return new Icon( "image/png", 48, 48, 24, "", new byte[] { 0, 0, 0 } );
     }
 
 }

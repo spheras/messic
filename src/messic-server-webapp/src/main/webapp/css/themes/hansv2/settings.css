@@ -17,6 +17,9 @@
     padding-left:30px;
 }
 .messic-user-settings-menu-container {
+    background:#E9E9E9; /* Old browsers */
+    background: -webkit-gradient(linear, left top, right top, color-stop(6%, rgba(255, 255, 255, 0)), to(#E9E9E9)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 6%, #E9E9E9 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(to right, rgba(255, 255, 255, 0) 6%, #E9E9E9 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-right: 1px solid #CCCCCC;
     float: left;
@@ -36,9 +39,7 @@
     margin-top: -15px;
     
     /* Firefox */
-	width: -moz-calc(100% - 190px);
 	/* WebKit */
-	width: -webkit-calc(100% - 190px);
 	/* Opera */
 	width: -o-calc(100% - 190px);
 	/* Standard */
@@ -64,10 +65,13 @@
     background: none repeat scroll 0 0 #dfdfdf;
     border-bottom: 0 solid #aaaaaa;
     border-bottom-left-radius: 18px;
+    -webkit-border-image: none;
+    -o-border-image: none;
     border-image: none;
     border-right: 0 solid #aaaaaa;
     border-top: 0 solid #aaaaaa;
     border-top-right-radius: 18px;
+    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.49) inset;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.49) inset;
 }
 
@@ -81,9 +85,7 @@
     text-align: left;
     
     /* Firefox */
-	width: -moz-calc(100% - 235px);
 	/* WebKit */
-	width: -webkit-calc(100% - 235px);
 	/* Opera */
 	width: -o-calc(100% - 235px);
 	/* Standard */
@@ -156,7 +158,9 @@
 #messic-user-settings-content li {
     overflow: visible;
     position: relative;
+    -webkit-transition-duration: 1s;
     transition-duration: 1s;
+    -webkit-transition-property: height;
     transition-property: height;
     width: 300px;
 }
@@ -275,7 +279,9 @@
     overflow: hidden;
     padding: 2px 10px;
     text-align: left;
+    -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
+    -webkit-transition-property: max-height;
     transition-property: max-height;
 }
 
@@ -310,6 +316,7 @@
     background: url("user/Places-user-trash-icon.png") no-repeat scroll center center / 90px auto rgba(200, 200, 200, 0.31);
     border: 1px solid #cacaca;
     border-radius: 8px;
+    -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.27);
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.27);
     cursor: pointer;
     height: 90px;
@@ -325,6 +332,7 @@
 #messic-user-settings-removeaccount:hover {
     background-color: rgba(255, 50, 50, 0.69);
     border: 1px solid #ff8888;
+    -webkit-box-shadow: 0 0 7px rgba(255, 100, 100, 1);
     box-shadow: 0 0 7px rgba(255, 100, 100, 1);
 }
 

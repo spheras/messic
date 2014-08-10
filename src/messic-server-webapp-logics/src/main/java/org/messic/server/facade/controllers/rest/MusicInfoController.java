@@ -20,6 +20,7 @@ package org.messic.server.facade.controllers.rest;
 
 import java.util.Locale;
 
+import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiError;
 import org.jsondoc.core.annotation.ApiErrors;
@@ -56,6 +57,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Api( name = "MusicInfo services", description = "Methods to obtain music info from external providers" )
 public class MusicInfoController
 {
+    private static Logger log = Logger.getLogger( MusicInfoController.class );
+
     @Autowired
     public APIMusicInfo musicInfoAPI;
 
@@ -118,7 +121,7 @@ public class MusicInfoController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }

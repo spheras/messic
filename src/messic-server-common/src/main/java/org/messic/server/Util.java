@@ -291,7 +291,6 @@ public class Util
                 {
                     String entryName =
                         folderName.substring( baseFolderName.length() + 1, folderName.length() ) + File.separatorChar;
-                    System.out.println( "Adding folder entry " + entryName );
                     ZipEntry ze = new ZipEntry( entryName );
                     zos.putNextEntry( ze );
                 }
@@ -306,7 +305,6 @@ public class Util
                 // add file
                 // extract the relative name for entry purpose
                 String entryName = folderName.substring( baseFolderName.length() + 1, folderName.length() );
-                System.out.print( "Adding file entry " + entryName + "..." );
                 ZipEntry ze = new ZipEntry( entryName );
                 zos.putNextEntry( ze );
                 FileInputStream in = new FileInputStream( folderName );
@@ -318,7 +316,6 @@ public class Util
                 }
                 in.close();
                 zos.closeEntry();
-                System.out.println( "OK!" );
 
             }
         }
@@ -341,15 +338,17 @@ public class Util
 
         // get all the files from a directory
         File[] fList = directory.listFiles();
-        for ( File file : fList )
-        {
-            if ( file.isFile() )
+        if(fList!=null){
+            for ( File file : fList )
             {
-                files.add( file );
-            }
-            else if ( file.isDirectory() )
-            {
-                listFiles( file.getAbsolutePath(), files );
+                if ( file.isFile() )
+                {
+                    files.add( file );
+                }
+                else if ( file.isDirectory() )
+                {
+                    listFiles( file.getAbsolutePath(), files );
+                }
             }
         }
     }

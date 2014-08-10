@@ -46,8 +46,18 @@ function initMessic(){
 	(function($){
 		var playlist=$("#messic-playlist");
 		playlist.tinyscrollbar({ axis: 'x'});
-		playlist.tinyscrollbar_update('bottom');
+		playlist.data("plugin_tinyscrollbar").update('right');
 	})(jQuery);
+	
+	$(".playlist-moveprevious").click(function(){
+		var playlist=$("#messic-playlist").data("plugin_tinyscrollbar");
+		playlist.messic_moveleft();
+	});
+
+	$(".playlist-movenext").click(function(){
+		var playlist=$("#messic-playlist").data("plugin_tinyscrollbar");
+		playlist.messic_moveright();
+	});
 
     playlist = new jPlayerPlaylist(
         {
@@ -71,11 +81,11 @@ function initMessic(){
 
     mainCreateRandomLists();
 
-    $("#messic-main-logout").click(function(){
+    $("#messic-main-logout").on('click touchend', function(){
     	mainLogout();
     });
     
-	$("#messic-menu-settings").click(function(){
+	$("#messic-menu-settings").on('click touchend', function(){
 		var self=this;
 		var nextFunction=function(){
 			selectOption(self);
@@ -94,7 +104,35 @@ function initMessic(){
 		VAR_changeSection(nextFunction);
     });
 
-	$("#messic-menu-playlist").click(function(){
+	//if an space is detected, then we can pause or play the player
+    $("body").keydown(function(event){
+    	// Get the focused element and check if is an input element
+		var focused = $(document.activeElement);
+		if (focused.is("input") || focused.is("select") || focused.is("textarea")) {
+			// it is an input element, let him to manage the space, not us
+			return;
+		}
+
+		if (event.keyCode == 32) {
+			var div = $(".jp-play");
+			if (div.length > 0 && !(div.css('display') == 'none')) {
+				div.click();
+				event.preventDefault();
+				event.stopPropagation();
+			} else {
+				div = $(".jp-pause");
+				if (div.length > 0 && !(div.css('display') == 'none')) {
+					div.click();
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			}
+		}
+    });
+
+	
+	
+	$("#messic-menu-playlist").on('click touchend', function(){
 		var self=this;
 		var nextFunction=function(){
 			selectOption(self);
@@ -112,7 +150,7 @@ function initMessic(){
 		VAR_changeSection(nextFunction);
     });
 
-	$("#messic-menu-home").click(function(){
+	$("#messic-menu-home").on('click touchend', function(){
 		var self=this;
 		var nextFunction=function(){
 			selectOption(self);
@@ -125,7 +163,7 @@ function initMessic(){
 		VAR_changeSection(nextFunction);
 	});
 
-	$("#messic-menu-help").click(function(){
+	$("#messic-menu-help").on('click touchend', function(){
 		var self=this;
 		var nextFunction=function(){
 			selectOption(self);
@@ -146,7 +184,7 @@ function initMessic(){
 		VAR_changeSection(nextFunction);
 	});
 
-	$("#messic-menu-upload").click(function(){
+	$("#messic-menu-upload").on('click touchend', function(){
 		var self=this;
 		var nextFunction=function(){
 			selectOption(self);
@@ -166,7 +204,7 @@ function initMessic(){
 		VAR_changeSection(nextFunction);
 	});
 
-	$("#messic-menu-explore").click(function(){
+	$("#messic-menu-explore").on('click touchend', function(){
 		var self=this;
 		var nextFunction=function(){
 			selectOption(self);
@@ -191,7 +229,7 @@ function initMessic(){
 	  }
 	});
 
-	$("#messic-search-do").click(function(){
+	$("#messic-search-do").on('click touchend', function(){
 	    mainSearch();
 		window.scrollTo(0,0);
 	});
@@ -455,12 +493,14 @@ function addSong(titleA,authorName,albumSid,albumName,songSid,songName, rate){
 		        "songRate": rate,
 		        boxart: "services/albums/"+albumSid+"/cover?messic_token="+VAR_MessicToken
 			});
-			$("#messic-playlist").tinyscrollbar_update('bottom');
+		    
+		    $("#messic-playlist").data("plugin_tinyscrollbar").update('right');
 }
 
 /* clear the current playlist */
 function clearPlaylist(){
 	playlist.remove();
+    $("#messic-playlist").data("plugin_tinyscrollbar").update('right');
 }
 
 function playVinyl(index){

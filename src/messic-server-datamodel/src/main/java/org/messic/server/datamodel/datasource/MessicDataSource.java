@@ -7,6 +7,8 @@ import org.apache.commons.dbcp.BasicDataSource;
 public class MessicDataSource
     extends BasicDataSource
 {
+    public static String databasePath;
+
     @Override
     public synchronized void setUrl( String url )
     {
@@ -24,6 +26,9 @@ public class MessicDataSource
         String messic_path = f.getAbsolutePath();
         messic_path = messic_path.replaceAll( "\\\\", "\\\\\\\\" );
         String newURL = url.replaceAll( "MESSIC_PATH", messic_path );
+
+        databasePath = messic_path;
+
         super.setUrl( newURL );
     }
 

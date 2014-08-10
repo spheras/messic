@@ -20,9 +20,12 @@ import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import org.apache.log4j.Logger;
+
 public class AnimatedGifSplashScreen
     extends JWindow
 {
+    private static Logger log = Logger.getLogger( AnimatedGifSplashScreen.class );
 
     /**
 	 * 
@@ -107,13 +110,11 @@ public class AnimatedGifSplashScreen
             }
             catch ( FontFormatException e )
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
             catch ( IOException e )
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
         }
 

@@ -21,36 +21,28 @@ package org.messic.server.datamodel.dao;
 import org.messic.server.datamodel.MDOMessicSettings;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
 /**
  * DAO for Author table
  */
 @Transactional
-public interface DAOMessicSettings extends DAO<MDOMessicSettings>
+public interface DAOMessicSettings
+    extends DAO<MDOMessicSettings>
 {
-	/**
-	 * Obtain the current settings for messic
-	 * @return {@link MDOMessicSettings}
-	 */
+    /**
+     * Obtain the current settings for messic
+     * 
+     * @return {@link MDOMessicSettings}
+     */
     @Transactional
-	MDOMessicSettings getSettings();
+    MDOMessicSettings getSettings();
 
     /**
-	 * Replace the current settings with these new one settings
-	 * @param sid
-	 * @param genericBaseStorePath
-	 * @return 
-	 */
+     * Save new settings to the database
+     * 
+     * @param settings {@link MDOMessicSettings} settings to persist
+     * @return
+     */
     @Transactional
-	MDOMessicSettings setSettings(Long sid, String genericBaseStorePath);
-	
-	/**
-	 * Save new settings to the database
-	 * @param settings {@link MDOMessicSettings} settings to persist
-	 * @return 
-	 */
-    @Transactional
-	void saveSettings(MDOMessicSettings settings);
-	
+    void saveSettings( MDOMessicSettings settings );
+
 }

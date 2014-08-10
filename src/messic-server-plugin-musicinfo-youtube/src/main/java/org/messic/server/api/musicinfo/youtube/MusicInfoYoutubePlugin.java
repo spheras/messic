@@ -31,6 +31,7 @@ import java.net.URLConnection;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.messic.server.api.musicinfo.service.MusicInfoPlugin;
 import org.messic.server.api.plugin.MessicPlugin;
 
@@ -41,6 +42,8 @@ import com.fasterxml.jackson.core.JsonToken;
 public class MusicInfoYoutubePlugin
     implements MusicInfoPlugin
 {
+
+    private Logger log = Logger.getLogger( MusicInfoYoutubePlugin.class );
 
     public static final String NAME = "YOUTUBE";
 
@@ -122,12 +125,11 @@ public class MusicInfoYoutubePlugin
         }
         catch ( URISyntaxException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
 
         URL url = new URL( uri.toASCIIString() );
-        System.out.println( surl );
+        log.info( surl );
         Proxy proxy = getProxy();
         URLConnection connection = ( proxy != null ? url.openConnection( proxy ) : url.openConnection() );
         InputStream is = connection.getInputStream();
@@ -224,9 +226,6 @@ public class MusicInfoYoutubePlugin
             }
 
         }
-        // ObjectMapper om=new ObjectMapper();
-        // GAPIResult result=om.readValue(is, GAPIResult.class);
-        // System.out.println(result.apiVersion);
         return htmlCode;
     }
 
@@ -239,8 +238,7 @@ public class MusicInfoYoutubePlugin
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }
@@ -254,8 +252,7 @@ public class MusicInfoYoutubePlugin
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }
@@ -269,8 +266,7 @@ public class MusicInfoYoutubePlugin
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }

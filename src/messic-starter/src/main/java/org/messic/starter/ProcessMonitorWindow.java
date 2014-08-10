@@ -36,6 +36,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import org.messic.configuration.MessicConfig;
+
 public class ProcessMonitorWindow
     extends JFrame
 {

@@ -103,12 +103,25 @@
 						<li>Some <a href="http://en.wikipedia.org/wiki/Oxygen_Project" target="_blank">Oxygen</a> icons </li>
 						<li>A set of icons from <a href="http://brankic1979.com/icons/" target="_blank">Brankic1979</a></li>
 						<li>Ribbons from <a href="http://365psd.com/day/author/alexandren/" target="_blank">Alexandre Naud</a> at <a href="http://365psd.com">365psd</a></li>
+						<li>Some fonts from <a href="http://www.google.com/fonts" target="_blank">Google Fonts</a></li> 						
 					</ul>
 				</p>
 				<p>
-					Third projects and software libraries used:<br>
+					Relevant third software libraries used:<br>
 					<ul>
-						<li></li>
+						<li><a href="http://projects.spring.io/spring-framework/" target="_blank">Spring Framework</a></li>
+						<li><a href="http://felix.apache.org/" target="_blank">Apache Felix</a></li>
+						<li><a href="http://www.eclipse.org/jetty/" target="_blank">Eclipse Jetty</a></li>
+						<li><a href="http://jsondoc.org/" target="_blank">JSONDoc</a> by <a href="http://fabiomaffioletti.me/" target="_blank">Fabio Maffioletti</a></li>
+						<li><a href="http://www.jthink.net/jaudiotagger/" target="_blank">jadiotagger</a> by JThink</li>
+						<li><a href="http://jcaptcha.sourceforge.net/" target="_blank">JCaptcha</a></li>
+						<li><a href="http://hibernate.org/" target="_blank">Hibernate</a></li>
+						<li><a href="http://4thline.org/projects/cling/" target="_blank">Cling</a> by 4thline</li>
+						<li><a href="https://github.com/longkerdandy/chii2" target="_blank">Chii2</a> by longkerdandy</li>
+						<li><a href="http://jplayer.org/" target="_blank">JPlayer</a> by happyworm</li>
+						<li>Tinyscrollbar and Tinycarousel by <a href="https://github.com/wieringen" target="_blank">Maarten Baijs</a></li>
+						<li>Set of javascript Fx by <a href="https://github.com/dazld/canvas-fx" target="_blank">Dan Peddle</a>
+						<li>And a thousand more of libraries. Thanks to all.</li>
 					</ul>				
 				</p>
 			</div>

@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import org.messic.configuration.MessicConfig;
+
 public class SelectMusicFolderWindow
     extends JDialog
 {
@@ -29,7 +31,7 @@ public class SelectMusicFolderWindow
      */
     public SelectMusicFolderWindow()
     {
-        setTitle("Music Folder");
+        setTitle( "Music Folder" );
         initialize();
     }
 
@@ -43,7 +45,7 @@ public class SelectMusicFolderWindow
         frame.setBounds( 100, 100, 450, 265 );
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation( dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2 );
-        
+
         frame.setModal( true );
         frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
         frame.getContentPane().setLayout( null );

@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.messic.server.api.tagwizard.service.Album;
 import org.messic.server.api.tagwizard.service.Song;
 import org.messic.server.api.tagwizard.service.TAGWizardPlugin;
@@ -41,6 +42,7 @@ import org.messic.server.api.tagwizard.service.TAGWizardPlugin;
 public class FreeDBTAGWizardPlugin
     implements TAGWizardPlugin
 {
+    private Logger log = Logger.getLogger( FreeDBTAGWizardPlugin.class );
 
     public static final String NAME = "FreeDB";
 
@@ -141,17 +143,15 @@ public class FreeDBTAGWizardPlugin
                     if ( words.length > 1 )
                     {
                         Album album = getAlbum( words[0], words[1] );
-                        // System.out.println( lines[i] );
                         result.add( album );
                     }
                 }
                 return result;
             }
-            // System.out.println( content );
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
         }
 
         return null;

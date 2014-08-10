@@ -198,7 +198,6 @@ public class APISong
                 // add file
                 // extract the relative name for entry purpose
                 String entryName = song.getLocation();
-                System.out.print( "Adding file entry " + entryName + "..." );
                 ZipEntry ze = new ZipEntry( entryName );
                 zos.putNextEntry( ze );
                 FileInputStream in = new FileInputStream( song.calculateAbsolutePath( daoSettings.getSettings() ) );

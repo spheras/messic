@@ -447,7 +447,7 @@ public class APIAlbum
         if ( mdoAuthor == null )
         {
             mdoAuthor = new MDOAuthor();
-            mdoAuthor.setName( album.getAuthor().getName() );
+            mdoAuthor.setName( album.getAuthor().getName().trim() );
             mdoAuthor.setOwner( mdouser );
             mdoAuthor.setLocation( Util.replaceIllegalFilenameCharacters( album.getAuthor().getName(), replacementChar ) );
         }
@@ -471,7 +471,8 @@ public class APIAlbum
         // ###############################################################################
 
         // if its an existing author and the name of the author has changed...wow!! we must do more things
-        if ( flagExistingAuthor && !album.getAuthor().getName().equals( mdoAuthor.getName() ) )
+        if ( flagExistingAuthor
+            && !album.getAuthor().getName().trim().toUpperCase().equals( mdoAuthor.getName().trim().toUpperCase() ) )
         {
             // the name of the author has changed!!!
             flagAuthorNameChanged = true;
@@ -732,7 +733,8 @@ public class APIAlbum
 
             File fAlbumOldPath = new File( oldAlbumPath );
             FileUtils.deleteDirectory( fAlbumOldPath );
-
+            // if the author have changed the name, we have only moved those resources from this album, but the author
+            // could have other albums, we need to move also.
             if ( flagAuthorNameChanged )
             {
                 File newAuthorLocation = new File( mdoAuthor.calculateAbsolutePath( settings ) );
@@ -743,7 +745,7 @@ public class APIAlbum
                 {
                     if ( file2.isDirectory() )
                     {
-                        FileUtils.moveDirectory( file2, newAuthorLocation );
+                        FileUtils.moveDirectoryToDirectory( file2, newAuthorLocation, true );
                     }
                 }
 

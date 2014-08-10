@@ -18,7 +18,6 @@
  */
 package org.messic.server.datamodel.jpaimpl;
 
-import java.io.File;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -62,22 +61,11 @@ public class DAOJPAMessicSettings
     private MDOMessicSettings createBasicSettings()
     {
         MDOMessicSettings ms = new MDOMessicSettings();
-        ms.setGenericBaseStorePath( System.getProperty( "user.home" ) + File.separatorChar + "messic-data" );
         ms.setIllegalCharacterReplacement( '_' );
         ms.setAllowUserCreation( true );
         ms.setAllowDLNA( true );
         saveSettings( ms );
         return ms;
-    }
-
-    @Override
-    @Transactional
-    public MDOMessicSettings setSettings( Long sid, String genericBaseStorePath )
-    {
-        MDOMessicSettings settings = entityManager.getReference( MDOMessicSettings.class, sid );
-        settings.setGenericBaseStorePath( genericBaseStorePath );
-        entityManager.persist( settings );
-        return settings;
     }
 
     @Override

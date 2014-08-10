@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.fourthline.cling.support.model.DescMeta;
 import org.fourthline.cling.support.model.PersonWithRole;
 import org.fourthline.cling.support.model.Protocol;
@@ -70,6 +71,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class MusicService
 {
+    private static Logger log = Logger.getLogger( MusicService.class );
+
     @Autowired
     private DAOSong daosong;
 
@@ -296,7 +299,7 @@ public class MusicService
      * 
      * @return String the port number
      */
-    public String getCurrentPort()
+    public int getCurrentPort()
     {
         return this.authenticationSessionManager.getCurrentPort();
     }
@@ -369,12 +372,11 @@ public class MusicService
                 }
                 catch ( URISyntaxException e )
                 {
-                    e.printStackTrace();
+                    log.error( "failed!", e );
                 }
                 catch ( Exception e )
                 {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    log.error( "failed!", e );
                 }
                 resource.setValue( originalUri.toString() );
                 DLNAProfiles originalProfile = DLNAProfiles.MP3;
@@ -455,12 +457,11 @@ public class MusicService
             }
             catch ( URISyntaxException e )
             {
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
             catch ( Exception e )
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                log.error( "failed!", e );
             }
             Res resource = new Res();
             EnumMap<DLNAAttribute.Type, DLNAAttribute> dlnaAttributes =

@@ -20,6 +20,7 @@ package org.messic.server.facade.controllers.rest;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiError;
 import org.jsondoc.core.annotation.ApiErrors;
@@ -51,6 +52,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Api( name = "Author services", description = "Methods for managing authors" )
 public class AuthorController
 {
+    private Logger log = Logger.getLogger( AuthorController.class );
+
     @Autowired
     public APIAuthor authorAPI;
 
@@ -76,7 +79,7 @@ public class AuthorController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!",e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -129,7 +132,7 @@ public class AuthorController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -166,7 +169,7 @@ public class AuthorController
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }

@@ -653,7 +653,6 @@ function sendData(flagNewUser){
 			password: $("#messic-user-settings-password").val(),
 			name: $("#messic-user-settings-name").val(),
 			email: $("#messic-user-settings-email").val(),
-			storePath: $("#messic-user-settings-userStorePath").val(),
 			allowStatistics: $("#messic-user-settings-allowstatistics").is(":checked"),
 			allowDLNA: $("#messic-user-settings-music-allowdlna").is(":checked"),
 	}
@@ -678,9 +677,7 @@ function continueSendData(flagNewUser, userData){
 	if($("#messic-user-settings-content-admin").size()>0){
 		var settingsData={
 			allowUserCreation:$("#messic-user-settings-allowusercreation").is(":checked"),
-			allowUserSpecificFolder:$("#messic-user-settings-allowuserespecificmusicfolder").is(":checked"),
 			illegalCharacterReplacement:$("#messic-user-settings-illegalcharacterreplacement").val(),
-			genericBaseStorePath:$("#messic-user-settings-defaultstorepath").val(),
 			allowDLNA:$("#messic-user-settings-admin-allowdlna").is(":checked"),
 		}
 
@@ -812,7 +809,8 @@ function selectTab(menuElement, contentElement){
 		$(this).removeClass("messic-user-settings-menu-visible").addClass("messic-user-settings-menu-notvisible");
 	});
 	$(contentElement).removeClass("messic-user-settings-menu-notvisible").addClass("messic-user-settings-menu-visible");
-	
+
+    window.scrollTo(0,0);
 }
 
 function loadUserSettings()
@@ -833,7 +831,6 @@ function loadUserSettings()
 	    	$("#messic-user-settings-password-confirm").val(data.password);
 	    	$("#messic-user-settings-name").val(data.name);
 	    	$("#messic-user-settings-email").val(data.email);
-	    	$("#messic-user-settings-userStorePath").val(data.storePath);
 	    	$("#messic-user-settings-allowstatistics").val(data.allowStatistics);
 	    	if(data.avatar_b64){
 		    	$("#messic-user-settings-avatar-preview").attr("src","data:image/jpeg;base64,"+data.avatar_b64);
@@ -861,9 +858,7 @@ function loadUserSettings()
 		    success: function (data) 
 		    {
 				$("#messic-user-settings-allowusercreation").val(data.allowUserCreation);
-				$("#messic-user-settings-allowuserespecificmusicfolder").val(data.allowUserSpecificFolder);
 				$("#messic-user-settings-illegalcharacterreplacement").val(data.illegalCharacterReplacement);
-				$("#messic-user-settings-defaultstorepath").val(data.genericBaseStorePath);
 		    }
 		});
 	}

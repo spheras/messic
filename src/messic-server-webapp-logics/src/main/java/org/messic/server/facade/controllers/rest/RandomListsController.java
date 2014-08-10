@@ -20,6 +20,7 @@ package org.messic.server.facade.controllers.rest;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiError;
 import org.jsondoc.core.annotation.ApiErrors;
@@ -43,29 +44,40 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-@RequestMapping("/randomlists")
-@Api(name = "RandomList services", description = "Methods for managing random lists")
+@RequestMapping( "/randomlists" )
+@Api( name = "RandomList services", description = "Methods for managing random lists" )
 public class RandomListsController
 {
-	@Autowired
-	public APIRandomLists randomListsAPI;
-	@Autowired
-	public DAOUser userDAO;
+    private static Logger log = Logger.getLogger( RandomListsController.class );
 
-	@ApiMethod(path = "/randomlists", verb = ApiVerb.GET, description = "Get random lists of music", produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	@ApiErrors(apierrors = { @ApiError(code = UnknownMessicRESTException.VALUE, description = "Unknown error"), @ApiError(code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access")})
-	@RequestMapping(value="",method=RequestMethod.GET)
-	@ResponseStatus(HttpStatus.OK)
-	@ResponseBody @ApiResponseObject
-    public List<RandomList> getAll() throws UnknownMessicRESTException, NotAuthorizedMessicRESTException{
-	    User user=SecurityUtil.getCurrentUser();
-		try{
-			List<RandomList> lists=randomListsAPI.getAllLists(user);
-			return lists;
-		}catch(Exception e){
-		    e.printStackTrace(  );
-			throw new UnknownMessicRESTException(e);
-		}
+    @Autowired
+    public APIRandomLists randomListsAPI;
+
+    @Autowired
+    public DAOUser userDAO;
+
+    @ApiMethod( path = "/randomlists", verb = ApiVerb.GET, description = "Get random lists of music", produces = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
+    @RequestMapping( value = "", method = RequestMethod.GET )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    public List<RandomList> getAll()
+        throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
+    {
+        User user = SecurityUtil.getCurrentUser();
+        try
+        {
+            List<RandomList> lists = randomListsAPI.getAllLists( user );
+            return lists;
+        }
+        catch ( Exception e )
+        {
+            log.error( "failed!", e );
+            throw new UnknownMessicRESTException( e );
+        }
     }
 
 }

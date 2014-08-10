@@ -10,17 +10,18 @@ public interface AuthenticationDLNAMusicService
      * @param authentication
      * @return
      */
-    String successfulAuthenticationDLNA( Authentication authentication);
+    String successfulAuthenticationDLNA( Authentication authentication );
 
     /**
-     * Read the file to konw which is the current port
+     * Read the file to know which is the current port
      * 
      * @return
      */
-    String getCurrentPort();
-    
+    int getCurrentPort();
+
     /**
-     * Check if messic is secured by https 
+     * Check if messic is secured by https
+     * 
      * @return
      */
     boolean isSecured();

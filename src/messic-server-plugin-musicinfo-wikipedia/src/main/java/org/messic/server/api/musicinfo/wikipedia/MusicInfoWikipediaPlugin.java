@@ -29,6 +29,7 @@ import java.net.URLConnection;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.messic.server.api.musicinfo.service.MusicInfoPlugin;
 import org.messic.server.api.plugin.MessicPlugin;
 import org.xml.sax.SAXException;
@@ -36,6 +37,8 @@ import org.xml.sax.SAXException;
 public class MusicInfoWikipediaPlugin
     implements MusicInfoPlugin
 {
+
+    private Logger log = Logger.getLogger( MusicInfoWikipediaPlugin.class );
 
     public static final String NAME = "WIKIPEDIA";
 
@@ -177,14 +180,12 @@ public class MusicInfoWikipediaPlugin
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
         catch ( SAXException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }
@@ -198,14 +199,12 @@ public class MusicInfoWikipediaPlugin
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
         catch ( SAXException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }
@@ -219,14 +218,12 @@ public class MusicInfoWikipediaPlugin
         }
         catch ( IOException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
         catch ( SAXException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            log.error( "failed!", e );
             return "ERROR: " + e.getMessage();
         }
     }

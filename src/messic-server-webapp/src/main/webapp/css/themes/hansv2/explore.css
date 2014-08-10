@@ -32,11 +32,15 @@
 }
 
 .messic-explore-authortitle {
+    background:#EEEEEE; /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(#DDDDDD), color-stop(21%, #F9F9F9), color-stop(70%, #777777), to(#BBBBBB)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(top, #DDDDDD 0%, #F9F9F9 21%, #777777 70%, #BBBBBB 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(to bottom, #DDDDDD 0%, #F9F9F9 21%, #777777 70%, #BBBBBB 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border-left-color: #F4F4F4;
     border-radius: 8px;
     border-right-color: #F4F4F4;
     border-top-color: #F4F4F4;
+    -webkit-box-shadow: 0 -2px 3px rgba(0, 0, 0, 0.46);
     box-shadow: 0 -2px 3px rgba(0, 0, 0, 0.46);
     color: #333333;
     float: left;
@@ -71,6 +75,7 @@
 	opacity: 0;
 	position: relative;
 	top: 50%;
+	-webkit-transition: opacity 0.45s ease-in-out 0s;
 	transition: opacity 0.45s ease-in-out 0s;
 	width: 38px;
 	z-index: 3;
@@ -85,7 +90,9 @@
 	position: relative;
 	width: 85px;
 	z-index: 0;
+	-webkit-transition-property: margin-left;
 	transition-property: margin-left;
+	-webkit-transition-duration: 0.3s;
 	transition-duration: 0.3s;
 }
 
@@ -93,6 +100,7 @@
 	background: none repeat scroll 0 0/100px auto rgba(0, 0, 0, 0);
 	border: 1px solid rgba(0, 0, 0, 0.44);
 	border-radius: 3px;
+	-webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.34);
 	box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.34);
 	height: 100px;
 	overflow: visible;
@@ -166,8 +174,12 @@
 
 
 .messic-explore-orderby.messic-explore-orderby-selected {
+    background:#88EEEE; /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 200, 200, 0.43)), to(rgba(0, 200, 200, 0.89))) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(rgba(0, 200, 200, 0.43), rgba(0, 200, 200, 0.89)) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(rgba(0, 200, 200, 0.43), rgba(0, 200, 200, 0.89)) repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: 1px dotted rgba(0, 0, 0, 0.04);
+    -webkit-box-shadow: 1px 1px 8px #00c8c8;
     box-shadow: 1px 1px 8px #00c8c8;
     color: #ffffff;
     font-weight: bold;
@@ -243,6 +255,7 @@
 .messic-explore-albumstartword{
     background: none repeat scroll 0 0 rgba(253, 255, 137, 0.51);
     border-radius: 10px;
+    -webkit-box-shadow: 1px 1px 14px rgba(255, 255, 0, 0.5);
     box-shadow: 1px 1px 14px rgba(255, 255, 0, 0.5);
     color: #8380FF;
     font-family: roboto-bold;
@@ -255,6 +268,8 @@
     text-align: center;
     text-indent: -2px;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0);
+    -webkit-transform: rotate(-13deg);
+    -ms-transform: rotate(-13deg);
     transform: rotate(-13deg);
     width: 64px;
 }
@@ -291,7 +306,9 @@
     margin-top: 32px;
     opacity: 0;
     position: absolute;
+    -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
+    -webkit-transition-property: opacity;
     transition-property: opacity;
     z-index: 2;
 }
