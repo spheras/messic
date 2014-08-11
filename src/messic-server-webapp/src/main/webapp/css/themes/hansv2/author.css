@@ -59,52 +59,61 @@
     font-size: 2em;
 }
 
-#messic-author-album-cover {
-	display: block;
-	float: left;
-	margin-bottom: 0px;
-	margin-right: 35px;
-	margin-top: 15px;
-	width: 250px;
-}
 
-#messic-author-album-cover  img {
-	border: 0 solid #FFFFFF;
-	position: absolute;
-	width: 250px;
-	height: 250px;
-	cursor: pointer;
+
+
+#messic-author-album-cover {
+    display: block;
+    float: left;
+    margin-bottom: 0;
+    margin-right: 35px;
+    margin-top: 46px;
+    width: calc(40% - 35px);
+    clear:left;
+}
+/* this before pseudoelement exist to give an square behaviour to the parent */
+.messic-author-album-covercontainer:before {
+    content: "";
+    display: block;
+    margin-top: 100%;
 }
 .messic-author-album-covercontainer {
-	border: 7px solid #FFFFFF;
-	border-radius: 6px;
-	-webkit-box-shadow: 1px 0 2px rgba(0, 0, 0, 0.75);
-	box-shadow: 1px 0 2px rgba(0, 0, 0, 0.75);
-	height: 250px;
-	overflow: hidden;
-	position: relative;
-	width: 100%;
-	z-index: 2;
+    float: left;
+    position: relative;
+    width: 100%;
 }
-.messic-author-album-add:hover ~ .messic-author-album-vinyl {
-	margin-left: 45px;
+#messic-author-album-cover img {
+    border: 6px solid #ffffff;
+    border-radius: 13px;
+    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
 }
 .messic-author-album-vinyl {
-	background: url("album/bigredvinyl.png") no-repeat scroll 0 0/272px auto
-		rgba(0, 0, 0, 0);
-	height: 300px;
-	margin-left: 21px;
-	margin-top: -267px;
-	position: relative;
-	-webkit-transition-duration: 0.3s;
-	transition-duration: 0.3s;
-	-webkit-transition-property: margin-left;
-	transition-property: margin-left;
-	width: 300px;
-	z-index: 1;
-	pointer-events: none;
+    background: url("album/bigredvinyl.png") no-repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+    height: 100%;
+    left: 0px;
+    margin-left: 25%;
+    pointer-events: none;
+    position: absolute;
+    top: 5px;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: margin-left;
+    transition-property: margin-left;
+    width: 100%;
+    z-index: 0;
 }
 
+.messic-author-album-add:hover ~ .messic-author-album-vinyl {
+	margin-left: 35%;
+}
 .messic-author-album-covercontainer:hover .messic-author-album-add {
 	opacity: 1;
 }
@@ -138,25 +147,24 @@
 }
 #messic-author-container {
     float:left;
-    max-width: 535px;
+    width: 50%;
 }
 
 #messic-author-songs-container {
     float: left;
-    margin-top: 16px;
-    min-height: 296px;
-    max-width: 364px;
+    margin-top: 38px;
+    width: 60%;
 }
 
 .messic-author-songs-bodyfield.messic-author-songs-body-songtrack {
     margin-right: 10px;
     text-align: right;
-    width: 38px;
+    width: 10%;
 }
 
 .messic-author-songs-bodyrow > div {
     float: left;
-    max-width: 315px;
+    width: calc(90% - 10px);
 }
 
 #messic-author-songs-body {
@@ -167,6 +175,7 @@
     font-size: 0.9em;
     height: 22px;
     overflow: hidden;
+    width: 100%;
 }
 .messic-author-songs-bodyrow:hover {
     background: none repeat scroll 0 0 #88FFFF;
@@ -176,6 +185,7 @@
 .messic-author-album-title {
     font-family: Amaranth;
     font-size: 1.5em;
+    width: 100%;
 }
 
 .messic-author-album-title:hover {
@@ -192,7 +202,7 @@
 	min-height: 400px;
 	padding: 17px;
 	right: 0;
-	width: 435px;
+	width: calc(50% - 17px - 17px - 3px);
 	margin-top: 10px;
 }
 

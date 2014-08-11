@@ -284,7 +284,15 @@ function uploadTitleComboChange(){
 
 /* Validate all the information */
 function uploadValidate(){
-	return (uploadAlbum.validate() && uploadValidator.validate());
+	var result=uploadAlbum.validate();
+	if(result){
+		result=uploadValidator.validate();
+		if(!result){
+			UtilShowInfo(messicLang.uploadWizardValidationError);
+		}
+	}
+	
+	return result;
 }
 
 
@@ -333,7 +341,5 @@ function uploadSend(){
 	            }
 	        }
 	    });
-	}else{
-		UtilShowInfo(messicLang.uploadWizardValidationError);
 	}
 }

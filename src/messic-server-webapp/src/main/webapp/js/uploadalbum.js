@@ -853,7 +853,7 @@ var UploadAlbum=function(){
 								$("#messic-upload-wizard-plugins-content").empty();							
 								$("#messic-upload-wizard-plugins-content").append(divplugincode);							
 							}else{
-								UtilShowInfo("Nothing found! :(")
+								UtilShowInfo(messicLang.uploadAlbumWizardNothingfound);
 							}
 						},
 						error: function(e){
@@ -889,23 +889,6 @@ var UploadAlbum=function(){
 			var track=this.audioResources[i].getSongTrack();
 			if(!track || track.length==0){
 				UtilShowInfo(messicLang.uploadErrorTrackWithoutNumber);
-				return false;
-			}
-		}
-
-		//checking all songs have different names
-		for(var i=0;i<this.audioResources.length;i++){
-			var name=this.audioResources[i].getSongName();
-			var repetitions=0;
-			for(var j=0;j<this.audioResources.length;j++){
-				var name2=this.audioResources[j].getSongName();
-				if(name==name2){
-					repetitions=repetitions+1;
-				}
-			}
-
-			if(repetitions>1){
-				UtilShowInfo(messicLang.uploadErrorNameRepeated+" '"+name + "'");
 				return false;
 			}
 		}

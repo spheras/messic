@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
 	<!-- Appenders -->
@@ -10,8 +11,10 @@
 		</layout>
 	</appender>
 
-	<appender name="rollingFileAppender" class="org.messic.server.log4j.MessicLog4Java">
-		<param name="File" value="log/messic.log" />
+	<appender name="rollingFileAppender" class="org.apache.log4j.RollingFileAppender">
+		<param name="File" value="${messic.app.folder}/log/messic.log" />
+		<param name="MaxFileSize" value="5MB"/>
+		<param name="MaxBackupIndex" value="2"/>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p: %c %x - %m%n" />
 		</layout>
@@ -25,3 +28,4 @@
 	</root>
 
 </log4j:configuration>
+

@@ -266,12 +266,12 @@
     margin: 0 20px 0 0;
 }
 
-#messic-upload-wizard-albuminfo-actions {
+#messic-upload-wizard-albuminfo-actions {    
     height: 60px;
     left: 14px;
     margin-top: 20px;
-    position: absolute;
-    top: 510px;
+    position: relative;
+    top: -230px;
     width: auto;
 }
 .messic-upload-wizard-albumtitle {

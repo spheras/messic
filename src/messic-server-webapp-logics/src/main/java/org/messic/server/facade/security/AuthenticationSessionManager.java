@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import org.messic.configuration.MessicConfig;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,16 +34,14 @@ import org.springframework.security.core.GrantedAuthority;
  */
 public class AuthenticationSessionManager
 {
-    /**
-     * Session timeout in milliseconds: 1h
-     */
-    public static final long TIMEOUT = 3600 * 1000;
-
-    private static TokenManagementFilter tokenManagementFilter = null;
 
     private static HashMap<String, AuthenticationHolder> authMap = new HashMap<String, AuthenticationHolder>();
 
     private static HashMap<String, AuthenticationHolder> authMapDLNA = new HashMap<String, AuthenticationHolder>();
+
+    private static MessicConfig mc = new MessicConfig();
+
+    private static Long messicTimeout = null;
 
     /**
      * Perform an authentication, returning the token associated
@@ -232,16 +231,11 @@ public class AuthenticationSessionManager
      */
     public static long getTimeout()
     {
-
-        if ( tokenManagementFilter != null && tokenManagementFilter.getTokenValiditySeconds() != 0 )
+        if ( messicTimeout == null )
         {
-            return tokenManagementFilter.getTokenValiditySeconds();
+            messicTimeout = Long.valueOf( mc.getMessicTimeout() );
         }
-        else
-        {
-            return TIMEOUT;
-        }
-
+        return messicTimeout;
     }
 
     /**
@@ -316,7 +310,7 @@ public class AuthenticationSessionManager
         }
 
         // timeout reached
-        if ( System.currentTimeMillis() > cur.created + TIMEOUT )
+        if ( System.currentTimeMillis() > cur.created + getTimeout() )
         {
             authMap.remove( token );
             return null;
@@ -344,7 +338,7 @@ public class AuthenticationSessionManager
         }
 
         // timeout reached
-        if ( System.currentTimeMillis() > cur.created + TIMEOUT )
+        if ( System.currentTimeMillis() > cur.created + getTimeout() )
         {
             authMapDLNA.remove( token );
             return null;

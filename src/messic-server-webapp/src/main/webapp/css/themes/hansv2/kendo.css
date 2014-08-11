@@ -13,6 +13,7 @@
     color: #555555;
     margin-bottom: 2px;
     margin-top: 2px;
+    overflow-y: scroll;
 }
 .k-popup ul{
     list-style-type: none;

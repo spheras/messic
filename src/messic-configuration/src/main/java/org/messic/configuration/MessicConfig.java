@@ -35,11 +35,13 @@ public class MessicConfig
 
     public static final String MESSIC_TIMEOUT = "messic-timeout";
 
-    public static final String configurationFilePath = "./conf/config.properties";
+    public static final String configurationFilePath = "./conf";
+
+    public static final String configurationFileName = "config.properties";
 
     public MessicConfig()
     {
-        File f = new File( configurationFilePath );
+        File f = new File( configurationFilePath + File.separatorChar + configurationFileName );
         this.configuration = new Properties();
         if ( f.exists() )
         {
@@ -69,6 +71,7 @@ public class MessicConfig
                 this.configuration.load( MessicConfig.class.getResourceAsStream( "/org/messic/configuration/config-default.properties" ) );
                 File fnew = new File( configurationFilePath );
                 fnew.mkdirs();
+                fnew = new File( configurationFilePath + File.separatorChar + configurationFileName );
                 FileOutputStream fos = new FileOutputStream( fnew );
                 this.configuration.store( fos, "messic configuration" );
                 fos.close();

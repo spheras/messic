@@ -97,12 +97,13 @@ function exploreByGenre(){
 					$(".messic-explore-words").append(codewords);
 				}
 
-				
+				var alength=0;
 				$.ajax({
 					  url: "services/albums?filterGenreSid="+genre.sid,
 					  dataType: 'json',
 					  async: false,
 					  success: function(dataAlbums) {
+						  alength=dataAlbums.length;
 							for(var j=0;j<dataAlbums.length;j++){
 								
 								var album=dataAlbums[j];
@@ -121,7 +122,10 @@ function exploreByGenre(){
 				});
 				
 				code=code+"</div>";
-				$(".messic-explore-values").append(code);
+				if(alength>0){
+					//we dont put genres without albums
+					$(".messic-explore-values").append(code);
+				}
 			}
 		}
 		

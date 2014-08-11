@@ -717,16 +717,22 @@ p strong{
 	border-width: 150px;
 	height: auto;
 	min-height:500px;
-	margin: 50px 40px 0;
+	margin: 50px 0px 0;
 	position: relative;
 	width: auto;
     padding-bottom: 300px;
     behavior: url(js/vendor/PIE-1.0.0/PIE.htc);
 }
 
+@media screen and (min-width:700px){
+	#messic-page-border{
+		margin: 50px 2% 0;
+	}
+}
+
 @media screen and (min-width:1100px){
 	#messic-page-border{
-		margin: 50px 10% 0;
+		margin: 50px 7% 0;
 	}
 }
 

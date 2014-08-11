@@ -50,6 +50,10 @@ public class MDOAlbum
     @Column( name = "YEAR", nullable = true )
     private Integer year;
 
+    @Column( name = "STATE", nullable = true )
+    //this if for future versions, the state of the album will indicate if its active, or else
+    private Integer state;
+
     @ManyToOne( fetch = FetchType.LAZY )
     @JoinColumn( name = "AUTHOR", nullable = false )
     private MDOAuthor author;
@@ -74,7 +78,6 @@ public class MDOAlbum
     @OneToMany( cascade = { CascadeType.REMOVE } )
     private List<MDOGenericTAG> extraTags;
 
-    
     public MDOAlbum()
     {
         super();
@@ -231,6 +234,22 @@ public class MDOAlbum
             resources.add( mdoOtherResource );
         }
         return resources;
+    }
+
+    /**
+     * @return the state
+     */
+    public Integer getState()
+    {
+        return state;
+    }
+
+    /**
+     * @param state the state to set
+     */
+    public void setState( Integer state )
+    {
+        this.state = state;
     }
 
 }

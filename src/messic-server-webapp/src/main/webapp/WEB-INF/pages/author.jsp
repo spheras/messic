@@ -26,8 +26,8 @@
 						<div class="messic-author-album-covercontainer">
 				        	<div class="messic-author-album-add" onclick="addAlbum(${messic:escapeAll(album.sid)})" title="<fmt:message key="album-addalbum-title" bundle="${message}"/>"></div>
 							<img src="services/albums/${album.sid}/cover?messic_token=${token}&<%=new Date().getTime()%>" onclick="albumShowCover('${messic:escapeAll(album.sid)}')"/>
+				        	<div class="messic-author-album-vinyl"></div>
 						</div>
-			        	<div class="messic-author-album-vinyl"></div>
 			        </div>
 				
 					<div id="messic-author-songs-container">

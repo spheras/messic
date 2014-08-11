@@ -192,13 +192,15 @@
         function messic_move(){
             self.contentPosition = Math.min((self.contentSize - self.viewportSize), Math.max(0, self.contentPosition));
             $container.trigger("move");
-            $thumb.css(posiLabel, self.contentPosition / self.trackRatio);
+            //$thumb.css(posiLabel, self.contentPosition / self.trackRatio);
             //$overview.css(posiLabel, -self.contentPosition);
             var px=""+(-self.contentPosition)+"px";
             if(isHorizontal){
-                $overview.animate({left:px},1000);
+                $overview.animate({left:px},1000,'easeOutQuart');
+                $thumb.animate({left: ""+(self.contentPosition / self.trackRatio)+"px"},1000,'easeOutQuart');
             }else{
-                $overview.animate({top:px},1000);
+                $overview.animate({top:px},1000,'easeOutQuart');
+                $thumb.animate({top: ""+(self.contentPosition / self.trackRatio)+"px"},1000,'easeOutQuart');
             }
         }
         

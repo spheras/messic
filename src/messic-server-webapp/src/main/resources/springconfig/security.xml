@@ -62,7 +62,6 @@
 		class="org.messic.server.facade.security.TokenManagementFilter">
 		<beans:property name="authenticationManager" ref="authenticationManager" />
 		<beans:property name="authenticationTokenId" value="messic_token" />
-		<beans:property name="tokenValiditySeconds" value="100000" />
 		<beans:property name="continueChainBeforeSuccessfulAuthentication"
 			value="true" />
 	</beans:bean>

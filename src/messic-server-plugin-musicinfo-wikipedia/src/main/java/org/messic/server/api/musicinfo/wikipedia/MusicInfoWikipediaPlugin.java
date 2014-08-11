@@ -119,9 +119,13 @@ public class MusicInfoWikipediaPlugin
         URLConnection connection = ( proxy != null ? url.openConnection( proxy ) : url.openConnection() );
         InputStream is = connection.getInputStream();
         byte[] readed = readInputStream( is );
-        String result = new String( readed );
+        String result = new String( readed, "UTF8" );
         WikipediaXMLReader wxr = new WikipediaXMLReader();
-        return wxr.read( result );
+        String html = wxr.read( result );
+
+        html =
+            html.replaceAll( "href=\"/", "target=\"_blank\" href=\"http://" + country.toLowerCase() + ".wikipedia.org/" );
+        return html;
     }
 
     /**

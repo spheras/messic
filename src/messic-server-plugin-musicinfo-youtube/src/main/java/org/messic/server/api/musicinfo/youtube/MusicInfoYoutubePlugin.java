@@ -138,7 +138,7 @@ public class MusicInfoYoutubePlugin
                                                      // org.codehaus.jackson.mapper.MappingJsonFactory
         JsonParser jParser = jsonFactory.createParser( is );
 
-        String htmlCode = "<script type='text/javascript'>";
+        String htmlCode = "<script type=\"text/javascript\">";
         htmlCode = htmlCode + "  function musicInfoYoutubeDestroy(){";
         htmlCode = htmlCode + "       $('.messic-musicinfo-youtube-overlay').remove();";
         htmlCode = htmlCode + "       $('.messic-musicinfo-youtube-iframe').remove();";
@@ -214,12 +214,15 @@ public class MusicInfoYoutubePlugin
                         {
                             htmlCode =
                                 htmlCode
-                                    + "<div class='messic-musicinfo-youtube-item'><img src='"
+                                    + "<div class=\"messic-musicinfo-youtube-item\"><img src=\""
                                     + yi.thumbnail
-                                    + "'/><div class='messic-musicinfo-youtube-item-play' onclick='musicInfoYoutubePlay(\""
-                                    + yi.id + "\")'></div><div class='messic-musicinfo-youtube-item-title'>" + yi.title
-                                    + "</div><div class='messic-musicinfo-youtube-item-description'>" + yi.description
-                                    + "</div></div>";
+                                    + "\"/><div class=\"messic-musicinfo-youtube-item-play\" onclick=\"musicInfoYoutubePlay(\""
+                                    + yi.id + "\")\"></div>"
+                                    +"<div class=\"messic-musicinfo-youtube-description\">"
+                                    +"  <div class=\"messic-musicinfo-youtube-item-title\">" + yi.title + "</div>"
+                                    +"  <div class=\"messic-musicinfo-youtube-item-description\">" + yi.description + "</div>"
+                                    +"</div>"
+                                    +"</div>";
                         }
                     }
                 }

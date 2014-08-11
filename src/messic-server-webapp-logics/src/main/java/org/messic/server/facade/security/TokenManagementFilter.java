@@ -46,10 +46,6 @@ public class TokenManagementFilter
     extends AbstractAuthenticationProcessingFilter
 {
 
-    public static final long TWO_WEEKS_S = 1209600;
-
-    private long tokenValiditySeconds = TWO_WEEKS_S;
-
     private String tokenParameter = "messic_token";
 
     /**
@@ -162,22 +158,6 @@ public class TokenManagementFilter
         Assert.notNull( authenticationTokenId, "authenticationTokenId cannot be null" );
         this.tokenParameter = authenticationTokenId;
         this.setRequiresAuthenticationRequestMatcher( new FilterTokenRequestMatcher( tokenParameter ) );
-    }
-
-    /**
-     * @param tokenValiditySeconds
-     */
-    public void setTokenValiditySeconds( long tokenValiditySeconds )
-    {
-        this.tokenValiditySeconds = tokenValiditySeconds;
-    }
-
-    /**
-     * @return
-     */
-    public long getTokenValiditySeconds()
-    {
-        return tokenValiditySeconds;
     }
 
     /**

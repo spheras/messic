@@ -26,6 +26,7 @@ import java.net.Proxy;
 import java.net.SocketAddress;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -184,7 +185,7 @@ public class MusicInfoDuckDuckGoImages
     {
         try
         {
-            return search( constructURL( new String[] { authorName } ) );
+            return search( constructURL( new String[] { URLEncoder.encode( authorName, "UTF-8" ) } ) );
         }
         catch ( IOException e )
         {
@@ -198,7 +199,8 @@ public class MusicInfoDuckDuckGoImages
     {
         try
         {
-            return search( constructURL( new String[] { authorName, albumName } ) );
+            return search( constructURL( new String[] { URLEncoder.encode( authorName, "UTF-8" ),
+                URLEncoder.encode( albumName, "UTF-8" ) } ) );
         }
         catch ( IOException e )
         {
@@ -212,7 +214,8 @@ public class MusicInfoDuckDuckGoImages
     {
         try
         {
-            return search( constructURL( new String[] { authorName, albumName, songName } ) );
+            return search( constructURL( new String[] { URLEncoder.encode( authorName, "UTF-8" ),
+                URLEncoder.encode( albumName, "UTF-8" ), URLEncoder.encode( songName, "UTF-8" ) } ) );
         }
         catch ( IOException e )
         {

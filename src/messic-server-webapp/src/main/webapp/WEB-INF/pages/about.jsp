@@ -73,6 +73,10 @@
 						<h1>I want to move my music folder to other place. How can I do?</h1>
 						OK, it's very easy. All the necessary information is inside your folder (included database). So you just need to stop messic service, move the WHOLE folder (which is configured at the messic monitor).  After that, open the messic monitor and update the new location in the configure section.  Finally, you can launch the messic service with this new location.
 					</li>
+					<li>
+						<h1>I don't see well some pages of messic. What can I do?</h1>
+						Well, in the most of cases, you should upgrade your navigator. In the case you use Internet Explorer, well... it's better to change. Give an opportunity to other navigators like <a href="https://www.mozilla.org" target="_blank">firefox</a> or <a href="http://www.google.com/intl/en/chrome/" target="_blank">chrome</a>.
+					</li>
 				</ul>
 				<p>
 				</p>

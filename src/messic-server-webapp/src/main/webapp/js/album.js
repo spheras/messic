@@ -519,9 +519,9 @@ function albumAddFiles(files) {
 function albumEditSong(sid,track,name,authorName,albumName,divButton, rate){
 	albumEditStatus();
 	var code = "<div>";
-	code = code + "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-songtrack\" value=\"" + track + "\" data-sid=\""+sid+"\">";
-	code = code + "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-songname\" value=\"" + name + "\">";
-	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-songaction\">";
+	code = code + "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-songtrack\" value=\"" + track + "\" data-sid=\""+sid+"\">";
+	code = code + "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-songname\" value=\"" + name + "\">";
+	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-songaction\">";
 	code = code + "    <div title=\""+messicLang.albumSongDelete+"\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveSong('"+sid+"','"+track+"-"+UtilEscapeJS(name)+"',$(this).parent().parent())\"></div>";
 	code = code + "    <div title=\""+messicLang.albumSongPlay+"\" class=\"messic-album-songs-body-songaction-play\" onclick=\""+
 	"addSong('"+UtilEscapeJS(name)+"','"+UtilEscapeJS(authorName)+"','"+UtilEscapeJS(albumName)+"','"+UtilEscapeJS(name)+"',"+rate+")"+"\"></div>";
@@ -540,10 +540,10 @@ function albumEditSong(sid,track,name,authorName,albumName,divButton, rate){
 function albumEditArtwork(sid,name,divButton){
 	albumEditStatus();
 	var code = "<div>";
-	code=code+"<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork\" onclick=\"albumRowSelected(this);\">";
-	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artwork\"><img src=\"services/albums/"+sid+"/resource?messic_token="+VAR_MessicToken+"\" onclick=\"albumShowArtwork('"+sid+"')\"/></div>";
-	code=code+"  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkname\" value=\"" + name + "\" data-sid=\""+sid+"\">";
-	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkaction\">";
+	code=code+"  <div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork\" onclick=\"albumRowSelected(this);\">";
+	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-artwork\"><img src=\"services/albums/"+sid+"/resource?messic_token="+VAR_MessicToken+"\" onclick=\"albumShowArtwork('"+sid+"')\"/></div>";
+	code=code+"  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-artworkname\" value=\"" + name + "\" data-sid=\""+sid+"\">";
+	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-artworkaction\">";
 	code=code+"    <div title=\""+messicLang.albumArtworkShow+"\" class=\"messic-album-songs-body-songaction-show\" onclick=\"albumShowArtwork('"+sid+"')\"></div>";
 	code=code+"	   <div title=\""+messicLang.albumArtworkRemove+"\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveResource("+sid+",$(this).parent().parent())\"></div>";
 	code=code+"  </div>";
@@ -562,9 +562,9 @@ function albumEditOther(sid,name,divButton){
 	albumEditStatus();
 
 	var code="<div>";
-	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-otherfile\">..</div>";
-	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-othername\">"+name+"</div>";
-	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-otheraction\">";
+	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-otherfile\">..</div>";
+	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-othername\">"+name+"</div>";
+	code=code+"  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-otheraction\">";
 	code=code+"    <div class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveResource("+sid+",$(this).parent().parent())\"></div>";
 	code=code+"  </div>";
 	code=code+"  <div class=\"divclearer\"></div>";
@@ -586,15 +586,15 @@ function albumAddFileAudio(file) {
 
 						var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-new\" onclick=\"albumRowSelected(this);\">";
 						code = code
-								+ "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-songtrack\" value=\""
+								+ "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-songtrack\" value=\""
 								+ data.track + "\">";
 						code = code
-								+ "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-body-songname\" value=\""
+								+ "  <input type=\"text\" class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-songname\" value=\""
 								+ data.name + "\" data-filename=\""+UtilEscapeHTML(file.name)+"\">";
 						code = code
 								+ "  <div class=\"messic-album-songs-uploading\"><div class=\"messic-album-songs-uploading-percent\"></div></div>";
 						code = code
-								+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-songaction\">";
+								+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-songaction\">";
 						code = code
 								+ "    <div title=\""+messicLang.albumSongDelete+"\" class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveLocalResource(this)\"></div>";
 						code = code + "  </div>";
@@ -686,14 +686,14 @@ function albumRemoveLocalResource(div){
 function albumAddFileImage(file) {
 	var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork messic-album-songs-bodyrow-artwork-new\"  onclick=\"albumRowSelected(this);\">";
 	code = code
-			+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artwork\" onclick=\"albumShowLocalArtwork($(this).parent())\"></div>";
+			+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-artwork\" onclick=\"albumShowLocalArtwork($(this).parent())\"></div>";
 	code = code
-			+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkname\">"
+			+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-artworkname\">"
 			+ file.name + "</div>";
 	code = code
 			+ "  <div class=\"messic-album-songs-uploading\"><div class=\"messic-album-songs-uploading-percent\"></div></div>";
 	code = code
-			+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-artworkaction\">";
+			+ "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-artworkaction\">";
 	code = code
 			+ "    <div class=\"messic-album-songs-body-songaction-show\" onclick=\"albumShowLocalArtwork($(this).parent().parent())\"></div>";
 	code = code
@@ -733,10 +733,10 @@ function albumAddFileImage(file) {
 /* function to add an other file to the album */
 function albumAddFileOther(file) {
 	var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-other messic-album-songs-bodyrow-other-new\"  onclick=\"albumRowSelected(this);\">";
-	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-otherfile\">...</div>";
-	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-othername\">"+ file.name + "</div>";
+	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-otherfile\">...</div>";
+	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-othername\">"+ file.name + "</div>";
 	code = code	+ "  <div class=\"messic-album-songs-uploading\"><div class=\"messic-album-songs-uploading-percent\"></div></div>";
-	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-body-otheraction\">";
+	code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-otheraction\">";
 	code = code + "    <div class=\"messic-album-songs-body-songaction-remove\" onclick=\"albumRemoveLocalResource(this)\"></div>";
 	code = code + "  </div>";
 	code = code + "  <div class=\"divclearer\"></div>";
