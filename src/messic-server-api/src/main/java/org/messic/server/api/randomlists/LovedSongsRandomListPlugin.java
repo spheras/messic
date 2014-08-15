@@ -50,7 +50,7 @@ public class LovedSongsRandomListPlugin
         }
         RandomList rl = new RandomList( "RandomListName-Loved", "RandomListTitle-Loved" );
 
-        List<MDOSong> songs = daoSong.getLovedSongs( user.getLogin() );
+        List<MDOSong> songs = daoSong.getLovedSongs( user.getLogin(), MAX_ELEMENTS );
         for ( int j = 0; j < songs.size() && rl.getSongs().size() < MAX_ELEMENTS; j++ )
         {
             MDOSong mdoSong = songs.get( j );
@@ -61,4 +61,9 @@ public class LovedSongsRandomListPlugin
         return rl;
     }
 
+    @Override
+    public String getName()
+    {
+        return getClass().getName();
+    }
 }

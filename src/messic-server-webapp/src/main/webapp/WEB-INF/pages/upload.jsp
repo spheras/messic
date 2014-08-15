@@ -84,6 +84,8 @@
 						<div class="messic-upload-song-separator"></div>
 					</div>
 				</div>
+
+				<div class="divclearer"></div>
 			</div>
 		</div>
     </body>

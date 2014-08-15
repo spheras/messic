@@ -74,6 +74,20 @@ public class DAOJPASong
 
     @Override
     @Transactional
+    public List<MDOSong> getRandom( String username, int max )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOSong as a where (1=1 AND a.owner.login = :userName) order by rand()" );
+        query.setParameter( "userName", username );
+        query.setMaxResults( max );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOSong> results = query.getResultList();
+        return results;
+    }
+
+    @Override
+    @Transactional
     public List<MDOSong> getAllDLNA()
     {
         Query query = entityManager.createQuery( "from MDOSong as a where (a.owner.allowDLNA= true)" );
@@ -131,11 +145,12 @@ public class DAOJPASong
 
     @Override
     @Transactional
-    public List<MDOSong> getLovedSongs( String username )
+    public List<MDOSong> getLovedSongs( String username, int max )
     {
         Query query =
             entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName) and (a.rate=2 or a.rate=3) ORDER BY (a.statistics.timesplayed) DESC" );
         query.setParameter( "userName", username );
+        query.setMaxResults( max );
 
         @SuppressWarnings( "unchecked" )
         List<MDOSong> results = query.getResultList();
@@ -144,11 +159,12 @@ public class DAOJPASong
 
     @Override
     @Transactional
-    public List<MDOSong> getAllOrderByMostPlayed( String username )
+    public List<MDOSong> getAllOrderByMostPlayed( String username, int max )
     {
         Query query =
             entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName) and (a.statistics.timesplayed>0) ORDER BY (a.statistics.timesplayed) DESC" );
         query.setParameter( "userName", username );
+        query.setMaxResults( max );
 
         @SuppressWarnings( "unchecked" )
         List<MDOSong> results = query.getResultList();
@@ -157,10 +173,11 @@ public class DAOJPASong
 
     @Override
     @Transactional
-    public List<MDOSong> getAllOrderByLessPlayed( String username )
+    public List<MDOSong> getAllOrderByLessPlayed( String username, int max )
     {
         Query query =
             entityManager.createQuery( "from MDOSong as a where (a.owner.login = :userName) ORDER BY (a.statistics.timesplayed) ASC" );
+        query.setMaxResults( max );
         query.setParameter( "userName", username );
 
         @SuppressWarnings( "unchecked" )

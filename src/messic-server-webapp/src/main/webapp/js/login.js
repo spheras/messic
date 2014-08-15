@@ -37,9 +37,6 @@ function loginSucessfull(messic_token){
 	$.ajax({
 	    type: "GET",
 	    url: "main.do",
-	    error: function (XMLHttpRequest, textStatus, errorThrown){
-        	console.log('error');
-    	},
 	    success: function(data){ 
 			$("#messic-logo1").attr("class","messic-main");
 			$("#messic-logo2").attr("class","messic-main");

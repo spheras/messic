@@ -42,9 +42,11 @@ import org.messic.server.api.APITagWizard;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.TAGWizardPlugin;
 import org.messic.server.api.datamodel.User;
+import org.messic.server.api.exceptions.ExistingMessicException;
 import org.messic.server.api.exceptions.ResourceNotFoundMessicException;
 import org.messic.server.api.exceptions.SidNotFoundMessicException;
 import org.messic.server.datamodel.dao.DAOUser;
+import org.messic.server.facade.controllers.rest.exceptions.DuplicatedMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.IOMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.MusicTagsMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
@@ -393,39 +395,46 @@ public class AlbumController
         }
     }
 
-    @ApiMethod( path = "/albums", verb = ApiVerb.POST, description = "Create or Update an album.  Before creation you need to upload the resources!", produces = {
+    @ApiMethod( path = "/albums", verb = ApiVerb.POST, description = "Create or Update an album.  Before creation you need to upload the resources!.  Return the Sid of the album created/updated", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
-    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+    @ApiErrors( apierrors = {
+        @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
-        @ApiError( code = IOMessicRESTException.VALUE, description = "IO internal server error" ), } )
+        @ApiError( code = IOMessicRESTException.VALUE, description = "IO internal server error" ),
+        @ApiError( code = DuplicatedMessicRESTException.VALUE, description = "The album is duplicated, the same album name for the same author name" ), } )
     @RequestMapping( value = "", method = RequestMethod.POST )
-    @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public ResponseEntity<HttpStatus> createOrUpdateAlbum( @ApiBodyObject
+    public Long createOrUpdateAlbum( @ApiBodyObject
     @RequestBody
     Album album )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException,
-        IOMessicRESTException
+        IOMessicRESTException, DuplicatedMessicRESTException
     {
 
         User user = SecurityUtil.getCurrentUser();
         try
         {
-            albumAPI.createOrUpdateAlbum( user, album );
-            return new ResponseEntity<HttpStatus>( HttpStatus.OK );
+            Long newSid = albumAPI.createOrUpdateAlbum( user, album );
+            return newSid;// new ResponseEntity<HttpStatus>( HttpStatus.OK );
         }
         catch ( IOException e )
         {
             log.error( "failed!", e );
             throw new IOMessicRESTException( e );
         }
+        catch ( ExistingMessicException e )
+        {
+            log.error( "failed!", e );
+            throw new DuplicatedMessicRESTException( e );
+        }
         catch ( Exception e )
         {
             log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
+
     }
 
     @ApiMethod( path = "/albums/{albumCode}?fileName=xxxxx", verb = ApiVerb.PUT, description = "Upload a resource for an album. This resources are stored at the temporal folder, waiting until save Album process. The client must post the binary content of the resource.", produces = {

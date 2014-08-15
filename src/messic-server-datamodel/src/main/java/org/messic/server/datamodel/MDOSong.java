@@ -56,7 +56,7 @@ public class MDOSong
     @Column( name = "RATE", nullable = true )
     private Integer rate;
 
-    @OneToMany( cascade = { CascadeType.REMOVE } )
+    @OneToMany( cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY )
     private List<MDOGenericTAG> extraTags;
 
     @ManyToMany( targetEntity = MDOPlaylist.class, fetch = FetchType.LAZY )
@@ -71,7 +71,7 @@ public class MDOSong
      * http://chriswongdevblog.blogspot.com.es/2009/10/polymorphic-one-to-many-relationships.html that's the reason why
      * it's repeated on each {@link MDOAlbumResource} subclass
      */
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "ALBUM", nullable = false )
     private MDOAlbum album;
 

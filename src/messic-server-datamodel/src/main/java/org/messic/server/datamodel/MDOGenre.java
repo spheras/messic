@@ -41,7 +41,7 @@ public class MDOGenre implements
     @Column(name = "NAME", nullable = false)
     private String name;    
     
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "OWNER", nullable = false )
     private MDOUser owner;
     

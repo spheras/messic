@@ -47,7 +47,7 @@ public class DAOJPAAlbum
 
     @Override
     @Transactional
-   public List<MDOAlbum> getAll( String username, MDOGenre genre )
+    public List<MDOAlbum> getAll( String username, MDOGenre genre )
     {
         Query query =
             entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) and (a.genre.sid = :genreSid)" );
@@ -91,6 +91,20 @@ public class DAOJPAAlbum
         Query query =
             entityManager.createQuery( "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName)  ORDER BY UPPER(a.name)" );
         query.setParameter( "albumName", "%" + albumName + "%" );
+        query.setParameter( "userName", username );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbum> results = query.getResultList();
+        return results;
+    }
+
+    @Override
+    @Transactional
+    public List<MDOAlbum> findAlbum( String albumName, String username )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOAlbum as a where (UPPER(a.name) = :albumName) AND (a.owner.login = :userName)" );
+        query.setParameter( "albumName", albumName.toUpperCase() );
         query.setParameter( "userName", username );
 
         @SuppressWarnings( "unchecked" )

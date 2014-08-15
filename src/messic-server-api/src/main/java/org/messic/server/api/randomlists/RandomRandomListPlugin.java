@@ -18,9 +18,7 @@
  */
 package org.messic.server.api.randomlists;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import org.messic.server.api.datamodel.RandomList;
 import org.messic.server.api.datamodel.Song;
@@ -41,21 +39,24 @@ public class RandomRandomListPlugin
     public RandomList getRandomList( User user )
     {
         // first list, getting all the songs shuffled
-        List<MDOSong> songs = daoSong.getAll( user.getLogin() );
+        List<MDOSong> songs = daoSong.getRandom( user.getLogin(), MAX_ELEMENTS );
         if ( songs.size() > 0 )
         {
             RandomList rl = new RandomList( "RandomListName-Random", "RandomListTitle-Random" );
-            long seed = System.nanoTime();
-            Collections.shuffle( songs, new Random( seed ) );
-
             for ( int i = 0; i < songs.size() && i < MAX_ELEMENTS; i++ )
             {
                 MDOSong mdoSong = songs.get( i );
-                    Song song = new Song( mdoSong, true, true );
-                    rl.addSong( song );
+                Song song = new Song( mdoSong, true, true );
+                rl.addSong( song );
             }
             return rl;
         }
         return null;
+    }
+
+    @Override
+    public String getName()
+    {
+        return getClass().getName();
     }
 }

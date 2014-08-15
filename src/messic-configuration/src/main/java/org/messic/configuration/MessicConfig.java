@@ -41,7 +41,24 @@ public class MessicConfig
 
     public MessicConfig()
     {
+        this( false );
+    }
+
+    /**
+     * Constructor. RecreateDefault param flag indicates if the current config should be removed and create a new one
+     * with the default options.
+     * 
+     * @param recreateDefault
+     */
+    public MessicConfig( boolean recreateDefault )
+    {
         File f = new File( configurationFilePath + File.separatorChar + configurationFileName );
+
+        if ( recreateDefault && f.exists() )
+        {
+            f.delete();
+        }
+
         this.configuration = new Properties();
         if ( f.exists() )
         {
@@ -81,37 +98,6 @@ public class MessicConfig
                 log.error( "failed!", e );
             }
         }
-    }
-
-    public static class MessicVersion
-    {
-        public MessicVersion( String version )
-        {
-            this.sversion = version;
-            String[] parts = version.split( "\\." );
-            this.version = Integer.valueOf( parts[0] );
-            this.revision = Integer.valueOf( parts[1] );
-            if ( parts[2].indexOf( "-" ) >= 0 )
-            {
-                String[] subparts = parts[2].split( "-" );
-                this.compilation = Integer.valueOf( subparts[0] );
-                this.semantic = subparts[1];
-            }
-            else
-            {
-                this.compilation = Integer.valueOf( parts[2] );
-            }
-        }
-
-        public String sversion;
-
-        public int version;
-
-        public int revision;
-
-        public int compilation;
-
-        public String semantic;
     }
 
     public static MessicVersion getCurrentVersion()

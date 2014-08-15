@@ -44,7 +44,7 @@ public class MDOPlaylist
     @Column( name = "NAME", nullable = false, unique = true )
     private String name;
 
-    @ManyToMany( targetEntity = MDOSong.class, fetch = FetchType.LAZY)
+    @ManyToMany( targetEntity = MDOSong.class, fetch = FetchType.LAZY )
     @JoinTable( name = "PLAYLIST_CONTENT", joinColumns = @JoinColumn( name = "SONG" ), inverseJoinColumns = @JoinColumn( name = "PLAYLIST" ) )
     @OrderColumn
     private List<MDOSong> songs;

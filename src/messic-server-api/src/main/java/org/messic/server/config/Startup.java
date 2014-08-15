@@ -1,6 +1,7 @@
 package org.messic.server.config;
 
 import org.messic.configuration.MessicConfig;
+import org.messic.configuration.MessicVersion;
 import org.messic.server.datamodel.update.MessicDBUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -25,8 +26,8 @@ public class Startup
         {
             if ( !flagStarted && event instanceof ContextRefreshedEvent )
             {
-                MessicConfig.MessicVersion mv = MessicConfig.getCurrentVersion();
-                dbUpdate.update( mv.sversion, mv.version, mv.revision, mv.compilation, mv.semantic );
+                MessicVersion mv = MessicConfig.getCurrentVersion();
+                dbUpdate.update( mv.sversion, mv.version, mv.revision, mv.patch, mv.semantic );
                 this.flagStarted=true;
             }
         }

@@ -1,7 +1,7 @@
 /**
  * @source: https://github.com/spheras/messic
  *
- * @licstart  The following is the entire license notice for the 
+ * @licstart  The following is the entire license notice for the
  *  JavaScript code in this page.
  *
  * The JavaScript code in this page is free software: you can
@@ -26,162 +26,169 @@
 //This function obtain a random number for an existing album
 //its very interesting to obtain random numbers and random urls (preventing caching) (but only for album)
 var MESSIC_ALBUM_RANDOM_MAP = {};
-function UtilGetAlbumRandom(albumSid){
-	if(albumSid in MESSIC_ALBUM_RANDOM_MAP){
-		return MESSIC_ALBUM_RANDOM_MAP[albumSid];
-	}else{
-		MESSIC_ALBUM_RANDOM_MAP[albumSid]=UtilGetRandom(0,9999999999);
-	}
+
+function UtilGetAlbumRandom(albumSid) {
+    if (albumSid in MESSIC_ALBUM_RANDOM_MAP) {
+        return MESSIC_ALBUM_RANDOM_MAP[albumSid];
+    } else {
+        MESSIC_ALBUM_RANDOM_MAP[albumSid] = UtilGetRandom(0, 9999999999);
+    }
 }
 //reset the random number stablished at the function UtilGetAlbumRandom
-function UtilResetAlbumRandom(albumSid){
-	MESSIC_ALBUM_RANDOM_MAP[albumSid]=UtilGetRandom(0,9999999999);
-	// add a item
-	//map[key1] = value1;
-	// or remove it
-	//delete map[key1];
-	// or determine whether a key exists
-	//key1 in map;
+function UtilResetAlbumRandom(albumSid) {
+    MESSIC_ALBUM_RANDOM_MAP[albumSid] = UtilGetRandom(0, 9999999999);
+    // add a item
+    //map[key1] = value1;
+    // or remove it
+    //delete map[key1];
+    // or determine whether a key exists
+    //key1 in map;
 }
 
-function UtilGetRandom(min,max){
-	return Math.floor(Math.random()*(max-min+1)+min);
+function UtilGetRandom(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 /* function to escape quotes in string variables, useful when are inserted in html/javascript code */
 function UtilEscapeHTML(str) {
     return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 /* function that escape all those characteres that are used in javascript, like ' by \' ... */
-function UtilEscapeJS(str){
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g,'\\\'');
+function UtilEscapeJS(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '\\\'');
 }
 /* Obtain a GUID - globally unique identifier */
 function UtilGetGUID() {
-  return UtilS4() + UtilS4() + '-' + UtilS4() + '-' + UtilS4() + '-' +
-         UtilS4() + '-' + UtilS4() + UtilS4() + UtilS4();
+    return UtilS4() + UtilS4() + '-' + UtilS4() + '-' + UtilS4() + '-' +
+        UtilS4() + '-' + UtilS4() + UtilS4() + UtilS4();
 }
+
 function UtilS4() {
-  return Math.floor((1 + Math.random()) * 0x10000)
-             .toString(16)
-             .substring(1);
+    return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
 };
 
 /* Obtain the extension of a filename */
-function UtilGetFileExtension(filename){
-	var a = filename.split(".");
-	if( a.length === 1 || ( a[0] === "" && a.length === 2 ) ) {
-	    return "";
-	}
-	return a.pop();
+function UtilGetFileExtension(filename) {
+    var a = filename.split(".");
+    if (a.length === 1 || (a[0] === "" && a.length === 2)) {
+        return "";
+    }
+    return a.pop();
 }
 
 /* Obtain the name of the track from the filename, trying to identify if there is a pattern for the track number, and removing it */
-function UtilRemoveTrackNumberFromFileName(filename){
-	filename=UtilGetFileNameWithoutExtension(filename);
-	if(filename.indexOf('-')>0 || filename.indexOf('.')>0){
-		var where=filename.indexOf('-');
-		if(where<0){
-			where=filename.indexOf('.');
-		}
-		if(where<4){
-			return filename.substring(where+1).trim();
-		}
-	}
+function UtilRemoveTrackNumberFromFileName(filename) {
+    filename = UtilGetFileNameWithoutExtension(filename);
+    if (filename.indexOf('-') > 0 || filename.indexOf('.') > 0) {
+        var where = filename.indexOf('-');
+        if (where < 0) {
+            where = filename.indexOf('.');
+        }
+        if (where < 4) {
+            return filename.substring(where + 1).trim();
+        }
+    }
 
-	return filename.trim();
+    return filename.trim();
 }
 
 /* Obtain the file name without the extension */
-function UtilGetFileNameWithoutExtension(filename){
-	var a = filename.split(".");
-	if( a.length === 1 || ( a[0] === "" && a.length === 2 ) ) {
-	    return filename;
-	}
-	var extension=a.pop();
-	var name=filename.substring(0,filename.length-(extension.length+1));
-	return name;
+function UtilGetFileNameWithoutExtension(filename) {
+    var a = filename.split(".");
+    if (a.length === 1 || (a[0] === "" && a.length === 2)) {
+        return filename;
+    }
+    var extension = a.pop();
+    var name = filename.substring(0, filename.length - (extension.length + 1));
+    return name;
 }
 
-function UtilShowWait(message){
-	$("#messic-wait").css({display:"block"});
-	$("#messic-wait p").text(message);
-}
-function UtilHideWait(){
-	$("#messic-wait").css({display:"none"});
+function UtilShowWait(message) {
+    $("#messic-wait").css({
+        display: "block"
+    });
+    $("#messic-wait p").text(message);
 }
 
-function UtilShowInfo(info){
-	var min_delay=2000;
-	var delay=min_delay + info.length*100;
-	UtilShowInfoDelay(info,delay);
+function UtilHideWait() {
+    $("#messic-wait").css({
+        display: "none"
+    });
+}
+
+function UtilShowInfo(info) {
+    var min_delay = 2000;
+    var delay = min_delay + info.length * 100;
+    UtilShowInfoDelay(info, delay);
 }
 /**
  * Show messages from messic. A set of phrases can be showed, once after other. Phrases must be separated by "||"
  */
-function UtilShowMessic(infoTitle,infoPhrases){
-	UtilShowMessic(infoTitle,infoPhrases,null);
+function UtilShowMessic(infoTitle, infoPhrases) {
+    UtilShowMessic(infoTitle, infoPhrases, null);
 }
 /**
  * Show messages from messic. A set of phrases can be showed, once after other. Phrases must be separated by "||"
  * the nextFunction param is a function that can be executed after the end of the phrases.
  */
-function UtilShowMessic(infoTitle,infoPhrases,nextFunction){
-	var phrases=infoPhrases.split("||");
-	var currentPhrase=0;
+function UtilShowMessic(infoTitle, infoPhrases, nextFunction) {
+    var phrases = infoPhrases.split("||");
+    var currentPhrase = 0;
     var markup = [
                   '<div id="messicOverlay">',
                   '  <div id="messicOverlayContent">',
                   '    <div id="messicAvatar"></div>',
                   '    <div id="messicSkip"></div>',
-                  '    <h1>',infoTitle,'</h1>',
-                  '    <p id="messicPhrase">',phrases[0],'</p>',
+                  '    <h1>', infoTitle, '</h1>',
+                  '    <p id="messicPhrase">', phrases[0], '</p>',
                   '    <div id="messicClose">Aceptar</div>',
                   '  </div>',
                   '</div>'
               ].join('');
-    
+
     $(markup).hide().appendTo('body').fadeIn();
 
-    $("body").keyup(function(event){
-        if(event.keyCode == 13){
+    $("body").keyup(function (event) {
+        if (event.keyCode == 13) {
             $("#messicClose").click();
         }
     });
-    
-    $("#messicSkip").click(function(){
-		$(this).parent().parent().remove();
-		if(nextFunction){
-			nextFunction();
-		}
+
+    $("#messicSkip").click(function () {
+        $(this).parent().parent().remove();
+        if (nextFunction) {
+            nextFunction();
+        }
     })
-    
-    $("#messicClose").click(function(){
-    	currentPhrase++;
-    	if(phrases.length>currentPhrase){
-    		$("#messicPhrase").fadeOut(400,function(){
-    			$(this).html(phrases[currentPhrase]).fadeIn();
-    		});
-    	}else{
-    		$("#messicOverlay").fadeOut(400,function(){
-    			$(this).remove();
-    			if(nextFunction){
-        			nextFunction();
-    			}
-    		});
-    	}
+
+    $("#messicClose").click(function () {
+        currentPhrase++;
+        if (phrases.length > currentPhrase) {
+            $("#messicPhrase").fadeOut(400, function () {
+                $(this).html(phrases[currentPhrase]).fadeIn();
+            });
+        } else {
+            $("#messicOverlay").fadeOut(400, function () {
+                $(this).remove();
+                if (nextFunction) {
+                    nextFunction();
+                }
+            });
+        }
     });
-	
+
 }
 
-function UtilShowInfoDelay(info, delay){
-	$('.messic-smallinfo').stop();
-	$('.messic-smallinfo').remove();
-	var code="<div class='messic-smallinfo'>"+info+"</div>";
-	$('body').append($(code));
-	setTimeout(function () {
-		$('.messic-smallinfo').fadeOut().remove();
-	}, delay);
-	//$('.messic-smallinfo').delay(delay).remove();
+function UtilShowInfoDelay(info, delay) {
+    $('.messic-smallinfo').stop();
+    $('.messic-smallinfo').remove();
+    var code = "<div class='messic-smallinfo'>" + info + "</div>";
+    $('body').append($(code));
+    setTimeout(function () {
+        $('.messic-smallinfo').fadeOut().remove();
+    }, delay);
+    //$('.messic-smallinfo').delay(delay).remove();
 }
 
 function UtilCreateCookie(name, value, days) {
@@ -190,8 +197,7 @@ function UtilCreateCookie(name, value, days) {
         var date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         expires = "; expires=" + date.toGMTString();
-    }
-    else {
+    } else {
         expires = "";
     }
     document.cookie = name + "=" + value + expires + "; path=/";
@@ -221,83 +227,80 @@ function UtilGetCookie(c_name) {
 // http://jsperf.com/encoding-xhr-image-data/5
 
 function UtilBase64ArrayBuffer(arrayBuffer) {
-	var base64 = ''
-	var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+    var base64 = ''
+    var encodings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
-	var bytes = new Uint8Array(arrayBuffer)
-	var byteLength = bytes.byteLength
-	var byteRemainder = byteLength % 3
-	var mainLength = byteLength - byteRemainder
+    var bytes = new Uint8Array(arrayBuffer)
+    var byteLength = bytes.byteLength
+    var byteRemainder = byteLength % 3
+    var mainLength = byteLength - byteRemainder
 
-	var a, b, c, d
-	var chunk
+    var a, b, c, d
+    var chunk
 
-	// Main loop deals with bytes in chunks of 3
-	for (var i = 0; i < mainLength; i = i + 3) {
-		// Combine the three bytes into a single integer
-		chunk = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2]
+    // Main loop deals with bytes in chunks of 3
+    for (var i = 0; i < mainLength; i = i + 3) {
+        // Combine the three bytes into a single integer
+        chunk = (bytes[i] << 16) | (bytes[i + 1] << 8) | bytes[i + 2]
 
-		// Use bitmasks to extract 6-bit segments from the triplet
-		a = (chunk & 16515072) >> 18 // 16515072 = (2^6 - 1) << 18
-		b = (chunk & 258048) >> 12 // 258048 = (2^6 - 1) << 12
-		c = (chunk & 4032) >> 6 // 4032 = (2^6 - 1) << 6
-		d = chunk & 63 // 63 = 2^6 - 1
+        // Use bitmasks to extract 6-bit segments from the triplet
+        a = (chunk & 16515072) >> 18 // 16515072 = (2^6 - 1) << 18
+        b = (chunk & 258048) >> 12 // 258048 = (2^6 - 1) << 12
+        c = (chunk & 4032) >> 6 // 4032 = (2^6 - 1) << 6
+        d = chunk & 63 // 63 = 2^6 - 1
 
-		// Convert the raw binary segments to the appropriate ASCII encoding
-		base64 += encodings[a] + encodings[b] + encodings[c] + encodings[d]
-	}
+        // Convert the raw binary segments to the appropriate ASCII encoding
+        base64 += encodings[a] + encodings[b] + encodings[c] + encodings[d]
+    }
 
-	// Deal with the remaining bytes and padding
-	if (byteRemainder == 1) {
-		chunk = bytes[mainLength]
+    // Deal with the remaining bytes and padding
+    if (byteRemainder == 1) {
+        chunk = bytes[mainLength]
 
-		a = (chunk & 252) >> 2 // 252 = (2^6 - 1) << 2
+        a = (chunk & 252) >> 2 // 252 = (2^6 - 1) << 2
 
-		// Set the 4 least significant bits to zero
-		b = (chunk & 3) << 4 // 3 = 2^2 - 1
+        // Set the 4 least significant bits to zero
+        b = (chunk & 3) << 4 // 3 = 2^2 - 1
 
-		base64 += encodings[a] + encodings[b] + '=='
-	} else if (byteRemainder == 2) {
-		chunk = (bytes[mainLength] << 8) | bytes[mainLength + 1]
+        base64 += encodings[a] + encodings[b] + '=='
+    } else if (byteRemainder == 2) {
+        chunk = (bytes[mainLength] << 8) | bytes[mainLength + 1]
 
-		a = (chunk & 64512) >> 10 // 64512 = (2^6 - 1) << 10
-		b = (chunk & 1008) >> 4 // 1008 = (2^6 - 1) << 4
+        a = (chunk & 64512) >> 10 // 64512 = (2^6 - 1) << 10
+        b = (chunk & 1008) >> 4 // 1008 = (2^6 - 1) << 4
 
-		// Set the 2 least significant bits to zero
-		c = (chunk & 15) << 2 // 15 = 2^4 - 1
+        // Set the 2 least significant bits to zero
+        c = (chunk & 15) << 2 // 15 = 2^4 - 1
 
-		base64 += encodings[a] + encodings[b] + encodings[c] + '='
-	}
-	return base64
+        base64 += encodings[a] + encodings[b] + encodings[c] + '='
+    }
+    return base64
 }
 
 /**
-*	function to put the full screen mode of the navigator
-*/
-function UtilFullScreen(){
-	var docElm = document.documentElement;
-	if (docElm.requestFullscreen) {
-		docElm.requestFullscreen();
-	}
-	else if (docElm.msRequestFullscreen) {
-		docElm.msRequestFullscreen();
-	}
-	else if (docElm.mozRequestFullScreen) {
-		docElm.mozRequestFullScreen();
-	}
-	else if (docElm.webkitRequestFullScreen) {
-		docElm.webkitRequestFullScreen();
-	}
+ *	function to put the full screen mode of the navigator
+ */
+function UtilFullScreen() {
+    var docElm = document.documentElement;
+    if (docElm.requestFullscreen) {
+        docElm.requestFullscreen();
+    } else if (docElm.msRequestFullscreen) {
+        docElm.msRequestFullscreen();
+    } else if (docElm.mozRequestFullScreen) {
+        docElm.mozRequestFullScreen();
+    } else if (docElm.webkitRequestFullScreen) {
+        docElm.webkitRequestFullScreen();
+    }
 }
 
 /**
-*	Function to load a JS file. the callback is launched after the script is loaded
-*/
+ *	Function to load a JS file. the callback is launched after the script is loaded
+ */
 function UtilLoadJSFile(src, callback) {
     var s = document.createElement('script');
     s.src = src;
     s.async = true;
-    s.onreadystatechange = s.onload = function() {
+    s.onreadystatechange = s.onload = function () {
         var state = s.readyState;
         if (!callback.done && (!state || /loaded|complete/.test(state))) {
             callback.done = true;
@@ -305,29 +308,29 @@ function UtilLoadJSFile(src, callback) {
         }
     };
     document.getElementsByTagName('head')[0].appendChild(s);
-	return s;
+    return s;
 }
 
 /**
  * Function that compare two strings and return the % of similarity
- * @param s string 
+ * @param s string
  * @param t string
  * @returns % of similarity
  */
-function UtilStringComparator(s, t){
-	
-	var levenshtein=UtilLevDist(s,t);
-	var longest=s.length;
-	if(t.length>s.length){
-		longest=t.length;
-	}
-	return (1- levenshtein / longest) * 100;
+function UtilStringComparator(s, t) {
+
+    var levenshtein = UtilLevDist(s, t);
+    var longest = s.length;
+    if (t.length > s.length) {
+        longest = t.length;
+    }
+    return (1 - levenshtein / longest) * 100;
 }
 
 /**
  * http://stackoverflow.com/questions/11919065/sort-an-array-by-the-levenshtein-distance-with-best-performance-in-javascript
  * http://www.merriampark.com/ld.htm, http://www.mgilleland.com/ld/ldjavascript.htm, Damerau–Levenshtein distance (Wikipedia)
- * @param s string 
+ * @param s string
  * @param t string
  * @returns the distance between two strings
  */
@@ -386,25 +389,28 @@ function UtilLevDist(s, t) {
  * Return the mime of a certain extension
  * @param filetype, structure with mimetype and container
  */
-function UtilGetMime(filetype){
-	var mimetype = '';
-	var media_container = 'video';
-	switch(filetype){
-		case 'mp4':
-			mimetype = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"';
-		break;
-		case 'ogg':
-			mimetype = 'video/ogg; codecs="theora, vorbis"';
-		break;
-		case 'webm':
-			mimetype = 'video/webm; codecs="vp8, vorbis"';
-		break;
-		case 'mp3':
-			mimetype = 'audio/mpeg';
-			media_container = 'audio';
-		break;
-	}
-	return {'mimetype':mimetype,'container':media_container};
+function UtilGetMime(filetype) {
+    var mimetype = '';
+    var media_container = 'video';
+    switch (filetype) {
+    case 'mp4':
+        mimetype = 'video/mp4; codecs="avc1.42E01E, mp4a.40.2"';
+        break;
+    case 'ogg':
+        mimetype = 'video/ogg; codecs="theora, vorbis"';
+        break;
+    case 'webm':
+        mimetype = 'video/webm; codecs="vp8, vorbis"';
+        break;
+    case 'mp3':
+        mimetype = 'audio/mpeg';
+        media_container = 'audio';
+        break;
+    }
+    return {
+        'mimetype': mimetype,
+        'container': media_container
+    };
 }
 
 /**
@@ -414,13 +420,22 @@ function UtilGetMime(filetype){
  * @param container
  * @returns {Boolean}
  */
-function UtilSupportsMedia (mimetype, container) {
-	var elem = document.createElement(container);
-	if(typeof elem.canPlayType == 'function'){
-		var playable = elem.canPlayType(mimetype);
-		if((playable.toLowerCase() == 'maybe')||(playable.toLowerCase() == 'probably')){
-			return true;
-		}
-	}
-	return false;
+function UtilSupportsMedia(mimetype, container) {
+    var elem = document.createElement(container);
+    if (typeof elem.canPlayType == 'function') {
+        var playable = elem.canPlayType(mimetype);
+        if ((playable.toLowerCase() == 'maybe') || (playable.toLowerCase() == 'probably')) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+/**
+ * Function to check if a var is numeric.
+ * See http://stackoverflow.com/questions/9716468/is-there-any-function-like-isnumeric-in-javascript-to-validate-numbers
+ */
+function UtilIsNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
 }

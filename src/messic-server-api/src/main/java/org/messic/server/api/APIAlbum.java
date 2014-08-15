@@ -35,6 +35,7 @@ import org.messic.server.Util;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Song;
 import org.messic.server.api.datamodel.User;
+import org.messic.server.api.exceptions.ExistingMessicException;
 import org.messic.server.api.exceptions.ResourceNotFoundMessicException;
 import org.messic.server.api.exceptions.SidNotFoundMessicException;
 import org.messic.server.api.tagwizard.audiotagger.AudioTaggerTAGWizardPlugin;
@@ -105,7 +106,7 @@ public class APIAlbum
         if ( album != null )
         {
             String basePath = album.calculateAbsolutePath( daoSettings.getSettings() );
-            Util.zipFolder( basePath + File.separatorChar + basePath, os );
+            Util.zipFolder( basePath + File.separatorChar, os );
         }
         else
         {
@@ -388,9 +389,10 @@ public class APIAlbum
         }
     }
 
-    public void createOrUpdateAlbum( User user, Album album )
-        throws IOException
+    public long createOrUpdateAlbum( User user, Album album )
+        throws IOException, ExistingMessicException
     {
+        Long sidResult = 0l;
         MDOGenre mdoGenre = null;
         MDOAlbum mdoAlbum = null;
         MDOAuthor mdoAuthor = null;
@@ -460,6 +462,26 @@ public class APIAlbum
         boolean flagExistingAuthor = ( mdoAuthor.getSid() != null && mdoAuthor.getSid() > 0 );
         boolean flagAuthorNameChanged = false;
         boolean flagExistingAlbum = ( mdoAlbum.getSid() != null && mdoAlbum.getSid() > 0 );
+
+        // checking if the user is trying to create a new album with the same name and author of another existing one.
+        // the reason to forbide this is because of the filesystem. Both albums will have the same filesystem path, and
+        // will merge their content!! panic!!
+        List<MDOAlbum> albumsSameName = daoAlbum.findAlbum( album.getName(), user.getLogin() );
+        if ( albumsSameName.size() > 0 )
+        {
+            for ( MDOAlbum mdoAlbumSameName : albumsSameName )
+            {
+                if ( mdoAlbumSameName.getSid() != mdoAlbum.getSid() )
+                {
+                    String authorName = mdoAlbumSameName.getAuthor().getName();
+                    if ( authorName.toUpperCase().equals( album.getAuthor().getName().toUpperCase() ) )
+                    {
+                        throw new ExistingMessicException();
+                    }
+                }
+            }
+        }
+
         // old album path if the album was an existing one
         String oldAlbumPath = null;
         if ( flagExistingAlbum )
@@ -496,6 +518,13 @@ public class APIAlbum
             daoGenre.save( mdoGenre );
         }
         daoAlbum.save( mdoAlbum );
+
+        sidResult = mdoAlbum.getSid();
+        if ( sidResult <= 0 )
+        {
+            mdoAlbum = daoAlbum.merge( mdoAlbum );
+            sidResult = mdoAlbum.getSid();
+        }
 
         // 7th moving album resources to definitive location
         // ###############################################################################
@@ -753,6 +782,8 @@ public class APIAlbum
                 FileUtils.deleteDirectory( oldAuthorFolder );
             }
         }
+
+        return sidResult;
     }
 
 }

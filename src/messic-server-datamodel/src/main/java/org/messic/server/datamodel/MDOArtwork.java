@@ -42,7 +42,7 @@ public class MDOArtwork extends MDOAlbumResource implements
      * http://chriswongdevblog.blogspot.com.es/2009/10/polymorphic-one-to-many-relationships.html
      * that's the reason why it's repeated on each {@link MDOAlbumResource} subclass
      */
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "ALBUM", nullable = false )
     private MDOAlbum album;
 

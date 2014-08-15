@@ -61,7 +61,7 @@ public class MDOMessage
     @Temporal(TemporalType.TIMESTAMP)
     private Date timestamp;
     
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "OWNER", nullable = false )
     private MDOUser owner;
     

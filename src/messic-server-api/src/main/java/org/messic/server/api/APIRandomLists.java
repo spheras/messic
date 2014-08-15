@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
 import org.messic.server.api.datamodel.RandomList;
 import org.messic.server.api.datamodel.User;
 import org.messic.server.api.randomlists.RandomListPlugin;
@@ -45,31 +46,38 @@ public class APIRandomLists
     @Autowired
     private RandomListPlugin[] plugins;
 
+    private static final Logger log = Logger.getLogger( APIRandomLists.class );
+
     @Transactional
     public List<RandomList> getAllLists( User user )
     {
         ArrayList<RandomList> result = new ArrayList<RandomList>();
 
+        // we will get only 4 lists as maximum, each time different ones... so lets shuffle the lists
         long seed = System.nanoTime();
         ArrayList<RandomListPlugin> lplugins = new ArrayList<RandomListPlugin>();
         for ( int i = 0; i < plugins.length; i++ )
         {
             lplugins.add( plugins[i] );
         }
-
         Collections.shuffle( lplugins, new Random( seed ) );
 
         for ( int i = 0; i < lplugins.size() && i < 4; i++ )
         {
+            long start = System.currentTimeMillis();
+
             RandomListPlugin rlp = lplugins.get( i );
             RandomList rl = rlp.getRandomList( user );
             if ( rl != null && rl.getSongs().size() > 0 )
             {
                 result.add( rl );
             }
+
+            long end = System.currentTimeMillis();
+
+            log.debug( "(" + ( ( end - start ) ) + "ms)-Timing obtaining info from plugin:" + rlp.getName() );
         }
 
         return result;
     }
-
 }

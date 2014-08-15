@@ -36,4 +36,10 @@ public interface RandomListPlugin
      */
     RandomList getRandomList( User user );
 
+    /**
+     * Get the name of the plugin
+     * 
+     * @return String the name
+     */
+    String getName();
 }

@@ -41,7 +41,7 @@ public class DateRandomListPlugin
     @Override
     public RandomList getRandomList( User user )
     {
-        //int year = Calendar.getInstance().get( Calendar.YEAR );
+        // int year = Calendar.getInstance().get( Calendar.YEAR );
         int fromYear = daoAlbum.findOldestAlbum( user.getLogin() ); // Util.randInt( 1920, year );
         int toYear = fromYear + 10;// Util.randInt( fromYear, year );
         List<MDOAlbum> albums = daoAlbum.findAlbumsBasedOnDate( user.getLogin(), fromYear, toYear );
@@ -73,4 +73,9 @@ public class DateRandomListPlugin
         return null;
     }
 
+    @Override
+    public String getName()
+    {
+        return getClass().getName();
+    }
 }

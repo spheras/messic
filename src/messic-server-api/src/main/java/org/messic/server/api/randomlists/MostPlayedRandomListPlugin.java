@@ -50,7 +50,7 @@ public class MostPlayedRandomListPlugin
         }
         RandomList rl = new RandomList( "RandomListName-MostPlayed", "RandomListTitle-MostPlayed" );
 
-        List<MDOSong> songs = daoSong.getAllOrderByMostPlayed( user.getLogin() );
+        List<MDOSong> songs = daoSong.getAllOrderByMostPlayed( user.getLogin(), MAX_ELEMENTS );
         for ( int j = 0; j < songs.size() && rl.getSongs().size() < MAX_ELEMENTS; j++ )
         {
             MDOSong mdoSong = songs.get( j );
@@ -61,4 +61,9 @@ public class MostPlayedRandomListPlugin
         return rl;
     }
 
+    @Override
+    public String getName()
+    {
+        return getClass().getName();
+    }
 }

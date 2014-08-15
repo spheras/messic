@@ -43,7 +43,7 @@ public class DAOJPAGenre
     @Transactional
     public List<MDOGenre> getAll( String username )
     {
-        Query query = entityManager.createQuery( "from MDOGenre as a where (a.owner.login= :userName)" );
+        Query query = entityManager.createQuery( "from MDOGenre as a where (a.owner.login= :userName) ORDER BY UPPER(a.name)" );
         query.setParameter( "userName", username );
         @SuppressWarnings( "unchecked" )
         List<MDOGenre> results = query.getResultList();

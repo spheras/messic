@@ -58,7 +58,7 @@ public class MDOResource
     @Column( name = "SID", nullable = false, unique = true )
     private Long sid;
 
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "OWNER", nullable = false )
     private MDOUser owner;
 

@@ -33,13 +33,23 @@ public interface DAOAlbum
     extends DAO<MDOAlbum>
 {
     /**
-     * Devuelve el año más antiguo que existe de un album
+     * Find the oldest existing album
      * 
      * @param username user scope
      * @return int el año más antiguo
      */
     @Transactional
     int findOldestAlbum( String username );
+
+    /**
+     * Find an album with the name albumName parameter
+     * 
+     * @param albumName {@link String} album name to search
+     * @param username {@link String} user scope
+     * @return {@link List}<MDOAlbum/> list of albums with that name
+     */
+    @Transactional
+    List<MDOAlbum> findAlbum( String albumName, String username );
 
     /**
      * Find albums that have been created in the period of the years passed as parameters [fromYear, toYear]

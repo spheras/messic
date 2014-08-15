@@ -28,14 +28,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
 				<version>2.4.0</version>
@@ -101,40 +93,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-
-			<!-- jrebel plugin to easily develop -->
-			<plugin>
-				<groupId>org.zeroturnaround</groupId>
-				<artifactId>jrebel-maven-plugin</artifactId>
-				<version>1.1.5</version>
-				<executions>
-					<execution>
-						<id>generate-rebel-xml</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<packaging>war</packaging>
-					<classpath>
-						<fallback>default</fallback>
-						<resources>
-							<resource>
-								<directory>
-									${basedir}/../messic-server-logics/target/classes
-								</directory>
-							</resource>
-							<resource>
-								<directory>
-									${basedir}/../messic-server-datamodel/target/classes
-								</directory>
-							</resource>
-						</resources>
-					</classpath>
-				</configuration>
 			</plugin>
 		</plugins>
 		<pluginManagement>

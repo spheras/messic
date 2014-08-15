@@ -20,6 +20,16 @@
 		</license>
 	</licenses>
 
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<!-- filtering to fill the project.version variable -->
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>commons-io</groupId>

@@ -26,6 +26,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -43,7 +44,7 @@ public class MDOAuthor
     @Column( name = "NAME", nullable = false )
     private String name;
 
-    @OneToMany( mappedBy = "author", cascade = { CascadeType.REMOVE } )
+    @OneToMany( mappedBy = "author", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY )
     @OrderBy( "NAME" )
     private Set<MDOAlbum> albums;
 

@@ -71,4 +71,10 @@ public class AuthorRandomListPlugin
         return null;
     }
 
+    @Override
+    public String getName()
+    {
+        return getClass().getName();
+    }
+
 }

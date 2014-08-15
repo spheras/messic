@@ -51,18 +51,18 @@ public class MDOAlbum
     private Integer year;
 
     @Column( name = "STATE", nullable = true )
-    //this if for future versions, the state of the album will indicate if its active, or else
+    // this if for future versions, the state of the album will indicate if its active, or else
     private Integer state;
 
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "AUTHOR", nullable = false )
     private MDOAuthor author;
 
-    @ManyToOne( fetch = FetchType.LAZY )
+    @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "GENRE", nullable = true )
     private MDOGenre genre;
 
-    @OneToMany( mappedBy = "album", cascade = { CascadeType.REMOVE } )
+    @OneToMany( mappedBy = "album", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY )
     @OrderBy( "TRACK" )
     private List<MDOSong> songs;
 

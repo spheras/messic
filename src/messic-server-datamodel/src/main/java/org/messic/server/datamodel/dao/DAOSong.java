@@ -35,10 +35,11 @@ public interface DAOSong
      * Get all the loved songs by the users. It means those songs which have rate 2 or 3
      * 
      * @param username {@link String} user scope
+     * @param max int max results
      * @return {@link List}<MDOSong/> list of songs which are loved by the user
      */
     @Transactional
-    List<MDOSong> getLovedSongs( String username );
+    List<MDOSong> getLovedSongs( String username, int max );
 
     /**
      * Get a song with a certain sid
@@ -63,19 +64,30 @@ public interface DAOSong
      * Get all the songs of a certain user, but ordered descending by most played
      * 
      * @param username {@link String} username
+     * @param max int max elements returned
      * @return {@link List}<MDOSong/> list of songs ordered
      */
     @Transactional
-    List<MDOSong> getAllOrderByMostPlayed( String username );
+    List<MDOSong> getAllOrderByMostPlayed( String username, int max );
 
     /**
      * Get all the songs of a certain user, but ordered ascending by the less played
      * 
      * @param username user scope
+     * @param max int maximum results
      * @return list of songs ordered by the less played
      */
     @Transactional
-    List<MDOSong> getAllOrderByLessPlayed( String username );
+    List<MDOSong> getAllOrderByLessPlayed( String username, int max );
+
+    /**
+     * Get some random songs.
+     * 
+     * @param username {@link String} user scope
+     * @param max int maximum results returned
+     * @return list of random songs
+     */
+    List<MDOSong> getRandom( String username, int max );
 
     /**
      * Get all the songs of users that allow DLNA Share content

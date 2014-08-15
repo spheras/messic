@@ -48,11 +48,11 @@ public class MDOUserPermission implements
     @Column(name = "PERSON", nullable = false)
     private Byte permissionValue;
     
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "USER", nullable = false)
     private MDOUser user;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "RESOURCE", nullable = false)
     private MDOResource resource;
     

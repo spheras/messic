@@ -6,6 +6,10 @@
 	<description>security logics for the webapp</description>
 
 	<artifactId>messic-server-webapp-logics</artifactId>
+	<properties>
+		<messic.timestamp>${maven.build.timestamp}</messic.timestamp>
+	</properties>
+
 	<parent>
 		<groupId>org.messic</groupId>
 		<artifactId>messic</artifactId>
@@ -13,12 +17,12 @@
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
 
-    <licenses>
-        <license>
-            <name>GNU General Public License, Version 3 or later</name>
-            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
-        </license>
-    </licenses>
+	<licenses>
+		<license>
+			<name>GNU General Public License, Version 3 or later</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+		</license>
+	</licenses>
 
 	<repositories>
 		<repository>
@@ -27,6 +31,15 @@
 			<url>https://maven.java.net/content/groups/public/</url>
 		</repository>
 	</repositories>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -110,7 +123,7 @@
 			<version>1.5.2</version>
 		</dependency>
 		<!-- ############## -->
-		
+
 	</dependencies>
 
 
