@@ -145,6 +145,7 @@
                             </li>
                             <li><a href="http://www.telerik.com/kendo-ui" target="_blank">Kendo UI</a>
                             </li>
+                            <li><a href="http://devwizard.free.fr/html/en/JavaExe.html" target="_blank">JavaExe</a> by DevWizard</li>
                             <li><a href="https://github.com/vaidik/jquery-longpress" target="_blank">Longpress</a> jquery plugin by vaidik</li>
                             <li>Set of javascript Fx by <a href="https://github.com/dazld/canvas-fx" target="_blank">Dan Peddle</a>
                                 <li>And a thousand more of libraries. Thanks to all.</li>

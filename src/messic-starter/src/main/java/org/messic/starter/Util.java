@@ -456,7 +456,7 @@ public class Util
             }
             else
             {
-                params = new String[] { paramJava, paramCP, classpath, paramMainClass, paramMusicFolder };
+                params = new String[] { paramJava, paramCP, classpath, paramMainClass, paramMusicFolder ,"&"};
             }
 
             final File fFlagStarted = new File( "./conf/messicStarted" );

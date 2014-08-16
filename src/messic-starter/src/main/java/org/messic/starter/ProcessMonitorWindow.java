@@ -596,6 +596,7 @@ public class ProcessMonitorWindow
     {
         setVisible( false );
         dispose();
+        System.exit( 0 );
     }
 
     /**
