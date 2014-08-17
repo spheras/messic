@@ -115,6 +115,8 @@
                                 </li>
                                 <li>Some fonts from <a href="http://www.google.com/fonts" target="_blank">Google Fonts</a>
                                 </li>
+                                <li>Some icons by <a href="http://tatice.deviantart.com/" target="_blank">Tatice</a>
+                                </li>
                         </ul>
                     </p>
                     <p>
