@@ -283,13 +283,50 @@ header a.button:hover {
     -webkit-box-shadow: 0 0 19px rgba(100, 255, 255, 1);
     box-shadow: 0 0 19px rgba(100, 255, 255, 1);
 }
-aside a.button {
-    width: 220px;
-    padding-left: 64px;
+aside a.button:hover {
+    background-color: #aaffff;
+    border-color: blue;
+    -webkit-box-shadow: 0 0 13px rgba(100, 100, 255, 0.99);
+    box-shadow: 0 0 13px rgba(100, 100, 255, 0.99);
+    color: blue;
+}
+aside a.button:hover:before {
+    height: 70px;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    -webkit-transition-property: width, height;
+    transition-property: width, height;
+    width: 70px;
+}
+aside a.button:before {
+    content: "";
     display: block;
-    background: transparent url(../images/download-button.png) 0 0 no-repeat;
-    margin-bottom: 20px;
+    float: left;
+    height: 64px;
+    margin-left: -68px;
+    margin-top: -17px;
+    width: 64px;
+}
+aside a.button.windows:before {
+    background: url("../images/Windows-icon.png") repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+}
+aside a.button.linux:before {
+    background: url("../images/Linux-icon.png") repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+}
+aside a.button.mac:before {
+    background: url("../images/Apple-Blue-icon.png") repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+}
+aside a.button {
+    background: none repeat scroll 0 0 #5555ff;
+    border: 4px solid #aaaaff;
+    border-radius: 18px;
+    display: block;
     font-size: 21px;
+    height: 39px;
+    margin-bottom: 20px;
+    padding-left: 40px;
+    padding-top: 4px;
+    width: 192px;
 }
 code,
 pre {
