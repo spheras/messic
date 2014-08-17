@@ -23,8 +23,14 @@
             // to keep track of how long something was pressed
             var mouse_down_time;
             var timeout;
+            //eventtype that have been produced
+            //1 is mouse kind
+            //2 is touch kind
+            var firstEventType=0;
+            
             // mousedown or touchstart callback
-            function mousedown_callback(e) {
+            function down_callback(e) {
+            	firstEventType=1;
                 //messic, preventing defaults operations and propagations is important, maybe should be optional
                 e.preventDefault();
                 e.stopPropagation();
@@ -41,7 +47,7 @@
                 }, duration);
             }
             // mouseup or touchend callback
-            function mouseup_callback(e) {
+            function up_callback(e) {
                 //messic, preventing defaults operations and propagations is important, maybe should be optional
                 e.preventDefault();
                 e.stopPropagation();
@@ -65,21 +71,49 @@
                 //clearTimeout(timeout);
             }
 
-            function mouseup_click(e) {
+            function click_callback(e) {
                 //messic, preventing defaults operations and propagations is important, maybe should be optional
                 e.preventDefault();
                 e.stopPropagation();
             }
+            
+            function mousedown(e){
+            	if(firstEventType!=2){
+                	firstEventType=1;
+                	down_callback(e);
+            	}
+            }
+            function mouseup(e){
+            	if(firstEventType!=2){
+                	firstEventType=1;
+                	up_callback(e);
+            	}
+            }
+            function touchdown(e){
+            	if(firstEventType!=1){
+                	firstEventType=2;
+                	down_callback(e);
+            	}
+            }
+            function touchup(e){
+            	if(firstEventType!=1){
+                	firstEventType=2;
+                	up_callback(e);
+            	}
+            }
 
             // Browser Support
-            $this.on('mousedown', mousedown_callback);
-            $this.on('mouseup', mouseup_callback);
-            $this.on('click', mouseup_click);
-            $this.on('mousemove', move_callback);
-            // Mobile Support
-            $this.on('touchstart', mousedown_callback);
-            $this.on('touchend', mouseup_callback);
-            $this.on('touchmove', move_callback);
+
+                // Mobile Support
+                $this.on('touchstart', touchdown);
+                $this.on('touchend', touchup);
+                $this.on('touchmove', move_callback);
+
+                $this.on('mousedown', mousedown);
+                $this.on('mouseup', mouseup);
+                $this.on('click', click_callback);
+                $this.on('mousemove', move_callback);
+
         });
     };
 }(jQuery));

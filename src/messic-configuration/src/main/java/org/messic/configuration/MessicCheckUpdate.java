@@ -42,7 +42,8 @@ public class MessicCheckUpdate
         throws IOException
     {
         Proxy proxy = getProxy( new MessicConfig() );
-        String sUrl = "https://raw.githubusercontent.com/spheras/messic/master/messic-version.properties";
+
+        String sUrl = "https://raw.githubusercontent.com/spheras/messic/gh-pages/messic-version.properties";
         URL url = new URL( sUrl );
         URLConnection connection = ( proxy != null ? url.openConnection( proxy ) : url.openConnection() );
         InputStream is = connection.getInputStream();
