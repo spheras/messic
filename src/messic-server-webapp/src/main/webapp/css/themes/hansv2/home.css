@@ -1,0 +1,549 @@
+.messic-main-randomlist-name.blue {
+    background: url("home/ribbon-blue.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.green {
+    background: url("home/ribbon-green.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.orange {
+    background: url("home/ribbon-orange.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.pink {
+    background: url("home/ribbon-pink.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.purple {
+    background: url("home/ribbon-purple.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.red {
+    background: url("home/ribbon-red.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name.yellow {
+    background: url("home/ribbon-yellow.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-name {
+    color: #FFFFFF;
+    font-family: Roboto-bold;
+    height: 75px;
+    line-height: 45px;
+    margin-left: -67px;
+    position: relative;
+    text-align: center;
+    text-indent: 37px;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    width: 121px;
+    z-index: 1;
+}
+.messic-main-randomlist-name:hover .messic-main-randomlist-close {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+}
+.messic-main-randomlist-name .messic-main-randomlist-close:hover {
+    -webkit-transform: scale(1) rotate(360deg);
+    -ms-transform: scale(1) rotate(360deg);
+    transform: scale(1) rotate(360deg);
+}
+.messic-main-randomlist-close {
+    background: url("playlist/remove-vinyl.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 26px;
+    left: 18px;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -webkit-transition-property: opacity, -webkit-transform;
+    transition-property: opacity, transform;
+    width: 26px;
+    -webkit-transform: scale(0);
+    -ms-transform: scale(0);
+    transform: scale(0);
+}
+.messic-main-randomlist {
+    height: 225px;
+    margin-bottom: 17px;
+}
+.messic-main-randomlist .viewport {
+    float: left;
+    height: 155px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+.messic-main-randomlist .buttons:hover {
+    /*
+    box-shadow: 0px 0px 10px rgba(20,100,255,1);
+    */
+}
+.messic-main-randomlist .buttons:active {
+    -webkit-box-shadow: 0px 0px 10px rgba(20, 100, 255, 1);
+    box-shadow: 0px 0px 10px rgba(20, 100, 255, 1);
+}
+.messic-main-randomlist .buttons.next {
+    margin-right: -39px;
+    margin-top: 30px;
+}
+.messic-main-randomlist .buttons.prev {
+    margin-left: -40px;
+    margin-top: 30px;
+}
+.messic-main-randomlist .buttons.prev:before {
+    content: "\25C0";
+    line-height: 50px;
+    margin-left: -5px;
+}
+.messic-main-randomlist .buttons:before {
+    content: "\25B6";
+    line-height: 50px;
+    margin-left: -3px;
+}
+.messic-main-randomlist .buttons {
+    background: none repeat scroll 0 0 rgba(10, 100, 255, 0.51);
+    border-color: rgba(0, 0, 0, 0.4);
+    -webkit-border-image: none;
+    -o-border-image: none;
+    border-image: none;
+    border-radius: 50px;
+    border-style: solid;
+    border-width: 1px 1px 3px;
+    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 1px rgba(255, 255, 255, 0.3) inset, 0 10px rgba(255, 255, 255, 0.2) inset, 0 10px 20px rgba(255, 255, 255, 0.25) inset, 0 -15px 30px rgba(0, 0, 0, 0.3) inset;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    height: 54px;
+    margin: -44px 6px 0 -6px;
+    padding: 10px;
+    top: 23px;
+    width: 6px;
+    text-decoration: none;
+    font-family: Roboto;
+    font-size: 1.1em;
+}
+.messic-main-randomlist .next {
+    margin: -40px 0 0 11px;
+}
+.messic-main-randomlist .disable {
+    visibility: hidden;
+}
+.messic-main-randomlist .overview {
+    list-style: none;
+    position: absolute;
+    padding: 0;
+    left: 0;
+    top: 0;
+    margin-top: 0px;
+}
+.messic-main-randomlist-albumcover {
+    background: none repeat scroll 0 0 / 100px auto rgba(0, 0, 0, 0);
+    border: 1px solid rgba(0, 0, 0, 0.44);
+    border-radius: 3px;
+    -webkit-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.34);
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.34);
+    height: 100px;
+    overflow: visible;
+    width: 100px;
+}
+.messic-main-randomlist .viewport:before {
+    background: url("home/dash.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 3px;
+    position: relative;
+    width: 100%;
+}
+.messic-main-randomlist .viewport:after {
+    background: url("home/dash.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    bottom: 0;
+    content: "";
+    display: block;
+    height: 3px;
+    position: absolute;
+    width: 100%;
+}
+.messic-main-randomlist .overview ul {
+    margin-bottom: 0px;
+}
+.messic-main-randomlist .overview li.empty:hover {
+    margin-right: 12px;
+}
+.messic-main-randomlist .overview li {
+    float: left;
+    height: 144px;
+    margin-bottom: 0px;
+    margin-right: 12px;
+    margin-top: 10px;
+    width: 111px;
+    -webkit-transition-property: margin-right;
+    transition-property: margin-right;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+}
+.messic-main-randomlist .overview li:hover {
+    margin-right: 40px;
+}
+.messic-main-randomlist li img {
+    height: 100%;
+    margin-top: -22px;
+    width: 100%;
+    z-index: 1;
+    position: relative;
+}
+.messic-main-randomlist .messic-main-randomlist-vinyl {
+    background: url("playlist/vinyl.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 85px;
+    margin-left: 33px;
+    margin-top: -94px;
+    position: relative;
+    width: 85px;
+    z-index: 0;
+    -webkit-transition-property: margin-left;
+    transition-property: margin-left;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+}
+.messic-main-randomlist .messic-main-randomlist-vinyl.messic-main-randomlist-vinyl-ratetwo {
+    background: url("playlist/vinyl-red.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist .messic-main-randomlist-vinyl.messic-main-randomlist-vinyl-ratethree {
+    background: url("playlist/vinyl-gold.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist li:hover .messic-main-randomlist-vinyl {
+    margin-left: 55px;
+}
+.messic-main-randomlist-menu:hover {
+    background: url("home/more.png") repeat scroll 24px 0 rgba(0, 0, 0, 0);
+}
+.messic-main-randomlist-menu {
+    background: url("home/more.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 24px;
+    margin-left: 77px;
+    margin-top: 9px;
+    opacity: 1;
+    /* for those devices without hover event */
+    position: absolute;
+    top: 0;
+    -webkit-transition: opacity 0.45s ease-in-out 0s;
+    transition: opacity 0.45s ease-in-out 0s;
+    width: 24px;
+    z-index: 3;
+}
+.messic-main-randomlist-albumcover:hover .messic-main-randomlist-add {
+    opacity: 1;
+}
+.messic-main-randomlist-add {
+    background: url("playlist/vinyl-play.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 38px;
+    left: 50%;
+    margin-left: -18px;
+    margin-top: -16px;
+    opacity: 0;
+    position: relative;
+    top: 50%;
+    -webkit-transition: opacity 0.45s ease-in-out 0s;
+    transition: opacity 0.45s ease-in-out 0s;
+    width: 38px;
+    cursor: pointer;
+    z-index: 2;
+}
+.messic-main-randomlist-albumauthor:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.messic-main-randomlist-albumauthor {
+    font-family: Roboto-bold;
+    font-size: 0.8em;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.37);
+    width: 100%;
+    text-align: center;
+    max-width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.messic-main-randomlist-albumtitle:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.messic-main-randomlist-albumtitle {
+    color: #0096FF;
+    font-family: roboto-bold;
+    font-size: 0.7em;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.14);
+    width: 100%;
+    text-align: center;
+    max-width: 100px;
+    overflow: hidden;
+    max-width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.messic-main-randomlist li:hover .messic-main-randomlist-albumauthor {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+}
+.messic-main-randomlist li:hover .messic-main-randomlist-albumtitle {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+.messic-main-randomlist-viewportcontainer {
+    height: 100%;
+    margin-top: -75px;
+    overflow: hidden;
+    padding-left: 70px;
+    padding-right: 70px;
+}
+.messic-main-randomlist-title-container {
+    height: 50px;
+    left: 66px;
+    position: relative;
+    top: -79px;
+    overflow: hidden;
+    /* Firefox */
+    /* WebKit */
+    /* Opera */
+    width: -o-calc(100% - 52px);
+    /* Standard */
+    width: calc(100% - 52px);
+}
+.messic-main-randomlist-title-container:before {
+    background: url("home/mark.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    height: 47px;
+    position: absolute;
+    width: 17px;
+}
+.messic-main-randomlist-title-container:after {
+    background: #DEDEDE;
+    /* Old browsers */
+    background: -webkit-gradient(linear, left top, right top, from(#CCCCCC), to(#FFFFFF)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(left, #CCCCCC, #FFFFFF) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: linear-gradient(to right, #CCCCCC, #FFFFFF) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    height: 1px;
+    margin-left: 20px;
+    margin-top: -27px;
+    position: absolute;
+    width: 100%;
+}
+.messic-main-randomlist-title {
+    color: #777777;
+    font-family: roboto-bold;
+    height: 20px;
+    margin-left: 20px;
+    text-shadow: 1px 0 1px rgba(0, 0, 0, 0.2);
+    width: 100%;
+}
+.messic-main-randomlist-details {
+    height: 26px;
+    margin-left: 50px;
+    width: 100%;
+}
+.messic-main-randomlist-detail:after {
+    background: url("home/tagbase.png") no-repeat scroll -588px 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: inline-block;
+    height: 25px;
+    position: absolute;
+    width: 11px;
+}
+.messic-main-randomlist-detail {
+    background: url("home/tagbase.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #555555;
+    display: inline-block;
+    font-family: Amaranth;
+    font-size: 0.8em;
+    height: 25px;
+    line-height: 21px;
+    margin-top: 2px;
+    padding-right: 3px;
+    text-indent: 24px;
+    text-shadow: 0 1px 2px #C8C864;
+    width: auto;
+    margin-right: 6px;
+}
+.messic-main-randomlist-playall:hover {
+    background: url("home/playallrandomlistanim.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    -webkit-animation: homeplayallanim .6s steps(4) infinite;
+    -ms-animation: homeplayallanim .6s steps(4) infinite;
+    animation: homeplayallanim .6s steps(4) infinite;
+}
+@-webkit-keyframes homeplayallanim {
+    from {
+        background-position: 0px;
+    }
+    to {
+        background-position: -144px;
+    }
+}
+@keyframes homeplayallanim {
+    from {
+        background-position: 0px;
+    }
+    to {
+        background-position: -144px;
+    }
+}
+.messic-main-randomlist-playall {
+    background: url("home/playallrandomlistanim.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 25px;
+    margin-left: 5px;
+    position: absolute;
+    width: 36px;
+    margin-top: 4px;
+}
+#messic-main-songoptions-overlay {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2147483647;
+}
+.messic-main-songoptions-bubble:before {
+    border-color: #666 transparent transparent #666;
+    -webkit-border-image: none;
+    -o-border-image: none;
+    border-image: none;
+    border-style: solid;
+    border-width: 10px;
+    content: "";
+    height: 0;
+    left: 32px;
+    position: absolute;
+    top: 44px;
+    width: 0;
+}
+.messic-main-songoptions-bubble:after {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #fff transparent transparent #fff;
+    -webkit-border-image: none;
+    -o-border-image: none;
+    border-image: none;
+    border-style: solid;
+    border-width: 8px;
+    content: "";
+    height: 0;
+    left: 35px;
+    position: absolute;
+    top: 41px;
+    width: 0;
+}
+.messic-main-songoptions-bubble {
+    background: none repeat scroll 0 0 white;
+    border: 4px solid #666;
+    border-radius: 10px;
+    height: 31px;
+    margin-left: -31px;
+    margin-top: -51px;
+    padding: 5px;
+    position: absolute;
+    width: 165px;
+}
+.messic-main-songoptions-addtoplaylist:hover {
+    background-position: -18px 0;
+}
+.messic-main-songoptions-addtoplaylist:after {
+    background: none repeat scroll 0 0 white;
+    border-right: 2px dotted #888888;
+    content: "";
+    display: block;
+    height: 24px;
+    margin-left: 31px;
+    pointer-events: none;
+    position: relative;
+    width: 5px;
+}
+.messic-main-songoptions-addtoplaylist {
+    background: url("album/addToPlaylist.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    float: left;
+    height: 24px;
+    margin-left: 8px;
+    margin-right: 30px;
+    margin-top: 4px;
+    width: 18px;
+}
+.messic-main-songoptions-rate-one {
+    background: url("album/rate.png") repeat scroll 0 -56px rgba(0, 0, 0, 0);
+    height: 28px;
+    width: 30px;
+    float: left;
+    cursor: pointer;
+}
+.messic-main-songoptions-rate-one:hover {
+    background: url("album/rate.png") repeat scroll 0px -28px rgba(0, 0, 0, 0);
+}
+.messic-main-songoptions-rate-one.messic-main-songoptions-rate-selected,
+.messic-main-songoptions-rate-one:active {
+    background: url("album/rate.png") repeat scroll 0px 0px rgba(0, 0, 0, 0);
+}
+.messic-main-songoptions-rate-two {
+    background: url("album/rate.png") repeat scroll -30px -56px rgba(0, 0, 0, 0);
+    height: 28px;
+    width: 30px;
+    float: left;
+    margin-right: 7px;
+    cursor: pointer;
+}
+.messic-main-songoptions-rate-two:hover {
+    background: url("album/rate.png") repeat scroll -30px -28px rgba(0, 0, 0, 0);
+}
+.messic-main-songoptions-rate-two.messic-main-songoptions-rate-selected,
+.messic-main-songoptions-rate-two:active {
+    background: url("album/rate.png") repeat scroll -30px 0px rgba(0, 0, 0, 0);
+}
+.messic-main-songoptions-rate-three {
+    background: url("album/rate.png") repeat scroll -60px -56px rgba(0, 0, 0, 0);
+    height: 28px;
+    width: 30px;
+    float: left;
+    cursor: pointer;
+}
+.messic-main-songoptions-rate-three:hover {
+    background: url("album/rate.png") repeat scroll -60px -28px rgba(0, 0, 0, 0);
+}
+.messic-main-songoptions-rate-three.messic-main-songoptions-rate-selected,
+.messic-main-songoptions-rate-three:active {
+    background: url("album/rate.png") repeat scroll -60px 0px rgba(0, 0, 0, 0);
+}
+
+
+
+.messic-main-notification:before {
+    background: url("upload/dialog_warning.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    float: left;
+    height: 47px;
+    margin-left: -14px;
+    margin-top: 2px;
+    width: 47px;
+}
+.messic-main-notification {
+    background: none repeat scroll 0 0 #ffffaa;
+    border: 1px solid #eeee22;
+    border-radius: 9px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    font-family: roboto;
+    font-size: 0.8em;
+    height: auto;
+    margin-bottom: 14px;
+    margin-top: -49px;
+    opacity: 1;
+    padding: 5px;
+    position: relative;
+    right: 10px;
+    width: 100%;
+}
+
+.messic-main-notification a {
+    color: blue;
+    font-size: 1em;
+}

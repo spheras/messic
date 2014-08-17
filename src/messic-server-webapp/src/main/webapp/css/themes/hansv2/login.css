@@ -1,0 +1,122 @@
+/* window container of the login form */
+
+/* ---------------------------------------- */
+
+#messic-login-window {
+    background: #eeeeee;
+    /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#c7c7c7));
+    background: -webkit-linear-gradient(top, #ffffff 0%, #c7c7c7 100%);
+    background: linear-gradient(to bottom, #ffffff 0%, #c7c7c7 100%);
+    height: 270px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+    border-radius: 4px 4px 4px 4px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #939393;
+}
+.browsehappy {
+    background: none repeat scroll 0 0 #ffffaa;
+    border-radius: 11px;
+    -webkit-box-shadow: 1px 0 8px rgba(255, 255, 0, 1);
+    box-shadow: 1px 0 8px rgba(255, 255, 0, 1);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px;
+    padding: 5px;
+    text-align: center;
+    width: 50%;
+}
+#messic-login-shadow {
+    background: url("login/login-shadow.png") no-repeat scroll 0 0 transparent;
+    width: 562px;
+    height: 71px;
+}
+/* login panel at left */
+
+/* ---------------------------------------- */
+
+.messic-login-form-container {
+    width: 363px;
+    height: 100%;
+    float: left;
+    border-right: 1px solid #b7b7b7;
+}
+/* titles */
+
+/* ---------------------------------------- */
+
+#messic-login-window h1 {
+    border-bottom: 1px double;
+    border-color: #C3C3C3;
+    padding-bottom: 5px;
+    color: #8a8a8a;
+    font-family: 'Amaranth-bold' !important;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: left;
+}
+/* forgot password option */
+
+/* ---------------------------------------- */
+
+#messic-login-window a {
+    display: block;
+    text-align: right;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 0.7em;
+    color: #9a9a9a;
+}
+#messic-login-window a:hover {
+    color: #00BABA;
+}
+#messic-login-window input[type="text"],
+input[type="password"] {
+    width: 200px;
+}
+/* login panel at right */
+
+/* ---------------------------------------- */
+
+.messic-login-new-account-container {
+    width: 196px;
+    height: 100%;
+    float: left;
+    background: url('textures/light_noise_diagonal_@2X_darker.png');
+    background-repeat: repeat-y;
+    border-radius: 0px 5px 5px 0px;
+}
+.messic-login-new-account-container label {
+    margin-top: 10px;
+}
+#messic-login-logo {
+    background: url("login/logo-messic-vinyl.png") no-repeat scroll 0 0 transparent;
+    bottom: 84px;
+    height: 102px;
+    position: relative;
+    right: -112px;
+    width: 255px;
+}
+/** new account button */
+
+#messic-login-window #newAccount {
+    bottom: -30px;
+    left: 50%;
+    margin-left: -70px;
+    position: relative;
+}
+#messic-login-button {
+    bottom: 30px;
+    margin-top: 41px;
+}
+.messic-login-version {
+    color: #aaaaaa;
+    margin-right: 12px;
+    margin-top: 12px;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 8px;
+}

@@ -1,0 +1,75 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<name>messic-server-api</name>
+	<description>api for messic</description>
+
+	<artifactId>messic-server-api</artifactId>
+	<parent>
+		<groupId>org.messic</groupId>
+		<artifactId>messic</artifactId>
+		<version>1.0.0-alpha</version>
+		<relativePath>../messic/pom.xml</relativePath>
+	</parent>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License, Version 3 or later</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+		</license>
+	</licenses>
+
+	<repositories>
+		<repository>
+			<id>java.net-Public</id>
+			<name>Maven Java Net Snapshots and Releases</name>
+			<url>https://maven.java.net/content/groups/public/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.jsondoc</groupId>
+			<artifactId>jsondoc-core</artifactId>
+			<version>1.0.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.messic</groupId>
+			<artifactId>messic-server-datamodel</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.messic</groupId>
+			<artifactId>messic-configuration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.messic</groupId>
+			<artifactId>messic-server-osgiservices</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.messic</groupId>
+			<artifactId>messic-server-plugin-tagwizard-audiotagger</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.messic</groupId>
+			<artifactId>messic-server-dlna</artifactId>
+		</dependency>
+
+	</dependencies>
+
+
+</project>

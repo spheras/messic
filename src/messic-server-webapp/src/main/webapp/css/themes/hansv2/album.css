@@ -1,0 +1,1064 @@
+
+
+
+
+
+
+#messic-album-cover {
+    display: block;
+    float: left;
+    margin-bottom: 17px;
+    margin-right: 35px;
+    margin-top: 15px;
+    width: 40%;
+}
+/* this before pseudoelement exist to give an square behaviour to the parent */
+.messic-album-covercontainer:before {
+    content: "";
+    display: block;
+    margin-top: 100%;
+}
+.messic-album-covercontainer {
+    float: left;
+    overflow: visible;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+
+
+#messic-album-cover img {
+    border: 6px solid white;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+}
+
+.messic-album-vinyl {
+    background: url("album/bigredvinyl.png") no-repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+    height: 100%;
+    left: 0;
+    margin-left: 35px;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: margin-left;
+    transition-property: margin-left;
+    width: 100%;
+    z-index: 1;
+}
+
+
+.messic-album-add:hover ~ .messic-album-vinyl {
+	margin-left: 45px;
+}
+
+.messic-album-covercontainer:hover .messic-album-add {
+	opacity: 1;
+}
+
+.messic-album-add:hover {
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    -webkit-transform-origin: center center 0;
+    -ms-transform-origin: center center 0;
+    transform-origin: center center 0;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: transform;
+}
+
+.messic-album-add {
+    background: url("playlist/vinyl-play.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 38px;
+    left: 50%;
+    margin-left: -18px;
+    margin-top: -16px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    -webkit-transition: opacity 0.45s ease-in-out 0s;
+    transition: opacity 0.45s ease-in-out 0s;
+    width: 38px;
+    z-index: 5;
+}
+
+
+#messic-album-year>div {
+	float: left;
+	font-weight: bold;
+	margin-right: 9px;
+}
+
+#messic-album-genre>div {
+	float: left;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+#messic-album-comments>div {
+	float: left;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+#messic-album-name.messic-album-editing {
+	font-size: 1em;
+}
+#messic-album-name {
+	color: #555555;
+	font-family: Amaranth;
+	font-size: 2em;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+	margin-bottom: 10px;
+    float:left;
+    width: 50%;
+}
+
+#messic-album-author:hover {
+	color: #0000FF;
+	cursor: pointer;
+	text-decoration: underline;
+	text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+#messic-album-author {
+	font-family: Amaranth;
+	font-size: 2.3em;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    float:left;
+    width: 50%;
+}
+#messic-album-author.messic-album-editing {
+	font-size: 1em;
+}
+#messic-album-author.messic-album-editing {
+    margin-top: 15px;
+}
+.messic-H1.messic-album-editing {
+    margin-bottom: 20px;
+}
+
+#messic-album-name.messic-album-editing {
+    margin-bottom: 25px;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* songs table */
+#messic-album-songs-container {
+    border: 1px solid #aaaaaa;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    clear: both;
+    float: left;
+    margin-top: 20px;
+    overflow: hidden;
+    position: relative;
+    width: calc(100% - 67px);
+}
+    /* songs table head */
+    #messic-album-songs-head {
+        background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#aaaaaa)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+        background: -webkit-linear-gradient(#cccccc, #aaaaaa) repeat scroll 0 0 rgba(0, 0, 0, 0);
+        background: linear-gradient(#cccccc, #aaaaaa) repeat scroll 0 0 rgba(0, 0, 0, 0);
+        color: #555555;
+        font-family: Amaranth;
+        height: 25px;
+        overflow: hidden;
+        text-align: center;
+        width: auto;
+    }
+    .messic-album-songs-headfield {
+        float: left;
+        height: 30px;
+    }
+    #messic-album-songs-head-songtrack {
+        width: 70px;
+    }
+
+    #messic-album-songs-head-songname {
+        border-left: 1px solid #999999;
+        text-align: left;
+        text-indent: 9px;
+    }
+    #messic-album-songs-head-songaction {
+        margin-right: 10px;
+        margin-top: -3px;
+        position: absolute;
+        right: 0;
+    }
+        /* head songaction add button */
+        #messic-album-songs-head-songaction-add {
+            background: url("upload/upload-buttonadd.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+            cursor: pointer;
+            float: right;
+            height: 31px;
+            width: 31px;
+        }
+        #messic-album-songs-head-songaction-add:hover {
+            background: url("upload/upload-buttonadd.png") no-repeat scroll -31px 0 rgba(0, 0, 0, 0);
+        }
+        #messic-album-songs-head-songaction > input {
+            display: none;
+            height: 0;
+            width: 0;
+        }
+        /*-------------------------------*/
+
+    /* songs table body */
+    #messic-album-songs-body {
+        clear: left;
+    }
+        /* songs table body row */
+        .messic-album-songs-bodyrow {
+            clear: left;
+            color: #333333;
+            font-family: roboto;
+        }
+        .messic-album-songs-bodyrow:nth-child(2n+1) {
+            background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+            background: -webkit-linear-gradient(#ffffff, #eeeeee) repeat scroll 0 0 rgba(0, 0, 0, 0);
+            background: linear-gradient(#ffffff, #eeeeee) repeat scroll 0 0 rgba(0, 0, 0, 0);
+        }
+        #messic-album-songs-body .messic-album-songs-bodyrow:hover {
+            background: none repeat scroll 0 0 #90f0e8;
+        }
+        #messic-album-songs-body .messic-album-songs-bodyrow.messic-album-songs-bodyrow-selected {
+            background: none repeat scroll 0 0 #90f0e8;
+        }
+        .messic-album-songs-bodyrow.messic-album-songs-bodyrow-rate0:before, .messic-album-songs-bodyrow.messic-album-songs-bodyrow-rate1:before {
+            background: url("playlist/vinyl-icons.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+            content: "";
+            cursor: pointer;
+            display: block;
+            height: 20px;
+            margin-top: 5px;
+            position: absolute;
+            width: 21px;
+        }
+        .messic-album-songs-bodyrow.messic-album-songs-bodyrow-rate0:before, .messic-album-songs-bodyrow.messic-album-songs-bodyrow-rate1:before {
+            background: url("playlist/vinyl-icons.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+            content: "";
+            cursor: pointer;
+            display: block;
+            height: 20px;
+            margin-top: 5px;
+            position: absolute;
+            width: 21px;
+        }
+        .messic-album-songs-bodyrow.messic-album-songs-bodyrow-rate2:before {
+            background: url("playlist/vinyl-icons.png") repeat scroll -21px 0 rgba(0, 0, 0, 0);
+            content: "";
+            cursor: pointer;
+            display: block;
+            height: 20px;
+            margin-top: 5px;
+            position: absolute;
+            width: 21px;
+        }
+        .messic-album-songs-bodyrow.messic-album-songs-bodyrow-rate3:before {
+            background: url("playlist/vinyl-icons.png") repeat scroll -42px 0 rgba(0, 0, 0, 0);
+            content: "";
+            cursor: pointer;
+            display: block;
+            height: 20px;
+            margin-top: 5px;
+            position: absolute;
+            width: 21px;
+        }
+            /* songs table body row fields*/
+            .messic-album-songs-bodyfield {
+                float: left;
+                padding-bottom: 5px;
+                padding-top: 5px;
+                text-align: center;
+            }
+            .messic-album-songs-bodyfield-first {
+                width: 70px;
+            }
+            .messic-album-songs-bodyfield-second  {
+                border-left: 1px solid #aaaaaa;
+                overflow: hidden;
+                text-align: left;
+                text-indent: 10px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: calc(100% - 77px);
+            }
+            .messic-album-songs-bodyfield-third {
+                overflow: hidden;
+                width: auto;
+                right: 5px;
+                position: absolute;
+                height: 20px;
+                display: none;
+            }
+            #messic-album-songs-body .messic-album-songs-bodyrow:hover .messic-album-songs-bodyfield-third {
+                display: block;
+            }
+            #messic-album-songs-body .messic-album-songs-bodyrow.messic-album-songs-bodyrow-selected .messic-album-songs-bodyfield-third {
+                display: block;
+            }
+            .messic-album-songs-bodyfield.messic-album-songs-body-artwork > img {
+                -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+                box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+                cursor: pointer;
+                margin-top: 4px;
+                padding-top: 0;
+                width: 51px;
+            }
+            input.messic-album-songs-bodyfield {
+                background: none repeat scroll 0 0 #aaffaa;
+                border: 0 none;
+                -webkit-box-shadow: -1px 0 2px rgba(0, 0, 0, 0.45);
+                box-shadow: -1px 0 2px rgba(0, 0, 0, 0.45);
+                height: 26px;
+                margin-left: 0;
+            }
+            .messic-album-songs-uploading {
+                background: none repeat scroll 0 0 #eeeeee;
+                border: 1px solid #999999;
+                border-radius: 4px;
+                float: right;
+                height: 17px;
+                margin-left: 5px;
+                margin-top: 7px;
+                overflow: hidden;
+                position: absolute;
+                right: 41px;
+                width: 80px;
+            }
+            .messic-album-songs-bodyrow-artwork .messic-album-songs-uploading {
+                margin-top: 19px;
+            }
+            .messic-album-songs-uploading-percent-failed{
+                background:red;
+            }
+            .messic-album-songs-uploading-percent-finished {
+                background: #00BABA; /* Old browsers */
+                background: -webkit-gradient(linear, left top, left bottom, from(#00BABA), to(#00CACA)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+                background: -webkit-linear-gradient(#00BABA, #00CACA) repeat scroll 0 0 rgba(0, 0, 0, 0);
+                background: linear-gradient(#00BABA, #00CACA) repeat scroll 0 0 rgba(0, 0, 0, 0);
+                height: 100%;
+                width: 100%;
+            }
+            .messic-album-songs-uploading-percent{
+                background: #00BABA; /* Old browsers */
+                background: -webkit-gradient(linear, left top, left bottom, from(#00BABA), to(#00CACA)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+                background: -webkit-linear-gradient(#00BABA, #00CACA) repeat scroll 0 0 rgba(0, 0, 0, 0);
+                background: linear-gradient(#00BABA, #00CACA) repeat scroll 0 0 rgba(0, 0, 0, 0);
+                border-radius: 0;
+                height: 13px;
+                margin: 2px 2px 2px 0;
+                width: 5%;
+            }
+            .messic-album-songs-bodyfield.messic-album-songs-bodyfield-third div {
+                float: left;
+                margin-left: 7px;
+                cursor: pointer;
+            }
+                /* List of actions buttons */
+                .messic-album-songs-body-songaction-remove{
+                    background: url("album/delete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                    height: 25px;
+                    width: 22px;
+                    cursor: pointer;
+                }
+                .messic-album-songs-body-songaction-remove:active {
+                    background-position: -23px 1px;
+                }
+                .messic-album-songs-body-songaction-remove:hover {
+                    background-position: -23px 0;
+                }
+                .messic-album-songs-body-songaction-play:active {
+                    background-position: -22px 1px;
+                }
+                .messic-album-songs-body-songaction-cover{
+                    background: url("album/setcover.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                    height: 26px;
+                    width: 26px;
+                }
+                .messic-album-songs-body-songaction-cover:hover{
+                    background-position: -30px 0;
+                }
+                .messic-album-songs-body-songaction-show{
+                    background: url("album/show.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                    height: 30px;
+                    width: 30px;
+                }
+                .messic-album-songs-body-songaction-show:hover{
+                    background-position: -30px 0;
+                }
+                .messic-album-songs-body-songaction-play:hover {
+                    background-position: -27px 0;
+                }
+                .messic-album-songs-body-songaction-play {
+                    background: url("album/play.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                    height: 25px;
+                    width: 27px;
+                }
+                .messic-album-songs-body-songaction-addtoplaylist:hover {
+                    background-position: -18px 0;
+                }
+                .messic-album-songs-body-songaction-addtoplaylist {
+                    background: url("album/addToPlaylist.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                    height: 25px;
+                    width: 18px;
+                }
+                .messic-album-songs-body-songaction-edit{
+                    background: url("album/edit2.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+                    cursor: pointer;
+                    float: right;
+                    height: 24px;
+                    width: 24px;
+                }
+                .messic-album-songs-body-songaction-edit:hover {
+                    background-position: -24px 0;
+                }
+                .messic-album-songs-body-songaction-download:hover {
+                    background-position: -28px 0;
+                }
+                .messic-album-songs-body-songaction-download {
+                    background: url("album/download.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+                    cursor: pointer;
+                    float: right;
+                    height: 24px;
+                    width: 29px;
+                }
+                /*  END - List of actions buttons */
+            /* END - songs table body row fields*/
+        /* END - songs table body row */
+    /* END - songs table body */
+/* END - songs table */
+
+
+
+
+
+.messic-album-artwork-show-overlay {
+    background: none repeat scroll 0 0 #000000;
+    height: 100%;
+    left: 0;
+    opacity: 0.70;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+}
+
+.messic-album-artwork-show > img {
+    max-height: 500px;
+    width: 500px;
+}
+.messic-album-artwork-show > a:hover {
+    background-position: -36px center;
+}
+.messic-album-artwork-show #messic-album-artwork-setcover:hover {
+    background-position: -26px 0;
+}
+.messic-album-artwork-show #messic-album-artwork-setcover {
+    background: url("album/setcover.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: block;
+    height: 27px;
+    position: absolute;
+    right: 52px;
+    top: 10px;
+    width: 27px;
+}
+.messic-album-artwork-show > a {
+    background: url("album/zoom.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    height: 33px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 35px;
+}
+.messic-album-artwork-show {
+    background: none repeat scroll 0 0 #AAAAAA;
+    border: 7px solid #FFFFFF;
+    border-radius: 10px;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -259px;
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    width: 500px;
+    z-index: 1000000;
+}
+
+
+
+
+
+
+
+
+
+
+
+#messic-album-menu {
+    border-bottom: 1px solid #bbbbbb;
+    border-top: 1px solid #bbbbbb;
+    float: left;
+    margin-bottom: 17px;
+    padding-bottom: 7px;
+    padding-top: 5px;
+    width: 50%;
+}
+
+.messic-album-menuoption {
+    background: -webkit-gradient(linear, left top, left bottom, from(#aaaaaa), color-stop(50%, #eeeeee), to(#aaaaaa)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(#aaaaaa, #eeeeee 50%, #aaaaaa) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: linear-gradient(#aaaaaa, #eeeeee 50%, #aaaaaa) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-left: 1px solid #aaaaaa;
+    border-radius: 10px;
+    border-right: 1px solid #aaaaaa;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    float: left;
+    height: 36px;
+    margin-right: 10px;
+    margin-top: 3px;
+    vertical-align: middle;
+    width: 52px;
+}
+#messic-album-menuoption-remove:hover:after {
+    background-position: -22px 0;
+}
+
+#messic-album-menuoption-remove:active:after {
+    margin-top: 8px;
+}
+#messic-album-menuoption-remove:after {
+    background: url("album/delete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 25px;
+    margin-left: 15px;
+    margin-top: 5px;
+    width: 22px;
+}
+
+#messic-album-menuoption-download:hover:after {
+    background-position: -29px 0;
+}
+#messic-album-menuoption-download:active:after {
+    margin-top: 8px;
+}
+#messic-album-menuoption-download:after {
+    background: url("album/download.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 25px;
+    margin-left: 13px;
+    margin-top: 5px;
+    width: 29px;
+}
+
+#messic-album-menuoption-addplaylist:hover:after {
+    background-position: -18px 0;
+}
+#messic-album-menuoption-addplaylist:after {
+    background: url("album/addToPlaylist.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 25px;
+    margin-left: 18px;
+    margin-top: 5px;
+    width: 18px;
+}
+#messic-album-menuoption-addplaylist:active:after {
+    margin-top: 8px;
+}
+
+
+#messic-album-menuoption-save{
+	    display:none;
+}
+#messic-album-menuoption-save:after {
+    background: url("album/save.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 28px;
+    margin-left: 12px;
+    margin-top: 4px;
+    width: 28px;
+}
+#messic-album-menuoption-save:active:after {
+    margin-top: 7px;
+}
+#messic-album-menuoption-save:hover:after {
+    background-position: -29px 0;
+}
+
+
+
+#messic-album-menuoption-discard{
+	    display:none;
+}
+#messic-album-menuoption-discard:after {
+    background: url("album/discard.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 22px;
+    margin-left: 16px;
+    margin-top: 7px;
+    width: 20px;
+}
+#messic-album-menuoption-discard:active:after {
+    margin-top: 7px;
+}
+#messic-album-menuoption-discard:hover:after {
+    background-position: -20px 0;
+}
+
+
+#messic-album-menuoption-edit:after {
+    background: url("album/edit.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 28px;
+    margin-left: 12px;
+    margin-top: 4px;
+    width: 29px;
+}
+#messic-album-menuoption-edit:active:after {
+    margin-top: 7px;
+}
+#messic-album-menuoption-edit:hover:after {
+    background-position: -29px 0;
+}
+.messic-album-menuoption:active {
+    background:#FFFFFF; /* Old browsers */
+	background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), color-stop(50%, #AAAAAA), to(#EEEEEE)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: -webkit-linear-gradient(#EEEEEE, #AAAAAA 50%, #EEEEEE) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: linear-gradient(#EEEEEE, #AAAAAA 50%, #EEEEEE) repeat scroll
+		0 0 rgba(0, 0, 0, 0);
+}
+
+.messic-album-menuoption:hover {
+	-webkit-box-shadow: 0 0 4px rgba(100, 100, 155, 0.86);
+	box-shadow: 0 0 4px rgba(100, 100, 155, 0.86);
+}
+
+#messic-album-container {
+	float: left;
+	overflow: hidden;
+	width: 50%;
+}
+
+#messic-album-plugincontainer {
+	background: none repeat scroll 0 0 #EEEEEE;
+	border-left: 3px dashed #CCCCCC;
+	border-radius: 0 54px 0 0;
+	float: right;
+	min-height: 400px;
+	padding: 17px;
+	right: 0;
+	width: calc(50% - 17px - 17px - 3px);
+}
+
+.messic-album-plugincontainer-menu {
+	display: block;
+	list-style: none outside none;
+	margin-left: -77px;
+	margin-top: 32px;
+	padding: 0;
+	position: absolute;
+	text-decoration: none;
+	width: 70px;
+}
+
+.messic-album-plugincontainer-menuitem:hover {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-right: 5px solid #4444FF;
+	margin-left: -10px;
+	opacity: 1;
+}
+
+.messic-album-plugincontainer-menuitem.messic-album-plugincontainer-menuitem-selected{
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-right: 5px solid #6666FF;
+	opacity: 1;
+}
+
+.messic-album-plugincontainer-menuitem {
+    background:#F0F0F0; /* Old browsers */
+	background: -webkit-gradient(linear, left top, right top, from(#FFFFFF), color-stop(40%, #FFFFFF), to(#EEEEEE)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: -webkit-linear-gradient(left, #FFFFFF 0%, #FFFFFF 40%, #EEEEEE 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 40%, #EEEEEE 100%)
+		repeat scroll 0 0 rgba(0, 0, 0, 0);
+	border-bottom: 1px solid #CCCCCC;
+	border-left: 1px solid #CCCCCC;
+	border-radius: 6px 0 0 25px;
+	border-top: 1px solid #CCCCCC;
+	cursor: pointer;
+	float: left;
+	height: 50px;
+	margin-bottom: 8px;
+	opacity: 0.8;
+	overflow: hidden;
+	padding: 10px;
+	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	-webkit-transition-property: margin-left, opacity;
+	transition-property: margin-left, opacity;
+	-webkit-transition-timing-function: ease;
+	transition-timing-function: ease;
+	width: 50px;
+}
+
+.messic-album-musicinfoplugin-icon {
+	height: 50px;
+	width: 50px;
+}
+
+.messic-album-plugincontainer-content-message {
+	color: #AFAFAF;
+	font-family: roboto;
+	font-size: 1.5em;
+	left: 50%;
+	margin-left: -170px;
+	margin-top: 103px;
+	position: relative;
+	text-align: center;
+	width: 80%;
+}
+
+.messic-album-plugincontainer-content-wait {
+	color: #888888;
+	font-family: roboto-bold;
+	left: 50%;
+	margin-left: -112px;
+	margin-top: 165px;
+	position: relative;
+	text-align: center;
+	width: 197px;
+}
+
+.messic-album-plugincontainer-content-wait:before {
+    background: url("base/339.GIF") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 60px;
+    margin-left: 67px;
+    margin-top: -66px;
+    position: absolute;
+    width: 60px;
+}
+
+
+.messic-album-editbutton:after {
+    background: url("album/edit.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 28px;
+    margin-left: 6px;
+    margin-top: -16px;
+    width: 29px;
+}
+.messic-album-predata.messic-album-editable {
+    float: left;
+    width: 50%;
+}
+.messic-album-editable:hover .messic-album-editbutton:hover {
+    background: none repeat scroll 0 0 #FFDD77;
+}
+.messic-album-editable:hover .messic-album-editbutton {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid rgba(50, 50, 50, 0.8);
+    border-radius: 6px;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    display: block;
+    height: 19px;
+    margin-left: -14px;
+    margin-top: 2px;
+    position: absolute;
+    width: 19px;
+    z-index: 1111111111;
+}
+
+.messic-album-editbutton {
+	display:none;
+}
+
+
+#messic-album-author-textedit {
+    height: 100%;
+    width: 323px;
+}
+
+#messic-album-name-textedit {
+    max-width: 240px;
+    width: auto;
+}
+
+#messic-album-author > span {
+    width: auto;
+    max-width: 240px;
+}
+
+#messic-album-year > span {
+    margin-bottom: 8px;
+    width: 180px;
+}
+
+#messic-album-genre > span {
+    margin-bottom: 10px;
+    width: 315px;
+}
+
+
+#messic-album-comments > textarea {
+    height: 100px;
+    margin-bottom: 20px;
+    width: 314px;
+}
+
+
+.messic-musicinfo-youtube-description {
+    float: left;
+    width: 239px;
+}
+
+.messic-musicinfo-youtube-item-title {
+    background: none repeat scroll 0 0 #CCCCCC;
+    border-radius: 8px 8px 0 1px;
+    float: left;
+    font-family: roboto-bold;
+    font-size: 1em;
+    overflow: hidden;
+    padding: 9px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 220px;
+}
+
+.messic-musicinfo-youtube-item-description {
+    background: none repeat scroll 0 0 #DDDDDD;
+    float: left;
+    font-family: roboto;
+    font-size: 0.8em;
+    height: 82px;
+    padding: 2px 0 0 9px;
+    width: 229px;
+}
+
+.messic-musicinfo-youtube-item > img {
+    border-radius: 8px;
+    -webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    float: left;
+    margin-bottom: 15px;
+    margin-right: 10px;
+    width: 163px;
+}
+
+
+.messic-musicinfo-youtube-item {
+    height: auto;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.messic-musicinfo-youtube-item-play:hover {
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: transform;
+}
+.messic-musicinfo-youtube-item-play {
+    background: url("playlist/vinyl-play.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 40px;
+    margin: 40px 40px 40px 63px;
+    position: absolute;
+    width: 40px;
+}
+
+.messic-musicinfo-youtube-overlay {
+    background: none repeat scroll 0 0 #000000;
+    height: 100%;
+    left: 0;
+    opacity: 0.70;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+}
+
+
+.messic-musicinfo-youtube-iframe {
+    background: none repeat scroll 0 0 #AAAAAA;
+    border: 7px solid #FFFFFF;
+    border-radius: 10px;
+    height: 400px;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -181px;
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    width: 600px;
+    z-index: 1000000;
+}
+
+
+.messic-musicinfo-tagwizard-albumtitle{
+    float: left;
+    text-align: right;
+    width: 61px;
+    color: #888888;
+    font-family: roboto-bold;
+    margin-bottom: -4px;
+    margin-top: 5px;
+}
+
+.messic-musicinfo-tagwizard-albumfield{
+    background: none repeat scroll 0 0 #fafafa;
+    border: 1px dashed #aaaaaa;
+    border-radius: 1px;
+    float: left;
+    margin-bottom: 10px;
+    margin-left: 4px;
+    max-height: 17px;
+    min-height: 18px;
+    overflow: hidden;
+    padding-bottom: 4px;
+    padding-top: 4px;
+    text-indent: 7px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 198px;
+    word-break: keep-all;
+}
+
+.messic-musicinfo-tagwizard-albumcontainer {
+    background: none repeat scroll 0 0 #f4f4f4;
+    border-radius: 9px;
+    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    font-family: roboto;
+    font-size: 0.8em;
+    height: auto;
+    margin-bottom: 10px;
+    margin-left: -8px;
+    padding: 10px;
+    width: 93%;
+    overflow: hidden;
+}
+.messic-musicinfo-tagwizard-albuminfo-head {
+    float: left;
+    margin-right: 10px;
+    width: 265px;
+}
+
+.messic-musicinfo-tagwizard-albuminfo-body {
+    float: left;
+    width: 152px;
+}
+.messic-musicinfo-tagwizard-albumsong-track {
+    float: left;
+    width: 10%;
+}
+.messic-musicinfo-tagwizard-albumsong-name {
+    float: left;
+    width: 90%;
+}
+
+.messic-musicinfo-tagwizard-albumfield.messic-musicinfo-tagwizard-albumfield-comments {
+    height: auto;
+    max-height: 200px;
+    overflow-x: auto;
+    overflow-y: scroll;
+    text-overflow: initial;
+    white-space: normal;
+    word-break: initial;
+}
+
+.messic-musicinfo-duckduckgoimages-imagecontainer > img:hover {
+    border: 4px solid #444444;
+}
+.messic-musicinfo-duckduckgoimages-imagecontainer > img {
+    border: 4px solid white;
+    border-radius: 5px;
+    float: left;
+    height: 100px;
+    margin: 3px;
+    padding: 0;
+    width: 100px;
+}
+.messic-musicinfo-duckduckgoimages-imagecontainer > div {
+    color: red;
+    font-family: amaranth;
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-align: center;
+    width: 100%;
+}
+.messic-musicinfo-duckduckgoimages-overlay {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2147483647;
+}
+.messic-musicinfo-duckduckgoimages-overlay > img {
+    border: 5px solid white;
+    border-radius: 10px;
+    height: 400px;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -200px;
+    position: absolute;
+    top: 50%;
+    width: 400px;
+}
+
+.messic-musicinfo-duckduckgoimages-zoom {
+    background: url("album/zoom.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    display: block;
+    height: 33px;
+    left: 50%;
+    margin-left: 165px;
+    margin-top: -178px;
+    position: absolute;
+    top: 50%;
+    width: 35px;
+}
+.messic-musicinfo-duckduckgoimages-zoom:hover {
+    background-position: -36px center;
+}

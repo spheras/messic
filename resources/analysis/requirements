@@ -1,0 +1,64 @@
+Requirements:
+
+priority:
+  1. Basic functionlity
+  2. First version functionality
+  3. Future version functionality
+
+#request-priority-description
+0-1: Plugin extensions in general.  Design must be plugin capable.  (TODO-jas specify where is necessary plugin extension)
+1-1: Multilanguage, spanish and english.  Language can be different for each user.. by default, system/navigator language.. User can change the language in settings
+2-1: Default store folder:  Default store folder can be configurated by admin... by default application folder
+3-1: Multiuser. Multiuser must be implemented.  Share concept is very important inside the application.
+	3.1-1: The first time the application start it should ask about user creation.. The application cannot run without any user created
+	3.2-1: login is the first web page to enter...  If there is only one user, then login is not necessary (unless web access)
+	3.3-1: All users are known by all users.. and accessible to mail/chat/ask (to define) them..   (the friend concept.. can be detailed in further versions... to be prepared the best is that all people are friend of all people)
+	3.4-1: At login time you can know who is connect, and what are listening
+	3.5-1: Each new user should have his own physical space, user selection folder.  (can this folder be the same as other user?.. jas think yes, what's the benefit then to have different users?... may be..have different avatar is enough reason.. and the are others.. like song of the day... own collections.. )
+	3.6-3: Users can gift music to another users...   This will generate a message to another user. If the other user accept incoming music, the system will copy or link (selected by destination user) music from one user to another
+	3.7-1: from login every body can add new user
+	3.8-1: every user or admin can remove user....
+	3.9-1: on remove user the application ask to the user to remove the music... if yes, the whole music folder will be deleted... if not, the music folder will be permanent on disc.. a message to administrator user should be sent after the process
+	3.10-1: Users can change his settings
+	3.11-3: Users can ask permission from other user to listen their music
+	3.12-1: Users should store his avatar, user and password, current state
+	3.13-3: User music wish list
+	3.14-3: User song of the moment (public to listen to everybody)
+	3.15-1: Admin user, by default the first user.. Only one admin in the system
+		3.15.1-1: Admin have access to the admin page
+		3.15.2-1: Admin can list users
+		3.15.3-1: Admin can delete users
+		3.15.4-1: Admin can set default folder for music
+	3.16-1: users can publish content.. another users can see the content published by other users, and add to his collection as a link
+	3.17-1: users that have music as a link from other users can ask them to copy the music... this generate a message that the other user should accept before start the operation
+4-1: messagebox.  Simple message box incoming from other users and the system
+	4.1-1: messages only have message text (not subject, or something), state [redaded, not readed], priority [normal, high]
+	4.2-1: Users can read these simple messages
+	4.3-1: Readed messages change their state...
+	4.4-1: Users can delete messages easily
+5-1: submit new music. Users can submit new music to the catalog.
+	5.1-1: User who upload the music must be stored with the songs information (leak reference, music uploaded by a user should be deleted? jas think no)
+	5.2-1: Date when the music was uploaded must be stored with the songs
+	5.3-1: New music uploaded should be marked as "music not validated".. It's an special state where the music really is separated from the user catalog.. user mus listen to it before to validate it.. it's good music? it sound well? the extraction from the original cd was ok?  is metadata ok? ... all these are good reasons to apart from the validated catalog.
+	5.4-1: If there is no enough space to store all music then a message should be notified
+6-1: organize music.  One basic functionality for meesic must be organize music (as more automatic as possible).  It should be done at a file directory specified by the administrator... one per user? (jas think no)
+	6.1-1: recover information from file music tags header in order to organize (for instance mp3 tags)
+	6.2-1: ask confirmation and pending data to the music in a form way
+	6.3-3: Recover information from 3rd services, like amazon, wikipedia, youtube, ...
+	6.4-1: Potentially redundant music should be notified  (potentially the same group music, the same lp music, ... )
+	6.5-1: 
+4-1- human readable. The application should store the music organized at the folder specified by the user and the way the application store the music should be human readable... it means, i can get this folder and understand it
+5-1- Listen music stored
+6-1- mp3 compatible. For the first version only mp3 can be accepted
+
+2- tag music songs, playlist, etc... possibility
+2- Find music by different criteria.. tags, song names, authors, years, play lists
+
+3- Web administration possibility (same interface as standalone where possible)
+
+4- Easy installation
+4- Standalone application
+4- radio mode - the application put the music you want... with kind of music restrictions if user want
+4- vote song option
+4- statistics
+4- mp4, ogg, aiff, etc.. compatible

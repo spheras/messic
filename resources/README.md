@@ -1,0 +1,1 @@
+this folder will store resources generated

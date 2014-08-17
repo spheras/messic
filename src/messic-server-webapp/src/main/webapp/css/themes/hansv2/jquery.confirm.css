@@ -1,0 +1,94 @@
+/**
+jquery simple confirm dialog 
+original author:  Martin Angelov
+url: http://tutorialzine.com/2010/12/better-confirm-box-jquery-css3/
+*/
+#confirmOverlay{
+    width:100%;
+    height:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    background:#AAAAAA;
+    background:-webkit-gradient(linear, left top, left bottom, from(rgba(11,11,11,0.1)), to(rgba(11,11,11,0.6))) repeat-x rgba(11,11,11,0.2);
+    background:-webkit-linear-gradient(rgba(11,11,11,0.1), rgba(11,11,11,0.6)) repeat-x rgba(11,11,11,0.2);
+    background:linear-gradient(rgba(11,11,11,0.1),rgba(11,11,11,0.6)) repeat-x rgba(11,11,11,0.2);
+    z-index:100000;
+}
+
+#confirmBox{
+    background: url("jquery.confirm/body_bg.jpg") repeat-x scroll left bottom #E5E5E5;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    left: 50%;
+    margin: -130px 0 0 -230px;
+    overflow: hidden;
+    position: fixed;
+    top: 50%;
+    width: 460px;
+
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
+}
+
+#confirmBox h1,
+#confirmBox p{
+    font:26px/1 'Cuprum','Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+    background:url('jquery.confirm/header_bg.jpg') repeat-x left bottom #f5f5f5;
+    padding: 18px 25px;
+    text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.6);
+    color:#666;
+}
+
+#confirmBox h1{
+    letter-spacing:0.3px;
+    color:#888;
+}
+
+#confirmBox p{
+    background:none;
+    font-size:16px;
+    line-height:1.4;
+    padding-top: 35px;
+}
+
+#confirmButtons{
+    padding:15px 0 25px;
+    text-align:center;
+}
+
+#confirmBox .button{
+    background: url("jquery.confirm/buttons.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+    color: #FFFFFF;
+    display: inline-block;
+    font: 1em/34px 'Cuprum','Lucida Sans Unicode','Lucida Grande',sans-serif;
+    height: 33px;
+    margin-right: 15px;
+    padding: 0 11px 0 16px;
+    position: relative;
+    text-decoration: none;
+    width: 162px;
+}
+
+#confirmBox .button:last-child{	margin-right:0;}
+
+#confirmBox .button span{
+    background: url("jquery.confirm/buttons.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 33px;
+    position: absolute;
+    right: -5px;
+    top: 0;
+    width: 5px;
+}
+
+#confirmBox .blue{				background-position:left top;text-shadow:1px 1px 0 #5889a2;}
+#confirmBox .blue span{			background-position:-195px 0;}
+#confirmBox .blue:hover{		background-position:left bottom;}
+#confirmBox .blue:hover span{	background-position:-195px bottom;}
+
+#confirmBox .gray{				background-position:-200px top;text-shadow:1px 1px 0 #707070;}
+#confirmBox .gray span{			background-position:-395px 0;}
+#confirmBox .gray:hover{		background-position:-200px bottom;}
+#confirmBox .gray:hover span{	background-position:-395px bottom;}

@@ -1,0 +1,30 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+# TEAM
+
+	José Amuedo -- main commiter -- commiter
+	Manuel Hans -- creator of the data model and security especifications -- commiter
+	Francisco Javier Coira -- supporting tools and dynamic OSGI extensions -- commiter
+	Juan Luis Casimiro -- security issues and linux scripts -- commiter
+
+# THANKS
+
+	Free PSD Files,
+	Subtle Patterns,
+	Oxygen team,
+	Brankic1979,
+	Alexandre Naud, 						
+
+# TECHNOLOGY COLOPHON
+    HTML5, CSS3,
+    jQuery, Modernizr,
+    Boilerplate,
+	Spring Framework, Apache Felix, 
+	Eclipse Jetty, JSONDoc, 
+	jadiotagger, JCaptcha, 
+	Hibernate, Cling, 
+	Chii2, JPlayer, 
+	Tinyscrollbar, Tinycarousel,
+	KendoUI
+

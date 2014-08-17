@@ -1,0 +1,17 @@
+target/
+.project
+.settings
+.classpath
+
+src/messic-server-webapp/src/main/resources/rebel.xml
+
+src/messic-service/bundles/03-messic
+src/messic-service/bundles/04-messic-plugins
+src/messic-service/felix-cache
+
+src/messic-service/currentport
+src/messic-service/db/*.db
+
+src/messic-service/jetty/work/
+src/messic-service/conf/messicStarted
+src/messic-service/log

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<web-app
+	xmlns="http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/
+                      http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/web-app_3_0.xsd"
+	version="2.5" metadata-complete="true">
+
+	<display-name>Messic</display-name>
+
+	<!-- spring context configuration -->
+	<context-param>
+		<param-name>contextClass</param-name>
+		<param-value>org.messic.server.spring.MessicWebApplicationContext</param-value>
+	</context-param>
+
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			classpath:/springconfig/services.xml
+			classpath:/springconfig/services.xml
+			classpath:/springconfig/security.xml
+			classpath:/springconfig/spring-jpa.xml
+			classpath:/springconfig/controllers.xml
+		</param-value>
+	</context-param>
+	<!-- log4j configuration -->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:/springconfig/log4j.xml</param-value>
+	</context-param>
+
+
+	<!-- http://stackoverflow.com/questions/23750619/spring-jndi-namingexception-name-spring-livebeansview-mbeandomain-is-not-boun 
+		if you don't use any profiles or mbeans, just add following context-params 
+		to the web.xml as workaround (trick), hopefully there is someone can provide 
+		better solution than thi -->
+	<context-param>
+		<param-name>spring.profiles.active</param-name>
+		<param-value>dev</param-value>
+	</context-param>
+	<context-param>
+		<param-name>spring.profiles.default</param-name>
+		<param-value>dev</param-value>
+	</context-param>
+	<context-param>
+		<param-name>spring.liveBeansView.mbeanDomain</param-name>
+		<param-value>dev</param-value>
+	</context-param>
+
+	<!-- Security Filter -->
+	<filter>
+		<filter-name>encoding-filter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encoding-filter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- Log4j Listener -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+	<!-- Messic Servlet -->
+	<servlet>
+		<servlet-name>messic</servlet-name>
+		<servlet-class>org.messic.server.spring.MessicServlet</servlet-class>
+		<!-- <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> -->
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<!-- servlet mapping -->
+	<servlet-mapping>
+		<servlet-name>messic</servlet-name>
+		<url-pattern>*.do</url-pattern>
+		<url-pattern>/services/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- welcome file -->
+	<welcome-file-list>
+		<welcome-file>/login.do</welcome-file>
+	</welcome-file-list>
+
+	<!-- LOCALE CONFIG -->
+	<locale-config>
+		<default-locale>en</default-locale>
+		<supported-locale>es</supported-locale>
+		<!-- TODO, other languages <supported-locale>de</supported-locale> <supported-locale>en_GB</supported-locale> 
+			<supported-locale>en_US</supported-locale> -->
+	</locale-config>
+
+</web-app>

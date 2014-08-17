@@ -1,0 +1,296 @@
+
+#messic-author-title {
+    background:#EAEAEA; /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#E0E0E0)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(#FAFAFA, #E0E0E0) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: linear-gradient(#FAFAFA, #E0E0E0) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #555555;
+    text-indent: 15px;
+}
+.messic-author-title {
+    float: left;
+    margin-right: 20px;
+}
+#messic-author-title:hover .messic-author-menuoption {
+    opacity: 1;
+}
+
+#messic-author-menuoption-remove:active:after {
+    margin-top: 8px;
+}
+#messic-author-menuoption-remove:hover:after {
+    background-position: -22px 0;
+}
+.messic-author-menuoption:hover {
+    -webkit-box-shadow: 0 0 4px rgba(100, 100, 155, 0.86);
+    box-shadow: 0 0 4px rgba(100, 100, 155, 0.86);
+}
+.messic-author-menuoption{
+    background:#CCCCCC; /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(#aaaaaa), color-stop(50%, #eeeeee), to(#aaaaaa)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(#aaaaaa, #eeeeee 50%, #aaaaaa) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: linear-gradient(#aaaaaa, #eeeeee 50%, #aaaaaa) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-left: 1px solid #aaaaaa;
+    border-radius: 10px;
+    border-right: 1px solid #aaaaaa;
+    -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    float: left;
+    height: 36px;
+    margin-right: 10px;
+    margin-top: 6px;
+    vertical-align: middle;
+    width: 52px;
+    opacity: 0.2;
+}
+
+#messic-author-menuoption-remove:after {
+    background: url("album/delete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 25px;
+    margin-left: 15px;
+    margin-top: 5px;
+    width: 22px;
+}
+.messic-H1 {
+    font-family: amaranth;
+    font-size: 2em;
+}
+
+
+
+
+#messic-author-album-cover {
+    display: block;
+    float: left;
+    margin-bottom: 0;
+    margin-right: 35px;
+    margin-top: 46px;
+    width: calc(40% - 35px);
+    clear:left;
+}
+/* this before pseudoelement exist to give an square behaviour to the parent */
+.messic-author-album-covercontainer:before {
+    content: "";
+    display: block;
+    margin-top: 100%;
+}
+.messic-author-album-covercontainer {
+    float: left;
+    position: relative;
+    width: 100%;
+}
+#messic-author-album-cover img {
+    border: 6px solid #ffffff;
+    border-radius: 13px;
+    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+.messic-author-album-vinyl {
+    background: url("album/bigredvinyl.png") no-repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+    height: 100%;
+    left: 0px;
+    margin-left: 25%;
+    pointer-events: none;
+    position: absolute;
+    top: 5px;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: margin-left;
+    transition-property: margin-left;
+    width: 100%;
+    z-index: 0;
+}
+
+.messic-author-album-add:hover ~ .messic-author-album-vinyl {
+	margin-left: 35%;
+}
+.messic-author-album-covercontainer:hover .messic-author-album-add {
+	opacity: 1;
+}
+
+.messic-author-album-add:hover {
+    -webkit-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    -webkit-transform-origin: center center 0;
+    -ms-transform-origin: center center 0;
+    transform-origin: center center 0;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+    -webkit-transition-property: -webkit-transform;
+    transition-property: transform;
+}
+.messic-author-album-add {
+    background: url("playlist/vinyl-play.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    cursor: pointer;
+    height: 38px;
+    left: 50%;
+    margin-left: -18px;
+    margin-top: -16px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    -webkit-transition: opacity 0.45s ease-in-out 0s;
+    transition: opacity 0.45s ease-in-out 0s;
+    width: 38px;
+    z-index: 3;
+}
+#messic-author-container {
+    float:left;
+    width: 50%;
+}
+
+#messic-author-songs-container {
+    float: left;
+    margin-top: 38px;
+    width: 60%;
+}
+
+.messic-author-songs-bodyfield.messic-author-songs-body-songtrack {
+    margin-right: 10px;
+    text-align: right;
+    width: 10%;
+}
+
+.messic-author-songs-bodyrow > div {
+    float: left;
+    width: calc(90% - 10px);
+}
+
+#messic-author-songs-body {
+    font-family: roboto;
+}
+.messic-author-songs-bodyrow {
+    font-family: roboto;
+    font-size: 0.9em;
+    height: 22px;
+    overflow: hidden;
+    width: 100%;
+}
+.messic-author-songs-bodyrow:hover {
+    background: none repeat scroll 0 0 #88FFFF;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.messic-author-album-title {
+    font-family: Amaranth;
+    font-size: 1.5em;
+    width: 100%;
+}
+
+.messic-author-album-title:hover {
+    color: #0000FF;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#messic-author-plugincontainer {
+	background: none repeat scroll 0 0 #EEEEEE;
+	border-left: 3px dashed #CCCCCC;
+	border-radius: 0 54px 0 0;
+	float: right;
+	min-height: 400px;
+	padding: 17px;
+	right: 0;
+	width: calc(50% - 17px - 17px - 3px);
+	margin-top: 10px;
+}
+
+.messic-author-plugincontainer-menu {
+	display: block;
+	list-style: none outside none;
+	margin-left: -77px;
+	margin-top: 32px;
+	padding: 0;
+	position: absolute;
+	text-decoration: none;
+	width: 70px;
+}
+
+.messic-author-plugincontainer-menuitem:hover {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-right: 5px solid #4444FF;
+	margin-left: -10px;
+	opacity: 1;
+}
+
+.messic-author-plugincontainer-menuitem.messic-author-plugincontainer-menuitem-selected{
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-right: 5px solid #6666FF;
+	opacity: 1;
+}
+
+.messic-author-plugincontainer-menuitem {
+    background:#F0F0F0; /* Old browsers */
+	background: -webkit-gradient(linear, left top, right top, from(#FFFFFF), color-stop(40%, #FFFFFF), to(#EEEEEE)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: -webkit-linear-gradient(left, #FFFFFF 0%, #FFFFFF 40%, #EEEEEE 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: linear-gradient(to right, #FFFFFF 0%, #FFFFFF 40%, #EEEEEE 100%)
+		repeat scroll 0 0 rgba(0, 0, 0, 0);
+	border-bottom: 1px solid #CCCCCC;
+	border-left: 1px solid #CCCCCC;
+	border-radius: 6px 0 0 25px;
+	border-top: 1px solid #CCCCCC;
+	cursor: pointer;
+	float: left;
+	height: 50px;
+	margin-bottom: 8px;
+	opacity: 0.8;
+	overflow: hidden;
+	padding: 10px;
+	-webkit-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	-webkit-transition-property: margin-left, opacity;
+	transition-property: margin-left, opacity;
+	-webkit-transition-timing-function: ease;
+	transition-timing-function: ease;
+	width: 50px;
+}
+
+.messic-author-musicinfoplugin-icon {
+	height: 50px;
+	width: 50px;
+}
+
+.messic-author-plugincontainer-content-message {
+	color: #AFAFAF;
+	font-family: roboto;
+	font-size: 1.5em;
+	left: 50%;
+	margin-left: -170px;
+	margin-top: 103px;
+	position: relative;
+	text-align: center;
+	width: 80%;
+}
+
+.messic-author-plugincontainer-content-wait {
+	color: #888888;
+	font-family: roboto-bold;
+	left: 50%;
+	margin-left: -112px;
+	margin-top: 165px;
+	position: relative;
+	text-align: center;
+	width: 197px;
+}
+
+.messic-author-plugincontainer-content-wait:before {
+    background: url("base/339.GIF") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 60px;
+    margin-left: 67px;
+    margin-top: -66px;
+    position: absolute;
+    width: 60px;
+}

@@ -1,0 +1,84 @@
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+	<id>mac</id>
+	<formats>
+		<format>tar.gz</format>
+		<format>dir</format>
+	</formats>
+	<fileSets>
+
+		<!-- Files from Messic-Service -->
+		<fileSet>
+			<directory>../messic-service/bundles</directory>
+			<outputDirectory>/bundles</outputDirectory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../messic-service/felix</directory>
+			<outputDirectory>/felix</outputDirectory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>../messic-service/jetty</directory>
+			<outputDirectory>/jetty</outputDirectory>
+			<includes>
+				<include>etc/*</include>
+			</includes>
+		</fileSet>
+
+		<!-- Files from Local -->
+		<fileSet>
+			<directory>${project.basedir}/jvm</directory>
+			<outputDirectory>/jvm</outputDirectory>
+			<includes>
+				<include>jre-8u5-macosx-x64.tar.gz</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/bin</directory>
+			<outputDirectory>/bin</outputDirectory>
+			<includes>
+				<include>messic.sh</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>README*</include>
+				<include>LICENSE*</include>
+				<include>NOTICE*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}</directory>
+			<outputDirectory>/</outputDirectory>
+			<includes>
+				<include>*.jar</include>
+			</includes>
+		</fileSet>
+	</fileSets>
+
+	<!-- Dependencies -->
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>/classpath</outputDirectory>
+			<useProjectArtifact>false</useProjectArtifact>
+			<unpack>false</unpack>
+			<scope>runtime</scope>
+		</dependencySet>
+		<dependencySet>
+			<outputDirectory>/classpath</outputDirectory>
+			<useProjectArtifact>false</useProjectArtifact>
+			<unpack>false</unpack>
+			<scope>system</scope>
+		</dependencySet>
+	</dependencySets>
+
+</assembly>

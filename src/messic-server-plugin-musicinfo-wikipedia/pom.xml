@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<name>messic-server-plugin-musicinfo-wikipedia</name>
+	<description>music info plugin to obtain info for songs, authors and albums from wikipedia</description>
+	<packaging>bundle</packaging>
+
+	<artifactId>messic-server-plugin-musicinfo-wikipedia</artifactId>
+	<parent>
+		<groupId>org.messic</groupId>
+		<artifactId>messic</artifactId>
+		<version>1.0.0-alpha</version>
+		<relativePath>../messic/pom.xml</relativePath>
+	</parent>
+
+    <licenses>
+        <license>
+            <name>GNU General Public License, Version 3 or later</name>
+            <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+        </license>
+    </licenses>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>2.4.0</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>bundle-manifest</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${pom.groupId}.${pom.artifactId}</Bundle-SymbolicName>
+						<Bundle-Name>${pom.name}</Bundle-Name>
+						<Bundle-Version>${pom.version}</Bundle-Version>
+						
+						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+						<Embed-Directory>dependencies</Embed-Directory>
+						<Embed-Transitive>true</Embed-Transitive>
+						
+						<Bundle-Activator>org.messic.server.api.musicinfo.wikipedia.Activator</Bundle-Activator>
+						<!-- Packages that are not exported but need to be included need to 
+							be listed as Private-Package -->
+						<Private-Package>org.messic.server.api.musicinfo.wikipedia</Private-Package>
+						<!-- Automatically compute all the necessary Import-Package statements -->
+						<Import-Package>org.xml.sax;resolution:=optional,org.xml.sax.ext;resolution:=optional,org.xml.sax.helpers;resolution:=optional,org.osgi.framework,org.messic.server.api.musicinfo.service</Import-Package>
+						<!-- This bundle does not export any packages -->
+						<Export-Package />
+					</instructions>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<tasks>
+						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-service/bundles/04-messic-plugins/04-${project.build.finalName}.jar" />
+					</tasks>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.messic</groupId>
+			<artifactId>messic-server-osgiservices</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+		</dependency>
+
+	</dependencies>
+
+
+</project>
