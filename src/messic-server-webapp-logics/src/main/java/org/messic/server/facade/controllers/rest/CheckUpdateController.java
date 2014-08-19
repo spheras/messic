@@ -25,7 +25,9 @@ import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiError;
 import org.jsondoc.core.annotation.ApiErrors;
 import org.jsondoc.core.annotation.ApiMethod;
+import org.jsondoc.core.annotation.ApiParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
+import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.configuration.MessicCheckUpdate;
 import org.messic.configuration.MessicConfig;
@@ -37,6 +39,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -57,19 +60,28 @@ public class CheckUpdateController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public Update checkupdate()
+    public Update checkupdate( @RequestParam( value = "automatic", required = false )
+                               @ApiParam( name = "automatic", description = "flag to know if the check is an automatic task. If its automatic task then will apply the allow check update constraints.", paramType = ApiParamType.QUERY, required = false, format = "Boolean", allowedvalues = {
+                                   "true", "false" } )
+                               Boolean automatic )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, IOException
-    { 
+    {
 
-        MessicVersion availablemv = MessicCheckUpdate.checkUpdate();
-        MessicVersion currentmv = MessicConfig.getCurrentVersion();
-        boolean needUpdate = ( availablemv.compareTo( currentmv ) > 0 );
-        Update r = new Update( needUpdate, availablemv.sversion, currentmv.sversion );
+        MessicVersion availablemv = MessicCheckUpdate.checkUpdate( ( automatic != null ? automatic : false ) );
+        if ( availablemv != null )
+        {
+            MessicVersion currentmv = MessicConfig.getCurrentVersion();
+            boolean needUpdate = ( availablemv.compareTo( currentmv ) > 0 );
+            Update r = new Update( needUpdate, availablemv.sversion, currentmv.sversion );
 
-        log.info( "Version available at the server: " + availablemv.version );
-        log.info( "Need Update: " + needUpdate );
-
-        return r;
+            log.info( "Version available at the server: " + availablemv.version );
+            log.info( "Need Update: " + needUpdate );
+            return r;
+        }
+        else
+        {
+            return new Update( false, "", "" );
+        }
     }
 
 }

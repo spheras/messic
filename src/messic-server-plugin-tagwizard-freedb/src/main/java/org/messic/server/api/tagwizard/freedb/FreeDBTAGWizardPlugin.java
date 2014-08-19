@@ -131,7 +131,7 @@ public class FreeDBTAGWizardPlugin
             URLConnection uc = ( proxy != null ? url.openConnection( proxy ) : url.openConnection() );
             uc.setRequestProperty( "User-Agent", "Messic/1.0 +http://spheras.github.io/messic/" );
 
-            String content = new String( readInputStream( uc.getInputStream() ) );
+            String content = new String( readInputStream( uc.getInputStream() ), "UTF8" );
             if ( content.startsWith( "211" ) )
             {
                 // found!
@@ -168,7 +168,7 @@ public class FreeDBTAGWizardPlugin
 
             Album album = new Album();
             Properties p = new Properties();
-            p.load( new StringReader( new String( readInputStream( uc.getInputStream() ) ) ) );
+            p.load( new StringReader( new String( readInputStream( uc.getInputStream() ), "UTF8" ) ) );
             p.load( uc.getInputStream() );
 
             String[] authortitle = p.getProperty( "DTITLE" ).split( "/" );

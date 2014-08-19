@@ -84,7 +84,7 @@ function playlistShow(playlistSid, div) {
                         code = code + "  <div class=\"messic-albumentity-remove\" onclick=\"$(this).parent().remove();playlistEditStatus();\"></div>";
                         code = code + "  <div class=\"messic-albumentity-albumcover\" title=\"" + UtilEscapeHTML(song.album.author.name) + "\n" + UtilEscapeHTML(song.album.name) + "\n" + UtilEscapeHTML(song.name) + "\">";
                         code = code + "      <div class=\"messic-albumentity-add\"></div>";
-                        code = code + "      <img src=\"services/albums/" + song.album.sid + "/cover?messic_token=" + VAR_MessicToken + "&" + UtilGetAlbumRandom(song.album.sid) + "\"></img>";
+                        code = code + "      <img src=\"services/albums/" + song.album.sid + "/cover?preferredWidth=100&preferredHeight=100&messic_token=" + VAR_MessicToken + "&" + UtilGetAlbumRandom(song.album.sid) + "\"></img>";
                         if (!song.rate || song.rate <= 1) {
                             code = code + "      <div class=\"messic-albumentity-vinyl\"></div>";
                         } else if (song.rate == 2) {

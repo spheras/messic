@@ -381,6 +381,12 @@
 				<scope>provided</scope>
 			</dependency>
 
+
+			<dependency>
+				<groupId>net.coobird</groupId>
+				<artifactId>thumbnailator</artifactId>
+				<version>0.4.7</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

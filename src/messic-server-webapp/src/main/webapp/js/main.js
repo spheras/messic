@@ -40,7 +40,7 @@ function selectOption(optionSelected) {
 }
 
 function mainCheckUpdate() {
-    $.getJSON("services/checkupdate", function (data) {
+    $.getJSON("services/checkupdate?automatic=true", function (data) {
         if (data.needUpdate) {
             var message = messicLang.messicMessagesCheckUpdate1_2 + "<b>" + data.lastVersion + "</b>.  " + messicLang.messicMessagesCheckUpdate1_3;
             var code = '<div class="messic-main-notification">' + message + '</div>';
@@ -86,8 +86,12 @@ function initMessic() {
         swfPath: "js/vendor/jplayer",
         solution: 'html,flash',
         supplied: 'mp3',
+        volume: 1,
+        verticalVolume: true,
         formats: ['mp3'],
     });
+
+    JPlayerHackDrag_addListeners();
 
     mainCreateRandomLists();
 
@@ -467,7 +471,7 @@ function mainCreateRandomList(randomlist, lastTitleType) {
         code = code + "        <div class=\"messic-main-randomlist-menu\" title=\"" + messicLang.playlistmoreoptions + "\" onclick=\"event.stopPropagation();mainShowSongOptions(" + song.sid + ",this,$(this).parent()," + song.rate + ");\"></div>";
         code = code + "        <div class=\"messic-main-randomlist-add\" ></div>";
 
-        code = code + "        <img src=\"services/albums/" + song.album.sid + "/cover?messic_token=" + VAR_MessicToken + "&" + UtilGetAlbumRandom(song.album.sid) + "\"></img>";
+        code = code + "        <img src=\"services/albums/" + song.album.sid + "/cover?preferredWidth=100&preferredHeight=100&messic_token=" + VAR_MessicToken + "&" + UtilGetAlbumRandom(song.album.sid) + "\"></img>";
         if (!song.rate || song.rate <= 1) {
             code = code + "        <div class=\"messic-main-randomlist-vinyl\"></div>";
         } else if (song.rate == 2) {
@@ -563,13 +567,18 @@ function mainCreateRandomLists() {
 function addAlbum(albumSid) {
     $.getJSON("services/albums/" + albumSid + "?songsInfo=true&authorInfo=true", function (data) {
         for (var z = 0; z < data.songs.length; z++) {
+
+            var dontplay = (z != 0);
+
             addSong("raro",
                 UtilEscapeHTML(data.author.name),
                 data.sid,
                 UtilEscapeHTML(data.name),
                 data.songs[z].sid,
                 UtilEscapeHTML(data.songs[z].name),
-                data.songs[z].rate
+                data.songs[z].rate,
+                false,
+                dontplay
             );
         }
         UtilShowInfo(data.songs.length + " " + messicLang.songsadded);
@@ -587,7 +596,7 @@ function addSong(titleA, authorName, albumSid, albumName, songSid, songName, rat
         album: albumName,
         song: songName,
         "songRate": rate,
-        boxart: "services/albums/" + albumSid + "/cover?messic_token=" + VAR_MessicToken,
+        boxart: "services/albums/" + albumSid + "/cover?preferredWidth=100&preferredHeight=100&messic_token=" + VAR_MessicToken,
         dontplay: false
     };
 

@@ -14,7 +14,7 @@ public class MessicCheckUpdate
     public static void main( String[] args )
         throws IOException
     {
-        checkUpdate();
+        checkUpdate( false );
     }
 
     private static Proxy getProxy( MessicConfig mc )
@@ -33,14 +33,23 @@ public class MessicCheckUpdate
     }
 
     /**
-     * Check the update server to know whats the last version of messic available.
+     * Check the update server to know whats the last version of messic available. return null if is automatic and check
+     * updates are not enabled by configuration
      * 
      * @return
      * @throws IOException
      */
-    public static MessicVersion checkUpdate()
+    public static MessicVersion checkUpdate( boolean automatic )
         throws IOException
     {
+        if ( automatic )
+        {
+            MessicConfig mc = new MessicConfig();
+            if ( !mc.isCheckUpdateEnabled() )
+            {
+                return null;
+            }
+        }
         Proxy proxy = getProxy( new MessicConfig() );
 
         String sUrl = "https://raw.githubusercontent.com/spheras/messic/gh-pages/messic-version.properties";

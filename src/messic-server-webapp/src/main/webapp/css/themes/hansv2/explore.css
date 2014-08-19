@@ -63,7 +63,7 @@
     left: 50%;
     margin-left: -18px;
     margin-top: -16px;
-    opacity: 0;
+    opacity: 0.2;
     position: relative;
     top: 50%;
     -webkit-transition: opacity 0.45s ease-in-out 0s;

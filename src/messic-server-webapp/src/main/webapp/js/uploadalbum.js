@@ -796,19 +796,19 @@ var UploadAlbum = function () {
 
                                     var lastTrackNumber = divtracksP.eq(0).text();
                                     var sameTrackNumber = 0;
-                                    for (var i = 1; i < divtracksP.length; i++) {
+                                    for (var i = 0; i < divtracksP.length; i++) {
                                         var trackP = divtracksP.eq(i).text();
                                         if (trackP == lastTrackNumber) {
                                             sameTrackNumber++;
                                         }
                                     }
 
-                                    for (var i = 0; i < divtracksP.length; i++) {
+                                    for (var i = 1; i < divtracksP.length; i++) {
                                         var trackP = divtracksP.eq(i).text();
                                         var nameP = divnamesP.eq(i).text();
                                         var founded = false;
 
-                                        for (var j = 0; j < divtracksO.length; j++) {
+                                        for (var j = 0; j < divtracksO.length && !founded; j++) {
                                             var trackO = divtracksO.eq(j).val();
                                             var nameO = divnamesO.eq(j).val();
                                             //if it seems a valid track number

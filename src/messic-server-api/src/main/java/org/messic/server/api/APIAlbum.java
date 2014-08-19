@@ -18,12 +18,17 @@
  */
 package org.messic.server.api;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
@@ -67,6 +72,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class APIAlbum
 {
+    public static final String INDEX_TMP_PROPERTIES_FILENAME = "index.tmp.properties";
+
+    private Object indexTmpSemaphore = new Object();
+
     @Autowired
     private DAOMessicSettings daoSettings;
 
@@ -299,7 +308,7 @@ public class APIAlbum
         {
             if ( file.isFile() )
             {
-                if ( !isAnExceptionFile( file, exceptionFiles, replacementChar ) )
+                if ( !isAnExceptionFile( file, exceptionFiles, replacementChar ) && !file.getName().toUpperCase().equals( APIAlbum.INDEX_TMP_PROPERTIES_FILENAME.toUpperCase() ) )
                 {
                     file.delete();
                 }
@@ -329,12 +338,30 @@ public class APIAlbum
 
         org.messic.server.api.datamodel.File f = new org.messic.server.api.datamodel.File();
         f.setFileName( fileName );
-
+        String secureFileName = f.calculateSecureFileName( daoSettings.getSettings().getIllegalCharacterReplacement() );
         FileOutputStream fos =
-            new FileOutputStream( new File( basePath.getAbsolutePath() + File.separatorChar
-                + f.calculateSecureFileName( daoSettings.getSettings().getIllegalCharacterReplacement() ) ) );
+            new FileOutputStream( new File( basePath.getAbsolutePath() + File.separatorChar + secureFileName ) );
         fos.write( payload );
         fos.close();
+
+        // Now saving the index file, basically to store the original filename associated with the safe file name
+        // the original filename is important for the client, because it is the reference name of the resource
+        synchronized ( indexTmpSemaphore )
+        {
+            Properties p = new Properties();
+            File findex = new File( basePath.getAbsolutePath() + File.separatorChar + INDEX_TMP_PROPERTIES_FILENAME );
+            if ( findex.exists() )
+            {
+                FileInputStream fisIndex = new FileInputStream( findex );
+                p.load( fisIndex );
+                fisIndex.close();
+            }
+            p.setProperty( secureFileName, fileName );
+            FileOutputStream fosIndex = new FileOutputStream( findex );
+            p.store( fosIndex, "index temp properties of resources for the album" );
+            fosIndex.flush();
+            fosIndex.close();
+        }
     }
 
     public byte[] getAlbumResource( User mdouser, Long resourceSid )
@@ -366,16 +393,22 @@ public class APIAlbum
         this.daoAlbum.setAlbumCover( resourceSid, albumSid, mdouser.getSid() );
     }
 
-    public byte[] getAlbumCover( User mdouser, Long albumSid )
+    public byte[] getAlbumCover( User mdouser, Long albumSid, Integer preferredWidth, Integer preferredHeight )
         throws SidNotFoundMessicException, ResourceNotFoundMessicException, IOException
     {
-        MDOAlbumResource cover = daoAlbum.getAlbumCover( albumSid, mdouser.getLogin() );
+        MDOArtwork cover = daoAlbum.getAlbumCover( albumSid, mdouser.getLogin() );
         if ( cover != null )
         {
             String resourcePath = cover.calculateAbsolutePath( daoSettings.getSettings() );
             File ftor = new File( resourcePath );
             if ( ftor.exists() )
             {
+                if ( preferredWidth != null && preferredHeight != null )
+                {
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    Thumbnails.of( new File( resourcePath ) ).forceSize( preferredWidth, preferredHeight ).outputFormat( "png" ).toOutputStream( baos );
+                    return baos.toByteArray();
+                }
                 return Util.readFile( resourcePath );
             }
             else

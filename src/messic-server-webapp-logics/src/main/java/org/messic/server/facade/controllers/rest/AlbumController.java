@@ -267,10 +267,10 @@ public class AlbumController
         }
     }
 
-    @ApiMethod( path = "/albums/{resourceSid}/resource", verb = ApiVerb.GET, description = "Get a resource of an album", produces = { MediaType.IMAGE_JPEG_VALUE } )
+    @ApiMethod( path = "/albums/{resourceSid}/resource", verb = ApiVerb.GET, description = "Get a resource of an album", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
-        @ApiError( code = NotFoundMessicRESTException.VALUE, description = "Artwork not found" ),
+        @ApiError( code = NotFoundMessicRESTException.VALUE, description = "Resource not found" ),
         @ApiError( code = IOMessicRESTException.VALUE, description = "IO internal server error" ), } )
     @RequestMapping( value = "/{resourceSid}/resource", method = RequestMethod.GET )
     @ResponseStatus( HttpStatus.OK )
@@ -351,7 +351,13 @@ public class AlbumController
     @ApiResponseObject
     public ResponseEntity<byte[]> getAlbumCover( @PathVariable
                                                  @ApiParam( name = "albumSid", description = "SID of the album to get the cover", paramType = ApiParamType.PATH, required = true )
-                                                 Long albumSid )
+                                                 Long albumSid,
+                                                 @RequestParam( value = "preferredWidth", required = false )
+                                                 @ApiParam( name = "preferredWidth", description = "desired width for the image returned.  The service will try to provide the desired width, it is just only informative, to try to optimize the performance, avoiding to return images too much big", paramType = ApiParamType.QUERY, required = false, format = "Integer" )
+                                                 Integer preferredWidth,
+                                                 @RequestParam( value = "preferredHeight", required = false )
+                                                 @ApiParam( name = "preferredHeight", description = "desired height for the image returned.  The service will try to provide the desired height, it is just only informative, to try to optimize the performance, avoiding to return images too much big", paramType = ApiParamType.QUERY, required = false, format = "Integer" )
+                                                 Integer preferredHeight )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException,
         IOMessicRESTException
     {
@@ -359,7 +365,7 @@ public class AlbumController
         User user = SecurityUtil.getCurrentUser();
         try
         {
-            byte[] content = albumAPI.getAlbumCover( user, albumSid );
+            byte[] content = albumAPI.getAlbumCover( user, albumSid, preferredWidth, preferredHeight );
             if ( content == null || content.length == 0 )
             {
                 InputStream is = AlbumController.class.getResourceAsStream( "/org/messic/img/unknowncover.jpg" );

@@ -19,11 +19,13 @@
 package org.messic.server.api;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.User;
@@ -49,7 +51,7 @@ public class APITagWizard
 
     @Autowired
     private DAOUser daoUser;
-    
+
     @Autowired
     private TAGWizard tagWizard;
 
@@ -120,10 +122,20 @@ public class APITagWizard
             }
         }
 
-        File tmpPath = new File( mdouser.calculateTmpPath( daoSettings.getSettings(), albumCode ) );
+        String basePath = mdouser.calculateTmpPath( daoSettings.getSettings(), albumCode );
+        File tmpPath = new File( basePath );
         File[] files = tmpPath.listFiles();
 
-        org.messic.server.api.datamodel.TAGWizardPlugin basicPlugin = this.tagWizard.getAlbumWizard( user, null, files );
+        Properties indexProps = new Properties();
+        File findex = new File( basePath + File.separatorChar + APIAlbum.INDEX_TMP_PROPERTIES_FILENAME );
+        if ( findex.exists() )
+        {
+            FileInputStream fisIndex = new FileInputStream( findex );
+            indexProps.load( fisIndex );
+            fisIndex.close();
+        }
+
+        org.messic.server.api.datamodel.TAGWizardPlugin basicPlugin = this.tagWizard.getAlbumWizard( user, null, files , indexProps);
         result.add( 0, basicPlugin );
 
         return result;
@@ -137,11 +149,12 @@ public class APITagWizard
         File basePath = new File( mdouser.calculateTmpPath( daoSettings.getSettings(), albumCode ) );
         File[] files = basePath.listFiles();
 
-        org.messic.server.api.datamodel.TAGWizardPlugin result = this.tagWizard.getAlbumWizard( albumHelpInfo, files, pluginName );
+        org.messic.server.api.datamodel.TAGWizardPlugin result =
+            this.tagWizard.getAlbumWizard( albumHelpInfo, files, pluginName );
 
         List<Album> albums = result.getAlbums();
         final int theoricalNumberSongs = albumHelpInfo.getSongs().size();
-        final String name=albumHelpInfo.getName();
+        final String name = albumHelpInfo.getName();
         Comparator<Album> AlbumComparator = new Comparator<Album>()
         {
             public int compare( Album album1, Album album2 )
@@ -149,10 +162,13 @@ public class APITagWizard
                 // the same number of songs is important
                 if ( album1.getSongs().size() == album2.getSongs().size() )
                 {
-                    //if have the same number of songs... lets see if they correspond to the info suggested
-                    if(album1.getName().equals( name )){
+                    // if have the same number of songs... lets see if they correspond to the info suggested
+                    if ( album1.getName().equals( name ) )
+                    {
                         return -1;
-                    }else{
+                    }
+                    else
+                    {
                         return 1;
                     }
                 }
@@ -161,10 +177,13 @@ public class APITagWizard
                     // the most near to the number of theorical numer songs
                     int album1rest = Math.abs( theoricalNumberSongs - album1.getSongs().size() );
                     int album2rest = Math.abs( theoricalNumberSongs - album2.getSongs().size() );
-                    if(album1rest<album2rest){
+                    if ( album1rest < album2rest )
+                    {
                         return -1;
-                    }else{
-                        return 1;   
+                    }
+                    else
+                    {
+                        return 1;
                     }
                 }
             }

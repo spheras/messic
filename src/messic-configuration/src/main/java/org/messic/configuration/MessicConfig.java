@@ -35,6 +35,8 @@ public class MessicConfig
 
     public static final String MESSIC_TIMEOUT = "messic-timeout";
 
+    public static final String MESSIC_CHECKUPDATE = "messic-checkupdate";
+
     public static final String configurationFilePath = "./conf";
 
     public static final String configurationFileName = "config.properties";
@@ -320,6 +322,20 @@ public class MessicConfig
         }
 
         return timeout;
+    }
+
+    public boolean isCheckUpdateEnabled()
+    {
+        String messicCheckupdate = getConfiguration().getProperty( MESSIC_CHECKUPDATE );
+        try
+        {
+            boolean checkupdate = Boolean.valueOf( messicCheckupdate );
+            return checkupdate;
+        }
+        catch ( Exception e )
+        {
+            return true;
+        }
     }
 
     /**

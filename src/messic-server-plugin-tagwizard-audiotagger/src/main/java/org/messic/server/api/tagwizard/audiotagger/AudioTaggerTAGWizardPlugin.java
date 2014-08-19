@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.AudioFile;
@@ -180,13 +181,13 @@ public class AudioTaggerTAGWizardPlugin
         AudioFileIO.write( f );
     }
 
-    public List<SongTags> getTags( Album album, File[] f, Song[] songsWizard )
+    public List<SongTags> getTags( Album album, File[] files, Song[] songsWizard, Properties indexProp )
     {
         // first, obtain the tags
         ArrayList<SongTags> tags = new ArrayList<SongTags>();
-        for ( int i = 0; i < f.length; i++ )
+        for ( int i = 0; i < files.length; i++ )
         {
-            if ( f[i].getName().equals( ".index" ) )
+            if ( files[i].getName().equals( "index.tmp.properties" ) )
             {
                 continue;
             }
@@ -194,7 +195,7 @@ public class AudioTaggerTAGWizardPlugin
             Tag tag = null;
             try
             {
-                audioFile = AudioFileIO.read( f[i] );
+                audioFile = AudioFileIO.read( files[i] );
                 tag = audioFile.getTag();
             }
             catch ( TagException e )
@@ -223,7 +224,8 @@ public class AudioTaggerTAGWizardPlugin
             if ( tag != null )
             {
                 SongTags ti = new SongTags();
-                ti.filename = f[i].getName();
+                //instead of putting the server filename (safe filename), we put the original client filename stored at the index file 
+                ti.filename = indexProp.getProperty( files[i].getName() );
                 String artist = tag.getFirst( FieldKey.ARTIST );
                 String composer = tag.getFirst( FieldKey.COMPOSER );
                 if ( artist.length() < composer.length() )
@@ -288,7 +290,7 @@ public class AudioTaggerTAGWizardPlugin
                 ti.tags.put( TAGInfo.GENRE, new TAGInfo( "" ) );
                 ti.track = "" + songsWizard[i].track;
                 ti.title = songsWizard[i].name;
-                ti.filename = f[i].getName();
+                ti.filename = files[i].getName();
                 tags.add( ti );
             }
         }

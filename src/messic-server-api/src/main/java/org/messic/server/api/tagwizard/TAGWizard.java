@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import org.messic.configuration.MessicConfig;
 import org.messic.server.api.APISong;
@@ -177,23 +178,23 @@ public class TAGWizard
 
     }
 
-    public org.messic.server.api.datamodel.TAGWizardPlugin getAlbumWizard( User user, Album albumHelpInfo, File[] f )
+    public org.messic.server.api.datamodel.TAGWizardPlugin getAlbumWizard( User user, Album albumHelpInfo, File[] files, Properties indexProps )
         throws IOException
     {
         AudioTaggerTAGWizardPlugin plugin = new AudioTaggerTAGWizardPlugin();
 
         org.messic.server.api.tagwizard.service.Song[] ssongs =
-            new org.messic.server.api.tagwizard.service.Song[f.length];
-        for ( int i = 0; i < f.length; i++ )
+            new org.messic.server.api.tagwizard.service.Song[files.length];
+        for ( int i = 0; i < files.length; i++ )
         {
-            Song sdiscovered = apiSong.getSongInfoFromFileName( f[i].getName() );
+            Song sdiscovered = apiSong.getSongInfoFromFileName( files[i].getName() );
             org.messic.server.api.tagwizard.service.Song sservice = new org.messic.server.api.tagwizard.service.Song();
             sservice.track = sdiscovered.getTrack();
             sservice.name = sdiscovered.getName();
             ssongs[i] = sservice;
         }
 
-        List<SongTags> tags = plugin.getTags( getServiceAlbum( albumHelpInfo ), f, ssongs );
+        List<SongTags> tags = plugin.getTags( getServiceAlbum( albumHelpInfo ), files, ssongs, indexProps);
         if ( tags == null )
         {
             tags = new ArrayList<SongTags>();

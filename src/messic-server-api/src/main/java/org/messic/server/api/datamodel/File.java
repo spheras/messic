@@ -38,7 +38,7 @@ public class File
     @ApiObjectField( description = "temporal code for the resource" )
     private String code;
 
-    @ApiObjectField( description = "fileName for the resource" )
+    @ApiObjectField( description = "fileName for the resource at the server" )
     private String fileName;
 
     @ApiObjectField( description = "Size of the file" )

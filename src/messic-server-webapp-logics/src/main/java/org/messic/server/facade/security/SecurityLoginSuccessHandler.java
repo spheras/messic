@@ -28,7 +28,9 @@ import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiError;
 import org.jsondoc.core.annotation.ApiErrors;
 import org.jsondoc.core.annotation.ApiMethod;
+import org.jsondoc.core.annotation.ApiParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
+import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.server.api.datamodel.Login;
 import org.messic.server.facade.controllers.rest.exceptions.UnknownMessicRESTException;
@@ -52,7 +54,10 @@ public class SecurityLoginSuccessHandler
     @ApiMethod( path = "/messiclogin", verb = ApiVerb.POST, description = "process login", produces = { MediaType.APPLICATION_JSON_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ) } )
     @ApiResponseObject
-    public void onAuthenticationSuccess( HttpServletRequest request, HttpServletResponse response, Authentication auth )
+    public void onAuthenticationSuccess( @ApiParam( name = "j_username", description = "username to login", paramType = ApiParamType.QUERY, required = true )
+                                         HttpServletRequest request,
+                                         @ApiParam( name = "j_password", description = "password to login", paramType = ApiParamType.QUERY, required = true )
+                                         HttpServletResponse response, Authentication auth )
         throws IOException, ServletException
     {
 

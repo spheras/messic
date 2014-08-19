@@ -73,19 +73,19 @@
             <div id="messic-login-window" style="display:none">
                 <div class="messic-login-form-container">
                     <div class="messic-form">
-                        <h1><fmt:message key="login-welcome" bundle="${ message }"/></h1>
-                        <!--  TODO <a href="/restpassword"><fmt:message key="login-forgot" bundle="${ message }"/></a> -->
+                        <h1><fmt:message key="login-welcome" bundle="${message}"/></h1>
+                        <!--  TODO <a href="/restpassword"><fmt:message key="login-forgot" bundle="${message}"/></a> -->
                         <form id="messic-login-form" class="login-form-style">
                             <ul>
                                 <li>
                                     <label for="username" class="login-form-label">
-                                        <fmt:message key="login-username" bundle="${ message }" />
+                                        <fmt:message key="login-username" bundle="${message}" />
                                     </label>
                                     <input id="username" name="j_username" type="text" value="" autofocus>
                                 </li>
                                 <li>
                                     <label for="password" class="login-form-label">
-                                        <fmt:message key="login-password" bundle="${ message }" />
+                                        <fmt:message key="login-password" bundle="${message}" />
                                     </label>
                                     <input id="password" name="j_password" type="password" value="" />
                                 </li>
@@ -94,12 +94,12 @@
                         <div class="checkboxcontainer">
                             <input id="messic_login_rememberme" type="checkbox" />
                             <label for="messic_login_rememberme" class="login-form-label">
-                                <fmt:message key="login-rememberme" bundle="${ message }" />
+                                <fmt:message key="login-rememberme" bundle="${message}" />
                             </label>
                             <div class="divclearer"></div>
                         </div>
                         <button id="messic-login-button" class="button play">
-                            <fmt:message key="login-button" bundle="${ message }" />
+                            <fmt:message key="login-button" bundle="${message}" />
                         </button>
                         <div id="messic-login-logo"></div>
                     </div>
@@ -107,15 +107,15 @@
                 <% boolean allowCreation=(Boolean)request.getAttribute( "allowUserCreation"); if(allowCreation){ %>
                     <div class="messic-login-new-account-container">
                         <div class="messic-form">
-                            <h1><fmt:message key="login-newaccount" bundle="${ message }"/></h1>
+                            <h1><fmt:message key="login-newaccount" bundle="${message}"/></h1>
                             <label>
-                                <fmt:message key="login-newaccount-explanation1" bundle="${ message }" />
+                                <fmt:message key="login-newaccount-explanation1" bundle="${message}" />
                             </label>
                             <label>
-                                <fmt:message key="login-newaccount-explanation2" bundle="${ message }" />
+                                <fmt:message key="login-newaccount-explanation2" bundle="${message}" />
                             </label>
                             <button id="newAccount" class="button spark">
-                                <fmt:message key="login-newaccount-button" bundle="${ message }" />
+                                <fmt:message key="login-newaccount-button" bundle="${message}" />
                             </button>
                         </div>
                     </div>
@@ -156,6 +156,7 @@
             <script src="js/jquery.confirm.js?timestamp=${timestamp}"></script>
             <script src="js/about.js?timestamp=${timestamp}"></script>
             <script src="js/jquery.longpress.js?timestamp=${timestamp}"></script>
+            <script src="js/jplayer-hack-drag.js?timestamp=${timestamp}"></script>
 
             <% boolean firstTime=(Boolean)request.getAttribute( "firstTime"); if(firstTime){%>
                 <script type="text/javascript">
