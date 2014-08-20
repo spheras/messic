@@ -22,7 +22,7 @@
                     <div id="messic-top-openmenu" onclick="mainOpenTopMenu()"></div>
                     <div id="messic-top-background">
                         <form id="messic-search-form">
-                            <input type="text" id="messic-search-text" placeholder="<fmt:message key=" main-search " bundle="${message}"/>"></input>
+                            <input type="text" id="messic-search-text" placeholder="<fmt:message key="main-search" bundle="${message}"/>"></input>
                             <a href="#" id="messic-search-do"></a>
                             <a id="messic-main-logout">
                                 <fmt:message key="main-logout" bundle="${message}" />
@@ -77,10 +77,10 @@
                     <div id="messic-playlist-open" onclick="mainOpenPlaylistMenu()"></div>
 
                     <div id="messic-playlist-actions">
-                        <div id="messic-playlist-action-clear" class="messic-playlist-action" title="<fmt:message key=" main-currentplaylist-action-clear " bundle="${message}"/>" onclick="clearPlaylist()"></div>
-                        <div id="messic-playlist-action-fx" class="messic-playlist-action" title="<fmt:message key=" main-currentplaylist-action-fx " bundle="${message}"/>" onclick="showFx()"></div>
-                        <div id="messic-playlist-action-download" class="messic-playlist-action" title="<fmt:message key=" main-currentplaylist-action-download " bundle="${message}"/>" onclick="downloadCurrentPlaylist()"></div>
-                        <div id="messic-playlist-action-love" class="messic-playlist-action" title="<fmt:message key=" main-currentplaylist-action-love " bundle="${message}"/>" onclick="loveCurrentPlaylist()"></div>
+                        <div id="messic-playlist-action-clear" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-clear" bundle="${message}"/>" onclick="clearPlaylist()"></div>
+                        <div id="messic-playlist-action-fx" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-fx" bundle="${message}"/>" onclick="showFx()"></div>
+                        <div id="messic-playlist-action-download" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-download" bundle="${message}"/>" onclick="downloadCurrentPlaylist()"></div>
+                        <div id="messic-playlist-action-love" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-love" bundle="${message}"/>" onclick="loveCurrentPlaylist()"></div>
                     </div>
 
 
@@ -112,16 +112,16 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="jp-time-holder"> <span class="jp-current-time">00:00</span>&nbsp;/&nbsp;<span class="jp-duration">04:27</span> 
+                                <div class="jp-time-holder"> <span class="jp-current-time">00:00</span><span class="jp-duration">04:27</span> 
                                 </div>
                                 <ul class="jp-toggles">
-                                    <li><a title="random on" tabindex="1" class="jp-shuffle" href="javascript:;">random on</a>
+                                    <li><a title="random off" tabindex="1" class="jp-shuffle" href="javascript:;"></a>
                                     </li>
-                                    <li><a title="random off" tabindex="1" class="jp-shuffle-off" href="javascript:;" style="display: none;">random off</a>
+                                    <li><a title="random on" tabindex="1" class="jp-shuffle-off" href="javascript:;" style="display: none;"></a>
                                     </li>
-                                    <li><a title="repeat on" tabindex="1" class="jp-repeat" href="javascript:;">repeat on</a>
+                                    <li><a title="repeat off" tabindex="1" class="jp-repeat" href="javascript:;"></a>
                                     </li>
-                                    <li><a title="repeat off" tabindex="1" class="jp-repeat-off" href="javascript:;" style="display: none;">repeat off</a>
+                                    <li><a title="repeat on" tabindex="1" class="jp-repeat-off" href="javascript:;" style="display: none;"></a>
                                     </li>
                                 </ul>
                             </div>

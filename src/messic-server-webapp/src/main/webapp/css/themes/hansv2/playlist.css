@@ -179,7 +179,7 @@
 #jquery_jplayer_content {
     bottom: 118px;
     left: 50%;
-    margin-left: -210px;
+    margin-left: -160px;
     position: absolute;
     z-index: 1000;
     -webkit-animation-name: messic-jplayer-fadeout-anim;

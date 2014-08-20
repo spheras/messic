@@ -19,7 +19,7 @@
 			<div class="messic-author-title">${messic:escapeHTML(author.name)}</div>
 			<div id="messic-author-menuoption-remove"
 				class="messic-author-menuoption"
-				title="<fmt:message key=" author-removeauthor-title " bundle="${message}"/>"
+				title="<fmt:message key="author-removeauthor-title" bundle="${message}"/>"
 				onclick="authorRemove(${messic:escapeAll(author.sid)})"></div>
 			<div class="divclearer"></div>
 		</div>
@@ -30,7 +30,7 @@
 					<div class="messic-author-album-covercontainer">
 						<div class="messic-author-album-add"
 							onclick="addAlbum(${messic:escapeAll(album.sid)})"
-							title="<fmt:message key=" album-addalbum-title " bundle="${message}"/>"></div>
+							title="<fmt:message key="album-addalbum-title" bundle="${message}"/>"></div>
 						<img
 							src="services/albums/${album.sid}/cover?messic_token=${token}&<%=new Date().getTime()%>"
 							onclick="albumShowCover('${messic:escapeAll(album.sid)}')" />
@@ -58,7 +58,7 @@
 			<ul class="messic-author-plugincontainer-menu">
 				<c:forEach var="plugin" items="${plugins}">
 					<li
-						title="<fmt:message key=" album-plugincontainer-plugintitle " bundle="${message}"/> ${messic:escapeHTML(plugin.getProviderName())}"
+						title="<fmt:message key="album-plugincontainer-plugintitle" bundle="${message}"/> ${messic:escapeHTML(plugin.getProviderName())}"
 						class="messic-author-plugincontainer-menuitem"
 						onclick="authorShowAuthorInfo('${messic:escapeAll(author.name)}','${messic:escapeAll(plugin.getName())}',this)">
 						<img class="messic-author-musicinfoplugin-icon"

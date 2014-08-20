@@ -32,7 +32,7 @@ div.jp-video {
 */
 }
 div.jp-audio {
-    width: 300px;
+    width: 320px;
 }
 div.jp-audio-stream {
     width: 182px;
@@ -101,6 +101,7 @@ div.jp-interface:after {
     right: -46px;
     top: 0;
     width: 46px;
+    z-index: -1;
 }
 div.jp-interface {
     background: url("playlist/actions-base.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -421,14 +422,22 @@ div.jp-audio div.jp-type-single div.jp-time-holder {
     width: 186px;
 }
 div.jp-audio div.jp-type-playlist div.jp-time-holder {
-    left: 100px;
-    width: 130px;
+    left: 97px;
+    width: 133px;
 }
 div.jp-current-time,
 div.jp-duration {
     width: 60px;
     font-size: .64em;
     font-style: oblique;
+}
+span.jp-current-time {
+    color: #88ff00;
+    float: left;
+    text-shadow: 0 0 2px rgba(100, 255, 0, 1);
+}
+span.jp-duration {
+    color: #111111;
 }
 div.jp-current-time {
     float: left;
@@ -617,8 +626,8 @@ div.jp-audio .jp-type-playlist ul.jp-toggles {
     width: 55px;
     margin: 0;
     position: absolute;
-    left: 325px;
-    top: 50px;
+    left: 299px;
+    top: 2px;
 }
 div.jp-video ul.jp-toggles {
     margin-top: 10px;
@@ -626,13 +635,13 @@ div.jp-video ul.jp-toggles {
 }
 ul.jp-toggles li {
     display: block;
-    float: right;
+    float: left;
 }
 ul.jp-toggles li a {
     display: block;
-    width: 25px;
-    height: 18px;
+    height: 28px;
     text-indent: -9999px;
+    width: 38px;
     line-height: 100%;
     /* need this for IE6 */
 }
@@ -651,30 +660,42 @@ a.jp-restore-screen:hover {
     background: url("jplayer.blue.monday.png") -90px -310px no-repeat;
 }
 a.jp-repeat {
-    background: url("jplayer.blue.monday.png") 0 -290px no-repeat;
+	background: url("playlist/newplayer-controllers-extra.png") 0 0 no-repeat;
+    margin-top: -6px;
 }
 a.jp-repeat:hover {
-    background: url("jplayer.blue.monday.png") -30px -290px no-repeat;
+	background: url("playlist/newplayer-controllers-extra.png") no-repeat scroll -38px 0 rgba(0, 0, 0, 0);
+}
+a.jp-repeat:hover:active {
+	background: url("playlist/newplayer-controllers-extra.png") no-repeat scroll -76px 0 rgba(0, 0, 0, 0);
 }
 a.jp-repeat-off {
-    background: url("jplayer.blue.monday.png") -60px -290px no-repeat;
+	background: url("playlist/newplayer-controllers-extra.png") no-repeat scroll -76px 0 rgba(0, 0, 0, 0);
+	margin-top: -6px;
 }
 a.jp-repeat-off:hover {
-    background: url("jplayer.blue.monday.png") -90px -290px no-repeat;
+	background: url("playlist/newplayer-controllers-extra.png") no-repeat scroll -76px 0 rgba(0, 0, 0, 0);
+}
+a.jp-repeat-off:active {
+	background: url("playlist/newplayer-controllers-extra.png") no-repeat scroll -76px 0 rgba(0, 0, 0, 0);
 }
 a.jp-shuffle {
-    background: url("jplayer.blue.monday.png") 0 -270px no-repeat;
-    margin-left: 5px;
+    background: url("playlist/newplayer-controllers-extra.png") 0px -28px no-repeat;
 }
 a.jp-shuffle:hover {
-    background: url("jplayer.blue.monday.png") -30px -270px no-repeat;
+    background: url("playlist/newplayer-controllers-extra.png") -38px -28px no-repeat;
+}
+a.jp-shuffle:hover:active {
+    background: url("playlist/newplayer-controllers-extra.png") -76px -28px no-repeat;
 }
 a.jp-shuffle-off {
-    background: url("jplayer.blue.monday.png") -60px -270px no-repeat;
-    margin-left: 5px;
+    background: url("playlist/newplayer-controllers-extra.png") 0px -28px no-repeat;
 }
 a.jp-shuffle-off:hover {
-    background: url("jplayer.blue.monday.png") -90px -270px no-repeat;
+    background: url("playlist/newplayer-controllers-extra.png") -38px -28px no-repeat;
+}
+a.jp-shuffle-off:hover:active {
+    background: url("playlist/newplayer-controllers-extra.png") -76px -28px no-repeat;
 }
 /* @end */
 

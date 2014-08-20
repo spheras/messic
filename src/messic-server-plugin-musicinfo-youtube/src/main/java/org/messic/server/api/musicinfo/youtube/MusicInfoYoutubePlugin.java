@@ -216,8 +216,8 @@ public class MusicInfoYoutubePlugin
                                 htmlCode
                                     + "<div class=\"messic-musicinfo-youtube-item\"><img src=\""
                                     + yi.thumbnail
-                                    + "\"/><div class=\"messic-musicinfo-youtube-item-play\" onclick=\"musicInfoYoutubePlay(\""
-                                    + yi.id + "\")\"></div>"
+                                    + "\"/><div class=\"messic-musicinfo-youtube-item-play\" onclick=\"musicInfoYoutubePlay('"
+                                    + yi.id + "')\"></div>"
                                     +"<div class=\"messic-musicinfo-youtube-description\">"
                                     +"  <div class=\"messic-musicinfo-youtube-item-title\">" + yi.title + "</div>"
                                     +"  <div class=\"messic-musicinfo-youtube-item-description\">" + yi.description + "</div>"

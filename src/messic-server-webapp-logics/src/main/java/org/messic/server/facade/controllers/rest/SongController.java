@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 
 import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
@@ -35,6 +36,7 @@ import org.jsondoc.core.annotation.ApiParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
 import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
+import org.messic.server.Util;
 import org.messic.server.UtilSubInputStream;
 import org.messic.server.api.APIAlbum;
 import org.messic.server.api.APIAuthor;
@@ -148,7 +150,7 @@ public class SongController
                                    @RequestParam( value = "dlna", required = false )
                                    @ApiParam( name = "dlna", description = "flag to know if it is a dlna petition.  DLNA petitions should return specific headers. By default is false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
                                        "true", "false" }, format = "Boolean" )
-                                   Boolean dlna, HttpServletRequest request )
+                                   Boolean dlna, HttpServletRequest request, HttpServletResponse response )
         throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException
     {
         User user = SecurityUtil.getCurrentUser();
@@ -173,6 +175,14 @@ public class SongController
                 headers.add( "realTimeInfo.dlna.org", "DLNA.ORG_TLAG=*" );
                 headers.setDate( System.currentTimeMillis() );
             }
+
+//            String userAgent = request.getHeader( "User-Agent" );
+//            if ( userAgent.toUpperCase().contains( "CHROME" ) )
+//            {
+//                APISong.AudioSongStream ass = songAPI.getAudioSong( user, songSid );
+//                byte[] content = Util.readInputStream( ass.is );
+//                return new ResponseEntity<byte[]>( content, headers, HttpStatus.OK );
+//            }
 
             if ( request.getHeader( "Range" ) == null )
             {
