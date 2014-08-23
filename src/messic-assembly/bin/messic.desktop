@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=messic
+Comment=v1.0
+Terminal = false
+Type=Application
+Exec=bash -c "cd ABSOLUTE_PATH_TO_MESSIC && ./bin/messic.sh"
+Icon=ABSOLUTE_PATH_TO_MESSIC/bin/messic-icon.png
+Categories = Audio;Player;;

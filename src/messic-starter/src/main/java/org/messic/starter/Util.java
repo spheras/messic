@@ -32,11 +32,24 @@ import com.mkyong.core.OSValidator;
 
 public class Util
 {
+    public static void main( String[] args )
+        throws Exception
+    {
+        String internal = getMessicInternalURL();
+        System.out.println( internal );
+    }
+
     public static String getMessicInternalURL()
         throws Exception
     {
         String port = getCurrentPort();
-        return ( isSecured() ? "https" : "http" ) + "://" + getInternalIp() + ":" + port + "/messic";
+        String internalIP = getInternalIp();
+        if ( internalIP.length() > "255.255.255.255".length() )
+        {
+            //ipv6??? TODO
+            internalIP = "127.0.0.1";
+        }
+        return ( isSecured() ? "https" : "http" ) + "://" + internalIP + ":" + port + "/messic";
     }
 
     /**
@@ -438,10 +451,23 @@ public class Util
 
             String classpath = getClasspath( OSValidator.isWindows() );
 
-            System.out.println( "./bin/jre1.8.0_05/bin/java " + "-cp \"" + classpath
-                + "\" org.messic.service.MessicMain" );
             String[] params = null;
             String paramJava = "./bin/jre1.8.0_05/bin/java";
+            if ( OSValidator.isUnix() )
+            {
+                File ftest1 = new File( "./bin/jre1.8.0_05-x64" );
+                String arch = System.getProperty( "os.arch" );
+                if ( arch.indexOf( "64" ) >= 0 && ftest1.exists() )
+                {
+                    // maybe we are using x64
+                    paramJava = "./bin/jre1.8.0_05-x64/bin/java";
+                }
+            }
+            else if ( OSValidator.isMac() )
+            {
+                paramJava = "./bin/jre1.8.0_05.jre/Contents/Home/bin/java";
+            }
+
             String paramCP = "-cp";
             String paramMainClass = "org.messic.service.MessicMain";
             String paramMusicFolder = mc.getMusicFolder();
@@ -456,7 +482,10 @@ public class Util
             }
             else
             {
-                params = new String[] { paramJava, paramCP, classpath, paramMainClass, paramMusicFolder ,"&"};
+                String sparams =
+                    paramJava + " " + paramCP + " " + classpath + " " + paramMainClass + " \"" + paramMusicFolder
+                        + "\"";
+                params = new String[] { "bash", "-c", "nohup " + sparams + " &" };
             }
 
             final File fFlagStarted = new File( "./conf/messicStarted" );
@@ -466,126 +495,129 @@ public class Util
             }
 
             final Process p = Runtime.getRuntime().exec( params );
+            // final Process p = Runtime.getRuntime().exec( params );
 
-            if ( OSValidator.isWindows() )
+            // finally, the service process is completely detached in windows, mac and linux. So we cann't get the
+            // terminal output
+            // if ( OSValidator.isWindows() || true)
+            // {
+            Thread tWait = new Thread()
             {
-                Thread tWait = new Thread()
+                public void run()
                 {
-                    public void run()
+                    try
                     {
-                        try
+                        while ( !fFlagStarted.exists() )
                         {
-                            while ( !fFlagStarted.exists() )
-                            {
-                                Thread.sleep( 500 );
-                            }
-                            if ( observer != null )
-                            {
-                                observer.messicLaunched();
-                            }
-                            Thread.sleep( 1000 );
+                            Thread.sleep( 500 );
                         }
-                        catch ( InterruptedException e )
+                        if ( observer != null )
                         {
-                            e.printStackTrace();
-                            if ( observer != null )
-                            {
-                                observer.messicLaunched();
-                            }
+                            observer.messicLaunched();
                         }
-                    };
-                };
-                tWait.start();
-            }
-            else
-            {
-                Thread tErrorStream = new Thread()
-                {
-                    public void run()
+                        Thread.sleep( 1000 );
+                    }
+                    catch ( InterruptedException e )
                     {
-                        InputStream is = p.getErrorStream();
-
-                        StringBuffer sb = new StringBuffer();
-                        byte[] buffer = new byte[1024];
-                        int cant = 0;
-                        try
+                        e.printStackTrace();
+                        if ( observer != null )
                         {
-                            cant = is.read( buffer );
+                            observer.messicLaunched();
                         }
-                        catch ( IOException e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                        boolean ended = false;
-                        while ( cant > 0 && ended == false )
-                        {
-                            String news = new String( buffer, 0, cant );
-                            sb.append( news );
-                            System.out.print( news );
-                            try
-                            {
-                                cant = is.read( buffer );
-                            }
-                            catch ( IOException e )
-                            {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                        }
-                    };
+                    }
                 };
-                tErrorStream.start();
-
-                Thread tInputStream = new Thread()
-                {
-                    public void run()
-                    {
-                        InputStream is = p.getInputStream();
-
-                        StringBuffer sb = new StringBuffer();
-                        byte[] buffer = new byte[1024];
-                        int cant = 0;
-                        try
-                        {
-                            cant = is.read( buffer );
-                        }
-                        catch ( IOException e )
-                        {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                        boolean ended = false;
-                        boolean launched = false;
-                        while ( cant > 0 && ended == false )
-                        {
-                            String news = new String( buffer, 0, cant );
-                            sb.append( news );
-                            if ( sb.indexOf( "[MESSIC] Service started" ) >= 0 )
-                            {
-                                if ( observer != null & !launched )
-                                {
-                                    observer.messicLaunched();
-                                    launched = true;
-                                }
-                            }
-                            System.out.print( news );
-                            try
-                            {
-                                cant = is.read( buffer );
-                            }
-                            catch ( IOException e )
-                            {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                            }
-                        }
-                    };
-
-                };
-                tInputStream.start();
-
-            }
+            };
+            tWait.start();
+            // }
+            // else
+            // {
+            // Thread tErrorStream = new Thread()
+            // {
+            // public void run()
+            // {
+            // InputStream is = p.getErrorStream();
+            //
+            // StringBuffer sb = new StringBuffer();
+            // byte[] buffer = new byte[1024];
+            // int cant = 0;
+            // try
+            // {
+            // cant = is.read( buffer );
+            // }
+            // catch ( IOException e )
+            // {
+            // // TODO Auto-generated catch block
+            // e.printStackTrace();
+            // }
+            // boolean ended = false;
+            // while ( cant > 0 && ended == false )
+            // {
+            // String news = new String( buffer, 0, cant );
+            // sb.append( news );
+            // System.out.print( news );
+            // try
+            // {
+            // cant = is.read( buffer );
+            // }
+            // catch ( IOException e )
+            // {
+            // // TODO Auto-generated catch block
+            // e.printStackTrace();
+            // }
+            // }
+            // };
+            // };
+            // tErrorStream.start();
+            //
+            // Thread tInputStream = new Thread()
+            // {
+            // public void run()
+            // {
+            // InputStream is = p.getInputStream();
+            //
+            // StringBuffer sb = new StringBuffer();
+            // byte[] buffer = new byte[1024];
+            // int cant = 0;
+            // try
+            // {
+            // cant = is.read( buffer );
+            // }
+            // catch ( IOException e )
+            // {
+            // // TODO Auto-generated catch block
+            // e.printStackTrace();
+            // }
+            // boolean ended = false;
+            // boolean launched = false;
+            // while ( cant > 0 && ended == false )
+            // {
+            // String news = new String( buffer, 0, cant );
+            // sb.append( news );
+            // if ( sb.indexOf( "[MESSIC] Service started" ) >= 0 )
+            // {
+            // if ( observer != null & !launched )
+            // {
+            // observer.messicLaunched();
+            // launched = true;
+            // }
+            // }
+            // System.out.print( news );
+            // try
+            // {
+            // cant = is.read( buffer );
+            // }
+            // catch ( IOException e )
+            // {
+            // // TODO Auto-generated catch block
+            // e.printStackTrace();
+            // }
+            // }
+            // };
+            //
+            // };
+            // tInputStream.start();
+            //
+            // }
 
         }
         else

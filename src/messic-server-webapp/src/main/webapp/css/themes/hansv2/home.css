@@ -220,10 +220,10 @@
     cursor: pointer;
     height: 24px;
     margin-left: 77px;
-    margin-top: 9px;
+    margin-top: -2px;
     opacity: 1;
     /* for those devices without hover event */
-    position: absolute;
+    position: relative;
     top: 0;
     -webkit-transition: opacity 0.45s ease-in-out 0s;
     transition: opacity 0.45s ease-in-out 0s;
@@ -238,7 +238,7 @@
     height: 38px;
     left: 50%;
     margin-left: -18px;
-    margin-top: -16px;
+    margin-top: -38px;
     opacity: 0.2;
     position: relative;
     top: 50%;
@@ -440,8 +440,8 @@
     border: 4px solid #666;
     border-radius: 10px;
     height: 31px;
-    margin-left: -31px;
-    margin-top: -51px;
+    margin-left: -22px;
+    margin-top: -60px;
     padding: 5px;
     position: absolute;
     width: 165px;

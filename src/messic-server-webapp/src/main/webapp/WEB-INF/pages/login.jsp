@@ -69,6 +69,8 @@
             <!--[if lt IE 11]>
 	            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	        <![endif]-->
+	        
+	        
             <label class="messic-login-version">${version}</label>
             <div id="messic-login-window" style="display:none">
                 <div class="messic-login-form-container">

@@ -31,6 +31,11 @@
 				<include>etc/*</include>
 			</includes>
 		</fileSet>
+		<fileSet>
+			<directory>${project.basedir}/bin/messic.app</directory>
+			<outputDirectory>/messic.app</outputDirectory>
+		</fileSet>
+
 
 		<!-- Files from Local -->
 		<fileSet>
@@ -38,13 +43,6 @@
 			<outputDirectory>/jvm</outputDirectory>
 			<includes>
 				<include>jre-8u5-macosx-x64.tar.gz</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>${project.basedir}/bin</directory>
-			<outputDirectory>/bin</outputDirectory>
-			<includes>
-				<include>messic.sh</include>
 			</includes>
 		</fileSet>
 		<fileSet>
@@ -64,6 +62,30 @@
 			</includes>
 		</fileSet>
 	</fileSets>
+	<files>
+		<file>
+			<source>./bin/messic-macapp.sh</source>
+			<outputDirectory>./messic.app/Contents/MacOS</outputDirectory>
+			<destName>messic</destName>
+			<fileMode>777</fileMode>
+		</file>
+		<file>
+			<source>./bin/messic-mac.sh</source>
+			<outputDirectory>./bin/</outputDirectory>
+			<destName>messic.sh</destName>
+			<fileMode>777</fileMode>
+		</file>
+		<!-- 
+		<file>
+			<source>./bin/messicservice-mac.sh</source>
+			<outputDirectory>./bin/</outputDirectory>
+			<destName>messicservice.sh</destName>
+			<fileMode>777</fileMode>
+		</file>
+		 -->
+	</files>
+
+
 
 	<!-- Dependencies -->
 	<dependencySets>

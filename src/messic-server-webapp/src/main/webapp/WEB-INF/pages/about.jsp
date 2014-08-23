@@ -54,6 +54,12 @@
                             </ul>
                         </li>
                         <li>
+                            <h1>Which navigators are compatible?</h1>
+                            Essentially all those compatible with html5 and css3, but that's not true. Please update your navigator to the last version and probably you will not have any problems.<br>
+                            If you are trying to launch messic from a Microsoft Internet Explorer... well, good luck (really it seems that with version 11 is more or less ok).  We have tested with google chrome (some versions of chromium for linux seems to have problems playing mp3 files natively), firefox, safari (from 6.1 version).  Konqueror doesn't seems to be ok :(<br>
+                            We are working to improve compatibility, but please, please, update your navigator always you can. 
+                        </li>
+                        <li>
                             <h1>Does Messic use a secure protocol SSL/TLS?</h1>
                             Initially no, because it's intended to be at your home, inside your home network. But if you need, you can do it by modifying the configuration.
                             <br>Just open the messic monitor and open the configuration section. From there you can modify a set of options, and also to enable the security (also you can specify the https protocol).
@@ -79,6 +85,10 @@
                             <h1>I don't see well some pages of messic. What can I do?</h1>
                             Well, in the most of cases, you should upgrade your navigator. In the case you use Internet Explorer, well... it's better to change. Give an opportunity to other navigators like <a href="https://www.mozilla.org" target="_blank">firefox</a> or <a href="http://www.google.com/intl/en/chrome/" target="_blank">chrome</a>.
                         </li>
+                        <li>
+                            <h1>Can I see messic from my mobile phone or tablet?</h1>
+                            It depends. We have tested some cases and usually it works, not perfectly, but works.  The best is to try and tell us your experience. We are working in this area, and also thinking to build native applications for android and ios.</a>.
+                        </li>
                     </ul>
                     <p>
                     </p>
@@ -95,7 +105,7 @@
                         Here is the list of the current contributors:
                         <br>
                         <ul>
-                            <li><u>José Amuedo</u>, as the main contributor of this project.</li>
+                            <li><u>Jos&eacute; Amuedo</u>, as the main contributor of this project.</li>
                             <li><u>Manuel Hans</u>, creator of the data model and security especifications</li>
                             <li><u>Francisco Javier Coira</u>, supporting tools and dynamic OSGI extensions</li>
                             <li><u>Juan Luis Casimiro</u>, security issues and linux scripts</li>

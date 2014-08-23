@@ -92,6 +92,20 @@
     margin-top: 10px;
     width: 31px;
 }
+#messic-playlist-action-pin {
+    width: 21px;
+}
+#messic-playlist-action-pin.messic-playlist-action-pin-in:before {
+    background: url("playlist/actions-pin2.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+#messic-playlist-action-pin:before {
+    background: url("playlist/actions-pin.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    content: "";
+    display: block;
+    height: 29px;
+    margin-top: 10px;
+    width: 31px;
+}
 /* styles for the playlist scrollbar */
 
 /* ---------------------------------------------------------*/
@@ -575,8 +589,8 @@
     -webkit-animation-duration: 2s, 1.3s;
     animation-duration: 2s, 1.3s;
     /*45 rpm*/
-    -webkit-animation-timing-function: ease, linear;
-    animation-timing-function: ease, linear;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
     -webkit-animation-iteration-count: 1, infinite;
     animation-iteration-count: 1, infinite;
     -webkit-animation-direction: normal, normal;
@@ -586,7 +600,7 @@
     -webkit-animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
     -webkit-animation-duration: 2s, 1.3s;
     /* 45rpm*/
-    -webkit-animation-timing-function: ease, linear;
+    -webkit-animation-timing-function: linear;
     -webkit-animation-iteration-count: 1, infinite;
     -webkit-animation-direction: normal, normal;
     -webkit-animation-delay: 0s, 2s;

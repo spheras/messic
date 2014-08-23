@@ -33,6 +33,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
+							<finalName>messic-${project.version}</finalName>
 							<descriptors>
 								<descriptor>src/assembly/dep-windows.xml</descriptor>
 								<descriptor>src/assembly/dep-linux.xml</descriptor>
@@ -54,10 +55,10 @@
 								<!-- after the assemblies, we need to decompress jvm for windows, 
 									and then generate the final .zip -->
 								<unzip src="${project.basedir}/jvm/jre-8u5-windows-i586.zip"
-									dest="${project.basedir}/target/${project.build.finalName}-windows/${project.build.finalName}/bin" />
+									dest="${project.basedir}/target/messic-${project.version}-windows/messic-${project.version}/bin" />
 								<zip
-									basedir="${project.basedir}/target/${project.build.finalName}-windows"
-									destfile="${project.basedir}/target/${project.build.finalName}-windows.zip" />
+									basedir="${project.basedir}/target/messic-${project.version}-windows"
+									destfile="${project.basedir}/target/messic-${project.version}-windows.zip" />
 							</tasks>
 						</configuration>
 						<goals>

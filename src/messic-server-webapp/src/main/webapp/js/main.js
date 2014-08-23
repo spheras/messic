@@ -97,6 +97,7 @@ function initMessic() {
 
     mainCheckUpdate();
 
+
     $("#messic-main-logout").on('click touchend', function () {
         mainLogout();
     });
@@ -840,4 +841,29 @@ function mainOpenPlaylistMenu() {
         div.addClass("messic-playlist-background-opened");
         div.removeClass("messic-playlist-background-closed");
     }
+}
+
+/**
+ * Function to remain opened the playlist queue menu
+ */
+function mainPinPlaylist() {
+    var divpin = $("#messic-playlist-action-pin");
+
+    if (divpin.hasClass("messic-playlist-action-pin-in")) {
+        divpin.removeClass("messic-playlist-action-pin-in");
+
+        var div = $("#messic-playlist-background");
+        if (div.hasClass("messic-playlist-background-opened")) {
+            div.removeClass("messic-playlist-background-opened");
+        }
+    } else {
+        divpin.addClass("messic-playlist-action-pin-in");
+
+        var div = $("#messic-playlist-background");
+        if (!div.hasClass("messic-playlist-background-opened")) {
+            div.addClass("messic-playlist-background-opened");
+            div.removeClass("messic-playlist-background-closed");
+        }
+    }
+
 }

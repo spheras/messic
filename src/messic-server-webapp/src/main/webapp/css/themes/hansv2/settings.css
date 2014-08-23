@@ -1,7 +1,6 @@
 #messic-page-border.messic-user-settings-border {
     width: 600px;
 }
-
 #messic-user-settings-content label {
     margin-left: 0;
     padding-right: 27px;
@@ -9,15 +8,15 @@
     pointer-events: none;
     max-width: 300px;
 }
-
 .messic-user-settings-container {
     border-bottom: 3px solid #AAAAAA;
     margin-bottom: 10px;
     min-height: 253px;
-    padding-left:30px;
+    padding-left: 30px;
 }
 .messic-user-settings-menu-container {
-    background:#E9E9E9; /* Old browsers */
+    background: #E9E9E9;
+    /* Old browsers */
     background: -webkit-gradient(linear, left top, right top, color-stop(6%, rgba(255, 255, 255, 0)), to(#E9E9E9)) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 6%, #E9E9E9 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(to right, rgba(255, 255, 255, 0) 6%, #E9E9E9 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -32,30 +31,23 @@
     padding-top: 86px;
     width: 199px;
 }
-
 #messic-user-settings-content {
     float: left;
     height: 100%;
     margin-top: -15px;
-    
     /* Firefox */
-	/* WebKit */
-	/* Opera */
-	width: -o-calc(100% - 190px);
-	/* Standard */
+    /* WebKit */
+    /* Opera */
+    width: -o-calc(100% - 190px);
+    /* Standard */
     width: calc(100% - 190px);
-    
-    
 }
-
 .messic-user-settings-menu-option-selected {
     background: url("user/selectedTab.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 50px;
     padding-top: 12px;
     width: 238px;
 }
-
-
 .messic-user-settings-menu-option-unselected {
     border-bottom: 1px solid #CDCDCD;
     height: 50px;
@@ -74,7 +66,6 @@
     -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.49) inset;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.49) inset;
 }
-
 .messic-user-settings-title {
     border-bottom: 3px solid;
     color: #999999;
@@ -83,17 +74,13 @@
     font-size: 1.5em;
     margin-top: -47px;
     text-align: left;
-    
     /* Firefox */
-	/* WebKit */
-	/* Opera */
-	width: -o-calc(100% - 235px);
-	/* Standard */
+    /* WebKit */
+    /* Opera */
+    width: -o-calc(100% - 235px);
+    /* Standard */
     width: calc(100% - 235px);
-    
 }
-
-
 .messic-user-settings-menu-option-selected .messic-user-settings-menu-option-title {
     color: #FFFFFF;
     text-shadow: 0 0 3px rgba(255, 255, 255, 0.84);
@@ -103,10 +90,9 @@
     font-size: 1.5em;
     margin-bottom: -5px;
     margin-top: -6px;
+    float: left;
+    width: 140px;
 }
-
-
-
 #messic-user-settings-menu-basic.messic-user-settings-menu-option-selected .messic-user-settings-menu-option-image {
     background: url("user/home-icon-basic-w.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
@@ -135,7 +121,6 @@
     background: url("user/home-icon-stats-b.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     margin-top: 4px;
 }
-
 .messic-user-settings-menu-option-selected .messic-user-settings-menu-option-subtitle {
     color: #FFFFFF;
     text-shadow: 0 0 3px rgba(255, 255, 255, 0.84);
@@ -148,13 +133,10 @@
     margin-top: 0;
     width: 36px;
 }
-
 #messic-user-settings-content ul {
     list-style: none outside none;
-    padding-left:0px;
+    padding-left: 0px;
 }
-
-
 #messic-user-settings-content li {
     overflow: visible;
     position: relative;
@@ -164,23 +146,18 @@
     transition-property: height;
     width: 300px;
 }
-
 #messic-user-settings-content li input {
     width: 298px;
 }
-
 #messic-user-settings-content li input[type="checkbox"] {
     width: 17px;
     float: left;
     margin-right: 11px;
 }
-
-
 .messic-user-settings-basic-data-container {
     float: left;
     width: 360px;
 }
-
 .messic-user-settings-buttons {
     float: left;
     width: calc(100% - 190px);
@@ -188,8 +165,6 @@
 .messic-user-settings-buttons button.skull {
     float: right;
 }
-
-
 .messic-user-settings-basic-avatar-container:after {
     background: url("user/ripped.png") no-repeat scroll 0 0 / 252px 197px rgba(0, 0, 0, 0);
     content: " ";
@@ -207,7 +182,6 @@
     width: 259px;
     cursor: pointer;
 }
-
 .messic-user-settings-avatar-mark {
     color: #AAAAAA;
     font-family: Roboto;
@@ -225,21 +199,17 @@
     width: 124px;
     max-height: 126px;
 }
-
 #messic-user-settings-captcha {
     border: 1px solid #BBBBBB;
     margin-bottom: 3px;
     width: 298px;
 }
-
-
 #messic-user-settings-captcha-explanation {
     color: #AAAAAA;
     font-family: roboto;
     font-size: 0.8em;
     margin-top: 28px;
 }
-
 #messic-user-settings-captcha-reload {
     background: url("user/refresh-g.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     cursor: pointer;
@@ -249,8 +219,6 @@
     position: absolute;
     width: 30px;
 }
-
-
 .messic-user-settings-content-help {
     background: url("base/info.png") no-repeat scroll 0 0 / 24px 24px rgba(0, 0, 0, 0);
     content: "";
@@ -263,8 +231,6 @@
     position: relative;
     width: 24px;
 }
-
-
 .messic-user-settings-content-help:hover ~ .messic-user-settings-content-info {
     max-height: 500px;
 }
@@ -284,25 +250,22 @@
     -webkit-transition-property: max-height;
     transition-property: max-height;
 }
-
 .messic-user-settings-buttons button {
     margin-right: 13px;
 }
-
 .messic-user-settings-users-col-user {
     width: 100px;
 }
 .messic-user-settings-users-col-login {
     width: 100px;
 }
-
-.messic-user-settings-content-users-resetpassword{
+.messic-user-settings-content-users-resetpassword {
     background: url("user/resetpassword.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 32px;
     width: 26px;
-    float:left;
-	margin-left: 15px;
-	cursor: pointer;
+    float: left;
+    margin-left: 15px;
+    cursor: pointer;
 }
 .messic-user-settings-content-users-resetpassword:active {
     background-position: -26px 1px;
@@ -310,8 +273,8 @@
 .messic-user-settings-content-users-resetpassword:hover {
     background-position: -26px 0;
 }
-
 /*	http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/128/Places-user-trash-icon.png */
+
 #messic-user-settings-removeaccount {
     background: url("user/Places-user-trash-icon.png") no-repeat scroll center center / 90px auto rgba(200, 200, 200, 0.31);
     border: 1px solid #cacaca;
@@ -327,39 +290,33 @@
     position: relative;
     width: 90px;
 }
-
-
 #messic-user-settings-removeaccount:hover {
     background-color: rgba(255, 50, 50, 0.69);
     border: 1px solid #ff8888;
     -webkit-box-shadow: 0 0 7px rgba(255, 100, 100, 1);
     box-shadow: 0 0 7px rgba(255, 100, 100, 1);
 }
-
 .messic-user-settings-genres-col-actions {
     padding-left: 15px;
 }
-
-.messic-user-settings-content-genres-fuse{
+.messic-user-settings-content-genres-fuse {
     background: url("user/fuse.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 24px;
     width: 24px;
-    float:left;
+    float: left;
     margin-top: 6px;
     cursor: pointer;
 }
-
-.messic-user-settings-content-genres-edit{
+.messic-user-settings-content-genres-edit {
     background: url("album/edit2.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 24px;
     width: 24px;
-    float:left;
+    float: left;
     margin-top: 6px;
     cursor: pointer;
-    margin-right:15px;
+    margin-right: 15px;
 }
-
-.messic-user-settings-content-genres-remove{
+.messic-user-settings-content-genres-remove {
     background: url("album/delete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     cursor: pointer;
     float: left;
@@ -368,12 +325,11 @@
     margin-top: 6px;
     width: 22px;
 }
-
 .messic-user-settings-content-users-remove {
     background: url("album/delete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 26px;
     width: 22px;
-    float:left;
+    float: left;
     margin-top: 6px;
     cursor: pointer;
 }
@@ -383,7 +339,6 @@
 .messic-user-settings-content-users-remove:hover {
     background-position: -23px 0;
 }
-
 #messic-user-settings-content-users-table {
     margin-bottom: 25px;
     margin-left: 10px;
@@ -393,7 +348,6 @@
     padding-left: 15px;
     padding-right: 15px;
 }
-
 #messic-settings-genre-edit-container-overlay {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
     height: 100%;
@@ -403,7 +357,6 @@
     width: 100%;
     z-index: 2147483647;
 }
-
 #messic-settings-genre-fuse-container {
     background: none repeat scroll 0 0 #f4f4f4;
     border-radius: 13px;
@@ -416,19 +369,15 @@
     top: 50%;
     width: 500px;
 }
-
 #messic-settings-genre-fuse-container > p {
     font-family: roboto;
     font-size: 0.8em;
     color: #AAAAAA;
 }
-
-
 #messic-settings-genre-fuse-container > input {
     margin-bottom: 15px;
     width: 490px;
 }
-
 #messic-settings-genre-edit-container {
     background: none repeat scroll 0 0 #f4f4f4;
     border-radius: 13px;
@@ -441,7 +390,6 @@
     top: 50%;
     width: 300px;
 }
-
 #messic-settings-genre-edit-container > input {
     margin-bottom: 15px;
     width: 100%;

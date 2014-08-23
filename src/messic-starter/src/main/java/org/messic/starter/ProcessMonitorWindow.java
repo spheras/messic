@@ -299,7 +299,7 @@ public class ProcessMonitorWindow
 
         JButton button = new JButton( ml.getProperty( "messic-password-reset" ) );
         button.setBounds( 126, 319, 355, 25 );
-        button.setForeground( Color.WHITE );
+        button.setForeground( Color.black );
         button.setBackground( Color.RED );
         button.addActionListener( new ActionListener()
         {
@@ -395,21 +395,21 @@ public class ProcessMonitorWindow
             {
                 panel_main.setVisible( true );
                 panel_config.setVisible( false );
-                btnMain.setBackground( new Color( 0, 51, 102 ) );
-                btnMain.setForeground( Color.WHITE );
-                btnConfiguration.setForeground( Color.WHITE );
+                btnMain.setBackground( new Color( 100, 255, 255) );
+                btnMain.setForeground( Color.BLACK );
+                btnConfiguration.setForeground( Color.BLACK );
                 btnConfiguration.setBackground( Color.LIGHT_GRAY );
             }
         } );
-        btnMain.setBackground( new Color( 0, 51, 102 ) );
-        btnMain.setForeground( Color.WHITE );
+        btnMain.setBackground( Color.CYAN );
+        btnMain.setForeground( Color.BLACK );
         btnMain.setFont( new Font( "Dialog", Font.BOLD, 16 ) );
         btnMain.setBorder( BorderFactory.createLineBorder( new Color( 180, 180, 180 ), 2, true ) );
         btnMain.setCursor( new Cursor( Cursor.HAND_CURSOR ) );
         btnMain.setBounds( 13, 51, 174, 43 );
         contentPanelBackground.add( btnMain );
 
-        btnConfiguration.setForeground( Color.WHITE );
+        btnConfiguration.setForeground( Color.BLACK );
         btnConfiguration.setBackground( Color.LIGHT_GRAY );
         btnConfiguration.setFont( new Font( "Dialog", Font.BOLD, 16 ) );
         btnConfiguration.setBorder( BorderFactory.createLineBorder( new Color( 180, 180, 180 ), 2, true ) );
@@ -420,9 +420,9 @@ public class ProcessMonitorWindow
             {
                 panel_main.setVisible( false );
                 panel_config.setVisible( true );
-                btnConfiguration.setBackground( new Color( 0, 51, 102 ) );
-                btnConfiguration.setForeground( Color.WHITE );
-                btnMain.setForeground( Color.WHITE );
+                btnConfiguration.setBackground( new Color( 100, 255, 255) );
+                btnConfiguration.setForeground( Color.black );
+                btnMain.setForeground( Color.black );
                 btnMain.setBackground( Color.LIGHT_GRAY );
             }
         } );

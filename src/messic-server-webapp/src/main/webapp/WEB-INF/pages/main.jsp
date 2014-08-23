@@ -81,6 +81,7 @@
                         <div id="messic-playlist-action-fx" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-fx" bundle="${message}"/>" onclick="showFx()"></div>
                         <div id="messic-playlist-action-download" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-download" bundle="${message}"/>" onclick="downloadCurrentPlaylist()"></div>
                         <div id="messic-playlist-action-love" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-love" bundle="${message}"/>" onclick="loveCurrentPlaylist()"></div>
+                        <div id="messic-playlist-action-pin" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-pin" bundle="${message}"/>" onclick="mainPinPlaylist()"></div>
                     </div>
 
 

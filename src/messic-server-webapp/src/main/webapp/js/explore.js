@@ -25,6 +25,7 @@
 /* init the explore page */
 function initExplore() {
 
+
     //adding the code to the click for the order by author or order by album
     $(".messic-explore-orderby").each(function (index) {
         var type = $(this).data('type');
@@ -67,6 +68,8 @@ function initExplore() {
             })
         }
     });
+
+
 
     exploreByAuthor();
 }
@@ -216,6 +219,13 @@ function exploreByAlbum(orderByDate) {
 //fill the web page with the whole list of album categorized by authors
 function exploreByAuthor() {
     $.getJSON("services/authors?albumsInfo=true&songsInfo=false", function (data) {
+
+        //it should be empty, but sometimes, touch screens, send click and touch...
+        if ($(".messic-explore-values").children().length > 0) {
+            //this is to avoid double click (touch and click events at the same time)
+            return;
+        }
+
         $(".messic-explore-words").empty();
 
         var lastChar = "";
