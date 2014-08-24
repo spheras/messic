@@ -79,10 +79,6 @@ function removeAccount(sid){
 	        type: "DELETE",
 	        async: true,
 	        url: "services/settings/"+sid+"?removeMusicContent="+removeContentAlso,
-	        error: function (XMLHttpRequest, textStatus, errorThrown){
-	    		UtilHideWait();
-	        	UtilShowInfo("Error while removing!");
-	        },
 	        success: function (data){
 	    		UtilHideWait();
 	    		mainLogout();
@@ -192,9 +188,6 @@ function settingsFuseGenres(){
 		        type: "POST",
 		        async: false,
 		        url: "services/genres/fuse?newName="+escape(newValue),
-		        error: function (XMLHttpRequest, textStatus, errorThrown){
-		        	UtilShowInfo("Error while merging!");
-		        },
 		        success: function (data){
 		        	$("#messic-settings-genre-edit-container-overlay").remove();
 
@@ -242,9 +235,6 @@ function settingsEditGenre(sid, name, trDiv){
 	        type: "POST",
 	        async: false,
 	        url: "services/genres/"+sid+"?newName="+escape(newValue),
-	        error: function (XMLHttpRequest, textStatus, errorThrown){
-	        	UtilShowInfo("Error while updating!");
-	        },
 	        success: function (data){
 	        	$("#messic-settings-genre-edit-container-overlay").remove();
 	        	$(trDiv).find(".messic-user-settings-genres-col-name").text(newValue);
@@ -261,10 +251,6 @@ function settingsRemoveGenre(sid, name, trDiv){
 	        type: "DELETE",
 	        async: true,
 	        url: "services/genres/"+sid,
-	        error: function (XMLHttpRequest, textStatus, errorThrown){
-	    		UtilHideWait();
-	        	UtilShowInfo("Error while removing!");
-	        },
 	        success: function (data){
 	        	$(trDiv).remove();
 	        	UtilShowInfo(messicLang.settingsRemoveGenreDone);
@@ -304,10 +290,6 @@ function settingsRemoveUser(sid, name, trDiv){
 	        type: "DELETE",
 	        async: true,
 	        url: "services/settings/"+sid+"?removeMusicContent="+removeContentAlso,
-	        error: function (XMLHttpRequest, textStatus, errorThrown){
-	    		UtilHideWait();
-	        	UtilShowInfo("Error while removing!");
-	        },
 	        success: function (data){
 	    		UtilHideWait();
 	        	$(trDiv).remove();
@@ -378,9 +360,6 @@ function settingsResetPassword(sid, name){
 				        type: "POST",
 				        async: true,
 				        url: "services/settings/"+sid+"/resetPassword",
-				        error: function (XMLHttpRequest, textStatus, errorThrown){
-				        	UtilShowInfo("Error while reseting!");
-				        },
 				        success: function (data){
 				        	UtilShowInfo(messicLang.settingsResetPasswordDone);
 						}
@@ -688,11 +667,6 @@ function continueSendData(flagNewUser, userData){
 			data: JSON.stringify(settingsData),
 			contentType: "application/json",
 			async: false,
-
-	        error: function (XMLHttpRequest, textStatus, errorThrown) 
-	    	{
-	           console.log("error");
-	        },
 	        success: function (data) 
 		  	{
 	           console.log("sucess");
@@ -708,11 +682,6 @@ function continueSendData(flagNewUser, userData){
 		data: JSON.stringify(userData),
 		contentType: "application/json",
 		async: false,
-
-        error: function (XMLHttpRequest, textStatus, errorThrown) 
-    	{
-           console.log("error");
-        },
         success: function (data) 
 	  	{
            console.log("sucess");
@@ -820,10 +789,6 @@ function loadUserSettings()
 	    type: "GET",
 	    url: "services/settings/",
 	    dataType: "json",
-	    error: function (XMLHttpRequest, textStatus, errorThrown) 
-	    {
-	        console.log('error');
-	    },
 	    success: function (data) 
 	    {
 	    	$("#messic-user-settings-user").val(data.login);
@@ -851,10 +816,6 @@ function loadUserSettings()
 		    type: "GET",
 		    url: "services/settings/admin",
 		    dataType: "json",
-		    error: function (XMLHttpRequest, textStatus, errorThrown) 
-		    {
-		        console.log('error');
-		    },
 		    success: function (data) 
 		    {
 				$("#messic-user-settings-allowusercreation").val(data.allowUserCreation);

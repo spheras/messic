@@ -56,6 +56,7 @@
             <link rel="stylesheet" href="css/themes/hansv2/explore.css?timestamp=${timestamp}">
             <link rel="stylesheet" href="css/themes/hansv2/album.css?timestamp=${timestamp}">
             <link rel="stylesheet" href="css/themes/hansv2/author.css?timestamp=${timestamp}">
+            <link rel="stylesheet" href="css/themes/hansv2/animate.css?timestamp=${timestamp}">
 
             <!-- modernizr -->
             <script src="js/vendor/modernizr-2.6.2.min.js?timestamp=${timestamp}"></script>

@@ -327,6 +327,8 @@
     transition-property: bottom;
     -webkit-transition-duration: 0.5s;
     transition-duration: 0.5s;
+    -webkit-transition-delay: 0.5s;
+    transition-delay: 0.5s;
     /** important to avoid selection when the scrollbar start */
     -ms-user-select: none;
     user-select: none;

@@ -37,6 +37,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.messic.configuration.MessicConfig;
+import org.messic.starter.Util.MusicFolderState;
 
 public class ProcessMonitorWindow
     extends JFrame
@@ -218,6 +219,31 @@ public class ProcessMonitorWindow
                 if ( returnVal == JFileChooser.APPROVE_OPTION )
                 {
                     File file = fc.getSelectedFile();
+
+                    MusicFolderState mfs = Util.testIfMusicFolderIsEmpty( file.getAbsolutePath() );
+                    if ( mfs.equals( MusicFolderState.EXIST_WITH_DATABASE ) )
+                    {
+                        int result =
+                            JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
+                                                           ml.getProperty( "messic-selectfolder-existingdatabase" ),
+                                                           "", JOptionPane.YES_NO_OPTION );
+                        if ( result == JOptionPane.NO_OPTION )
+                        {
+                            return;
+                        }
+                    }
+                    else if ( mfs.equals( MusicFolderState.EXIST_WITHOUT_DATABASE ) )
+                    {
+                        int result =
+                            JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
+                                                           ml.getProperty( "messic-selectfolder-notempty" ), "",
+                                                           JOptionPane.YES_NO_OPTION );
+                        if ( result == JOptionPane.NO_OPTION )
+                        {
+                            return;
+                        }
+                    }
+
                     tfConfigMusicFolder.setText( file.getAbsolutePath() );
                 }
             }
@@ -395,7 +421,7 @@ public class ProcessMonitorWindow
             {
                 panel_main.setVisible( true );
                 panel_config.setVisible( false );
-                btnMain.setBackground( new Color( 100, 255, 255) );
+                btnMain.setBackground( new Color( 100, 255, 255 ) );
                 btnMain.setForeground( Color.BLACK );
                 btnConfiguration.setForeground( Color.BLACK );
                 btnConfiguration.setBackground( Color.LIGHT_GRAY );
@@ -420,7 +446,7 @@ public class ProcessMonitorWindow
             {
                 panel_main.setVisible( false );
                 panel_config.setVisible( true );
-                btnConfiguration.setBackground( new Color( 100, 255, 255) );
+                btnConfiguration.setBackground( new Color( 100, 255, 255 ) );
                 btnConfiguration.setForeground( Color.black );
                 btnMain.setForeground( Color.black );
                 btnMain.setBackground( Color.LIGHT_GRAY );

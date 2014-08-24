@@ -17,21 +17,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import org.messic.configuration.MessicConfig;
+import org.messic.starter.Util.MusicFolderState;
 
 public class SelectMusicFolderWindow
     extends JDialog
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -9174152921489051904L;
+
     private JTextField tfMusicFolder;
 
     private JDialog frame = this;
+
+    private Properties ml = Util.getMultilanguage();
 
     /**
      * Create the application.
      */
     public SelectMusicFolderWindow()
     {
-        setTitle( "Music Folder" );
+        setTitle( ml.getProperty( "messic-selectfolder-title" ) );
         initialize();
     }
 
@@ -83,7 +91,7 @@ public class SelectMusicFolderWindow
         lblNewLabel.setBounds( 12, 35, 424, 124 );
         frame.getContentPane().add( lblNewLabel );
 
-        JButton btnAceptar = new JButton( "Aceptar" );
+        JButton btnAceptar = new JButton( ml.getProperty( "messic-selectfolder-ok" ) );
         btnAceptar.addActionListener( new ActionListener()
         {
             public void actionPerformed( ActionEvent e )
@@ -93,6 +101,30 @@ public class SelectMusicFolderWindow
                     try
                     {
                         String folder = tfMusicFolder.getText();
+                        MusicFolderState mfs = Util.testIfMusicFolderIsEmpty( folder );
+                        if ( mfs.equals( MusicFolderState.EXIST_WITH_DATABASE ) )
+                        {
+                            int result =
+                                JOptionPane.showConfirmDialog( SelectMusicFolderWindow.this,
+                                                               ml.getProperty( "messic-selectfolder-existingdatabase" ),
+                                                               "", JOptionPane.YES_NO_OPTION );
+                            if ( result == JOptionPane.NO_OPTION )
+                            {
+                                return;
+                            }
+                        }
+                        else if ( mfs.equals( MusicFolderState.EXIST_WITHOUT_DATABASE ) )
+                        {
+                            int result =
+                                JOptionPane.showConfirmDialog( SelectMusicFolderWindow.this,
+                                                               ml.getProperty( "messic-selectfolder-notempty" ), "",
+                                                               JOptionPane.YES_NO_OPTION );
+                            if ( result == JOptionPane.NO_OPTION )
+                            {
+                                return;
+                            }
+                        }
+
                         File ffolder = new File( folder );
                         ffolder.mkdirs();
 
@@ -113,7 +145,7 @@ public class SelectMusicFolderWindow
         btnAceptar.setBounds( 12, 202, 117, 25 );
         frame.getContentPane().add( btnAceptar );
 
-        JButton btnCancelar = new JButton( "Cancelar" );
+        JButton btnCancelar = new JButton( ml.getProperty( "messic-selectfolder-cancel" ) );
         btnCancelar.addActionListener( new ActionListener()
         {
             public void actionPerformed( ActionEvent e )

@@ -440,6 +440,38 @@ function UtilIsNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
+/**
+ *Function to check if messic is available or is down
+ *if messic is down, show a message to the user.
+ *  It is possible to pass an error produced. This error will be show
+ */
+function UtilCheckMessic(error) {
+    $.ajax({
+        url: 'services/check', //Server script to process data
+        type: 'GET',
+        contentType: "application/json",
+        success: function () {
+            //messic is online
+            UtilHideWait();
+            if (error) {
+                UtilShowInfo(messicLang.messicerror + " " + error);
+            }
+        },
+        error: function (e) {
+            if (e && e.status == 401) {
+                //is active (restarted maybe), but need to login again
+                document.location.reload();
+            } else {
+                var code = '<div class="messic-shutdown-overlay">';
+                code = code + ' <p class="animated rubberBand">' + messicLang.messicservicedown + '</p>';
+                code = code + '  <a href="#" onclick="$(this).parent().fadeOut().remove(); UtilCheckMessic()">' + messicLang.messicservicecheckagain + '</a>';
+                code = code + '</div>';
+                $(code).hide().appendTo('body').fadeIn();
+            }
+        },
+    });
+}
+
 
 
 function UtilGet_browser() {

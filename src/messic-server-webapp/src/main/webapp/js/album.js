@@ -484,9 +484,6 @@ function albumSaveChangesDefinitely(albumSid,authorCreation){
 						UtilShowInfo(messicLang.albumSaveOK);
 						exploreEditAlbum(albumSid);
 					},
-					error: function(e){
-						UtilShowInfo(messicLang.albumSaveFail);
-					},
 					processData: false,
 					data: JSON.stringify(data),
 					contentType: "application/json"

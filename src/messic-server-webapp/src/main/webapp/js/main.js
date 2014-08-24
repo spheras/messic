@@ -801,9 +801,6 @@ function mainSongRate(songSid, newRate, parentDiv) {
 
                 }
             },
-            error: function (e) {
-                UtilShowInfo(e);
-            },
             processData: false,
             data: JSON.stringify(song),
             contentType: "application/json"

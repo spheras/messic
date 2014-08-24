@@ -161,6 +161,7 @@
                             <li><a href="https://github.com/vaidik/jquery-longpress" target="_blank">Longpress</a> jquery plugin by vaidik</li>
                             <li><a href="https://gist.github.com/bradmerlin/5723736" target="_blank">Jplayer Volume draggable</a> plugin by bradmerlin</li>
                             <li><a href="https://github.com/2xAA/jplayer-draggable-seekbar" target="_blank">Jplayer Seekbar draggable</a> plugin by Sam Wray</li>
+                            <li><a href="http://daneden.github.io/animate.css/" target="_blank">Animate css</a> css framework by Daniel Eden</li>
                             <li>Set of javascript Fx by <a href="https://github.com/dazld/canvas-fx" target="_blank">Dan Peddle</a>
                                 <li>And a thousand more of libraries. Thanks to all.</li>
                         </ul>

@@ -32,11 +32,53 @@ import com.mkyong.core.OSValidator;
 
 public class Util
 {
+    public enum MusicFolderState
+    {
+        NOT_EXIST, // doesn't exist the folder, so... its ok (messic will create it)
+        EXIST_EMPTY, // exist the folder, but it's empty, so... OK
+        EXIST_WITH_DATABASE, // exist the folder, and there is a messic database... it should be OK, but a warning must
+                             // be shown to the user
+        EXIST_WITHOUT_DATABASE // exist the folder, isn't empty, and there is not a messic database... is not good
+                               // place... but the user is the master.
+    }
+
     public static void main( String[] args )
         throws Exception
     {
         String internal = getMessicInternalURL();
         System.out.println( internal );
+    }
+
+    /**
+     * test if the music folder (specified at param folder) is empty, or not.. if not, if it has a messic database, ...
+     * 
+     * @param folder {@link String} folder to test
+     * @return {@link MusicFolderState} the state of the folder
+     */
+    public static MusicFolderState testIfMusicFolderIsEmpty( String folder )
+    {
+        File f = new File( folder );
+        if ( !f.exists() )
+        {
+            return MusicFolderState.NOT_EXIST;
+        }
+
+        File[] files = f.listFiles();
+        if ( files.length > 0 )
+        {
+            for ( File file : files )
+            {
+                if ( file.isDirectory() && file.getName().trim().toUpperCase().equals( ".DATABASE" ) )
+                {
+                    return MusicFolderState.EXIST_WITH_DATABASE;
+                }
+            }
+            return MusicFolderState.EXIST_WITHOUT_DATABASE;
+        }
+        else
+        {
+            return MusicFolderState.EXIST_EMPTY;
+        }
     }
 
     public static String getMessicInternalURL()
@@ -46,7 +88,7 @@ public class Util
         String internalIP = getInternalIp();
         if ( internalIP.length() > "255.255.255.255".length() )
         {
-            //ipv6??? TODO
+            // ipv6??? TODO
             internalIP = "127.0.0.1";
         }
         return ( isSecured() ? "https" : "http" ) + "://" + internalIP + ":" + port + "/messic";

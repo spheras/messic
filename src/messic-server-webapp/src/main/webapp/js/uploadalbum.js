@@ -345,7 +345,6 @@ var UploadAlbum = function () {
                     }
                 }
             },
-            error: function (e) {},
             processData: false,
             data: JSON.stringify(filesToUpload),
             contentType: "application/json"
@@ -447,10 +446,6 @@ var UploadAlbum = function () {
                         self.audioResources[i].uploaded = false;
                     }
                     wizardUploadSongs.call(self, data);
-                },
-                error: function (e) {
-                    UtilHideWait();
-                    UtilShowInfo("ERROR uploading songs!");
                 },
                 processData: false,
                 data: JSON.stringify(filesToUpload),
@@ -849,10 +844,6 @@ var UploadAlbum = function () {
                             } else {
                                 UtilShowInfo(messicLang.uploadAlbumWizardNothingfound);
                             }
-                        },
-                        error: function (e) {
-                            UtilHideWait();
-                            UtilShowInfo("ERROR getting info!");
                         },
                         processData: false,
                         data: JSON.stringify(albumHelpInfo),

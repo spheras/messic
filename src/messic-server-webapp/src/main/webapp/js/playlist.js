@@ -66,9 +66,6 @@ function playlistShow(playlistSid, div) {
         type: "GET",
         async: true,
         url: "services/playlists/?filterSid=" + playlistSid,
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            UtilShowInfo("Error while getting playlist!");
-        },
         success: function (data) {
             $(".messic-playlist-content-list-playlist").removeClass("messic-playlist-content-list-playlist-selected");
             $(div).addClass("messic-playlist-content-list-playlist-selected");
@@ -216,9 +213,6 @@ function playlistCreateNewPlaylist(songSids) {
             type: "POST",
             async: false,
             url: "services/playlists",
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                UtilShowInfo("Error while creating playlist!");
-            },
             success: function (data) {
                 $("#messic-playlists-create-container-overlay").fadeOut().remove();
                 UtilShowInfo(messicLang.playlistCreatedSucessfully);
@@ -241,9 +235,6 @@ function playlistPlay(playlistSid) {
         type: "GET",
         async: true,
         url: "services/playlists/?filterSid=" + playlistSid,
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            UtilShowInfo("Error while getting playlist!");
-        },
         success: function (data) {
             if (data[0]) {
                 var playlist = data[0];
@@ -309,9 +300,6 @@ function playlistSaveChanges() {
         type: "POST",
         async: false,
         url: "services/playlists",
-        error: function (XMLHttpRequest, textStatus, errorThrown) {
-            UtilShowInfo("Error while saving changes!");
-        },
         success: function (data) {
             $("#messic-playlists-create-container-overlay").fadeOut().remove();
 
@@ -351,9 +339,6 @@ function playlistRemove(playlistSid, div) {
                         type: "DELETE",
                         async: false,
                         url: "services/playlists/" + playlistSid,
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            UtilShowInfo("Error while removing playlist!");
-                        },
                         success: function (data) {
                             $(div).parent().parent().remove();
                             $("#messic-playlist-content-selected").empty();
@@ -446,9 +431,6 @@ function playlistAddToPlaylist(songSids) {
                     type: "POST",
                     async: false,
                     url: "services/playlists",
-                    error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        UtilShowInfo("Error while creating playlist!");
-                    },
                     success: function (data) {
                         $("#messic-playlists-select-container-overlay").fadeOut().remove();
                         UtilShowInfo(messicLang.playlistSavedSucessfully);
@@ -484,9 +466,6 @@ function playlistAddToPlaylist(songSids) {
                 type: "POST",
                 async: false,
                 url: "services/playlists",
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    UtilShowInfo("Error while creating playlist!");
-                },
                 success: function (data) {
                     $("#messic-playlists-select-container-overlay").fadeOut().remove();
                     UtilShowInfo(messicLang.playlistCreatedSucessfully);
