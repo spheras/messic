@@ -169,42 +169,42 @@ header {
 }
 @-webkit-keyframes headeranim {
     0% {
-        background: #2e7bcf;
+        background-color: #2e7bcf;
     }
     20% {
-        background: green;
+        background-color: green;
     }
     40% {
-        background: yellow;
+        background-color: yellow;
     }
     60% {
-        background: blue;
+        background-color: blue;
     }
     80% {
-        background: gray;
+        background-color: gray;
     }
     100% {
-        background: pink;
+        background-color: pink;
     }
 }
 @keyframes headeranim {
     0% {
-        background: #2e7bcf;
+        background-color: #2e7bcf;
     }
     20% {
-        background: green;
+        background-color: green;
     }
     40% {
-        background: yellow;
+        background-color: yellow;
     }
     60% {
-        background: blue;
+        background-color: blue;
     }
     80% {
-        background: gray;
+        background-color: gray;
     }
     100% {
-        background: pink;
+        background-color: pink;
     }
 }
 header h1 {

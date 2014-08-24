@@ -15,3 +15,4 @@ src/messic-service/db/*.db
 src/messic-service/jetty/work/
 src/messic-service/conf/messicStarted
 src/messic-service/log
+src
