@@ -1,4 +1,9 @@
 
+#messic-about-contributors a {
+    color: blue;
+    font-size: 1em;
+}
+
 .messic-about-title:before {
     background: url("about/triangle.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
     content: "";

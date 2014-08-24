@@ -117,16 +117,19 @@
                         <ul>
                             <li>A lot of graphical resources from <a href="http://freepsdfiles.net" target="_blank">Free PSD Files</a>
                             </li>
+                            <li>A picture made by <a href="http://zi0oto.deviantart.com/" target="_blank">ZiOoto</a> and modified to put messic words inside cubes
+                            </li>
                             <li>Background patterns from <a href="http://subtlepatterns.com" target="_blank">Subtle Patterns</a>
-                                <li>Some <a href="http://en.wikipedia.org/wiki/Oxygen_Project" target="_blank">Oxygen</a> icons</li>
-                                <li>A set of icons from <a href="http://brankic1979.com/icons/" target="_blank">Brankic1979</a>
-                                </li>
-                                <li>Ribbons from <a href="http://365psd.com/day/author/alexandren/" target="_blank">Alexandre Naud</a> at <a href="http://365psd.com">365psd</a>
-                                </li>
-                                <li>Some fonts from <a href="http://www.google.com/fonts" target="_blank">Google Fonts</a>
-                                </li>
-                                <li>Some icons by <a href="http://tatice.deviantart.com/" target="_blank">Tatice</a>
-                                </li>
+                            </li>
+                            <li>Some <a href="http://en.wikipedia.org/wiki/Oxygen_Project" target="_blank">Oxygen</a> icons</li>
+                            <li>A set of icons from <a href="http://brankic1979.com/icons/" target="_blank">Brankic1979</a>
+                            </li>
+                            <li>Ribbons from <a href="http://365psd.com/day/author/alexandren/" target="_blank">Alexandre Naud</a> at <a href="http://365psd.com">365psd</a>
+                            </li>
+                            <li>Some fonts from <a href="http://www.google.com/fonts" target="_blank">Google Fonts</a>
+                            </li>
+                            <li>Some icons by <a href="http://tatice.deviantart.com/" target="_blank">Tatice</a>
+                            </li>
                         </ul>
                     </p>
                     <p>
