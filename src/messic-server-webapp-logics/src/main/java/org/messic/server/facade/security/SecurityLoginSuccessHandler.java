@@ -61,18 +61,19 @@ public class SecurityLoginSuccessHandler
         throws IOException, ServletException
     {
 
-        if ( "XMLHttpRequest".equals( request.getHeader( "X-Requested-With" ) ) )
-        {
+//        if ( "XMLHttpRequest".equals( request.getHeader( "X-Requested-With" ) )
+//            || ( request.getParameter( "json" ) != null && request.getParameter( "json" ).length() > 0 ) )
+//        {
             Login login =
                 Login.sucessLogin( this.getTargetUrlParameter(), (String) request.getAttribute( "messic_token" ),
                                    ( (User) auth.getPrincipal() ).getUsername() );
             response.getWriter().print( login.getJSON() );
             response.getWriter().flush();
-        }
-        else
-        {
-            super.onAuthenticationSuccess( request, response, auth );
-        }
+//        }
+//        else
+//        {
+//            super.onAuthenticationSuccess( request, response, auth );
+//        }
 
     }
 }
