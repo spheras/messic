@@ -750,7 +750,12 @@ strong {
     -webkit-transition-property: -webkit-transform;
     transition-property: transform;
 }
-.inner.animated.fadeIn strong:hover {
+
+.inner.animated.fadeIn h2:hover {
+    color: white;
+    cursor: pointer;
+}
+.inner.animated.fadeIn h2:hover strong {
     margin-right: 63px;
     margin-top: 0;
     -webkit-transform: scale(2);
