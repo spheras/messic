@@ -144,11 +144,19 @@ a {
 a:hover {
     color: #2268b2;
 }
-header {
+.messic-header1 {
+    height: 50px;
+    background: white;
+}
+.messic-logo-mini:before {
+    content: "";
+    display: block;
+    background: url(../images/messic-icon.png);
+}
+.messic-header2 {
     background: url("../images/people.png") repeat-x scroll 0 0 #2e7bcf;
-    border-bottom: 1px solid #275da1;
     font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
-    min-height: 320px;
+    min-height: 370px;
     padding-bottom: 40px;
     padding-left: 5px;
     padding-top: 5px;
@@ -215,6 +223,7 @@ header h1 {
     margin-bottom: 0.2em;
     width: 540px;
     text-shadow: 1px 1px 1px rgba(80, 80, 80, 0.5);
+    font-family: source-sans-pro, sans-serif;
 }
 header h2 {
     font-size: 26px;
