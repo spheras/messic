@@ -864,7 +864,7 @@ p strong {
     text-decoration: underline;
 }
 #messic-page-border {
-    border-color: transparent;
+    border-color: #F9F9F9;
     -webkit-border-image: url("base/page-border.png") 150 150 150 150 fill;
     -o-border-image: url("base/page-border.png") 150 150 150 150 fill;
     border-image: url("base/page-border.png") 150 150 150 150 fill;
@@ -911,11 +911,6 @@ p strong {
     left: -109px;
     position: relative;
     top: -85px;
-    /* Firefox */
-    /* WebKit */
-    /* Opera */
-    width: -o-calc(100% + 225px);
-    /* Standard */
     width: calc(100% + 225px);
 }
 #messic-page-content h1 {

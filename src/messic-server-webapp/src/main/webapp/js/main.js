@@ -47,7 +47,7 @@ function mainCheckUpdate() {
             var $code = $(code);
             $('#messic-page-content').prepend($code);
             $code.delay(15000).fadeOut(2000, function () {
-                this.remove();
+                $(this).remove();
             });
         }
     });

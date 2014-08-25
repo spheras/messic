@@ -682,13 +682,13 @@
     top: -14px;
     z-index: 10;
     z-index: 10;
-    -webkit-transform-origin: 0 0 0;
-    -ms-transform-origin: 0 0 0;
-    transform-origin: 0 0 0;
+    -webkit-transform-origin: 0px 0px 0px;
+    -ms-transform-origin: 0px 0px 0px;
+    transform-origin: 0px 0px 0px;
     -webkit-transform: rotate(-90deg);
     -ms-transform: rotate(-90deg);
     transform: rotate(-90deg);
-    -webkit-transform-origin: 0 0 0;
+    -webkit-transform-origin: 0px 0px 0px;
     -webkit-transform: rotate(-90deg);
 }
 .jplayer-playlist-vinylHandPlaying {
