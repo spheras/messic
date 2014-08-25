@@ -1,0 +1,296 @@
+
+#content-wrapper > h1 {
+
+    background: none repeat scroll 0 0 #cecece;
+
+    color: black;
+
+    font-size: 2em;
+
+    padding: 20px;
+
+}
+
+.messic-restapi {
+
+    color: #444444;
+
+    font-family: Roboto;
+
+    margin-bottom: 40px;
+
+    padding: 22px;
+
+    font: inherit;
+
+    font-size: 1.2em;
+
+}
+
+.messic-restapi-info {
+
+    color: #111111;
+
+    margin-bottom: 20px;
+
+}
+
+.messic-restapi-info span {
+
+    font-size: 0.8em;
+
+    margin-left: 10px;
+
+}
+
+.messic-restapi-version {
+
+    font-size: 0.8em;
+
+}
+
+.messic-restapi-basepath {
+
+    font-size: 0.8em;
+
+}
+
+.messic-restapi-api {
+
+    background: #FAFAFA;
+
+    margin-bottom: 20px;
+
+}
+
+.messic-restapi-title {
+
+    background: none repeat scroll 0 0 rgba(0, 100, 255, 0.23);
+
+    border-radius: 7px;
+
+    color: #444444;
+
+    font-family: Amaranth;
+
+    font-weight: bold;
+
+    padding: 2px;
+
+    text-indent: 10px;
+
+}
+
+.messic-restapi-title:before {
+
+    color: #999999;
+
+    content: ">>";
+
+    margin-right: 5px;
+
+}
+
+.messic-restapi-description {
+
+    font-size: 0.7em;
+
+}
+
+.messic-restapi-method {
+
+    border: 1px dashed #DDDDDD;
+
+    border-radius: 10px;
+
+    margin-left: 64px;
+
+    padding: 10px;
+
+    margin-top: 10px;
+
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+
+}
+
+.messic-restapi-method span {
+
+    background: none repeat scroll 0 0 #AAAAAA;
+
+    border-radius: 5px;
+
+    color: #FFFFFF;
+
+    font-size: 0.8em;
+
+    font-weight: bold;
+
+    padding: 3px 10px;
+
+}
+
+.messic-restapi-method-path {} .messic-restapi-method-description {
+
+    font-size: 0.6em;
+
+}
+
+.messic-restapi-method-verb {
+
+    font-size: 0.8em;
+
+    line-height: 20px;
+
+}
+
+.messic-restapi-method-produces {
+
+    font-size: 0.8em;
+
+    line-height: 20px;
+
+}
+
+.messic-restapi-method-consumes {
+
+    font-size: 0.8em;
+
+    line-height: 20px;
+
+}
+
+.messic-restapi-method-pathp {
+
+    border: 1px dotted #FFFFFF;
+
+    border-radius: 0;
+
+    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+
+    margin-bottom: 16px;
+
+    margin-left: 40px;
+
+    margin-top: 10px;
+
+}
+
+.messic-restapi-method-pathp-name {
+
+    background: none repeat scroll 0 0 #EEEEEE;
+
+    font-size: 0.8em;
+
+    line-height: 25px;
+
+    margin: 4px;
+
+    padding: 6px;
+
+}
+
+.messic-restapi-method-pathp-description {
+
+    font-size: 0.7em;
+
+    margin-left: 13px;
+
+}
+
+.messic-restapi-method-pathp-type {
+
+    font-size: 0.8em;
+
+    margin-left: 40px;
+
+}
+
+.messic-restapi-method-pathp-required {
+
+    font-size: 0.8em;
+
+    margin-left: 40px;
+
+}
+
+.messic-restapi-method-queryp {
+
+    border: 1px dotted #FFFFFF;
+
+    border-radius: 0;
+
+    -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+
+    margin-bottom: 16px;
+
+    margin-left: 40px;
+
+    margin-top: 10px;
+
+}
+
+.messic-restapi-method-queryp-name {
+
+    background: none repeat scroll 0 0 #EEEEEE;
+
+    font-size: 0.8em;
+
+    line-height: 25px;
+
+    margin: 4px;
+
+    padding: 6px;
+
+}
+
+.messic-restapi-method-queryp-description {
+
+    font-size: 0.7em;
+
+    margin-left: 13px;
+
+}
+
+.messic-restapi-method-queryp-type {
+
+    font-size: 0.8em;
+
+    margin-left: 40px;
+
+}
+
+.messic-restapi-method-queryp-required {
+
+    font-size: 0.8em;
+
+    margin-left: 40px;
+
+}
+
+.messic-restapi-method-apie {
+
+    border-bottom: 1px dotted #DDDDDD;
+
+    margin-left: 40px;
+
+    margin-top: 0;
+
+}
+
+.messic-restapi-method-apie-code {
+
+    float: left;
+
+}
+
+.messic-restapi-method-apie-description {
+
+    margin-left: 38px;
+
+}

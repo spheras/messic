@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
     <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="stylesheets/webicons.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/animate.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/api.css" media="screen">
     <link rel="shortcut icon" href="images/messic-icon.png" type="image/png">
 
     <!--[if lt IE 11]>
@@ -21,17 +24,28 @@
 <body>
     <header class="messic-header1">
         <div>
-            <div class="messic-logo-mini">messic</div>
+            <div class="messic-logo-mini animated bounceIn" onclick="window.location.reload()">messic</div>
+            <div class="messic-menu">
+                <a href="contribute.html" target="_blank" class="animated fadeInDown messic-menu-contribute">Contribute</a>
+                <a href="#" class="animated fadeInDown messic-menu-api" onclick="loadAPI(event)">API Docs</a>
+                <a href="https://github.com/spheras/messic/wiki/" target="_blank" class="animated fadeInDown messic-menu-wiki">Wiki</a>
+                <a onmousedown="window.location.reload()" href="#downloads" class="animated fadeInDown messic-menu-download">Download</a>
+            </div>
+
+            <div class="messic-social svg">
+                <a title="GitHub" href="http://www.github.com/spheras/messic" class="webicon github" target="_blank"></a>
+                <a title="Google Groups" href="http://groups.google.com/group/messic-dev" class="webicon mail" target="_blank"></a>
+                <a title="Twitter" href="http://twitter.com/messic" class="webicon twitter" target="_blank"></a>
+            </div>
+
         </div>
     </header>
     <header class="messic-header2">
         <div class="messic-monster"></div>
-        <div class="inner">
-            <h1>messic</h1>
-            <h2>Music Organizator and Player</h2>
+        <div class="inner animated fadeIn">
+            <h1>mes<love>s</love>ic</h1>
+            <h2>Music Organizator and Player with <strong>♥</strong></h2>
         </div>
-        <a href="https://github.com/spheras/messic" target="_blank" class="button"><small>View project on</small>GitHub</a>
-
     </header>
 
     <div id="content-wrapper">
@@ -73,7 +87,7 @@
                 </p>
 
                 <h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Download and Install</h3>
+<a name="designer-templates" id="downloads" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Download and Install</h3>
 
                 <p>You can download messic from the download section links. You will find there links to messic for Linux, Mac and Windows. Select the most appropiate version for your system and proceed to install it.</p>
                 <ul>
@@ -128,6 +142,9 @@
         </div>
     </div>
 
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="javascripts/main.js"></script>
 
     <script>
         (function (i, s, o, g, r, a, m) {
