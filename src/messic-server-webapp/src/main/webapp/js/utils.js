@@ -513,3 +513,25 @@ function Utilget_browser_version() {
     }
     return M[1];
 }
+
+//Try to detect if the file is a playlist
+function UtilIsPlayListFile(file) {
+    var extension = UtilGetFileExtension(file.name).toLowerCase().trim();
+    if (extension == "m3u" ||
+        extension == "wpl" ||
+        extension == "asx" ||
+        extension == "bio" ||
+        extension == "fpl" ||
+        extension == "kpl" ||
+        extension == "pla" ||
+        extension == "aimppl" ||
+        extension == "plc" ||
+        extension == "pls" ||
+        extension == "smil" ||
+        extension == "vlc" ||
+        extension == "xspf" ||
+        extension == "zpl") {
+        return true;
+    }
+    return false;
+}

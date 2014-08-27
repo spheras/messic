@@ -31,6 +31,7 @@ import java.util.Properties;
 import net.coobird.thumbnailator.Thumbnails;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.jaudiotagger.audio.exceptions.CannotReadException;
 import org.jaudiotagger.audio.exceptions.CannotWriteException;
 import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
@@ -73,6 +74,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class APIAlbum
 {
     public static final String INDEX_TMP_PROPERTIES_FILENAME = "index.tmp.properties";
+
+    private Logger log = Logger.getLogger( APIAlbum.class );
 
     private Object indexTmpSemaphore = new Object();
 
@@ -308,7 +311,8 @@ public class APIAlbum
         {
             if ( file.isFile() )
             {
-                if ( !isAnExceptionFile( file, exceptionFiles, replacementChar ) && !file.getName().toUpperCase().equals( APIAlbum.INDEX_TMP_PROPERTIES_FILENAME.toUpperCase() ) )
+                if ( !isAnExceptionFile( file, exceptionFiles, replacementChar )
+                    && !file.getName().toUpperCase().equals( APIAlbum.INDEX_TMP_PROPERTIES_FILENAME.toUpperCase() ) )
                 {
                     file.delete();
                 }
@@ -651,23 +655,28 @@ public class APIAlbum
                 }
                 catch ( CannotReadException e )
                 {
-                    throw new IOException( e.getMessage(), e.getCause() );
+                    log.error( e );
+                    // throw new IOException( e.getMessage(), e.getCause() );
                 }
                 catch ( TagException e )
                 {
-                    throw new IOException( e.getMessage(), e.getCause() );
+                    log.error( e );
+                    // throw new IOException( e.getMessage(), e.getCause() );
                 }
                 catch ( ReadOnlyFileException e )
                 {
-                    throw new IOException( e.getMessage(), e.getCause() );
+                    log.error( e );
+                    // throw new IOException( e.getMessage(), e.getCause() );
                 }
                 catch ( InvalidAudioFrameException e )
                 {
-                    throw new IOException( e.getMessage(), e.getCause() );
+                    log.error( e );
+                    // throw new IOException( e.getMessage(), e.getCause() );
                 }
                 catch ( CannotWriteException e )
                 {
-                    throw new IOException( e.getMessage(), e.getCause() );
+                    log.error( e );
+                    // throw new IOException( e.getMessage(), e.getCause() );
                 }
 
             }
@@ -818,5 +827,4 @@ public class APIAlbum
 
         return sidResult;
     }
-
 }

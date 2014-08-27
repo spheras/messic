@@ -105,12 +105,5 @@
 		<welcome-file>/login.do</welcome-file>
 	</welcome-file-list>
 
-	<!-- LOCALE CONFIG -->
-	<locale-config>
-		<default-locale>en</default-locale>
-		<supported-locale>es</supported-locale>
-		<!-- TODO, other languages <supported-locale>de</supported-locale> <supported-locale>en_GB</supported-locale> 
-			<supported-locale>en_US</supported-locale> -->
-	</locale-config>
 
 </web-app>

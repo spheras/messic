@@ -167,7 +167,7 @@ var UploadAlbum = function () {
         }
     }
 
-
+    
     /* Add Files to the  uploadBox */
     this.addFiles = function (receivedFiles) {
         this.coverImageResource = null;
@@ -260,7 +260,7 @@ var UploadAlbum = function () {
                 })(f, this.imageResources[ir - 1]);
                 // Read in the image file as a data URL.
                 reader.readAsDataURL(f);
-            } else if (f.type.match('audio.*')) {
+            } else if (f.type.match('audio.*') && !UtilIsPlayListFile(f)) {
                 code = code + '<li class="messic-upload-song-content-songs-filedelete">';
                 code = code + '  <div class="messic-upload-song-content-header-realfilename">' + f.name + '</div>';
                 code = code + '  <div class="messic-upload-song-content-header-track">';

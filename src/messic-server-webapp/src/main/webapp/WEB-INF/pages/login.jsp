@@ -64,7 +64,7 @@
 
         <body>
             <c:if test="${ message == null }">
-                <fmt:setBundle basename="ResourceBundle" var="message" scope="application" />
+                <fmt:setBundle basename="org.messic.jsp.resourcebundles.ResourceBundle" var="message" scope="session" />
             </c:if>
 
             <!--[if lt IE 11]>

@@ -21,6 +21,7 @@ package org.messic.server.datamodel;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -43,6 +44,10 @@ public class MDOAlbum
 {
 
     private static final long serialVersionUID = 8792913920714652055L;
+
+    @Column( name = "CREATED", nullable = true )
+    // when was this album incorpored to the messic database
+    private Date created;
 
     @Column( name = "NAME", nullable = false )
     private String name;
@@ -81,6 +86,7 @@ public class MDOAlbum
     public MDOAlbum()
     {
         super();
+        this.created = new Date( System.currentTimeMillis() );
     }
 
     public MDOAlbum( MDOUser user, String location, String name, Integer year, MDOAuthor author, MDOGenre genre,
@@ -250,6 +256,38 @@ public class MDOAlbum
     public void setState( Integer state )
     {
         this.state = state;
+    }
+
+    /**
+     * @return the created
+     */
+    public Date getCreated()
+    {
+        return created;
+    }
+
+    /**
+     * @param created the created to set
+     */
+    public void setCreated( Date created )
+    {
+        this.created = created;
+    }
+
+    /**
+     * @return the extraTags
+     */
+    public List<MDOGenericTAG> getExtraTags()
+    {
+        return extraTags;
+    }
+
+    /**
+     * @param extraTags the extraTags to set
+     */
+    public void setExtraTags( List<MDOGenericTAG> extraTags )
+    {
+        this.extraTags = extraTags;
     }
 
 }
