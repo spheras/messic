@@ -19,6 +19,8 @@
 package org.messic.server.facade.controllers.rest;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,6 +156,11 @@ public class PlaylistController
 
         try
         {
+            Playlist pl = playlistAPI.getPlaylist( user, playlistSid, false );
+
+            String fileName = pl.getName() + ".zip";
+            response.setHeader( "Content-disposition", "attachment; filename=\"" + fileName+"\"" );
+
             playlistAPI.getPlaylistZip( user, playlistSid, response.getOutputStream() );
         }
         catch ( IOException e )

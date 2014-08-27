@@ -416,7 +416,7 @@ function playlistAddToPlaylist(songSids) {
         $(code).hide().appendTo('body').fadeIn();
 
         $("#messic-playlists-select-existent li").click(function () {
-            var sid = $(this).data("songsid");
+            var sid = $(this).data("sid");
             $.getJSON("services/playlists?songsInfo=true&filterSid=" + sid, function (dataPlaylistSelected) {
                 if (!dataPlaylistSelected[0].songs) {
                     dataPlaylistSelected[0].songs = new Array();

@@ -62,5 +62,14 @@ echo "Icon=$CURRENT_PATH/bin/messic-icon.png" >> ../messic.desktop
 echo "Categories = Audio;Player;;" >> ../messic.desktop
 
 
+#concatenate the classpath files, by Casimiro
+classpathVar="."
+array=($(ls ../classpath))
+for i in "${array[@]}"
+do
+	classpathVar="$classpathVar:./classpath/$i"
+done
+
+
 cd ..
-./bin/$JAVA_FOLDER/bin/java -cp ".:./classpath/antlr-2.7.7.jar:./classpath/aopalliance-1.0.jar:./classpath/aspectjweaver-1.7.4.jar:./classpath/commons-cli-1.2.jar:./classpath/commons-dbcp-1.4.jar:./classpath/commons-io-2.4.jar:./classpath/commons-logging-1.1.2.jar:./classpath/commons-pool-1.5.4.jar:./classpath/dom4j-1.6.1.jar:./classpath/h2-1.3.171.jar:./classpath/hibernate-commons-annotations-4.0.1.Final.jar:./classpath/hibernate-core-4.2.1.Final.jar:./classpath/hibernate-entitymanager-4.2.1.Final.jar:./classpath/hibernate-jpa-2.0-api-1.0.1.Final.jar:./classpath/javassist-3.15.0-GA.jar:./classpath/jboss-logging-3.1.0.GA.jar:./classpath/jboss-transaction-api_1.1_spec-1.0.1.Final.jar:./classpath/log4j-1.2.14.jar:./classpath/messic-configuration-1.0.0-alpha.jar:./classpath/messic-service-1.0.0-alpha.jar:./classpath/messic-starter-1.0.0-alpha.jar:./classpath/org.apache.felix.framework-4.2.1.jar:./classpath/org.apache.felix.main-4.2.1.jar:./classpath/spring-aop-4.0.0.RELEASE.jar:./classpath/spring-beans-4.0.0.RELEASE.jar:./classpath/spring-context-4.0.0.RELEASE.jar:./classpath/spring-core-4.0.0.RELEASE.jar:./classpath/spring-expression-4.0.0.RELEASE.jar:./classpath/tools-1.4.2.jar" org.messic.starter.Starter $1 $2 $3 $4 $5
+./bin/$JAVA_FOLDER/bin/java -cp "$classpathVar" org.messic.starter.Starter $1 $2 $3 $4 $5

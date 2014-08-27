@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.zip.ZipEntry;
@@ -190,6 +191,7 @@ public class APISong
         // level - the compression level (0-9)
         zos.setLevel( 9 );
 
+        HashMap<String, String> songs = new HashMap<String, String>();
         for ( Long songSid : desiredSongs )
         {
             MDOSong song = daoSong.get( user.getLogin(), songSid );
@@ -198,17 +200,22 @@ public class APISong
                 // add file
                 // extract the relative name for entry purpose
                 String entryName = song.getLocation();
-                ZipEntry ze = new ZipEntry( entryName );
-                zos.putNextEntry( ze );
-                FileInputStream in = new FileInputStream( song.calculateAbsolutePath( daoSettings.getSettings() ) );
-                int len;
-                byte buffer[] = new byte[1024];
-                while ( ( len = in.read( buffer ) ) > 0 )
+                if ( songs.get( entryName ) == null )
                 {
-                    zos.write( buffer, 0, len );
+                    // not repeated
+                    songs.put( entryName, "ok" );
+                    ZipEntry ze = new ZipEntry( entryName );
+                    zos.putNextEntry( ze );
+                    FileInputStream in = new FileInputStream( song.calculateAbsolutePath( daoSettings.getSettings() ) );
+                    int len;
+                    byte buffer[] = new byte[1024];
+                    while ( ( len = in.read( buffer ) ) > 0 )
+                    {
+                        zos.write( buffer, 0, len );
+                    }
+                    in.close();
+                    zos.closeEntry();
                 }
-                in.close();
-                zos.closeEntry();
             }
         }
 

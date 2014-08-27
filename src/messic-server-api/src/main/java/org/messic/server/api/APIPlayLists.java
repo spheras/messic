@@ -18,10 +18,12 @@
  */
 package org.messic.server.api;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -38,6 +40,8 @@ import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOPlaylist;
 import org.messic.server.datamodel.dao.DAOSong;
 import org.messic.server.datamodel.dao.DAOUser;
+import org.messic.server.playlists.m3u.M3U;
+import org.messic.server.playlists.m3u.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,25 +77,59 @@ public class APIPlayLists
         // level - the compression level (0-9)
         zos.setLevel( 9 );
 
+        HashMap<String, String> songs = new HashMap<String, String>();
+
+        M3U m3u = new M3U();
+        m3u.setExtensionM3U( true );
+        List<Resource> resources = m3u.getResources();
+
         for ( MDOSong song : desiredSongs )
         {
             if ( song != null )
             {
+
                 // add file
                 // extract the relative name for entry purpose
                 String entryName = song.getLocation();
-                ZipEntry ze = new ZipEntry( entryName );
-                zos.putNextEntry( ze );
-                FileInputStream in = new FileInputStream( song.calculateAbsolutePath( daoSettings.getSettings() ) );
-                int len;
-                byte buffer[] = new byte[1024];
-                while ( ( len = in.read( buffer ) ) > 0 )
+                if ( songs.get( entryName ) == null )
                 {
-                    zos.write( buffer, 0, len );
+                    Resource r = new Resource();
+                    r.setLocation( song.getLocation() );
+                    r.setName( song.getName() );
+                    resources.add( r );
+
+                    songs.put( entryName, "ok" );
+                    // song not repeated
+                    ZipEntry ze = new ZipEntry( entryName );
+                    zos.putNextEntry( ze );
+                    FileInputStream in = new FileInputStream( song.calculateAbsolutePath( daoSettings.getSettings() ) );
+                    int len;
+                    byte buffer[] = new byte[1024];
+                    while ( ( len = in.read( buffer ) ) > 0 )
+                    {
+                        zos.write( buffer, 0, len );
+                    }
+                    in.close();
+                    zos.closeEntry();
                 }
-                in.close();
-                zos.closeEntry();
             }
+        }
+
+        // the last is the playlist m3u
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try
+        {
+            m3u.writeTo( baos, "UTF8" );
+            // song not repeated
+            ZipEntry ze = new ZipEntry( mdoplaylist.getName()+".m3u" );
+            zos.putNextEntry( ze );
+            byte[] bytes = baos.toByteArray();
+            zos.write( bytes, 0, bytes.length );
+            zos.closeEntry();
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
         }
 
         zos.close();

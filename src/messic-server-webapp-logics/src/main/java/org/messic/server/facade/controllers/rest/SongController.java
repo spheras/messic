@@ -19,12 +19,13 @@
 package org.messic.server.facade.controllers.rest;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 
 import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
@@ -36,7 +37,6 @@ import org.jsondoc.core.annotation.ApiParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
 import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
-import org.messic.server.Util;
 import org.messic.server.UtilSubInputStream;
 import org.messic.server.api.APIAlbum;
 import org.messic.server.api.APIAuthor;
@@ -264,6 +264,10 @@ public class SongController
                 sids.add( Long.valueOf( sid ) );
             }
 
+            String fileName = URLEncoder.encode("messic-songlist.zip", "UTF-8");
+            response.setHeader( "Content-disposition", "attachment; filename='" + fileName+"'" );
+
+            
             songAPI.getSongsZip( user, sids, response.getOutputStream() );
         }
         catch ( IOException ioe )
