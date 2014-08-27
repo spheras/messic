@@ -793,3 +793,7 @@ love {
 #main-content ul.faq li {
     margin-top: 20px;
 }
+.svg .webicon.huboard {
+    background: url("../images/huboard.ico") no-repeat;
+    background-position: center center;
+}
