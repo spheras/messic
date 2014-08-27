@@ -26,10 +26,11 @@
         <div>
             <div class="messic-logo-mini animated bounceIn" onclick="window.location.reload()">messic</div>
             <div class="messic-menu">
-                <a href="contribute.html" target="_blank" class="animated fadeInDown messic-menu-contribute">Contribute</a>
-                <a href="#" class="animated fadeInDown messic-menu-api" onclick="loadAPI(event)">API Docs</a>
+                <a href="https://github.com/spheras/messic/issues" target="_blank" class="animated fadeInDown messic-menu-contribute">Issues</a>
+                <a href="#api" class="animated fadeInDown messic-menu-api" onclick="loadAPI(event)">API Docs</a>
                 <a href="https://github.com/spheras/messic/wiki/" target="_blank" class="animated fadeInDown messic-menu-wiki">Wiki</a>
-                <a onmousedown="window.location.reload()" href="#downloads" class="animated fadeInDown messic-menu-download">Download</a>
+                <a href="#downloads" class="animated fadeInDown messic-menu-download">Download</a>
+                <a href="#faq" class="animated fadeInDown messic-menu-faq">FAQ</a>
             </div>
 
             <div class="messic-social svg">
@@ -46,6 +47,15 @@
             <h1>mes<love>s</love>ic</h1>
             <h2>Music Organizator and Player with <strong>♥</strong></h2>
         </div>
+        <div id="galleria">
+            <a href="images/gallery/image1.png">
+                <img src="images/gallery/image1.png" , data-big="images/gallery/image1.png" data-title="Login1" data-description="Login page for the multiuser purposes.">
+            </a>
+            <a href="images/gallery/image2.png">
+                <img src="images/gallery/image2.png" , data-big="images/gallery/image2.png" data-title="Login2" data-description="Login page for the multiuser purposes.">
+            </a>
+        </div>
+
     </header>
 
     <div id="content-wrapper">
@@ -104,11 +114,62 @@
                     <li><a href="#">Messic 1.0</a> Mac .Gz version, <a href="#">&lt;here&gt;</a>
                     </li>
                 </ul>
+
                 <h3>
 <a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Last inestable version</h3>
 
                 <p>Our recomendation is to download only the last stable version, but if you live on the edge and need to have the last last version of messic, you can download it from github directly. By the moment, you will need to compile it, but soon we will built night builds and so on.</p>
 
+                <h3>
+<a name="designer-templates" id="faq" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>FAQ</h3>
+
+                <ul class="faq">
+                    <li>
+                        <h4>Which navigators are compatible?</h4>
+                        Essentially all those compatible with html5 and css3, but that's not true. Please update your navigator to the last version and probably you will not have any problems.
+                        <br>
+                        <br>If you are trying to launch messic from a Microsoft Internet Explorer... well, good luck (really it seems that with version 11 is more or less ok). We have tested with google chrome (some versions of chromium for linux seems to have problems playing mp3 files natively), firefox, safari (from 6.1 version). Konqueror doesn't seems to be ok :(
+                        <br>
+                        <br>We are working to improve compatibility, but <strong>please, please, update your navigator always you can</strong>.
+                    </li>
+                    <li>
+                        <h4>Does Messic use a secure protocol SSL/TLS?</h4>
+                        Initially no, because it's intended to be at your home, inside your home network. But if you need, you can do it by modifying the configuration.
+                        <br>
+                        <br>Just open the messic monitor and open the configuration section. From there you can modify a set of options, and also to enable the security (also you can specify the https protocol).
+                        <br>
+                        <br>After a restart of the messic service, the connections will be done through the new https port, and probably your navigator will advise you because the messic certificate doesn't correspond to the url, and so on. This is normal, but if you want also to fix it, you only need to go to the folder [messic_folder]/jetty/etc/ and you will find there all the jetty configuration. Just touch the jetty-selector-ssl.xml file with your own configuration.
+                    </li>
+                    <li>
+                        <h4>How can I help the project?</h4>
+                        We need a lot of help. For example, translations of messic to other languages. At this time, we have not defined a protocol for external helps, but we will do. For us is very useful if you notify and describe us the bugs you find on messic. It helps a lot to improve the application. Also you can tell us your desired improvements for next versions.
+                        <br>
+                        <br>We really need a lot of help, like graphical designers, programmers, and so on... maybe, if you want to work seriously with us, the best way could be forking the project and pull request. You have a guide <a href="https://guides.github.com/activities/contributing-to-open-source/" target="_blank">here</a>.
+                    </li>
+                    <li>
+                        <h4>Can I use Messic for free?</h4>
+                        Yes, its free in both senses. It has a GPLv3 license.
+                    </li>
+                    <li>
+                        <h4>Where is the source code?</h4>
+                        Just here: <a href="https://github.com/spheras/messic" target="_blank">https://github.com/spheras/messic</a>
+                    </li>
+                    <li>
+                        <h4>I want to move my music folder to other place. How can I do?</h4>
+                        OK, it's very easy. All the necessary information is inside your folder (included database). So you just need to stop messic service, move the WHOLE folder (which is configured at the messic monitor). After that, open the messic monitor and update the new location in the configure section. Finally, you can launch the messic service with this new location.
+                    </li>
+                    <li>
+                        <h4>I don't see well some pages of messic. What can I do?</h4>
+                        Well, in the most of cases, you should upgrade your navigator. In the case you use Internet Explorer, well... it's better to change. Give an opportunity to other navigators like <a href="https://www.mozilla.org" target="_blank">firefox</a> or <a href="http://www.google.com/intl/en/chrome/" target="_blank">chrome</a>.
+                    </li>
+                    <li>
+                        <h4>Can I see messic from my mobile phone or tablet?</h4>
+                        It depends. We have tested some cases and usually it works, not perfectly, but works. The best is to try and tell us your experience. We are working in this area, and also thinking to build native applications for android and ios.</a>.
+                    </li>
+                </ul>
+
+                <a id="api" name="api" href="#api"></a>
+                <div class="apisection"></div>
             </section>
 
             <aside id="sidebar">
@@ -144,6 +205,7 @@
 
 
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="javascripts/galleria-1.4.2.min.js"></script>
     <script src="javascripts/main.js"></script>
 
     <script>

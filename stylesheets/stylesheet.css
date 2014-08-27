@@ -693,6 +693,10 @@ footer a:hover {
     -webkit-animation-delay: 0.6s;
     animation-delay: 0.6s;
 }
+.messic-menu-faq {
+    -webkit-animation-delay: 0.6s;
+    animation-delay: 0.8s;
+}
 @-webkit-keyframes headeranim {
     0% {
         background-color: #2e7bcf;
@@ -750,7 +754,6 @@ strong {
     -webkit-transition-property: -webkit-transform;
     transition-property: transform;
 }
-
 .inner.animated.fadeIn h2:hover {
     color: white;
     cursor: pointer;
@@ -764,4 +767,29 @@ strong {
 }
 love {
     display: inline-block;
+}
+#galleria {
+    bottom: 50px;
+    height: 340px;
+    position: absolute;
+    right: 50px;
+    width: 650px;
+    border-bottom: 5px solid #555555;
+    opacity: 0.5;
+    -webkit-transition-property: opacity;
+    transition-property: opacity;
+    -webkit-transition-duration: 1s;
+    transition-duration: 1s;
+}
+#galleria:hover {
+    opacity: 1;
+}
+.galleria-stage .galleria-image>img {
+    border-radius: 9px;
+}
+#main-content > ul.faq {
+    list-style: none;
+}
+#main-content ul.faq li {
+    margin-top: 20px;
 }

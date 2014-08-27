@@ -1,10 +1,16 @@
+$(document).ready(function () {
+    // Load the classic theme
+    Galleria.loadTheme('javascripts/galleria.classic.min.js');
+
+    // Initialize Galleria
+    Galleria.run('#galleria');
+});
+
 function loadAPI(e) {
-    e.preventDefault();
-    e.stopPropagation();
     $.ajax({
         url: "api.html",
         success: function (data) {
-            $content = $("#content-wrapper");
+            $content = $(".apisection");
             $content.empty();
             $content.append(data);
 
