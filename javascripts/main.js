@@ -14,7 +14,7 @@ function loadAPI(e) {
             $content.empty();
             $content.append(data);
 
-            $(".messic-header2").addClass("messic-header2-min");
+            //$(".messic-header2").addClass("messic-header2-min");
         },
     });
 }
