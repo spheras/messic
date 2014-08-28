@@ -241,12 +241,14 @@ function playlistPlay(playlistSid) {
                 if (playlist.songs) {
                     for (var j = 0; j < playlist.songs.length; j++) {
                         var song = playlist.songs[j];
-
+                        var dontplay = (j != 0);
                         addSong('raro',
                             UtilEscapeJS(song.album.author.name),
                             song.album.sid, UtilEscapeJS(song.album.name),
                             song.sid,
-                            UtilEscapeJS(song.name)
+                            UtilEscapeJS(song.name), song.rate,
+                            false,
+                            dontplay
                         );
 
                     }

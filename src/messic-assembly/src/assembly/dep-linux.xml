@@ -85,7 +85,13 @@
 		<file>
 			<source>./bin/messic.sh.x64</source>
 			<outputDirectory>./</outputDirectory>
-			<destName>messic</destName>
+			<destName>messic-x64bits</destName>
+			<fileMode>777</fileMode>
+		</file>
+		<file>
+			<source>./bin/messic.sh.x32</source>
+			<outputDirectory>./</outputDirectory>
+			<destName>messic-x32bits</destName>
 			<fileMode>777</fileMode>
 		</file>
 	</files>
