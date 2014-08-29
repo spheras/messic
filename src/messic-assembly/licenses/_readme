@@ -1,0 +1,18 @@
+following is the list of primary (here aren't dependecies of dependencies)
+of the libraries/code used at messic, and their respective license files:
+
+messic -> gplv3.license
+aspectj -> eclipse-1.0.license
+junit -> eclipse-1.0.license
+lizzy -> lizzy.license
+log4j -> apache2.license
+commons-cli -> apache2.license
+mockito -> mit.license
+jackson -> apache2.license
+hibernate -> lgplv2.1.license
+commons-collections -> apache2.license
+jcaptcha -> lgplv2.1.license
+spring framework -> apache2.license
+thumbnailator -> mit.license
+felix -> apache2.license
+jetty -> apache2.license & eclipse-1.0.license

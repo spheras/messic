@@ -34,6 +34,11 @@
 
 		<!-- Files from Local -->
 		<fileSet>
+			<directory>${project.basedir}/licenses</directory>
+			<outputDirectory>/licenses</outputDirectory>
+			<fileMode>777</fileMode>
+		</fileSet>
+		<fileSet>
 			<directory>${project.basedir}/bin</directory>
 			<outputDirectory>/bin</outputDirectory>
 			<includes>

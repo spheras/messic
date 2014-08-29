@@ -45,9 +45,6 @@ function loginSucessfull(messic_token) {
             $("#messic-logo2").attr("class", "messic-main");
 
             //let's hide and remove the login window!
-            $("#messic-login-shadow").fadeOut(500, function () {
-                $(this).remove();
-            });
             $("#messic-login-window").fadeOut(1000, function () {
                 $(this).remove();
                 var posts = $($.parseHTML(data)).filter('#content').children();
@@ -68,49 +65,21 @@ function loginSucessfull(messic_token) {
 }
 
 $(document).ready(function () {
-
-
-    //alert("supported:"+UtilSupportsMedia("audio/mpeg","audio"))
-
     var loginWindow = $("#messic-login-window");
-    var loginShadow = $("#messic-login-shadow");
 
     //make the window dragablle
-    loginWindow.draggable({
-        drag: function (event, ui) {
-            moveShadow();
-        }
-    });
-
-    //the loginShadow of the window will move at the same time as the loginWindow
-    function moveShadow() {
-        logoX = parseInt(loginWindow.offset().left);
-        logoY = parseInt(loginWindow.offset().top);
-        shadowPosLeft = logoX + "px";
-        shadowPosTop = logoY + (loginWindow.height() + 1) + "px";
-        loginShadow.css({
-            "left": shadowPosLeft,
-            "top": shadowPosTop,
-            "width": loginWindow.width()
-        });
-    }
+    loginWindow.draggable();
 
     //centering the loginWindow
     jQuery.fn.center = function () {
         this.css("position", "absolute");
         this.css("top", ($(document).height() - this.height()) / 2 + $(loginWindow).scrollTop() + "px");
         this.css("left", ($(document).width() - this.width()) / 2 + $(loginWindow).scrollLeft() + "px");
-        loginShadow.css({
-            "width": loginWindow.width(),
-            "top": loginWindow.offset().top + loginWindow.height() + 1,
-            "left": loginWindow.offset().left
-        });
     }
     loginWindow.center();
 
     loginWindow.show();
     loginWindow.center();
-    loginShadow.show();
 
     $('input[autofocus]').trigger('focus');
 

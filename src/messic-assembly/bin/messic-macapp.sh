@@ -28,7 +28,7 @@ messicPath=${appPath:0:messicAppLength}
 #echo $messicPath > hello.txt
 
 cd $messicPath
-cd ../../../
+cd ../../
 varpwd=$(pwd)
 #echo $varpwd >goodbye.txt
 

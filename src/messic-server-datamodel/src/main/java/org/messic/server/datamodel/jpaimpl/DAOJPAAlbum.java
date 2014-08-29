@@ -86,6 +86,20 @@ public class DAOJPAAlbum
 
     @Override
     @Transactional
+    public List<MDOAlbum> getRecent( String username, int maxAlbums )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) AND (a.created is not null)  ORDER BY (a.created)" );
+        query.setParameter( "userName", username );
+        query.setMaxResults( maxAlbums );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbum> results = query.getResultList();
+        return results;
+    }
+
+    @Override
+    @Transactional
     public List<MDOAlbum> findSimilarAlbums( String albumName, String username )
     {
         Query query =

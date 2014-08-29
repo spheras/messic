@@ -124,7 +124,6 @@
                     </div>
                     <%}%>
             </div>
-            <div id="messic-login-shadow" style="display:none;position:absolute;"></div>
 
             <div id="messic-wait">
                 <div id="messic-wait-box">

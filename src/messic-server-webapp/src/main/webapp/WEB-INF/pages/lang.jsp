@@ -239,5 +239,11 @@ messicLang = {
 		if(what=='RandomListTitle-Loved'){
 			return '<fmt:message key="js-randomlisttitle-loved" bundle="${message}"/>';
 		}
+		if(what=='RandomListName-Recent'){
+			return '<fmt:message key="js-randomlistname-recent" bundle="${message}"/>';
+		}
+		if(what=='RandomListTitle-Recent'){
+			return '<fmt:message key="js-randomlisttitle-recent" bundle="${message}"/>';
+		}
 	}
 }

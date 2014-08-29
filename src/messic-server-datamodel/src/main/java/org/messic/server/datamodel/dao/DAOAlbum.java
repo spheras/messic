@@ -42,6 +42,15 @@ public interface DAOAlbum
     int findOldestAlbum( String username );
 
     /**
+     * Obtain recent albums, incorpored to the database
+     * 
+     * @param username String user scope
+     * @param maxAlbums int max number of albums returned
+     * @return {@link List}<MDOAlbum/> List of albums, ordered by created (when incorpored to the database)
+     */
+    List<MDOAlbum> getRecent( String username, int maxAlbums );
+
+    /**
      * Find an album with the name albumName parameter
      * 
      * @param albumName {@link String} album name to search

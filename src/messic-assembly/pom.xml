@@ -33,7 +33,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<finalName>messic-${project.version}</finalName>
+							<finalName>messic-${project.version}.app</finalName>
 							<descriptors>
 								<descriptor>src/assembly/dep-windows.xml</descriptor>
 								<descriptor>src/assembly/dep-linux.xml</descriptor>
