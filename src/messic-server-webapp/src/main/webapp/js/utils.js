@@ -32,6 +32,7 @@ function UtilGetAlbumRandom(albumSid) {
         return MESSIC_ALBUM_RANDOM_MAP[albumSid];
     } else {
         MESSIC_ALBUM_RANDOM_MAP[albumSid] = UtilGetRandom(0, 9999999999);
+        return MESSIC_ALBUM_RANDOM_MAP[albumSid];
     }
 }
 //reset the random number stablished at the function UtilGetAlbumRandom
