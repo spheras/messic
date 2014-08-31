@@ -1,16 +1,18 @@
-<h3>Following is the collected API for messic. You can find at the wiki some examples and basic information to start using the api of messic.</h3>
+<h3>Following is the collected API for messic. <a href="https://github.com/spheras/messic/wiki/Messic-API:-Usage" target="_blank">You can find at the wiki some examples and basic information to start using the api of messic</a>.</h3>
+
+
 <div class="messic-restapi">
     <div class="messic-restapi-info">
         <div class="messic-restapi-version">Version:<span>1.0</span>
         </div>
-        <div class="messic-restapi-basepath">Base Path:<span>http://localhost:8080/messic/services</span>
+        <div class="messic-restapi-basepath">Base Path:<span>http://[your_ip]:[your_port]/messic/services</span>
         </div>
     </div>
     <div class="messic-restapi-api">
         <div class="messic-restapi-title">Album Resource services</div>
         <div class="messic-restapi-description">Methods for managing album resources -except songs-</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albumresources/{resourceSid}</div>
+            <div class="messic-restapi-method-path">/services/albumresources/{resourceSid}</div>
             <div class="messic-restapi-method-description">Remove a resource with sid {resourceSid} from the album</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
             </div>
@@ -37,7 +39,7 @@
         <div class="messic-restapi-title">Album services</div>
         <div class="messic-restapi-description">Methods for managing albums</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums?filterGenreSid=xxxx&amp;filterAuthorSid=xxxx&amp;filterName=xxxx&amp;songsInfo=true|false&amp;authorInfo=true|false</div>
+            <div class="messic-restapi-method-path">/services/albums?filterGenreSid=xxxx&amp;filterAuthorSid=xxxx&amp;filterName=xxxx&amp;songsInfo=true|false&amp;authorInfo=true|false</div>
             <div class="messic-restapi-method-description">Get all albums. They can be filtered by authorSid or by genreSid (not combined). You can also espcify what information should be returned (with songs information or not, for exmaple)</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -95,7 +97,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums/{albumSid}</div>
+            <div class="messic-restapi-method-path">/services/albums/{albumSid}</div>
             <div class="messic-restapi-method-description">Remove an album with sid {albumSid}</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
             </div>
@@ -118,7 +120,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums/{albumSid}?songsInfo=true|false&amp;authorInfo=true|false</div>
+            <div class="messic-restapi-method-path">/services/albums/{albumSid}?songsInfo=true|false&amp;authorInfo=true|false</div>
             <div class="messic-restapi-method-description">Get album with id {albumSid}</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -162,7 +164,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums/{resourceSid}/resource</div>
+            <div class="messic-restapi-method-path">/services/albums/{resourceSid}/resource</div>
             <div class="messic-restapi-method-description">Get a resource of an album</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -193,7 +195,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums/{albumSid}/{resourceSid}/cover</div>
+            <div class="messic-restapi-method-path">/services/albums/{albumSid}/{resourceSid}/cover</div>
             <div class="messic-restapi-method-description">Set cover for a certain album</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>POST</span>
             </div>
@@ -227,7 +229,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums/{albumSid}/cover</div>
+            <div class="messic-restapi-method-path">/services/albums/{albumSid}/cover</div>
             <div class="messic-restapi-method-description">Get cover for a certain album</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -272,7 +274,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums</div>
+            <div class="messic-restapi-method-path">/services/albums</div>
             <div class="messic-restapi-method-description">Create or Update an album. Before creation you need to upload the resources!. Return the Sid of the album created/updated</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>POST</span>
             </div>
@@ -298,7 +300,34 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums/{albumCode}?fileName=xxxxx</div>
+            <div class="messic-restapi-method-path">/services/albums/{albumSid}/zip</div>
+            <div class="messic-restapi-method-description">Get the album binary, get the whole album zipped</div>
+            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
+            </div>
+            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span>application/octet-stream</span>
+            </div>
+            <div class="messic-restapi-method-pathp">
+                <div class="messic-restapi-method-pathp-name">Parameter&nbsp;&nbsp;<span>albumSid</span>
+                </div>
+                <div class="messic-restapi-method-pathp-description">SID of the album resource we want to download</div>
+                <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
+                <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">500</div>
+                <div class="messic-restapi-method-apie-description">Unknown error</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">403</div>
+                <div class="messic-restapi-method-apie-description">Forbidden access</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">409</div>
+                <div class="messic-restapi-method-apie-description">IO error trying to get the album resource</div>
+            </div>
+        </div>
+        <div class="messic-restapi-method">
+            <div class="messic-restapi-method-path">/services/albums/{albumCode}?fileName=xxxxx</div>
             <div class="messic-restapi-method-description">Upload a resource for an album. This resources are stored at the temporal folder, waiting until save Album process. The client must post the binary content of the resource.</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>PUT</span>
             </div>
@@ -334,34 +363,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums/{albumSid}/zip</div>
-            <div class="messic-restapi-method-description">Get the album binary, get the whole album zipped</div>
-            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
-            </div>
-            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span>application/octet-stream</span>
-            </div>
-            <div class="messic-restapi-method-pathp">
-                <div class="messic-restapi-method-pathp-name">Parameter&nbsp;&nbsp;<span>albumSid</span>
-                </div>
-                <div class="messic-restapi-method-pathp-description">SID of the album resource we want to download</div>
-                <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
-                <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">500</div>
-                <div class="messic-restapi-method-apie-description">Unknown error</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">403</div>
-                <div class="messic-restapi-method-apie-description">Forbidden access</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">409</div>
-                <div class="messic-restapi-method-apie-description">IO error trying to get the album resource</div>
-            </div>
-        </div>
-        <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums/{albumCode}/wizard</div>
+            <div class="messic-restapi-method-path">/services/albums/{albumCode}/wizard</div>
             <div class="messic-restapi-method-description">Get 'magic' info from the resources that have been uploaded previously. This resources are suposed to be of the same album, messic try to get the album info from them using several mechanisms. If the {pluginName} param is not present it returns only the basic info with all the available plugins. ALSO SUPPORT POST TO SUBMIT THE PARAMETER ALBUMHELPINFO!.</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -399,7 +401,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/albums/clear?albumCode=xxxx</div>
+            <div class="messic-restapi-method-path">/services/albums/clear?albumCode=xxxx</div>
             <div class="messic-restapi-method-description">Clear all the temporal files that have been uploaded previously. You can pass a json object with all the files you don't want to delate (the algorithm will erase all files that aren't in the list)</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>POST</span>
             </div>
@@ -430,7 +432,7 @@
         <div class="messic-restapi-title">Author services</div>
         <div class="messic-restapi-description">Methods for managing authors</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/authors?filterName=xxxx&amp;albumsInfo=true|false&amp;songsInfo=true|false</div>
+            <div class="messic-restapi-method-path">/services/authors?filterName=xxxx&amp;albumsInfo=true|false&amp;songsInfo=true|false</div>
             <div class="messic-restapi-method-description">Get all authors</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -474,7 +476,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/authors/{authorSid}</div>
+            <div class="messic-restapi-method-path">/services/authors/{authorSid}</div>
             <div class="messic-restapi-method-description">Remove an author (and all its content) with sid {authorSid}</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
             </div>
@@ -497,7 +499,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/authors/{authorSid}?albumsInfo=true|false&amp;songsInfo=true|false</div>
+            <div class="messic-restapi-method-path">/services/authors/{authorSid}?albumsInfo=true|false&amp;songsInfo=true|false</div>
             <div class="messic-restapi-method-description">Get an author</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -538,7 +540,7 @@
         <div class="messic-restapi-title">Check Update Services</div>
         <div class="messic-restapi-description">Methods for check update version of messic</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/checkupdate</div>
+            <div class="messic-restapi-method-path">/services/checkupdate</div>
             <div class="messic-restapi-method-description">Check the last stable version of messic at the server</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -565,7 +567,7 @@
         <div class="messic-restapi-title">Check services</div>
         <div class="messic-restapi-description">Methods for checking if the service is alive</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/check</div>
+            <div class="messic-restapi-method-path">/services/check</div>
             <div class="messic-restapi-method-description">Check if the messic service is alive</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -581,7 +583,7 @@
         <div class="messic-restapi-title">Genre services</div>
         <div class="messic-restapi-description">Methods for managing genres</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/genres?filterName=xxxx</div>
+            <div class="messic-restapi-method-path">/services/genres?filterName=xxxx</div>
             <div class="messic-restapi-method-description">Get all genres</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -604,7 +606,30 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/genres/fuse?newName={newNameValue}</div>
+            <div class="messic-restapi-method-path">/services/genres/{genreSid}</div>
+            <div class="messic-restapi-method-description">Remove an existing genre with sid {genreSid}</div>
+            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
+            </div>
+            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span></span>
+            </div>
+            <div class="messic-restapi-method-pathp">
+                <div class="messic-restapi-method-pathp-name">Parameter&nbsp;&nbsp;<span>genreSid</span>
+                </div>
+                <div class="messic-restapi-method-pathp-description">Sid of the genre to remove</div>
+                <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
+                <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">500</div>
+                <div class="messic-restapi-method-apie-description">Unknown error</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">403</div>
+                <div class="messic-restapi-method-apie-description">Forbidden access</div>
+            </div>
+        </div>
+        <div class="messic-restapi-method">
+            <div class="messic-restapi-method-path">/services/genres/fuse?newName={newNameValue}</div>
             <div class="messic-restapi-method-description">Fuse a set of ids</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>POST</span>
             </div>
@@ -631,30 +656,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/genres/{genreSid}</div>
-            <div class="messic-restapi-method-description">Remove an existing genre with sid {genreSid}</div>
-            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
-            </div>
-            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span></span>
-            </div>
-            <div class="messic-restapi-method-pathp">
-                <div class="messic-restapi-method-pathp-name">Parameter&nbsp;&nbsp;<span>genreSid</span>
-                </div>
-                <div class="messic-restapi-method-pathp-description">Sid of the genre to remove</div>
-                <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
-                <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">500</div>
-                <div class="messic-restapi-method-apie-description">Unknown error</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">403</div>
-                <div class="messic-restapi-method-apie-description">Forbidden access</div>
-            </div>
-        </div>
-        <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/genres/{genreSid}?newName={newGenreName}</div>
+            <div class="messic-restapi-method-path">/services/genres/{genreSid}?newName={newGenreName}</div>
             <div class="messic-restapi-method-description">Update a genre, basically rename it</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>POST</span>
             </div>
@@ -722,7 +724,7 @@
         <div class="messic-restapi-title">MusicInfo services</div>
         <div class="messic-restapi-description">Methods to obtain music info from external providers</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/musicinfo?pluginName=xxxx&amp;songName=xxxx&amp;albumName=xxxx&amp;authorName=xxxxx</div>
+            <div class="messic-restapi-method-path">/services/musicinfo?pluginName=xxxx&amp;songName=xxxx&amp;albumName=xxxx&amp;authorName=xxxxx</div>
             <div class="messic-restapi-method-description">Get Music Info for album/song/author using the plugin called like the pluginName parameter. If no pluginName parameter is presented, then this will return all the availables plugins names that can be used.</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -766,7 +768,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/musicinfo/providericon?pluginName=xxxx</div>
+            <div class="messic-restapi-method-path">/services/musicinfo/providericon?pluginName=xxxx</div>
             <div class="messic-restapi-method-description">Get icon image of a certain musicinfo plugin</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -801,7 +803,7 @@
         <div class="messic-restapi-title">Playlists services</div>
         <div class="messic-restapi-description">Methods for managing playlists</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/playlists?filterSid=${playlistSid}&amp;songsInfo=true|false</div>
+            <div class="messic-restapi-method-path">/services/playlists?filterSid=${playlistSid}&amp;songsInfo=true|false</div>
             <div class="messic-restapi-method-description">Get all playlists</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -831,7 +833,50 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/playlists/{playlistSid}/zip</div>
+            <div class="messic-restapi-method-path">/services/playlists/{playlistSid}</div>
+            <div class="messic-restapi-method-description">Remove a playlist with sid {playlistSid}</div>
+            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
+            </div>
+            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span></span>
+            </div>
+            <div class="messic-restapi-method-pathp">
+                <div class="messic-restapi-method-pathp-name">Parameter&nbsp;&nbsp;<span>playlistSid</span>
+                </div>
+                <div class="messic-restapi-method-pathp-description">Sid of the playlist to remove</div>
+                <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
+                <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">500</div>
+                <div class="messic-restapi-method-apie-description">Unknown error</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">403</div>
+                <div class="messic-restapi-method-apie-description">Forbidden access</div>
+            </div>
+        </div>
+        <div class="messic-restapi-method">
+            <div class="messic-restapi-method-path">/services/playlists</div>
+            <div class="messic-restapi-method-description">Create or Update a playlist</div>
+            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>POST</span>
+            </div>
+            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span>application/json,application/xml</span>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">500</div>
+                <div class="messic-restapi-method-apie-description">Unknown error</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">226</div>
+                <div class="messic-restapi-method-apie-description">Duplicated playlist name</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">404</div>
+                <div class="messic-restapi-method-apie-description">some sid has not been found</div>
+            </div>
+        </div>
+        <div class="messic-restapi-method">
+            <div class="messic-restapi-method-path">/services/playlists/{playlistSid}/zip</div>
             <div class="messic-restapi-method-description">return a zip with the content (songs) of a certain playlist</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -857,55 +902,12 @@
                 <div class="messic-restapi-method-apie-description">IO error</div>
             </div>
         </div>
-        <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/playlists/{playlistSid}</div>
-            <div class="messic-restapi-method-description">Remove a playlist with sid {playlistSid}</div>
-            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
-            </div>
-            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span></span>
-            </div>
-            <div class="messic-restapi-method-pathp">
-                <div class="messic-restapi-method-pathp-name">Parameter&nbsp;&nbsp;<span>playlistSid</span>
-                </div>
-                <div class="messic-restapi-method-pathp-description">Sid of the playlist to remove</div>
-                <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
-                <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">500</div>
-                <div class="messic-restapi-method-apie-description">Unknown error</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">403</div>
-                <div class="messic-restapi-method-apie-description">Forbidden access</div>
-            </div>
-        </div>
-        <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/playlists</div>
-            <div class="messic-restapi-method-description">Create or Update a playlist</div>
-            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>POST</span>
-            </div>
-            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span>application/json,application/xml</span>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">500</div>
-                <div class="messic-restapi-method-apie-description">Unknown error</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">226</div>
-                <div class="messic-restapi-method-apie-description">Duplicated playlist name</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">404</div>
-                <div class="messic-restapi-method-apie-description">some sid has not been found</div>
-            </div>
-        </div>
     </div>
     <div class="messic-restapi-api">
         <div class="messic-restapi-title">RandomList services</div>
         <div class="messic-restapi-description">Methods for managing random lists</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/randomlists</div>
+            <div class="messic-restapi-method-path">/services/randomlists</div>
             <div class="messic-restapi-method-description">Get random lists of music</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -925,7 +927,7 @@
         <div class="messic-restapi-title">Search services</div>
         <div class="messic-restapi-description">Methods for search things</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/search?content=xxxx</div>
+            <div class="messic-restapi-method-path">/services/search?content=xxxx</div>
             <div class="messic-restapi-method-description">Search at messic by everything</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -952,7 +954,7 @@
         <div class="messic-restapi-title">Song services</div>
         <div class="messic-restapi-description">Methods for managing songs</div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/songs?filterSongSid=xxxx&amp;filterAlbumSid=xxxx&amp;filterAuthorSid=xxxx&amp;albumInfo=true|false&amp;authorInfo=true|false</div>
+            <div class="messic-restapi-method-path">/services/songs?filterSongSid=xxxx&amp;filterAlbumSid=xxxx&amp;filterAuthorSid=xxxx&amp;albumInfo=true|false&amp;authorInfo=true|false</div>
             <div class="messic-restapi-method-description">Get all songs. They can be filtered by songSid, albumSid or authorSid (not combined). You can also espcify what information should be returned (with album information or not, for exmaple)</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -1003,7 +1005,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/songs/{songFileName}/wizard</div>
+            <div class="messic-restapi-method-path">/services/songs/{songFileName}/wizard</div>
             <div class="messic-restapi-method-description">Investigate the filename to get the track number and trackname</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -1022,8 +1024,8 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/songs/{songSid}/audio?dlna={true|false}</div>
-            <div class="messic-restapi-method-description">Get the audio binary from a song resource of an album</div>
+            <div class="messic-restapi-method-path">/services/songs/{songSid}/dlna</div>
+            <div class="messic-restapi-method-description">Get the audio binary from a song resource of an album for a dlna service</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
             <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span>application/octet-stream</span>
@@ -1034,13 +1036,6 @@
                 <div class="messic-restapi-method-pathp-description">SID of the song resource we want to download</div>
                 <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
                 <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
-            </div>
-            <div class="messic-restapi-method-queryp">
-                <div class="messic-restapi-method-queryp-name">Parameter&nbsp;&nbsp;<span>dlna</span>
-                </div>
-                <div class="messic-restapi-method-queryp-description">flag to know if it is a dlna petition. DLNA petitions should return specific headers. By default is false</div>
-                <div class="messic-restapi-method-queryp-type">Type&nbsp;&nbsp;boolean</div>
-                <div class="messic-restapi-method-queryp-required">Required&nbsp;&nbsp;false</div>
             </div>
             <div class="messic-restapi-method-apie">
                 <div class="messic-restapi-method-apie-code">500</div>
@@ -1056,7 +1051,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/songs/{songSids}/zip</div>
+            <div class="messic-restapi-method-path">/services/songs/{songSids}/zip</div>
             <div class="messic-restapi-method-description">Get a set of songs zipped</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
@@ -1083,7 +1078,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/songs</div>
+            <div class="messic-restapi-method-path">/services/songs</div>
             <div class="messic-restapi-method-description">Update a song.</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>POST</span>
             </div>
@@ -1105,7 +1100,7 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/songs/{songSid}</div>
+            <div class="messic-restapi-method-path">/services/songs/{songSid}</div>
             <div class="messic-restapi-method-description">Remove a song with sid {songSid}</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
             </div>
@@ -1125,6 +1120,33 @@
             <div class="messic-restapi-method-apie">
                 <div class="messic-restapi-method-apie-code">403</div>
                 <div class="messic-restapi-method-apie-description">Forbidden access</div>
+            </div>
+        </div>
+        <div class="messic-restapi-method">
+            <div class="messic-restapi-method-path">/services/songs/{songSid}/audio</div>
+            <div class="messic-restapi-method-description">Get the audio binary from a song resource of an album</div>
+            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
+            </div>
+            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span>application/octet-stream</span>
+            </div>
+            <div class="messic-restapi-method-pathp">
+                <div class="messic-restapi-method-pathp-name">Parameter&nbsp;&nbsp;<span>songSid</span>
+                </div>
+                <div class="messic-restapi-method-pathp-description">SID of the song resource we want to download</div>
+                <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
+                <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">500</div>
+                <div class="messic-restapi-method-apie-description">Unknown error</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">403</div>
+                <div class="messic-restapi-method-apie-description">Forbidden access</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">409</div>
+                <div class="messic-restapi-method-apie-description">IO error trying to get the audio resource</div>
             </div>
         </div>
     </div>
