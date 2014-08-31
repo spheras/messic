@@ -68,7 +68,7 @@ public class SettingsController
     @Autowired
     private DAOMessicSettings daoSettings;
 
-    @ApiMethod( path = "/settings", verb = ApiVerb.GET, description = "Get the user settings", produces = {
+    @ApiMethod( path = "/services/settings", verb = ApiVerb.GET, description = "Get the user settings", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized to obtain this info" ) } )
@@ -94,7 +94,7 @@ public class SettingsController
         }
     }
 
-    @ApiMethod( path = "/settings/${userSid}?removeMusicContent={true|false}", verb = ApiVerb.DELETE, description = "Remove an existing user", produces = {
+    @ApiMethod( path = "/services/settings/${userSid}?removeMusicContent={true|false}", verb = ApiVerb.DELETE, description = "Remove an existing user", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized remove this user" ) } )
@@ -131,7 +131,7 @@ public class SettingsController
         }
     }
 
-    @ApiMethod( path = "/settings/${userSid}/resetPassword", verb = ApiVerb.POST, description = "Reset the password of an existing user to 123456", produces = {
+    @ApiMethod( path = "/services/settings/${userSid}/resetPassword", verb = ApiVerb.POST, description = "Reset the password of an existing user to 123456", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized remove this user" ) } )
@@ -164,7 +164,7 @@ public class SettingsController
         }
     }
 
-    @ApiMethod( path = "/settings/admin", verb = ApiVerb.GET, description = "Get the Messic settings", produces = {
+    @ApiMethod( path = "/services/settings/admin", verb = ApiVerb.GET, description = "Get the Messic settings", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized to obtain this info" ) } )
@@ -203,7 +203,7 @@ public class SettingsController
 
     private static long LastValidationTime = 0;
 
-    @ApiMethod( path = "/settings/{userName}/validate", verb = ApiVerb.POST, description = "Validate the username", produces = {
+    @ApiMethod( path = "/services/settings/{userName}/validate", verb = ApiVerb.POST, description = "Validate the username", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotValidUserNameMessicRESTException.VALUE, description = "Not a valid username" ) } )
@@ -260,7 +260,7 @@ public class SettingsController
         }
     }
 
-    @ApiMethod( path = "/settings", verb = ApiVerb.POST, description = "Create or Update an User.", produces = {
+    @ApiMethod( path = "/services/settings", verb = ApiVerb.POST, description = "Create or Update an User.", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ) } )
@@ -293,7 +293,7 @@ public class SettingsController
         }
     }
 
-    @ApiMethod( path = "/settings/admin", verb = ApiVerb.POST, description = "Save Messic Settings.", produces = {
+    @ApiMethod( path = "/services/settings/admin", verb = ApiVerb.POST, description = "Save Messic Settings.", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),

@@ -64,7 +64,7 @@ public class GenreController
     @Autowired
     public DAOUser userDAO;
 
-    @ApiMethod( path = "/genres/{genreSid}", verb = ApiVerb.DELETE, description = "Remove an existing genre with sid {genreSid}", produces = {} )
+    @ApiMethod( path = "/services/genres/{genreSid}", verb = ApiVerb.DELETE, description = "Remove an existing genre with sid {genreSid}", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
     @RequestMapping( value = "/{genreSid}", method = RequestMethod.DELETE )
@@ -88,7 +88,7 @@ public class GenreController
         }
     }
 
-    @ApiMethod( path = "/genres?filterName=xxxx", verb = ApiVerb.GET, description = "Get all genres", produces = {
+    @ApiMethod( path = "/services/genres?filterName=xxxx", verb = ApiVerb.GET, description = "Get all genres", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -124,7 +124,7 @@ public class GenreController
         }
     }
 
-    @ApiMethod( path = "/genres/{genreSid}?newName={newGenreName}", verb = ApiVerb.POST, description = "Update a genre, basically rename it", produces = {
+    @ApiMethod( path = "/services/genres/{genreSid}?newName={newGenreName}", verb = ApiVerb.POST, description = "Update a genre, basically rename it", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
@@ -159,7 +159,7 @@ public class GenreController
         }
     }
 
-    @ApiMethod( path = "/genres/fuse?newName={newNameValue}", verb = ApiVerb.POST, description = "Fuse a set of ids", produces = {
+    @ApiMethod( path = "/services/genres/fuse?newName={newNameValue}", verb = ApiVerb.POST, description = "Fuse a set of ids", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),

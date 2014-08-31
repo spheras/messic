@@ -39,7 +39,6 @@ import org.jsondoc.core.annotation.ApiParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
 import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
-import org.messic.server.Util;
 import org.messic.server.UtilSubInputStream;
 import org.messic.server.api.APIAlbum;
 import org.messic.server.api.APIAuthor;
@@ -91,7 +90,7 @@ public class SongController
     @Autowired
     public DAOUser userDAO;
 
-    @ApiMethod( path = "/songs/{songFileName}/wizard", verb = ApiVerb.GET, description = "Investigate the filename to get the track number and trackname", produces = {
+    @ApiMethod( path = "/services/songs/{songFileName}/wizard", verb = ApiVerb.GET, description = "Investigate the filename to get the track number and trackname", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ) } )
     @RequestMapping( value = "/{songFileName}/wizard", method = RequestMethod.GET )
@@ -115,7 +114,7 @@ public class SongController
         }
     }
 
-    @ApiMethod( path = "/songs/{songSid}", verb = ApiVerb.DELETE, description = "Remove a song with sid {songSid}", produces = {} )
+    @ApiMethod( path = "/services/songs/{songSid}", verb = ApiVerb.DELETE, description = "Remove a song with sid {songSid}", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
     @RequestMapping( value = "/{songSid}", method = RequestMethod.DELETE )
@@ -140,7 +139,7 @@ public class SongController
         }
     }
 
-    @ApiMethod( path = "/songs/{songSid}/audio", verb = ApiVerb.GET, description = "Get the audio binary from a song resource of an album", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
+    @ApiMethod( path = "/services/songs/{songSid}/audio", verb = ApiVerb.GET, description = "Get the audio binary from a song resource of an album", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
         @ApiError( code = IOMessicRESTException.VALUE, description = "IO error trying to get the audio resource" ) } )
@@ -420,7 +419,7 @@ public class SongController
         }
     }
 
-    @ApiMethod( path = "/songs/{songSid}/dlna", verb = ApiVerb.GET, description = "Get the audio binary from a song resource of an album for a dlna service", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
+    @ApiMethod( path = "/services/songs/{songSid}/dlna", verb = ApiVerb.GET, description = "Get the audio binary from a song resource of an album for a dlna service", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
         @ApiError( code = IOMessicRESTException.VALUE, description = "IO error trying to get the audio resource" ) } )
@@ -511,7 +510,7 @@ public class SongController
         }
     }
 
-    @ApiMethod( path = "/songs/{songSids}/zip", verb = ApiVerb.GET, description = "Get a set of songs zipped", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
+    @ApiMethod( path = "/services/songs/{songSids}/zip", verb = ApiVerb.GET, description = "Get a set of songs zipped", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
         @ApiError( code = IOMessicRESTException.VALUE, description = "IO error trying to get the songs resources" ) } )
@@ -552,7 +551,7 @@ public class SongController
         }
     }
 
-    @ApiMethod( path = "/songs", verb = ApiVerb.POST, description = "Update a song.", produces = {
+    @ApiMethod( path = "/services/songs", verb = ApiVerb.POST, description = "Update a song.", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
@@ -592,7 +591,7 @@ public class SongController
         }
     }
 
-    @ApiMethod( path = "/songs?filterSongSid=xxxx&filterAlbumSid=xxxx&filterAuthorSid=xxxx&albumInfo=true|false&authorInfo=true|false", verb = ApiVerb.GET, description = "Get all songs. They can be filtered by songSid, albumSid or authorSid (not combined). You can also espcify what information should be returned (with album information or not, for exmaple)", produces = {
+    @ApiMethod( path = "/services/songs?filterSongSid=xxxx&filterAlbumSid=xxxx&filterAuthorSid=xxxx&albumInfo=true|false&authorInfo=true|false", verb = ApiVerb.GET, description = "Get all songs. They can be filtered by songSid, albumSid or authorSid (not combined). You can also espcify what information should be returned (with album information or not, for exmaple)", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )

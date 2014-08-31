@@ -53,7 +53,7 @@ public class CheckUpdateController
 {
     private static Logger log = Logger.getLogger( CheckUpdateController.class );
 
-    @ApiMethod( path = "/checkupdate", verb = ApiVerb.GET, description = "Check the last stable version of messic at the server", produces = {} )
+    @ApiMethod( path = "/services/checkupdate", verb = ApiVerb.GET, description = "Check the last stable version of messic at the server", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
     @RequestMapping( value = "", method = RequestMethod.GET )

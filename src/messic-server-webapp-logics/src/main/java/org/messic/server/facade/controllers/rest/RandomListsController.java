@@ -56,7 +56,7 @@ public class RandomListsController
     @Autowired
     public DAOUser userDAO;
 
-    @ApiMethod( path = "/randomlists", verb = ApiVerb.GET, description = "Get random lists of music", produces = {
+    @ApiMethod( path = "/services/randomlists", verb = ApiVerb.GET, description = "Get random lists of music", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )

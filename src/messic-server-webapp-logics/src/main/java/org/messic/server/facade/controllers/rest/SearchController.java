@@ -54,7 +54,7 @@ public class SearchController
     @Autowired
     public DAOUser userDAO;
 
-    @ApiMethod( path = "/search?content=xxxx", verb = ApiVerb.GET, description = "Search at messic by everything", produces = {
+    @ApiMethod( path = "/services/search?content=xxxx", verb = ApiVerb.GET, description = "Search at messic by everything", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )

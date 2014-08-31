@@ -44,7 +44,7 @@ public class CheckController
 {
     private static Logger log = Logger.getLogger( CheckController.class );
 
-    @ApiMethod( path = "/check", verb = ApiVerb.GET, description = "Check if the messic service is alive", produces = {
+    @ApiMethod( path = "/services/check", verb = ApiVerb.GET, description = "Check if the messic service is alive", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ) } )
     @RequestMapping( value = "", method = RequestMethod.GET )

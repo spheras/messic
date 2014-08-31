@@ -62,7 +62,7 @@ public class MusicInfoController
     @Autowired
     public APIMusicInfo musicInfoAPI;
 
-    @ApiMethod( path = "/musicinfo/providericon?pluginName=xxxx", verb = ApiVerb.GET, description = "Get icon image of a certain musicinfo plugin", produces = { MediaType.IMAGE_JPEG_VALUE } )
+    @ApiMethod( path = "/services/musicinfo/providericon?pluginName=xxxx", verb = ApiVerb.GET, description = "Get icon image of a certain musicinfo plugin", produces = { MediaType.IMAGE_JPEG_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
         @ApiError( code = NotFoundMessicRESTException.VALUE, description = "Plugin not found" ),
@@ -84,7 +84,7 @@ public class MusicInfoController
         return new ResponseEntity<byte[]>( content, headers, HttpStatus.OK );
     }
 
-    @ApiMethod( path = "/musicinfo?pluginName=xxxx&songName=xxxx&albumName=xxxx&authorName=xxxxx", verb = ApiVerb.GET, description = "Get Music Info for album/song/author using the plugin called like the pluginName parameter. If no pluginName parameter is presented, then this will return all the availables plugins names that can be used.", produces = {
+    @ApiMethod( path = "/services/musicinfo?pluginName=xxxx&songName=xxxx&albumName=xxxx&authorName=xxxxx", verb = ApiVerb.GET, description = "Get Music Info for album/song/author using the plugin called like the pluginName parameter. If no pluginName parameter is presented, then this will return all the availables plugins names that can be used.", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )

@@ -60,7 +60,7 @@ public class AuthorController
     @Autowired
     public DAOUser userDAO;
 
-    @ApiMethod( path = "/authors/{authorSid}", verb = ApiVerb.DELETE, description = "Remove an author (and all its content) with sid {authorSid}", produces = {} )
+    @ApiMethod( path = "/services/authors/{authorSid}", verb = ApiVerb.DELETE, description = "Remove an author (and all its content) with sid {authorSid}", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
     @RequestMapping( value = "/{authorSid}", method = RequestMethod.DELETE )
@@ -84,7 +84,7 @@ public class AuthorController
         }
     }
 
-    @ApiMethod( path = "/authors?filterName=xxxx&albumsInfo=true|false&songsInfo=true|false", verb = ApiVerb.GET, description = "Get all authors", produces = {
+    @ApiMethod( path = "/services/authors?filterName=xxxx&albumsInfo=true|false&songsInfo=true|false", verb = ApiVerb.GET, description = "Get all authors", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -137,7 +137,7 @@ public class AuthorController
         }
     }
 
-    @ApiMethod( path = "/authors/{authorSid}?albumsInfo=true|false&songsInfo=true|false", verb = ApiVerb.GET, description = "Get an author", produces = {
+    @ApiMethod( path = "/services/authors/{authorSid}?albumsInfo=true|false&songsInfo=true|false", verb = ApiVerb.GET, description = "Get an author", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )

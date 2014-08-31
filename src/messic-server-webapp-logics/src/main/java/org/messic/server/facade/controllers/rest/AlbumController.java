@@ -90,7 +90,7 @@ public class AlbumController
     @Autowired
     public APITagWizard wizardAPI;
 
-    @ApiMethod( path = "/albums?filterGenreSid=xxxx&filterAuthorSid=xxxx&filterName=xxxx&songsInfo=true|false&authorInfo=true|false", verb = ApiVerb.GET, description = "Get all albums. They can be filtered by authorSid or by genreSid (not combined). You can also espcify what information should be returned (with songs information or not, for exmaple)", produces = {
+    @ApiMethod( path = "/services/albums?filterGenreSid=xxxx&filterAuthorSid=xxxx&filterName=xxxx&songsInfo=true|false&authorInfo=true|false", verb = ApiVerb.GET, description = "Get all albums. They can be filtered by authorSid or by genreSid (not combined). You can also espcify what information should be returned (with songs information or not, for exmaple)", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -170,7 +170,7 @@ public class AlbumController
         }
     }
 
-    @ApiMethod( path = "/albums/{albumSid}/zip", verb = ApiVerb.GET, description = "Get the album binary, get the whole album zipped", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
+    @ApiMethod( path = "/services/albums/{albumSid}/zip", verb = ApiVerb.GET, description = "Get the album binary, get the whole album zipped", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
         @ApiError( code = IOMessicRESTException.VALUE, description = "IO error trying to get the album resource" ) } )
@@ -206,7 +206,7 @@ public class AlbumController
         }
     }
 
-    @ApiMethod( path = "/albums/{albumSid}", verb = ApiVerb.DELETE, description = "Remove an album with sid {albumSid}", produces = {} )
+    @ApiMethod( path = "/services/albums/{albumSid}", verb = ApiVerb.DELETE, description = "Remove an album with sid {albumSid}", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
     @RequestMapping( value = "/{albumSid}", method = RequestMethod.DELETE )
@@ -230,7 +230,7 @@ public class AlbumController
         }
     }
 
-    @ApiMethod( path = "/albums/{albumSid}?songsInfo=true|false&authorInfo=true|false", verb = ApiVerb.GET, description = "Get album with id {albumSid}", produces = {
+    @ApiMethod( path = "/services/albums/{albumSid}?songsInfo=true|false&authorInfo=true|false", verb = ApiVerb.GET, description = "Get album with id {albumSid}", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -272,7 +272,7 @@ public class AlbumController
         }
     }
 
-    @ApiMethod( path = "/albums/{resourceSid}/resource", verb = ApiVerb.GET, description = "Get a resource of an album", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
+    @ApiMethod( path = "/services/albums/{resourceSid}/resource", verb = ApiVerb.GET, description = "Get a resource of an album", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
         @ApiError( code = NotFoundMessicRESTException.VALUE, description = "Resource not found" ),
@@ -315,7 +315,7 @@ public class AlbumController
         }
     }
 
-    @ApiMethod( path = "/albums/{albumSid}/{resourceSid}/cover", verb = ApiVerb.POST, description = "Set cover for a certain album", produces = {
+    @ApiMethod( path = "/services/albums/{albumSid}/{resourceSid}/cover", verb = ApiVerb.POST, description = "Set cover for a certain album", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
@@ -345,7 +345,7 @@ public class AlbumController
         }
     }
 
-    @ApiMethod( path = "/albums/{albumSid}/cover", verb = ApiVerb.GET, description = "Get cover for a certain album", produces = { MediaType.IMAGE_JPEG_VALUE } )
+    @ApiMethod( path = "/services/albums/{albumSid}/cover", verb = ApiVerb.GET, description = "Get cover for a certain album", produces = { MediaType.IMAGE_JPEG_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
         @ApiError( code = NotFoundMessicRESTException.VALUE, description = "Album or Cover not found" ),
@@ -406,7 +406,7 @@ public class AlbumController
         }
     }
 
-    @ApiMethod( path = "/albums", verb = ApiVerb.POST, description = "Create or Update an album.  Before creation you need to upload the resources!.  Return the Sid of the album created/updated", produces = {
+    @ApiMethod( path = "/services/albums", verb = ApiVerb.POST, description = "Create or Update an album.  Before creation you need to upload the resources!.  Return the Sid of the album created/updated", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = {
@@ -448,7 +448,7 @@ public class AlbumController
 
     }
 
-    @ApiMethod( path = "/albums/{albumCode}?fileName=xxxxx", verb = ApiVerb.PUT, description = "Upload a resource for an album. This resources are stored at the temporal folder, waiting until save Album process. The client must post the binary content of the resource.", produces = {
+    @ApiMethod( path = "/services/albums/{albumCode}?fileName=xxxxx", verb = ApiVerb.PUT, description = "Upload a resource for an album. This resources are stored at the temporal folder, waiting until save Album process. The client must post the binary content of the resource.", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
@@ -490,7 +490,7 @@ public class AlbumController
         return new HttpEntity<HttpStatus>( HttpStatus.OK );
     }
 
-    @ApiMethod( path = "/albums/clear?albumCode=xxxx", verb = ApiVerb.POST, description = "Clear all the temporal files that have been uploaded previously. You can pass a json object with all the files you don't want to delate (the algorithm will erase all files that aren't in the list)", produces = {
+    @ApiMethod( path = "/services/albums/clear?albumCode=xxxx", verb = ApiVerb.POST, description = "Clear all the temporal files that have been uploaded previously. You can pass a json object with all the files you don't want to delate (the algorithm will erase all files that aren't in the list)", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
@@ -527,7 +527,7 @@ public class AlbumController
 
     }
 
-    @ApiMethod( path = "/albums/{albumCode}/wizard", verb = ApiVerb.GET, description = "Get 'magic' info from the resources that have been uploaded previously.  This resources are suposed to be of the same album, messic try to get the album info from them using several mechanisms. If the {pluginName} param is not present it returns only the basic info with all the available plugins. ALSO SUPPORT POST TO SUBMIT THE PARAMETER ALBUMHELPINFO!.", produces = {
+    @ApiMethod( path = "/services/albums/{albumCode}/wizard", verb = ApiVerb.GET, description = "Get 'magic' info from the resources that have been uploaded previously.  This resources are suposed to be of the same album, messic try to get the album info from them using several mechanisms. If the {pluginName} param is not present it returns only the basic info with all the available plugins. ALSO SUPPORT POST TO SUBMIT THE PARAMETER ALBUMHELPINFO!.", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),

@@ -58,7 +58,7 @@ public class AlbumResourceController
     @Autowired
     public DAOUser userDAO;
 
-    @ApiMethod( path = "/albumresources/{resourceSid}", verb = ApiVerb.DELETE, description = "Remove a resource with sid {resourceSid} from the album", produces = {} )
+    @ApiMethod( path = "/services/albumresources/{resourceSid}", verb = ApiVerb.DELETE, description = "Remove a resource with sid {resourceSid} from the album", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
     @RequestMapping( value = "/{resourceSid}", method = RequestMethod.DELETE )

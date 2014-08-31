@@ -19,8 +19,6 @@
 package org.messic.server.facade.controllers.rest;
 
 import java.io.IOException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +75,7 @@ public class PlaylistController
     @Autowired
     public DAOUser userDAO;
 
-    @ApiMethod( path = "/playlists/{playlistSid}", verb = ApiVerb.DELETE, description = "Remove a playlist with sid {playlistSid}", produces = {} )
+    @ApiMethod( path = "/services/playlists/{playlistSid}", verb = ApiVerb.DELETE, description = "Remove a playlist with sid {playlistSid}", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
     @RequestMapping( value = "/{playlistSid}", method = RequestMethod.DELETE )
@@ -102,7 +100,7 @@ public class PlaylistController
         }
     }
 
-    @ApiMethod( path = "/playlists", verb = ApiVerb.POST, description = "Create or Update a playlist", produces = {
+    @ApiMethod( path = "/services/playlists", verb = ApiVerb.POST, description = "Create or Update a playlist", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = DuplicatedMessicRESTException.VALUE, description = "Duplicated playlist name" ),
@@ -138,7 +136,7 @@ public class PlaylistController
         }
     }
 
-    @ApiMethod( path = "/playlists/{playlistSid}/zip", verb = ApiVerb.GET, description = "return a zip with the content (songs) of a certain playlist", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
+    @ApiMethod( path = "/services/playlists/{playlistSid}/zip", verb = ApiVerb.GET, description = "return a zip with the content (songs) of a certain playlist", produces = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotFoundMessicRESTException.VALUE, description = "Sid not found" ),
         @ApiError( code = IOMessicRESTException.VALUE, description = "IO error" ) } )
@@ -159,7 +157,7 @@ public class PlaylistController
             Playlist pl = playlistAPI.getPlaylist( user, playlistSid, false );
 
             String fileName = pl.getName() + ".zip";
-            response.setHeader( "Content-disposition", "attachment; filename=\"" + fileName+"\"" );
+            response.setHeader( "Content-disposition", "attachment; filename=\"" + fileName + "\"" );
 
             playlistAPI.getPlaylistZip( user, playlistSid, response.getOutputStream() );
         }
@@ -179,7 +177,7 @@ public class PlaylistController
 
     }
 
-    @ApiMethod( path = "/playlists?filterSid=${playlistSid}&songsInfo=true|false", verb = ApiVerb.GET, description = "Get all playlists", produces = {
+    @ApiMethod( path = "/services/playlists?filterSid=${playlistSid}&songsInfo=true|false", verb = ApiVerb.GET, description = "Get all playlists", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotFoundMessicRESTException.VALUE, description = "Forbidden access" ) } )
