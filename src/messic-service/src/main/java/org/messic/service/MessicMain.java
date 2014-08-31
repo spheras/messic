@@ -82,7 +82,7 @@ public class MessicMain
 
         AnimatedGifSplashScreen agss = null;
         System.out.println( "isHeadless?" + GraphicsEnvironment.isHeadless() );
-        if ( !GraphicsEnvironment.isHeadless() )
+        if ( !GraphicsEnvironment.isHeadless())
         {
             agss = new AnimatedGifSplashScreen();
         }

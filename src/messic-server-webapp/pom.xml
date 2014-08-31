@@ -52,7 +52,7 @@
 						<Embed-Directory>WEB-INF/lib</Embed-Directory>
 						<Embed-Transitive>true</Embed-Transitive>
 
-						<Import-Package>*;resolution:=optional</Import-Package>
+						<Import-Package>*;resolution:=optional;org.eclipse.jetty.webapp</Import-Package>
 						<Export-Package>org.messic.server.api.tagwizard.service,org.messic.server.api.musicinfo.service</Export-Package>
 
 						<_wab>src/main/webapp</_wab>

@@ -55,10 +55,10 @@
 								<!-- after the assemblies, we need to decompress jvm for windows, 
 									and then generate the final .zip -->
 								<unzip src="${project.basedir}/jvm/jre-8u5-windows-i586.zip"
-									dest="${project.basedir}/target/messic-${project.version}-windows/messic-${project.version}/bin" />
+									dest="${project.basedir}/target/messic-${project.version}.app-windows/messic-${project.version}.app/bin" />
 								<zip
-									basedir="${project.basedir}/target/messic-${project.version}-windows"
-									destfile="${project.basedir}/target/messic-${project.version}-windows.zip" />
+									basedir="${project.basedir}/target/messic-${project.version}.app-windows"
+									destfile="${project.basedir}/target/messic-${project.version}.app-windows.zip" />
 							</tasks>
 						</configuration>
 						<goals>

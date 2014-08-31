@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -261,9 +262,15 @@ public class APISong
 
     public class AudioSongStream
     {
+        public RandomAccessFile raf;
+
         public InputStream is;
 
         public long contentLength;
+
+        public long lastModified;
+
+        public String songFileName;
     }
 
     @Transactional
@@ -296,8 +303,12 @@ public class APISong
             if ( fsong.exists() )
             {
                 AudioSongStream ass = new AudioSongStream();
+                ass.raf = new RandomAccessFile( fsong, "r" );
                 ass.is = new FileInputStream( fsong );
+                // ass.is = new FileInputStream( fsong );
                 ass.contentLength = fsong.length();
+                ass.lastModified = fsong.lastModified();
+                ass.songFileName = fsong.getName();
                 return ass;
             }
         }

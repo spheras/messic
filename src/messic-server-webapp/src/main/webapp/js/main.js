@@ -73,6 +73,11 @@ function initMessic() {
         playlist.messic_moveright();
     });
 
+
+    //TEMPORAL
+//    var codec = (new Audio().canPlayType('audio/mpeg; codecs="mp3"') ? 'audio/mpeg; codecs="mp3"' : 'audio/mpeg');
+//    alert(codec);
+    
     playlist = new jPlayerPlaylist({
         jPlayer: "#jquery_jplayer",
         cssSelectorAncestor: "#jquery_jplayer_content",
@@ -84,6 +89,8 @@ function initMessic() {
         wmode: "window",
         errorAlerts: true,
         swfPath: "js/vendor/jplayer",
+        //temporal
+        //solution: 'html,flash',
         solution: 'html,flash',
         supplied: 'mp3',
         volume: 1,

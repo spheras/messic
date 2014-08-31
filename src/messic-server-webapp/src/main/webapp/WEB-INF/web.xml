@@ -32,7 +32,6 @@
 		<param-value>classpath:/springconfig/log4j.xml</param-value>
 	</context-param>
 
-
 	<!-- http://stackoverflow.com/questions/23750619/spring-jndi-namingexception-name-spring-livebeansview-mbeandomain-is-not-boun 
 		if you don't use any profiles or mbeans, just add following context-params 
 		to the web.xml as workaround (trick), hopefully there is someone can provide 

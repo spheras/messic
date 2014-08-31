@@ -37,6 +37,11 @@ function loginSucessfull(messic_token) {
         }
     });
 
+    var $browsehappy = $(".browsehappy");
+    if ($browsehappy.length > 0) {
+        $browsehappy.fadeOut().remove();
+    }
+
     $.ajax({
         type: "GET",
         url: "main.do",

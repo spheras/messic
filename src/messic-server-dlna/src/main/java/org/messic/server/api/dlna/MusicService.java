@@ -368,7 +368,7 @@ public class MusicService
                     originalUri =
                         new URI( ( isSecured() ? "https" : "http" ) + "://" + Util.getInternalIp() + ":"
                             + getCurrentPort() + "/messic/services/songs/" + song.getSid()
-                            + "/audio?dlna=true&messic_token=" + token );
+                            + "/dlna?messic_token=" + token );
                 }
                 catch ( URISyntaxException e )
                 {
@@ -453,7 +453,7 @@ public class MusicService
             {
                 originalUri =
                     new URI( ( isSecured() ? "https" : "http" ) + "://" + Util.getInternalIp() + ":" + getCurrentPort()
-                        + "/messic/services/songs/" + song.getSid() + "/audio?dlna=true&messic_token=" + token );
+                        + "/messic/services/songs/" + song.getSid() + "/dlna?messic_token=" + token );
             }
             catch ( URISyntaxException e )
             {
