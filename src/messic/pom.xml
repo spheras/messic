@@ -8,7 +8,7 @@
 	<groupId>org.messic</groupId>
 	<artifactId>messic</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0-alpha</version>
+	<version>1.0.0-alpha.1</version>
 
 	<licenses>
 		<license>
@@ -22,7 +22,7 @@
 	<properties>
 		<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
 		<org.springframework.security.version>3.2.0.RELEASE</org.springframework.security.version>
-		<messic.version>1.0.0-alpha</messic.version>
+		<messic.version>1.0.0-alpha.1</messic.version>
 	</properties>
 
 	<modules>
@@ -457,6 +457,39 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<inherited>false</inherited>
+				<configuration>
+					<tasks>
+						<echo>emtpying!----------------------------------------</echo>
+						<echo>----------------------------------------</echo>
+						<echo>----------------------------------------</echo>
+						<delete includeEmptyDirs="true">
+							<fileset dir="../messic-service/bundles/03-messic/">
+								<include name="*/**" />
+							</fileset>
+						</delete>
+						<delete includeEmptyDirs="true">
+							<fileset dir="../messic-service/bundles/04-messic-plugins/">
+								<include name="*/**" />
+							</fileset>
+						</delete>
+					</tasks>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
 	</build>
 
 	<repositories>

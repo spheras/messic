@@ -187,7 +187,12 @@ public class AlbumController
         User user = SecurityUtil.getCurrentUser();
         try
         {
+            Album album = albumAPI.getAlbum( user, albumSid, false, false, false );
+            String fileName = album.getName() + ".zip";
+            response.setHeader( "Content-disposition", "attachment; filename=\"" + fileName + "\"" );
+
             albumAPI.getAlbumZip( user, albumSid, response.getOutputStream() );
+
         }
         catch ( IOException ioe )
         {
