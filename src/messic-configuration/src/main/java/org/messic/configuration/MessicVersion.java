@@ -8,6 +8,12 @@ public class MessicVersion
     implements Comparable<MessicVersion>
 {
 
+    @Override
+    public String toString()
+    {
+        return this.sversion;
+    }
+
     public MessicVersion( String version )
     {
         this.sversion = version;
