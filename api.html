@@ -8,6 +8,7 @@
         <div class="messic-restapi-basepath">Base Path:<span>http://[your_ip]:[your_port]/messic/services</span>
         </div>
     </div>
+
     <div class="messic-restapi-api">
         <div class="messic-restapi-title">Album Resource services</div>
         <div class="messic-restapi-description">Methods for managing album resources -except songs-</div>
@@ -15,6 +16,29 @@
             <div class="messic-restapi-method-path">/services/albumresources/{resourceSid}</div>
             <div class="messic-restapi-method-description">Remove a resource with sid {resourceSid} from the album</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
+            </div>
+            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span></span>
+            </div>
+            <div class="messic-restapi-method-pathp">
+                <div class="messic-restapi-method-pathp-name">Parameter&nbsp;&nbsp;<span>resourceSid</span>
+                </div>
+                <div class="messic-restapi-method-pathp-description">Sid of the resource to remove</div>
+                <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
+                <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">500</div>
+                <div class="messic-restapi-method-apie-description">Unknown error</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">403</div>
+                <div class="messic-restapi-method-apie-description">Forbidden access</div>
+            </div>
+        </div>
+        <div class="messic-restapi-method">
+            <div class="messic-restapi-method-path">/services/albumresources/{resourceSid}</div>
+            <div class="messic-restapi-method-description">Get a resource with sid {resourceSid} from the album</div>
+            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
             </div>
             <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span></span>
             </div>
@@ -476,29 +500,6 @@
             </div>
         </div>
         <div class="messic-restapi-method">
-            <div class="messic-restapi-method-path">/services/authors/{authorSid}</div>
-            <div class="messic-restapi-method-description">Remove an author (and all its content) with sid {authorSid}</div>
-            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
-            </div>
-            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span></span>
-            </div>
-            <div class="messic-restapi-method-pathp">
-                <div class="messic-restapi-method-pathp-name">Parameter&nbsp;&nbsp;<span>authorSid</span>
-                </div>
-                <div class="messic-restapi-method-pathp-description">Sid of the author to remove</div>
-                <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
-                <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">500</div>
-                <div class="messic-restapi-method-apie-description">Unknown error</div>
-            </div>
-            <div class="messic-restapi-method-apie">
-                <div class="messic-restapi-method-apie-code">403</div>
-                <div class="messic-restapi-method-apie-description">Forbidden access</div>
-            </div>
-        </div>
-        <div class="messic-restapi-method">
             <div class="messic-restapi-method-path">/services/authors/{authorSid}?albumsInfo=true|false&amp;songsInfo=true|false</div>
             <div class="messic-restapi-method-description">Get an author</div>
             <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>GET</span>
@@ -525,6 +526,29 @@
                 <div class="messic-restapi-method-queryp-description">flag to return also the songs info of the albums or not. By default, false. Missed if albumsInfo=false</div>
                 <div class="messic-restapi-method-queryp-type">Type&nbsp;&nbsp;boolean</div>
                 <div class="messic-restapi-method-queryp-required">Required&nbsp;&nbsp;false</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">500</div>
+                <div class="messic-restapi-method-apie-description">Unknown error</div>
+            </div>
+            <div class="messic-restapi-method-apie">
+                <div class="messic-restapi-method-apie-code">403</div>
+                <div class="messic-restapi-method-apie-description">Forbidden access</div>
+            </div>
+        </div>
+        <div class="messic-restapi-method">
+            <div class="messic-restapi-method-path">/services/authors/{authorSid}</div>
+            <div class="messic-restapi-method-description">Remove an author (and all its content) with sid {authorSid}</div>
+            <div class="messic-restapi-method-verb">Method&nbsp;&nbsp;<span>DELETE</span>
+            </div>
+            <div class="messic-restapi-method-produces">Produces&nbsp;&nbsp;<span></span>
+            </div>
+            <div class="messic-restapi-method-pathp">
+                <div class="messic-restapi-method-pathp-name">Parameter&nbsp;&nbsp;<span>authorSid</span>
+                </div>
+                <div class="messic-restapi-method-pathp-description">Sid of the author to remove</div>
+                <div class="messic-restapi-method-pathp-type">Type:&nbsp;&nbsp;long</div>
+                <div class="messic-restapi-method-pathp-required">Required:&nbsp;&nbsp;true</div>
             </div>
             <div class="messic-restapi-method-apie">
                 <div class="messic-restapi-method-apie-code">500</div>
