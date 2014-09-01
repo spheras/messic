@@ -23,10 +23,17 @@ Messic comes from the union of two words:
 
 The aim for the project is to convert this mess of music in a real ordered music, an ordered catalog music and play it in a confortable way.  The main characteristics will be:
 
-* It will order our catalog of music as automatic as possible.
-* It will play the music in a very very confortable and beautiful interface.
-* It will execute via web, so we could publish this service at home.
-* It will be multiuser, where the share concept is a central point.
-* It's focused at home catalog music. We want to order and listen to our own catalog of music.
+* It order our catalog of music as automatic as possible, and it is owned only by you. You can go always to the file system where you are saving it and get it.
+* It play the music in a very very confortable and beautiful interface.
+* It is executed via web, so we could publish this service at home for every device.
+* It is multiuser.
+* It's focused at home catalog music. We want to manage and listen to our own catalog of music.
 
-This project is still very young, it was born in our minds on the second week of march on 2013.. so.. the time now is for contributors to finish the first alpha version.  We hope see you as son as possible using this software, but for the moment it's the time for contributors.  We are doing our best to do this project and we hope you will understand and collaborate with us.
+Please, visit us at our web page to get more information:
+http://spheras.github.io/messic
+
+or you can visit our wiki also:
+https://github.com/spheras/messic/wiki
+
+
+See you!
