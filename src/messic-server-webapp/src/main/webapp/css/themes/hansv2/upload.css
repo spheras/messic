@@ -116,18 +116,17 @@
 }
 #messic-upload-wizard-plugin-content .messic-upload-wizard-albuminfo-actions {
     bottom: 4px;
-    color: #0000FF;
+    color: #0000ff;
     font-size: 1.5em;
     height: 35px;
-    margin-left: 215px;
-    position: relative;
-    width: 193px;
+    width: 100%;
 }
 #messic-upload-wizard-plugin-content .messic-upload-wizard-albuminfo-actions > a:hover {
     color: #11CCFF;
 }
 #messic-upload-wizard-plugin-content .messic-upload-wizard-albuminfo-actions > a {
-    color: #2288FF;
+    color: #2288ff;
+    float: left;
     margin-right: 33px;
 }
 .messic-upload-wizard-pluginresult-warning:before {

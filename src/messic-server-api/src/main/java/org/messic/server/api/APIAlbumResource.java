@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import org.messic.server.api.datamodel.User;
 import org.messic.server.datamodel.MDOAlbumResource;
+import org.messic.server.datamodel.MDOPhysicalResource;
 import org.messic.server.datamodel.dao.DAOAlbumResource;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +56,19 @@ public class APIAlbumResource
         }
     }
 
+    @Transactional
+    public File get( User user, Long resourceSid )
+        throws IOException
+    {
+        MDOAlbumResource resource = this.daoAlbumResource.get( user.getLogin(), resourceSid );
+        if ( resource != null && resource instanceof MDOPhysicalResource )
+        {
+            File f = new File( resource.calculateAbsolutePath( daoSettings.getSettings() ) );
+            if ( f.exists() )
+            {
+                return f;
+            }
+        }
+        throw new IOException( "Album resource not found!" );
+    }
 }

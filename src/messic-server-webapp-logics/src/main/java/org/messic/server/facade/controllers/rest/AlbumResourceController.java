@@ -18,6 +18,13 @@
  */
 package org.messic.server.facade.controllers.rest;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiError;
@@ -65,15 +72,54 @@ public class AlbumResourceController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public void removeSong( @PathVariable
-                            @ApiParam( name = "resourceSid", description = "Sid of the resource to get", paramType = ApiParamType.PATH, required = true )
-                            Long resourceSid )
+    public void removeResource( @PathVariable
+                                @ApiParam( name = "resourceSid", description = "Sid of the resource to remove", paramType = ApiParamType.PATH, required = true )
+                                Long resourceSid )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
         User user = SecurityUtil.getCurrentUser();
         try
         {
             albumResourceAPI.remove( user, resourceSid );
+        }
+        catch ( Exception e )
+        {
+            log.error( "failed!", e );
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
+    @ApiMethod( path = "/services/albumresources/{resourceSid}", verb = ApiVerb.GET, description = "Get a resource with sid {resourceSid} from the album", produces = {} )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
+    @RequestMapping( value = "/{resourceSid}", method = RequestMethod.GET )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    public void getResource( @PathVariable
+                             @ApiParam( name = "resourceSid", description = "Sid of the resource to get", paramType = ApiParamType.PATH, required = true )
+                             Long resourceSid, HttpServletResponse response )
+        throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
+    {
+        User user = SecurityUtil.getCurrentUser();
+        try
+        {
+            File f = albumResourceAPI.get( user, resourceSid );
+
+            String fileName = URLEncoder.encode( f.getName(), "UTF-8" );
+            response.setHeader( "Content-disposition", "attachment; filename='" + fileName + "'" );
+
+            FileInputStream fis = new FileInputStream( f );
+            byte[] buffer = new byte[1024];
+            int read = fis.read( buffer );
+            OutputStream os = response.getOutputStream();
+            while ( read > 0 )
+            {
+                os.write( buffer, 0, read );
+                read = fis.read( buffer );
+            }
+            os.close();
+            fis.close();
         }
         catch ( Exception e )
         {
