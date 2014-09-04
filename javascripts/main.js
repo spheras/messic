@@ -4,9 +4,11 @@ $(document).ready(function () {
 
     // Initialize Galleria
     Galleria.run('#galleria');
+
+    loadAPI();
 });
 
-function loadAPI(e) {
+function loadAPI() {
     $.ajax({
         url: "api.html",
         success: function (data) {
