@@ -74,7 +74,7 @@
 						<echo
 							message="Updating Bundle-Classpath ... just a trick to avoid problems with spring-jetty and scan of components" />
 						<jar update="true"
-							file="${project.build.directory}/${project.build.finalName}.jar" failOnError="false">
+							file="${project.build.directory}/${project.build.finalName}.jar">
 							<manifest>
 								<attribute name="Bundle-Classpath"
 									value="WEB-INF/lib/messic-server-osgiservices-${project.version}.jar" />
