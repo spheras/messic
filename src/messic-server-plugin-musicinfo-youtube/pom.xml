@@ -66,7 +66,7 @@
 					<failOnError>false</failOnError>
 					<tasks>
 						<copy file="${project.build.directory}/${project.build.finalName}.jar"
-							tofile="../messic-service/bundles/04-messic-plugins/05-${project.build.finalName}.jar" />
+							tofile="../messic-service/bundles/04-messic-plugins/05-${project.build.finalName}.jar" failOnError="false" />
 					</tasks>
 				</configuration>
 				<executions>

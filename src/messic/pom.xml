@@ -463,17 +463,17 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<inherited>false</inherited>
 				<configuration>
-					<failOnError>false</failOnError>
+					<failOnError>true</failOnError>
 					<tasks>
 						<echo>emtpying!----------------------------------------</echo>
 						<echo>----------------------------------------</echo>
 						<echo>----------------------------------------</echo>
-						<delete includeEmptyDirs="true">
+						<delete includeEmptyDirs="true" failOnError="false">
 							<fileset dir="../messic-service/bundles/03-messic/">
 								<include name="*/**" />
 							</fileset>
 						</delete>
-						<delete includeEmptyDirs="true">
+						<delete includeEmptyDirs="true" failOnError="false">
 							<fileset dir="../messic-service/bundles/04-messic-plugins/">
 								<include name="*/**" />
 							</fileset>
