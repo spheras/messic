@@ -1,4 +1,4 @@
-    Messic
+    Messic  [![Build Status](https://travis-ci.org/spheras/messic.svg?branch=master)](https://travis-ci.org/spheras/messic)
     Copyright (C) 2013
 
     This program is free software: you can redistribute it and/or modify
