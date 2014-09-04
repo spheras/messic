@@ -69,6 +69,7 @@
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
+					<failOnError>false</failOnError>
 					<tasks>
 						<echo
 							message="Updating Bundle-Classpath ... just a trick to avoid problems with spring-jetty and scan of components" />
