@@ -37,7 +37,7 @@
             <div class="messic-social svg">
                 <a title="GitHub" href="http://www.github.com/spheras/messic" class="webicon github" target="_blank"></a>
                 <a title="Google Groups" href="http://groups.google.com/group/messic" class="webicon mail" target="_blank"></a>
-                <a title="Twitter" href="http://twitter.com/messic" class="webicon twitter" target="_blank"></a>
+                <a title="Twitter" href="http://twitter.com/messicapp" class="webicon twitter" target="_blank"></a>
                 <a title="Huboard" href="https://huboard.com/spheras/messic" class="webicon huboard" target="_blank"></a>
             </div>
 
@@ -137,16 +137,25 @@
                         Essentially all those compatible with html5 and css3, but that's not true. Please update your navigator to the last version and probably you will not have any problems.
                         <br>
                         <br>If you are trying to launch messic from a Microsoft Internet Explorer... well, good luck (really it seems that with version 11 is more or less ok). We have tested with google chrome (some versions of chromium for linux seems to have problems playing mp3 files natively), firefox, safari (from 6.1 version). Konqueror doesn't seems to be ok :(
+                        <br>You can see at the <a href="https://github.com/spheras/messic/wiki/Navigator-Compatibility-Table" target="_blank">wiki pages</a> a table with the user's results launching messic in different navigators. Any help filling this table with real information is more than welcome.
                         <br>
                         <br>We are working to improve compatibility, but <strong>please, please, update your navigator always you can</strong>.
                     </li>
                     <li>
-                        <h4>Does Messic use a secure protocol SSL/TLS?</h4>
+                        <h4>Can I share messic music through DLNA protocol with other devices?</h4>
+                        Yes!, you can. You need to activate DLNA share content at the settings page of messic. There are two parts that need to be checked. The first one is the general setting to allow DLNA. This is done only by the administrator, at the administrator settings. If this is abled, then each user can allow at the music settings if they want to share their content over DLNA or not.
+                        <br>
+                        <br>Please, take into account that DLNA protocol doesn't have any authoring mechanisms, so, if you allow DLNA sharing content, any devices at home could get info from messic. This shouldn't be a problem if you have a controlled network, but keep in mind.
+                        <br>We have tested connecting some DLNA devices to messic, but there are a lot of variety at the market. We are working constructing a table with the information given by the users. <a href="https://github.com/spheras/messic/wiki/DLNA-Compatibility-Table" target="_blank">Consult it to see if your device has been tested</a>. Any information about compatibility is more than welcome.
+                    </li>
+                    <li>
+                        <h4>Does messic use a secure protocol SSL/TLS?</h4>
                         Initially no, because it's intended to be at your home, inside your home network. But if you need, you can do it by modifying the configuration.
                         <br>
                         <br>Just open the messic monitor and open the configuration section. From there you can modify a set of options, and also to enable the security (also you can specify the https protocol).
                         <br>
                         <br>After a restart of the messic service, the connections will be done through the new https port, and probably your navigator will advise you because the messic certificate doesn't correspond to the url, and so on. This is normal, but if you want also to fix it, you only need to go to the folder [messic_folder]/jetty/etc/ and you will find there all the jetty configuration. Just touch the jetty-selector-ssl.xml file with your own configuration.
+                        <br>Another important question is the imposibility to share content over DLNA when the security is activated. This is really due to the problem of the certificate validation.
                     </li>
                     <li>
                         <h4>How can I help the project?</h4>

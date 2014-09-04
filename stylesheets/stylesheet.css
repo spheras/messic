@@ -701,40 +701,70 @@ footer a:hover {
     0% {
         background-color: #2e7bcf;
     }
+    15% {
+        background-color: #0056b2;
+    }
     20% {
         background-color: green;
+    }
+    35% {
+        background-color: #42ad42;
     }
     40% {
         background-color: yellow;
     }
+    55% {
+        background-color: #ffffc1;
+    }
     60% {
         background-color: blue;
     }
+    75% {
+        background-color: #000076;
+    }
     80% {
-        background-color: gray;
+        background-color: pink;
+    }
+    95% {
+        background-color: #d47474;
     }
     100% {
-        background-color: pink;
+        background-color: 2e7bcf;
     }
 }
 @keyframes headeranim {
     0% {
         background-color: #2e7bcf;
     }
+    15% {
+        background-color: #0056b2;
+    }
     20% {
         background-color: green;
+    }
+    35% {
+        background-color: #42ad42;
     }
     40% {
         background-color: yellow;
     }
+    55% {
+        background-color: #ffffc1;
+    }
     60% {
         background-color: blue;
     }
+    75% {
+        background-color: #000076;
+    }
     80% {
-        background-color: gray;
+        background-color: pink;
+    }
+    95% {
+        background-color: #d47474;
     }
     100% {
-        background-color: pink;
+        background-color: 2e7bcf;
     }
 }
 strong {
@@ -779,7 +809,7 @@ love {
     position: absolute;
     right: 50px;
     width: 650px;
-    opacity: 0.7;
+    opacity: 1;
     -webkit-transition-property: opacity;
     transition-property: opacity;
     -webkit-transition-duration: 1s;
