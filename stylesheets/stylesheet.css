@@ -831,3 +831,37 @@ love {
     background: url("../images/huboard.ico") no-repeat;
     background-position: center center;
 }
+.messic-version:after {
+    background: url("../images/beta.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+    border-radius: 11px;
+    -webkit-box-shadow: 0 0 12px rgba(255, 0, 0, 1);
+    box-shadow: 0 0 12px rgba(255, 0, 0, 1);
+    content: "";
+    display: block;
+    height: 43px;
+    overflow: hidden;
+    position: absolute;
+    -webkit-transform: rotate(-13deg);
+    -ms-transform: rotate(-13deg);
+    transform: rotate(-13deg);
+    width: 100px;
+    z-index: 0;
+    -webkit-animation-name: pulse;
+    animation-name: pulse;
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+}
+.messic-version {
+    color: white;
+    float: right;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-right: 30px;
+    text-shadow: 1px 1px 1px black;
+}
