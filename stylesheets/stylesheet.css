@@ -859,9 +859,11 @@ love {
 }
 .messic-version {
     color: white;
-    float: right;
     font-size: 1.5em;
     font-weight: bold;
     margin-right: 30px;
     text-shadow: 1px 1px 1px black;
+    top: 0px;
+    position: absolute;
+    right: 0px;
 }
