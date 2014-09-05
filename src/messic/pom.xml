@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<name>messic</name>
 	<description>messic parent pom</description>
@@ -463,16 +463,17 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<inherited>false</inherited>
 				<configuration>
+					<failOnError>true</failOnError>
 					<tasks>
 						<echo>emtpying!----------------------------------------</echo>
 						<echo>----------------------------------------</echo>
 						<echo>----------------------------------------</echo>
-						<delete includeEmptyDirs="true">
+						<delete includeEmptyDirs="true" failOnError="false">
 							<fileset dir="../messic-service/bundles/03-messic/">
 								<include name="*/**" />
 							</fileset>
 						</delete>
-						<delete includeEmptyDirs="true">
+						<delete includeEmptyDirs="true" failOnError="false">
 							<fileset dir="../messic-service/bundles/04-messic-plugins/">
 								<include name="*/**" />
 							</fileset>

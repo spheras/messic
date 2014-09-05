@@ -69,6 +69,7 @@
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
+					<failOnError>false</failOnError>
 					<tasks>
 						<echo
 							message="Updating Bundle-Classpath ... just a trick to avoid problems with spring-jetty and scan of components" />
@@ -82,7 +83,7 @@
 
 						<echo message="Copying bundle to the starter project" />
 						<copy file="${project.build.directory}/${project.build.finalName}.jar"
-							tofile="../messic-service/bundles/03-messic/01-${project.build.finalName}.bnd" />
+							tofile="../messic-service/bundles/03-messic/01-${project.build.finalName}.bnd" failOnError="false" />
 					</tasks>
 				</configuration>
 				<executions>

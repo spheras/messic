@@ -63,8 +63,9 @@
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
+					<failOnError>false</failOnError>
 					<tasks>
-						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-service/bundles/04-messic-plugins/01-${project.build.finalName}.jar" />
+						<copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="../messic-service/bundles/04-messic-plugins/01-${project.build.finalName}.jar" failOnError="false"/>
 					</tasks>
 				</configuration>
 				<executions>
