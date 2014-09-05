@@ -38,8 +38,9 @@
 						</goals>
 						<configuration>
 							<finalName>messic-${project.version}.app</finalName>
-							<descriptors><!-- <descriptor>src/assembly/dep-windows.xml</descriptor> 
-									<descriptor>src/assembly/dep-mac.xml</descriptor> -->
+							<descriptors>
+								<descriptor>src/assembly/dep-windows.xml</descriptor>
+								<descriptor>src/assembly/dep-mac.xml</descriptor>
 								<descriptor>src/assembly/dep-linux.xml</descriptor>
 							</descriptors>
 
@@ -114,7 +115,7 @@
 					<license>GPLv3</license>
 					<icon>bin/messic-icon.gif</icon>
 					<group>Application/Collectors</group>
-					<needarch>x86</needarch>
+					<needarch>i386</needarch>
 					<packager>spheras</packager>
 					<defineStatements>
 						<defineStatement>_unpackaged_files_terminate_build 0</defineStatement>
