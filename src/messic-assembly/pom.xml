@@ -116,6 +116,14 @@
 					<icon>bin/messic-icon.gif</icon>
 					<group>Application/Collectors</group>
 					<needarch>i386</needarch>
+					<!-- The architecture is the platform on which that RPM can be executed, 
+						if binary. Typical values seen here inclu de: • y i386 – the package can 
+						be used on any 32-bit Intel-compa tible CPU • y i686 – the package can be 
+						used on any 686-class 32-bit Inte l-compat- ible CPU • y ppc64 – the package 
+						can be used on the 64-bit PowerPC C PU • y x86_64 – the package can be used 
+						on AMD or Intel 64-bit C PUs • y ia64 – the package can be used on the 64-bit 
+						Itanium CP U • y sparc64 – the package can be used on a 64-bit UltraSpar 
+						c CPU -->
 					<packager>spheras</packager>
 					<defineStatements>
 						<defineStatement>_unpackaged_files_terminate_build 0</defineStatement>
@@ -132,6 +140,19 @@
 								</source>
 							</sources>
 						</mapping>
+
+						<mapping>
+							<directory>/usr/share/applications/</directory>
+							<filemode>777</filemode>
+							<username>root</username>
+							<groupname>root</groupname>
+							<sources>
+								<source>
+									<location>${project.basedir}/target/messic.desktop</location>
+								</source>
+							</sources>
+						</mapping>
+
 					</mappings>
 					<preinstallScriptlet>
 						<script>echo "installing now"</script>
