@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=messic
+Comment=Music organizator and player
+Terminal = false
+Type=Application
+Exec=bash -c "cd /opt/messic/messic-${project.version}.app && ./bin/messic.sh"
+Icon=/opt/messic/messic-${project.version}.app/bin/messic-icon.png
+Categories = AudioVideo;Audio;Player;

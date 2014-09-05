@@ -1,0 +1,3 @@
+#!/bin/sh
+echo removing messic postprocess
+rm -rf /opt/messic

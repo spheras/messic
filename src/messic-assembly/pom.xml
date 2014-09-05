@@ -6,6 +6,10 @@
 	<name>Messic Assembly</name>
 	<packaging>pom</packaging>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
 	<parent>
 		<groupId>org.messic</groupId>
 		<artifactId>messic</artifactId>
@@ -34,10 +38,9 @@
 						</goals>
 						<configuration>
 							<finalName>messic-${project.version}.app</finalName>
-							<descriptors>
-								<descriptor>src/assembly/dep-windows.xml</descriptor>
+							<descriptors><!-- <descriptor>src/assembly/dep-windows.xml</descriptor> 
+									<descriptor>src/assembly/dep-mac.xml</descriptor> -->
 								<descriptor>src/assembly/dep-linux.xml</descriptor>
-								<descriptor>src/assembly/dep-mac.xml</descriptor>
 							</descriptors>
 
 						</configuration>
@@ -64,6 +67,126 @@
 						<goals>
 							<goal>run</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/deb</directory>
+									<includes>
+										<include>**/*.desktop</include>
+									</includes>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>rpm-maven-plugin</artifactId>
+				<version>2.1-alpha-4</version>
+				<executions>
+					<execution>
+						<id>generate-rpm</id>
+						<goals>
+							<goal>rpm</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<name>messic</name>
+					<license>GPLv3</license>
+					<icon>bin/messic-icon.gif</icon>
+					<group>Application/Collectors</group>
+					<needarch>x86</needarch>
+					<packager>spheras</packager>
+					<defineStatements>
+						<defineStatement>_unpackaged_files_terminate_build 0</defineStatement>
+					</defineStatements>
+					<mappings>
+						<mapping>
+							<directory>/opt/messic</directory>
+							<filemode>777</filemode>
+							<username>root</username>
+							<groupname>root</groupname>
+							<sources>
+								<source>
+									<location>${project.basedir}/target/messic-${project.version}.app-linux</location>
+								</source>
+							</sources>
+						</mapping>
+					</mappings>
+					<preinstallScriptlet>
+						<script>echo "installing now"</script>
+					</preinstallScriptlet>
+					<preremoveScriptlet>
+						<scriptFile>src/deb/postrm</scriptFile>
+						<fileEncoding>utf-8</fileEncoding>
+					</preremoveScriptlet>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>jdeb</artifactId>
+				<groupId>org.vafer</groupId>
+				<version>1.3</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>jdeb</goal>
+						</goals>
+						<configuration>
+							<skipPOMs>false</skipPOMs>
+							<verbose>true</verbose>
+							<controlDir>${basedir}/src/deb</controlDir>
+							<installDir>/opt/messic-${project.version}</installDir>
+							<skipSubmodules>true</skipSubmodules>
+
+							<dataSet>
+								<data>
+									<src>${project.basedir}/target/messic-${project.version}.app-linux</src>
+									<type>directory</type>
+									<mapper>
+										<type>perm</type>
+										<prefix>/opt/messic</prefix>
+										<user>root</user>
+										<group>root</group>
+										<filemode>777</filemode>
+										<dirmode>777</dirmode>
+									</mapper>
+								</data>
+
+								<data>
+									<src>${project.basedir}/target/messic.desktop</src>
+									<type>file</type>
+									<mapper>
+										<type>perm</type>
+										<prefix>/usr/share/applications/</prefix>
+										<user>root</user>
+										<group>root</group>
+										<filemode>755</filemode>
+									</mapper>
+								</data>
+							</dataSet>
+
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

@@ -1,0 +1,7 @@
+Package: messic
+Version: [[version]]
+Section: AudioVideo
+Priority: normal
+Architecture: all
+Description: Music organizator and player
+Maintainer: messicapp@gmail.com
