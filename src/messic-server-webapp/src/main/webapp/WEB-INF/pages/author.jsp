@@ -43,7 +43,7 @@
 						onclick="exploreEditAlbum(${album.sid})">${album.name}</div>
 					<c:forEach var="song" items="${album.songs}">
 						<div class="messic-author-songs-bodyrow"
-							onclick="addSong('${messic:escapeAll(song.name)}','${messic:escapeAll(album.author.name)}','${messic:escapeAll(album.sid)}','${messic:escapeAll(album.name)}','${messic:escapeAll(song.sid)}','${messic:escapeAll(song.name)}',${messic:escapeAll(song.rate)})">
+							onclick="addSong('${messic:escapeAll(song.name)}','${messic:escapeAll(author.name)}','${messic:escapeAll(album.sid)}','${messic:escapeAll(album.name)}','${messic:escapeAll(song.sid)}','${messic:escapeAll(song.name)}',${messic:escapeAll(song.rate)})">
 							<div
 								class="messic-author-songs-bodyfield messic-author-songs-body-songtrack">${messic:escapeHTML(song.track)}</div>
 							<div
