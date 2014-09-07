@@ -20,6 +20,7 @@
                 </div>
                 <div id="messic-about-faq" class="messic-about-title">
                     <div onclick="aboutExpandMenu($(this).parent())" class="messic-about-title-title">FAQ</div>
+                    <p>This are some of our frequent asked questions. You can find a more complete vision at the <a href="https://github.com/spheras/messic/wiki/FAQ" target="_blank">github wiki</a>.</p>
                     <ul>
                         <li>
                             <h1>What is Messic</h1>
