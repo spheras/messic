@@ -353,7 +353,7 @@ public class Util
         if ( OSValidator.isWindows() )
         {
             Long messicProcessNumber = Util.getMessicProcess();
-            Runtime.getRuntime().exec( new String[] { "taskkill", "/PID", "" + messicProcessNumber, "/f" } );
+            Runtime.getRuntime().exec( new String[] { "taskkill", "/PID", "" + messicProcessNumber, "/T","/F" } );
             try
             {
                 Thread.sleep( 5000 );

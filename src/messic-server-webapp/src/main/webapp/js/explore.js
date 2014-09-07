@@ -282,5 +282,6 @@ function exploreEditAlbum(albumSid) {
         var posts = $($.parseHTML(data)).filter('#content').children();
         $("#messic-page-content").append(posts);
         initAlbum();
+        window.scrollTo(0, 0);
     });
 }

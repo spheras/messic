@@ -23,7 +23,7 @@
 					</div>
 		        </div>
 				
-				<div id="messic-album-author" class="messic-H1 messic-album-editable" onclick="showAuthorPage(${album.author.sid})">
+				<div id="messic-album-author" class="messic-H1 messic-album-editable" onclick="if(! $(this).hasClass('messic-album-editing')){showAuthorPage(${album.author.sid});}">
 					<div id="messic-album-author-edit" class="messic-album-editbutton" onclick="event.stopPropagation();albumAuthorEdit()"></div>
 					${messic:escapeHTML(album.author.name)}
 				</div>

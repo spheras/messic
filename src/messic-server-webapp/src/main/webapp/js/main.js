@@ -328,6 +328,7 @@ function showAuthorPage(authorSid) {
             var posts = $($.parseHTML(data)).filter('#content').children();
             $("#messic-page-content").append(posts);
             initAuthor();
+            window.scrollTo(0, 0);
         });
     }
     VAR_changeSection(nextFunction);

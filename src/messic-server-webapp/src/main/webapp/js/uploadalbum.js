@@ -139,7 +139,7 @@ var UploadAlbum = function () {
     /* Determine if a file is a cover for the album */
     var isCoverImage = function (theFile) {
         var fileName = theFile.name;
-        if (fileName.indexOf('cover') >= 0 || fileName.indexOf('front') >= 0)
+        if (fileName.toUpperCase().indexOf('COVER') >= 0 || fileName.toUpperCase().indexOf('FRONT') >= 0)
             return true;
         else
             return false;
@@ -167,7 +167,7 @@ var UploadAlbum = function () {
         }
     }
 
-    
+
     /* Add Files to the  uploadBox */
     this.addFiles = function (receivedFiles) {
         this.coverImageResource = null;
