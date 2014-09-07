@@ -455,7 +455,7 @@ function UtilCheckMessic(error) {
             //messic is online
             UtilHideWait();
             if (error) {
-                UtilShowInfo(messicLang.messicerror + " " + error);
+                UtilShowInfo(messicLang.messicerror + " " + error.statusText);
             }
         },
         error: function (e) {

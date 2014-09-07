@@ -78,5 +78,18 @@ public class APISongTest
         Assert.assertTrue( result.getName().equals( "you are the best" ) );
         Assert.assertTrue( result.getTrack() == 4);
                 
-    }
+        
+        fileName="04 I am your father";
+        result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "I am your father" ) );
+        Assert.assertTrue( result.getTrack() == 4);
+
+
+        fileName="04 2 a.m..mp3";
+        result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "2 a.m." ) );
+        Assert.assertTrue( result.getTrack() == 4);
+}
 }

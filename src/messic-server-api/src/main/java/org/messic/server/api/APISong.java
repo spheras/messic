@@ -336,7 +336,7 @@ public class APISong
                     char c1 = fileName.substring( i + 1, i + 2 ).toCharArray()[0];
                     char c2 = fileName.substring( i + 2, i + 3 ).toCharArray()[0];
 
-                    if ( c1 != ' ' && ( c2 == ' ' ) )
+                    if ( c1 != ' ' && ( c2 == ' ' ) && !((c1>='a' && c1<='z') || (c1>='A' && c1<='Z')) )
                     {
                         return c1;
                     }
