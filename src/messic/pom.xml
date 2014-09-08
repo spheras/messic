@@ -4,11 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<name>messic</name>
 	<description>messic parent pom</description>
+	<!--  When changing version, it's important to also change the messic.version property -->
+	<version>1.0.0-beta</version>
 
 	<groupId>org.messic</groupId>
 	<artifactId>messic</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0-alpha.1</version>
 
 	<licenses>
 		<license>
@@ -22,7 +23,7 @@
 	<properties>
 		<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
 		<org.springframework.security.version>3.2.0.RELEASE</org.springframework.security.version>
-		<messic.version>1.0.0-alpha.1</messic.version>
+		<messic.version>1.0.0-beta</messic.version>
 	</properties>
 
 	<modules>
