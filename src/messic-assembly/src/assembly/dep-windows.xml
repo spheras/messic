@@ -69,6 +69,12 @@
 			<outputDirectory>./</outputDirectory>
 			<destName>messic.exe</destName>
 		</file>
+		<file>
+			<!--  messic with admin privileges -->
+			<source>./bin/messic_admin.exe</source>
+			<outputDirectory>./</outputDirectory>
+			<destName>messic_admin.exe</destName>
+		</file>
 	</files>
 
 
