@@ -27,7 +27,7 @@ function loadAPI() {
 * como la etiqueta del evento.
 */
 var trackOutboundLink = function(url) {
-   ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+   ga('send', 'event', 'download', 'click', url, {'hitCallback':
      function () {
      document.location = url;
      }
