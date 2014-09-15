@@ -20,3 +20,16 @@ function loadAPI() {
         },
     });
 }
+
+/**
+* Función de Google Analytics que realiza un seguimiento de un clic en un enlace externo.
+* Esta función toma una cadena de URL válida como argumento y la utiliza
+* como la etiqueta del evento.
+*/
+var trackOutboundLink = function(url) {
+   ga('send', 'event', 'outbound', 'click', url, {'hitCallback':
+     function () {
+     document.location = url;
+     }
+   });
+}
