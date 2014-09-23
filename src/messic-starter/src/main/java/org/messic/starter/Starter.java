@@ -42,6 +42,8 @@ public class Starter
 
     public static final String STARTER_OPTION_GUI = "gui";
 
+    public static final String STARTER_OPTION_JAVA = "java";
+
     public static final String STARTER_OPTION_CREATECONFIG = "defaultconfig";
 
     public static void main( String[] args )
@@ -97,7 +99,7 @@ public class Starter
                 if ( cmd.hasOption( STARTER_OPTION_START ) )
                 {
                     System.out.println( "Launching Messic Service...." );
-                    Util.launchMessicService( null );
+                    Util.launchMessicService( null, cmd.getOptionValue( STARTER_OPTION_JAVA ) );
                     return;
                 }
 
@@ -139,6 +141,8 @@ public class Starter
                            "if present, it can establish if the Messic Monitor should be shown or not. (true || false).  This is not necessary when the system doesn't have any display available" );
         options.addOption( STARTER_OPTION_CREATECONFIG, false,
                            "if present, messic will delete the current config file (if exist) and create a new one with the default options" );
+        options.addOption( STARTER_OPTION_JAVA, true,
+                           "specify the java location. (native will try to launch the shell java, at OS location)" );
 
         return options;
     }

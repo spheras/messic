@@ -353,7 +353,7 @@ public class Util
         if ( OSValidator.isWindows() )
         {
             Long messicProcessNumber = Util.getMessicProcess();
-            Runtime.getRuntime().exec( new String[] { "taskkill", "/PID", "" + messicProcessNumber, "/T","/F" } );
+            Runtime.getRuntime().exec( new String[] { "taskkill", "/PID", "" + messicProcessNumber, "/T", "/F" } );
             try
             {
                 Thread.sleep( 5000 );
@@ -481,7 +481,7 @@ public class Util
      * @throws IOException
      * @throws InterruptedException
      */
-    public static void launchMessicService( final MessicLaunchedObserver observer )
+    public static void launchMessicService( final MessicLaunchedObserver observer, String javaOption )
         throws IOException, InterruptedException
     {
         if ( OSValidator.isWindows() || OSValidator.isMac() || OSValidator.isUnix() )
@@ -495,6 +495,17 @@ public class Util
 
             String[] params = null;
             String paramJava = "./bin/jre1.8.0_05/bin/java";
+            if ( javaOption != null )
+            {
+                if ( javaOption.trim().toUpperCase().equals( "NATIVE" ) )
+                {
+                    paramJava = "java";
+                }
+                else
+                {
+                    paramJava = javaOption;
+                }
+            }
             if ( OSValidator.isUnix() )
             {
                 File ftest1 = new File( "./bin/jre1.8.0_05-x64" );
