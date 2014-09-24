@@ -100,7 +100,7 @@ public class SelectMusicFolderWindow
                 {
                     try
                     {
-                        String folder = tfMusicFolder.getText();
+                        String folder = tfMusicFolder.getText().trim();
                         MusicFolderState mfs = Util.testIfMusicFolderIsEmpty( folder );
                         if ( mfs.equals( MusicFolderState.EXIST_WITH_DATABASE ) )
                         {
@@ -127,11 +127,17 @@ public class SelectMusicFolderWindow
 
                         File ffolder = new File( folder );
                         ffolder.mkdirs();
-
-                        MessicConfig mc = new MessicConfig();
-                        mc.getConfiguration().setProperty( MessicConfig.MESSIC_MUSICFOLDER, folder );
-                        mc.save();
-                        frame.dispose();
+                        if ( ffolder.exists() )
+                        {
+                            MessicConfig mc = new MessicConfig();
+                            mc.getConfiguration().setProperty( MessicConfig.MESSIC_MUSICFOLDER, folder );
+                            mc.save();
+                            frame.dispose();
+                        }
+                        else
+                        {
+                            throw new Exception( ml.getProperty( "messic-selectfolder-error" ) );
+                        }
                     }
                     catch ( Exception ex )
                     {

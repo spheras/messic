@@ -256,15 +256,53 @@ public class ProcessMonitorWindow
         {
             public void actionPerformed( ActionEvent e )
             {
+                String folder = tfConfigMusicFolder.getText().trim();
                 MessicConfig mc = new MessicConfig();
                 Properties p = mc.getConfiguration();
+                String storedMusicFolder = p.getProperty( MessicConfig.MESSIC_MUSICFOLDER );
+                if ( !storedMusicFolder.equals( folder ) )
+                {
+                    MusicFolderState mfs = Util.testIfMusicFolderIsEmpty( folder );
+                    if ( mfs.equals( MusicFolderState.EXIST_WITH_DATABASE ) )
+                    {
+                        int result =
+                            JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
+                                                           ml.getProperty( "messic-selectfolder-existingdatabase" ),
+                                                           "", JOptionPane.YES_NO_OPTION );
+                        if ( result == JOptionPane.NO_OPTION )
+                        {
+                            return;
+                        }
+                    }
+                    else if ( mfs.equals( MusicFolderState.EXIST_WITHOUT_DATABASE ) )
+                    {
+                        int result =
+                            JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
+                                                           ml.getProperty( "messic-selectfolder-notempty" ), "",
+                                                           JOptionPane.YES_NO_OPTION );
+                        if ( result == JOptionPane.NO_OPTION )
+                        {
+                            return;
+                        }
+                    }
+
+                    File ffolder = new File( folder );
+                    ffolder.mkdirs();
+                    if ( !ffolder.exists() )
+                    {
+                        JOptionPane.showMessageDialog( ProcessMonitorWindow.this,
+                                                       ml.getProperty( "messic-selectfolder-error" ) );
+                        return;
+                    }
+                }
+
                 p.setProperty( MessicConfig.MESSIC_PROXYURL, ( checkProxy.isSelected() ? tfProxyURL.getText() : "" ) );
                 p.setProperty( MessicConfig.MESSIC_PROXYPORT, ( checkProxy.isSelected() ? tfProxyPort.getText() : "" ) );
                 p.setProperty( MessicConfig.MESSIC_TIMEOUT, tfSessionTimeout.getText() );
                 p.setProperty( MessicConfig.MESSIC_SECUREPROTOCOL, "" + chckbxSecureCommunications.isSelected() );
                 p.setProperty( MessicConfig.MESSIC_HTTPPORT, tfHTTPPort.getText() );
                 p.setProperty( MessicConfig.MESSIC_HTTPSPORT, tfHTTPSPort.getText() );
-                p.setProperty( MessicConfig.MESSIC_MUSICFOLDER, tfConfigMusicFolder.getText() );
+                p.setProperty( MessicConfig.MESSIC_MUSICFOLDER, tfConfigMusicFolder.getText().trim() );
                 try
                 {
                     mc.save();
