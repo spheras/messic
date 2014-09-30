@@ -6,10 +6,9 @@ http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
 	<persistence-unit name="messicPersistenceUnit"
 		transaction-type="RESOURCE_LOCAL">
 
-		<jta-data-source>dataSource</jta-data-source>
-
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
+		<jta-data-source>dataSource</jta-data-source>
 
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />

@@ -32,51 +32,56 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "GENRE")
-public class MDOGenre implements
-        MDO, Serializable {
-    
+@Table( name = "GENRE" )
+public class MDOGenre
+    implements MDO, Serializable
+{
+
     private static final long serialVersionUID = 8792913920714652055L;
 
-    @Column(name = "NAME", nullable = false)
-    private String name;    
-    
+    @Column( name = "NAME", nullable = false )
+    private String name;
+
     @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "OWNER", nullable = false )
     private MDOUser owner;
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_RESOURCES")
-    @SequenceGenerator(name = "SEQ_RESOURCES", sequenceName = "SEQ_RESOURCES")
-    @Column(name = "SID", nullable = false, unique = true)
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "SEQ_GENRES" )
+    @SequenceGenerator( name = "SEQ_GENRES", sequenceName = "SEQ_GENRES" )
+    @Column( name = "SID", nullable = false, unique = true )
     private Long sid;
-    
-    public MDOGenre ()
+
+    public MDOGenre()
     {
         super();
     }
-    
-    public MDOGenre (String name, MDOUser owner)
+
+    public MDOGenre( String name, MDOUser owner )
     {
-        this.name = name;        
+        this.name = name;
         this.owner = owner;
     }
 
-    public Long getSid() {
+    public Long getSid()
+    {
         return sid;
     }
 
-    public void setSid(Long sid) {
+    public void setSid( Long sid )
+    {
         this.sid = sid;
     }
-    
-    public String getName() {
+
+    public String getName()
+    {
         return name;
     }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName( String name )
+    {
+        this.name = name;
+    }
 
     public MDOUser getOwner()
     {

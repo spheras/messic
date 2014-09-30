@@ -21,8 +21,6 @@ package org.messic.server.datamodel;
 import java.io.File;
 import java.io.Serializable;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -32,7 +30,6 @@ import javax.persistence.Table;
 @Entity
 @Table( name = "ALBUM_RESOURCES" )
 @Inheritance( strategy = InheritanceType.SINGLE_TABLE )
-@DiscriminatorColumn( name = "DTYPE", discriminatorType = DiscriminatorType.STRING, length = 31 )
 @DiscriminatorValue( MDOPhysicalResource.ALBUM_RESOURCE )
 public class MDOAlbumResource
     extends MDOPhysicalResource

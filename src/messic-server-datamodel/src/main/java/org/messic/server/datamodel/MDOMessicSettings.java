@@ -41,8 +41,8 @@ public class MDOMessicSettings
     private static final long serialVersionUID = -6585157237342912864L;
 
     @Id
-    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "SEQ_USERS" )
-    @SequenceGenerator( name = "SEQ_USERS", sequenceName = "SEQ_USERS" )
+    @GeneratedValue( strategy = GenerationType.SEQUENCE, generator = "SEQ_SETTINGS" )
+    @SequenceGenerator( name = "SEQ_SETTINGS", sequenceName = "SEQ_USERS" )
     @Column( name = "SID", nullable = false, unique = true )
     private Long sid;
 

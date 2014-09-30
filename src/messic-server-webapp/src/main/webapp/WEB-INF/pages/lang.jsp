@@ -50,6 +50,7 @@ messicLang = {
 	uploadErrorNameRepeated: '<fmt:message key="js-upload-error-namerepeated" bundle="${message}"/>',
 	uploadWizardRemove: '<fmt:message key="js-upload-wizard-remove" bundle="${message}"/>',
 	uploadWizardPluginWarning: '<fmt:message key="js-upload-wizard-pluginwarning" bundle="${message}"/>',
+	uploadWizardSavingWait:'<fmt:message key="js-upload-saving-wait" bundle="${message}"/>',
 	
 	confirmationYes: '<fmt:message key="js-confirmation-yes" bundle="${message}"/>',
 	confirmationNo: '<fmt:message key="js-confirmation-no" bundle="${message}"/>',

@@ -68,6 +68,7 @@ public class SecurityLoginSuccessHandler
                 Login.sucessLogin( this.getTargetUrlParameter(), (String) request.getAttribute( "messic_token" ),
                                    ( (User) auth.getPrincipal() ).getUsername() );
             response.getWriter().print( login.getJSON() );
+            response.setContentType( "application/json" );
             response.getWriter().flush();
 //        }
 //        else

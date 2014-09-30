@@ -165,6 +165,8 @@ public class AnimatedGifSplashScreen
 
         label.setHorizontalAlignment( SwingConstants.CENTER );
 
+        setSize( 400, 100 );
+
         getRandomImageIcon( label );
         getContentPane().setBackground( new Color( 0x000000 ) );
         add( label, BorderLayout.CENTER );
@@ -180,7 +182,6 @@ public class AnimatedGifSplashScreen
 
         // frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         // setMinimumSize( new Dimension( 360, 220 ) );
-        setSize( 400, 100 );
 
         setBackground( new Color( 0x000000 ) );
         // frame.pack();

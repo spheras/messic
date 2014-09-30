@@ -168,10 +168,13 @@ var UploadAlbumProcess = function (album) {
     }
 
     function ending() {
+        UtilShowWait(messicLang.uploadWizardSavingWait);
+
         $.ajax({
             url: 'services/albums', //Server script to process data
             type: 'POST',
             success: function (e) {
+                UtilHideWait();
                 var sid = e;
                 if (UtilIsNumeric(e)) {
                     domElement.find('.messic-upload-finishbox-cover').addClass("messic-upload-finishbox-ok");
@@ -183,6 +186,7 @@ var UploadAlbumProcess = function (album) {
                 }
             },
             error: function (e) {
+                UtilHideWait();
                 domElement.find('.messic-upload-finishbox-cover').addClass("messic-upload-finishbox-fail");
                 UtilShowInfo(messicLang.uploadError);
             },

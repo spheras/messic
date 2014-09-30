@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -36,7 +34,6 @@ import org.messic.server.Util;
 @Entity
 @Table( name = "PHYSICAL_RESOURCES" )
 @Inheritance( strategy = InheritanceType.JOINED )
-@DiscriminatorColumn( name = "DTYPE", discriminatorType = DiscriminatorType.STRING, length = 31 )
 @DiscriminatorValue( MDOResource.PHYSICAL_RESOURCE )
 public class MDOPhysicalResource
     extends MDOResource
