@@ -16,3 +16,8 @@ src/messic-service/jetty/work/
 src/messic-service/conf/messicStarted
 src/messic-service/log
 src/messic-configuration/conf
+src/messic-client-android/assets
+src/messic-client-android/bin
+src/messic-client-android/gen
+src/messic-client-android/target
+

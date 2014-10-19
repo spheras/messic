@@ -38,6 +38,9 @@ public class MessicSettings
     @ApiObjectField( description = "indicates if messic allows the dlna share content" )
     private boolean allowDLNA = true;
 
+    @ApiObjectField( description = "indicates if messic allows the discovering the messic service over udp broadcast (this is different from dlna)" )
+    private boolean allowDiscovering = true;
+
     public MessicSettings()
     {
 
@@ -55,6 +58,7 @@ public class MessicSettings
         mdoSettings.setAllowDLNA( this.isAllowDLNA() );
         mdoSettings.setAllowUserCreation( this.isAllowUserCreation() );
         mdoSettings.setIllegalCharacterReplacement( this.getIllegalCharacterReplacement() );
+        mdoSettings.setAllowMessicDiscovering( this.isAllowDiscovering() );
         return mdoSettings;
     }
 
@@ -68,6 +72,7 @@ public class MessicSettings
         this.illegalCharacterReplacement = mdoSettings.getIllegalCharacterReplacement();
         this.allowUserCreation = mdoSettings.isAllowUserCreation();
         this.allowDLNA = mdoSettings.isAllowDLNA();
+        this.allowDiscovering = mdoSettings.isAllowMessicDiscovering();
     }
 
     /**
@@ -116,5 +121,21 @@ public class MessicSettings
     public void setAllowDLNA( boolean allowDLNA )
     {
         this.allowDLNA = allowDLNA;
+    }
+
+    /**
+     * @return the allowDiscovering
+     */
+    public boolean isAllowDiscovering()
+    {
+        return allowDiscovering;
+    }
+
+    /**
+     * @param allowDiscovering the allowDiscovering to set
+     */
+    public void setAllowDiscovering( boolean allowDiscovering )
+    {
+        this.allowDiscovering = allowDiscovering;
     }
 }

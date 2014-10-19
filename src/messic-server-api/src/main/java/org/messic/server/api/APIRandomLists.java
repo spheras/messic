@@ -49,6 +49,25 @@ public class APIRandomLists
     private static final Logger log = Logger.getLogger( APIRandomLists.class );
 
     @Transactional
+    public RandomList getList( User user, String name )
+    {
+        for ( int i = 0; i < plugins.length; i++ )
+        {
+            RandomListPlugin rlp = plugins[i];
+            RandomList rl = rlp.getRandomList( user );
+            if ( rl != null && rl.getSongs().size() > 0 )
+            {
+                if ( rl.getName().equalsIgnoreCase( name ) )
+                {
+                    return rl;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    @Transactional
     public List<RandomList> getAllLists( User user )
     {
         ArrayList<RandomList> result = new ArrayList<RandomList>();

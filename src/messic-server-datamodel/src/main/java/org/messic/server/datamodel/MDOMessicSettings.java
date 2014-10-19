@@ -58,6 +58,15 @@ public class MDOMessicSettings
     /* flag to know is allowed the DLNA share content */
     private boolean allowDLNA = true;
 
+    private static final boolean DEFAULT_ALLOWMESSICDISCOVERING = true;
+
+    @Column( name = "ALLOWDISCOVERING", nullable = true )
+    /*
+     * flag to know is allowed the Discovering service of messic.. this is not for the dlna, it is only to discover
+     * between some clients and servers of messic
+     */
+    private Boolean allowMessicDiscovering = DEFAULT_ALLOWMESSICDISCOVERING;
+
     @Column( name = "VERSION", nullable = true )
     private String version;
 
@@ -140,6 +149,22 @@ public class MDOMessicSettings
     public void setVersion( String version )
     {
         this.version = version;
+    }
+
+    /**
+     * @return the allowMessicDiscovering
+     */
+    public Boolean isAllowMessicDiscovering()
+    {
+        return ( allowMessicDiscovering != null ? allowMessicDiscovering : DEFAULT_ALLOWMESSICDISCOVERING );
+    }
+
+    /**
+     * @param allowMessicDiscovering the allowMessicDiscovering to set
+     */
+    public void setAllowMessicDiscovering( boolean allowMessicDiscovering )
+    {
+        this.allowMessicDiscovering = allowMessicDiscovering;
     }
 
 }

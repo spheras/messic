@@ -634,6 +634,7 @@ function continueSendData(flagNewUser, userData) {
             allowUserCreation: $("#messic-user-settings-allowusercreation").is(":checked"),
             illegalCharacterReplacement: $("#messic-user-settings-illegalcharacterreplacement").val(),
             allowDLNA: $("#messic-user-settings-admin-allowdlna").is(":checked"),
+            allowDiscovering: $("#messic-user-settings-allowmessicdiscovering").is(":checked"),
         }
 
         $.ajax({

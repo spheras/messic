@@ -18,6 +18,7 @@
  */
 package org.messic.server.facade.controllers.rest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -25,7 +26,9 @@ import org.jsondoc.core.annotation.Api;
 import org.jsondoc.core.annotation.ApiError;
 import org.jsondoc.core.annotation.ApiErrors;
 import org.jsondoc.core.annotation.ApiMethod;
+import org.jsondoc.core.annotation.ApiParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
+import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.server.api.APIRandomLists;
 import org.messic.server.api.datamodel.RandomList;
@@ -40,6 +43,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -56,7 +60,7 @@ public class RandomListsController
     @Autowired
     public DAOUser userDAO;
 
-    @ApiMethod( path = "/services/randomlists", verb = ApiVerb.GET, description = "Get random lists of music", produces = {
+    @ApiMethod( path = "/services/randomlists?filterRandomListName=xxxx", verb = ApiVerb.GET, description = "Get random lists of music. It has the posibility to filter by a randomlist name", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -64,14 +68,24 @@ public class RandomListsController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public List<RandomList> getAll()
+    public List<RandomList> getAll( @RequestParam( value = "filterRandomListName", required = false ) @ApiParam( name = "filterRandomListName", description = "select a concrete randomlist by the name of it", paramType = ApiParamType.QUERY, required = false ) String filterRandomListName )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
         User user = SecurityUtil.getCurrentUser();
         try
         {
-            List<RandomList> lists = randomListsAPI.getAllLists( user );
-            return lists;
+            if ( filterRandomListName == null || filterRandomListName.length() <= 0 )
+            {
+                List<RandomList> lists = randomListsAPI.getAllLists( user );
+                return lists;
+            }
+            else
+            {
+                List<RandomList> result = new ArrayList<RandomList>();
+                RandomList rl = randomListsAPI.getList( user, filterRandomListName );
+                result.add( rl );
+                return result;
+            }
         }
         catch ( Exception e )
         {

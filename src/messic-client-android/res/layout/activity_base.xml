@@ -1,0 +1,32 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    tools:context="org.messic.android.activities.LoginActivity" >
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_above="@+id/base_bottomlayout"
+        android:layout_alignParentTop="true"
+        android:padding="0dp"
+        tools:context="org.messic.android.activities.BaseActivity" />
+
+    <org.messic.android.views.PlayerView
+        android:id="@+id/base_bottomlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:padding="0dp" >
+    </org.messic.android.views.PlayerView>
+
+</RelativeLayout>

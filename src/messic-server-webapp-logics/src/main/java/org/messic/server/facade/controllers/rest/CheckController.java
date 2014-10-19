@@ -34,9 +34,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-/**
- * @author spheras
- */
 @Controller
 @RequestMapping( "/check" )
 @Api( name = "Check services", description = "Methods for checking if the service is alive" )

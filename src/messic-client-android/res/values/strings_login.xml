@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="login_remember">remember</string>
+    <string name="login_loginhint">username</string>
+    <string name="login_passwordhint">password</string>
+    <string name="login_loginaction">Sign in</string>
+    <string name="login_sonline">Online</string>
+
+</resources>

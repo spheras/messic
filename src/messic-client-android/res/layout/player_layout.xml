@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp" >
+
+    <ImageView
+        android:id="@+id/base_ivcurrent_cover"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/messic_button" />
+
+    <TextView
+        android:id="@+id/base_tvcurrent_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/base_ivcurrent_cover"
+        android:layout_marginLeft="14dp"
+        android:layout_toLeftOf="@+id/base_ivback"
+        android:layout_toRightOf="@+id/base_ivcurrent_cover"
+        android:lines="1"
+        android:text="author name"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/base_tvcurrent_song"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/base_ivcurrent_cover"
+        android:layout_alignLeft="@+id/base_tvcurrent_author"
+        android:layout_alignRight="@+id/base_tvcurrent_author"
+        android:layout_below="@+id/base_tvcurrent_author"
+        android:lines="1"
+        android:text="song name"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
+
+    <ImageView
+        android:id="@+id/base_ivnext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/base_ivplaypause"
+        android:src="@drawable/mininext_w_30" />
+
+    <ImageView
+        android:id="@+id/base_ivplaypause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/base_ivback"
+        android:layout_marginRight="14dp"
+        android:layout_toLeftOf="@+id/base_ivnext"
+        android:src="@drawable/messic_button" />
+
+    <ImageView
+        android:id="@+id/base_ivback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/base_tvcurrent_author"
+        android:layout_marginRight="14dp"
+        android:layout_toLeftOf="@+id/base_ivplaypause"
+        android:src="@drawable/miniback_w_30" />
+
+</RelativeLayout>

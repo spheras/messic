@@ -111,6 +111,13 @@
 							<div id="messic-user-settings-content-admin" class="messic-user-settings-container messic-user-settings-menu-notvisible">
 								<ul>
 									<li>
+										<input id="messic-user-settings-allowmessicdiscovering" name="allowMessicDiscovering" type="checkbox" <%if (settings.isAllowDiscovering()){%>checked<%}%>></input>
+										<label><fmt:message key="settings-content-admin-allowmessicdiscovering-title" bundle="${ message }"/></label>
+										<div class="messic-user-settings-content-help"></div>
+										<div class="messic-user-settings-content-info"><fmt:message key="settings-content-admin-allowmessicdiscovering-info" bundle="${ message }"/></div>
+										<div class="divclearer"></div>
+									</li>
+									<li>
 										<input id="messic-user-settings-allowusercreation" name="allowUserCreation" type="checkbox" <%if (settings.isAllowUserCreation()){%>checked<%}%>></input>
 										<label><fmt:message key="settings-content-admin-allowusercreation-title" bundle="${ message }"/></label>
 										<div class="messic-user-settings-content-help"></div>

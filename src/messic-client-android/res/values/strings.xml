@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">messic</string>
+    <string name="action_settings">Settings</string>
+    <string name="searchMessicService_explanation">You must search a valid messic service at your network. Press the button to start searching messic services</string>
+    <string name="searchMessicService_searchaction">Search messic service</string>
+    <string name="searchMessicService_countdown_searching">searching</string>
+    <string name="searchMessicService_countdown_seconds">sec</string>
+    <string name="searchMessicService_results">Messic Services Found List</string>
+    <string name="searchMessicService_manual">... or Manual Search</string>
+    <string name="searchMessicService_empty">Empty</string>
+    <string name="title_activity_base">messic</string>
+    <string name="title_section_random">Random Music</string>
+    <string name="title_section_explore">Explore</string>
+    <string name="title_section_playlist">Playlists</string>
+    <string name="title_section_downloaded">Downloaded</string>
+    <string name="title_section_queue">Queue</string>
+    <string name="player_playing">Playing Now:</string>
+    <string name="player_added">Added:</string>
+    
+    
+</resources>

@@ -1,0 +1,71 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <ImageView
+        android:id="@+id/songdetailed_icover"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/messic_button" />
+
+    <TextView
+        android:id="@+id/songdetailed_tauthor"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/songdetailed_talbum"
+        android:layout_alignParentRight="true"
+        android:ellipsize="end"
+        android:lines="3"
+        android:scrollHorizontally="true"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#444444"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/songdetailed_talbum"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/songdetailed_tauthor"
+        android:layout_toRightOf="@+id/songdetailed_icover"
+        android:ellipsize="end"
+        android:lines="3"
+        android:scrollHorizontally="true"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#4444FF" />
+
+    <TextView
+        android:id="@+id/songdetailed_tsong"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/songdetailed_talbum"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/songdetailed_talbum"
+        android:ellipsize="end"
+        android:lines="3"
+        android:scrollHorizontally="true"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#444444"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/songdetailed_tsong"
+        android:layout_alignRight="@+id/songdetailed_icover"
+        android:layout_marginRight="39dp"
+        android:src="@drawable/miniplay_w_40" />
+
+</RelativeLayout>

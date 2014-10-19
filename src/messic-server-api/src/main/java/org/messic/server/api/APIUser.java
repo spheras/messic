@@ -28,6 +28,7 @@ import org.messic.server.api.exceptions.NotAllowedMessicException;
 import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOUser;
+import org.messic.server.discover.DiscoveryThread;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +46,9 @@ public class APIUser
 
     @Autowired
     private DLNAServer dlnaServer;
+
+    @Autowired
+    private DiscoveryThread discoveringService;
 
     public void resetPassword( Long sid )
     {
@@ -189,6 +193,9 @@ public class APIUser
 
             // after save settings we need to update dlna services
             this.dlnaServer.refreshServer();
+
+            // and check if we need to stop or start discovering services
+            this.discoveringService.checkService();
         }
         else
         {
@@ -209,7 +216,7 @@ public class APIUser
 
         mdoUser = user.updateMDOUser( mdoUser );
 
-        this.daoUser.saveUser( mdoUser, !user.getPassword().equals( mdoUser.getPassword()), user.getPassword() );
+        this.daoUser.saveUser( mdoUser, !user.getPassword().equals( mdoUser.getPassword() ), user.getPassword() );
 
         this.dlnaServer.refreshServer();
 

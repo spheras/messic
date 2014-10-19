@@ -29,5 +29,5 @@
 	<!-- It allow @Component, @Service, @Controller, etc.. annotations. -->
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"/>
-	<context:component-scan base-package="org.messic.configuration,org.messic.server.facade.security,org.messic.server.facade.controllers,org.messic.server.datamodel,org.messic.server.api,org.messic.server.config,org.messic.server.api.randomlists" />
+	<context:component-scan base-package="org.messic.configuration,org.messic.server.facade.security,org.messic.server.facade.controllers,org.messic.server.datamodel,org.messic.server.api,org.messic.server.discover,org.messic.server.config,org.messic.server.api.randomlists" />
 </beans>
