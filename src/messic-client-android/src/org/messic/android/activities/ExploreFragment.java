@@ -132,7 +132,14 @@ public class ExploreFragment
 
             public void run()
             {
-                getActivity().findViewById( R.id.explore_progress ).setVisibility( View.GONE );
+                if ( getActivity() != null )
+                {
+                    View progress = getActivity().findViewById( R.id.explore_progress );
+                    if ( progress != null )
+                    {
+                        progress.setVisibility( View.GONE );
+                    }
+                }
             }
         } );
     }

@@ -37,6 +37,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.Toast;
 
 public class RandomFragment
     extends Fragment
@@ -77,6 +78,8 @@ public class RandomFragment
 
             public void coverTouch( MDMSong song, int index )
             {
+                Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + song.getName(),
+                                Toast.LENGTH_SHORT ).show();
                 musicSrv.getPlayer().addSong( song );
             }
 
@@ -88,7 +91,7 @@ public class RandomFragment
             public void elementRemove( MDMSong song, int index )
             {
                 // TODO Auto-generated method stub
-                
+
             }
         } );
         gv.setAdapter( sa );

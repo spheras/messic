@@ -166,10 +166,14 @@ public class SongAdapter
             } );
         }
 
-        if ( position == getCurrentSong() )
+        View v = counterView.findViewById( R.id.songdetailed_rlbase );
+        if ( v != null && position == getCurrentSong() )
         {
-            View v = counterView.findViewById( R.id.songdetailed_rlbase );
-            v.setBackgroundColor( 0xFF0000 );
+            v.setBackgroundColor( 0x66FF0000 );
+        }
+        else if ( v != null )
+        {
+            v.setBackgroundColor( 0x00FFFFFF );
         }
 
         icover.setOnClickListener( new View.OnClickListener()

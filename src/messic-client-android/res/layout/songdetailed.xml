@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
+    
     tools:context="${relativePackage}.${activityClass}" >
 
     <ImageView
@@ -37,9 +38,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/songdetailed_tauthor"
+        android:layout_marginLeft="2dp"
         android:layout_toRightOf="@+id/songdetailed_icover"
         android:ellipsize="end"
-        android:layout_marginLeft="2dp"
         android:maxLines="2"
         android:scrollHorizontally="true"
         android:text="Small Text"
@@ -53,8 +54,8 @@
         android:layout_alignLeft="@+id/songdetailed_talbum"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/songdetailed_talbum"
-        android:ellipsize="end"
         android:layout_marginLeft="2dp"
+        android:ellipsize="end"
         android:lines="3"
         android:scrollHorizontally="true"
         android:text="Small Text"
@@ -74,11 +75,11 @@
 
     <ImageView
         android:id="@+id/songdetailed_ivremove"
-        android:background="#EEEEEE"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:background="#EEEEEE"
         android:src="@drawable/close_r" />
 
 </RelativeLayout>

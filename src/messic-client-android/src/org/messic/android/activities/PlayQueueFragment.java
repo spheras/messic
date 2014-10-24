@@ -68,40 +68,47 @@ public class PlayQueueFragment
         getMessicService();
 
         ListView gv = (ListView) rootView.findViewById( R.id.queue_lvitems );
-        sa = new SongAdapter( getActivity(), new SongAdapter.EventListener()
+        if ( sa == null )
         {
-
-            public void textTouch( MDMSong song, int index )
+            sa = new SongAdapter( getActivity(), new SongAdapter.EventListener()
             {
-                // TODO Auto-generated method stub
-            }
 
-            public void coverTouch( MDMSong song, int index )
-            {
-                musicSrv.getPlayer().setSong( index );
-                musicSrv.getPlayer().playSong();
-            }
-
-            public void coverLongTouch( MDMSong song, int index )
-            {
-                musicSrv.getPlayer().setSong( index );
-                musicSrv.getPlayer().playSong();
-            }
-
-            public void elementRemove( MDMSong song, int index )
-            {
-                sa.removeElement( index );
-                musicSrv.getPlayer().removeSong( index );
-                getActivity().runOnUiThread( new Runnable()
+                public void textTouch( MDMSong song, int index )
                 {
-                    public void run()
-                    {
-                        sa.notifyDataSetChanged();
-                    }
-                } );
+                    // TODO Auto-generated method stub
+                }
 
+                public void coverTouch( MDMSong song, int index )
+                {
+                    musicSrv.getPlayer().setSong( index );
+                    musicSrv.getPlayer().playSong();
+                }
+
+                public void coverLongTouch( MDMSong song, int index )
+                {
+                    musicSrv.getPlayer().setSong( index );
+                    musicSrv.getPlayer().playSong();
+                }
+
+                public void elementRemove( MDMSong song, int index )
+                {
+                    sa.removeElement( index );
+                    musicSrv.getPlayer().removeSong( index );
+                    getActivity().runOnUiThread( new Runnable()
+                    {
+                        public void run()
+                        {
+                            sa.notifyDataSetChanged();
+                        }
+                    } );
+
+                }
+            }, true );
+            if ( musicSrv != null )
+            {
+                sa.setCurrentSong( musicSrv.getPlayer().getCursor() );
             }
-        }, true );
+        }
         gv.setAdapter( sa );
 
         final SwipeRefreshLayout srl = (SwipeRefreshLayout) rootView.findViewById( R.id.queue_swipe );
@@ -176,7 +183,7 @@ public class PlayQueueFragment
                 public void playing( MDMSong song, boolean resumed, int index )
                 {
                     sa.setCurrentSong( index );
-                    if ( !resumed )
+                    if ( !resumed && isVisible() )
                     {
                         getActivity().runOnUiThread( new Runnable()
                         {
