@@ -54,6 +54,8 @@ public class PlayerView
 
     private void init()
     {
+        this.setVisibility( View.GONE );
+
         LayoutInflater inflater = LayoutInflater.from( getContext() );
         View v = inflater.inflate( R.layout.player_layout, this, true );
         if ( playIntent == null )
@@ -113,12 +115,12 @@ public class PlayerView
         MDMSong song = musicSrv.getPlayer().getCurrentSong();
         if ( song != null && musicSrv.getPlayer().isPlaying() )
         {
-            playing( song, false,0 );
+            playing( song, false, 0 );
         }
         else
         {
-            playing( song, false,0 );
-            paused( song ,0);
+            playing( song, false, 0 );
+            paused( song, 0 );
         }
     }
 
@@ -200,14 +202,16 @@ public class PlayerView
                 musicSrv.getPlayer().addListener( listeners.get( i ) );
 
                 MDMSong song = musicSrv.getPlayer().getCurrentSong();
-                if ( song != null && musicSrv.getPlayer().isPlaying() )
-                {
-                    listeners.get( i ).playing( song, false, 0 );
-                }
-                else
-                {
-                    listeners.get( i ).playing( song, false, 0 );
-                    listeners.get( i ).paused( song, 0 );
+                if(song!=null){
+                    if ( musicSrv.getPlayer().isPlaying() )
+                    {
+                        listeners.get( i ).playing( song, false, 0 );
+                    }
+                    else
+                    {
+                        listeners.get( i ).playing( song, false, 0 );
+                        listeners.get( i ).paused( song, 0 );
+                    }
                 }
             }
             listeners.clear();
@@ -222,6 +226,7 @@ public class PlayerView
 
     public void paused( MDMSong song, int index )
     {
+        this.setVisibility( View.VISIBLE );
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PLAY );
         ivplaypause.setBackgroundResource( R.drawable.miniplay_w_30 );
@@ -230,6 +235,7 @@ public class PlayerView
 
     public void playing( MDMSong song, boolean resumed, int index )
     {
+        this.setVisibility( View.VISIBLE );
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PAUSE );
         ivplaypause.setBackgroundResource( R.drawable.minipause_w_30 );
@@ -246,6 +252,7 @@ public class PlayerView
 
     public void completed( int index )
     {
+        this.setVisibility( View.VISIBLE );
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PLAY );
         ivplaypause.setBackgroundResource( R.drawable.miniplay_w_30 );

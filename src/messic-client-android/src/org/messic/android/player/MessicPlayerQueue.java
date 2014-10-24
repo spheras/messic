@@ -215,6 +215,9 @@ public class MessicPlayerQueue
 
     public void playSong()
     {
+        if ( cursor >= queue.size() )
+            return;
+
         this.playing = true;
         // get song
         MDMSong playSong = queue.get( cursor );
@@ -269,9 +272,11 @@ public class MessicPlayerQueue
 
     public void pauseSong()
     {
+        if ( cursor >= queue.size() )
+            return;
+
         this.playing = false;
         player.pause();
-
         MDMSong playSong = queue.get( cursor );
 
         for ( PlayerEventListener eventListener : listeners )
@@ -286,6 +291,12 @@ public class MessicPlayerQueue
         if ( index < this.queue.size() )
         {
             this.queue.remove( index );
+            if ( this.queue.size() <= 0 )
+            {
+                stop();
+                return;
+            }
+
             if ( index >= this.queue.size() )
             {
                 index = this.queue.size() - 1;
@@ -308,6 +319,8 @@ public class MessicPlayerQueue
 
     public void resumeSong()
     {
+        if ( cursor >= queue.size() )
+            return;
 
         this.playing = true;
         player.start();

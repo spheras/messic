@@ -80,10 +80,7 @@ public class MessicPlayerNotification
     {
         this.player = player;
         this.service = service;
-        this.notification = createNotification();
-        // mNotificationManager.notify( 1, notification );
-        this.service.startForeground( ONGOING_NOTIFICATION_ID, notification );
-        this.registerBroadcastActions();
+
     }
 
     private void registerBroadcastActions()
@@ -133,8 +130,12 @@ public class MessicPlayerNotification
         this.service.registerReceiver( receiver, filter );
     }
 
-    private Notification createNotification()
+    private void createNotification()
     {
+        if(this.notification!=null){
+            return;
+        }
+        
         mNotificationManager = (NotificationManager) this.service.getSystemService( Context.NOTIFICATION_SERVICE );
         RemoteViews contentView =
             new RemoteViews( this.service.getPackageName(), R.layout.bignotification_player_layout );
@@ -160,11 +161,14 @@ public class MessicPlayerNotification
         PendingIntent pintentNext = PendingIntent.getBroadcast( this.service, 0, intentNext, 0 );
         contentView.setOnClickPendingIntent( R.id.base_ivnext, pintentNext );
 
-        return n;
+        this.notification = n;
+        this.service.startForeground( ONGOING_NOTIFICATION_ID, notification );
+        this.registerBroadcastActions();
     }
 
     private void refreshContentData( MDMSong song )
     {
+        createNotification();
         this.notification.bigContentView.setTextViewText( R.id.base_tvcurrent_author,
                                                           song.getAlbum().getAuthor().getName() );
         this.notification.bigContentView.setTextViewText( R.id.base_tvcurrent_song, song.getName() );
@@ -174,6 +178,7 @@ public class MessicPlayerNotification
 
     public void paused( MDMSong song, int index )
     {
+        createNotification();
         this.notification.bigContentView.setViewVisibility( R.id.base_ivplay, View.VISIBLE );
         this.notification.bigContentView.setViewVisibility( R.id.base_ivpause, View.INVISIBLE );
         refreshContentData( song );
@@ -181,6 +186,7 @@ public class MessicPlayerNotification
 
     public void playing( MDMSong song, boolean resumed, int index )
     {
+        createNotification();
         if ( !resumed )
         {
             this.currentNotificationCover = null;
@@ -203,6 +209,7 @@ public class MessicPlayerNotification
      */
     private void constructNotificationCover( final MDMSong playSong )
     {
+        createNotification();
         if ( currentNotificationCover == null )
         {
             Bitmap cover = AlbumCoverCache.getCover( playSong.getAlbum().getSid(), new AlbumCoverCache.CoverListener()
