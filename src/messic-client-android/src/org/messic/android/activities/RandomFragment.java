@@ -77,12 +77,18 @@ public class RandomFragment
 
             public void coverTouch( MDMSong song, int index )
             {
-                musicSrv.addSong( song );
+                musicSrv.getPlayer().addSong( song );
             }
 
             public void coverLongTouch( MDMSong song, int index )
             {
-                musicSrv.addAndPlay( song );
+                musicSrv.getPlayer().addAndPlay( song );
+            }
+
+            public void elementRemove( MDMSong song, int index )
+            {
+                // TODO Auto-generated method stub
+                
             }
         } );
         gv.setAdapter( sa );

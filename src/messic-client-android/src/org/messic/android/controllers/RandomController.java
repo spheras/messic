@@ -28,6 +28,7 @@ import org.messic.android.util.RestJSONClient;
 
 import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.widget.Toast;
 
 public class RandomController
@@ -42,7 +43,7 @@ public class RandomController
         {
             final String baseURL =
                 Configuration.getBaseUrl()
-                    + "/services/randomlists?filterRandomListName=RandomRandomListPlugin&messic_token="
+                    + "/services/randomlists?filterRandomListName=RandomListName-Random&messic_token="
                     + Configuration.getLastToken();
             RestJSONClient.get( baseURL, MDMRandomList[].class, new RestJSONClient.RestListener<MDMRandomList[]>()
             {
@@ -52,9 +53,18 @@ public class RandomController
                     refreshData( adapter, activity, rf, srl );
                 }
 
-                public void fail( Exception e )
+                public void fail( final Exception e )
                 {
-                    Toast.makeText( activity, "Error", Toast.LENGTH_LONG ).show();
+                    Log.e( "Random", e.getMessage(), e );
+                    activity.runOnUiThread( new Runnable()
+                    {
+
+                        public void run()
+                        {
+                            Toast.makeText( activity, "Error:" + e.getMessage(), Toast.LENGTH_LONG ).show();
+
+                        }
+                    } );
                 }
 
             } );

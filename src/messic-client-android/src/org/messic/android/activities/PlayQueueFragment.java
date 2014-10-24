@@ -23,6 +23,7 @@ import org.messic.android.controllers.QueueController;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.player.MessicPlayerService;
 import org.messic.android.player.MessicPlayerService.MusicBinder;
+import org.messic.android.player.PlayerEventListener;
 
 import android.app.Fragment;
 import android.content.ComponentName;
@@ -77,14 +78,28 @@ public class PlayQueueFragment
 
             public void coverTouch( MDMSong song, int index )
             {
-                musicSrv.setSong( index );
-                musicSrv.playSong();
+                musicSrv.getPlayer().setSong( index );
+                musicSrv.getPlayer().playSong();
             }
 
             public void coverLongTouch( MDMSong song, int index )
             {
-                musicSrv.setSong( index );
-                musicSrv.playSong();
+                musicSrv.getPlayer().setSong( index );
+                musicSrv.getPlayer().playSong();
+            }
+
+            public void elementRemove( MDMSong song, int index )
+            {
+                sa.removeElement( index );
+                musicSrv.getPlayer().removeSong( index );
+                getActivity().runOnUiThread( new Runnable()
+                {
+                    public void run()
+                    {
+                        sa.notifyDataSetChanged();
+                    }
+                } );
+
             }
         }, true );
         gv.setAdapter( sa );
@@ -147,6 +162,40 @@ public class PlayQueueFragment
             MusicBinder binder = (MusicBinder) service;
             // get service
             musicSrv = binder.getService();
+            sa.setCurrentSong( musicSrv.getPlayer().getCursor() );
+            getActivity().runOnUiThread( new Runnable()
+            {
+                public void run()
+                {
+                    sa.notifyDataSetChanged();
+                }
+            } );
+
+            musicSrv.getPlayer().addListener( new PlayerEventListener()
+            {
+                public void playing( MDMSong song, boolean resumed, int index )
+                {
+                    sa.setCurrentSong( index );
+                    if ( !resumed )
+                    {
+                        getActivity().runOnUiThread( new Runnable()
+                        {
+                            public void run()
+                            {
+                                sa.notifyDataSetChanged();
+                            }
+                        } );
+                    }
+                }
+
+                public void paused( MDMSong song, int index )
+                {
+                }
+
+                public void completed( int index )
+                {
+                }
+            } );
             // pass list
             // musicSrv.setList( songList );
             musicBound = true;

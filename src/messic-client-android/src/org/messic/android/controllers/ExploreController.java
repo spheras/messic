@@ -25,6 +25,7 @@ import org.messic.android.util.RestJSONClient;
 
 import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.widget.Toast;
 
 public class ExploreController
@@ -47,9 +48,18 @@ public class ExploreController
                     refreshData( response, adapter, activity, rf, srl );
                 }
 
-                public void fail( Exception e )
+                public void fail( final Exception e )
                 {
-                    Toast.makeText( activity, "Error", Toast.LENGTH_LONG ).show();
+                    Log.e( "Random", e.getMessage(), e );
+                    activity.runOnUiThread( new Runnable()
+                    {
+
+                        public void run()
+                        {
+                            Toast.makeText( activity, "Error:" + e.getMessage(), Toast.LENGTH_LONG ).show();
+
+                        }
+                    } );
                 }
 
             } );

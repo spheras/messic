@@ -20,8 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/album_icover"
-        android:layout_toRightOf="@+id/album_icover"
+        android:layout_alignTop="@+id/songdetailed_icover"
+        android:layout_toRightOf="@+id/songdetailed_icover"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -29,9 +29,9 @@
         android:id="@+id/searchmessicservice_item_ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/album_icover"
-        android:layout_alignLeft="@+id/searchmessicservice_item_hostname"
+        android:layout_alignBottom="@+id/songdetailed_icover"
         android:layout_toLeftOf="@+id/searchmessicservice_item_version"
+        android:layout_toRightOf="@+id/songdetailed_icover"
         android:text="Small Text"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/searchmessicservice_item_ip"
         android:layout_alignBottom="@+id/searchmessicservice_item_ip"
-        android:layout_alignRight="@+id/searchmessicservice_item_hostname"
+        android:layout_alignParentRight="true"
         android:text="Small Text"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 

@@ -80,7 +80,7 @@ public class ExploreFragment
 
             public void coverTouch( MDMAlbum album )
             {
-                musicSrv.addAlbum( album );
+                musicSrv.getPlayer().addAlbum( album );
             }
 
             public void coverLongTouch( MDMAlbum album )
@@ -90,7 +90,7 @@ public class ExploreFragment
                 {
                     MDMSong song = songs.get( i );
                     song.setAlbum( album );
-                    musicSrv.addSong( song );
+                    musicSrv.getPlayer().addSong( song );
                 }
             }
         } );
@@ -105,8 +105,15 @@ public class ExploreFragment
                 {
                     public void run()
                     {
-                        getActivity().findViewById( R.id.explore_progress ).setVisibility( View.VISIBLE );
-                        controller.getExploreAlbums( sa, getActivity(), ExploreFragment.this, true, srl );
+                        if ( getActivity() != null )
+                        {
+                            View v = getActivity().findViewById( R.id.explore_progress );
+                            if ( v != null )
+                            {
+                                v.setVisibility( View.VISIBLE );
+                                controller.getExploreAlbums( sa, getActivity(), ExploreFragment.this, true, srl );
+                            }
+                        }
                     }
                 }, 5000 );
             }

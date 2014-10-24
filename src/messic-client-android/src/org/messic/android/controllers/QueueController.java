@@ -34,7 +34,7 @@ public class QueueController
     public void getQueueSongs( final SongAdapter adapter, final Activity activity, final PlayQueueFragment rf,
                                boolean refresh, final SwipeRefreshLayout srl, MessicPlayerService mps )
     {
-        List<MDMSong> queue = mps.getQueue();
+        List<MDMSong> queue = mps.getPlayer().getQueue();
 
         adapter.clear();
         activity.runOnUiThread( new Runnable()

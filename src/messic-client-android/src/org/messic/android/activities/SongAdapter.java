@@ -31,7 +31,6 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -51,6 +50,9 @@ public class SongAdapter
 
     private boolean detailed = false;
 
+    // <0 to indicate that not current song want to be highlighted
+    private int currentSong = -1;
+
     public interface EventListener
     {
         void coverTouch( MDMSong song, int index );
@@ -58,6 +60,8 @@ public class SongAdapter
         void coverLongTouch( MDMSong song, int index );
 
         void textTouch( MDMSong song, int index );
+
+        void elementRemove( MDMSong song, int index );
     }
 
     public SongAdapter( Activity activity, EventListener listener )
@@ -96,6 +100,11 @@ public class SongAdapter
     public void addSong( MDMSong song )
     {
         this.songs.add( song );
+    }
+
+    public void removeElement( int index )
+    {
+        this.songs.remove( index );
     }
 
     @SuppressLint( "InflateParams" )
@@ -143,6 +152,25 @@ public class SongAdapter
         counterView.setTag( position );
         final int fposition = position;
         final View fCounterView = counterView;
+
+        if ( detailed )
+        {
+            ImageView ivremove = (ImageView) counterView.findViewById( R.id.songdetailed_ivremove );
+            ivremove.setOnClickListener( new View.OnClickListener()
+            {
+
+                public void onClick( View v )
+                {
+                    listener.elementRemove( song, position );
+                }
+            } );
+        }
+
+        if ( position == getCurrentSong() )
+        {
+            View v = counterView.findViewById( R.id.songdetailed_rlbase );
+            v.setBackgroundColor( 0xFF0000 );
+        }
 
         icover.setOnClickListener( new View.OnClickListener()
         {
@@ -192,5 +220,21 @@ public class SongAdapter
         }
 
         return counterView;
+    }
+
+    /**
+     * @return the currentSong
+     */
+    public int getCurrentSong()
+    {
+        return currentSong;
+    }
+
+    /**
+     * @param currentSong the currentSong to set
+     */
+    public void setCurrentSong( int currentSong )
+    {
+        this.currentSong = currentSong;
     }
 }

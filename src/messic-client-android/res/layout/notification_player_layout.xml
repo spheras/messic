@@ -1,0 +1,90 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="5dp"
+    android:paddingTop="0dp" >
+
+    <ImageView
+        android:id="@+id/base_ivcurrent_cover"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/messic_button" />
+
+    <TextView
+        android:id="@+id/base_tvcurrent_author"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/base_ivcurrent_cover"
+        android:layout_marginLeft="1dp"
+        android:layout_toLeftOf="@+id/base_ivback"
+        android:layout_toRightOf="@+id/base_ivcurrent_cover"
+        android:lines="2"
+        android:text="author name"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/base_tvcurrent_song"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignBottom="@+id/base_ivcurrent_cover"
+        android:layout_alignLeft="@+id/base_tvcurrent_author"
+        android:layout_alignRight="@+id/base_tvcurrent_author"
+        android:layout_below="@+id/base_tvcurrent_author"
+        android:lines="2"
+        android:text="song name"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="#FFFFFF" />
+
+    <ImageView
+        android:id="@+id/base_ivplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/base_ivback"
+        android:layout_marginRight="4dp"
+        android:layout_toLeftOf="@+id/base_ivnext"
+        android:src="@drawable/miniplay_w_30" />
+
+    <ImageView
+        android:id="@+id/base_ivpause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/base_ivback"
+        android:layout_marginRight="4dp"
+        android:layout_toLeftOf="@+id/base_ivnext"
+        android:src="@drawable/minipause_w_30"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/base_ivnext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/base_ivback"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/base_ivclose"
+        android:src="@drawable/mininext_w_30" />
+
+    <ImageView
+        android:id="@+id/base_ivback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@+id/base_ivplay"
+        android:src="@drawable/miniback_w_30" />
+
+    <ImageView
+        android:id="@+id/base_ivclose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="12dp"
+        android:src="@drawable/close" />
+
+</RelativeLayout>

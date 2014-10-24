@@ -6,8 +6,8 @@ import java.util.List;
 import org.messic.android.R;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.player.MessicPlayerService;
-import org.messic.android.player.MessicPlayerService.EventListener;
 import org.messic.android.player.MessicPlayerService.MusicBinder;
+import org.messic.android.player.PlayerEventListener;
 import org.messic.android.util.AlbumCoverCache;
 
 import android.content.ComponentName;
@@ -26,7 +26,7 @@ import android.widget.TextView;
 
 public class PlayerView
     extends RelativeLayout
-    implements MessicPlayerService.EventListener
+    implements PlayerEventListener
 {
     private Intent playIntent;
 
@@ -71,7 +71,7 @@ public class PlayerView
         {
             public void onClick( View v )
             {
-                musicSrv.prevSong();
+                musicSrv.getPlayer().prevSong();
             }
 
         } );
@@ -80,7 +80,7 @@ public class PlayerView
         {
             public void onClick( View v )
             {
-                musicSrv.nextSong();
+                musicSrv.getPlayer().nextSong();
             }
 
         } );
@@ -93,11 +93,11 @@ public class PlayerView
             {
                 if ( ivplaypause.getTag().equals( STATUS_PLAY ) )
                 {
-                    musicSrv.resumeSong();
+                    musicSrv.getPlayer().resumeSong();
                 }
                 else
                 {
-                    musicSrv.pauseSong();
+                    musicSrv.getPlayer().pauseSong();
                 }
             }
         } );
@@ -110,15 +110,15 @@ public class PlayerView
 
     private void update()
     {
-        MDMSong song = musicSrv.getCurrentSong();
-        if ( song != null && musicSrv.isPlaying() )
+        MDMSong song = musicSrv.getPlayer().getCurrentSong();
+        if ( song != null && musicSrv.getPlayer().isPlaying() )
         {
-            playing( song, false );
+            playing( song, false,0 );
         }
         else
         {
-            playing( song, false );
-            paused( song );
+            playing( song, false,0 );
+            paused( song ,0);
         }
     }
 
@@ -168,14 +168,13 @@ public class PlayerView
         }
     }
 
-    private static List<MessicPlayerService.EventListener> listeners =
-        new ArrayList<MessicPlayerService.EventListener>();
+    private static List<PlayerEventListener> listeners = new ArrayList<PlayerEventListener>();
 
-    public static void addListener( EventListener listener )
+    public static void addListener( PlayerEventListener listener )
     {
         if ( musicSrv != null )
         {
-            musicSrv.addListener( listener );
+            musicSrv.getPlayer().addListener( listener );
         }
         else
         {
@@ -198,17 +197,17 @@ public class PlayerView
 
             for ( int i = 0; i < listeners.size(); i++ )
             {
-                musicSrv.addListener( listeners.get( i ) );
+                musicSrv.getPlayer().addListener( listeners.get( i ) );
 
-                MDMSong song = musicSrv.getCurrentSong();
-                if ( song != null && musicSrv.isPlaying() )
+                MDMSong song = musicSrv.getPlayer().getCurrentSong();
+                if ( song != null && musicSrv.getPlayer().isPlaying() )
                 {
-                    listeners.get( i ).playing( song, false );
+                    listeners.get( i ).playing( song, false, 0 );
                 }
                 else
                 {
-                    listeners.get( i ).playing( song, false );
-                    listeners.get( i ).paused( song );
+                    listeners.get( i ).playing( song, false, 0 );
+                    listeners.get( i ).paused( song, 0 );
                 }
             }
             listeners.clear();
@@ -221,7 +220,7 @@ public class PlayerView
         }
     };
 
-    public void paused( MDMSong song )
+    public void paused( MDMSong song, int index )
     {
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PLAY );
@@ -229,7 +228,7 @@ public class PlayerView
         ivplaypause.invalidate();
     }
 
-    public void playing( MDMSong song, boolean resumed )
+    public void playing( MDMSong song, boolean resumed, int index )
     {
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PAUSE );
@@ -245,7 +244,7 @@ public class PlayerView
 
     private static final Integer STATUS_PAUSE = 2;
 
-    public void completed()
+    public void completed( int index )
     {
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PLAY );

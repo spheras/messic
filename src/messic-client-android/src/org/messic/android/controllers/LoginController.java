@@ -29,6 +29,7 @@ import org.messic.android.util.RestJSONClient;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -53,7 +54,8 @@ public class LoginController
         }
     }
 
-    public void login( final Context context, final boolean remember, final String username, final String password, final ProgressDialog pd )
+    public void login( final Activity context, final boolean remember, final String username, final String password,
+                       final ProgressDialog pd )
         throws Exception
     {
         Network.nukeNetwork();
@@ -79,8 +81,16 @@ public class LoginController
 
                 public void fail( Exception e )
                 {
-                    pd.dismiss();
-                    Toast.makeText( context, "Error", Toast.LENGTH_LONG ).show();
+                    Log.e( "Login", e.getMessage(), e );
+                    context.runOnUiThread( new Runnable()
+                    {
+                        public void run()
+                        {
+                            pd.dismiss();
+                            Toast.makeText( context, "Error", Toast.LENGTH_LONG ).show();
+                        }
+                    } );
+
                 }
             } );
         }
