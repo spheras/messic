@@ -44,6 +44,7 @@ public class MainActivity
             // TODO
             // We don't have any preffered server, we must search a valid one
             Intent ssa = new Intent( MainActivity.this, LoginActivity.class );
+            ssa.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
             MainActivity.this.startActivity( ssa );
 
         }
@@ -51,6 +52,7 @@ public class MainActivity
         {
             // We don't have any preffered server, we must search a valid one
             Intent ssa = new Intent( MainActivity.this, SearchMessicServiceActivity.class );
+            ssa.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
             MainActivity.this.startActivity( ssa );
         }
     }

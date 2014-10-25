@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.messic.android.R;
+import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.util.AlbumCoverCache;
 
@@ -62,6 +63,8 @@ public class SongAdapter
         void textTouch( MDMSong song, int index );
 
         void elementRemove( MDMSong song, int index );
+
+        void playlistTouch( MDMPlaylist playlist, int index );
     }
 
     public SongAdapter( Activity activity, EventListener listener )

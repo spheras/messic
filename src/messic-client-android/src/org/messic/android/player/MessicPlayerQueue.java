@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.messic.android.datamodel.MDMAlbum;
+import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
 
 import android.content.Context;
@@ -137,6 +138,26 @@ public class MessicPlayerQueue
         if ( cursor > 0 )
         {
             cursor--;
+            playSong();
+        }
+    }
+
+    public void addPlaylist( MDMPlaylist playlist )
+    {
+        List<MDMSong> songs = playlist.getSongs();
+        int playSong = -1;
+        if ( this.queue.size() == 0 || !this.player.isPlaying() )
+        {
+            playSong = this.queue.size();
+        }
+        for ( int i = 0; i < songs.size(); i++ )
+        {
+            MDMSong song = songs.get( i );
+            this.queue.add( song );
+        }
+        if ( playSong != -1 )
+        {
+            this.cursor = playSong;
             playSong();
         }
     }

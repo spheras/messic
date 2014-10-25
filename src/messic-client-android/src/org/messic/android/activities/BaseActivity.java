@@ -154,6 +154,10 @@ public class BaseActivity
             {
                 return new ExploreFragment();
             }
+            else if ( position == 2 )
+            {
+                return new PlaylistFragment();
+            }
             else if ( position == 4 )
             {
                 return new PlayQueueFragment();

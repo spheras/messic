@@ -20,6 +20,7 @@ package org.messic.android.activities;
 
 import org.messic.android.R;
 import org.messic.android.controllers.QueueController;
+import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.player.MessicPlayerService;
 import org.messic.android.player.MessicPlayerService.MusicBinder;
@@ -30,6 +31,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -103,6 +105,12 @@ public class PlayQueueFragment
                     } );
 
                 }
+
+                public void playlistTouch( MDMPlaylist playlist, int index )
+                {
+                    // TODO Auto-generated method stub
+                    
+                }
             }, true );
             if ( musicSrv != null )
             {
@@ -112,18 +120,19 @@ public class PlayQueueFragment
         gv.setAdapter( sa );
 
         final SwipeRefreshLayout srl = (SwipeRefreshLayout) rootView.findViewById( R.id.queue_swipe );
+        srl.setColorSchemeColors( Color.RED, Color.GREEN, Color.BLUE, Color.CYAN );
         srl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener()
         {
             public void onRefresh()
             {
-                new Handler().postDelayed( new Runnable()
+                new Handler().post( new Runnable()
                 {
                     public void run()
                     {
                         getActivity().findViewById( R.id.queue_progress ).setVisibility( View.VISIBLE );
                         controller.getQueueSongs( sa, getActivity(), PlayQueueFragment.this, true, srl, musicSrv );
                     }
-                }, 5000 );
+                });
             }
         } );
 

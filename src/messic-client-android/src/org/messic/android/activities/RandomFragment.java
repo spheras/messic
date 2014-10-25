@@ -20,6 +20,7 @@ package org.messic.android.activities;
 
 import org.messic.android.R;
 import org.messic.android.controllers.RandomController;
+import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.player.MessicPlayerService;
 import org.messic.android.player.MessicPlayerService.MusicBinder;
@@ -29,6 +30,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -78,9 +80,9 @@ public class RandomFragment
 
             public void coverTouch( MDMSong song, int index )
             {
+                musicSrv.getPlayer().addSong( song );
                 Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + song.getName(),
                                 Toast.LENGTH_SHORT ).show();
-                musicSrv.getPlayer().addSong( song );
             }
 
             public void coverLongTouch( MDMSong song, int index )
@@ -93,22 +95,37 @@ public class RandomFragment
                 // TODO Auto-generated method stub
 
             }
+
+            public void playlistTouch( MDMPlaylist playlist, int index )
+            {
+                // TODO Auto-generated method stub
+                
+            }
         } );
         gv.setAdapter( sa );
 
         final SwipeRefreshLayout srl = (SwipeRefreshLayout) rootView.findViewById( R.id.random_swipe );
+        srl.setColorSchemeColors( Color.RED, Color.GREEN, Color.BLUE, Color.CYAN );
+
         srl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener()
         {
             public void onRefresh()
             {
-                new Handler().postDelayed( new Runnable()
+                new Handler().post( new Runnable()
                 {
                     public void run()
                     {
-                        getActivity().findViewById( R.id.random_progress ).setVisibility( View.VISIBLE );
-                        controller.getRandomMusic( sa, getActivity(), RandomFragment.this, true, srl );
+                        if ( getActivity() != null )
+                        {
+                            View rp = getActivity().findViewById( R.id.random_progress );
+                            if ( rp != null )
+                            {
+                                rp.setVisibility( View.VISIBLE );
+                                controller.getRandomMusic( sa, getActivity(), RandomFragment.this, true, srl );
+                            }
+                        }
                     }
-                }, 5000 );
+                } );
             }
         } );
 
@@ -125,7 +142,14 @@ public class RandomFragment
 
             public void run()
             {
-                getActivity().findViewById( R.id.random_progress ).setVisibility( View.GONE );
+                if ( getActivity() != null )
+                {
+                    View rp = getActivity().findViewById( R.id.random_progress );
+                    if ( rp != null )
+                    {
+                        rp.setVisibility( View.GONE );
+                    }
+                }
             }
         } );
     }

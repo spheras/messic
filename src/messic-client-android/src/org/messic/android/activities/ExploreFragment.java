@@ -32,6 +32,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
@@ -40,6 +41,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class ExploreFragment
     extends Fragment
@@ -81,6 +83,8 @@ public class ExploreFragment
             public void coverTouch( MDMAlbum album )
             {
                 musicSrv.getPlayer().addAlbum( album );
+                Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + album.getName(),
+                                Toast.LENGTH_SHORT ).show();
             }
 
             public void coverLongTouch( MDMAlbum album )
@@ -97,11 +101,12 @@ public class ExploreFragment
         gv.setAdapter( sa );
 
         final SwipeRefreshLayout srl = (SwipeRefreshLayout) rootView.findViewById( R.id.explore_swipe );
+        srl.setColorSchemeColors( Color.RED, Color.GREEN, Color.BLUE, Color.CYAN );
         srl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener()
         {
             public void onRefresh()
             {
-                new Handler().postDelayed( new Runnable()
+                new Handler().post( new Runnable()
                 {
                     public void run()
                     {
@@ -115,7 +120,7 @@ public class ExploreFragment
                             }
                         }
                     }
-                }, 5000 );
+                });
             }
         } );
 
