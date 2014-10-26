@@ -18,11 +18,18 @@
  */
 package org.messic.android.datamodel;
 
+import java.io.Serializable;
+
 import org.messic.android.controllers.Configuration;
 
 public class MDMSong
-    extends MDMFile
+    extends MDMFile implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4949164622586035247L;
+
     private long sid;
 
     private int track;

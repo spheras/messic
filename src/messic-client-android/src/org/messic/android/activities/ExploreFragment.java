@@ -21,6 +21,7 @@ package org.messic.android.activities;
 import java.util.List;
 
 import org.messic.android.R;
+import org.messic.android.controllers.AlbumController;
 import org.messic.android.controllers.ExploreController;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMSong;
@@ -77,7 +78,7 @@ public class ExploreFragment
 
             public void textTouch( MDMAlbum album )
             {
-                // TODO Auto-generated method stub
+                AlbumController.getAlbumInfo( ExploreFragment.this.getActivity(), album.getSid() );
             }
 
             public void coverTouch( MDMAlbum album )
@@ -120,7 +121,7 @@ public class ExploreFragment
                             }
                         }
                     }
-                });
+                } );
             }
         } );
 

@@ -18,9 +18,15 @@
  */
 package org.messic.android.datamodel;
 
+import java.io.Serializable;
 
-public class MDMGenre {
-	private Long sid;
+
+public class MDMGenre implements Serializable{
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 2190757306533134244L;
+    private Long sid;
 	private String name;
 	
 	public MDMGenre(){

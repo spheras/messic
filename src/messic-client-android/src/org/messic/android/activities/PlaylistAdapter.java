@@ -96,6 +96,28 @@ public class PlaylistAdapter
         final int fposition = childPosition;
         final View fCounterView = convertView;
 
+        tauthor.setOnClickListener( new View.OnClickListener()
+        {
+            public void onClick( View arg0 )
+            {
+                listener.textTouch( song, childPosition );
+            }
+        } );
+        talbum.setOnClickListener( new View.OnClickListener()
+        {
+            public void onClick( View arg0 )
+            {
+                listener.textTouch( song, childPosition );
+            }
+        } );
+        tsongname.setOnClickListener( new View.OnClickListener()
+        {
+            public void onClick( View arg0 )
+            {
+                listener.textTouch( song, childPosition );
+            }
+        } );
+
         icover.setOnClickListener( new View.OnClickListener()
         {
 

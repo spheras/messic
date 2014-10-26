@@ -19,6 +19,8 @@
 package org.messic.android.activities;
 
 import org.messic.android.R;
+import org.messic.android.activities.SongAdapter.SongAdapterType;
+import org.messic.android.controllers.AlbumController;
 import org.messic.android.controllers.QueueController;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
@@ -77,7 +79,7 @@ public class PlayQueueFragment
 
                 public void textTouch( MDMSong song, int index )
                 {
-                    // TODO Auto-generated method stub
+                    AlbumController.getAlbumInfo( PlayQueueFragment.this.getActivity(), song.getAlbum().getSid() );
                 }
 
                 public void coverTouch( MDMSong song, int index )
@@ -109,9 +111,9 @@ public class PlayQueueFragment
                 public void playlistTouch( MDMPlaylist playlist, int index )
                 {
                     // TODO Auto-generated method stub
-                    
+
                 }
-            }, true );
+            }, SongAdapterType.detailed );
             if ( musicSrv != null )
             {
                 sa.setCurrentSong( musicSrv.getPlayer().getCursor() );
@@ -132,7 +134,7 @@ public class PlayQueueFragment
                         getActivity().findViewById( R.id.queue_progress ).setVisibility( View.VISIBLE );
                         controller.getQueueSongs( sa, getActivity(), PlayQueueFragment.this, true, srl, musicSrv );
                     }
-                });
+                } );
             }
         } );
 

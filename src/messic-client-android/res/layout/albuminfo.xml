@@ -7,8 +7,10 @@
     android:padding="10dp"
     tools:context="${relativePackage}.${activityClass}" >
 
+    
+
     <ImageView
-        android:id="@+id/album_icover"
+        android:id="@+id/albuminfo_icover"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_alignParentLeft="true"
@@ -16,14 +18,23 @@
         android:contentDescription="@string/app_name"
         android:src="@drawable/messic_button" />
 
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/album_icover"
+        android:layout_alignTop="@+id/album_icover"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/miniplay_w_40" />
     <TextView
-        android:id="@+id/album_tauthor"
+        android:id="@+id/albuminfo_tauthor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/album_icover"
+        android:layout_alignTop="@+id/albuminfo_icover"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/album_icover"
+        android:layout_toRightOf="@+id/albuminfo_icover"
         android:ellipsize="end"
         android:maxLines="2"
         android:scrollHorizontally="true"
@@ -33,12 +44,12 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/album_talbum"
+        android:id="@+id/albuminfo_talbum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/album_tauthor"
-        android:layout_alignRight="@+id/album_tauthor"
-        android:layout_below="@+id/album_tauthor"
+        android:layout_alignLeft="@+id/albuminfo_tauthor"
+        android:layout_alignRight="@+id/albuminfo_tauthor"
+        android:layout_below="@+id/albuminfo_tauthor"
         android:ellipsize="end"
         android:lines="3"
         android:scrollHorizontally="true"
@@ -46,14 +57,13 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="#4444FF" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+    <ListView
+        android:id="@+id/albuminfo_lvsongs"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/album_icover"
-        android:layout_alignTop="@+id/album_icover"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/miniplay_w_40" />
+        android:layout_alignLeft="@+id/albuminfo_icover"
+        android:layout_below="@+id/albuminfo_icover"
+        android:layout_marginTop="10dp" >
+    </ListView>
 
 </RelativeLayout>

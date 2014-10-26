@@ -31,6 +31,8 @@
             android:name="org.messic.android.activities.BaseActivity"
             android:label="@string/title_activity_base" >
         </activity>
+        <activity android:name="org.messic.android.activities.AlbumInfoActivity" >
+        </activity>
 
         <service
             android:name="org.messic.android.player.MessicPlayerService"

@@ -18,11 +18,16 @@
  */
 package org.messic.android.datamodel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MDMAuthor {
-	private long sid;
+public class MDMAuthor implements Serializable {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = -6655094894229295492L;
+    private long sid;
 	private String name;
 	private List<MDMAlbum> albums;
 	

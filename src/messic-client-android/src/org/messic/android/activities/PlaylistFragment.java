@@ -19,6 +19,7 @@
 package org.messic.android.activities;
 
 import org.messic.android.R;
+import org.messic.android.controllers.AlbumController;
 import org.messic.android.controllers.PlaylistController;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
@@ -77,7 +78,7 @@ public class PlaylistFragment
 
                 public void textTouch( MDMSong song, int index )
                 {
-                    // TODO Auto-generated method stub
+                    AlbumController.getAlbumInfo( PlaylistFragment.this.getActivity(), song.getAlbum().getSid() );
                 }
 
                 public void coverTouch( MDMSong song, int index )

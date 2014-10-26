@@ -110,6 +110,21 @@ public class AlbumAdapter
         final int fposition = position;
         final View fCounterView = counterView;
 
+        tauthor.setOnClickListener( new View.OnClickListener()
+        {
+            public void onClick( View v )
+            {
+                listener.textTouch( album );
+            }
+        } );
+        talbum.setOnClickListener( new View.OnClickListener()
+        {
+            public void onClick( View v )
+            {
+                listener.textTouch( album );
+            }
+        } );
+
         icover.setOnClickListener( new View.OnClickListener()
         {
 

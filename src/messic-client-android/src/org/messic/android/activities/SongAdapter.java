@@ -49,10 +49,15 @@ public class SongAdapter
 
     private EventListener listener = null;
 
-    private boolean detailed = false;
+    private SongAdapterType type = SongAdapterType.cover;
 
     // <0 to indicate that not current song want to be highlighted
     private int currentSong = -1;
+
+    public enum SongAdapterType
+    {
+        track, cover, detailed
+    }
 
     public interface EventListener
     {
@@ -69,15 +74,15 @@ public class SongAdapter
 
     public SongAdapter( Activity activity, EventListener listener )
     {
-        this( activity, listener, false );
+        this( activity, listener, SongAdapterType.cover );
     }
 
-    public SongAdapter( Activity activity, EventListener listener, boolean detailed )
+    public SongAdapter( Activity activity, EventListener listener, SongAdapterType type )
     {
         this.inflater = LayoutInflater.from( activity );
         this.activity = activity;
         this.listener = listener;
-        this.detailed = detailed;
+        this.type = type;
     }
 
     public void clear()
@@ -115,13 +120,17 @@ public class SongAdapter
     {
         if ( counterView == null )
         {
-            if ( !detailed )
+            switch ( type )
             {
-                counterView = this.inflater.inflate( R.layout.song, null );
-            }
-            else
-            {
-                counterView = this.inflater.inflate( R.layout.songdetailed, null );
+                case cover:
+                    counterView = this.inflater.inflate( R.layout.songcover, null );
+                    break;
+                case detailed:
+                    counterView = this.inflater.inflate( R.layout.songdetailed, null );
+                    break;
+                case track:
+                    counterView = this.inflater.inflate( R.layout.songtrack, null );
+                    break;
             }
         }
 
@@ -131,32 +140,140 @@ public class SongAdapter
         TextView tauthor = null;
         TextView tsongname = null;
         TextView talbum = null;
-        if ( !detailed )
+        TextView tsongtrack = null;
+
+        if ( type == SongAdapterType.cover )
         {
             icover = (ImageView) counterView.findViewById( R.id.song_icover );
             tauthor = (TextView) counterView.findViewById( R.id.song_tauthor );
             talbum = (TextView) counterView.findViewById( R.id.song_talbum );
             tsongname = (TextView) counterView.findViewById( R.id.song_tsongname );
         }
-        else
+        else if ( type == SongAdapterType.detailed )
         {
             icover = (ImageView) counterView.findViewById( R.id.songdetailed_icover );
             tauthor = (TextView) counterView.findViewById( R.id.songdetailed_tauthor );
             talbum = (TextView) counterView.findViewById( R.id.songdetailed_talbum );
             tsongname = (TextView) counterView.findViewById( R.id.songdetailed_tsong );
         }
+        else if ( type == SongAdapterType.track )
+        {
+            tsongname = (TextView) counterView.findViewById( R.id.songtrack_tsongname );
+            tsongtrack = (TextView) counterView.findViewById( R.id.songtrack_ttrack );
+            ImageView ivplay = (ImageView) counterView.findViewById( R.id.songtrack_ivplay );
+            ivplay.setOnClickListener( new View.OnClickListener()
+            {
+                public void onClick( View v )
+                {
+                    listener.coverTouch( song, position );
+                }
+            } );
+        }
+
         final ImageView ficover = icover;
 
-        tauthor.setText( song.getAlbum().getAuthor().getName() );
-        talbum.setText( song.getAlbum().getName() );
-        talbum.setPaintFlags( talbum.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG );
-        tsongname.setText( song.getName() );
-        icover.setImageResource( android.R.color.white );
-        counterView.setTag( position );
-        final int fposition = position;
-        final View fCounterView = counterView;
+        if ( tauthor != null )
+        {
+            tauthor.setText( song.getAlbum().getAuthor().getName() );
+            tauthor.setOnClickListener( new View.OnClickListener()
+            {
+                public void onClick( View v )
+                {
+                    listener.textTouch( song, position );
+                }
+            } );
+        }
+        if ( talbum != null )
+        {
+            talbum.setText( song.getAlbum().getName() );
+            talbum.setPaintFlags( talbum.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG );
+            talbum.setOnClickListener( new View.OnClickListener()
+            {
+                public void onClick( View v )
+                {
+                    listener.textTouch( song, position );
+                }
+            } );
+        }
+        if ( tsongname != null )
+        {
+            tsongname.setText( song.getName() );
+            tsongname.setOnClickListener( new View.OnClickListener()
+            {
+                public void onClick( View v )
+                {
+                    listener.textTouch( song, position );
+                }
+            } );
+        }
+        if ( tsongtrack != null )
+        {
+            tsongtrack.setText( "" + song.getTrack() );
+            tsongtrack.setOnClickListener( new View.OnClickListener()
+            {
+                public void onClick( View v )
+                {
+                    listener.textTouch( song, position );
+                }
+            } );
+        }
+        if ( icover != null )
+        {
+            icover.setImageResource( android.R.color.white );
+            icover.setOnClickListener( new View.OnClickListener()
+            {
 
-        if ( detailed )
+                public void onClick( View v )
+                {
+                    listener.coverTouch( song, position );
+                }
+            } );
+            icover.setOnLongClickListener( new View.OnLongClickListener()
+            {
+
+                public boolean onLongClick( View v )
+                {
+                    listener.coverLongTouch( song, position );
+                    return false;
+                }
+            } );
+
+            final int fposition = position;
+            final View fCounterView = counterView;
+
+            Bitmap bm = AlbumCoverCache.getCover( song.getAlbum().getSid(), new AlbumCoverCache.CoverListener()
+            {
+                public void setCover( final Bitmap bitmap )
+                {
+                    // just checking if the view is yet the hoped view (and haven't been recycled)
+                    if ( ( (Integer) fCounterView.getTag() ) == fposition )
+                    {
+                        activity.runOnUiThread( new Runnable()
+                        {
+
+                            public void run()
+                            {
+                                ficover.setImageBitmap( bitmap );
+                                ficover.invalidate();
+                            }
+                        } );
+                    }
+                }
+
+                public void failed( Exception e )
+                {
+                    Log.e( "SongAdapter!", e.getMessage(), e );
+                }
+            } );
+            if ( bm != null )
+            {
+                icover.setImageBitmap( bm );
+            }
+        }
+
+        counterView.setTag( position );
+
+        if ( type == SongAdapterType.detailed )
         {
             ImageView ivremove = (ImageView) counterView.findViewById( R.id.songdetailed_ivremove );
             ivremove.setOnClickListener( new View.OnClickListener()
@@ -177,53 +294,6 @@ public class SongAdapter
         else if ( v != null )
         {
             v.setBackgroundColor( 0x00FFFFFF );
-        }
-
-        icover.setOnClickListener( new View.OnClickListener()
-        {
-
-            public void onClick( View v )
-            {
-                listener.coverTouch( song, position );
-            }
-        } );
-        icover.setOnLongClickListener( new View.OnLongClickListener()
-        {
-
-            public boolean onLongClick( View v )
-            {
-                listener.coverLongTouch( song, position );
-                return false;
-            }
-        } );
-
-        Bitmap bm = AlbumCoverCache.getCover( song.getAlbum().getSid(), new AlbumCoverCache.CoverListener()
-        {
-            public void setCover( final Bitmap bitmap )
-            {
-                // just checking if the view is yet the hoped view (and haven't been recycled)
-                if ( ( (Integer) fCounterView.getTag() ) == fposition )
-                {
-                    activity.runOnUiThread( new Runnable()
-                    {
-
-                        public void run()
-                        {
-                            ficover.setImageBitmap( bitmap );
-                            ficover.invalidate();
-                        }
-                    } );
-                }
-            }
-
-            public void failed( Exception e )
-            {
-                Log.e( "SongAdapter!", e.getMessage(), e );
-            }
-        } );
-        if ( bm != null )
-        {
-            icover.setImageBitmap( bm );
         }
 
         return counterView;

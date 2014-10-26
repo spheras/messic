@@ -18,11 +18,18 @@
  */
 package org.messic.android.datamodel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MDMAlbum
+    implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1992627692327048300L;
+
     private long sid;
 
     private String code;
@@ -35,17 +42,15 @@ public class MDMAlbum
 
     private MDMFile cover;
 
-    private List<MDMSong> songs=new ArrayList<MDMSong>();
+    private List<MDMSong> songs = new ArrayList<MDMSong>();
 
-    private List<MDMFile> artworks=new ArrayList<MDMFile>();
+    private List<MDMFile> artworks = new ArrayList<MDMFile>();
 
-    private List<MDMFile> others=new ArrayList<MDMFile>();
+    private List<MDMFile> others = new ArrayList<MDMFile>();
 
     private MDMGenre genre;
 
     private String comments;
-
-
 
     /**
      * Default constructor
@@ -54,7 +59,6 @@ public class MDMAlbum
     {
 
     }
-
 
     public final long getSid()
     {

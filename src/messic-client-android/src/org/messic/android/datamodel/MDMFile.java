@@ -18,9 +18,16 @@
  */
 package org.messic.android.datamodel;
 
+import java.io.Serializable;
 
-public class MDMFile
+
+public class MDMFile implements Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1343793219016926339L;
+
     private long sid;
 
     private String code;

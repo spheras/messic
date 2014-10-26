@@ -18,6 +18,7 @@
     <string name="title_section_queue">Queue</string>
     <string name="player_playing">Playing Now:</string>
     <string name="player_added">Added:</string>
-    
+    <string name="albuminfo_loading">Loading Album Info</string>
+    <string name="albuminfo_wait">Please wait...</string>
     
 </resources>
