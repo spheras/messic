@@ -80,18 +80,7 @@ public class MediaServerServiceImpl
     {
         logger.info( "Messic Media Server MediaServerService (Core) init." );
 
-        // Set Server Prefix to Host Name
-        try
-        {
-            String hostName = InetAddress.getLocalHost().getHostName().trim();
-            if ( hostName != null && hostName.length() > 0 )
-            {
-                serverPrefix = hostName;
-            }
-        }
-        catch ( UnknownHostException ignore )
-        {
-        }
+        serverPrefix = musicService.getMessicServerName();
 
         try
         {

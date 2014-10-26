@@ -97,6 +97,15 @@ public class MusicService
     public static HashMap<String, String> tokens = new HashMap<String, String>();
 
     /**
+     * Return the messic server name
+     * @return
+     */
+    public String getMessicServerName()
+    {
+        return daoSettings.getSettings().getMessicServerName();
+    }
+
+    /**
      * Check if DLNA service is allowed by Messic configuration
      * 
      * @return boolean
@@ -367,8 +376,8 @@ public class MusicService
                 {
                     originalUri =
                         new URI( ( isSecured() ? "https" : "http" ) + "://" + Util.getInternalIp() + ":"
-                            + getCurrentPort() + "/messic/services/songs/" + song.getSid()
-                            + "/dlna?messic_token=" + token );
+                            + getCurrentPort() + "/messic/services/songs/" + song.getSid() + "/dlna?messic_token="
+                            + token );
                 }
                 catch ( URISyntaxException e )
                 {
