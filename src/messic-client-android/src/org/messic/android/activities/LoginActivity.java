@@ -47,7 +47,7 @@ public class LoginActivity
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_login );
 
-        ( (TextView) findViewById( R.id.login_thostname ) ).setText( Configuration.getCurrentMessicService().hostname );
+        ( (TextView) findViewById( R.id.login_thostname ) ).setText( Configuration.getCurrentMessicService().name );
         MessicPreferences p = new MessicPreferences( this );
         ( (CheckBox) findViewById( R.id.login_cbremember ) ).setChecked( p.getRemember() );
         if ( p.getRemember() )

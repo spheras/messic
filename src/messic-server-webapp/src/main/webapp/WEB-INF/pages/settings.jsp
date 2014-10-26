@@ -111,6 +111,13 @@
 							<div id="messic-user-settings-content-admin" class="messic-user-settings-container messic-user-settings-menu-notvisible">
 								<ul>
 									<li>
+										<label><fmt:message key="settings-content-admin-messicservername-title" bundle="${ message }"/></label>
+										<input id="messic-user-settings-messicservername" name="messicServerName" type="text" class="k-textbox" required value="${settings.getMessicServerName()}"/>
+										<div class="messic-user-settings-content-help"></div>
+										<div class="messic-user-settings-content-info"><fmt:message key="settings-content-admin-messicservername-info" bundle="${ message }"/></div>
+										<div class="divclearer"></div>
+									</li>
+									<li>
 										<input id="messic-user-settings-allowmessicdiscovering" name="allowMessicDiscovering" type="checkbox" <%if (settings.isAllowDiscovering()){%>checked<%}%>></input>
 										<label><fmt:message key="settings-content-admin-allowmessicdiscovering-title" bundle="${ message }"/></label>
 										<div class="messic-user-settings-content-help"></div>

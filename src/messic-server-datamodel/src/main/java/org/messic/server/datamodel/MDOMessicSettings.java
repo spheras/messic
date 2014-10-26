@@ -19,6 +19,8 @@
 package org.messic.server.datamodel;
 
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,6 +55,10 @@ public class MDOMessicSettings
     @Column( name = "ALLOWUSERCREATION", nullable = false )
     /* flag to know if its available the option to create new users by non messic users */
     private boolean allowUserCreation = true;
+
+    @Column( name = "MESSICSERVERNAME", nullable = true )
+    /* flag to know is allowed the DLNA share content */
+    private String messicServerName = "";
 
     @Column( name = "ALLOWDLNA", nullable = false )
     /* flag to know is allowed the DLNA share content */
@@ -165,6 +171,33 @@ public class MDOMessicSettings
     public void setAllowMessicDiscovering( boolean allowMessicDiscovering )
     {
         this.allowMessicDiscovering = allowMessicDiscovering;
+    }
+
+    /**
+     * @return the messicServerName
+     */
+    public String getMessicServerName()
+    {
+        if ( messicServerName == null || messicServerName.length() == 0 )
+        {
+            try
+            {
+                this.messicServerName = InetAddress.getLocalHost().getHostName();
+            }
+            catch ( UnknownHostException e )
+            {
+                this.messicServerName = "unknown";
+            }
+        }
+        return messicServerName;
+    }
+
+    /**
+     * @param messicServerName the messicServerName to set
+     */
+    public void setMessicServerName( String messicServerName )
+    {
+        this.messicServerName = messicServerName;
     }
 
 }

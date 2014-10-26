@@ -28,7 +28,7 @@ public class MessicPreferences
 {
     public static final String PREFERENCE_MESSIC_SERVER_IP = "MESSIC_SERVER_IP";
 
-    public static final String PREFERENCE_MESSIC_SERVER_HOSTNAME = "MESSIC_SERVER_HOSTNAME";
+    public static final String PREFERENCE_MESSIC_SERVER_NAME = "MESSIC_SERVER_NAME";
 
     public static final String PREFERENCE_MESSIC_SERVER_PORT = "MESSIC_SERVER_PORT";
 
@@ -54,7 +54,7 @@ public class MessicPreferences
     {
         SharedPreferences.Editor editor = sp.edit();
         editor.putString( PREFERENCE_MESSIC_SERVER_IP, msi.ip );
-        editor.putString( PREFERENCE_MESSIC_SERVER_HOSTNAME, msi.hostname );
+        editor.putString( PREFERENCE_MESSIC_SERVER_NAME, msi.name );
         editor.putInt( PREFERENCE_MESSIC_SERVER_PORT, msi.port );
         editor.putBoolean( PREFERENCE_MESSIC_SERVER_SECURE, msi.secured );
         editor.putString( PREFERENCE_MESSIC_SERVER_VERSION, msi.version );
@@ -65,7 +65,7 @@ public class MessicPreferences
     {
         MessicServerInstance msi = new MessicServerInstance();
         msi.ip = this.sp.getString( PREFERENCE_MESSIC_SERVER_IP, "" );
-        msi.hostname = this.sp.getString( PREFERENCE_MESSIC_SERVER_HOSTNAME, "" );
+        msi.name = this.sp.getString( PREFERENCE_MESSIC_SERVER_NAME, "" );
         msi.port = this.sp.getInt( PREFERENCE_MESSIC_SERVER_PORT, 80 );
         msi.secured = this.sp.getBoolean( PREFERENCE_MESSIC_SERVER_SECURE, false );
         msi.version = this.sp.getString( PREFERENCE_MESSIC_SERVER_VERSION, "" );

@@ -635,6 +635,7 @@ function continueSendData(flagNewUser, userData) {
             illegalCharacterReplacement: $("#messic-user-settings-illegalcharacterreplacement").val(),
             allowDLNA: $("#messic-user-settings-admin-allowdlna").is(":checked"),
             allowDiscovering: $("#messic-user-settings-allowmessicdiscovering").is(":checked"),
+            messicServerName: $("#messic-user-settings-messicservername").val(),
         }
 
         $.ajax({
@@ -790,6 +791,7 @@ function loadUserSettings() {
             success: function (data) {
                 $("#messic-user-settings-allowusercreation").val(data.allowUserCreation);
                 $("#messic-user-settings-illegalcharacterreplacement").val(data.illegalCharacterReplacement);
+                $("#messic-user-settings-messicservername").val(data.messicServerName);
             }
         });
     }

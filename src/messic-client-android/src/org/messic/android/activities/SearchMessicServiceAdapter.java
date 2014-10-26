@@ -20,8 +20,10 @@ package org.messic.android.activities;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.messic.android.R;
 import org.messic.android.controllers.messicdiscovering.MessicServerInstance;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -42,10 +44,11 @@ public class SearchMessicServiceAdapter
         this.inflater = LayoutInflater.from( context );
     }
 
-    public void clear(){
-        instances=new ArrayList<MessicServerInstance>();
+    public void clear()
+    {
+        instances = new ArrayList<MessicServerInstance>();
     }
-    
+
     public int getCount()
     {
         return instances.size();
@@ -61,9 +64,18 @@ public class SearchMessicServiceAdapter
         return arg0;
     }
 
-    public void addInstance( MessicServerInstance instance )
+    public boolean addInstance( MessicServerInstance instance )
     {
+        for ( int i = 0; i < instances.size(); i++ )
+        {
+            MessicServerInstance md = instances.get( i );
+            if ( md.ip.equals( instance.ip ) && md.port == instance.port )
+            {
+                return false;
+            }
+        }
         this.instances.add( instance );
+        return true;
     }
 
     @SuppressLint( "InflateParams" )
@@ -78,7 +90,7 @@ public class SearchMessicServiceAdapter
         TextView ip = (TextView) counterView.findViewById( R.id.searchmessicservice_item_ip );
         TextView version = (TextView) counterView.findViewById( R.id.searchmessicservice_item_version );
         MessicServerInstance msi = this.instances.get( position );
-        hostname.setText( msi.hostname );
+        hostname.setText( msi.name );
         ip.setText( msi.ip );
         version.setText( msi.version );
         version.setTag( position );

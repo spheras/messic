@@ -66,7 +66,7 @@ public class SearchMessicServiceActivity
                 final Button b = ( (Button) findViewById( R.id.searchmessicservice_bsearch ) );
                 b.setEnabled( false );
                 adapter.clear();
-                
+
                 new CountDownTimer( 30000, 1000 )
                 {
                     @Override
@@ -97,8 +97,11 @@ public class SearchMessicServiceActivity
                             public void run()
                             {
                                 findViewById( R.id.searchmessicservice_lempty ).setVisibility( View.GONE );
-                                adapter.addInstance( md );
-                                adapter.notifyDataSetChanged();
+                                if ( adapter.addInstance( md ) )
+                                {
+                                    adapter.notifyDataSetChanged();
+                                }
+                                ;
                             }
                         } );
                     }

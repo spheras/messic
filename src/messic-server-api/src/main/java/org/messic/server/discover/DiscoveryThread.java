@@ -85,7 +85,7 @@ public class DiscoveryThread
                         CurrentPort cp = MessicConfig.checkCurrentport();
 
                         String sendDataMessge = "<messic>";
-                        sendDataMessge += "<hostname>" + InetAddress.getLocalHost().getHostName() + "</hostname>";
+                        sendDataMessge += "<name>" + daoSettings.getSettings().getMessicServerName() + "</name>";
                         sendDataMessge += "<port>" + cp.currentPort + "</port>";
                         sendDataMessge += "<secure>" + cp.secure + "</secure>";
                         sendDataMessge += "<version>" + MessicConfig.getCurrentVersion().sversion + "</version>";
@@ -139,8 +139,8 @@ public class DiscoveryThread
                 this.threadCover.interrupt();
             }
             this.stop();
-            
-            this.stop=false;
+
+            this.stop = false;
             this.threadCover = new Thread( this );
             this.threadCover.start();
         }

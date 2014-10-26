@@ -63,10 +63,10 @@ public class MessicDiscoveringXmlParser
             }
             String name = parser.getName();
             // Starts by looking for the entry tag
-            if ( name.toLowerCase( Locale.US ).equals( "hostname" ) )
+            if ( name.toLowerCase( Locale.US ).equals( "name" ) )
             { 
                 if(parser.next() == XmlPullParser.TEXT) {  
-                    md.hostname = parser.getText();
+                    md.name = parser.getText();
                     parser.next();
                 }
             }

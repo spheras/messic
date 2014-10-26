@@ -41,6 +41,9 @@ public class MessicSettings
     @ApiObjectField( description = "indicates if messic allows the discovering the messic service over udp broadcast (this is different from dlna)" )
     private boolean allowDiscovering = true;
 
+    @ApiObjectField( description = "This is the name of the messic server. By the default it takes the host name" )
+    private String messicServerName = "";
+
     public MessicSettings()
     {
 
@@ -59,6 +62,7 @@ public class MessicSettings
         mdoSettings.setAllowUserCreation( this.isAllowUserCreation() );
         mdoSettings.setIllegalCharacterReplacement( this.getIllegalCharacterReplacement() );
         mdoSettings.setAllowMessicDiscovering( this.isAllowDiscovering() );
+        mdoSettings.setMessicServerName( this.getMessicServerName() );
         return mdoSettings;
     }
 
@@ -73,6 +77,7 @@ public class MessicSettings
         this.allowUserCreation = mdoSettings.isAllowUserCreation();
         this.allowDLNA = mdoSettings.isAllowDLNA();
         this.allowDiscovering = mdoSettings.isAllowMessicDiscovering();
+        this.messicServerName = mdoSettings.getMessicServerName();
     }
 
     /**
@@ -137,5 +142,21 @@ public class MessicSettings
     public void setAllowDiscovering( boolean allowDiscovering )
     {
         this.allowDiscovering = allowDiscovering;
+    }
+
+    /**
+     * @return the messicServerName
+     */
+    public String getMessicServerName()
+    {
+        return messicServerName;
+    }
+
+    /**
+     * @param messicServerName the messicServerName to set
+     */
+    public void setMessicServerName( String messicServerName )
+    {
+        this.messicServerName = messicServerName;
     }
 }

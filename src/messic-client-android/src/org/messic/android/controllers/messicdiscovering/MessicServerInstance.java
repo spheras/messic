@@ -22,7 +22,7 @@ public class MessicServerInstance
 {
     public String ip;
 
-    public String hostname;
+    public String name;
 
     public boolean secured;
 
