@@ -110,6 +110,9 @@ public class AlbumInfoActivity
                 if ( album != null )
                 {
                     musicSrv.getPlayer().addAlbum( album );
+                    Toast.makeText( AlbumInfoActivity.this,
+                                    getResources().getText( R.string.player_added ) + album.getName(),
+                                    Toast.LENGTH_SHORT ).show();
                 }
             }
         } );
