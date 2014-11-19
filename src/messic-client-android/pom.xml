@@ -58,7 +58,8 @@
 				<artifactId>android-maven-plugin</artifactId>
 				<configuration>
 					<sdk>
-						<path>/home/spheras/desarrollo/software/android-sdk-23.0.2-linux</path>
+						<!-- define $ANDROID_HOME variable for this configuration-->
+						<!-- <path>/home/spheras/desarrollo/software/android-sdk-23.0.2-linux</path> -->
 						<platform>16</platform>
 					</sdk>
 				</configuration>
