@@ -20,8 +20,8 @@ package org.messic.android.controllers;
 
 import java.util.List;
 
-import org.messic.android.activities.PlayQueueFragment;
-import org.messic.android.activities.SongAdapter;
+import org.messic.android.activities.adapters.SongAdapter;
+import org.messic.android.activities.fragments.PlayQueueFragment;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.player.MessicPlayerService;
 

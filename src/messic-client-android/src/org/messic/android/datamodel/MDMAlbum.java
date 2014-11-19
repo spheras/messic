@@ -22,15 +22,61 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.database.Cursor;
+
 public class MDMAlbum
+    extends MDMFile
     implements Serializable
 {
+    public static final String COLUMN_LOCAL_SID = "lsid";
+
+    public static final String COLUMN_SERVER_SID = "sid";
+
+    public static final String COLUMN_NAME = "name";
+
+    public static final String COLUMN_YEAR = "year";
+
+    public static final String COLUMN_COMMENTS = "comments";
+
+    public static final String COLUMN_FILENAME = "filename";
+
+    public static final String COLUMN_FK_AUTHOR = "fk_author";
+
+    public static final String COLUMN_FK_GENRE = "fk_genre";
+
+    public static final String TABLE_NAME = "albums";
+
+    public static final String TABLE_CREATE = "create table " + TABLE_NAME + "(" + COLUMN_LOCAL_SID
+        + " integer primary key autoincrement, " + COLUMN_SERVER_SID + " integer not null, " + COLUMN_NAME
+        + " text not null," + COLUMN_YEAR + " integer," + COLUMN_COMMENTS + " text," + COLUMN_FILENAME
+        + " text not null," + COLUMN_FK_AUTHOR + " integer not null," + COLUMN_FK_GENRE + " integer" + ");";
+
+    public static String[] getColumns()
+    {
+        return new String[] { COLUMN_LOCAL_SID, COLUMN_SERVER_SID, COLUMN_NAME, COLUMN_YEAR, COLUMN_COMMENTS,
+            COLUMN_FILENAME, COLUMN_FK_AUTHOR, COLUMN_FK_GENRE };
+    }
+
+    public MDMAlbum( Cursor cursor )
+    {
+        this.lsid = cursor.getInt( 0 );
+        this.sid = cursor.getInt( 1 );
+        this.name = cursor.getString( 2 );
+        this.year = cursor.getInt( 3 );
+        this.comments = cursor.getString( 4 );
+        this.fileName = cursor.getString( 5 );
+        // TODO author y genre
+        // this.al
+    }
+
     /**
      * 
      */
     private static final long serialVersionUID = -1992627692327048300L;
 
     private long sid;
+
+    private int lsid;
 
     private String code;
 
@@ -195,5 +241,26 @@ public class MDMAlbum
     public void setCover( MDMFile cover )
     {
         this.cover = cover;
+    }
+
+    public String calculateExternalStorageFolder()
+    {
+        return getAuthor().calculateExternalStorageFolder() + "/" + this.getName();
+    }
+
+    /**
+     * @return the lsid
+     */
+    public int getLsid()
+    {
+        return lsid;
+    }
+
+    /**
+     * @param lsid the lsid to set
+     */
+    public void setLsid( int lsid )
+    {
+        this.lsid = lsid;
     }
 }

@@ -18,8 +18,8 @@
  */
 package org.messic.android.controllers;
 
-import org.messic.android.activities.PlaylistAdapter;
-import org.messic.android.activities.PlaylistFragment;
+import org.messic.android.activities.adapters.PlaylistAdapter;
+import org.messic.android.activities.fragments.PlaylistFragment;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.util.RestJSONClient;
 

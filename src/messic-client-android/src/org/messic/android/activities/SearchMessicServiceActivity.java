@@ -19,9 +19,11 @@
 package org.messic.android.activities;
 
 import org.messic.android.R;
+import org.messic.android.activities.adapters.SearchMessicServiceAdapter;
 import org.messic.android.controllers.Configuration;
 import org.messic.android.controllers.SearchMessicServiceController;
-import org.messic.android.controllers.messicdiscovering.MessicServerInstance;
+import org.messic.android.datamodel.MDMMessicServerInstance;
+import org.messic.android.datamodel.dao.DAOServerInstance;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -44,6 +46,7 @@ public class SearchMessicServiceActivity
         setContentView( R.layout.activity_search_messic_service );
 
         final SearchMessicServiceAdapter adapter = new SearchMessicServiceAdapter( this );
+        controller.getSavedSessions( this, adapter );
         ListView lv = (ListView) findViewById( R.id.searchmessicservice_lvresults );
         lv.setAdapter( adapter );
 
@@ -51,7 +54,9 @@ public class SearchMessicServiceActivity
         {
             public void onItemClick( AdapterView<?> parent, View view, int position, long id )
             {
-                MessicServerInstance msi = (MessicServerInstance) adapter.getItem( position );
+                MDMMessicServerInstance msi = (MDMMessicServerInstance) adapter.getItem( position );
+                DAOServerInstance dao = new DAOServerInstance( getApplicationContext() );
+                msi = dao.save( msi );
                 Configuration.setMessicService( getApplicationContext(), msi );
                 Intent ssa = new Intent( SearchMessicServiceActivity.this, LoginActivity.class );
                 SearchMessicServiceActivity.this.startActivity( ssa );
@@ -90,7 +95,7 @@ public class SearchMessicServiceActivity
                 controller.searchMessicServices( new SearchMessicServiceController.SearchListener()
                 {
 
-                    public void messicServiceFound( final MessicServerInstance md )
+                    public void messicServiceFound( final MDMMessicServerInstance md )
                     {
                         SearchMessicServiceActivity.this.runOnUiThread( new Runnable()
                         {

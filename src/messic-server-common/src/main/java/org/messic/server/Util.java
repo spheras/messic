@@ -31,6 +31,7 @@ import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
@@ -267,10 +268,10 @@ public class Util
     {
         String sourceFolderName = folderpath;
 
-        ZipOutputStream zos = new ZipOutputStream( os );
+        ZipOutputStream zos = new ZipOutputStream( os, Charset.forName( "UTF-8" ) );
         // level - the compression level (0-9)
         zos.setLevel( 9 );
-
+        
         zipFolder2( zos, sourceFolderName, sourceFolderName );
 
         zos.close();
@@ -290,7 +291,7 @@ public class Util
                 if ( !folderName.equalsIgnoreCase( baseFolderName ) )
                 {
                     String entryName =
-                        folderName.substring( baseFolderName.length() + 1, folderName.length() ) + File.separatorChar;
+                        folderName.substring( baseFolderName.length(), folderName.length() ) + File.separatorChar;
                     ZipEntry ze = new ZipEntry( entryName );
                     zos.putNextEntry( ze );
                 }
@@ -304,7 +305,7 @@ public class Util
             {
                 // add file
                 // extract the relative name for entry purpose
-                String entryName = folderName.substring( baseFolderName.length() + 1, folderName.length() );
+                String entryName = folderName.substring( baseFolderName.length() , folderName.length() );
                 ZipEntry ze = new ZipEntry( entryName );
                 zos.putNextEntry( ze );
                 FileInputStream in = new FileInputStream( folderName );

@@ -1,10 +1,10 @@
-package org.messic.android.activities;
+package org.messic.android.activities.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.messic.android.R;
-import org.messic.android.activities.SongAdapter.EventListener;
+import org.messic.android.activities.adapters.SongAdapter.EventListener;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.util.AlbumCoverCache;
@@ -17,6 +17,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
@@ -33,11 +35,14 @@ public class PlaylistAdapter
 
     private EventListener listener = null;
 
+    private Animation anim = null;
+
     public PlaylistAdapter( Activity activity, EventListener listener )
     {
         this.inflater = LayoutInflater.from( activity );
         this.activity = activity;
         this.listener = listener;
+        this.anim = AnimationUtils.loadAnimation( activity, android.R.anim.fade_in );
     }
 
     public void clear()
@@ -123,6 +128,7 @@ public class PlaylistAdapter
 
             public void onClick( View v )
             {
+                v.startAnimation( anim );
                 listener.coverTouch( song, childPosition );
             }
         } );
@@ -131,6 +137,7 @@ public class PlaylistAdapter
 
             public boolean onLongClick( View v )
             {
+                v.startAnimation( anim );
                 listener.coverLongTouch( song, childPosition );
                 return false;
             }

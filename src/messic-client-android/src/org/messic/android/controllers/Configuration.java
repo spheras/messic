@@ -18,7 +18,7 @@
  */
 package org.messic.android.controllers;
 
-import org.messic.android.controllers.messicdiscovering.MessicServerInstance;
+import org.messic.android.datamodel.MDMMessicServerInstance;
 import org.messic.android.util.MessicPreferences;
 
 import android.content.Context;
@@ -26,9 +26,11 @@ import android.content.Context;
 public class Configuration
 {
 
-    private static MessicServerInstance instance = null;
+    private static MDMMessicServerInstance instance = null;
 
     private static String lastToken = null;
+
+    private static boolean offline = false;
 
     public static String getLastToken()
     {
@@ -42,23 +44,39 @@ public class Configuration
 
     public static String getBaseUrl()
     {
-        MessicServerInstance instance = getCurrentMessicService();
+        MDMMessicServerInstance instance = getCurrentMessicService();
         return ( instance.secured ? "https" : "http" ) + "://" + instance.ip + ":" + instance.port + "/messic";
     }
 
-    public static void setMessicService( Context context, MessicServerInstance instance )
+    public static void setMessicService( Context context, MDMMessicServerInstance instance )
     {
         MessicPreferences mp = new MessicPreferences( context );
         mp.setLastMessicServerUsed( instance );
         Configuration.instance = instance;
     }
 
-    public static MessicServerInstance getLastMessicServerUsed( Context context )
+    public static MDMMessicServerInstance getLastMessicServerUsed( Context context )
     {
         MessicPreferences p = new MessicPreferences( context );
-        MessicServerInstance prefferedServer = p.getLastMessicServerUsed();
+        MDMMessicServerInstance prefferedServer = p.getLastMessicServerUsed();
         instance = prefferedServer;
         return instance;
+    }
+
+    public static String getLastMessicUser()
+    {
+        if ( instance != null )
+            return instance.lastUser;
+        else
+            return null;
+    }
+
+    public static String getLastMessicPassword()
+    {
+        if ( instance != null )
+            return instance.lastPassword;
+        else
+            return null;
     }
 
     /**
@@ -66,9 +84,25 @@ public class Configuration
      * 
      * @return {@link String}
      */
-    public static MessicServerInstance getCurrentMessicService()
+    public static MDMMessicServerInstance getCurrentMessicService()
     {
         return instance;
+    }
+
+    /**
+     * @return the offline
+     */
+    public static boolean isOffline()
+    {
+        return offline;
+    }
+
+    /**
+     * @param offline the offline to set
+     */
+    public static void setOffline( boolean offline )
+    {
+        Configuration.offline = offline;
     }
 
 }

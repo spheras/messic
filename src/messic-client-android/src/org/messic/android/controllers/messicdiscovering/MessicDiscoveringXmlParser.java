@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+import org.messic.android.datamodel.MDMMessicServerInstance;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
@@ -32,7 +33,7 @@ public class MessicDiscoveringXmlParser
     // We don't use namespaces
     private static final String ns = null;
 
-    public MessicServerInstance parse( InputStream in )
+    public MDMMessicServerInstance parse( InputStream in )
         throws XmlPullParserException, IOException
     {
         try
@@ -49,10 +50,10 @@ public class MessicDiscoveringXmlParser
         }
     }
 
-    private MessicServerInstance readMessicInfo( XmlPullParser parser )
+    private MDMMessicServerInstance readMessicInfo( XmlPullParser parser )
         throws XmlPullParserException, IOException
     {
-        MessicServerInstance md = new MessicServerInstance();
+        MDMMessicServerInstance md = new MDMMessicServerInstance();
 
         parser.require( XmlPullParser.START_TAG, ns, "messic" );
         while ( parser.next() != XmlPullParser.END_TAG )

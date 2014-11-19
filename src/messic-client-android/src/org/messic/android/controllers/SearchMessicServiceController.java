@@ -18,9 +18,14 @@
  */
 package org.messic.android.controllers;
 
-import org.messic.android.controllers.messicdiscovering.MessicDiscovering;
-import org.messic.android.controllers.messicdiscovering.MessicServerInstance;
+import java.util.List;
 
+import org.messic.android.activities.adapters.SearchMessicServiceAdapter;
+import org.messic.android.controllers.messicdiscovering.MessicDiscovering;
+import org.messic.android.datamodel.MDMMessicServerInstance;
+import org.messic.android.datamodel.dao.DAOServerInstance;
+
+import android.content.Context;
 import android.os.AsyncTask;
 
 public class SearchMessicServiceController
@@ -30,7 +35,23 @@ public class SearchMessicServiceController
 
     public interface SearchListener
     {
-        void messicServiceFound( MessicServerInstance md );
+        void messicServiceFound( MDMMessicServerInstance md );
+    }
+
+    /**
+     * Fill the adapter with the stored messic services
+     * 
+     * @param context
+     * @param adapter
+     */
+    public void getSavedSessions( Context context, SearchMessicServiceAdapter adapter )
+    {
+        DAOServerInstance dao = new DAOServerInstance( context );
+        List<MDMMessicServerInstance> servers = dao.getAll();
+        for ( MDMMessicServerInstance instance : servers )
+        {
+            adapter.addInstance( instance );
+        }
     }
 
     /**

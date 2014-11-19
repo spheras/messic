@@ -21,6 +21,10 @@ package org.messic.android.activities;
 import java.util.Locale;
 
 import org.messic.android.R;
+import org.messic.android.activities.fragments.ExploreFragment;
+import org.messic.android.activities.fragments.PlayQueueFragment;
+import org.messic.android.activities.fragments.PlaylistFragment;
+import org.messic.android.activities.fragments.RandomFragment;
 
 import android.app.ActionBar;
 import android.app.Activity;

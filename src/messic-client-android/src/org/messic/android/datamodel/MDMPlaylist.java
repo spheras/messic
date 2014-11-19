@@ -6,6 +6,11 @@ import java.util.List;
 public class MDMPlaylist
     extends MDMFile
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8100782035065825588L;
+
     private long sid;
 
     private String name;

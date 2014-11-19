@@ -18,7 +18,9 @@
  */
 package org.messic.android.util;
 
-import org.messic.android.controllers.messicdiscovering.MessicServerInstance;
+import org.messic.android.controllers.Configuration;
+import org.messic.android.datamodel.MDMMessicServerInstance;
+import org.messic.android.datamodel.dao.DAOServerInstance;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,53 +28,34 @@ import android.preference.PreferenceManager;
 
 public class MessicPreferences
 {
-    public static final String PREFERENCE_MESSIC_SERVER_IP = "MESSIC_SERVER_IP";
-
-    public static final String PREFERENCE_MESSIC_SERVER_NAME = "MESSIC_SERVER_NAME";
-
-    public static final String PREFERENCE_MESSIC_SERVER_PORT = "MESSIC_SERVER_PORT";
-
-    public static final String PREFERENCE_MESSIC_SERVER_SECURE = "MESSIC_SERVER_SECURE";
-
-    public static final String PREFERENCE_MESSIC_SERVER_VERSION = "MESSIC_SERVER_VERSION";
-
-    public static final String PREFERENCE_MESSIC_SERVER_LASTUSER = "MESSIC_SERVER_LASTUSER";
-
-    public static final String PREFERENCE_MESSIC_SERVER_LASTPASSWORD = "MESSIC_SERVER_LASTPASSWORD";
+    public static final String PREFERENCE_LAST_MESSIC_SERVER = "LAST_MESSIC_SERVER";
 
     public static final String PREFERENCE_MESSIC_SERVER_REMEMBER = "MESSIC_SERVER_REMEMBER";
 
     private SharedPreferences sp = null;
 
+    private Context context;
+
     public MessicPreferences( Context context )
     {
         this.sp = PreferenceManager.getDefaultSharedPreferences( context );
-
+        this.context = context;
     }
 
-    public void setLastMessicServerUsed( MessicServerInstance msi )
+    public void setLastMessicServerUsed( MDMMessicServerInstance msi )
     {
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString( PREFERENCE_MESSIC_SERVER_IP, msi.ip );
-        editor.putString( PREFERENCE_MESSIC_SERVER_NAME, msi.name );
-        editor.putInt( PREFERENCE_MESSIC_SERVER_PORT, msi.port );
-        editor.putBoolean( PREFERENCE_MESSIC_SERVER_SECURE, msi.secured );
-        editor.putString( PREFERENCE_MESSIC_SERVER_VERSION, msi.version );
+        editor.putInt( PREFERENCE_LAST_MESSIC_SERVER, msi.lsid );
         editor.commit();
     }
 
-    public MessicServerInstance getLastMessicServerUsed()
+    public MDMMessicServerInstance getLastMessicServerUsed()
     {
-        MessicServerInstance msi = new MessicServerInstance();
-        msi.ip = this.sp.getString( PREFERENCE_MESSIC_SERVER_IP, "" );
-        msi.name = this.sp.getString( PREFERENCE_MESSIC_SERVER_NAME, "" );
-        msi.port = this.sp.getInt( PREFERENCE_MESSIC_SERVER_PORT, 80 );
-        msi.secured = this.sp.getBoolean( PREFERENCE_MESSIC_SERVER_SECURE, false );
-        msi.version = this.sp.getString( PREFERENCE_MESSIC_SERVER_VERSION, "" );
-
-        if ( msi.ip != null && msi.ip.length() > 0 )
+        int sid = this.sp.getInt( PREFERENCE_LAST_MESSIC_SERVER, 0 );
+        if ( sid > 0 )
         {
-            return msi;
+            DAOServerInstance dao = new DAOServerInstance( context );
+            return dao.get( sid );
         }
         else
         {
@@ -85,30 +68,26 @@ public class MessicPreferences
         return this.sp.getBoolean( PREFERENCE_MESSIC_SERVER_REMEMBER, false );
     }
 
-    public String getLastUser()
-    {
-        return this.sp.getString( PREFERENCE_MESSIC_SERVER_LASTUSER, "" );
-    }
-
-    public String getLastPassword()
-    {
-        return this.sp.getString( PREFERENCE_MESSIC_SERVER_LASTPASSWORD, "" );
-    }
-
     public void setRemember( boolean remember, String username, String password )
     {
         SharedPreferences.Editor editor = sp.edit();
         if ( remember )
         {
             editor.putBoolean( PREFERENCE_MESSIC_SERVER_REMEMBER, true );
-            editor.putString( PREFERENCE_MESSIC_SERVER_LASTUSER, username );
-            editor.putString( PREFERENCE_MESSIC_SERVER_LASTPASSWORD, password );
+            MDMMessicServerInstance instance = Configuration.getCurrentMessicService();
+            instance.lastUser = username;
+            instance.lastPassword = password;
+            DAOServerInstance dao = new DAOServerInstance( context );
+            dao.save( instance );
         }
         else
         {
             editor.putBoolean( PREFERENCE_MESSIC_SERVER_REMEMBER, false );
-            editor.putString( PREFERENCE_MESSIC_SERVER_LASTUSER, "" );
-            editor.putString( PREFERENCE_MESSIC_SERVER_LASTPASSWORD, "" );
+            MDMMessicServerInstance instance = Configuration.getCurrentMessicService();
+            instance.lastUser = "";
+            instance.lastPassword = "";
+            DAOServerInstance dao = new DAOServerInstance( context );
+            dao.save( instance );
         }
         editor.commit();
     }

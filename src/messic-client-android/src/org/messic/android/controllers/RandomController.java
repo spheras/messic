@@ -20,8 +20,8 @@ package org.messic.android.controllers;
 
 import java.util.List;
 
-import org.messic.android.activities.RandomFragment;
-import org.messic.android.activities.SongAdapter;
+import org.messic.android.activities.adapters.SongAdapter;
+import org.messic.android.activities.fragments.RandomFragment;
 import org.messic.android.datamodel.MDMRandomList;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.util.RestJSONClient;

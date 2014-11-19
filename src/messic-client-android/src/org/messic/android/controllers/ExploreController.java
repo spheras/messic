@@ -18,8 +18,8 @@
  */
 package org.messic.android.controllers;
 
-import org.messic.android.activities.AlbumAdapter;
-import org.messic.android.activities.ExploreFragment;
+import org.messic.android.activities.adapters.AlbumAdapter;
+import org.messic.android.activities.fragments.ExploreFragment;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.util.RestJSONClient;
 

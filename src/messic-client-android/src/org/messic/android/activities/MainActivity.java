@@ -20,7 +20,7 @@ package org.messic.android.activities;
 
 import org.messic.android.controllers.Configuration;
 import org.messic.android.controllers.SearchMessicServiceController;
-import org.messic.android.controllers.messicdiscovering.MessicServerInstance;
+import org.messic.android.datamodel.MDMMessicServerInstance;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -37,12 +37,12 @@ public class MainActivity
         super.onCreate( savedInstanceState );
 
         // First, we test if the last configured server is online yet
-        MessicServerInstance prefferedServer = Configuration.getLastMessicServerUsed( this );
+        MDMMessicServerInstance prefferedServer = Configuration.getLastMessicServerUsed( this );
         if ( prefferedServer != null && prefferedServer.ip.trim().length() > 0 )
         {
             // must test if the server is online
             // TODO
-            // We don't have any preffered server, we must search a valid one
+            // Let's try to login with this sever
             Intent ssa = new Intent( MainActivity.this, LoginActivity.class );
             ssa.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
             MainActivity.this.startActivity( ssa );

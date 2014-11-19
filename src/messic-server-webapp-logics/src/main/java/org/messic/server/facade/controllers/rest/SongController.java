@@ -535,7 +535,7 @@ public class SongController
             }
 
             String fileName = URLEncoder.encode( "messic-songlist.zip", "UTF-8" );
-            response.setHeader( "Content-disposition", "attachment; filename='" + fileName + "'" );
+            response.setHeader( "Content-disposition", "attachment; filename=\"" + fileName + "\"" );
 
             songAPI.getSongsZip( user, sids, response.getOutputStream() );
         }

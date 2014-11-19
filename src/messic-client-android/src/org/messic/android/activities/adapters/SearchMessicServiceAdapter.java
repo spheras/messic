@@ -16,13 +16,13 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.messic.android.activities;
+package org.messic.android.activities.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.messic.android.R;
-import org.messic.android.controllers.messicdiscovering.MessicServerInstance;
+import org.messic.android.datamodel.MDMMessicServerInstance;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -35,7 +35,7 @@ import android.widget.TextView;
 public class SearchMessicServiceAdapter
     extends BaseAdapter
 {
-    private List<MessicServerInstance> instances = new ArrayList<MessicServerInstance>();
+    private List<MDMMessicServerInstance> instances = new ArrayList<MDMMessicServerInstance>();
 
     private LayoutInflater inflater = null;
 
@@ -46,7 +46,7 @@ public class SearchMessicServiceAdapter
 
     public void clear()
     {
-        instances = new ArrayList<MessicServerInstance>();
+        instances = new ArrayList<MDMMessicServerInstance>();
     }
 
     public int getCount()
@@ -64,12 +64,12 @@ public class SearchMessicServiceAdapter
         return arg0;
     }
 
-    public boolean addInstance( MessicServerInstance instance )
+    public boolean addInstance( MDMMessicServerInstance instance )
     {
         for ( int i = 0; i < instances.size(); i++ )
         {
-            MessicServerInstance md = instances.get( i );
-            if ( md.ip.equals( instance.ip ) && md.port == instance.port )
+            MDMMessicServerInstance md = instances.get( i );
+            if ( md.ip.equals( instance.ip ) && md.port == instance.port && md.secured == instance.secured )
             {
                 return false;
             }
@@ -89,7 +89,7 @@ public class SearchMessicServiceAdapter
         TextView hostname = (TextView) counterView.findViewById( R.id.searchmessicservice_item_hostname );
         TextView ip = (TextView) counterView.findViewById( R.id.searchmessicservice_item_ip );
         TextView version = (TextView) counterView.findViewById( R.id.searchmessicservice_item_version );
-        MessicServerInstance msi = this.instances.get( position );
+        MDMMessicServerInstance msi = this.instances.get( position );
         hostname.setText( msi.name );
         ip.setText( msi.ip );
         version.setText( msi.version );

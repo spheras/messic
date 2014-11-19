@@ -19,7 +19,8 @@
 package org.messic.android.activities;
 
 import org.messic.android.R;
-import org.messic.android.activities.SongAdapter.SongAdapterType;
+import org.messic.android.activities.adapters.SongAdapter;
+import org.messic.android.activities.adapters.SongAdapter.SongAdapterType;
 import org.messic.android.controllers.AlbumController;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMPlaylist;

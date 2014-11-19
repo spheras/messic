@@ -16,12 +16,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.messic.android.activities;
+package org.messic.android.activities.fragments;
+
+import java.util.List;
 
 import org.messic.android.R;
+import org.messic.android.activities.adapters.AlbumAdapter;
 import org.messic.android.controllers.AlbumController;
-import org.messic.android.controllers.RandomController;
-import org.messic.android.datamodel.MDMPlaylist;
+import org.messic.android.controllers.ExploreController;
+import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.player.MessicPlayerService;
 import org.messic.android.player.MessicPlayerService.MusicBinder;
@@ -39,13 +42,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
-public class RandomFragment
+public class ExploreFragment
     extends Fragment
 {
-    private RandomController controller = new RandomController();
+    private ExploreController controller = new ExploreController();
 
     private Intent playIntent;
 
@@ -53,61 +56,54 @@ public class RandomFragment
 
     private boolean musicBound = false;
 
-    private SongAdapter sa = null;
+    private AlbumAdapter sa = null;
 
     @Override
     public void onStart()
     {
         super.onStart();
-        getActivity().findViewById( R.id.random_progress ).setVisibility( View.VISIBLE );
-        controller.getRandomMusic( sa, getActivity(), this, false, null );
+        getActivity().findViewById( R.id.explore_progress ).setVisibility( View.VISIBLE );
+        controller.getExploreAlbums( sa, getActivity(), this, false, null );
     }
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
     {
-        View rootView = inflater.inflate( R.layout.fragment_random, container, false );
+        View rootView = inflater.inflate( R.layout.fragment_explore, container, false );
 
         getMessicService();
 
-        GridView gv = (GridView) rootView.findViewById( R.id.random_gvitems );
-        sa = new SongAdapter( getActivity(), new SongAdapter.EventListener()
+        ListView gv = (ListView) rootView.findViewById( R.id.explore_lvitems );
+        sa = new AlbumAdapter( getActivity(), new AlbumAdapter.EventListener()
         {
 
-            public void textTouch( MDMSong song, int index )
+            public void textTouch( MDMAlbum album )
             {
-                AlbumController.getAlbumInfo( RandomFragment.this.getActivity(), song.getAlbum().getSid() );
+                AlbumController.getAlbumInfo( ExploreFragment.this.getActivity(), album.getSid() );
             }
 
-            public void coverTouch( MDMSong song, int index )
+            public void coverTouch( MDMAlbum album )
             {
-                musicSrv.getPlayer().addSong( song );
-                Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + song.getName(),
+                musicSrv.getPlayer().addAlbum( album );
+                Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + album.getName(),
                                 Toast.LENGTH_SHORT ).show();
             }
 
-            public void coverLongTouch( MDMSong song, int index )
+            public void coverLongTouch( MDMAlbum album )
             {
-                musicSrv.getPlayer().addAndPlay( song );
-            }
-
-            public void elementRemove( MDMSong song, int index )
-            {
-                // TODO Auto-generated method stub
-
-            }
-
-            public void playlistTouch( MDMPlaylist playlist, int index )
-            {
-                // TODO Auto-generated method stub
-
+                List<MDMSong> songs = album.getSongs();
+                for ( int i = 0; i < songs.size(); i++ )
+                {
+                    MDMSong song = songs.get( i );
+                    song.setAlbum( album );
+                    musicSrv.getPlayer().addSong( song );
+                }
             }
         } );
         gv.setAdapter( sa );
 
-        final SwipeRefreshLayout srl = (SwipeRefreshLayout) rootView.findViewById( R.id.random_swipe );
+        final SwipeRefreshLayout srl = (SwipeRefreshLayout) rootView.findViewById( R.id.explore_swipe );
         srl.setColorSchemeColors( Color.RED, Color.GREEN, Color.BLUE, Color.CYAN );
-
         srl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener()
         {
             public void onRefresh()
@@ -118,11 +114,11 @@ public class RandomFragment
                     {
                         if ( getActivity() != null )
                         {
-                            View rp = getActivity().findViewById( R.id.random_progress );
-                            if ( rp != null )
+                            View v = getActivity().findViewById( R.id.explore_progress );
+                            if ( v != null )
                             {
-                                rp.setVisibility( View.VISIBLE );
-                                controller.getRandomMusic( sa, getActivity(), RandomFragment.this, true, srl );
+                                v.setVisibility( View.VISIBLE );
+                                controller.getExploreAlbums( sa, getActivity(), ExploreFragment.this, true, srl );
                             }
                         }
                     }
@@ -136,7 +132,7 @@ public class RandomFragment
     /**
      * The info have been loaded, and we need to remove the progress component
      */
-    public void eventRandomInfoLoaded()
+    public void eventExploreInfoLoaded()
     {
         getActivity().runOnUiThread( new Runnable()
         {
@@ -145,10 +141,10 @@ public class RandomFragment
             {
                 if ( getActivity() != null )
                 {
-                    View rp = getActivity().findViewById( R.id.random_progress );
-                    if ( rp != null )
+                    View progress = getActivity().findViewById( R.id.explore_progress );
+                    if ( progress != null )
                     {
-                        rp.setVisibility( View.GONE );
+                        progress.setVisibility( View.GONE );
                     }
                 }
             }

@@ -22,51 +22,75 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MDMAuthor implements Serializable {
-	/**
+import org.messic.android.download.DownloadManagerService;
+
+import android.os.Environment;
+
+public class MDMAuthor
+    implements Serializable
+{
+    /**
      * 
      */
     private static final long serialVersionUID = -6655094894229295492L;
+
     private long sid;
-	private String name;
-	private List<MDMAlbum> albums;
-	
-	/**
-	 * Default constructor
-	 */
-	public MDMAuthor(){
-		//default constructor
-	}
-	
 
-	public final long getSid() {
-		return sid;
-	}
+    private String name;
 
-	public final void setSid(long sid) {
-		this.sid = sid;
-	}
+    private List<MDMAlbum> albums;
 
-	public final String getName() {
-		return name;
-	}
+    /**
+     * Default constructor
+     */
+    public MDMAuthor()
+    {
+        // default constructor
+    }
 
-	public final void setName(String name) {
-		this.name = name;
-	}
+    public final long getSid()
+    {
+        return sid;
+    }
 
-	public final List<MDMAlbum> getAlbums() {
-		return albums;
-	}
+    public final void setSid( long sid )
+    {
+        this.sid = sid;
+    }
 
-	public final void setAlbums(List<MDMAlbum> albums) {
-		this.albums = albums;
-	}
-	
-	public final void addAlbum(MDMAlbum album){
-		if(this.albums==null){
-			this.albums=new ArrayList<MDMAlbum>();
-		}
-		this.albums.add(album);
-	}
+    public final String getName()
+    {
+        return name;
+    }
+
+    public final void setName( String name )
+    {
+        this.name = name;
+    }
+
+    public final List<MDMAlbum> getAlbums()
+    {
+        return albums;
+    }
+
+    public final void setAlbums( List<MDMAlbum> albums )
+    {
+        this.albums = albums;
+    }
+
+    public final void addAlbum( MDMAlbum album )
+    {
+        if ( this.albums == null )
+        {
+            this.albums = new ArrayList<MDMAlbum>();
+        }
+        this.albums.add( album );
+    }
+
+    public String calculateExternalStorageFolder()
+    {
+        String sdfolder = Environment.getExternalStorageDirectory().getAbsolutePath();
+        String folder = sdfolder + "/" + DownloadManagerService.DESTINATION_FOLDER + "/" + this.getName();
+        return folder;
+    }
 }

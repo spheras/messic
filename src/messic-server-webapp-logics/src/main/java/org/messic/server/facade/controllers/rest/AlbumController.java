@@ -98,27 +98,15 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public List<Album> getAll( @RequestParam( value = "filterGenreSid", required = false )
-                               @ApiParam( name = "filterGenreSid", description = "SID of the genre to filter albums", paramType = ApiParamType.QUERY, required = false )
-                               Integer filterGenreSid,
-                               @RequestParam( value = "filterAuthorSid", required = false )
-                               @ApiParam( name = "filterAuthorSid", description = "SID of the author to filter albums", paramType = ApiParamType.QUERY, required = false )
-                               Integer filterAuthorSid,
-                               @RequestParam( value = "filterName", required = false )
-                               @ApiParam( name = "filterName", description = "partial name of the album to search", paramType = ApiParamType.QUERY, required = false )
-                               String filterName,
-                               @RequestParam( value = "authorInfo", required = false )
-                               @ApiParam( name = "authorInfo", description = "flag to return also the author info of the albums or not. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                                   "true", "false" }, format = "Boolean" )
-                               Boolean authorInfo,
-                               @RequestParam( value = "songsInfo", required = false )
-                               @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                                   "true", "false" }, format = "Boolean" )
-                               Boolean songsInfo,
-                               @RequestParam( value = "resourcesInfo", required = false )
-                               @ApiParam( name = "resourcesInfo", description = "flag to return also the artworks and others info of the albums or not. By default, the same value of songsInfo", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                                   "true", "false" }, format = "Boolean" )
-                               Boolean resourcesInfo )
+    public List<Album> getAll( @RequestParam( value = "filterGenreSid", required = false ) @ApiParam( name = "filterGenreSid", description = "SID of the genre to filter albums", paramType = ApiParamType.QUERY, required = false ) Integer filterGenreSid,
+                               @RequestParam( value = "filterAuthorSid", required = false ) @ApiParam( name = "filterAuthorSid", description = "SID of the author to filter albums", paramType = ApiParamType.QUERY, required = false ) Integer filterAuthorSid,
+                               @RequestParam( value = "filterName", required = false ) @ApiParam( name = "filterName", description = "partial name of the album to search", paramType = ApiParamType.QUERY, required = false ) String filterName,
+                               @RequestParam( value = "authorInfo", required = false ) @ApiParam( name = "authorInfo", description = "flag to return also the author info of the albums or not. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                   "true", "false" }, format = "Boolean" ) Boolean authorInfo,
+                               @RequestParam( value = "songsInfo", required = false ) @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                   "true", "false" }, format = "Boolean" ) Boolean songsInfo,
+                               @RequestParam( value = "resourcesInfo", required = false ) @ApiParam( name = "resourcesInfo", description = "flag to return also the artworks and others info of the albums or not. By default, the same value of songsInfo", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                   "true", "false" }, format = "Boolean" ) Boolean resourcesInfo )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
         User user = SecurityUtil.getCurrentUser();
@@ -178,17 +166,16 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public void getAlbumZip( @ApiParam( name = "albumSid", description = "SID of the album resource we want to download", paramType = ApiParamType.PATH, required = true )
-                             @PathVariable
-                             Long albumSid, HttpServletResponse response )
+    public void getAlbumZip( @ApiParam( name = "albumSid", description = "SID of the album resource we want to download", paramType = ApiParamType.PATH, required = true ) @PathVariable Long albumSid,
+                             HttpServletResponse response )
         throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException
     {
 
         User user = SecurityUtil.getCurrentUser();
         try
         {
-            Album album = albumAPI.getAlbum( user, albumSid, false, false, false );
-            String fileName = album.getName() + ".zip";
+            Album album = albumAPI.getAlbum( user, albumSid, true, false, false );
+            String fileName = album.getAuthor().getName() + "-" + album.getName() + ".zip";
             response.setHeader( "Content-disposition", "attachment; filename=\"" + fileName + "\"" );
 
             albumAPI.getAlbumZip( user, albumSid, response.getOutputStream() );
@@ -213,9 +200,7 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public void removeAlbum( @PathVariable
-                             @ApiParam( name = "albumSid", description = "Sid of the album to remove", paramType = ApiParamType.PATH, required = true )
-                             Long albumSid )
+    public void removeAlbum( @PathVariable @ApiParam( name = "albumSid", description = "Sid of the album to remove", paramType = ApiParamType.PATH, required = true ) Long albumSid )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
         User user = SecurityUtil.getCurrentUser();
@@ -238,21 +223,13 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public Album getAlbum( @PathVariable
-                           @ApiParam( name = "albumSid", description = "Sid of the album to get", paramType = ApiParamType.PATH, required = true )
-                           Long albumSid,
-                           @RequestParam( value = "songsInfo", required = false )
-                           @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                               "true", "false" }, format = "Boolean" )
-                           Boolean songsInfo,
-                           @RequestParam( value = "authorInfo", required = false )
-                           @ApiParam( name = "authorInfo", description = "flag to return also the author info of the albums or not. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                               "true", "false" }, format = "Boolean" )
-                           Boolean authorInfo,
-                           @RequestParam( value = "resourcesInfo", required = false )
-                           @ApiParam( name = "resourcesInfo", description = "flag to return also the artworks and others info of the albums or not. By default, the same value of songsInfo", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                               "true", "false" }, format = "Boolean" )
-                           Boolean resourcesInfo )
+    public Album getAlbum( @PathVariable @ApiParam( name = "albumSid", description = "Sid of the album to get", paramType = ApiParamType.PATH, required = true ) Long albumSid,
+                           @RequestParam( value = "songsInfo", required = false ) @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                               "true", "false" }, format = "Boolean" ) Boolean songsInfo,
+                           @RequestParam( value = "authorInfo", required = false ) @ApiParam( name = "authorInfo", description = "flag to return also the author info of the albums or not. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                               "true", "false" }, format = "Boolean" ) Boolean authorInfo,
+                           @RequestParam( value = "resourcesInfo", required = false ) @ApiParam( name = "resourcesInfo", description = "flag to return also the artworks and others info of the albums or not. By default, the same value of songsInfo", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                               "true", "false" }, format = "Boolean" ) Boolean resourcesInfo )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
 
@@ -281,9 +258,7 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public ResponseEntity<byte[]> getAlbumResource( @PathVariable
-                                                    @ApiParam( name = "resourceSid", description = "SID of the resource to get", paramType = ApiParamType.PATH, required = true )
-                                                    Long resourceSid )
+    public ResponseEntity<byte[]> getAlbumResource( @PathVariable @ApiParam( name = "resourceSid", description = "SID of the resource to get", paramType = ApiParamType.PATH, required = true ) Long resourceSid )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException,
         IOMessicRESTException
     {
@@ -324,12 +299,8 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public void setAlbumCover( @PathVariable
-                               @ApiParam( name = "albumSid", description = "SID of the album to get the cover", paramType = ApiParamType.PATH, required = true )
-                               Long albumSid,
-                               @PathVariable
-                               @ApiParam( name = "resourceSid", description = "SID of the resource of the album to set as cover", paramType = ApiParamType.PATH, required = true )
-                               Long resourceSid )
+    public void setAlbumCover( @PathVariable @ApiParam( name = "albumSid", description = "SID of the album to get the cover", paramType = ApiParamType.PATH, required = true ) Long albumSid,
+                               @PathVariable @ApiParam( name = "resourceSid", description = "SID of the resource of the album to set as cover", paramType = ApiParamType.PATH, required = true ) Long resourceSid )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException,
         IOMessicRESTException
     {
@@ -354,15 +325,9 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public ResponseEntity<byte[]> getAlbumCover( @PathVariable
-                                                 @ApiParam( name = "albumSid", description = "SID of the album to get the cover", paramType = ApiParamType.PATH, required = true )
-                                                 Long albumSid,
-                                                 @RequestParam( value = "preferredWidth", required = false )
-                                                 @ApiParam( name = "preferredWidth", description = "desired width for the image returned.  The service will try to provide the desired width, it is just only informative, to try to optimize the performance, avoiding to return images too much big", paramType = ApiParamType.QUERY, required = false, format = "Integer" )
-                                                 Integer preferredWidth,
-                                                 @RequestParam( value = "preferredHeight", required = false )
-                                                 @ApiParam( name = "preferredHeight", description = "desired height for the image returned.  The service will try to provide the desired height, it is just only informative, to try to optimize the performance, avoiding to return images too much big", paramType = ApiParamType.QUERY, required = false, format = "Integer" )
-                                                 Integer preferredHeight )
+    public ResponseEntity<byte[]> getAlbumCover( @PathVariable @ApiParam( name = "albumSid", description = "SID of the album to get the cover", paramType = ApiParamType.PATH, required = true ) Long albumSid,
+                                                 @RequestParam( value = "preferredWidth", required = false ) @ApiParam( name = "preferredWidth", description = "desired width for the image returned.  The service will try to provide the desired width, it is just only informative, to try to optimize the performance, avoiding to return images too much big", paramType = ApiParamType.QUERY, required = false, format = "Integer" ) Integer preferredWidth,
+                                                 @RequestParam( value = "preferredHeight", required = false ) @ApiParam( name = "preferredHeight", description = "desired height for the image returned.  The service will try to provide the desired height, it is just only informative, to try to optimize the performance, avoiding to return images too much big", paramType = ApiParamType.QUERY, required = false, format = "Integer" ) Integer preferredHeight )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException,
         IOMessicRESTException
     {
@@ -417,9 +382,7 @@ public class AlbumController
     @RequestMapping( value = "", method = RequestMethod.POST )
     @ResponseBody
     @ApiResponseObject
-    public Long createOrUpdateAlbum( @ApiBodyObject
-    @RequestBody
-    Album album )
+    public Long createOrUpdateAlbum( @ApiBodyObject @RequestBody Album album )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException, NotFoundMessicRESTException,
         IOMessicRESTException, DuplicatedMessicRESTException
     {
@@ -457,16 +420,11 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public HttpEntity<HttpStatus> uploadResource( @ApiBodyObject
-                                                  HttpEntity<byte[]> requestEntity,
+    public HttpEntity<HttpStatus> uploadResource( @ApiBodyObject HttpEntity<byte[]> requestEntity,
                                                   HttpServletResponse response,
                                                   HttpSession session,
-                                                  @ApiParam( name = "albumCode", description = "code for the album owner of the resource.. This code is the reference for others resources that could be uploaded, and so on", paramType = ApiParamType.PATH, required = true )
-                                                  @PathVariable
-                                                  String albumCode,
-                                                  @ApiParam( name = "fileName", description = "file name of the resource", paramType = ApiParamType.QUERY, required = true )
-                                                  @RequestParam( "fileName" )
-                                                  String fileName )
+                                                  @ApiParam( name = "albumCode", description = "code for the album owner of the resource.. This code is the reference for others resources that could be uploaded, and so on", paramType = ApiParamType.PATH, required = true ) @PathVariable String albumCode,
+                                                  @ApiParam( name = "fileName", description = "file name of the resource", paramType = ApiParamType.QUERY, required = true ) @RequestParam( "fileName" ) String fileName )
         throws IOMessicRESTException, UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
 
@@ -499,11 +457,8 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public List<org.messic.server.api.datamodel.File> clear( @ApiParam( name = "albumCode", description = "temporal code of the album we want to clear.  This code is the same the client give to the server when upload a resource for an album.  If not give this code, messic will remove all the temporal files uploaded until now.", paramType = ApiParamType.QUERY, required = false )
-                                                             @RequestParam( value = "albumCode", required = false )
-                                                             String albumCode, @ApiBodyObject
-                                                             @RequestBody( required = false )
-                                                             List<org.messic.server.api.datamodel.File> exceptFiles )
+    public List<org.messic.server.api.datamodel.File> clear( @ApiParam( name = "albumCode", description = "temporal code of the album we want to clear.  This code is the same the client give to the server when upload a resource for an album.  If not give this code, messic will remove all the temporal files uploaded until now.", paramType = ApiParamType.QUERY, required = false ) @RequestParam( value = "albumCode", required = false ) String albumCode,
+                                                             @ApiBodyObject @RequestBody( required = false ) List<org.messic.server.api.datamodel.File> exceptFiles )
         throws NotAuthorizedMessicRESTException, IOMessicRESTException, UnknownMessicRESTException
     {
 
@@ -537,14 +492,9 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public List<TAGWizardPlugin> getWizardAlbum( @ApiParam( name = "albumCode", description = "temporal code of the album we want to analyze. This code have been set previously while uploading resources. Messic will use the resources linked with these album code", paramType = ApiParamType.PATH, required = true )
-                                                 @PathVariable
-                                                 String albumCode,
-                                                 @ApiParam( name = "pluginName", description = "Name of the plugin we want to use.. It's not required. If this paremeter is not present the function will return only the basic informartion with all the available plugins names to query", paramType = ApiParamType.PATH, required = false )
-                                                 @RequestParam( value = "pluginName", required = false )
-                                                 String pluginName, @ApiBodyObject
-                                                 @RequestBody( required = false )
-                                                 Album albumHelpInfo )
+    public List<TAGWizardPlugin> getWizardAlbum( @ApiParam( name = "albumCode", description = "temporal code of the album we want to analyze. This code have been set previously while uploading resources. Messic will use the resources linked with these album code", paramType = ApiParamType.PATH, required = true ) @PathVariable String albumCode,
+                                                 @ApiParam( name = "pluginName", description = "Name of the plugin we want to use.. It's not required. If this paremeter is not present the function will return only the basic informartion with all the available plugins names to query", paramType = ApiParamType.PATH, required = false ) @RequestParam( value = "pluginName", required = false ) String pluginName,
+                                                 @ApiBodyObject @RequestBody( required = false ) Album albumHelpInfo )
         throws NotAuthorizedMessicRESTException, UnknownMessicRESTException, IOMessicRESTException,
         MusicTagsMessicRESTException
     {

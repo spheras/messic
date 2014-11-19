@@ -28,15 +28,15 @@ public class MDMFile implements Serializable
      */
     private static final long serialVersionUID = -1343793219016926339L;
 
-    private long sid;
+    protected long sid;
 
-    private String code;
+    protected String code;
 
-    private String fileName;
+    protected String fileName;
 
-    private long size;
+    protected long size;
 
-    private MDMAlbum album;
+    protected MDMAlbum album;
 
     /**
      * default constructor

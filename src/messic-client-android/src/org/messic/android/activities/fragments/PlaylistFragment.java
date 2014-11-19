@@ -16,9 +16,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.messic.android.activities;
+package org.messic.android.activities.fragments;
 
 import org.messic.android.R;
+import org.messic.android.activities.adapters.PlaylistAdapter;
+import org.messic.android.activities.adapters.SongAdapter;
 import org.messic.android.controllers.AlbumController;
 import org.messic.android.controllers.PlaylistController;
 import org.messic.android.datamodel.MDMPlaylist;

@@ -30,6 +30,7 @@ import java.util.Enumeration;
 import java.util.Locale;
 
 import org.messic.android.controllers.SearchMessicServiceController.SearchListener;
+import org.messic.android.datamodel.MDMMessicServerInstance;
 
 import android.util.Log;
 
@@ -135,7 +136,7 @@ public class MessicDiscovering
                         try
                         {
                             MessicDiscoveringXmlParser mdxp = new MessicDiscoveringXmlParser();
-                            MessicServerInstance md = mdxp.parse( new ByteArrayInputStream( bmessage ) );
+                            MDMMessicServerInstance md = mdxp.parse( new ByteArrayInputStream( bmessage ) );
                             md.ip = receivePacket.getAddress().getCanonicalHostName();
                             // DO SOMETHING WITH THE SERVER'S IP (for example, store it in your controller)
                             // Controller_Base.setServerIp( receivePacket.getAddress() );

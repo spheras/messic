@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.messic.android.activities;
+package org.messic.android.activities.adapters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,16 +24,25 @@ import java.util.List;
 import org.messic.android.R;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
+import org.messic.android.download.DownloadManagerService;
+import org.messic.android.download.DownloadManagerService.DownloadManagerBinder;
 import org.messic.android.util.AlbumCoverCache;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,6 +62,8 @@ public class SongAdapter
 
     // <0 to indicate that not current song want to be highlighted
     private int currentSong = -1;
+
+    private Animation anim = null;
 
     public enum SongAdapterType
     {
@@ -83,6 +94,8 @@ public class SongAdapter
         this.activity = activity;
         this.listener = listener;
         this.type = type;
+        this.anim = AnimationUtils.loadAnimation( activity, android.R.anim.fade_in );
+        getDownloadService();
     }
 
     public void clear()
@@ -114,6 +127,35 @@ public class SongAdapter
     {
         this.songs.remove( index );
     }
+
+    private Intent downloadIntent;
+
+    private DownloadManagerService downloadService;
+
+    private void getDownloadService()
+    {
+        if ( downloadIntent == null )
+        {
+            downloadIntent = new Intent( activity, DownloadManagerService.class );
+            activity.bindService( downloadIntent, dowloadConnection, Context.BIND_AUTO_CREATE );
+            activity.startService( downloadIntent );
+        }
+    }
+
+    // connect to the service
+    private ServiceConnection dowloadConnection = new ServiceConnection()
+    {
+        public void onServiceConnected( ComponentName name, IBinder service )
+        {
+            DownloadManagerBinder binder = (DownloadManagerBinder) service;
+            // get service
+            downloadService = binder.getService();
+        }
+
+        public void onServiceDisconnected( ComponentName name )
+        {
+        }
+    };
 
     @SuppressLint( "InflateParams" )
     public View getView( final int position, View counterView, ViewGroup parent )
@@ -160,12 +202,22 @@ public class SongAdapter
         {
             tsongname = (TextView) counterView.findViewById( R.id.songtrack_tsongname );
             tsongtrack = (TextView) counterView.findViewById( R.id.songtrack_ttrack );
-            ImageView ivplay = (ImageView) counterView.findViewById( R.id.songtrack_ivplay );
+            final ImageView ivplay = (ImageView) counterView.findViewById( R.id.songtrack_ivplay );
             ivplay.setOnClickListener( new View.OnClickListener()
             {
                 public void onClick( View v )
                 {
+                    ivplay.startAnimation( anim );
                     listener.coverTouch( song, position );
+                }
+            } );
+
+            ImageView ivdownload = (ImageView) counterView.findViewById( R.id.songtrack_ivdownload );
+            ivdownload.setOnClickListener( new View.OnClickListener()
+            {
+                public void onClick( View v )
+                {
+                    downloadService.addDownload( song );
                 }
             } );
         }
@@ -225,6 +277,7 @@ public class SongAdapter
 
                 public void onClick( View v )
                 {
+                    ficover.startAnimation( anim );
                     listener.coverTouch( song, position );
                 }
             } );
@@ -233,6 +286,7 @@ public class SongAdapter
 
                 public boolean onLongClick( View v )
                 {
+                    ficover.startAnimation( anim );
                     listener.coverLongTouch( song, position );
                     return false;
                 }

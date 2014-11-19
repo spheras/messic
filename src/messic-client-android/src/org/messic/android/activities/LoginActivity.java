@@ -52,8 +52,8 @@ public class LoginActivity
         ( (CheckBox) findViewById( R.id.login_cbremember ) ).setChecked( p.getRemember() );
         if ( p.getRemember() )
         {
-            ( (TextView) findViewById( R.id.login_tusername ) ).setText( p.getLastUser() );
-            ( (TextView) findViewById( R.id.login_tpassword ) ).setText( p.getLastPassword() );
+            ( (TextView) findViewById( R.id.login_tusername ) ).setText( Configuration.getLastMessicUser() );
+            ( (TextView) findViewById( R.id.login_tpassword ) ).setText( Configuration.getLastMessicPassword() );
         }
 
         if ( Configuration.getLastToken() != null )
@@ -88,7 +88,7 @@ public class LoginActivity
                 try
                 {
                     ProgressDialog dialog = ProgressDialog.show( LoginActivity.this, "Loading", "Please wait...", true );
-                    controller.login( LoginActivity.this, remember, username, password, dialog);
+                    controller.login( LoginActivity.this, remember, username, password, dialog );
                 }
                 catch ( Exception e )
                 {

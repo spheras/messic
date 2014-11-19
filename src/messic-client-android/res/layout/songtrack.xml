@@ -24,7 +24,7 @@
         android:id="@+id/songtrack_tsongname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/songtrack_ivplay"
+        android:layout_toLeftOf="@+id/songtrack_ivdownload"
         android:layout_toRightOf="@+id/songtrack_tseparator"
         android:ellipsize="end"
         android:maxLines="3"
@@ -57,6 +57,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:src="@drawable/miniplay_w_40" />
+
+    <ImageView
+        android:id="@+id/songtrack_ivdownload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/songtrack_ivplay"
         android:src="@drawable/miniplay_w_40" />
 
 </RelativeLayout>

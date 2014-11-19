@@ -4,7 +4,6 @@ import java.net.URL;
 
 import org.messic.android.controllers.Configuration;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
