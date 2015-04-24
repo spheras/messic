@@ -27,6 +27,7 @@
 		<div id="messic-author-container">
 			<c:forEach var="album" items="${author.albums}">
 				<div id="messic-author-album-cover">
+                    <div class="messic-author-album-year">${album.year}</div>
 					<div class="messic-author-album-covercontainer">
 						<div class="messic-author-album-add"
 							onclick="addAlbum(${messic:escapeAll(album.sid)})"
