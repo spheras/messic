@@ -164,6 +164,15 @@ function settingsFuseGenres() {
         var code = "<div id=\"messic-settings-genre-edit-container-overlay\">";
         code = code + "  <div id=\"messic-settings-genre-fuse-container\">";
         code = code + "      <p>" + messicLang.settingsFuseGenreExplanation + "</p>";
+        code = code + "      </br>";
+        code = code + "      <p>";
+        for(var i=0;i<genresToFuse.length;i++){
+            code=code+genresToFuse[i];
+            if(i<genresToFuse.length-1){
+                code=code+" + ";
+            }
+        }
+        code = code + "</p>";
         code = code + "      <input type=\"text\" value=\"\" placeholder=\"" + messicLang.settingsFuseGenrePlaceholder + "\">";
         code = code + "      <button id=\"messic-settings-genre-edit-ok\" class=\"button\">" + messicLang.settingsChangeGenreOk + "</button>";
         code = code + "      <button id=\"messic-settings-genre-edit-cancel\" class=\"button\" onclick=\"$(this).parent().parent().remove()\">" + messicLang.settingsChangeGenreCancel + "</button>";
@@ -199,6 +208,7 @@ function settingsFuseGenres() {
 
                     $(duplicated).data("sid", data);
                     $(duplicated).find(".messic-user-settings-genres-col-name").text(newValue);
+                    $(duplicated).find("input").prop('checked', false);
                     $("#messic-user-settings-content-genres-table tbody").prepend(duplicated);
 
                 },

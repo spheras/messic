@@ -26,6 +26,7 @@ import java.util.List;
 
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMSong;
+import org.messic.android.datamodel.dao.DAOSong;
 import org.messic.android.util.AlbumCoverCache;
 
 import android.app.Activity;
@@ -68,7 +69,9 @@ public class DownloadManagerService
                 if ( DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals( action ) )
                 {
                     long downloadId = intent.getLongExtra( DownloadManager.EXTRA_DOWNLOAD_ID, 0 );
-                    saveCover( pendingDownloads.get( downloadId ) );
+                    MDMSong song = pendingDownloads.get( downloadId );
+                    saveCover( song );
+                    saveDatabase( song );
                     pendingDownloads.remove( downloadId );
                     // Uri uri = dm.getUriForDownloadedFile( downloadId );
                     // System.out.println( uri );
@@ -77,6 +80,12 @@ public class DownloadManagerService
             }
         };
         registerReceiver( receiver, new IntentFilter( DownloadManager.ACTION_DOWNLOAD_COMPLETE ) );
+    }
+
+    private void saveDatabase( MDMSong song )
+    {
+        DAOSong daosong = new DAOSong( this.getApplicationContext() );
+        daosong.save( song );
     }
 
     private void saveCover( MDMSong song )

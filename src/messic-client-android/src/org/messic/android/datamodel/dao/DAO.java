@@ -20,11 +20,14 @@ public abstract class DAO
 
     private String[] columns;
 
+    private Context context;
+
     public DAO( Context context, String tableName, String[] columns )
     {
         this.columns = columns;
         this.tableName = tableName;
         dbHelper = new MySQLiteHelper( context );
+        this.context = context;
     }
 
     public static int getBoolean( boolean b )
@@ -78,31 +81,55 @@ public abstract class DAO
         this.database = database;
     }
 
-    protected Cursor _getAll()
+    public Cursor _getAll()
     {
         Cursor cursor = database.query( this.tableName, this.columns, null, null, null, null, null );
         cursor.moveToFirst();
         return cursor;
     }
 
-    protected Cursor _get( int sid )
+    public Cursor _get( int sid )
     {
         Cursor cursor =
-            database.query( this.tableName, this.columns, "sid=?", new String[] { "" + sid }, null, null, null );
+            database.query( this.tableName, this.columns, "lsid=?", new String[] { "" + sid }, null, null, null );
         cursor.moveToFirst();
         return cursor;
     }
 
-    protected Cursor _save( ContentValues values )
+    public Cursor _getByServerSid( long serverSid )
+    {
+        Cursor cursor =
+            database.query( this.tableName, this.columns, "sid=?", new String[] { "" + serverSid }, null, null, null );
+        cursor.moveToFirst();
+        return cursor;
+    }
+
+    public Cursor _save( ContentValues values )
     {
         int insertId = (int) database.insert( this.tableName, null, values );
         return _get( insertId );
     }
 
-    protected Cursor _update( ContentValues values, int sid )
+    public Cursor _update( ContentValues values, int sid )
     {
-        int insertId = (int) database.update( this.tableName, values, "sid=?", new String[] { "" + sid } );
+        int insertId = (int) database.update( this.tableName, values, "lsid=?", new String[] { "" + sid } );
         return _get( insertId );
+    }
+
+    /**
+     * @return the context
+     */
+    public Context getContext()
+    {
+        return context;
+    }
+
+    /**
+     * @param context the context to set
+     */
+    public void setContext( Context context )
+    {
+        this.context = context;
     }
 
 }

@@ -22,6 +22,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.messic.android.datamodel.dao.DAOAuthor;
+import org.messic.android.datamodel.dao.DAOGenre;
+
+import android.content.Context;
 import android.database.Cursor;
 
 public class MDMAlbum
@@ -57,7 +61,7 @@ public class MDMAlbum
             COLUMN_FILENAME, COLUMN_FK_AUTHOR, COLUMN_FK_GENRE };
     }
 
-    public MDMAlbum( Cursor cursor )
+    public MDMAlbum( Cursor cursor, Context context )
     {
         this.lsid = cursor.getInt( 0 );
         this.sid = cursor.getInt( 1 );
@@ -65,8 +69,14 @@ public class MDMAlbum
         this.year = cursor.getInt( 3 );
         this.comments = cursor.getString( 4 );
         this.fileName = cursor.getString( 5 );
-        // TODO author y genre
-        // this.al
+        DAOGenre daogenre = new DAOGenre( context );
+        int sidGenre = cursor.getInt( 7 );
+        Cursor cGenre = daogenre._get( sidGenre );
+        this.genre = new MDMGenre( cGenre );
+        DAOAuthor daoauthor = new DAOAuthor( context );
+        int sidAuthor = cursor.getInt( 8 );
+        Cursor cAuthor = daoauthor._get( sidAuthor );
+        this.author = new MDMAuthor( cAuthor );
     }
 
     /**

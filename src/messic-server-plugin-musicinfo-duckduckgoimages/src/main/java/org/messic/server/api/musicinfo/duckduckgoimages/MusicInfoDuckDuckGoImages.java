@@ -58,7 +58,7 @@ public class MusicInfoDuckDuckGoImages
     /** configuration for the plugin */
     private Properties configuration;
 
-    private Proxy getProxy()
+    protected Proxy getProxy()
     {
         if ( this.configuration != null )
         {
@@ -99,7 +99,7 @@ public class MusicInfoDuckDuckGoImages
         return EN_DESCRIPTION;
     }
 
-    private String search( String baseUrl )
+    protected String search( String baseUrl )
         throws IOException
     {
         URL url = new URL( baseUrl );
@@ -141,16 +141,16 @@ public class MusicInfoDuckDuckGoImages
         return htmlCode;
     }
 
-    public List<String> getUrlImages( InputStream is )
+    protected List<String> getUrlImages( InputStream is )
     {
         ArrayList<String> result = new ArrayList<String>();
         ObjectMapper om = new ObjectMapper();
         try
         {
-            jsonobject jo = om.readValue( is, jsonobject.class );
+            JSONObject jo = om.readValue( is, JSONObject.class );
             for ( int i = 0; i < jo.results.size(); i++ )
             {
-                result.add( jo.results.get( i ).j );
+                result.add( jo.results.get( i ).getImage() );
             }
         }
         catch ( JsonParseException e )
@@ -169,7 +169,7 @@ public class MusicInfoDuckDuckGoImages
         return result;
     }
 
-    private String constructURL( String[] phrases )
+    protected String constructURL( String[] phrases )
     {
         String baseUrl = "https://duckduckgo.com/i.js?o=json&q=";
         for ( String phrase : phrases )

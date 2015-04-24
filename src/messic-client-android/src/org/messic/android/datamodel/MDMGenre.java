@@ -20,38 +20,89 @@ package org.messic.android.datamodel;
 
 import java.io.Serializable;
 
+import android.database.Cursor;
 
-public class MDMGenre implements Serializable{
-	/**
+public class MDMGenre
+    implements Serializable
+{
+    public static final String COLUMN_LOCAL_SID = "lsid";
+
+    public static final String COLUMN_SERVER_SID = "sid";
+
+    public static final String COLUMN_NAME = "name";
+
+    public static final String TABLE_NAME = "genres";
+
+    public static final String TABLE_CREATE = "create table " + TABLE_NAME + "(" + COLUMN_LOCAL_SID
+        + " integer primary key autoincrement, " + COLUMN_SERVER_SID + " integer not null, " + COLUMN_NAME
+        + " text not null" + ");";
+
+    public static String[] getColumns()
+    {
+        return new String[] { COLUMN_LOCAL_SID, COLUMN_SERVER_SID, COLUMN_NAME };
+    }
+
+    /**
      * 
      */
     private static final long serialVersionUID = 2190757306533134244L;
-    private Long sid;
-	private String name;
-	
-	public MDMGenre(){
-		
-	}
 
-	
-	public MDMGenre(String name){
-		this.name=name;
-	}
-	
+    private int lsid;
 
-	public String getName() {
-		return name;
-	}
+    private int sid;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private String name;
 
-	public Long getSid() {
-		return sid;
-	}
+    public MDMGenre( Cursor cursor )
+    {
+        this.lsid = cursor.getInt( 0 );
+        this.sid = cursor.getInt( 1 );
+        this.name = cursor.getString( 2 );
+    }
 
-	public void setSid(Long sid) {
-		this.sid = sid;
-	}
+    public MDMGenre()
+    {
+
+    }
+
+    public MDMGenre( String name )
+    {
+        this.name = name;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName( String name )
+    {
+        this.name = name;
+    }
+
+    public Integer getSid()
+    {
+        return sid;
+    }
+
+    public void setSid( Integer sid )
+    {
+        this.sid = sid;
+    }
+
+    /**
+     * @return the lsid
+     */
+    public int getLsid()
+    {
+        return lsid;
+    }
+
+    /**
+     * @param lsid the lsid to set
+     */
+    public void setLsid( int lsid )
+    {
+        this.lsid = lsid;
+    }
 }

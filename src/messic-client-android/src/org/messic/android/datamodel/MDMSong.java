@@ -21,7 +21,9 @@ package org.messic.android.datamodel;
 import java.io.Serializable;
 
 import org.messic.android.controllers.Configuration;
+import org.messic.android.datamodel.dao.DAOAlbum;
 
+import android.content.Context;
 import android.database.Cursor;
 
 public class MDMSong
@@ -56,19 +58,21 @@ public class MDMSong
             COLUMN_FILENAME, COLUMN_FK_ALBUM };
     }
 
-
-    public MDMSong( Cursor cursor )
+    public MDMSong( Cursor cursor, Context context )
     {
         this.lsid = cursor.getInt( 0 );
         this.sid = cursor.getInt( 1 );
-        this.track=cursor.getInt( 2 );
-        this.name=cursor.getString( 3 );
-        this.rate=cursor.getInt( 4 );
-        this.fileName=cursor.getString( 5 );
-        //TODO album
-        //this.al
+        this.track = cursor.getInt( 2 );
+        this.name = cursor.getString( 3 );
+        this.rate = cursor.getInt( 4 );
+        this.fileName = cursor.getString( 5 );
+        DAOAlbum daoalbum = new DAOAlbum( context );
+        int sidAlbum = cursor.getInt( 7 );
+        Cursor cAlbum = daoalbum._get( sidAlbum );
+        this.album = new MDMAlbum( cAlbum, context );
+
     }
-    
+
     /**
      * 
      */

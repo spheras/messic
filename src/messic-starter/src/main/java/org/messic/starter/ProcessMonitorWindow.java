@@ -562,7 +562,7 @@ public class ProcessMonitorWindow
                                 panelstopped.setVisible( false );
                                 ProcessMonitorWindow.this.setCursor( Cursor.getDefaultCursor() );
                             }
-                        }, null );
+                        }, null, false );
 
                     }
                     catch ( IOException e1 )

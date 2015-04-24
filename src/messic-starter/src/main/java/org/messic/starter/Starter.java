@@ -38,6 +38,8 @@ public class Starter
 
     public static final String STARTER_OPTION_START = "start";
 
+    public static final String STARTER_OPTION_DEBUG = "debug";
+
     public static final String STARTER_OPTION_STOP = "stop";
 
     public static final String STARTER_OPTION_GUI = "gui";
@@ -99,7 +101,8 @@ public class Starter
                 if ( cmd.hasOption( STARTER_OPTION_START ) )
                 {
                     System.out.println( "Launching Messic Service...." );
-                    Util.launchMessicService( null, cmd.getOptionValue( STARTER_OPTION_JAVA ) );
+                    Util.launchMessicService( null, cmd.getOptionValue( STARTER_OPTION_JAVA ),
+                                              ( cmd.hasOption( STARTER_OPTION_DEBUG ) ? true : false ) );
                     return;
                 }
 
@@ -143,6 +146,8 @@ public class Starter
                            "if present, messic will delete the current config file (if exist) and create a new one with the default options" );
         options.addOption( STARTER_OPTION_JAVA, true,
                            "specify the java location. (native will try to launch the shell java, at OS location)" );
+        options.addOption( STARTER_OPTION_DEBUG, false,
+                           "set if we want to see some extra-debug info at the starter component." );
 
         return options;
     }

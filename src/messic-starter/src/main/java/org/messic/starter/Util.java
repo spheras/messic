@@ -15,6 +15,7 @@ import java.net.Proxy;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
@@ -481,7 +482,7 @@ public class Util
      * @throws IOException
      * @throws InterruptedException
      */
-    public static void launchMessicService( final MessicLaunchedObserver observer, String javaOption )
+    public static void launchMessicService( final MessicLaunchedObserver observer, String javaOption, boolean debug )
         throws IOException, InterruptedException
     {
         if ( OSValidator.isWindows() || OSValidator.isMac() || OSValidator.isUnix() )
@@ -547,9 +548,13 @@ public class Util
                 fFlagStarted.delete();
             }
 
+            
             final Process p = Runtime.getRuntime().exec( params );
             // final Process p = Runtime.getRuntime().exec( params );
 
+            if(debug){
+                System.out.println(Arrays.toString( params ));
+            }
             // finally, the service process is completely detached in windows, mac and linux. So we cann't get the
             // terminal output
             // if ( OSValidator.isWindows() || true)

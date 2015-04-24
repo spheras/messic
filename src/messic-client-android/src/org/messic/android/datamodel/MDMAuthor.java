@@ -24,11 +24,29 @@ import java.util.List;
 
 import org.messic.android.download.DownloadManagerService;
 
+import android.database.Cursor;
 import android.os.Environment;
 
 public class MDMAuthor
     implements Serializable
 {
+    public static final String COLUMN_LOCAL_SID = "lsid";
+
+    public static final String COLUMN_SERVER_SID = "sid";
+
+    public static final String COLUMN_NAME = "name";
+
+    public static final String TABLE_NAME = "authors";
+
+    public static final String TABLE_CREATE = "create table " + TABLE_NAME + "(" + COLUMN_LOCAL_SID
+        + " integer primary key autoincrement, " + COLUMN_SERVER_SID + " integer not null, " + COLUMN_NAME
+        + " text not null" + ");";
+
+    public static String[] getColumns()
+    {
+        return new String[] { COLUMN_LOCAL_SID, COLUMN_SERVER_SID, COLUMN_NAME };
+    }
+
     /**
      * 
      */
@@ -36,9 +54,18 @@ public class MDMAuthor
 
     private long sid;
 
+    private int lsid;
+
     private String name;
 
     private List<MDMAlbum> albums;
+
+    public MDMAuthor( Cursor cursor )
+    {
+        this.lsid = cursor.getInt( 0 );
+        this.sid = cursor.getInt( 1 );
+        this.name = cursor.getString( 2 );
+    }
 
     /**
      * Default constructor
@@ -92,5 +119,21 @@ public class MDMAuthor
         String sdfolder = Environment.getExternalStorageDirectory().getAbsolutePath();
         String folder = sdfolder + "/" + DownloadManagerService.DESTINATION_FOLDER + "/" + this.getName();
         return folder;
+    }
+
+    /**
+     * @return the lsid
+     */
+    public int getLsid()
+    {
+        return lsid;
+    }
+
+    /**
+     * @param lsid the lsid to set
+     */
+    public void setLsid( int lsid )
+    {
+        this.lsid = lsid;
     }
 }
