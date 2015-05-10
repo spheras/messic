@@ -58,7 +58,7 @@ public class MusicInfoDiscogsTagWizardPlugin
     /** configuration for the plugin */
     private Properties configuration;
 
-    private Proxy getProxy()
+    protected Proxy getProxy()
     {
         if ( this.configuration != null )
         {

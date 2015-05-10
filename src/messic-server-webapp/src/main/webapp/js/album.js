@@ -85,6 +85,43 @@ function initAlbum() {
 
         })
     });
+    
+    
+    
+        $('.messic-album-songs-body-songaction-play').longpress(function (e) {
+            if (e) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            var $div = $(e.target);
+            var authorSid = $div.data("authorsid");
+            var albumSid = $div.data("albumsid");
+            var songSid = $div.data("songsid");
+            var songName = $div.data("songname");
+            var albumName = $div.data("albumname");
+            var authorName = $div.data("authorname");
+            var songRate = $div.data("songrate");
+            addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate, true);
+
+
+            //alert('You just longpressed something.');
+        }, function (e) {
+            if (e) {
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            var $div = $(e.target);
+            var authorSid = $div.data("authorsid");
+            var albumSid = $div.data("albumsid");
+            var songSid = $div.data("songsid");
+            var songName = $div.data("songname");
+            var albumName = $div.data("albumname");
+            var authorName = $div.data("authorname");
+            var songRate = $div.data("songrate");
+            addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate);
+
+            //alert('You released before longpress duration and that\'s why its a shortpress now.');
+        });
 
 }
 

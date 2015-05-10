@@ -41,6 +41,7 @@ import org.messic.server.Util;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Song;
 import org.messic.server.api.datamodel.User;
+import org.messic.server.api.exceptions.CheckConsistencyMessicException;
 import org.messic.server.api.exceptions.ExistingMessicException;
 import org.messic.server.api.exceptions.ResourceNotFoundMessicException;
 import org.messic.server.api.exceptions.SidNotFoundMessicException;
@@ -426,6 +427,73 @@ public class APIAlbum
         }
     }
 
+    /**
+     * Synchronize the Tags of the mp3 songs
+     * 
+     * @param mdoAlbum {@link MDOAlbum} album info
+     */
+    public void synchronizeTags( MDOAlbum mdoAlbum )
+    {
+        MDOMessicSettings settings = daoSettings.getSettings();
+        AudioTaggerTAGWizardPlugin atp = new AudioTaggerTAGWizardPlugin();
+        org.messic.server.api.tagwizard.service.Album salbum = new org.messic.server.api.tagwizard.service.Album();
+        salbum.author = mdoAlbum.getAuthor().getName();
+        salbum.name = mdoAlbum.getName();
+        if ( mdoAlbum.getComments() != null )
+            salbum.comments = mdoAlbum.getComments();
+        if ( mdoAlbum.getGenre() != null )
+            salbum.genre = mdoAlbum.getGenre().getName();
+        salbum.year = mdoAlbum.getYear();
+
+        List<MDOSong> songs = mdoAlbum.getSongs();
+        for ( MDOSong mdoSong : songs )
+        {
+            String absPath = mdoSong.calculateAbsolutePath( settings );
+            File fnew = new File( absPath );
+            if ( fnew.exists() )
+            {
+                org.messic.server.api.tagwizard.service.Song ssong = new org.messic.server.api.tagwizard.service.Song();
+                ssong.track = mdoSong.getTrack();
+                ssong.name = mdoSong.getName();
+
+                try
+                {
+                    atp.saveTags( salbum, ssong, fnew );
+                }
+                catch ( CannotReadException e )
+                {
+                    log.error( e );
+                    // throw new IOException( e.getMessage(), e.getCause() );
+                }
+                catch ( TagException e )
+                {
+                    log.error( e );
+                    // throw new IOException( e.getMessage(), e.getCause() );
+                }
+                catch ( ReadOnlyFileException e )
+                {
+                    log.error( e );
+                    // throw new IOException( e.getMessage(), e.getCause() );
+                }
+                catch ( InvalidAudioFrameException e )
+                {
+                    log.error( e );
+                    // throw new IOException( e.getMessage(), e.getCause() );
+                }
+                catch ( CannotWriteException e )
+                {
+                    log.error( e );
+                    // throw new IOException( e.getMessage(), e.getCause() );
+                }
+                catch ( IOException e )
+                {
+                    log.error( e );
+                }
+            }
+
+        }
+    }
+
     public long createOrUpdateAlbum( User user, Album album )
         throws IOException, ExistingMessicException
     {
@@ -460,7 +528,7 @@ public class APIAlbum
         // ###############################################################################
         if ( album.getSid() > 0 )
         {
-            mdoAlbum = daoAlbum.get( album.getSid() );
+            mdoAlbum = daoAlbum.getAlbum( album.getSid(), user.getLogin() );
         }
 
         // 3rd getting the author ###############################################################################
@@ -620,7 +688,9 @@ public class APIAlbum
                     {
                         mdoSong.setTrack( song.getTrack() );
                         mdoSong.setName( song.getName() );
-                        String oldLocation = mdoSong.calculateAbsolutePath( settings );
+                        String oldLocation =
+                            ( flagExistingAlbum ? mdoSong.calculateAbsolutePath( oldAlbumPath )
+                                            : mdoSong.calculateAbsolutePath( settings ) );
                         String theoricalFileName =
                             mdoSong.calculateSongTheoricalFileName( mdoSong.getExtension(), replacementChar );
                         mdoSong.setLocation( theoricalFileName );
@@ -635,49 +705,50 @@ public class APIAlbum
                     }
                 }
 
-                AudioTaggerTAGWizardPlugin atp = new AudioTaggerTAGWizardPlugin();
-                org.messic.server.api.tagwizard.service.Album salbum =
-                    new org.messic.server.api.tagwizard.service.Album();
-                salbum.author = mdoAlbum.getAuthor().getName();
-                salbum.name = mdoAlbum.getName();
-                if ( mdoAlbum.getComments() != null )
-                    salbum.comments = mdoAlbum.getComments();
-                if ( mdoAlbum.getGenre() != null )
-                    salbum.genre = mdoAlbum.getGenre().getName();
-                salbum.year = mdoAlbum.getYear();
-
-                org.messic.server.api.tagwizard.service.Song ssong = new org.messic.server.api.tagwizard.service.Song();
-                ssong.track = mdoSong.getTrack();
-                ssong.name = mdoSong.getName();
-                try
-                {
-                    atp.saveTags( salbum, ssong, fnew );
-                }
-                catch ( CannotReadException e )
-                {
-                    log.error( e );
-                    // throw new IOException( e.getMessage(), e.getCause() );
-                }
-                catch ( TagException e )
-                {
-                    log.error( e );
-                    // throw new IOException( e.getMessage(), e.getCause() );
-                }
-                catch ( ReadOnlyFileException e )
-                {
-                    log.error( e );
-                    // throw new IOException( e.getMessage(), e.getCause() );
-                }
-                catch ( InvalidAudioFrameException e )
-                {
-                    log.error( e );
-                    // throw new IOException( e.getMessage(), e.getCause() );
-                }
-                catch ( CannotWriteException e )
-                {
-                    log.error( e );
-                    // throw new IOException( e.getMessage(), e.getCause() );
-                }
+                // AudioTaggerTAGWizardPlugin atp = new AudioTaggerTAGWizardPlugin();
+                // org.messic.server.api.tagwizard.service.Album salbum =
+                // new org.messic.server.api.tagwizard.service.Album();
+                // salbum.author = mdoAlbum.getAuthor().getName();
+                // salbum.name = mdoAlbum.getName();
+                // if ( mdoAlbum.getComments() != null )
+                // salbum.comments = mdoAlbum.getComments();
+                // if ( mdoAlbum.getGenre() != null )
+                // salbum.genre = mdoAlbum.getGenre().getName();
+                // salbum.year = mdoAlbum.getYear();
+                //
+                // org.messic.server.api.tagwizard.service.Song ssong = new
+                // org.messic.server.api.tagwizard.service.Song();
+                // ssong.track = mdoSong.getTrack();
+                // ssong.name = mdoSong.getName();
+                // try
+                // {
+                // atp.saveTags( salbum, ssong, fnew );
+                // }
+                // catch ( CannotReadException e )
+                // {
+                // log.error( e );
+                // // throw new IOException( e.getMessage(), e.getCause() );
+                // }
+                // catch ( TagException e )
+                // {
+                // log.error( e );
+                // // throw new IOException( e.getMessage(), e.getCause() );
+                // }
+                // catch ( ReadOnlyFileException e )
+                // {
+                // log.error( e );
+                // // throw new IOException( e.getMessage(), e.getCause() );
+                // }
+                // catch ( InvalidAudioFrameException e )
+                // {
+                // log.error( e );
+                // // throw new IOException( e.getMessage(), e.getCause() );
+                // }
+                // catch ( CannotWriteException e )
+                // {
+                // log.error( e );
+                // // throw new IOException( e.getMessage(), e.getCause() );
+                // }
 
             }
         }
@@ -721,7 +792,9 @@ public class APIAlbum
                     MDOAlbumResource resource = daoAlbumResource.get( user.getLogin(), file.getSid() );
                     if ( resource != null )
                     {
-                        String oldLocation = resource.calculateAbsolutePath( settings );
+                        String oldLocation =
+                            ( flagExistingAlbum ? resource.calculateAbsolutePath( oldAlbumPath )
+                                            : resource.calculateAbsolutePath( settings ) );
                         resource.setLocation( file.calculateSecureFileName( replacementChar ) );
                         daoAlbumResource.save( resource );
 
@@ -734,6 +807,7 @@ public class APIAlbum
                     }
                 }
             }
+
             daoAlbum.save( mdoAlbum );
         }
 
@@ -768,7 +842,9 @@ public class APIAlbum
                     MDOAlbumResource resource = daoAlbumResource.get( user.getLogin(), file.getSid() );
                     if ( resource != null )
                     {
-                        String oldLocation = resource.calculateAbsolutePath( settings );
+                        String oldLocation =
+                            ( flagExistingAlbum ? resource.calculateAbsolutePath( oldAlbumPath )
+                                            : resource.calculateAbsolutePath( settings ) );
                         resource.setLocation( file.calculateSecureFileName( replacementChar ) );
                         daoAlbumResource.save( resource );
 
@@ -825,6 +901,56 @@ public class APIAlbum
             }
         }
 
+        if ( flagExistingAlbum )
+        {
+            // the last thing, and very important, is to synchronize the tags of the mp3 files
+            synchronizeTags( mdoAlbum );
+        }
+
         return sidResult;
+    }
+
+    /**
+     * Check the consistency of the database and the file system resources
+     * 
+     * @param user
+     * @param albumSid
+     * @return
+     * @throws CheckConsistencyMessicException
+     */
+    public boolean checkConsistency( User user, long albumSid )
+        throws CheckConsistencyMessicException
+    {
+        MDOAlbum album = daoAlbum.getAlbum( albumSid, user.getLogin() );
+        if ( album != null )
+        {
+            // first check if the folder exist
+            String albumPath = album.calculateAbsolutePath( daoSettings.getSettings() );
+            if ( !new File( albumPath ).exists() )
+            {
+                throw new CheckConsistencyMessicException( "Album with name: '" + album.getName()
+                    + "' doesn't exist at the system folder!" );
+            }
+
+            List<MDOAlbumResource> resources = album.getAllResources();
+            for ( MDOAlbumResource resource : resources )
+            {
+                String resourcePath = resource.calculateAbsolutePath( daoSettings.getSettings() );
+                if ( !new File( resourcePath ).exists() )
+                {
+                    throw new CheckConsistencyMessicException( "Resource '" + resource.getLocation()
+                        + "' of the album '" + album.getName() + "' doesn't exist at the system folder!" );
+                }
+
+            }
+
+            // Now let's synchronize tags
+            synchronizeTags( album );
+        }
+        else
+        {
+            throw new CheckConsistencyMessicException( "Album with sid " + albumSid + "doesn't exist!" );
+        }
+        return true;
     }
 }

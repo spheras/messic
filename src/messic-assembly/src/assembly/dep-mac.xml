@@ -47,7 +47,7 @@
 			<directory>${project.basedir}/jvm</directory>
 			<outputDirectory>/jvm</outputDirectory>
 			<includes>
-				<include>jre-8u5-macosx-x64.tar.gz</include>
+				<include>jre-8u45-macosx-x64.tar.gz</include>
 			</includes>
 		</fileSet>
 		<fileSet>

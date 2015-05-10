@@ -19,6 +19,8 @@
 package org.messic.server.facade.controllers.pages;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -78,6 +80,16 @@ public class AlbumViewController
                     result.add( (MusicInfoPlugin) context.getService( refs[i] ) );
                 }
             }
+
+            Collections.sort( result, new Comparator<MusicInfoPlugin>()
+            {
+
+                @Override
+                public int compare( MusicInfoPlugin o1, MusicInfoPlugin o2 )
+                {
+                    return o1.getName().compareTo( o2.getName() );
+                }
+            } );
         }
         catch ( Exception e )
         {
@@ -87,8 +99,8 @@ public class AlbumViewController
     }
 
     @RequestMapping( "/album.do" )
-    protected ModelAndView view( @RequestParam( value = "albumSid", required = true )
-    Long albumSid, HttpServletRequest req )
+    protected ModelAndView view( @RequestParam( value = "albumSid", required = true ) Long albumSid,
+                                 HttpServletRequest req )
         throws Exception
     {
         ModelAndView model = new ModelAndView( "album" );

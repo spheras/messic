@@ -22,9 +22,9 @@ echo "Starting messic service..."
 
 	#discovering architecture
 	if [ "$(uname -m | grep '64')" != "" ]; then
-        JAVA_FOLDER='jre1.8.0_05-x64'
+        JAVA_FOLDER='jre1.8.0_45-x64'
 	else
-        JAVA_FOLDER='jre1.8.0_05'
+        JAVA_FOLDER='jre1.8.0_45'
 	fi	
 
 #concatenate the classpath files, by Casimiro

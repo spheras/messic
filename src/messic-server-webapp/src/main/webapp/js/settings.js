@@ -67,6 +67,78 @@ function initSettings(flagNewUser) {
 }
 
 /**
+* Show the consistency panel
+*/
+function showConsistencyPanel(){
+    var code = "";
+    code = code + "<div id=\"messic-settings-consistency-overlay\">";
+    code = code + "  <div id=\"messic-settings-consistency-container\">";
+    code = code + "    <p class=\"messic-settings-consistency-title\">"+messicLang.settingsConsistencyTitle+"</p>";
+    code = code + "    <p class=\"messic-settings-consistency-desc\">"+messicLang.settingsConsistencyDesc+"</p>";
+    code = code + "    <div class=\"messic-settings-consistency-progress\"><div class=\"messic-settings-consistency-progressbar\"></div></div>";
+    code = code + "    <textarea id=\"messic-settings-consistency-details\" readonly=\"true\"></textarea>";
+    code = code + "    <button id=\"messic-settings-consistency-start\">"+messicLang.settingsConsistencyButtonStart+"</button>";
+    code = code + "    <button id=\"messic-settings-consistency-cancel\">"+messicLang.settingsConsistencyButtonCancel+"</button>";
+    code = code + "    <div id=\"messic-settings-consistency-working\" class=\"animated infinite rubberBand\">"+messicLang.settingsConsistencyWorking+"</div>";
+    code = code + "  </div>";
+    code = code + "</div>";
+    var $code=$(code);
+    $code.find("#messic-settings-consistency-working").hide();
+    $code.hide().appendTo('body').fadeIn();
+
+    $code.find("#messic-settings-consistency-cancel").click(function () {
+        $("#messic-settings-consistency-overlay").remove();
+    });
+
+    $code.find("#messic-settings-consistency-start").click(function () {
+        
+        $("#messic-settings-consistency-start").hide();
+        $("#messic-settings-consistency-cancel").hide();
+        $("#messic-settings-consistency-working").show();
+        
+        $.ajax({
+            url: "services/albums?songsInfo=false&authorInfo=false",
+            dataType: 'json',
+            async: false,
+            success: function (dataAlbums) {
+                var progressBar=$(".messic-settings-consistency-progressbar");
+                
+                for(var i=0;i<dataAlbums.length;i++){
+                    var album=dataAlbums[i];
+                    $.ajax({
+                        type: "POST",
+                        async: false,
+                        url: "services/albums/checkConsistency/"+album.sid,
+                        success: function (data) {
+                            var divta=$("#messic-settings-consistency-details");
+                            divta.val( "OK->"+album.name + "\n"+ divta.val());
+                            
+                            var percentComplete = i / dataAlbums.length;
+                            progressBar.width((percentComplete * 100) + '%')
+                        },
+                        error: function (request, status, error){
+                            var divta=$("#messic-settings-consistency-details");
+                            divta.val( "FAILED!!!->"+album.name + ": "+request.responseText +"\n"+ divta.val());
+                            
+                            var percentComplete = i / dataAlbums.length;
+                            progressBar.width((percentComplete * 100) + '%')
+                        }
+                    });
+                }
+                
+                progressBar.width('100%')
+                $("#messic-settings-consistency-start").show();
+                $("#messic-settings-consistency-cancel").show();
+                $("#messic-settings-consistency-working").hide();
+                UtilShowInfo(messicLang.settingsConsistencyEnd);
+            }
+        });
+
+        
+    });
+}
+
+/**
  * function to remove the account of the current user
  * @param sid long sid of the current user
  */
@@ -153,10 +225,14 @@ function removeAccount(sid) {
 
 function settingsFuseGenres() {
     var genresToFuse = new Array();
+    var genresNameToFuse = new Array();
+    
     var divTable = $("#messic-user-settings-content-genres-table tr").each(function () {
         var checked = $(this).find("input").is(":checked");
         if (checked) {
             genresToFuse.push($(this).data("sid"));
+            var genreName=$(this).find(".messic-user-settings-genres-col-name").text();
+            genresNameToFuse.push(genreName);
         }
     });
 
@@ -164,10 +240,9 @@ function settingsFuseGenres() {
         var code = "<div id=\"messic-settings-genre-edit-container-overlay\">";
         code = code + "  <div id=\"messic-settings-genre-fuse-container\">";
         code = code + "      <p>" + messicLang.settingsFuseGenreExplanation + "</p>";
-        code = code + "      </br>";
         code = code + "      <p>";
         for(var i=0;i<genresToFuse.length;i++){
-            code=code+genresToFuse[i];
+            code=code+genresNameToFuse[i];
             if(i<genresToFuse.length-1){
                 code=code+" + ";
             }

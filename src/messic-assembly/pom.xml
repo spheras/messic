@@ -24,7 +24,9 @@
 		</license>
 	</licenses>
 
-	<!-- mvn assembly:single -->
+	<!-- mvn clean install assembly:single 
+		for the RPM generator, you need to install rpm package (sudo apt-get install rpm)
+	-->
 	<build>
 		<plugins>
 			<plugin>
@@ -58,7 +60,7 @@
 							<tasks>
 								<!-- after the assemblies, we need to decompress jvm for windows, 
 									and then generate the final .zip -->
-								<unzip src="${project.basedir}/jvm/jre-8u5-windows-i586.zip"
+								<unzip src="${project.basedir}/jvm/jre-8u45-windows-i586.zip"
 									dest="${project.basedir}/target/messic-${project.version}.app-windows/messic-${project.version}.app/bin" />
 								<zip
 									basedir="${project.basedir}/target/messic-${project.version}.app-windows"

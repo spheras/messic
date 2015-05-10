@@ -350,13 +350,14 @@ function mainSearch() {
                     e.preventDefault();
                 }
                 var $div = $(e.target).parent();
+                var authorSid= $div.data("authorsid");
                 var albumSid = $div.data("albumsid");
                 var songSid = $div.data("songsid");
                 var songName = $div.data("songname");
                 var albumName = $div.data("albumname");
                 var authorName = $div.data("authorname");
                 var songRate = $div.data("songrate");
-                addSong('raro', UtilEscapeJS(authorName), albumSid, UtilEscapeJS(albumName), songSid, UtilEscapeJS(songName), songRate, true);
+                addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate, true);
 
 
                 //alert('You just longpressed something.');
@@ -366,13 +367,14 @@ function mainSearch() {
                     e.preventDefault();
                 }
                 var $div = $(e.target).parent();
+                var authorSid= $div.data("authorsid");
                 var albumSid = $div.data("albumsid");
                 var songSid = $div.data("songsid");
                 var songName = $div.data("songname");
                 var albumName = $div.data("albumname");
                 var authorName = $div.data("authorname");
                 var songRate = $div.data("songrate");
-                addSong('raro', UtilEscapeJS(authorName), albumSid, UtilEscapeJS(albumName), songSid, UtilEscapeJS(songName), songRate);
+                addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate);
 
                 //alert('You released before longpress duration and that\'s why its a shortpress now.');
             });
@@ -404,6 +406,7 @@ function mainPlayRandomList(div) {
     var elfind = elparent.find(".messic-main-randomlist-albumcover");
     var i = 0;
     elfind.each(function () {
+        var authorSid = $(this).data("authorsid");
         var albumSid = $(this).data("albumsid");
         var songSid = $(this).data("songsid");
         var songName = $(this).data("songname");
@@ -411,7 +414,7 @@ function mainPlayRandomList(div) {
         var authorName = $(this).data("authorname");
         var songRate = $(this).data("songrate");
         var dontplay = (i != 0);
-        addSong('raro', UtilEscapeJS(authorName), albumSid, UtilEscapeJS(albumName), songSid, UtilEscapeJS(songName), songRate, false, dontplay);
+        addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate, false, dontplay);
         i++;
     });
 }
@@ -476,7 +479,7 @@ function mainCreateRandomList(randomlist, lastTitleType) {
     for (var j = 0; randomlist.songs && j < randomlist.songs.length; j++) {
         var song = randomlist.songs[j];
         code = code + "<li>";
-        code = code + "    <div data-songsid=\"" + song.sid + "\" data-albumsid=\"" + song.album.sid + "\" data-songname=\"" + UtilEscapeHTML(song.name) + "\" data-albumname=\"" + UtilEscapeHTML(song.album.name) + "\" data-authorname=\"" + UtilEscapeHTML(song.album.author.name) + "\" data-songrate=\"" + UtilEscapeHTML(song.rate) + "\" class=\"messic-main-randomlist-albumcover\" title=\"" + UtilEscapeHTML(song.album.author.name) + "\n" + UtilEscapeHTML(song.album.name) + "\n" + UtilEscapeHTML(song.name) + "\" onclick=\"exploreEditAlbum('" + song.album.sid + "')\">";
+        code = code + "    <div data-songsid=\"" + song.sid + "\" data-authorsid=\"" + song.album.author.sid + "\" data-albumsid=\"" + song.album.sid + "\" data-songname=\"" + UtilEscapeHTML(song.name) + "\" data-albumname=\"" + UtilEscapeHTML(song.album.name) + "\" data-authorname=\"" + UtilEscapeHTML(song.album.author.name) + "\" data-songrate=\"" + UtilEscapeHTML(song.rate) + "\" class=\"messic-main-randomlist-albumcover\" title=\"" + UtilEscapeHTML(song.album.author.name) + "\n" + UtilEscapeHTML(song.album.name) + "\n" + UtilEscapeHTML(song.name) + "\" onclick=\"exploreEditAlbum('" + song.album.sid + "')\">";
         code = code + "        <div class=\"messic-main-randomlist-menu\" title=\"" + messicLang.playlistmoreoptions + "\" onclick=\"event.stopPropagation();mainShowSongOptions(" + song.sid + ",this,$(this).parent()," + song.rate + ");\"></div>";
         code = code + "        <div class=\"messic-main-randomlist-add\" ></div>";
 
@@ -523,13 +526,14 @@ function mainCreateRandomLists() {
                 e.preventDefault();
             }
             var $div = $(e.target).parent();
+            var authorSid = $div.data("authorsid");
             var albumSid = $div.data("albumsid");
             var songSid = $div.data("songsid");
             var songName = $div.data("songname");
             var albumName = $div.data("albumname");
             var authorName = $div.data("authorname");
             var songRate = $div.data("songrate");
-            addSong('raro', UtilEscapeJS(authorName), albumSid, UtilEscapeJS(albumName), songSid, UtilEscapeJS(songName), songRate, true);
+            addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate, true);
 
 
             //alert('You just longpressed something.');
@@ -539,13 +543,14 @@ function mainCreateRandomLists() {
                 e.preventDefault();
             }
             var $div = $(e.target).parent();
+            var authorSid = $div.data("authorsid");
             var albumSid = $div.data("albumsid");
             var songSid = $div.data("songsid");
             var songName = $div.data("songname");
             var albumName = $div.data("albumname");
             var authorName = $div.data("authorname");
             var songRate = $div.data("songrate");
-            addSong('raro', UtilEscapeJS(authorName), albumSid, UtilEscapeJS(albumName), songSid, UtilEscapeJS(songName), songRate);
+            addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate);
 
             //alert('You released before longpress duration and that\'s why its a shortpress now.');
         });
@@ -580,6 +585,7 @@ function addAlbum(albumSid) {
             var dontplay = (z != 0);
 
             addSong("raro",
+                data.author.sid,
                 UtilEscapeHTML(data.author.name),
                 data.sid,
                 UtilEscapeHTML(data.name),
@@ -595,10 +601,11 @@ function addAlbum(albumSid) {
 }
 
 //Add a song to the playlist of songs
-function addSong(titleA, authorName, albumSid, albumName, songSid, songName, rate, playnow, dontplay) {
+function addSong(titleA, authorSid, authorName, albumSid, albumName, songSid, songName, rate, playnow, dontplay) {
     var media = {
         "albumSid": albumSid,
         "songSid": songSid,
+        "authorSid": authorSid,
         title: titleA,
         mp3: "services/songs/" + songSid + "/audio?messic_token=" + VAR_MessicToken,
         author: authorName,

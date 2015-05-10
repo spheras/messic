@@ -740,15 +740,15 @@
 }
 
 .messic-album-plugincontainer-content-message {
-	color: #AFAFAF;
-	font-family: roboto;
-	font-size: 1.5em;
-	left: 50%;
-	margin-left: -170px;
-	margin-top: 103px;
-	position: relative;
-	text-align: center;
-	width: 80%;
+    color: #afafaf;
+    font-family: roboto;
+    font-size: 1.5em;
+    left: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 103px;
+    text-align: center;
+    width: 80%;
 }
 
 .messic-album-plugincontainer-content-wait {

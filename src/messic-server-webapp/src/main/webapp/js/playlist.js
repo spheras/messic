@@ -77,7 +77,7 @@ function playlistShow(playlistSid, div) {
                     for (var j = 0; j < playlist.songs.length; j++) {
                         var song = playlist.songs[j];
 
-                        code = code + "<li class=\"messic-albumentity-container\" draggable=\"true\" data-songsid=\"" + song.sid + "\" data-albumsid=\"" + song.album.sid + "\" data-songname=\"" + UtilEscapeHTML(song.name) + "\" data-albumname=\"" + UtilEscapeHTML(song.album.name) + "\" data-authorname=\"" + UtilEscapeHTML(song.album.author.name) + "\" data-songrate=\"" + UtilEscapeHTML(song.rate) + "\">";
+                        code = code + "<li class=\"messic-albumentity-container\" draggable=\"true\" data-songsid=\"" + song.sid + "\" data-authorsid=\""+song.album.author.sid + "\" data-albumsid=\"" + song.album.sid + "\" data-songname=\"" + UtilEscapeHTML(song.name) + "\" data-albumname=\"" + UtilEscapeHTML(song.album.name) + "\" data-authorname=\"" + UtilEscapeHTML(song.album.author.name) + "\" data-songrate=\"" + UtilEscapeHTML(song.rate) + "\">";
                         code = code + "  <div class=\"messic-albumentity-remove\" onclick=\"$(this).parent().remove();playlistEditStatus();\"></div>";
                         code = code + "  <div class=\"messic-albumentity-albumcover\" title=\"" + UtilEscapeHTML(song.album.author.name) + "\n" + UtilEscapeHTML(song.album.name) + "\n" + UtilEscapeHTML(song.name) + "\">";
                         code = code + "      <div class=\"messic-albumentity-add\"></div>";
@@ -111,26 +111,28 @@ function playlistShow(playlistSid, div) {
                         e.preventDefault();
                     }
                     var $div = $(e.target).parent().parent();
+                    var authorSid =$div.data("authorsid");
                     var albumSid = $div.data("albumsid");
                     var songSid = $div.data("songsid");
                     var songName = $div.data("songname");
                     var albumName = $div.data("albumname");
                     var authorName = $div.data("authorname");
                     var songRate = $div.data("songrate");
-                    addSong('raro', UtilEscapeJS(authorName), albumSid, UtilEscapeJS(albumName), songSid, UtilEscapeJS(songName), songRate, true);
+                    addSong('raro', authorSid, UtilEscapeJS(authorName), albumSid, UtilEscapeJS(albumName), songSid, UtilEscapeJS(songName), songRate, true);
                 }, function (e) {
                     if (e) {
                         e.stopPropagation();
                         e.preventDefault();
                     }
                     var $div = $(e.target).parent().parent();
+                    var authorSid =$div.data("authorsid");
                     var albumSid = $div.data("albumsid");
                     var songSid = $div.data("songsid");
                     var songName = $div.data("songname");
                     var albumName = $div.data("albumname");
                     var authorName = $div.data("authorname");
                     var songRate = $div.data("songrate");
-                    addSong('raro', UtilEscapeJS(authorName), albumSid, UtilEscapeJS(albumName), songSid, UtilEscapeJS(songName), songRate);
+                    addSong('raro', authorSid, UtilEscapeJS(authorName), albumSid, UtilEscapeJS(albumName), songSid, UtilEscapeJS(songName), songRate);
                 });
 
                 $("#messic-playlist-content-selected").append($code);
@@ -243,6 +245,7 @@ function playlistPlay(playlistSid) {
                         var song = playlist.songs[j];
                         var dontplay = (j != 0);
                         addSong('raro',
+                            song.album.author.sid,
                             UtilEscapeJS(song.album.author.name),
                             song.album.sid, UtilEscapeJS(song.album.name),
                             song.sid,

@@ -495,7 +495,7 @@ public class Util
             String classpath = getClasspath( OSValidator.isWindows() );
 
             String[] params = null;
-            String paramJava = "./bin/jre1.8.0_05/bin/java";
+            String paramJava = "./bin/jre1.8.0_45/bin/java";
             if ( javaOption != null )
             {
                 if ( javaOption.trim().toUpperCase().equals( "NATIVE" ) )
@@ -509,17 +509,17 @@ public class Util
             }
             if ( OSValidator.isUnix() )
             {
-                File ftest1 = new File( "./bin/jre1.8.0_05-x64" );
+                File ftest1 = new File( "./bin/jre1.8.0_45-x64" );
                 String arch = System.getProperty( "os.arch" );
                 if ( arch.indexOf( "64" ) >= 0 && ftest1.exists() )
                 {
                     // maybe we are using x64
-                    paramJava = "./bin/jre1.8.0_05-x64/bin/java";
+                    paramJava = "./bin/jre1.8.0_45-x64/bin/java";
                 }
             }
             else if ( OSValidator.isMac() )
             {
-                paramJava = "./bin/jre1.8.0_05.jre/Contents/Home/bin/java";
+                paramJava = "./bin/jre1.8.0_45.jre/Contents/Home/bin/java";
             }
 
             String paramCP = "-cp";
@@ -548,12 +548,18 @@ public class Util
                 fFlagStarted.delete();
             }
 
-            
+            for ( int i = 0; i < params.length; i++ )
+            {
+                System.out.print( params[i] + " " );
+            }
+            System.out.println( "" );
+
             final Process p = Runtime.getRuntime().exec( params );
             // final Process p = Runtime.getRuntime().exec( params );
 
-            if(debug){
-                System.out.println(Arrays.toString( params ));
+            if ( debug )
+            {
+                System.out.println( Arrays.toString( params ) );
             }
             // finally, the service process is completely detached in windows, mac and linux. So we cann't get the
             // terminal output

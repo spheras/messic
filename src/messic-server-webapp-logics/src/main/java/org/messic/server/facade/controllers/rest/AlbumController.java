@@ -42,9 +42,11 @@ import org.messic.server.api.APITagWizard;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.TAGWizardPlugin;
 import org.messic.server.api.datamodel.User;
+import org.messic.server.api.exceptions.CheckConsistencyMessicException;
 import org.messic.server.api.exceptions.ExistingMessicException;
 import org.messic.server.api.exceptions.ResourceNotFoundMessicException;
 import org.messic.server.api.exceptions.SidNotFoundMessicException;
+import org.messic.server.datamodel.MDOUser;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.DuplicatedMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.IOMessicRESTException;
@@ -525,4 +527,41 @@ public class AlbumController
         }
     }
 
+    @ApiMethod( path = "/services/albums/checkConsistency/{albumSid}", verb = ApiVerb.POST, description = "Check the consistency of the database en resource files", produces = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
+    @ApiErrors( apierrors = {
+        @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized remove this user" ),
+        @ApiError( code = org.messic.server.facade.controllers.rest.exceptions.CheckConsistencyMessicException.VALUE, description = "Consistency error" ) } )
+    @RequestMapping( value = "/checkConsistency/{albumSid}", method = RequestMethod.POST )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    protected void checkConsistency( @ApiParam( name = "albumSid", description = "Sid of the album to check", paramType = ApiParamType.PATH, required = true ) @PathVariable Long albumSid )
+        throws NotAuthorizedMessicRESTException, UnknownMessicRESTException,
+        org.messic.server.facade.controllers.rest.exceptions.CheckConsistencyMessicException
+    {
+        try
+        {
+            User user = SecurityUtil.getCurrentUser();
+            MDOUser mdoUser = userDAO.getUserByLogin( user.getLogin() );
+            if ( mdoUser != null && mdoUser.getAdministrator() )
+            {
+                albumAPI.checkConsistency( user, albumSid );
+            }
+            else
+            {
+                throw new NotAuthorizedMessicRESTException( new Exception() );
+            }
+        }
+        catch ( CheckConsistencyMessicException e )
+        {
+            throw new org.messic.server.facade.controllers.rest.exceptions.CheckConsistencyMessicException(
+                                                                                                            e.getMessage() );
+        }
+        catch ( Exception e )
+        {
+            throw new UnknownMessicRESTException( e );
+        }
+
+    }
 }

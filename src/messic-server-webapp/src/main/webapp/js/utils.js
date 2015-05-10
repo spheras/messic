@@ -51,7 +51,8 @@ function UtilGetRandom(min, max) {
 }
 /* function to escape quotes in string variables, useful when are inserted in html/javascript code */
 function UtilEscapeHTML(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    //String(str).replace(/&/g, '&amp;')
+    return String(str).replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 /* function that escape all those characteres that are used in javascript, like ' by \' ... */
 function UtilEscapeJS(str) {

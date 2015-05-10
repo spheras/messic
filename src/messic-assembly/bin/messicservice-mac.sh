@@ -20,8 +20,8 @@
 
 echo "Starting messic service..."
 
-JAVA_GZ='jre-8u5-macosx-x64.tar.gz'
-JAVA_FOLDER='jre1.8.0_05.jre'
+JAVA_GZ='jre-8u45-macosx-x64.tar.gz'
+JAVA_FOLDER='jre1.8.0_45.jre'
 
 #concatenate the classpath files, by Casimiro
 classpathVar="."

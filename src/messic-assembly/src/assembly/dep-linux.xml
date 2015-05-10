@@ -51,8 +51,8 @@
 			<directory>${project.basedir}/jvm</directory>
 			<outputDirectory>/jvm</outputDirectory>
 			<includes>
-				<include>jre-8u5-linux-i586.tar.gz</include>
-				<include>jre-8u5-linux-x64.tar.gz</include>
+				<include>jre-8u45-linux-i586.tar.gz</include>
+				<include>jre-8u45-linux-x64.tar.gz</include>
 			</includes>
 		</fileSet>
 		<fileSet>

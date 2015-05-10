@@ -137,6 +137,14 @@ messicLang = {
 	settingsFuseGenreSelectMore:	 '<fmt:message key="js-settings-fusegenre-selectmore" bundle="${message}"/>',
 	settingsFuseGenreNeedName:	 '<fmt:message key="js-settings-fusegenre-needname" bundle="${message}"/>',
 	settingsChangesSaved:	 '<fmt:message key="js-settings-changessaved" bundle="${message}"/>',
+    
+    settingsConsistencyTitle:	 '<fmt:message key="js-settings-consistency-title" bundle="${message}"/>',
+    settingsConsistencyDesc:	 '<fmt:message key="js-settings-consistency-desc" bundle="${message}"/>',
+    settingsConsistencyButtonStart:	 '<fmt:message key="js-settings-consistency-buttonstart" bundle="${message}"/>',
+    settingsConsistencyButtonCancel:	 '<fmt:message key="js-settings-consistency-buttoncancel" bundle="${message}"/>',
+    settingsConsistencyWorking:	 '<fmt:message key="js-settings-consistency-working" bundle="${message}"/>',
+    settingsConsistencyEnd:	 '<fmt:message key="js-settings-consistency-end" bundle="${message}"/>',
+    
 	
 	playlistMustHaveName:	 '<fmt:message key="js-playlist-musthavename" bundle="${message}"/>',
 	playlistCreatedSucessfully:	 '<fmt:message key="js-playlist-createdsucessfully" bundle="${message}"/>',

@@ -25,10 +25,10 @@ CURRENT_PATH=$(pwd)
 cd ./bin
 
 JAVA_GZ='jre-8u5-macosx-x64.tar.gz'
-JAVA_FOLDER='jre1.8.0_05.jre'
+JAVA_FOLDER='jre1.8.0_45.jre'
 
 	# testing if the directory is already decompressed
-		if ! [ -d "./jre1.8.0_05.jre" ]; then
+		if ! [ -d "./jre1.8.0_45.jre" ]; then
 			#decompressing
 			tar xzvf ../jvm/$JAVA_GZ
 		fi

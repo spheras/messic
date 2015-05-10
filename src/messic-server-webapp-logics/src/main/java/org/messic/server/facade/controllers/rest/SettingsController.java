@@ -30,9 +30,11 @@ import org.jsondoc.core.annotation.ApiParam;
 import org.jsondoc.core.annotation.ApiResponseObject;
 import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
+import org.messic.server.api.APIAlbum;
 import org.messic.server.api.APIUser;
 import org.messic.server.api.datamodel.MessicSettings;
 import org.messic.server.api.datamodel.User;
+import org.messic.server.api.exceptions.CheckConsistencyMessicException;
 import org.messic.server.api.exceptions.NotAllowedMessicException;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
@@ -101,13 +103,9 @@ public class SettingsController
     @RequestMapping( value = "/{userSid}", method = RequestMethod.DELETE )
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
-    protected void removeUser( @ApiParam( name = "userSid", description = "Sid of the user to remove", paramType = ApiParamType.PATH, required = true )
-                               @PathVariable
-                               Long userSid,
-                               @RequestParam( value = "removeMusicContent", required = false )
-                               @ApiParam( name = "removeMusicContent", description = "flag to know if the music content folder of the user should be removed also. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                                   "true", "false" }, format = "Boolean" )
-                               Boolean removeMusicContent )
+    protected void removeUser( @ApiParam( name = "userSid", description = "Sid of the user to remove", paramType = ApiParamType.PATH, required = true ) @PathVariable Long userSid,
+                               @RequestParam( value = "removeMusicContent", required = false ) @ApiParam( name = "removeMusicContent", description = "flag to know if the music content folder of the user should be removed also. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                   "true", "false" }, format = "Boolean" ) Boolean removeMusicContent )
         throws NotAuthorizedMessicRESTException, UnknownMessicRESTException
     {
         try
@@ -138,9 +136,7 @@ public class SettingsController
     @RequestMapping( value = "/{userSid}/resetPassword", method = RequestMethod.POST )
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
-    protected void resetPassword( @ApiParam( name = "userSid", description = "Sid of the user to remove", paramType = ApiParamType.PATH, required = true )
-                                  @PathVariable
-                                  Long userSid )
+    protected void resetPassword( @ApiParam( name = "userSid", description = "Sid of the user to remove", paramType = ApiParamType.PATH, required = true ) @PathVariable Long userSid )
         throws NotAuthorizedMessicRESTException, UnknownMessicRESTException
     {
         try
@@ -211,9 +207,7 @@ public class SettingsController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public Boolean validateNewUsername( @ApiParam( name = "userName", description = "UserName to test if its valid or not", paramType = ApiParamType.PATH, required = true )
-                                        @PathVariable
-                                        String userName )
+    public Boolean validateNewUsername( @ApiParam( name = "userName", description = "UserName to test if its valid or not", paramType = ApiParamType.PATH, required = true ) @PathVariable String userName )
         throws UnknownMessicRESTException, NotValidUserNameMessicRESTException
     {
         long currentTime = System.currentTimeMillis();
@@ -268,9 +262,7 @@ public class SettingsController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    protected void createOrUpdate( @ApiBodyObject
-    @RequestBody
-    User user )
+    protected void createOrUpdate( @ApiBodyObject @RequestBody User user )
         throws Exception
     {
 
@@ -302,9 +294,7 @@ public class SettingsController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    protected void saveSettings( @ApiBodyObject
-    @RequestBody
-    MessicSettings settings )
+    protected void saveSettings( @ApiBodyObject @RequestBody MessicSettings settings )
         throws NotAuthorizedMessicRESTException, UnknownMessicRESTException
     {
         try
@@ -328,5 +318,7 @@ public class SettingsController
     {
         binder.registerCustomEditor( byte[].class, new ByteArrayMultipartFileEditor() );
     }
+
+
 
 }

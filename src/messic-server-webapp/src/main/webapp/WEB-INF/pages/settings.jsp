@@ -145,6 +145,10 @@
 										<div class="messic-user-settings-content-info"><fmt:message key="settings-content-admin-allowdlna-info" bundle="${ message }"/></div>
 										<div class="divclearer"></div>
 									</li>
+									<li>
+                                        <!-- button to check the consistency of the database and resource files -->
+                                        <button id="messic-user-settings-admin-checkconsistency" class="button checkconsistency" onclick="showConsistencyPanel()"><fmt:message key="settings-content-admin-checkconsistency" bundle="${ message }"/></button>
+                                    </li>
 								</ul>
 									<%
 									List<User> users=(List<User>)request.getAttribute("users");

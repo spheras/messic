@@ -178,7 +178,8 @@ public class TAGWizard
 
     }
 
-    public org.messic.server.api.datamodel.TAGWizardPlugin getAlbumWizard( User user, Album albumHelpInfo, File[] files, Properties indexProps )
+    public org.messic.server.api.datamodel.TAGWizardPlugin getAlbumWizard( User user, Album albumHelpInfo,
+                                                                           File[] files, Properties indexProps )
         throws IOException
     {
         AudioTaggerTAGWizardPlugin plugin = new AudioTaggerTAGWizardPlugin();
@@ -194,7 +195,7 @@ public class TAGWizard
             ssongs[i] = sservice;
         }
 
-        List<SongTags> tags = plugin.getTags( getServiceAlbum( albumHelpInfo ), files, ssongs, indexProps);
+        List<SongTags> tags = plugin.getTags( getServiceAlbum( albumHelpInfo ), files, ssongs, indexProps );
         if ( tags == null )
         {
             tags = new ArrayList<SongTags>();
@@ -258,9 +259,58 @@ public class TAGWizard
             album.addSong( song );
         }
 
+        if ( badTracks( album.getSongs() ) )
+        {
+            // then order by filename
+            Collections.sort( album.getSongs(), new Comparator<Song>()
+            {
+                @Override
+                public int compare( Song o1, Song o2 )
+                {
+                    return o1.getFileName().compareTo( o2.getFileName() );
+                }
+
+            } );
+
+            for ( int i = 0; i < album.getSongs().size(); i++ )
+            {
+                album.getSongs().get( i ).setTrack( i+1 );
+            }
+        }
+
         org.messic.server.api.datamodel.TAGWizardPlugin twp =
             new org.messic.server.api.datamodel.TAGWizardPlugin( AudioTaggerTAGWizardPlugin.NAME, album );
         return twp;
+    }
+
+    /**
+     * Check if there are bad track numbers discovered
+     * 
+     * @param tracks List of tracks discovered
+     * @return boolean
+     */
+    private boolean badTracks( List<Song> tracks )
+    {
+        for ( Song song : tracks )
+        {
+            if ( song.getTrack() <= 0 )
+            {
+                return true;
+            }
+            int repeated = 0;
+            for ( Song songi : tracks )
+            {
+                if ( songi.getTrack() == song.getTrack() )
+                {
+                    repeated++;
+                    if ( repeated > 1 )
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**

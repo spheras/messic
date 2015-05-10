@@ -19,6 +19,8 @@
 package org.messic.server.api;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -78,6 +80,16 @@ public class APIMusicInfo
                     result.add( (MusicInfoPlugin) context.getService( refs[i] ) );
                 }
             }
+
+            Collections.sort( result, new Comparator<MusicInfoPlugin>()
+            {
+
+                @Override
+                public int compare( MusicInfoPlugin o1, MusicInfoPlugin o2 )
+                {
+                    return o1.getName().compareTo( o2.getName() );
+                }
+            } );
         }
         catch ( Exception e )
         {
@@ -107,6 +119,14 @@ public class APIMusicInfo
     public List<org.messic.server.api.datamodel.MusicInfoPlugin> getMusicInfoPlugins()
     {
         List<MusicInfoPlugin> results = getMusicInfoPlugins( "*" );
+        Collections.sort( results, new Comparator<MusicInfoPlugin>()
+        {
+            @Override
+            public int compare( MusicInfoPlugin o1, MusicInfoPlugin o2 )
+            {
+                return o1.getName().compareTo( o2.getName() );
+            }
+        } );
         List<org.messic.server.api.datamodel.MusicInfoPlugin> result =
             new ArrayList<org.messic.server.api.datamodel.MusicInfoPlugin>();
         for ( int i = 0; i < results.size(); i++ )
@@ -124,10 +144,11 @@ public class APIMusicInfo
                                    String songName )
     {
         MusicInfoPlugin mip = getMusicInfoPlugin( pluginName );
-        mip.setConfiguration( messicConfig.getConfiguration() );
 
         if ( mip != null )
         {
+            mip.setConfiguration( messicConfig.getConfiguration() );
+
             if ( authorName != null && albumName != null && songName != null )
             {
                 return new MusicInfo( mip.getSongInfo( locale, authorName, albumName, songName ) );

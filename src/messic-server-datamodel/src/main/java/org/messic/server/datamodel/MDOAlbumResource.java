@@ -78,6 +78,17 @@ public class MDOAlbumResource
     public String calculateAbsolutePath( MDOMessicSettings settings )
     {
         String albumPath = getAlbum().calculateAbsolutePath( settings );
+        return calculateAbsolutePath( albumPath );
+    }
+
+    /**
+     * Return the absolute (relative from author folder) location to this resource
+     * 
+     * @param albumPath {@link String} path of the album (resources are supposed to be under the album folder)
+     * @return String path
+     */
+    public String calculateAbsolutePath( String albumPath )
+    {
         return albumPath + File.separatorChar + getLocation();
     }
 

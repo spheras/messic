@@ -760,82 +760,8 @@ var UploadAlbum = function () {
                                 var divplugincode = $(plugincode);
 
                                 $(divplugincode).find(".messic-upload-wizard-albuminfo-action-select").click(function () {
-                                    var authorCombo = $("#messic-upload-album-author").data("kendoComboBox");
-                                    var titleCombo = $("#messic-upload-album-title").data("kendoComboBox");
-                                    var genreCombo = $("#messic-upload-album-genre").data("kendoComboBox");
-                                    var yearEdit = $("#messic-upload-album-year").data("kendoNumericTextBox");
-
-                                    var divpluginresult = $(this).parent().parent();
-
-                                    authorCombo.text(divpluginresult.find(".messic-upload-wizard-albuminfofield-author").text());
-                                    titleCombo.text(divpluginresult.find(".messic-upload-wizard-albuminfofield-title").text());
-                                    genreCombo.text(divpluginresult.find(".messic-upload-wizard-albuminfofield-genre").text());
-                                    yearEdit.value(divpluginresult.find(".messic-upload-wizard-albuminfofield-year").text());
-                                    var comments = divpluginresult.find(".messic-upload-wizard-albuminfofield-comments").text();
-                                    if (comments.length > 255) {
-                                        comments = comments.substr(0, 254);
-                                    }
-                                    $("#messic-upload-album-comments").text(comments);
-
-                                    $("#messic-upload-wizard-authorname").val(divpluginresult.find(".messic-upload-wizard-albuminfofield-author").text());
-                                    $("#messic-upload-wizard-albumtitle").val(divpluginresult.find(".messic-upload-wizard-albuminfofield-title").text());
-                                    $("#messic-upload-wizard-albumyear").val(divpluginresult.find(".messic-upload-wizard-albuminfofield-year").text());
-                                    $("#messic-upload-wizard-genre").val(divpluginresult.find(".messic-upload-wizard-albuminfofield-genre").text());
-                                    $("#messic-upload-wizard-albumcomments").val(comments);
-
-                                    //trying to catch the songs tracks and names
-                                    var divtracksP = divpluginresult.find(".messic-upload-wizard-albumsong-track");
-                                    var divnamesP = divpluginresult.find(".messic-upload-wizard-albumsong-name");
-                                    var divtracksO = $("#messic-upload-wizard-albuminfo-body .messic-upload-wizard-albumsong-track");
-                                    var divnamesO = $("#messic-upload-wizard-albuminfo-body .messic-upload-wizard-albumsong-name");
-
-                                    var lastTrackNumber = divtracksP.eq(0).text();
-                                    var sameTrackNumber = 0;
-                                    for (var i = 0; i < divtracksP.length; i++) {
-                                        var trackP = divtracksP.eq(i).text();
-                                        if (trackP == lastTrackNumber) {
-                                            sameTrackNumber++;
-                                        }
-                                    }
-
-                                    for (var i = 1; i < divtracksP.length; i++) {
-                                        var trackP = divtracksP.eq(i).text();
-                                        var nameP = divnamesP.eq(i).text();
-                                        var founded = false;
-
-                                        for (var j = 0; j < divtracksO.length && !founded; j++) {
-                                            var trackO = divtracksO.eq(j).val();
-                                            var nameO = divnamesO.eq(j).val();
-                                            //if it seems a valid track number
-                                            if (trackP > 0 && (sameTrackNumber == 0 || trackP != lastTrackNumber)) {
-                                                if (trackP == trackO) {
-                                                    founded = true;
-                                                    divtracksO.eq(j).val(trackP);
-                                                    divnamesO.eq(j).val(nameP);
-                                                }
-                                            } else {
-                                                if (nameP == nameO) {
-                                                    founded = true;
-                                                    //divtracksO.eq(j).val(trackP);
-                                                    divnamesO.eq(j).val(nameP);
-                                                    break;
-                                                } else if (UtilStringComparator(nameP, nameO) > 70) {
-                                                    founded = true;
-                                                    //divtracksO.eq(j).val(trackP);
-                                                    divnamesO.eq(j).val(nameP);
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        if (!founded) {
-                                            //pfff, not founded, what can we do?
-                                            //lets suppose the track of the provider is the same as the number file (ordered)
-                                            divtracksO.eq(trackP - 1).val(trackP);
-                                            divnamesO.eq(trackP - 1).val(nameP);
-                                        }
-                                    }
-
+                                    var wizardMatcher=new WizardMatcher();
+                                    wizardMatcher.wizardmatch($(this).parent().parent());
                                     $("#messic-upload-wizard-ok").click();
                                 });
 

@@ -83,7 +83,7 @@ public class FreeDBTAGWizardPlugin
     @Override
     public Properties getConfiguration()
     {
-        return null;
+        return this.configuration;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class FreeDBTAGWizardPlugin
         this.configuration = properties;
     }
 
-    private Proxy getProxy()
+    protected Proxy getProxy()
     {
         if ( this.configuration != null )
         {

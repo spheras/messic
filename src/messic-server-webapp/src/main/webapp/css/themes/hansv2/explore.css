@@ -186,8 +186,11 @@
     padding: 0 10px;
 }
 .messic-explore-word:hover {
-    font-size: 1.8em;
-    color: #00AAFF;
+    font-size: 1.5em;
+    color: #FF0000;
+    
+    transition-duration: 0.5s;
+    transition-property: color;    
 }
 .messic-explore-word:visited {
     color: #00AAFF;
@@ -202,6 +205,7 @@
     font-family: roboto-bold;
     font-size: 1.5em;
     margin-right: 10px;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 .messic-explore-words:before {
     background: url("home/ribbon-blue.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -222,7 +226,7 @@
     color: #ffffff;
     display: block;
     float: left;
-    height: 40px;
+    height: auto;
     margin-bottom: 53px;
     margin-left: 13px;
     margin-top: 28px;

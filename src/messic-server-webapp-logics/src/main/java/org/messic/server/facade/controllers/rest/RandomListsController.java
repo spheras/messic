@@ -77,6 +77,20 @@ public class RandomListsController
             if ( filterRandomListName == null || filterRandomListName.length() <= 0 )
             {
                 List<RandomList> lists = randomListsAPI.getAllLists( user );
+                boolean found = false;
+                for ( int i = 0; i < lists.size(); i++ )
+                {
+                    if ( lists.get( i ).getName().equals( "RandomListName-Random" ) )
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if ( !found )
+                {
+                    RandomList rl = randomListsAPI.getList( user, "RandomListName-Random" );
+                    lists.add( 0, rl );
+                }
                 return lists;
             }
             else

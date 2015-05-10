@@ -85,7 +85,7 @@ public class DiscogsTAGWizardPlugin
     @Override
     public Properties getConfiguration()
     {
-        return null;
+        return this.configuration;
     }
 
     @Override
@@ -94,7 +94,7 @@ public class DiscogsTAGWizardPlugin
         this.configuration = properties;
     }
 
-    private Proxy getProxy()
+    protected Proxy getProxy()
     {
         if ( this.configuration != null )
         {
@@ -120,7 +120,7 @@ public class DiscogsTAGWizardPlugin
             return new ArrayList<Album>();
         }
 
-        String baseURL = "http://api.discogs.com/database/search?type=release";
+        String baseURL = "https://api.discogs.com/database/search?type=release";
 
         try
         {
@@ -133,8 +133,11 @@ public class DiscogsTAGWizardPlugin
                 baseURL = baseURL + "&artist=" + URLEncoder.encode( albumHelpInfo.author, "UTF-8" ) + "";
             }
 
+            baseURL = baseURL + "&key=VEJlgKHGClvqUCkYglcj&secret=qrTTZmZmNGPFHuURbxMEFCDUhtjJAcmk";
+
             URL url = new URL( baseURL );
             Proxy proxy = getProxy();
+
             URLConnection uc = ( proxy != null ? url.openConnection( proxy ) : url.openConnection() );
             uc.setRequestProperty( "User-Agent", "Messic/1.0 +http://spheras.github.io/messic/" );
 
@@ -170,7 +173,7 @@ public class DiscogsTAGWizardPlugin
 
     private Album getAlbum( String id )
     {
-        String baseURL = "http://api.discogs.com/releases/" + id;
+        String baseURL = "https://api.discogs.com/releases/" + id;
         try
         {
             URL url = new URL( baseURL );

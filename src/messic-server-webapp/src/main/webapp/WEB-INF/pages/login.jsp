@@ -153,6 +153,7 @@
             <script src="js/uploadalbum.js?timestamp=${timestamp}"></script>
             <script src="js/uploadprocess.js?timestamp=${timestamp}"></script>
             <script src="js/uploadPool.js?timestamp=${timestamp}"></script>
+            <script src="js/wizardMatcher.js?timestamp=${timestamp}"></script>
             <script src="js/settings.js?timestamp=${timestamp}"></script>
             <script src="js/apidoc.js?timestamp=${timestamp}"></script>
             <script src="js/jquery.confirm.js?timestamp=${timestamp}"></script>

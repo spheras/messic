@@ -178,11 +178,13 @@ function exploreByAlbum(orderByDate) {
                 changedWord = true;
             }
 
-            if (changedWord) {
-                code = code + "<div class=\"messic-explore-albumstartword\">" + lastChar.toUpperCase() + "</div>";
+            if(!orderByDate){
+                if (changedWord) {
+                    code = code + "<div class=\"messic-explore-albumstartword\">" + lastChar.toUpperCase() + "</div>";
 
-                codewords = "<a class=\"messic-explore-word\" href=\"#messic-explore-word" + lastChar.toUpperCase() + "\">" + lastChar.toUpperCase() + "</a>";
-                $(".messic-explore-words").append(codewords);
+                    codewords = "<a class=\"messic-explore-word\" href=\"#messic-explore-word" + lastChar.toUpperCase() + "\">" + lastChar.toUpperCase() + "</a>";
+                    $(".messic-explore-words").append(codewords);
+                }
             }
 
 

@@ -285,8 +285,8 @@
             listItem += "    <div class=\"jplayer-playlist-vinylHand\"></div>";
             listItem += "    <img class=\"jplayer-playlist-vinylbox\" src=\"" + media.boxart + "\"></img>";
             listItem += "    <div class=\"jplayer-playlist-vinylPlayButton\" onclick=\"playVinyl($(this).parent().parent().index());\"></div>";
-            listItem += "    <a href=\"javascript:;\" class=\"jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "\" title=\"" + UtilEscapeHTML(media.author) + "\" tabindex=\"1\">" + UtilEscapeHTML(media.author) + "</a>";
-            listItem += "    <a href=\"javascript:;\" class=\"jplayer-playlist-vinyl-song " + this.options.playlistOptions.itemClass + "\" title=\"" + UtilEscapeHTML(media.song) + "\" tabindex=\"1\">" + UtilEscapeHTML(media.song) + "</a>";
+            listItem += "    <a href=\"javascript:;\" class=\"jplayer-playlist-vinyl-author " + this.options.playlistOptions.itemClass + "\" title=\"" + UtilEscapeHTML(media.author) + "\" tabindex=\"1\" onclick=\"showAuthorPage(" + media.authorSid + ")\">" + UtilEscapeHTML(media.author) + "</a>";
+            listItem += "    <a href=\"javascript:;\" class=\"jplayer-playlist-vinyl-song " + this.options.playlistOptions.itemClass + "\" title=\"" + UtilEscapeHTML(media.song) + "\" tabindex=\"1\" onclick=\"exploreEditAlbum('" + media.albumSid + "')\">" + UtilEscapeHTML(media.song) + "</a>";
             listItem += "    <a href=\"javascript:;\" class=\"jplayer-playlist-vinyl-album " + this.options.playlistOptions.itemClass + "\" title=\"" + UtilEscapeHTML(media.album) + "\" tabindex=\"1\">" + UtilEscapeHTML(media.album) + "</a>";
             listItem += "  </div>";
             listItem += "</li>";
@@ -296,17 +296,17 @@
         _createItemHandlers: function () {
             var self = this;
             // Create live handlers for the playlist items
-            $(this.cssSelector.playlist).off("click", "a." + this.options.playlistOptions.itemClass).on("click", "a." + this.options.playlistOptions.itemClass, function () {
-                var index = $(this).parent().parent().index();
-                if (self.current !== index) {
-                    self.play(index);
-                } else {
-                    $(self.cssSelector.jPlayer).jPlayer("play");
-                }
-                $(this).blur();
-                return false;
-            });
-
+            //messic modification. Play button funcitonality
+            //$(this.cssSelector.playlist).off("click", "a." + this.options.playlistOptions.itemClass).on("click", "a." + this.options.playlistOptions.itemClass, function () {
+            //    var index = $(this).parent().parent().index();
+            //    if (self.current !== index) {
+            //        self.play(index);
+            //    } else {
+            //        $(self.cssSelector.jPlayer).jPlayer("play");
+            //    }
+            //    $(this).blur();
+            //    return false;
+            //});
             //messic modification. Play button funcitonality
             $(this.cssSelector.playlist).on("click", "div.jplayer-playlist-vinylPlayButton", function () {
                 var index = $(this).parent().parent().index();

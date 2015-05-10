@@ -723,7 +723,7 @@
 
     border-radius: 13px;
 
-    height: 200px;
+    height: 220px;
 
     left: 50%;
 
@@ -796,3 +796,91 @@
     margin-right: 30px;
 
 }
+
+
+
+
+
+
+#messic-settings-consistency-overlay {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+}
+
+
+#messic-settings-consistency-container {
+    background: none repeat scroll 0 0 #f4f4f4;
+    border-radius: 13px;
+    height: 300px;
+    left: 50%;
+    margin-left: -300px;
+    margin-top: -150px;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    width: 500px;
+}
+
+.messic-settings-consistency-title {
+    color: #666666;
+    font-family: Amaranth;
+    font-size: 19px;
+    font-weight: bold;
+    margin-top: -12px;
+    width: 100%;    
+}
+.messic-settings-consistency-title::after {
+    background: #999999;
+    height: 1px;
+    width: 100%;
+    display: block;
+    position: relative;
+    content: "";
+}
+.messic-settings-consistency-desc{
+    color: #999999;
+    font-family: roboto;
+    font-size: 15px;
+}
+
+#messic-settings-consistency-container textarea {
+    height: 100px;
+    overflow-y: scroll;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.messic-settings-consistency-progress {
+    border: 1px solid #cfcfcf;
+    border-radius: 7px;
+    float: left;
+    height: 13px;
+    margin-bottom: 10px;
+    margin-top: -10px;
+    padding: 2px;
+    width: 100%;
+}
+.messic-settings-consistency-progressbar {
+    background: #00CACA;
+    /* Old browsers */
+    background: -webkit-gradient(linear, left top, left bottom, from(#00BABA), to(#00CACA)) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(#00BABA, #00CACA) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: linear-gradient(#00BABA, #00CACA) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    height: 100%;
+    width: 0%;
+    -webkit-transition-property: width;
+    transition-property: width;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
+}
+
+#messic-settings-consistency-start {
+    margin-right: 20px;
+}
+
+
