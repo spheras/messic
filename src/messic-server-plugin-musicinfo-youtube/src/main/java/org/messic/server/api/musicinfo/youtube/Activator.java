@@ -37,8 +37,8 @@ public class Activator
     {
         logger.info( "MusicInfo - Youtube Started" );
         Hashtable<String, String> props = new Hashtable<String, String>();
-        props.put( MusicInfoPlugin.MUSIC_INFO_PLUGIN_NAME, MusicInfoYoutubePlugin.NAME );
-        bundleContext.registerService( MusicInfoPlugin.class.getName(), new MusicInfoYoutubePlugin(), props );
+        props.put( MusicInfoPlugin.MUSIC_INFO_PLUGIN_NAME, MusicInfoYoutubeAPIv3Plugin.NAME );
+        bundleContext.registerService( MusicInfoPlugin.class.getName(), new MusicInfoYoutubeAPIv3Plugin(), props );
     }
 
     /**

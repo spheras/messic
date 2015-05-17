@@ -317,6 +317,26 @@ public class APISong
     }
 
     /**
+     * Return the index of the first character which is not a number. -1 is all are numbers.
+     * 
+     * @param fileName String filename to check
+     * @return index of the first chracter not a number, -1 if all are numbers.
+     */
+    private int indexOfFirstNotNumber( String fileName )
+    {
+        for ( int i = 0; i < fileName.length(); i++ )
+        {
+            char c = fileName.substring( i, i + 1 ).toCharArray()[0];
+            boolean isDigit = ( c >= '0' && c <= '9' );
+            if ( !isDigit )
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Return any possible separator between the track number and the filename
      * 
      * @param fileName
@@ -336,7 +356,7 @@ public class APISong
                     char c1 = fileName.substring( i + 1, i + 2 ).toCharArray()[0];
                     char c2 = fileName.substring( i + 2, i + 3 ).toCharArray()[0];
 
-                    if ( c1 != ' ' && ( c2 == ' ' ) && !((c1>='a' && c1<='z') || (c1>='A' && c1<='Z')) )
+                    if ( c1 != ' ' && ( c2 == ' ' ) && !( ( c1 >= 'a' && c1 <= 'z' ) || ( c1 >= 'A' && c1 <= 'Z' ) ) )
                     {
                         return c1;
                     }
@@ -375,12 +395,34 @@ public class APISong
             {
                 // the track number start inmediatelly
                 char separator = getPossibleSeparator( fileName );
-                String[] parts = fileName.split( "\\" + separator );
-                if ( parts.length <= 1 )
+                String[] parts = null;
+                try
+                {
+                    parts = fileName.split( "\\" + separator );
+                }
+                catch ( Exception e )
+                {
+                    // maybe there is no separator!???
+                }
+                
+                if ( parts!=null && parts.length <= 1 )
                 {
                     separator = ' ';
                     parts = fileName.split( "" + separator );
                 }
+                
+                if(parts==null || parts.length<=1){
+                    // maybe there is no separator!???
+                    int firstNotNumber = indexOfFirstNotNumber( fileName );
+                    if ( firstNotNumber >= 0 )
+                    {
+                        parts = new String[] { "", "" };
+                        parts[0] = fileName.substring( 0, firstNotNumber );
+                        parts[1] = fileName.substring( firstNotNumber );
+                        separator = '-';
+                    }
+                }
+                
                 for ( int i = 0; i < parts.length - 1; i++ )
                 {
                     if ( Util.areThereNumbers( parts[i] ) >= 0 )

@@ -302,8 +302,18 @@ function uploadValidate(){
 function uploadReorderSongs(){
 	var divs=$(".messic-upload-song-content-songs-filedelete");
 	
-	divs.sort(function(a,b) { 
-		return $(a).find(".messic-upload-song-content-header-tracknumber").val() - $(b).find(".messic-upload-song-content-header-tracknumber").val() 
+	divs.sort(function(a,b) {
+        var atn=$(a).find(".messic-upload-song-content-header-tracknumber").val();
+        var btn=$(b).find(".messic-upload-song-content-header-tracknumber").val(); 
+        if (typeof atn === "undefined") {
+            return 1;
+        }
+        
+        if (typeof btn === "undefined") {
+            return -1;
+        }
+        
+		return atn - btn;
 	});
 
 	divs.detach();

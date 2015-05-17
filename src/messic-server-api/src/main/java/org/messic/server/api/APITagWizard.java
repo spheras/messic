@@ -135,7 +135,8 @@ public class APITagWizard
             fisIndex.close();
         }
 
-        org.messic.server.api.datamodel.TAGWizardPlugin basicPlugin = this.tagWizard.getAlbumWizard( user, null, files , indexProps);
+        org.messic.server.api.datamodel.TAGWizardPlugin basicPlugin =
+            this.tagWizard.getAlbumWizard( user, null, files, indexProps );
         result.add( 0, basicPlugin );
 
         return result;
@@ -189,7 +190,14 @@ public class APITagWizard
             }
         };
 
-        Collections.sort( albums, AlbumComparator );
+        try
+        {
+            Collections.sort( albums, AlbumComparator );
+        }
+        catch ( Exception e )
+        {
+            e.printStackTrace();
+        }
 
         return result;
     }

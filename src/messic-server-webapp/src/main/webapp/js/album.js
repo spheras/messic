@@ -1,3 +1,4 @@
+
 /**
  * @source: https://github.com/spheras/messic
  *
@@ -229,7 +230,7 @@ function albumCommentsEdit() {
     albumEditStatus();
     var div = $("#messic-album-comments");
     var text = div.contents(':not(div)').text().trim();
-    var code = "<textarea maxlength=\"255\" id=\"messic-album-comments-textedit\" name=\"Comments\" class=\"k-textbox\">" + text + "</textarea>";
+    var code = "<textarea id=\"messic-album-comments-textedit\" name=\"Comments\" class=\"k-textbox\">" + text + "</textarea>";
     div.empty();
     div.append($(code));
     $("#messic-album-comments input").focus();

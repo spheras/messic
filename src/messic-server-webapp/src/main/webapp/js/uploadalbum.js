@@ -285,12 +285,27 @@ var UploadAlbum = function () {
                 }
                 resource.domElement.find("a").click(removeFunction(resource, this));
 
+                $.ajax({
+                  url: "services/songs/" + encodeURIComponent(f.name) + "/wizard",
+                  dataType: 'json',
+                  async: false,
+                  success: function (theFile, self, resource) {
+                        return function (data) {
+                            resource.domElement.find(".messic-upload-song-content-header-tracknumber").val(data.track)
+                            resource.domElement.find(".messic-upload-song-content-header-filename").val(data.name)
+                        }
+                    }(f, this, resource),
+                });
+                
+                /*
+                This is the old way to call the wizard, we need now to do it in sync with ajax function instead - above
                 $.getJSON("services/songs/" + encodeURIComponent(f.name) + "/wizard", function (theFile, self, resource) {
                     return function (data) {
                         resource.domElement.find(".messic-upload-song-content-header-tracknumber").val(data.track)
                         resource.domElement.find(".messic-upload-song-content-header-filename").val(data.name)
                     }
                 }(f, this, resource));
+                */
             } else {
                 code = "";
                 code = code + '<li class="messic-upload-song-content-songs-filedelete messic-upload-song-content-songs-image">';

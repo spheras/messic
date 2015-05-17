@@ -322,7 +322,7 @@
     width: 80%;
 }
 #messic-upload-wizard-content .messic-upload-finishbox-resource-filename {
-    max-width: 432px;
+    max-width: 415px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

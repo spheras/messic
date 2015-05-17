@@ -34,7 +34,7 @@ public class APISongTest
 
         Assert.assertTrue( result.getName().equals( "This is the song" ) );
         Assert.assertTrue( result.getTrack() == 1 );
-        
+
         fileName = "02 - This-is-the-song";
         result = ast.getSongInfoFromFileName( fileName );
 
@@ -45,51 +45,62 @@ public class APISongTest
         result = ast.getSongInfoFromFileName( fileName );
 
         Assert.assertTrue( result.getName().equals( "This.is.the.song" ) );
-        Assert.assertTrue( result.getTrack() == 3);
+        Assert.assertTrue( result.getTrack() == 3 );
 
         fileName = "[04] This is the song.mp5";
         result = ast.getSongInfoFromFileName( fileName );
 
         Assert.assertTrue( result.getName().equals( "This is the song" ) );
-        Assert.assertTrue( result.getTrack() == 4);
+        Assert.assertTrue( result.getTrack() == 4 );
 
         fileName = "05 To think.mp3";
         result = ast.getSongInfoFromFileName( fileName );
 
         Assert.assertTrue( result.getName().equals( "To think" ) );
-        Assert.assertTrue( result.getTrack() == 5);
-        
+        Assert.assertTrue( result.getTrack() == 5 );
+
         fileName = "06 2 think.mp3";
         result = ast.getSongInfoFromFileName( fileName );
 
         Assert.assertTrue( result.getName().equals( "2 think" ) );
-        Assert.assertTrue( result.getTrack() == 6);
-        
-        fileName="20 -This is my song name.mp3";
+        Assert.assertTrue( result.getTrack() == 6 );
+
+        fileName = "20 -This is my song name.mp3";
         result = ast.getSongInfoFromFileName( fileName );
 
         Assert.assertTrue( result.getName().equals( "This is my song name" ) );
-        Assert.assertTrue( result.getTrack() == 20);
- 
-        
-        fileName="author - 04 - you are the best";
+        Assert.assertTrue( result.getTrack() == 20 );
+
+        fileName = "author - 04 - you are the best";
         result = ast.getSongInfoFromFileName( fileName );
 
         Assert.assertTrue( result.getName().equals( "you are the best" ) );
-        Assert.assertTrue( result.getTrack() == 4);
-                
-        
-        fileName="04 I am your father";
+        Assert.assertTrue( result.getTrack() == 4 );
+
+        fileName = "04 I am your father";
         result = ast.getSongInfoFromFileName( fileName );
 
         Assert.assertTrue( result.getName().equals( "I am your father" ) );
-        Assert.assertTrue( result.getTrack() == 4);
+        Assert.assertTrue( result.getTrack() == 4 );
 
-
-        fileName="04 2 a.m..mp3";
+        fileName = "04 2 a.m..mp3";
         result = ast.getSongInfoFromFileName( fileName );
 
         Assert.assertTrue( result.getName().equals( "2 a.m." ) );
-        Assert.assertTrue( result.getTrack() == 4);
-}
+        Assert.assertTrue( result.getTrack() == 4 );
+        
+        //this could cause a problem with regular expresion \T
+        fileName = "05TelloPitty.mp3"; 
+        result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "TelloPitty" ) );
+        Assert.assertTrue( result.getTrack() == 5 );
+        
+        fileName = "05HelloPitty.mp3";
+        result = ast.getSongInfoFromFileName( fileName );
+
+        Assert.assertTrue( result.getName().equals( "HelloPitty" ) );
+        Assert.assertTrue( result.getTrack() == 5 );
+
+    }
 }

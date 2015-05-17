@@ -353,24 +353,27 @@ public class AlbumController
         }
         catch ( ResourceNotFoundMessicException e )
         {
-            InputStream is = AlbumController.class.getResourceAsStream( "/org/messic/img/unknowncover.jpg" );
-            byte[] content = null;
-            try
-            {
-                content = Util.readInputStream( is );
-            }
-            catch ( IOException e1 )
-            {
-                throw new NotFoundMessicRESTException( e );
-            }
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType( MediaType.IMAGE_JPEG );
-            return new ResponseEntity<byte[]>( content, headers, HttpStatus.OK );
+
         }
         catch ( IOException e )
         {
-            throw new IOMessicRESTException( e );
+            // throw new IOMessicRESTException( e );
+            e.printStackTrace();
         }
+
+        InputStream is = AlbumController.class.getResourceAsStream( "/org/messic/img/unknowncover.jpg" );
+        byte[] content = null;
+        try
+        {
+            content = Util.readInputStream( is );
+        }
+        catch ( IOException e1 )
+        {
+            throw new NotFoundMessicRESTException( e1 );
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType( MediaType.IMAGE_JPEG );
+        return new ResponseEntity<byte[]>( content, headers, HttpStatus.OK );
     }
 
     @ApiMethod( path = "/services/albums", verb = ApiVerb.POST, description = "Create or Update an album.  Before creation you need to upload the resources!.  Return the Sid of the album created/updated", produces = {
