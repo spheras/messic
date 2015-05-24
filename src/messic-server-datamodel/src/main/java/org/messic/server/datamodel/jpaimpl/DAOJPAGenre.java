@@ -43,7 +43,8 @@ public class DAOJPAGenre
     @Transactional
     public List<MDOGenre> getAll( String username )
     {
-        Query query = entityManager.createQuery( "from MDOGenre as a where (a.owner.login= :userName) ORDER BY UPPER(a.name)" );
+        Query query =
+            entityManager.createQuery( "from MDOGenre as a where (a.owner.login= :userName) ORDER BY UPPER(a.name)" );
         query.setParameter( "userName", username );
         @SuppressWarnings( "unchecked" )
         List<MDOGenre> results = query.getResultList();
@@ -138,6 +139,26 @@ public class DAOJPAGenre
             return results.get( 0 );
         }
         return null;
+    }
+
+    @Override
+    @Transactional
+    public void removeAllGenres( String username )
+    {
+        // sorry, but h2 doesn't support JOINS AND CROSS under delete statemente, and the followng sentence will be
+        // converted in
+        // DELETE FROM GENRE CROSS[*] JOIN USERS MDOUSER1_ WHERE LOGIN=?
+        // Query query = entityManager.createQuery( "delete from MDOGenre as g where (g.owner.login = :userName)" );
+        // https://code.google.com/p/h2database/issues/detail?id=504
+        
+        // so, we need to first get the genres and after delete them manually :(
+        List<MDOGenre> genres = getAll( username );
+
+        for ( MDOGenre mdoGenre : genres )
+        {
+            remove( mdoGenre );
+        }
+
     }
 
 }

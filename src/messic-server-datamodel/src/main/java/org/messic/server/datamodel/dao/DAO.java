@@ -48,4 +48,7 @@ public interface DAO<T extends MDO>
 
     @Transactional
     void remove( T object );
+
+    @Transactional
+    void flush();
 }

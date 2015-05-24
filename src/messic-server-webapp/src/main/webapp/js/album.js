@@ -342,6 +342,7 @@ function albumSaveChanges(albumSid) {
         return false;
     }
 
+    /* WE DON'T DIFFERENTIATE ANYMORE BETWEEN CREATING OR RENAMING.. ALWAYS CREATING A NEW AUTHOR O ASSIGNING TO AN EXISTING ONE
     var authordiv = $("#messic-album-author-textedit").data("kendoComboBox");
     if (authordiv) {
         $.confirm({
@@ -366,10 +367,11 @@ function albumSaveChanges(albumSid) {
         });
     } else {
         albumSaveChangesDefinitely(albumSid, false);
-    }
+    }*/
+    albumSaveChangesDefinitely(albumSid);
 }
 
-function albumSaveChangesDefinitely(albumSid, authorCreation) {
+function albumSaveChangesDefinitely(albumSid) {
 
     $.getJSON(
         "services/albums/" + albumSid,
@@ -387,9 +389,10 @@ function albumSaveChangesDefinitely(albumSid, authorCreation) {
                     data.author.sid = authorSid;
                     data.author.name = authordiv.text();
                 } else {
-                    if (authorCreation && data.author.name.toUpperCase() != authordiv.text()) {
+                    // WE DON'T DIFFERENTIATE ANYMORE BETWEEN CREATING OR RENAMING.. ALWAYS CREATING A NEW AUTHOR O ASSIGNING TO AN EXISTING ONE
+                    //if (authorCreation && data.author.name.toUpperCase() != authordiv.text()) {
                         data.author.sid = -1;
-                    }
+                    //}
                     data.author.name = authordiv.text();
                 }
 

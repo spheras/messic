@@ -18,6 +18,7 @@
  */
 package org.messic.server.facade.controllers.rest;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -31,7 +32,10 @@ import org.jsondoc.core.pojo.ApiParamType;
 import org.jsondoc.core.pojo.ApiVerb;
 import org.messic.server.api.APIAuthor;
 import org.messic.server.api.datamodel.Author;
+import org.messic.server.api.datamodel.FolderResourceConsistency;
 import org.messic.server.api.datamodel.User;
+import org.messic.server.datamodel.MDOUser;
+import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.facade.controllers.rest.exceptions.NotAuthorizedMessicRESTException;
 import org.messic.server.facade.controllers.rest.exceptions.UnknownMessicRESTException;
@@ -60,6 +64,9 @@ public class AuthorController
     @Autowired
     public DAOUser userDAO;
 
+    @Autowired
+    private DAOMessicSettings daoSettings;
+
     @ApiMethod( path = "/services/authors/{authorSid}", verb = ApiVerb.DELETE, description = "Remove an author (and all its content) with sid {authorSid}", produces = {} )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -67,9 +74,7 @@ public class AuthorController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public void removeAuthor( @PathVariable
-                              @ApiParam( name = "authorSid", description = "Sid of the author to remove", paramType = ApiParamType.PATH, required = true )
-                              Long authorSid )
+    public void removeAuthor( @PathVariable @ApiParam( name = "authorSid", description = "Sid of the author to remove", paramType = ApiParamType.PATH, required = true ) Long authorSid )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
         User user = SecurityUtil.getCurrentUser();
@@ -79,7 +84,7 @@ public class AuthorController
         }
         catch ( Exception e )
         {
-            log.error( "failed!",e );
+            log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
     }
@@ -92,21 +97,13 @@ public class AuthorController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public List<Author> getAll( @RequestParam( value = "filterName", required = false )
-                                @ApiParam( name = "filterName", description = "partial name of the author to search", paramType = ApiParamType.QUERY, required = false )
-                                String filterName,
-                                @RequestParam( value = "contains", required = false )
-                                @ApiParam( name = "contains", description = "True if filtering is by contains (default), False if filtering is searching any author with the starting filter search.", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                                    "true", "false" }, format = "Boolean" )
-                                Boolean contains,
-                                @RequestParam( value = "albumsInfo", required = false )
-                                @ApiParam( name = "albumsInfo", description = "flag to return also the albums info of the author or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                                    "true", "false" }, format = "Boolean" )
-                                Boolean albumsInfo,
-                                @RequestParam( value = "songsInfo", required = false )
-                                @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false.  Missed if albumsInfo=false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                                    "true", "false" }, format = "Boolean" )
-                                Boolean songsInfo )
+    public List<Author> getAll( @RequestParam( value = "filterName", required = false ) @ApiParam( name = "filterName", description = "partial name of the author to search", paramType = ApiParamType.QUERY, required = false ) String filterName,
+                                @RequestParam( value = "contains", required = false ) @ApiParam( name = "contains", description = "True if filtering is by contains (default), False if filtering is searching any author with the starting filter search.", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                    "true", "false" }, format = "Boolean" ) Boolean contains,
+                                @RequestParam( value = "albumsInfo", required = false ) @ApiParam( name = "albumsInfo", description = "flag to return also the albums info of the author or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                    "true", "false" }, format = "Boolean" ) Boolean albumsInfo,
+                                @RequestParam( value = "songsInfo", required = false ) @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false.  Missed if albumsInfo=false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                    "true", "false" }, format = "Boolean" ) Boolean songsInfo )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
         User user = SecurityUtil.getCurrentUser();
@@ -145,17 +142,11 @@ public class AuthorController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    public Author getAuthor( @PathVariable
-                             @ApiParam( name = "authorSid", description = "Sid of the author to get", paramType = ApiParamType.PATH, required = true )
-                             Long authorSid,
-                             @RequestParam( value = "albumsInfo", required = false )
-                             @ApiParam( name = "albumsInfo", description = "flag to return also the albums info of the author or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                                 "true", "false" }, format = "Boolean" )
-                             Boolean albumsInfo,
-                             @RequestParam( value = "songsInfo", required = false )
-                             @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false.  Missed if albumsInfo=false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                                 "true", "false" }, format = "Boolean" )
-                             Boolean songsInfo )
+    public Author getAuthor( @PathVariable @ApiParam( name = "authorSid", description = "Sid of the author to get", paramType = ApiParamType.PATH, required = true ) Long authorSid,
+                             @RequestParam( value = "albumsInfo", required = false ) @ApiParam( name = "albumsInfo", description = "flag to return also the albums info of the author or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                 "true", "false" }, format = "Boolean" ) Boolean albumsInfo,
+                             @RequestParam( value = "songsInfo", required = false ) @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false.  Missed if albumsInfo=false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
+                                 "true", "false" }, format = "Boolean" ) Boolean songsInfo )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
 
@@ -172,6 +163,69 @@ public class AuthorController
             log.error( "failed!", e );
             throw new UnknownMessicRESTException( e );
         }
+    }
+
+    @ApiMethod( path = "/services/authors/checkAuthorFolderConsistency/{authorFolder}", verb = ApiVerb.POST, description = "Check the consistency general consistency of the database against the file system... check if there are empty folders, without defined entities at the database, and so on", produces = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized remove this user" ) } )
+    @RequestMapping( value = "/checkAuthorFolderConsistency/{authorFolder}", method = RequestMethod.POST )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    protected List<FolderResourceConsistency> checkAuthorFolderConsistency( @ApiParam( name = "authorFolder", description = "name of the folder at the author level", paramType = ApiParamType.PATH, required = true ) @PathVariable String authorFolder )
+        throws NotAuthorizedMessicRESTException, UnknownMessicRESTException
+    {
+        try
+        {
+            User user = SecurityUtil.getCurrentUser();
+            MDOUser mdoUser = userDAO.getUserByLogin( user.getLogin() );
+            if ( mdoUser != null && mdoUser.getAdministrator() )
+            {
+                String userPath = mdoUser.calculateAbsolutePath( daoSettings.getSettings() );
+                return authorAPI.checkConsistencyFolder( user, new File( userPath + File.separatorChar + authorFolder ) );
+            }
+            else
+            {
+                throw new NotAuthorizedMessicRESTException( new Exception() );
+            }
+        }
+        catch ( Exception e )
+        {
+            throw new UnknownMessicRESTException( e );
+        }
+
+    }
+
+    @ApiMethod( path = "/services/authors/getAuthorFolders", verb = ApiVerb.GET, description = "get a list with all the folders at the author messic music folder", produces = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
+        @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized remove this user" ) } )
+    @RequestMapping( value = "/getAuthorFolders", method = RequestMethod.GET )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    @ApiResponseObject
+    protected List<String> getAuthorFolders()
+        throws NotAuthorizedMessicRESTException, UnknownMessicRESTException
+    {
+        try
+        {
+            User user = SecurityUtil.getCurrentUser();
+            MDOUser mdoUser = userDAO.getUserByLogin( user.getLogin() );
+            if ( mdoUser != null && mdoUser.getAdministrator() )
+            {
+                return authorAPI.getAuthorFolders( user );
+            }
+            else
+            {
+                throw new NotAuthorizedMessicRESTException( new Exception() );
+            }
+        }
+        catch ( Exception e )
+        {
+            throw new UnknownMessicRESTException( e );
+        }
+
     }
 
 }

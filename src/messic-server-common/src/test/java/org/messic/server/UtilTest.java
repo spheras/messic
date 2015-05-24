@@ -19,28 +19,56 @@
  */
 package org.messic.server;
 
-import org.junit.Test;
+import java.io.File;
+import java.io.IOException;
 
 import junit.framework.Assert;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class UtilTest
 {
     @Test
     public void testReplaceIllegalFilenameCharacters()
     {
-        
+
         String fileName = "04-From?::/let's see.mp3";
         String result = Util.replaceIllegalFilenameCharacters( fileName, '_' );
         Assert.assertTrue( result.equals( "04-From_let's see.mp3" ) );
-        
+
         fileName = "04-From /et's see.m*3";
         result = Util.replaceIllegalFilenameCharacters( fileName, '_' );
         Assert.assertTrue( result.equals( "04-From _et's see.m_3" ) );
-        
-        fileName ="07 - (You Are) This Body of Milk.mp3";
+
+        fileName = "07 - (You Are) This Body of Milk.mp3";
         result = Util.replaceIllegalFilenameCharacters( fileName, '_' );
         Assert.assertTrue( result.equals( "07 - _You Are_ This Body of Milk.mp3" ) );
-        
+
     }
 
+    @Rule
+    public TemporaryFolder tfolder = new TemporaryFolder();
+
+    @Test
+    public void testGetRollFileNumber()
+        throws IOException
+    {
+        File f = new File( "./testFile0" );
+        File fresult = Util.getRollFileNumber( f );
+        Assert.assertTrue( fresult.getName().equals( "testFile0" ) );
+
+        f = tfolder.newFile( "testFile1.txt" );
+        fresult = Util.getRollFileNumber( f );
+        Assert.assertTrue( fresult.getName().equals( "testFile1_1.txt" ) );
+
+        f = tfolder.newFile( "testFile_2.txt" );
+        fresult = Util.getRollFileNumber( f );
+        Assert.assertTrue( fresult.getName().equals( "testFile_3.txt" ) );
+
+        f = tfolder.newFile( "testFile_test.txt" );
+        fresult = Util.getRollFileNumber( f );
+        Assert.assertTrue( fresult.getName().equals( "testFile_test_1.txt" ) );
+    }
 }

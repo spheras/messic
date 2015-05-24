@@ -140,4 +140,21 @@ public class DAOJPAAuthor
         return null;
     }
 
+    @Override
+    public MDOAuthor getAuthorByLocation( String location, String username )
+    {
+        Query query =
+            entityManager.createQuery( "from MDOAuthor as a where (a.location = :authorLocation) AND (a.owner.login = :userName)" );
+        query.setParameter( "userName", username );
+        query.setParameter( "authorLocation", location );
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOAuthor> results = query.getResultList();
+        if ( results != null && results.size() > 0 )
+        {
+            return results.get( 0 );
+        }
+        return null;
+    }
+
 }

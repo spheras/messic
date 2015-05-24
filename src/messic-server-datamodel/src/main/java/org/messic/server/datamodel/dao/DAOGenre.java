@@ -88,4 +88,12 @@ public interface DAOGenre
     @Transactional
     MDOGenre getGenre( String username, Long genreSid );
 
+    /**
+     * Remove all the genres of a certain user
+     * 
+     * @param username String username scope
+     */
+    @Transactional
+    void removeAllGenres( String username );
+
 }

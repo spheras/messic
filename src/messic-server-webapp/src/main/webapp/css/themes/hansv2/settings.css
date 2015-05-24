@@ -799,7 +799,10 @@
 
 
 
-
+#messic-settings-consistency-deep {
+    margin-bottom: 15px;
+    margin-right: 5px;
+}
 
 
 #messic-settings-consistency-overlay {
@@ -816,7 +819,7 @@
 #messic-settings-consistency-container {
     background: none repeat scroll 0 0 #f4f4f4;
     border-radius: 13px;
-    height: 300px;
+    height: 330px;
     left: 50%;
     margin-left: -300px;
     margin-top: -150px;
@@ -883,4 +886,19 @@
     margin-right: 20px;
 }
 
+#messic-settings-consistency-working {
+    color: #aaaaaa;
+    font-family: roboto;
+    text-align: center;
+}
 
+#messic-settings-consistency-stop {
+    background: rgba(0, 0, 0, 0) linear-gradient(#ff6666, #cc2222) repeat scroll 0 0;
+    border: 1px solid #aa5555;
+    color: white;
+    float: right;
+    font-weight: bold;
+}
+#messic-settings-consistency-stop:hover {
+    background: red;
+}

@@ -39,6 +39,8 @@ import javax.persistence.TemporalType;
 public class MDOMessage
     implements MDO, Serializable
 {
+    //TODO pending to be linked with MDOUser in order to be deleted on cascade (when a user is deleted)
+
 
     /**
      * 

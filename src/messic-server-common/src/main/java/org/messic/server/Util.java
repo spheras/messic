@@ -40,6 +40,8 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import org.apache.commons.io.FilenameUtils;
+
 public class Util
 {
 
@@ -271,7 +273,7 @@ public class Util
         ZipOutputStream zos = new ZipOutputStream( os, Charset.forName( "UTF-8" ) );
         // level - the compression level (0-9)
         zos.setLevel( 9 );
-        
+
         zipFolder2( zos, sourceFolderName, sourceFolderName );
 
         zos.close();
@@ -305,7 +307,7 @@ public class Util
             {
                 // add file
                 // extract the relative name for entry purpose
-                String entryName = folderName.substring( baseFolderName.length() , folderName.length() );
+                String entryName = folderName.substring( baseFolderName.length(), folderName.length() );
                 ZipEntry ze = new ZipEntry( entryName );
                 zos.putNextEntry( ze );
                 FileInputStream in = new FileInputStream( folderName );
@@ -339,7 +341,8 @@ public class Util
 
         // get all the files from a directory
         File[] fList = directory.listFiles();
-        if(fList!=null){
+        if ( fList != null )
+        {
             for ( File file : fList )
             {
                 if ( file.isFile() )
@@ -484,5 +487,46 @@ public class Util
         int randomNum = rand.nextInt( ( max - min ) + 1 ) + min;
 
         return randomNum;
+    }
+
+    /**
+     * Generate a new file if necessary with the filename changed in a roll way.. the new file (if it exist) will be the
+     * same filename, but adding "_"+number The number will be increased each time a new file is created.
+     * 
+     * @param file
+     * @return
+     */
+    public static File getRollFileNumber( File file )
+    {
+        File fresult = file;
+        if ( !file.isDirectory() && file.exists() )
+        {
+            file.getName();
+            String name = FilenameUtils.getBaseName( file.getName() );
+            String ext = FilenameUtils.getExtension( file.getName() );
+            String parent = file.getParent();
+            int indexOf_ = name.lastIndexOf( "_" );
+            if ( indexOf_ > 0 )
+            {
+                String first = name.substring( 0, indexOf_ );
+                String last = name.substring( indexOf_ + 1 );
+                if ( isInteger( last ) )
+                {
+                    int number = Integer.valueOf( last );
+                    number++;
+                    fresult = new File( parent + File.separatorChar + first + "_" + number + "." + ext );
+                }
+                else
+                {
+                    fresult = new File( parent + File.separatorChar + first + "_" + last + "_1." + ext );
+                }
+            }
+            else
+            {
+                fresult = new File( parent + File.separatorChar + name + "_1." + ext );
+            }
+        }
+
+        return fresult;
     }
 }

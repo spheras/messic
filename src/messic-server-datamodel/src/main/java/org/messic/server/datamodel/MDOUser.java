@@ -20,17 +20,21 @@ package org.messic.server.datamodel;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -79,6 +83,16 @@ public class MDOUser
 
     @Column( name = "ALLOWDLNA", nullable = false )
     private Boolean allowDLNA = true; // by default, true
+
+    @OneToMany( mappedBy = "owner", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY )
+    private List<MDOResource> resources;
+
+    @OneToMany( mappedBy = "owner", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY )
+    private List<MDOGenre> genres;
+
+    //TODO pending to be linked!!
+    //@OneToMany( mappedBy = "owner", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY )
+    //private List<MDOMessage> messages;
 
     /**
      * @constructor
@@ -225,5 +239,38 @@ public class MDOUser
     {
         this.allowDLNA = allowDLNA;
     }
+
+    /**
+     * @return the resources
+     */
+    public List<MDOResource> getResources()
+    {
+        return resources;
+    }
+
+    /**
+     * @param resources the resources to set
+     */
+    public void setResources( List<MDOResource> resources )
+    {
+        this.resources = resources;
+    }
+
+    /**
+     * @return the genres
+     */
+    public List<MDOGenre> getGenres()
+    {
+        return genres;
+    }
+
+    /**
+     * @param genres the genres to set
+     */
+    public void setGenres( List<MDOGenre> genres )
+    {
+        this.genres = genres;
+    }
+
 
 }

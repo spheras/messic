@@ -26,6 +26,7 @@ import org.messic.server.api.datamodel.User;
 import org.messic.server.api.dlna.DLNAServer;
 import org.messic.server.api.exceptions.NotAllowedMessicException;
 import org.messic.server.datamodel.MDOUser;
+import org.messic.server.datamodel.dao.DAOGenre;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
 import org.messic.server.datamodel.dao.DAOUser;
 import org.messic.server.discover.DiscoveryThread;
@@ -40,6 +41,9 @@ public class APIUser
 
     @Autowired
     private DAOUser daoUser;
+
+    @Autowired
+    private DAOGenre daoGenre;
 
     @Autowired
     private DAOMessicSettings daoSettings;
@@ -73,6 +77,10 @@ public class APIUser
                 }
             }
 
+            // first we remove genres of the user
+            //daoGenre.removeAllGenres( mdoUserToRemove.getLogin() );
+            //daoGenre.flush();
+            // finally we remove the user
             daoUser.remove( mdoUserToRemove );
         }
         else

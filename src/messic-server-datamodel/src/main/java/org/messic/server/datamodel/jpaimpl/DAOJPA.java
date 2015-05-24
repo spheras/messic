@@ -62,6 +62,12 @@ public class DAOJPA<T extends MDO>
     }
 
     @Transactional
+    public void flush()
+    {
+        entityManager.flush();
+    }
+
+    @Transactional
     public T merge( T c )
     {
         return entityManager.merge( c );
