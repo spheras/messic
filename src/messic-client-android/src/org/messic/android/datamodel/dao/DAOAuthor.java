@@ -13,7 +13,7 @@ public class DAOAuthor
 
     public DAOAuthor( Context context )
     {
-        super( context, MDMAuthor.TABLE_NAME, MDMSong.getColumns() );
+        super( context, MDMAuthor.TABLE_NAME, MDMAuthor.getColumns() );
     }
 
     public MDMAuthor save( MDMAuthor author )

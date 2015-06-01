@@ -22,57 +22,70 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.datamodel.dao.DAOAlbum;
 import org.messic.android.datamodel.dao.DAOSong;
 import org.messic.android.util.AlbumCoverCache;
 
+import android.app.Activity;
+import android.app.DownloadManager;
+import android.app.DownloadManager.Request;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v4.util.LongSparseArray;
 import android.util.Log;
 
-public class DownloadManagerService
+public class DownloadManagerServiceOld
     extends Service
 {
     private final IBinder downloadManagerBind = new DownloadManagerBinder();
+
+    private LongSparseArray<MDMSong> pendingDownloads = new LongSparseArray<MDMSong>();
+
+    private DownloadManager dm;
 
     public static final String DESTINATION_FOLDER = "/messic/offline";
 
     public void onCreate()
     {
         super.onCreate();
+        dm = (DownloadManager) getSystemService( Activity.DOWNLOAD_SERVICE );
+
+        BroadcastReceiver receiver = new BroadcastReceiver()
+        {
+            @Override
+            public void onReceive( Context context, Intent intent )
+            {
+                String action = intent.getAction();
+                if ( DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals( action ) )
+                {
+                    long downloadId = intent.getLongExtra( DownloadManager.EXTRA_DOWNLOAD_ID, 0 );
+                    MDMSong song = pendingDownloads.get( downloadId );
+                    saveCover( song );
+                    saveDatabase( song );
+                    pendingDownloads.remove( downloadId );
+                    // Uri uri = dm.getUriForDownloadedFile( downloadId );
+                    // System.out.println( uri );
+                    // dm.remove( downloadId );
+                }
+            }
+        };
+        registerReceiver( receiver, new IntentFilter( DownloadManager.ACTION_DOWNLOAD_COMPLETE ) );
     }
 
     private void saveDatabase( MDMSong song )
     {
-
         DAOSong daosong = new DAOSong( this.getApplicationContext() );
-        Cursor csong=daosong._getByServerSid( song.getSid() );
-        if(csong.moveToFirst()){
-            //the song exist, so, we only need to updatesdfsdfs
-        }
-asdfasf        
-
-        song.getAlbum();
-        DAOAlbum daoalbum = new DAOAlbum( this.getApplicationContext() );
-        daoalbum.open();
-        Cursor cAlbum = daoalbum._get( song.getAlbum().getLsid() );
-        if ( cAlbum.moveToFirst() )
-        {
-            // the album exist previously, lets get the song
-        }
-
-        daoalbum.save( song.getAlbum(), true );
+        daosong.save( song );
     }
 
     private void saveCover( MDMSong song )
@@ -131,28 +144,16 @@ asdfasf
 
     public void addDownload( MDMSong song, Context context )
     {
+        Request request = new Request( Uri.parse( song.getURL() ) );
+
         String path = song.calculateExternalStorageFolder();
+        Uri uri = Uri.parse( "file://" + path + "/" + song.calculateExternalFilename() );
         File fpath = new File( path );
         fpath.mkdirs();
-        try
-        {
-            DownloadQueue.DownloadQueueListener listener = new DownloadQueue.DownloadQueueListener()
-            {
-                public void received( MDMSong song, File fdownloaded )
-                {
-                    saveCover( song );
-                    saveDatabase( song );
-                }
-            };
-
-            DownloadQueue.addDownload( new URL( song.getURL() ), song, listener );
-
-        }
-        catch ( MalformedURLException e )
-        {
-            Log.e( "DownloadManagerService", "error downloading!" );
-            e.printStackTrace();
-        }
+        request.setDestinationUri( uri );
+        request.setTitle( song.getName() );
+        long id = dm.enqueue( request );
+        pendingDownloads.put( id, song );
     }
 
     @Override
@@ -164,9 +165,9 @@ asdfasf
     public class DownloadManagerBinder
         extends Binder
     {
-        public DownloadManagerService getService()
+        public DownloadManagerServiceOld getService()
         {
-            return DownloadManagerService.this;
+            return DownloadManagerServiceOld.this;
         }
     }
 

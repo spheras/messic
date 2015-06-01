@@ -20,6 +20,7 @@ package org.messic.android.activities;
 
 import org.messic.android.R;
 import org.messic.android.activities.adapters.SearchMessicServiceAdapter;
+import org.messic.android.activities.swipedismiss.SwipeDismissListViewTouchListener;
 import org.messic.android.controllers.Configuration;
 import org.messic.android.controllers.SearchMessicServiceController;
 import org.messic.android.datamodel.MDMMessicServerInstance;
@@ -33,6 +34,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class SearchMessicServiceActivity
     extends Activity
@@ -50,16 +52,59 @@ public class SearchMessicServiceActivity
         ListView lv = (ListView) findViewById( R.id.searchmessicservice_lvresults );
         lv.setAdapter( adapter );
 
+        // Create a ListView-specific touch listener. ListViews are given special treatment because
+        // by default they handle touches for their list items... i.e. they're in charge of drawing
+        // the pressed state (the list selector), handling list item clicks, etc.
+        SwipeDismissListViewTouchListener touchListener =
+            new SwipeDismissListViewTouchListener( lv, new SwipeDismissListViewTouchListener.DismissCallbacks()
+            {
+                public boolean canDismiss( int position )
+                {
+                    MDMMessicServerInstance msi = (MDMMessicServerInstance) adapter.getItem( position );
+                    if ( msi.getLastCheckedStatus() == MDMMessicServerInstance.STATUS_RUNNING )
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+
+                public void onDismiss( ListView listView, int[] reverseSortedPositions )
+                {
+                    for ( int position : reverseSortedPositions )
+                    {
+                        MDMMessicServerInstance msi = (MDMMessicServerInstance) adapter.getItem( position );
+                        controller.removeSavedSession( SearchMessicServiceActivity.this, msi );
+                        adapter.removeItem( position );
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            } );
+        lv.setOnTouchListener( touchListener );
+        // Setting this scroll listener is required to ensure that during ListView scrolling,
+        // we don't look for swipes.
+        lv.setOnScrollListener( touchListener.makeScrollListener() );
+
         lv.setOnItemClickListener( new AdapterView.OnItemClickListener()
         {
             public void onItemClick( AdapterView<?> parent, View view, int position, long id )
             {
                 MDMMessicServerInstance msi = (MDMMessicServerInstance) adapter.getItem( position );
-                DAOServerInstance dao = new DAOServerInstance( getApplicationContext() );
-                msi = dao.save( msi );
-                Configuration.setMessicService( getApplicationContext(), msi );
-                Intent ssa = new Intent( SearchMessicServiceActivity.this, LoginActivity.class );
-                SearchMessicServiceActivity.this.startActivity( ssa );
+                if ( !( msi.getLastCheckedStatus() == MDMMessicServerInstance.STATUS_DOWN ) )
+                {
+                    DAOServerInstance dao = new DAOServerInstance( getApplicationContext() );
+                    msi = dao.save( msi );
+                    Configuration.setMessicService( getApplicationContext(), msi );
+                    Intent ssa = new Intent( SearchMessicServiceActivity.this, LoginActivity.class );
+                    SearchMessicServiceActivity.this.startActivity( ssa );
+                }
+                else
+                {
+                    Toast.makeText( SearchMessicServiceActivity.this, "This instance is not available now!",
+                                    Toast.LENGTH_LONG ).show();
+                }
             }
         } );
 
@@ -70,9 +115,8 @@ public class SearchMessicServiceActivity
             {
                 final Button b = ( (Button) findViewById( R.id.searchmessicservice_bsearch ) );
                 b.setEnabled( false );
-                adapter.clear();
 
-                new CountDownTimer( 30000, 1000 )
+                final CountDownTimer cdt = new CountDownTimer( 30000, 1000 )
                 {
                     @Override
                     public void onTick( long millisUntilFinished )
@@ -86,29 +130,44 @@ public class SearchMessicServiceActivity
                     @Override
                     public void onFinish()
                     {
-                        b.setEnabled( true );
-                        b.setText( R.string.searchMessicService_searchaction );
+                        b.post( new Runnable()
+                        {
+                            public void run()
+                            {
+                                b.setEnabled( true );
+                                b.setText( R.string.searchMessicService_searchaction );
+                            }
+                        } );
                         controller.cancelSearch();
                     }
-                }.start();
+                };
+                cdt.start();
 
                 controller.searchMessicServices( new SearchMessicServiceController.SearchListener()
                 {
 
-                    public void messicServiceFound( final MDMMessicServerInstance md )
+                    public boolean messicServiceFound( final MDMMessicServerInstance md )
                     {
-                        SearchMessicServiceActivity.this.runOnUiThread( new Runnable()
+                        // let's see if the instance was found already
+                        if ( !adapter.existInstance( md ) )
                         {
-                            public void run()
+                            SearchMessicServiceActivity.this.runOnUiThread( new Runnable()
                             {
-                                findViewById( R.id.searchmessicservice_lempty ).setVisibility( View.GONE );
-                                if ( adapter.addInstance( md ) )
+                                public void run()
                                 {
-                                    adapter.notifyDataSetChanged();
+                                    findViewById( R.id.searchmessicservice_lempty ).setVisibility( View.GONE );
+                                    if ( adapter.addInstance( md ) )
+                                    {
+                                        adapter.notifyDataSetChanged();
+                                    }
                                 }
-                                ;
-                            }
-                        } );
+                            } );
+
+                            cdt.cancel();
+                            cdt.onFinish();
+                            return true;
+                        }
+                        return false;
                     }
                 } );
 

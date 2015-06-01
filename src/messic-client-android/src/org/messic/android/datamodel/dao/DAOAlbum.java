@@ -1,9 +1,11 @@
 package org.messic.android.datamodel.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMAuthor;
 import org.messic.android.datamodel.MDMGenre;
-import org.messic.android.datamodel.MDMSong;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,10 +17,27 @@ public class DAOAlbum
 
     public DAOAlbum( Context context )
     {
-        super( context, MDMAlbum.TABLE_NAME, MDMSong.getColumns() );
+        super( context, MDMAlbum.TABLE_NAME, MDMAlbum.getColumns() );
     }
 
-    public MDMAlbum save( MDMAlbum album )
+    public List<MDMAlbum> getAll()
+    {
+        open();
+        List<MDMAlbum> result = new ArrayList<MDMAlbum>();
+        Cursor cursor = super._getAll();
+        while ( !cursor.isAfterLast() )
+        {
+            MDMAlbum msi = new MDMAlbum( cursor, getContext(), true );
+            result.add( msi );
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        close();
+        return result;
+    }
+
+    public MDMAlbum save( MDMAlbum album, boolean saveSongs )
     {
         open();
         ContentValues cv = new ContentValues();
@@ -26,6 +45,7 @@ public class DAOAlbum
         cv.put( MDMAlbum.COLUMN_FILENAME, album.getFileName() );
         cv.put( MDMAlbum.COLUMN_NAME, album.getName() );
         cv.put( MDMAlbum.COLUMN_YEAR, album.getYear() );
+        cv.put( MDMAlbum.COLUMN_SERVER_SID, album.getSid() );
 
         if ( album.getGenre() == null )
         {
@@ -43,6 +63,7 @@ public class DAOAlbum
             {
                 // It is not an entity created from database, maybe it exist at database or maybe not, let's see
                 DAOGenre daogenre = new DAOGenre( getContext() );
+                daogenre.open();
                 Cursor cGenre = daogenre._getByServerSid( album.getGenre().getSid() );
                 if ( cGenre.getCount() > 0 )
                 {
@@ -56,6 +77,7 @@ public class DAOAlbum
                     MDMGenre genre = daogenre.save( album.getGenre() );
                     cv.put( MDMAlbum.COLUMN_FK_GENRE, genre.getLsid() );
                 }
+                daogenre.close();
 
             }
         }
@@ -75,6 +97,7 @@ public class DAOAlbum
             {
                 // It is not an entity created from database, maybe it exist at database or maybe not, let's see
                 DAOAuthor daoauthor = new DAOAuthor( getContext() );
+                daoauthor.open();
                 Cursor cAuthor = daoauthor._getByServerSid( album.getAuthor().getSid() );
                 if ( cAuthor.getCount() > 0 )
                 {
@@ -88,6 +111,7 @@ public class DAOAlbum
                     MDMAuthor author = daoauthor.save( album.getAuthor() );
                     cv.put( MDMAlbum.COLUMN_FK_AUTHOR, author.getLsid() );
                 }
+                daoauthor.close();
 
             }
         }
@@ -103,8 +127,18 @@ public class DAOAlbum
             c = super._save( cv );
         }
 
+        // we save the albums
+        if ( album.getSongs() != null && saveSongs )
+        {
+            DAOSong ds = new DAOSong( getContext() );
+            for ( int i = 0; i < album.getSongs().size(); i++ )
+            {
+                ds.save( album.getSongs().get( i ) );
+            }
+        }
+
         c.moveToFirst();
-        MDMAlbum msi = new MDMAlbum( c, this.getContext() );
+        MDMAlbum msi = new MDMAlbum( c, this.getContext(), true );
         c.close();
         close();
         return msi;

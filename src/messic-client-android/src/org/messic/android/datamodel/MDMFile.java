@@ -20,8 +20,8 @@ package org.messic.android.datamodel;
 
 import java.io.Serializable;
 
-
-public class MDMFile implements Serializable
+public class MDMFile
+    implements Serializable
 {
     /**
      * 
@@ -37,6 +37,8 @@ public class MDMFile implements Serializable
     protected long size;
 
     protected MDMAlbum album;
+
+    protected boolean downloaded;
 
     /**
      * default constructor
@@ -60,8 +62,6 @@ public class MDMFile implements Serializable
     {
         return fileName;
     }
-
-  
 
     public void setFileName( String fileName )
     {
@@ -96,5 +96,21 @@ public class MDMFile implements Serializable
     public void setSize( long size )
     {
         this.size = size;
+    }
+
+    /**
+     * @return the downloaded
+     */
+    public boolean isDownloaded()
+    {
+        return downloaded;
+    }
+
+    /**
+     * @param downloaded the downloaded to set
+     */
+    public void setDownloaded( boolean downloaded )
+    {
+        this.downloaded = downloaded;
     }
 }

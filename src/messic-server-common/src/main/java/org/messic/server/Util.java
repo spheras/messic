@@ -55,9 +55,25 @@ public class Util
     public static final String TEMPORAL_FOLDER = ".tmp" + File.separatorChar + "resources";
 
     /** All the illegal characters for a filename or a path */
-    public static final String ILLEGAL_FILENAME_CHARS = "[\\]\\[!\"#$%&()*+,/:;<=>?@\\^`{|}~]+";
+    public static final String ILLEGAL_FILENAME_CHARS_OLD = "[\\]\\[!\"#$%&()*+,/:;<=>?@\\^`{|}~]+";
 
-    public static final Pattern ILLEGAL_FILENAME_CHARS_PATTERN = Pattern.compile( ILLEGAL_FILENAME_CHARS );
+    public static final String ILLEGAL_FILENAME_CHARS_NEW = "[\"%*\\/:<>?\\\\^`{|}]+";
+
+    public static final String ILLEGAL_FILENAME_OPENENCAPSULATE_CHARS_NEW = "[<{]+";
+
+    public static final String ILLEGAL_FILENAME_CLOSEENCAPSULATE_CHARS_NEW = "[>}]+";
+
+    public static final String ILLEGAL_FILENAME_SEPARATOR_CHARS_NEW = "[/\\\\|:;]+";
+
+    public static final Pattern ILLEGAL_FILENAME_CHARS_PATTERN_OLD = Pattern.compile( ILLEGAL_FILENAME_CHARS_OLD );
+
+    public static final Pattern ILLEGAL_FILENAME_CHARS_PATTERN_NEW = Pattern.compile( ILLEGAL_FILENAME_CHARS_NEW );
+
+    public static final Pattern ILLEGAL_FILENAME_OPENENCAPSULATE_CHARS_PATTERN_NEW =
+        Pattern.compile( ILLEGAL_FILENAME_OPENENCAPSULATE_CHARS_NEW );
+
+    public static final Pattern ILLEGAL_FILENAME_CLOSEENCAPSULATE_CHARS_PATTERN_NEW =
+        Pattern.compile( ILLEGAL_FILENAME_CLOSEENCAPSULATE_CHARS_NEW );
 
     /**
      * Check if the string is an integer
@@ -159,16 +175,46 @@ public class Util
     }
 
     /**
+     * Return a valid location to a file path !!This is the old version which was very restrictive
+     * 
+     * @param filename {@link String} location to convert
+     * @param replacementCharacter char char that will replace all those illegal characters
+     * @return a valid location
+     */
+    public static String replaceIllegalFilenameCharactersOld( String filename, char replacementCharacter )
+    {
+        Matcher matcher = ILLEGAL_FILENAME_CHARS_PATTERN_OLD.matcher( filename );
+        String result = matcher.replaceAll( replacementCharacter + "" );
+        return result;
+    }
+
+    /**
+     * Return if the filename or path have illegal characters !!This is the old version which was very restrictive
+     * 
+     * @param filename {@link String} filename or path
+     * @return boolean true->it have illegal characters
+     */
+    public static boolean haveFilenameIllegalCharactersOld( String filename )
+    {
+        Matcher matcher = ILLEGAL_FILENAME_CHARS_PATTERN_OLD.matcher( filename );
+        return matcher.find();
+    }
+
+    /**
      * Return a valid location to a file path
      * 
      * @param filename {@link String} location to convert
      * @param replacementCharacter char char that will replace all those illegal characters
      * @return a valid location
      */
-    public static String replaceIllegalFilenameCharacters( String filename, char replacementCharacter )
+    public static String replaceIllegalFilenameCharactersNew( String filename, char replacementCharacter )
     {
-        Matcher matcher = ILLEGAL_FILENAME_CHARS_PATTERN.matcher( filename );
-        String result = matcher.replaceAll( replacementCharacter + "" );
+        String result = filename.replaceAll( ILLEGAL_FILENAME_OPENENCAPSULATE_CHARS_NEW, "[" );
+        result = result.replaceAll( ILLEGAL_FILENAME_CLOSEENCAPSULATE_CHARS_NEW, "]" );
+        result = result.replaceAll( ILLEGAL_FILENAME_SEPARATOR_CHARS_NEW, "-" );
+
+        Matcher matcher = ILLEGAL_FILENAME_CHARS_PATTERN_NEW.matcher( result );
+        result = matcher.replaceAll( replacementCharacter + "" );
         return result;
     }
 
@@ -178,9 +224,9 @@ public class Util
      * @param filename {@link String} filename or path
      * @return boolean true->it have illegal characters
      */
-    public static boolean haveFilenameIllegalCharacters( String filename )
+    public static boolean haveFilenameIllegalCharactersNew( String filename )
     {
-        Matcher matcher = ILLEGAL_FILENAME_CHARS_PATTERN.matcher( filename );
+        Matcher matcher = ILLEGAL_FILENAME_CHARS_PATTERN_NEW.matcher( filename );
         return matcher.find();
     }
 

@@ -70,7 +70,7 @@ public class MDOPhysicalResource
     public void setLocation( String location )
         throws IOException
     {
-        if ( Util.haveFilenameIllegalCharacters( location ) )
+        if ( Util.haveFilenameIllegalCharactersNew( location ) )
         {
             throw new IOException( "Illegal characters at location: " + location );
         }

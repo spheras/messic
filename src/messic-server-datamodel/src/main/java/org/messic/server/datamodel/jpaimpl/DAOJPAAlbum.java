@@ -18,16 +18,12 @@
  */
 package org.messic.server.datamodel.jpaimpl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Query;
 
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOArtwork;
-import org.messic.server.datamodel.MDOAuthor;
 import org.messic.server.datamodel.MDOGenre;
 import org.messic.server.datamodel.dao.DAOAlbum;
 import org.springframework.stereotype.Component;
@@ -73,11 +69,33 @@ public class DAOJPAAlbum
 
     @Override
     @Transactional
-    public List<MDOAlbum> getAll( String username )
+    public List<MDOAlbum> getAll( String username, int firstResult, int maxResult, boolean orderDesc,
+                                  boolean orderByAuthor )
     {
-        Query query =
-            entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) ORDER BY UPPER(a.name)" );
+        String squery = "from MDOAlbum as a where (a.owner.login = :userName)";
+        if ( orderByAuthor )
+        {
+            squery = squery + " ORDER BY UPPER(a.author.name)";
+        }
+        else
+        {
+            squery = squery + " ORDER BY UPPER(a.name)";
+        }
+        if ( orderDesc )
+        {
+            squery = squery + " DESC";
+        }
+
+        Query query = entityManager.createQuery( squery );
         query.setParameter( "userName", username );
+        if ( firstResult >= 0 )
+        {
+            query.setFirstResult( firstResult );
+        }
+        if ( maxResult >= 0 )
+        {
+            query.setMaxResults( maxResult );
+        }
 
         @SuppressWarnings( "unchecked" )
         List<MDOAlbum> results = query.getResultList();
@@ -89,7 +107,7 @@ public class DAOJPAAlbum
     public List<MDOAlbum> getRecent( String username, int maxAlbums )
     {
         Query query =
-            entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) AND (a.created is not null)  ORDER BY (a.created)" );
+            entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) AND (a.created is not null)  ORDER BY (a.created) DESC" );
         query.setParameter( "userName", username );
         query.setMaxResults( maxAlbums );
 
@@ -128,30 +146,64 @@ public class DAOJPAAlbum
 
     @Override
     @Transactional
-    public List<MDOAlbum> getAll( long authorSid, String username )
+    public List<MDOAlbum> getAll( long authorSid, String username, int firstResult, int maxResult, boolean orderDesc,
+                                  boolean orderByAuthor )
     {
-        Query query =
-            entityManager.createQuery( "from MDOAuthor as a where (a.owner.login = :userName) AND (a.sid = :authorSid)  ORDER BY UPPER(a.name)" );
+
+        String squery = "from MDOAlbum as a where (a.owner.login = :userName) AND (a.author.sid = :authorSid) ";
+        if ( orderByAuthor )
+        {
+            squery = squery + " ORDER BY UPPER(a.author.name)";
+        }
+        else
+        {
+            squery = squery + " ORDER BY UPPER(a.name)";
+        }
+        if ( orderDesc )
+        {
+            squery = squery + " DESC";
+        }
+
+        Query query = entityManager.createQuery( squery );
         query.setParameter( "userName", username );
         query.setParameter( "authorSid", authorSid );
 
-        @SuppressWarnings( "unchecked" )
-        List<MDOAuthor> results = query.getResultList();
-        if ( results != null && results.size() > 0 )
+        if ( firstResult >= 0 )
         {
-            ArrayList<MDOAlbum> albums = new ArrayList<MDOAlbum>();
-            Set<MDOAlbum> setAlbums = results.get( 0 ).getAlbums();
-            if ( setAlbums != null && setAlbums.size() > 0 )
-            {
-                Iterator<MDOAlbum> albumsit = setAlbums.iterator();
-                while ( albumsit.hasNext() )
-                {
-                    albums.add( albumsit.next() );
-                }
-            }
-            return albums;
+            query.setFirstResult( firstResult );
         }
-        return null;
+        if ( maxResult >= 0 )
+        {
+            query.setMaxResults( maxResult );
+        }
+
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbum> results = query.getResultList();
+        return results;
+
+        // String squery =
+        // "from MDOAuthor as a where (a.owner.login = :userName) AND (a.sid = :authorSid) ORDER BY UPPER(a.name)";
+        // Query query = entityManager.createQuery( squery );
+        // query.setParameter( "userName", username );
+        // query.setParameter( "authorSid", authorSid );
+        //
+        // @SuppressWarnings( "unchecked" )
+        // List<MDOAuthor> results = query.getResultList();
+        // if ( results != null && results.size() > 0 )
+        // {
+        // ArrayList<MDOAlbum> albums = new ArrayList<MDOAlbum>();
+        // Set<MDOAlbum> setAlbums = results.get( 0 ).getAlbums();
+        // if ( setAlbums != null && setAlbums.size() > 0 )
+        // {
+        // Iterator<MDOAlbum> albumsit = setAlbums.iterator();
+        // while ( albumsit.hasNext() )
+        // {
+        // albums.add( albumsit.next() );
+        // }
+        // }
+        // return albums;
+        // }
+        // return null;
     }
 
     @Override
@@ -245,13 +297,36 @@ public class DAOJPAAlbum
 
     @Override
     @Transactional
-    public List<MDOAlbum> findSimilarAlbums( long authorSid, String albumName, String username )
+    public List<MDOAlbum> findSimilarAlbums( long authorSid, String albumName, String username, int firstResult,
+                                             int maxResults, boolean orderDesc, boolean orderByAuthor )
     {
-        Query query =
-            entityManager.createQuery( "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName) AND (a.author.sid = :authorSid) ORDER BY UPPER(a.name)" );
+        String squery =
+            "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName) AND (a.author.sid = :authorSid) ORDER BY";
+        if ( orderByAuthor )
+        {
+            squery = squery + " UPPER(a.author.name)";
+        }
+        else
+        {
+            squery = squery + " UPPER(a.name)";
+        }
+        if ( orderDesc )
+        {
+            squery = squery + " DESC";
+        }
+
+        Query query = entityManager.createQuery( squery );
         query.setParameter( "albumName", "%" + albumName + "%" );
         query.setParameter( "userName", username );
         query.setParameter( "authorSid", authorSid );
+        if ( firstResult >= 0 )
+        {
+            query.setFirstResult( firstResult );
+        }
+        if ( maxResults >= 0 )
+        {
+            query.setMaxResults( maxResults );
+        }
 
         @SuppressWarnings( "unchecked" )
         List<MDOAlbum> results = query.getResultList();
@@ -274,12 +349,35 @@ public class DAOJPAAlbum
 
     @Override
     @Transactional
-    public List<MDOAlbum> getAllOfGenre( long genreSid, String username )
+    public List<MDOAlbum> getAllOfGenre( long genreSid, String username, int firstResult, int maxResults,
+                                         boolean orderDesc, boolean orderByAuthor )
     {
-        Query query =
-            entityManager.createQuery( "from MDOAlbum as a where (a.owner.login = :userName) AND (a.genre.sid = :genreSid)  ORDER BY UPPER(a.genre.name), UPPER(a.name)" );
+        String squery =
+            "from MDOAlbum as a where (a.owner.login = :userName) AND (a.genre.sid = :genreSid)  ORDER BY UPPER(a.genre.name),";
+        if ( orderByAuthor )
+        {
+            squery = squery + " UPPER(a.author.name)";
+        }
+        else
+        {
+            squery = squery + " UPPER(a.name)";
+        }
+        if ( orderDesc )
+        {
+            squery = squery + " DESC";
+        }
+
+        Query query = entityManager.createQuery( squery );
         query.setParameter( "userName", username );
         query.setParameter( "genreSid", genreSid );
+        if ( firstResult >= 0 )
+        {
+            query.setFirstResult( firstResult );
+        }
+        if ( maxResults >= 0 )
+        {
+            query.setMaxResults( maxResults );
+        }
 
         @SuppressWarnings( "unchecked" )
         List<MDOAlbum> results = query.getResultList();

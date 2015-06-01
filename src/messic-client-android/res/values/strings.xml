@@ -20,5 +20,7 @@
     <string name="player_added">Added:</string>
     <string name="albuminfo_loading">Loading Album Info</string>
     <string name="albuminfo_wait">Please wait...</string>
+    <string name="login_offline">... or play offline music</string>
+    <string name="login_searchonline">Search an Online Messic Service</string>
     
 </resources>

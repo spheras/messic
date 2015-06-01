@@ -23,10 +23,10 @@
 			<version>2.0.0.M1</version>
 		</dependency>
 		<dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.4.2</version>
-        </dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.2</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
@@ -50,6 +50,41 @@
 					<version>${android.plugin.version}</version>
 					<extensions>true</extensions>
 				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.jayway.maven.plugins.android.generation2
+										</groupId>
+										<artifactId>
+											android-maven-plugin
+										</artifactId>
+										<versionRange>
+											[3.8.2,)
+										</versionRange>
+										<goals>
+											<goal>proguard</goal>
+											<goal>consume-aar</goal>
+											<goal>
+												generate-sources
+											</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
@@ -58,8 +93,8 @@
 				<artifactId>android-maven-plugin</artifactId>
 				<configuration>
 					<sdk>
-						<!-- define $ANDROID_HOME variable for this configuration-->
-						<!-- <path>/home/spheras/desarrollo/software/android-sdk-23.0.2-linux</path> -->
+						<!-- define $ANDROID_HOME variable for this configuration -->
+						<!-- <path>/home/.../.../software/android-sdk-23.0.2-linux</path> -->
 						<platform>16</platform>
 					</sdk>
 				</configuration>

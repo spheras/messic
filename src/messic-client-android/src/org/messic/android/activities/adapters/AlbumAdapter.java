@@ -89,6 +89,11 @@ public class AlbumAdapter
         this.albums.add( album );
     }
 
+    public void setAlbums( List<MDMAlbum> albums )
+    {
+        this.albums = albums;
+    }
+
     @SuppressLint( "InflateParams" )
     public View getView( int position, View counterView, ViewGroup parent )
     {

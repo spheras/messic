@@ -18,6 +18,10 @@
  */
 package org.messic.android.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.messic.android.activities.adapters.AlbumAdapter;
 import org.messic.android.activities.fragments.ExploreFragment;
 import org.messic.android.datamodel.MDMAlbum;
@@ -30,22 +34,30 @@ import android.widget.Toast;
 
 public class ExploreController
 {
-    private static MDMAlbum[] albums = null;
+    private static List<MDMAlbum> albums = new ArrayList<MDMAlbum>();
+    public static boolean downloading=false;
 
     public void getExploreAlbums( final AlbumAdapter adapter, final Activity activity, final ExploreFragment rf,
-                                  boolean refresh, final SwipeRefreshLayout srl )
+                                  final boolean refresh, final SwipeRefreshLayout srl, int from, int max )
     {
-        if ( albums == null || refresh )
+        if ( albums == null || refresh || ( from + max ) >= albums.size() )
         {
             final String baseURL =
-                Configuration.getBaseUrl() + "/services/albums?songsInfo=true&authorInfo=true&messic_token="
-                    + Configuration.getLastToken();
+                Configuration.getBaseUrl() + "/services/albums?pageFromResult=" + from + "&pageMaxResults=" + max
+                    + "&songsInfo=true&authorInfo=true&orderDesc=false&orderByAuthor=true&messic_token=" + Configuration.getLastToken();
+            downloading=true;
             RestJSONClient.get( baseURL, MDMAlbum[].class, new RestJSONClient.RestListener<MDMAlbum[]>()
             {
                 public void response( MDMAlbum[] response )
                 {
-                    albums = response;
-                    refreshData( response, adapter, activity, rf, srl );
+                    if ( refresh )
+                    {
+                        albums = new ArrayList<MDMAlbum>();
+                    }
+                    List<MDMAlbum> newList = Arrays.asList( response );
+                    albums.addAll( newList );
+                    refreshData( albums, adapter, activity, rf, srl );
+                    downloading=false;
                 }
 
                 public void fail( final Exception e )
@@ -60,6 +72,7 @@ public class ExploreController
 
                         }
                     } );
+                    downloading=false;
                 }
 
             } );
@@ -73,7 +86,7 @@ public class ExploreController
         }
     }
 
-    private void refreshData( MDMAlbum[] response, final AlbumAdapter adapter, final Activity activity,
+    private void refreshData( List<MDMAlbum> response, final AlbumAdapter adapter, final Activity activity,
                               final ExploreFragment rf, final SwipeRefreshLayout srl )
     {
         adapter.clear();
@@ -85,10 +98,7 @@ public class ExploreController
             }
         } );
 
-        for ( int i = 0; i < response.length; i++ )
-        {
-            adapter.addAlbum( response[i] );
-        }
+        adapter.setAlbums( response );
 
         rf.eventExploreInfoLoaded();
         activity.runOnUiThread( new Runnable()

@@ -183,7 +183,7 @@ public class AudioTaggerTAGWizardPlugin
 
     public List<SongTags> getTags( Album album, File[] files, Song[] songsWizard, Properties indexProp )
     {
-        // first, obtain the tags
+        // first, obtain the tags 
         ArrayList<SongTags> tags = new ArrayList<SongTags>();
         for ( int i = 0; i < files.length; i++ )
         {
@@ -224,10 +224,19 @@ public class AudioTaggerTAGWizardPlugin
             if ( tag != null )
             {
                 SongTags ti = new SongTags();
-                //instead of putting the server filename (safe filename), we put the original client filename stored at the index file 
+                // instead of putting the server filename (safe filename), we put the original client filename stored at
+                // the index file
                 ti.filename = indexProp.getProperty( files[i].getName() );
                 String artist = tag.getFirst( FieldKey.ARTIST );
-                String composer = tag.getFirst( FieldKey.COMPOSER );
+                String composer = "";
+                try
+                {
+                    composer = tag.getFirst( FieldKey.COMPOSER );
+                }
+                catch ( Exception e )
+                {
+                }
+
                 if ( artist.length() < composer.length() )
                 {
                     ti.tags.put( TAGInfo.ARTIST, new TAGInfo( composer ) );

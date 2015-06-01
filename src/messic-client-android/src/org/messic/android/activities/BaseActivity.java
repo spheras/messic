@@ -21,6 +21,7 @@ package org.messic.android.activities;
 import java.util.Locale;
 
 import org.messic.android.R;
+import org.messic.android.activities.fragments.DownloadedFragment;
 import org.messic.android.activities.fragments.ExploreFragment;
 import org.messic.android.activities.fragments.PlayQueueFragment;
 import org.messic.android.activities.fragments.PlaylistFragment;
@@ -74,7 +75,7 @@ public class BaseActivity
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById( R.id.pager );
         mViewPager.setAdapter( mSectionsPagerAdapter );
-        
+
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
         // a reference to the Tab.
@@ -161,6 +162,10 @@ public class BaseActivity
             else if ( position == 2 )
             {
                 return new PlaylistFragment();
+            }
+            else if ( position == 3 )
+            {
+                return new DownloadedFragment();
             }
             else if ( position == 4 )
             {

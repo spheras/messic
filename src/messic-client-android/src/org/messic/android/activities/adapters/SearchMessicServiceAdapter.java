@@ -23,9 +23,11 @@ import java.util.List;
 
 import org.messic.android.R;
 import org.messic.android.datamodel.MDMMessicServerInstance;
+import org.messic.android.util.Network;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,14 +56,46 @@ public class SearchMessicServiceAdapter
         return instances.size();
     }
 
-    public Object getItem( int arg0 )
+    public List<MDMMessicServerInstance> getInstances()
     {
-        return this.instances.get( arg0 );
+        return instances;
+    }
+
+    public Object getItem( int count )
+    {
+        if ( count < this.instances.size() )
+        {
+            return this.instances.get( count );
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public long getItemId( int arg0 )
     {
         return arg0;
+    }
+
+    public boolean existInstance( MDMMessicServerInstance instance )
+    {
+        for ( MDMMessicServerInstance i : instances )
+        {
+            if ( i.ip.equalsIgnoreCase( instance.ip ) && i.description.equalsIgnoreCase( instance.description )
+                && i.name.equalsIgnoreCase( instance.name ) && i.version.equalsIgnoreCase( instance.version )
+                && i.port == instance.port && i.secured == instance.secured )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void removeItem( int count )
+    {
+        this.instances.remove( count );
     }
 
     public boolean addInstance( MDMMessicServerInstance instance )
@@ -89,13 +123,41 @@ public class SearchMessicServiceAdapter
         TextView hostname = (TextView) counterView.findViewById( R.id.searchmessicservice_item_hostname );
         TextView ip = (TextView) counterView.findViewById( R.id.searchmessicservice_item_ip );
         TextView version = (TextView) counterView.findViewById( R.id.searchmessicservice_item_version );
-        MDMMessicServerInstance msi = this.instances.get( position );
+        final View vstatus = (View) counterView.findViewById( R.id.searchmessicservice_item_hostname_vstatus );
+
+        vstatus.setBackgroundColor( Color.YELLOW );
+        final MDMMessicServerInstance msi = this.instances.get( position );
         hostname.setText( msi.name );
         ip.setText( msi.ip );
         version.setText( msi.version );
         version.setTag( position );
+        final View parentView = counterView;
+
+        // start checking the availability
+        Network.MessicServerStatusListener listener = new Network.MessicServerStatusListener()
+        {
+            public void setResponse( final boolean reachable, final boolean running )
+            {
+                parentView.post( new Runnable()
+                {
+                    public void run()
+                    {
+                        if ( reachable && running )
+                        {
+                            msi.setLastCheckedStatus( MDMMessicServerInstance.STATUS_RUNNING );
+                            vstatus.setBackgroundColor( Color.GREEN );
+                        }
+                        else
+                        {
+                            msi.setLastCheckedStatus( MDMMessicServerInstance.STATUS_DOWN );
+                            vstatus.setBackgroundColor( Color.RED );
+                        }
+                    }
+                } );
+            }
+        };
+        Network.checkMessicServerUpAndRunning( msi, listener );
 
         return counterView;
     }
-
 }

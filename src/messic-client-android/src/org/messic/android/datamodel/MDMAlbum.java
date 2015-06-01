@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.messic.android.datamodel.dao.DAOAuthor;
 import org.messic.android.datamodel.dao.DAOGenre;
+import org.messic.android.datamodel.dao.DAOSong;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -61,7 +62,7 @@ public class MDMAlbum
             COLUMN_FILENAME, COLUMN_FK_AUTHOR, COLUMN_FK_GENRE };
     }
 
-    public MDMAlbum( Cursor cursor, Context context )
+    public MDMAlbum( Cursor cursor, Context context, boolean loadSongs )
     {
         this.lsid = cursor.getInt( 0 );
         this.sid = cursor.getInt( 1 );
@@ -70,13 +71,24 @@ public class MDMAlbum
         this.comments = cursor.getString( 4 );
         this.fileName = cursor.getString( 5 );
         DAOGenre daogenre = new DAOGenre( context );
+        daogenre.open();
         int sidGenre = cursor.getInt( 7 );
         Cursor cGenre = daogenre._get( sidGenre );
         this.genre = new MDMGenre( cGenre );
         DAOAuthor daoauthor = new DAOAuthor( context );
-        int sidAuthor = cursor.getInt( 8 );
+        daoauthor.open();
+        int sidAuthor = cursor.getInt( 6 );
         Cursor cAuthor = daoauthor._get( sidAuthor );
         this.author = new MDMAuthor( cAuthor );
+        daoauthor.close();
+        daogenre.close();
+
+        if ( loadSongs )
+        {
+            DAOSong daoSong = new DAOSong( context );
+            List<MDMSong> songs=daoSong.getSongs( this.lsid );
+            setSongs( songs );
+        }
     }
 
     /**
@@ -255,7 +267,7 @@ public class MDMAlbum
 
     public String calculateExternalStorageFolder()
     {
-        return getAuthor().calculateExternalStorageFolder() + "/" + this.getName();
+        return getAuthor().calculateExternalStorageFolder() + "/" + "al" + getSid();
     }
 
     /**

@@ -160,6 +160,7 @@
             <script src="js/about.js?timestamp=${timestamp}"></script>
             <script src="js/jquery.longpress.js?timestamp=${timestamp}"></script>
             <script src="js/jplayer-hack-drag.js?timestamp=${timestamp}"></script>
+            <script src="js/utilajaxpool.js?timestamp=${timestamp}"></script>
 
             <% boolean firstTime=(Boolean)request.getAttribute( "firstTime"); if(firstTime){%>
                 <script type="text/javascript">

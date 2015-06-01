@@ -161,24 +161,30 @@ public class APIAlbum
     }
 
     @Transactional
-    public List<Album> getAll( User user, boolean authorInfo, boolean songsInfo, boolean resourcesInfo )
+    public List<Album> getAll( User user, boolean authorInfo, boolean songsInfo, boolean resourcesInfo, int fromResult,
+                               int maxResults, boolean orderDesc, boolean orderByAuthor )
     {
-        List<MDOAlbum> albums = this.daoAlbum.getAll( user.getLogin() );
+        List<MDOAlbum> albums =
+            this.daoAlbum.getAll( user.getLogin(), fromResult, maxResults, orderDesc, orderByAuthor );
         return Album.transform( albums, authorInfo, songsInfo, resourcesInfo );
     }
 
     @Transactional
-    public List<Album> getAll( User user, long authorSid, boolean authorInfo, boolean songsInfo, boolean resourcesInfo )
+    public List<Album> getAll( User user, long authorSid, boolean authorInfo, boolean songsInfo, boolean resourcesInfo,
+                               int fromResult, int maxResults, boolean orderDesc, boolean orderByAuthor )
     {
-        List<MDOAlbum> albums = daoAlbum.getAll( authorSid, user.getLogin() );
+        List<MDOAlbum> albums =
+            daoAlbum.getAll( authorSid, user.getLogin(), fromResult, maxResults, orderDesc, orderByAuthor );
         return Album.transform( albums, authorInfo, songsInfo, resourcesInfo );
     }
 
     @Transactional
     public List<Album> getAllOfGenre( User user, long genreSid, boolean authorInfo, boolean songsInfo,
-                                      boolean resourcesInfo )
+                                      boolean resourcesInfo, int fromResult, int maxResults, boolean orderDesc,
+                                      boolean orderByAuthor )
     {
-        List<MDOAlbum> albums = daoAlbum.getAllOfGenre( genreSid, user.getLogin() );
+        List<MDOAlbum> albums =
+            daoAlbum.getAllOfGenre( genreSid, user.getLogin(), fromResult, maxResults, orderDesc, orderByAuthor );
         return Album.transform( albums, authorInfo, songsInfo, resourcesInfo );
     }
 
@@ -199,9 +205,12 @@ public class APIAlbum
 
     @Transactional
     public List<Album> findSimilar( User user, int authorSid, String albumName, boolean authorInfo, boolean songsInfo,
-                                    boolean resourcesInfo )
+                                    boolean resourcesInfo, int fromResult, int maxResults, boolean orderDesc,
+                                    boolean orderByAuthor )
     {
-        List<MDOAlbum> albums = daoAlbum.findSimilarAlbums( authorSid, albumName, user.getLogin() );
+        List<MDOAlbum> albums =
+            daoAlbum.findSimilarAlbums( authorSid, albumName, user.getLogin(), fromResult, maxResults, orderDesc,
+                                        orderByAuthor );
         return Album.transform( albums, authorInfo, songsInfo, resourcesInfo );
     }
 
@@ -577,7 +586,8 @@ public class APIAlbum
             mdoAuthor = new MDOAuthor();
             mdoAuthor.setName( album.getAuthor().getName().trim() );
             mdoAuthor.setOwner( mdouser );
-            mdoAuthor.setLocation( Util.replaceIllegalFilenameCharacters( album.getAuthor().getName(), replacementChar ) );
+            mdoAuthor.setLocation( Util.replaceIllegalFilenameCharactersNew( album.getAuthor().getName(),
+                                                                             replacementChar ) );
         }
         // 4th new album if none ###############################################################################
         if ( mdoAlbum == null )
@@ -625,12 +635,13 @@ public class APIAlbum
             // the name of the author has changed!!!
             flagAuthorNameChanged = true;
             mdoAuthor.setName( album.getAuthor().getName() );
-            mdoAuthor.setLocation( Util.replaceIllegalFilenameCharacters( album.getAuthor().getName(), replacementChar ) );
+            mdoAuthor.setLocation( Util.replaceIllegalFilenameCharactersNew( album.getAuthor().getName(),
+                                                                             replacementChar ) );
         }
 
         mdoAlbum.setName( album.getName() );
         mdoAlbum.setLocation( album.getYear() + "-"
-            + Util.replaceIllegalFilenameCharacters( album.getName(), replacementChar ) );
+            + Util.replaceIllegalFilenameCharactersNew( album.getName(), replacementChar ) );
         mdoAlbum.setAuthor( mdoAuthor );
         mdoAlbum.setComments( album.getComments() );
         mdoAlbum.setGenre( mdoGenre );
@@ -1047,8 +1058,6 @@ public class APIAlbum
         return true;
     }
 
- 
-
     /**
      * Check the consistency of the database and the file system resources 5
      * 
@@ -1082,11 +1091,12 @@ public class APIAlbum
             // check if album path is the correct one
             char replacementChar = daoSettings.getSettings().getIllegalCharacterReplacement();
             String theoricalAlbumPath =
-                album.getYear() + "-" + Util.replaceIllegalFilenameCharacters( album.getName(), replacementChar );
+                album.getYear() + "-" + Util.replaceIllegalFilenameCharactersNew( album.getName(), replacementChar );
             if ( !theoricalAlbumPath.equals( album.getLocation() ) )
             {
                 // there are differences.. maybe because previous version of messic doesn't set the year at the album
                 // folder
+                // or maybe the album has an old illegal filiename character set
                 try
                 {
                     album.setLocation( theoricalAlbumPath );
@@ -1119,6 +1129,29 @@ public class APIAlbum
 
             // Now let's synchronize tags
             synchronizeTags( album );
+
+            // check author?
+            MDOAuthor author = album.getAuthor();
+            String authorPath = author.calculateAbsolutePath( daoSettings.getSettings() );
+            String theoricalAuthorPath = Util.replaceIllegalFilenameCharactersNew( author.getName(), replacementChar );
+            if ( !theoricalAuthorPath.equals( author.getLocation() ) )
+            {
+                // maybe the author has an old illegal filiename character set
+                try
+                {
+                    author.setLocation( theoricalAuthorPath );
+                    daoAuthor.save( author );
+                    String newPath = author.calculateAbsolutePath( daoSettings.getSettings() );
+                    FileUtils.moveDirectory( new File( authorPath ), new File( newPath ) );
+                    ac.setStatus( 1 );
+                    ac.setMessage( "Repaired. Author with wrong path. '" + author.getName() + "'" );
+                }
+                catch ( IOException e )
+                {
+                    throw new CheckConsistencyMessicException( "Error trying to set a new location to the author: '"
+                        + author.getName() + "'" );
+                }
+            }
         }
         else
         {

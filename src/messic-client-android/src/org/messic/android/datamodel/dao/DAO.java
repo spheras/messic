@@ -96,6 +96,15 @@ public abstract class DAO
         return cursor;
     }
 
+    public int _count()
+    {
+        Cursor mCount = database.rawQuery( "SELECT count(*) FROM " + this.tableName, null );
+        mCount.moveToFirst();
+        int count = mCount.getInt( 0 );
+        mCount.close();
+        return count;
+    }
+
     public Cursor _getByServerSid( long serverSid )
     {
         Cursor cursor =
@@ -104,16 +113,21 @@ public abstract class DAO
         return cursor;
     }
 
-    public Cursor _save( ContentValues values )
+    public boolean _delete( long lsid )
     {
-        int insertId = (int) database.insert( this.tableName, null, values );
-        return _get( insertId );
+        return database.delete( this.tableName, "lsid=?", new String[] { "" + lsid } ) > 0;
     }
 
-    public Cursor _update( ContentValues values, int sid )
+    public Cursor _save( ContentValues values )
     {
-        int insertId = (int) database.update( this.tableName, values, "lsid=?", new String[] { "" + sid } );
-        return _get( insertId );
+        long lsid = database.insert( this.tableName, null, values );
+        return _get( (int) lsid );
+    }
+
+    public Cursor _update( ContentValues values, int lsid )
+    {
+        database.update( this.tableName, values, "lsid=?", new String[] { "" + lsid } );
+        return _get( lsid );
     }
 
     /**
@@ -130,6 +144,22 @@ public abstract class DAO
     public void setContext( Context context )
     {
         this.context = context;
+    }
+
+    /**
+     * @return the tableName
+     */
+    public String getTableName()
+    {
+        return tableName;
+    }
+
+    /**
+     * @param tableName the tableName to set
+     */
+    public void setTableName( String tableName )
+    {
+        this.tableName = tableName;
     }
 
 }

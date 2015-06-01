@@ -27,6 +27,7 @@ public class DAOServerInstance
         {
             MDMMessicServerInstance msi = new MDMMessicServerInstance( cursor );
             result.add( msi );
+            cursor.moveToNext();
         }
 
         cursor.close();
@@ -36,12 +37,23 @@ public class DAOServerInstance
 
     public MDMMessicServerInstance get( int sid )
     {
+        MDMMessicServerInstance msi = null;
         open();
         Cursor cursor = super._get( sid );
-        MDMMessicServerInstance msi = new MDMMessicServerInstance( cursor );
+        if ( cursor.getCount() > 0 )
+        {
+            msi = new MDMMessicServerInstance( cursor );
+        }
         cursor.close();
         close();
         return msi;
+    }
+
+    public void remove( MDMMessicServerInstance instance )
+    {
+        open();
+        super._delete( instance.lsid );
+        close();
     }
 
     public MDMMessicServerInstance save( MDMMessicServerInstance instance )

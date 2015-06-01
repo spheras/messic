@@ -137,8 +137,8 @@ public class MDOSong
     public final String calculateSongTheoricalFileName( String extension, char illegalCharacterReplacement )
     {
         String result = Util.leftZeroPadding( getTrack(), 2 ) + "-" + getName();
-        result = Util.replaceIllegalFilenameCharacters( result, illegalCharacterReplacement );
-        String resultExtension = Util.replaceIllegalFilenameCharacters( extension, illegalCharacterReplacement );
+        result = Util.replaceIllegalFilenameCharactersNew( result, illegalCharacterReplacement );
+        String resultExtension = Util.replaceIllegalFilenameCharactersNew( extension, illegalCharacterReplacement );
         result = result + "." + resultExtension;
         return result;
     }

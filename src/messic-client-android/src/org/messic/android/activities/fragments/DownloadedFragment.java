@@ -21,17 +21,23 @@ package org.messic.android.activities.fragments;
 import java.util.List;
 
 import org.messic.android.R;
+import org.messic.android.activities.SearchMessicServiceActivity;
 import org.messic.android.activities.adapters.AlbumAdapter;
+import org.messic.android.activities.swipedismiss.SwipeDismissListViewTouchListener;
 import org.messic.android.controllers.AlbumController;
-import org.messic.android.controllers.ExploreController;
+import org.messic.android.controllers.DownloadedController;
 import org.messic.android.datamodel.MDMAlbum;
+import org.messic.android.datamodel.MDMMessicServerInstance;
 import org.messic.android.datamodel.MDMSong;
+import org.messic.android.datamodel.dao.DAOAlbum;
 import org.messic.android.player.MessicPlayerService;
 import org.messic.android.player.MessicPlayerService.MusicBinder;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
@@ -42,14 +48,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class ExploreFragment
+public class DownloadedFragment
     extends Fragment
 {
-    private ExploreController controller = new ExploreController();
+    private DownloadedController controller = new DownloadedController();
 
     private Intent playIntent;
 
@@ -63,26 +69,25 @@ public class ExploreFragment
     public void onStart()
     {
         super.onStart();
-        getActivity().findViewById( R.id.explore_progress ).setVisibility( View.VISIBLE );
-        controller.getExploreAlbums( sa, getActivity(), this, false, null, 0, 10 );
+        getActivity().findViewById( R.id.download_progress ).setVisibility( View.VISIBLE );
+        controller.getDownloadAlbums( sa, getActivity(), this, false, null );
     }
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
     {
-        View rootView = inflater.inflate( R.layout.fragment_explore, container, false );
+        View rootView = inflater.inflate( R.layout.fragment_download, container, false );
 
         getMessicService();
 
-        ListView gv = (ListView) rootView.findViewById( R.id.explore_lvitems );
+        ListView gv = (ListView) rootView.findViewById( R.id.download_lvitems );
 
         sa = new AlbumAdapter( getActivity(), new AlbumAdapter.EventListener()
         {
 
             public void textTouch( MDMAlbum album )
             {
-                // AlbumController.getAlbumInfo( ExploreFragment.this.getActivity(), album.getSid() );
-                AlbumController.getAlbumInfo( ExploreFragment.this.getActivity(), album );
+                AlbumController.getAlbumInfo( DownloadedFragment.this.getActivity(), album );
             }
 
             public void coverTouch( MDMAlbum album )
@@ -105,29 +110,55 @@ public class ExploreFragment
         } );
         gv.setAdapter( sa );
 
-        gv.setOnScrollListener( new AbsListView.OnScrollListener()
-        {
-
-            public void onScrollStateChanged( AbsListView view, int scrollState )
+        // Create a ListView-specific touch listener. ListViews are given special treatment because
+        // by default they handle touches for their list items... i.e. they're in charge of drawing
+        // the pressed state (the list selector), handling list item clicks, etc.
+        SwipeDismissListViewTouchListener touchListener =
+            new SwipeDismissListViewTouchListener( gv, new SwipeDismissListViewTouchListener.DismissCallbacks()
             {
-            }
-
-            public void onScroll( AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount )
-            {
-                if ( totalItemCount > 0 && !ExploreController.downloading )
+                public boolean canDismiss( int position )
                 {
-                    int lastInScreen = firstVisibleItem + visibleItemCount;
-                    if ( lastInScreen == totalItemCount )
+                    return true;
+                }
+
+                public void onDismiss( ListView listView, int[] reverseSortedPositions )
+                {
+                    for ( int position : reverseSortedPositions )
                     {
-                        getActivity().findViewById( R.id.explore_progress ).setVisibility( View.VISIBLE );
-                        controller.getExploreAlbums( sa, getActivity(), ExploreFragment.this, false, null,
-                                                     totalItemCount, visibleItemCount * 2 );
+                        final int pos = position;
+                        AlertDialog.Builder alert = new AlertDialog.Builder( DownloadedFragment.this.getActivity() );
+
+                        alert.setTitle( "Remove Downloaded Album" );
+                        alert.setMessage( "Are you sure to remove the album? (it is only on the local device)" );
+
+                        alert.setPositiveButton( "Ok", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick( DialogInterface dialog, int whichButton )
+                            {
+                                DAOAlbum album = new DAOAlbum( DownloadedFragment.this.getActivity() );
+                                album._delete( ( (MDMAlbum) sa.getItem( pos ) ).getLsid() );
+                                sa.notifyDataSetChanged();
+                            }
+                        } );
+
+                        alert.setNegativeButton( "Cancel", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick( DialogInterface dialog, int whichButton )
+                            {
+                                // Canceled.
+                            }
+                        } );
+
+                        alert.show();
                     }
                 }
-            }
-        } );
+            } );
+        gv.setOnTouchListener( touchListener );
+        // Setting this scroll listener is required to ensure that during ListView scrolling,
+        // we don't look for swipes.
+        gv.setOnScrollListener( touchListener.makeScrollListener() );
 
-        final SwipeRefreshLayout srl = (SwipeRefreshLayout) rootView.findViewById( R.id.explore_swipe );
+        final SwipeRefreshLayout srl = (SwipeRefreshLayout) rootView.findViewById( R.id.download_swipe );
         srl.setColorSchemeColors( Color.RED, Color.GREEN, Color.BLUE, Color.CYAN );
         srl.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener()
         {
@@ -139,11 +170,11 @@ public class ExploreFragment
                     {
                         if ( getActivity() != null )
                         {
-                            View v = getActivity().findViewById( R.id.explore_progress );
+                            View v = getActivity().findViewById( R.id.download_progress );
                             if ( v != null )
                             {
                                 v.setVisibility( View.VISIBLE );
-                                controller.getExploreAlbums( sa, getActivity(), ExploreFragment.this, true, srl, 0, 10 );
+                                controller.getDownloadAlbums( sa, getActivity(), DownloadedFragment.this, true, srl );
                             }
                         }
                     }
@@ -157,7 +188,7 @@ public class ExploreFragment
     /**
      * The info have been loaded, and we need to remove the progress component
      */
-    public void eventExploreInfoLoaded()
+    public void eventDownloadedInfoLoaded()
     {
         getActivity().runOnUiThread( new Runnable()
         {
@@ -166,7 +197,7 @@ public class ExploreFragment
             {
                 if ( getActivity() != null )
                 {
-                    View progress = getActivity().findViewById( R.id.explore_progress );
+                    View progress = getActivity().findViewById( R.id.download_progress );
                     if ( progress != null )
                     {
                         progress.setVisibility( View.GONE );

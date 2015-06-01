@@ -44,7 +44,7 @@ public class AnimatedGifSplashScreen
         "http://38.media.tumblr.com/3e61bf2940872bf9998bec29f923f377/tumblr_n6ni53w3Ou1tbb7cno1_500.gif",
         "http://33.media.tumblr.com/bfbda61e7201c1266de2ce01666ea6bd/tumblr_mtw7g5Bfcu1sg7iqko1_400.gif",
         "http://media.giphy.com/media/14mssh7YCCk61G/giphy.gif",
-        "www.dj-rooms.com/wp-content/uploads/2011/08/djrooms_anim05.gif",
+        "http://www.dj-rooms.com/wp-content/uploads/2011/08/djrooms_anim05.gif",
         "http://www.dj-rooms.com/wp-content/uploads/2011/08/djrooms_anim06.gif",
         "http://www.dj-rooms.com/wp-content/uploads/2011/08/djrooms_anim07.gif",
         "http://www.dj-rooms.com/wp-content/uploads/2011/08/djrooms_anim08.gif",

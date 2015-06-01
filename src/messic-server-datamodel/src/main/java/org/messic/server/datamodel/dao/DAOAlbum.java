@@ -101,36 +101,51 @@ public interface DAOAlbum
      * return all the albums in the user scope
      * 
      * @param username {@link String} user scope
-     * @return
+     * @param firstResult int first result for pagination
+     * @param maxResult int max result for pagination
+     * @param orderDesc boolean if the results should be ordered asc or desc
+     * @param orderByAuthor boolean if the reuslts shoulld be ordered by album name (by default) or by author name.
+     * @return list of albums
      */
     @Transactional
-    List<MDOAlbum> getAll( String username );
+    List<MDOAlbum> getAll( String username, int firstResult, int maxResult, boolean orderDesc, boolean orderByAuthor );
 
     /**
      * return all the albums of an author, null if author not found
      * 
      * @param authorSid long sid of the author scope
      * @param username {@link String} user scope
+     * @param firstResult int first result for pagination
+     * @param maxResult int max result for pagination
+     * @param orderDesc boolean if the results should be ordered asc or desc
+     * @param orderByAuthor boolean if the reuslts shoulld be ordered by album name (by default) or by author name.
      * @return {@link List}<MDOAlbum/> list of albums of the author
      */
     @Transactional
-    List<MDOAlbum> getAll( long authorSid, String username );
+    List<MDOAlbum> getAll( long authorSid, String username, int firstResult, int maxResult, boolean orderDesc,
+                           boolean orderByAuthor );
 
     /**
      * return all the albums which have a genre
      * 
      * @param genreSid long sid of the genre scope
      * @param username {@link String} user scope
+     * @param firstResult int first result for pagination
+     * @param maxResult int max result for pagination
+     * @param orderDesc boolean if the results should be ordered asc or desc
+     * @param orderByAuthor boolean if the reuslts shoulld be ordered by album name (by default) or by author name.
      * @return {@link List}<MDOAlbum/> list of albums with the genre
      */
     @Transactional
-    List<MDOAlbum> getAllOfGenre( long genreSid, String username );
+    List<MDOAlbum> getAllOfGenre( long genreSid, String username, int firstResult, int maxResults, boolean orderDesc, boolean orderByAuthor );
 
     /**
      * Return an album with id equals to albumSid param
      * 
      * @param albumSid long sid of the album to get
      * @param username {@link String} username scope
+     * @param firstResult int first result for pagination
+     * @param maxResult int max result for pagination
      * @return {@link MDOAlbum} album with sid equal to albumSid param
      */
     @Transactional
@@ -152,10 +167,14 @@ public interface DAOAlbum
      * @param authorSid int sid of the author scope
      * @param albumName {@link String} name or partial name to search similar
      * @param username {@link String} username scope
+     * @param firstResult int first result for pagination
+     * @param maxResult int max result for pagination
+     * @param orderDesc boolean if the results should be ordered asc or desc
+     * @param orderByAuthor boolean if the reuslts shoulld be ordered by album name (by default) or by author name.
      * @return {@link List}<MDOAlbum/> list of similar albums
      */
     @Transactional
-    List<MDOAlbum> findSimilarAlbums( long authorSid, String albumName, String username );
+    List<MDOAlbum> findSimilarAlbums( long authorSid, String albumName, String username, int firstResult, int maxResults, boolean orderDesc, boolean orderByAuthor);
 
     /**
      * Find an album with name and author name equals to the param

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.messic.android.download.DownloadManagerService;
+import org.messic.android.util.FileUtil;
 
 import android.database.Cursor;
 import android.os.Environment;
@@ -117,7 +118,9 @@ public class MDMAuthor
     public String calculateExternalStorageFolder()
     {
         String sdfolder = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String folder = sdfolder + "/" + DownloadManagerService.DESTINATION_FOLDER + "/" + this.getName();
+        String folder = sdfolder + DownloadManagerService.DESTINATION_FOLDER + "/" + "a" + getSid(); // FileUtil.replaceIllegalFilenameCharacters(
+                                                                                                     // this.getName()
+                                                                                                     // );
         return folder;
     }
 

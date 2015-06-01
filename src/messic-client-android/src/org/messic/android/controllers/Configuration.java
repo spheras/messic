@@ -45,6 +45,11 @@ public class Configuration
     public static String getBaseUrl()
     {
         MDMMessicServerInstance instance = getCurrentMessicService();
+        return getBaseUrl( instance );
+    }
+
+    public static String getBaseUrl( MDMMessicServerInstance instance )
+    {
         return ( instance.secured ? "https" : "http" ) + "://" + instance.ip + ":" + instance.port + "/messic";
     }
 

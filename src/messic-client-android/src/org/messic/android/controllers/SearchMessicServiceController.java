@@ -35,7 +35,12 @@ public class SearchMessicServiceController
 
     public interface SearchListener
     {
-        void messicServiceFound( MDMMessicServerInstance md );
+        /**
+         * send the instance found
+         * @param md {@link MDMMessicServerInstance} instance found
+         * @return if the search service should be cancelled or not
+         */
+        boolean messicServiceFound( MDMMessicServerInstance md );
     }
 
     /**
@@ -52,6 +57,12 @@ public class SearchMessicServiceController
         {
             adapter.addInstance( instance );
         }
+    }
+
+    public void removeSavedSession( Context context, MDMMessicServerInstance instance )
+    {
+        DAOServerInstance dao = new DAOServerInstance( context );
+        dao.remove( instance );
     }
 
     /**

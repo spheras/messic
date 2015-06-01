@@ -33,18 +33,18 @@ public class UtilTest
     @Test
     public void testReplaceIllegalFilenameCharacters()
     {
-
+        // [\"%*\\/:<>?\\^`{|}]+
         String fileName = "04-From?::/let's see.mp3";
-        String result = Util.replaceIllegalFilenameCharacters( fileName, '_' );
-        Assert.assertTrue( result.equals( "04-From_let's see.mp3" ) );
+        String result = Util.replaceIllegalFilenameCharactersNew( fileName, '_' );
+        Assert.assertTrue( result.equals( "04-From_-let's see.mp3" ) );
 
-        fileName = "04-From /et's see.m*3";
-        result = Util.replaceIllegalFilenameCharacters( fileName, '_' );
-        Assert.assertTrue( result.equals( "04-From _et's see.m_3" ) );
+        fileName = "04-Fr^om /et's see\\.m*3";
+        result = Util.replaceIllegalFilenameCharactersNew( fileName, '_' );
+        Assert.assertTrue( result.equals( "04-Fr_om -et's see-.m_3" ) );
 
-        fileName = "07 - (You Are) This Body of Milk.mp3";
-        result = Util.replaceIllegalFilenameCharacters( fileName, '_' );
-        Assert.assertTrue( result.equals( "07 - _You Are_ This Body of Milk.mp3" ) );
+        fileName = "07 - (You Are) This {Body} of <M>il|k.mp3";
+        result = Util.replaceIllegalFilenameCharactersNew( fileName, '_' );
+        Assert.assertTrue( result.equals( "07 - (You Are) This [Body] of [M]il-k.mp3" ) );
 
     }
 

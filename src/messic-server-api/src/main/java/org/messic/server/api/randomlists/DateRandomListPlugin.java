@@ -18,10 +18,12 @@
  */
 package org.messic.server.api.randomlists;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.messic.server.Util;
 import org.messic.server.api.datamodel.RandomList;
 import org.messic.server.api.datamodel.Song;
 import org.messic.server.api.datamodel.User;
@@ -41,8 +43,8 @@ public class DateRandomListPlugin
     @Override
     public RandomList getRandomList( User user )
     {
-        // int year = Calendar.getInstance().get( Calendar.YEAR );
-        int fromYear = daoAlbum.findOldestAlbum( user.getLogin() ); // Util.randInt( 1920, year );
+        int year = Calendar.getInstance().get( Calendar.YEAR );
+        int fromYear = Util.randInt( daoAlbum.findOldestAlbum( user.getLogin() ), year );
         int toYear = fromYear + 10;// Util.randInt( fromYear, year );
         List<MDOAlbum> albums = daoAlbum.findAlbumsBasedOnDate( user.getLogin(), fromYear, toYear );
 

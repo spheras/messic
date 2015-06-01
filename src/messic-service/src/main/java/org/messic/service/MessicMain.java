@@ -84,7 +84,7 @@ public class MessicMain
         System.out.println( "isHeadless?" + GraphicsEnvironment.isHeadless() );
         if ( !GraphicsEnvironment.isHeadless())
         {
-            //agss = new AnimatedGifSplashScreen();
+            agss = new AnimatedGifSplashScreen();
         }
 
         deleteFelixCache();

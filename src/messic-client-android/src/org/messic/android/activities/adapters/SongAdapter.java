@@ -217,7 +217,7 @@ public class SongAdapter
             {
                 public void onClick( View v )
                 {
-                    downloadService.addDownload( song );
+                    downloadService.addDownload( song, SongAdapter.this.activity );
                 }
             } );
         }

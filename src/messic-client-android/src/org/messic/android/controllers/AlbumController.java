@@ -31,6 +31,13 @@ import android.widget.Toast;
 
 public class AlbumController
 {
+    public static void getAlbumInfo( final Activity originActivity, MDMAlbum album )
+    {
+        Intent ssa = new Intent( originActivity, AlbumInfoActivity.class );
+        ssa.putExtra( AlbumInfoActivity.EXTRA_ALBUM_SID, album );
+        originActivity.startActivity( ssa );
+    }
+
     public static void getAlbumInfo( final Activity originActivity, long sid )
     {
         final ProgressDialog dialog =

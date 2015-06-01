@@ -51,21 +51,30 @@ public class MDMMessicServerInstance
 
     public int lsid;
 
-    public String ip;
+    public String ip="";
 
-    public String name;
+    public String name="";
 
     public boolean secured;
 
     public int port;
 
-    public String description;
+    public String description="";
 
-    public String version;
+    public String version="";
 
     public String lastUser;
 
     public String lastPassword;
+
+    public static int STATUS_UNKNOWN = 0;
+
+    public static int STATUS_RUNNING = 1;
+
+    public static int STATUS_DOWN = 2;
+
+    /** last checked status... 0->unknown, 1->running, 2-> down */
+    public int lastCheckedStatus = STATUS_UNKNOWN;
 
     public static String[] getColumns()
     {
@@ -88,5 +97,21 @@ public class MDMMessicServerInstance
         this.version = cursor.getString( 6 );
         this.lastUser = cursor.getString( 7 );
         this.lastPassword = cursor.getString( 8 );
+    }
+
+    /**
+     * @return the lastCheckedStatus
+     */
+    public int getLastCheckedStatus()
+    {
+        return lastCheckedStatus;
+    }
+
+    /**
+     * @param lastCheckedStatus the lastCheckedStatus to set
+     */
+    public void setLastCheckedStatus( int lastCheckedStatus )
+    {
+        this.lastCheckedStatus = lastCheckedStatus;
     }
 }

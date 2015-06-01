@@ -18,10 +18,12 @@
  */
 package org.messic.android.datamodel;
 
+import java.io.File;
 import java.io.Serializable;
 
 import org.messic.android.controllers.Configuration;
 import org.messic.android.datamodel.dao.DAOAlbum;
+import org.messic.android.util.FileUtil;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -58,7 +60,7 @@ public class MDMSong
             COLUMN_FILENAME, COLUMN_FK_ALBUM };
     }
 
-    public MDMSong( Cursor cursor, Context context )
+    public MDMSong( Cursor cursor, Context context, boolean loadAlbum )
     {
         this.lsid = cursor.getInt( 0 );
         this.sid = cursor.getInt( 1 );
@@ -67,10 +69,14 @@ public class MDMSong
         this.rate = cursor.getInt( 4 );
         this.fileName = cursor.getString( 5 );
         DAOAlbum daoalbum = new DAOAlbum( context );
-        int sidAlbum = cursor.getInt( 7 );
-        Cursor cAlbum = daoalbum._get( sidAlbum );
-        this.album = new MDMAlbum( cAlbum, context );
-
+        daoalbum.open();
+        int sidAlbum = cursor.getInt( 6 );
+        if ( loadAlbum )
+        {
+            Cursor cAlbum = daoalbum._get( sidAlbum );
+            this.album = new MDMAlbum( cAlbum, context, false );
+        }
+        daoalbum.close();
     }
 
     /**
@@ -149,7 +155,17 @@ public class MDMSong
      */
     public String calculateExternalStorageFolder()
     {
-        return getAlbum().calculateExternalStorageFolder() + "/" + this.getAlbum().getName();
+        return getAlbum().calculateExternalStorageFolder();
+    }
+
+    /**
+     * Obtain the filename to be stored at the external SD
+     * 
+     * @return
+     */
+    public String calculateExternalFilename()
+    {
+        return "/s" + getSid() + ".mp3";
     }
 
     /**

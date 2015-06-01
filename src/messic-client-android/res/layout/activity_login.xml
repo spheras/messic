@@ -8,85 +8,102 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.messic.android.activities.LoginActivity" >
 
-    <LinearLayout
-        android:id="@+id/linearLayout1"
+
+    <View
+        android:id="@+id/login_online_status" 
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="#FFFF00"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:visibility="visible"
+    />
+
+    <TextView
+        android:id="@+id/login_online_thostname_ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/login_online_thostname"
+        android:layout_below="@+id/login_online_thostname"
+        android:text="Medium Text"
+        android:visibility="visible"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+    <TextView
+        android:id="@+id/login_online_thostname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/login_online_status"
+        android:layout_toLeftOf="@+id/login_online_status"
+        android:layout_marginRight="10dp"
+        android:visibility="visible"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />    
+
+    <LinearLayout
+        android:id="@+id/login_online_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/login_online_status"
+        android:layout_below="@+id/login_online_status"
+        android:layout_marginTop="16dp"
+        android:visibility="visible"
         android:orientation="vertical" >
 
         <EditText
-            android:id="@+id/login_tusername"
+            android:id="@+id/login_online_tusername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_loginhint"
-            android:textColorLink="@android:color/holo_blue_dark" >
-
-            <requestFocus />
-        </EditText>
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/login_tpassword"
+            android:singleLine="true"
+            android:textColorLink="@android:color/holo_blue_dark" />
 
         <EditText
-            android:id="@+id/login_tpassword"
+            android:id="@+id/login_online_tpassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/login_passwordhint"
-            android:inputType="textPassword" />
+            android:imeOptions="actionGo"
+            android:inputType="textPassword"
+            android:singleLine="true" />
+
+        <CheckBox
+            android:id="@+id/login_online_cbremember"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_remember" />
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="20dp" />
 
         <Button
-            android:id="@+id/login_bloginaction"
+            android:id="@+id/login_online_bloginaction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/login_loginaction" />
     </LinearLayout>
 
-    <CheckBox
-        android:id="@+id/login_cbremember"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/login_searchonline"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:text="@string/login_remember" />
+        android:layout_alignLeft="@+id/login_online_layout"
+        android:layout_below="@+id/login_online_layout"
+        android:layout_marginTop="23dp"
+        android:visibility="visible"
+        android:text="@string/login_searchonline" />
+    
+    <Button
+        android:id="@+id/login_boffline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/login_online_layout"
+        android:layout_below="@+id/login_searchonline"
+        android:layout_marginTop="23dp"
+        android:text="@string/login_offline" />
 
-    <TextView
-        android:id="@+id/login_thostname"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <Switch
-        android:id="@+id/login_sonline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/linearLayout1"
-        android:layout_below="@+id/linearLayout1"
-        android:layout_marginTop="28dp"
-        android:checked="true"
-        android:text="@string/login_sonline" />
-
-    <ImageView
-        android:id="@+id/songdetailed_icover"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/linearLayout1"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/logomessicvinyl" />
-
-    <ImageButton
-        android:id="@+id/login_bsearchserver"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/login_cbremember"
-        android:layout_alignRight="@+id/login_sonline"
-        android:src="@drawable/undo" />
 
 </RelativeLayout>

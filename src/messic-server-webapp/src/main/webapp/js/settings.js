@@ -66,25 +66,190 @@ function initSettings(flagNewUser) {
 
 }
 
+
+/** make a check of the filesystem against the database, it is considered a deep check */
+function checkDeepConsistency() {
+    var stopButton = $("#messic-settings-consistency-stop");
+    stopButton.data("pressed", "0");
+    var divta = $("#messic-settings-consistency-details");
+
+    $("#messic-settings-consistency-details").val(messicLang.settingsConsistencyDeepWait);
+
+    //first we obtain the list of author folders
+    divta.val("**** FOLDER VALIDATION **** \n" + divta.val());
+    $.ajax({
+        type: "GET",
+        dataType: 'json',
+        async: false,
+        url: "services/authors/getAuthorFolders",
+        success: function (data) {
+
+            //create a pool to make all the petitions
+            var ajaxpool = new UtilAjaxPool();
+            ajaxpool.setMaxElements = 5;
+            var endf = function () {
+                //at the end we start the 'light' consistency check
+                checkLightConsistency();
+            };
+            ajaxpool.setEndFunction(endf);
+
+            var progressBar = $(".messic-settings-consistency-progressbar");
+            progressBar.width('0%');
+            var index = 0;
+
+            //we treat each folder, and check it
+            for (var i = 0; i < data.length; i++) {
+                var folderName = data[i];
+
+                //we try to get the status of the author folder
+                var successFunction = function (ffolderName) {
+
+                    var dofunction = function (result) {
+                        index = index + 1;
+
+                        for (var j = 0; j < result.length; j++) {
+                            if (result[j].status != 0) {
+                                divta.val("(" + index + "/" + data.length + ") Warning! ->" + result[j].message + "\n" + divta.val());
+                            } else {
+                                divta.val("(" + index + "/" + data.length + ") OK ->" + ffolderName + "\n" + divta.val());
+                            }
+                        }
+
+                        if (stopButton.data("pressed") != "0") {
+                            UtilShowInfo(messicLang.settingsConsistencyStopped);
+                            progressBar.width('0%')
+                            $("#messic-settings-consistency-start").show();
+                            $("#messic-settings-consistency-cancel").show();
+                            $("#messic-settings-consistency-working").hide();
+                            $("#messic-settings-consistency-stop").hide();
+                            ajaxpool.cancel();
+                        }
+
+                        var percentComplete = index / data.length;
+                        progressBar.width((percentComplete * 100) + '%')
+                    }
+                    return dofunction;
+                }(folderName);
+
+                var errorFunction = function (request, status, error) {
+                    index = index + 1;
+                    divta.val("FAILED!!!->" + request.responseText + "\n" + divta.val());
+                };
+
+                ajaxpool.addProcess("POST", "json", "services/authors/checkAuthorFolderConsistency/" + folderName, successFunction, errorFunction);
+            }
+
+            ajaxpool.start();
+        },
+        error: function (request, status, error) {
+            divta.val("FAILED!!!->" + request.responseText + "\n" + divta.val());
+        }
+    });
+}
+
+/* check the 'light' consistency */
+function checkLightConsistency() {
+    var stopButton = $("#messic-settings-consistency-stop");
+    stopButton.data("pressed", "0");
+    var divta = $("#messic-settings-consistency-details");
+
+    divta.val("**** ALBUM VALIDATION **** \n" + divta.val());
+    //after we check the consistency of each album
+    $.ajax({
+        url: "services/albums?songsInfo=false&authorInfo=false",
+        dataType: 'json',
+        async: false,
+        success: function (dataAlbums) {
+
+            var progressBar = $(".messic-settings-consistency-progressbar");
+            progressBar.width('0%');
+            var index = 0;
+
+            //create a pool to make all the petitions
+            var ajaxpool = new UtilAjaxPool();
+            ajaxpool.setMaxElements = 5;
+            var endf = function () {
+                progressBar.width('100%')
+                $("#messic-settings-consistency-start").show();
+                $("#messic-settings-consistency-cancel").show();
+                $("#messic-settings-consistency-working").hide();
+                $("#messic-settings-consistency-stop").hide();
+                UtilShowInfo(messicLang.settingsConsistencyEnd);
+            };
+            ajaxpool.setEndFunction(endf);
+
+
+            for (var i = 0; i < dataAlbums.length; i++) {
+                var album = dataAlbums[i];
+
+
+                var successFunction = function (ialbum) {
+                    var dofunction = function (data) {
+                        index = index + 1;
+                        var divta = $("#messic-settings-consistency-details");
+
+                        if (data.status == 0) {
+                            divta.val("(" + index + "/" + dataAlbums.length + ") OK->" + ialbum.name + "\n" + divta.val());
+                        } else if (data.status == 1) {
+                            divta.val("(" + index + "/" + dataAlbums.length + ") Repaired->" + ialbum.name + "\n" + divta.val());
+                        } else if (data.status == 2) {
+                            divta.val("(" + index + "/" + dataAlbums.length + ") FAIL!:" + data.message + "\n" + divta.val());
+                        }
+
+                        var percentComplete = index / dataAlbums.length;
+                        progressBar.width((percentComplete * 100) + '%');
+
+                        if (stopButton.data("pressed") != "0") {
+                            UtilShowInfo(messicLang.settingsConsistencyStopped);
+                            progressBar.width('0%')
+                            $("#messic-settings-consistency-start").show();
+                            $("#messic-settings-consistency-cancel").show();
+                            $("#messic-settings-consistency-working").hide();
+                            $("#messic-settings-consistency-stop").hide();
+                            ajaxpool.cancel();
+                        }
+                    }
+                    return dofunction;
+                }(album);
+
+                var errorFunction = function (request, status, error) {
+                    index = index + 1;
+                    var divta = $("#messic-settings-consistency-details");
+                    divta.val("FAILED!!!->" + album.name + ": " + request.responseText + "\n" + divta.val());
+
+                    var percentComplete = i / dataAlbums.length;
+                    progressBar.width((percentComplete * 100) + '%')
+                }
+
+
+                ajaxpool.addProcess("POST", "json", "services/albums/checkConsistency/" + album.sid, successFunction, errorFunction);
+            }
+
+
+            ajaxpool.start();
+        }
+    });
+}
+
 /**
-* Show the consistency panel
-*/
-function showConsistencyPanel(){
+ * Show the consistency panel
+ */
+function showConsistencyPanel() {
     var code = "";
     code = code + "<div id=\"messic-settings-consistency-overlay\">";
     code = code + "  <div id=\"messic-settings-consistency-container\">";
-    code = code + "    <p class=\"messic-settings-consistency-title\">"+messicLang.settingsConsistencyTitle+"</p>";
-    code = code + "    <p class=\"messic-settings-consistency-desc\">"+messicLang.settingsConsistencyDesc+"</p>";
+    code = code + "    <p class=\"messic-settings-consistency-title\">" + messicLang.settingsConsistencyTitle + "</p>";
+    code = code + "    <p class=\"messic-settings-consistency-desc\">" + messicLang.settingsConsistencyDesc + "</p>";
     code = code + "    <div class=\"messic-settings-consistency-progress\"><div class=\"messic-settings-consistency-progressbar\"></div></div>";
     code = code + "    <textarea id=\"messic-settings-consistency-details\" readonly=\"true\"></textarea>";
-    code = code + "    <label><input type=\"checkbox\" id=\"messic-settings-consistency-deep\" value=\"value\">"+messicLang.settingsConsistencyDeep+"</label>";
-    code = code + "    <button id=\"messic-settings-consistency-start\">"+messicLang.settingsConsistencyButtonStart+"</button>";
-    code = code + "    <button id=\"messic-settings-consistency-cancel\">"+messicLang.settingsConsistencyButtonCancel+"</button>";
-    code = code + "    <button id=\"messic-settings-consistency-stop\">"+messicLang.settingsConsistencyButtonStop+"</button>";
-    code = code + "    <div id=\"messic-settings-consistency-working\" class=\"animated infinite rubberBand\">"+messicLang.settingsConsistencyWorking+"</div>";
+    code = code + "    <label><input type=\"checkbox\" id=\"messic-settings-consistency-deep\" value=\"value\">" + messicLang.settingsConsistencyDeep + "</label>";
+    code = code + "    <button id=\"messic-settings-consistency-start\">" + messicLang.settingsConsistencyButtonStart + "</button>";
+    code = code + "    <button id=\"messic-settings-consistency-cancel\">" + messicLang.settingsConsistencyButtonCancel + "</button>";
+    code = code + "    <button id=\"messic-settings-consistency-stop\">" + messicLang.settingsConsistencyButtonStop + "</button>";
+    code = code + "    <div id=\"messic-settings-consistency-working\" class=\"animated infinite rubberBand\">" + messicLang.settingsConsistencyWorking + "</div>";
     code = code + "  </div>";
     code = code + "</div>";
-    var $code=$(code);
+    var $code = $(code);
     $code.find("#messic-settings-consistency-working").hide();
     $code.find("#messic-settings-consistency-stop").hide();
     $code.hide().appendTo('body').fadeIn();
@@ -94,136 +259,21 @@ function showConsistencyPanel(){
     });
 
     $code.find("#messic-settings-consistency-stop").click(function () {
-        this.data("pressed","1"); //set a flag to a pressed value, to stop the process
+        $(this).data("pressed", "1"); //set a flag to a pressed value, to stop the process
     });
 
     $code.find("#messic-settings-consistency-start").click(function () {
-        
         $("#messic-settings-consistency-start").hide();
         $("#messic-settings-consistency-cancel").hide();
         $("#messic-settings-consistency-working").show();
         $("#messic-settings-consistency-stop").show();
-        var stopButton=$("#messic-settings-consistency-stop");
-        stopButton.data("pressed","0");
-        var divta=$("#messic-settings-consistency-details");
 
-        if($("#messic-settings-consistency-deep").is(':checked')) {
+        if ($("#messic-settings-consistency-deep").is(':checked')) {
             //deep search
-            
-            $("#messic-settings-consistency-details").val(messicLang.settingsConsistencyDeepWait);
-
-            //first we obtain the list of author folders
-            divta.val( "**** FOLDER VALIDATION **** \n" + divta.val());
-            $.ajax({
-                type: "GET",
-                dataType: 'json',
-                async: false,
-                url: "services/authors/getAuthorFolders",
-                success: function (data) {
-                    for(var i=0;i<data.length;i++){
-                        var folderName=data[i];
-                        
-                        if(stopButton.data("pressed")!="0"){
-                            UtilShowInfo(messicLang.settingsConsistencyStopped);
-                            
-                            $("#messic-settings-consistency-start").show();
-                            $("#messic-settings-consistency-cancel").show();
-                            $("#messic-settings-consistency-working").hide();
-                            $("#messic-settings-consistency-stop").hide();
-                            
-                            return;
-                        }
-                        
-                        //we try to get the status of the author folder
-                        $.ajax({
-                            type: "POST",
-                            dataType: 'json',
-                            async: false,
-                            url: "services/authors/checkAuthorFolderConsistency/"+folderName,
-                            success: function (result) {
-                                for(var j=0;j<result.length;j++){
-                                    if(result[j].status!=0){
-                                        divta.val( "("+i+"/"+data.length+") Warning! ->" + result.message + "\n" + divta.val());
-                                    }else{
-                                        divta.val( "("+i+"/"+data.length+") OK ->" + folderName + "\n" + divta.val());
-                                    }
-                                }
-                            },
-                            error: function (request, status, error){
-                                divta.val( "FAILED!!!->"+request.responseText  +"\n"+ divta.val());
-                            }
-                        });
-                    }
-                },
-                error: function (request, status, error){
-                    divta.val( "FAILED!!!->"+request.responseText  +"\n"+ divta.val());
-                }
-            });
-
+            checkDeepConsistency();
+        } else {
+            checkLightConsistency();
         }
-        
-        divta.val( "**** ALBUM VALIDATION **** \n" + divta.val());
-        //after we check the consistency of each album
-        $.ajax({
-            url: "services/albums?songsInfo=false&authorInfo=false",
-            dataType: 'json',
-            async: false,
-            success: function (dataAlbums) {
-                var progressBar=$(".messic-settings-consistency-progressbar");
-                
-                for(var i=0;i<dataAlbums.length;i++){
-                    var album=dataAlbums[i];
-                    
-                        if(stopButton.data("pressed")!="0"){
-                            UtilShowInfo(messicLang.settingsConsistencyStopped);
-                            
-                            $("#messic-settings-consistency-start").show();
-                            $("#messic-settings-consistency-cancel").show();
-                            $("#messic-settings-consistency-working").hide();
-                            $("#messic-settings-consistency-stop").hide();
-                            return;
-                        }
-
-                    
-                    $.ajax({
-                        type: "POST",
-                        dataType: 'json',
-                        async: false,
-                        url: "services/albums/checkConsistency/"+album.sid,
-                        success: function (data) {
-                            var divta=$("#messic-settings-consistency-details");
-                            
-                            if(data.status==0){
-                                divta.val( "("+i+"/"+dataAlbums.length+") OK->"+album.name + "\n"+ divta.val());
-                            }else if(data.status==1){
-                                divta.val( "("+i+"/"+dataAlbums.length+") Repaired->"+album.name + "\n"+ divta.val());
-                            }else if(data.status==2){
-                                divta.val( "("+i+"/"+dataAlbums.length+") FAIL!:"+data.message+"\n"+ divta.val());
-                            }
-                            
-                            var percentComplete = i / dataAlbums.length;
-                            progressBar.width((percentComplete * 100) + '%')
-                        },
-                        error: function (request, status, error){
-                            var divta=$("#messic-settings-consistency-details");
-                            divta.val( "FAILED!!!->"+album.name + ": "+ request.responseText +"\n"+ divta.val());
-                            
-                            var percentComplete = i / dataAlbums.length;
-                            progressBar.width((percentComplete * 100) + '%')
-                        }
-                    });
-                }
-                
-                progressBar.width('100%')
-                $("#messic-settings-consistency-start").show();
-                $("#messic-settings-consistency-cancel").show();
-                $("#messic-settings-consistency-working").hide();
-                $("#messic-settings-consistency-stop").hide();
-                UtilShowInfo(messicLang.settingsConsistencyEnd);
-            }
-        });
-
-        
     });
 }
 
@@ -315,12 +365,12 @@ function removeAccount(sid) {
 function settingsFuseGenres() {
     var genresToFuse = new Array();
     var genresNameToFuse = new Array();
-    
+
     var divTable = $("#messic-user-settings-content-genres-table tr").each(function () {
         var checked = $(this).find("input").is(":checked");
         if (checked) {
             genresToFuse.push($(this).data("sid"));
-            var genreName=$(this).find(".messic-user-settings-genres-col-name").text();
+            var genreName = $(this).find(".messic-user-settings-genres-col-name").text();
             genresNameToFuse.push(genreName);
         }
     });
@@ -330,10 +380,10 @@ function settingsFuseGenres() {
         code = code + "  <div id=\"messic-settings-genre-fuse-container\">";
         code = code + "      <p>" + messicLang.settingsFuseGenreExplanation + "</p>";
         code = code + "      <p>";
-        for(var i=0;i<genresToFuse.length;i++){
-            code=code+genresNameToFuse[i];
-            if(i<genresToFuse.length-1){
-                code=code+" + ";
+        for (var i = 0; i < genresToFuse.length; i++) {
+            code = code + genresNameToFuse[i];
+            if (i < genresToFuse.length - 1) {
+                code = code + " + ";
             }
         }
         code = code + "</p>";
@@ -444,7 +494,7 @@ function settingsRemoveGenre(sid, name, trDiv) {
                 'title': messicLang.confirmationNo,
                 'class': 'gray',
                 'action': function () {} // Nothing to do in this case. You can as
-                // well omit the action property.
+                    // well omit the action property.
             }
         }
     });
@@ -506,7 +556,7 @@ function settingsRemoveUser(sid, name, trDiv) {
                 'title': messicLang.confirmationNo,
                 'class': 'gray',
                 'action': function () {} // Nothing to do in this case. You can as
-                // well omit the action property.
+                    // well omit the action property.
             }
         }
     });
@@ -540,7 +590,7 @@ function settingsResetPassword(sid, name) {
                 'title': messicLang.confirmationNo,
                 'class': 'gray',
                 'action': function () {} // Nothing to do in this case. You can as
-                // well omit the action property.
+                    // well omit the action property.
             }
         }
     });
@@ -710,7 +760,7 @@ function settingsChangeSection(nextFunction) {
                     'title': messicLang.confirmationNo,
                     'class': 'gray',
                     'action': function () {} // Nothing to do in this case. You can as
-                    // well omit the action property.
+                        // well omit the action property.
                 }
             }
         });

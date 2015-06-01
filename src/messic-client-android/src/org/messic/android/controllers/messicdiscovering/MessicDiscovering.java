@@ -38,8 +38,8 @@ public class MessicDiscovering
 {
     private static final String MESSIC_DISCOVER_MESSAGE = "<messic>discover</messic>";
 
-    private static int PORT=8713;
-    
+    private static int PORT = 8713;
+
     private boolean cancel = false;
 
     /**
@@ -140,7 +140,10 @@ public class MessicDiscovering
                             md.ip = receivePacket.getAddress().getCanonicalHostName();
                             // DO SOMETHING WITH THE SERVER'S IP (for example, store it in your controller)
                             // Controller_Base.setServerIp( receivePacket.getAddress() );
-                            sl.messicServiceFound( md );
+                            if ( sl.messicServiceFound( md ) )
+                            {
+                                this.cancel = true;
+                            }
                         }
                         catch ( Exception e )
                         {

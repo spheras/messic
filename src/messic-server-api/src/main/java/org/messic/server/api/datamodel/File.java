@@ -91,7 +91,7 @@ public class File
     public String calculateSecureFileName( char replacementChar )
     {
         String name = FilenameUtils.removeExtension( this.fileName );
-        String secureName = Util.replaceIllegalFilenameCharacters( name, replacementChar );
+        String secureName = Util.replaceIllegalFilenameCharactersNew( name, replacementChar );
         String secureExtension = calculateSecureExtension( replacementChar );
         return secureName + "." + secureExtension;
     }
@@ -109,7 +109,7 @@ public class File
             extension = Util.DEFAULT_EXTENSION;
         }
 
-        String secureExtension = Util.replaceIllegalFilenameCharacters( extension, replacementChar );
+        String secureExtension = Util.replaceIllegalFilenameCharactersNew( extension, replacementChar );
         return secureExtension;
     }
 

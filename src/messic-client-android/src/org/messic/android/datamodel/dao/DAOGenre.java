@@ -13,7 +13,7 @@ public class DAOGenre
 
     public DAOGenre( Context context )
     {
-        super( context, MDMGenre.TABLE_NAME, MDMSong.getColumns() );
+        super( context, MDMGenre.TABLE_NAME, MDMGenre.getColumns() );
     }
 
     public MDMGenre save( MDMGenre genre )

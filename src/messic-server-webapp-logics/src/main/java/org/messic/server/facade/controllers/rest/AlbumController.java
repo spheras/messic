@@ -93,7 +93,7 @@ public class AlbumController
     @Autowired
     public APITagWizard wizardAPI;
 
-    @ApiMethod( path = "/services/albums?filterGenreSid=xxxx&filterAuthorSid=xxxx&filterName=xxxx&songsInfo=true|false&authorInfo=true|false", verb = ApiVerb.GET, description = "Get all albums. They can be filtered by authorSid or by genreSid (not combined). You can also espcify what information should be returned (with songs information or not, for exmaple)", produces = {
+    @ApiMethod( path = "/services/albums?filterGenreSid=xxxx&filterAuthorSid=xxxx&filterName=xxxx&songsInfo=true|false&authorInfo=true|false&pageFromResult=xxxx&pageMaxResults=xxxxx&orderDesc=false&orderByAuthor=true", verb = ApiVerb.GET, description = "Get all albums. They can be filtered by authorSid or by genreSid (not combined). You can also espcify what information should be returned (with songs information or not, for exmaple)", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -104,6 +104,10 @@ public class AlbumController
     public List<Album> getAll( @RequestParam( value = "filterGenreSid", required = false ) @ApiParam( name = "filterGenreSid", description = "SID of the genre to filter albums", paramType = ApiParamType.QUERY, required = false ) Integer filterGenreSid,
                                @RequestParam( value = "filterAuthorSid", required = false ) @ApiParam( name = "filterAuthorSid", description = "SID of the author to filter albums", paramType = ApiParamType.QUERY, required = false ) Integer filterAuthorSid,
                                @RequestParam( value = "filterName", required = false ) @ApiParam( name = "filterName", description = "partial name of the album to search", paramType = ApiParamType.QUERY, required = false ) String filterName,
+                               @RequestParam( value = "pageFromResult", required = false ) @ApiParam( name = "pageFromResult", description = "From which result number we want to get results from database. This is for pagination, not mandatory.", paramType = ApiParamType.QUERY, required = false ) Integer pageFromResult,
+                               @RequestParam( value = "pageMaxResults", required = false ) @ApiParam( name = "pageMaxResults", description = "From which result number we want to get results from database. This is for pagination, not mandatory.", paramType = ApiParamType.QUERY, required = false ) Integer pageMaxResults,
+                               @RequestParam( value = "orderDesc", required = false ) @ApiParam( name = "orderDesc", description = "if results should be ordered asc (by default) or desc.", paramType = ApiParamType.QUERY, required = false ) Boolean orderDesc,
+                               @RequestParam( value = "orderByAuthor", required = false ) @ApiParam( name = "orderByAuthor", description = "If results should be ordered by album name (default) or by author name.", paramType = ApiParamType.QUERY, required = false ) Boolean orderByAuthor,
                                @RequestParam( value = "authorInfo", required = false ) @ApiParam( name = "authorInfo", description = "flag to return also the author info of the albums or not. By default, true", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
                                    "true", "false" }, format = "Boolean" ) Boolean authorInfo,
                                @RequestParam( value = "songsInfo", required = false ) @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
@@ -121,8 +125,10 @@ public class AlbumController
             {
                 albums =
                     albumAPI.getAll( user, ( authorInfo != null ? authorInfo : true ), ( songsInfo != null ? songsInfo
-                                    : false ), ( resourcesInfo != null ? resourcesInfo
-                                    : ( songsInfo != null ? songsInfo : false ) ) );
+                                                     : false ), ( resourcesInfo != null ? resourcesInfo
+                                                     : ( songsInfo != null ? songsInfo : false ) ),
+                                     ( pageFromResult != null ? pageFromResult : -1 ),
+                                     ( pageMaxResults != null ? pageMaxResults : -1 ), orderDesc, orderByAuthor );
             }
             else
             {
@@ -132,7 +138,8 @@ public class AlbumController
                         albumAPI.getAll( user, filterAuthorSid, ( authorInfo != null ? authorInfo : true ),
                                          ( songsInfo != null ? songsInfo : false ),
                                          ( resourcesInfo != null ? resourcesInfo : ( songsInfo != null ? songsInfo
-                                                         : false ) ) );
+                                                         : false ) ), ( pageFromResult != null ? pageFromResult : -1 ),
+                                         ( pageMaxResults != null ? pageMaxResults : -1 ), orderDesc, orderByAuthor );
                 }
                 if ( filterGenreSid != null )
                 {
@@ -140,7 +147,10 @@ public class AlbumController
                         albumAPI.getAllOfGenre( user, filterGenreSid, ( authorInfo != null ? authorInfo : true ),
                                                 ( songsInfo != null ? songsInfo : false ),
                                                 ( resourcesInfo != null ? resourcesInfo
-                                                                : ( songsInfo != null ? songsInfo : false ) ) );
+                                                                : ( songsInfo != null ? songsInfo : false ) ),
+                                                ( pageFromResult != null ? pageFromResult : -1 ),
+                                                ( pageMaxResults != null ? pageMaxResults : -1 ), orderDesc,
+                                                orderByAuthor );
                 }
                 else
                 {
@@ -148,7 +158,9 @@ public class AlbumController
                         albumAPI.findSimilar( user, filterAuthorSid, filterName, ( authorInfo != null ? authorInfo
                                                               : true ), ( songsInfo != null ? songsInfo : false ),
                                               ( resourcesInfo != null ? resourcesInfo : ( songsInfo != null ? songsInfo
-                                                              : false ) ) );
+                                                              : false ) ), ( pageFromResult != null ? pageFromResult
+                                                              : -1 ), ( pageMaxResults != null ? pageMaxResults : -1 ),
+                                              orderDesc, orderByAuthor );
                 }
             }
 
@@ -530,8 +542,6 @@ public class AlbumController
             throw new UnknownMessicRESTException( e );
         }
     }
-
-
 
     @ApiMethod( path = "/services/albums/checkConsistency/{albumSid}", verb = ApiVerb.POST, description = "Check the consistency of the database en resource files", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )

@@ -21,8 +21,10 @@ package org.messic.android.activities;
 import org.messic.android.controllers.Configuration;
 import org.messic.android.controllers.SearchMessicServiceController;
 import org.messic.android.datamodel.MDMMessicServerInstance;
+import org.messic.android.util.Network;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -40,13 +42,30 @@ public class MainActivity
         MDMMessicServerInstance prefferedServer = Configuration.getLastMessicServerUsed( this );
         if ( prefferedServer != null && prefferedServer.ip.trim().length() > 0 )
         {
-            // must test if the server is online
-            // TODO
-            // Let's try to login with this sever
-            Intent ssa = new Intent( MainActivity.this, LoginActivity.class );
-            ssa.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
-            MainActivity.this.startActivity( ssa );
+            final Context context = this;
 
+            Network.MessicServerStatusListener mssl = new Network.MessicServerStatusListener()
+            {
+                public void setResponse( boolean reachable, boolean running )
+                {
+                    if ( reachable && running )
+                    {
+                        // Let's try to login with this sever
+                        Intent ssa = new Intent( context, LoginActivity.class );
+                        ssa.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
+                        context.startActivity( ssa );
+                    }
+                    else
+                    {
+                        // We don't have any preffered server, we must search a valid one
+                        Intent ssa = new Intent( context, SearchMessicServiceActivity.class );
+                        ssa.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
+                        context.startActivity( ssa );
+                    }
+                }
+            };
+
+            Network.checkMessicServerUpAndRunning( prefferedServer, mssl );
         }
         else
         {
@@ -55,5 +74,6 @@ public class MainActivity
             ssa.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
             MainActivity.this.startActivity( ssa );
         }
+
     }
 }
