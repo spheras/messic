@@ -1,7 +1,7 @@
 package org.messic.android.datamodel.dao;
 
+import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMAuthor;
-import org.messic.android.datamodel.MDMSong;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -16,12 +16,14 @@ public class DAOAuthor
         super( context, MDMAuthor.TABLE_NAME, MDMAuthor.getColumns() );
     }
 
-    public MDMAuthor save( MDMAuthor author )
+    public MDMAuthor save( Context context, MDMAuthor author, boolean saveAlbums )
     {
         open();
         ContentValues cv = new ContentValues();
         cv.put( MDMAuthor.COLUMN_NAME, author.getName() );
         cv.put( MDMAuthor.COLUMN_SERVER_SID, author.getSid() );
+        cv.put( MDMAuthor.COLUMN_SERVER_FILENAME, author.getFileName() );
+        cv.put( MDMAuthor.COLUMN_LOCAL_FILENAME, author.getLfileName() );
 
         Cursor c = null;
         if ( author.getLsid() > 0 )
@@ -38,6 +40,23 @@ public class DAOAuthor
         MDMAuthor msi = new MDMAuthor( c );
         c.close();
         close();
+
+        if ( saveAlbums )
+        {
+            if ( author.getAlbums() != null && author.getAlbums().size() > 0 )
+            {
+                DAOAlbum daoalbum = new DAOAlbum( context );
+                daoalbum.open();
+                for ( int i = 0; i < author.getAlbums().size(); i++ )
+                {
+                    MDMAlbum album = author.getAlbums().get( i );
+                    album.setAuthor( msi );
+                    daoalbum.save( album, true );
+                }
+                daoalbum.close();
+            }
+        }
+
         return msi;
     }
 }

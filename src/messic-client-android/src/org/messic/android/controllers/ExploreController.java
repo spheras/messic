@@ -25,7 +25,7 @@ import java.util.List;
 import org.messic.android.activities.adapters.AlbumAdapter;
 import org.messic.android.activities.fragments.ExploreFragment;
 import org.messic.android.datamodel.MDMAlbum;
-import org.messic.android.util.RestJSONClient;
+import org.messic.android.util.UtilRestJSONClient;
 
 import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -46,7 +46,7 @@ public class ExploreController
                 Configuration.getBaseUrl() + "/services/albums?pageFromResult=" + from + "&pageMaxResults=" + max
                     + "&songsInfo=true&authorInfo=true&orderDesc=false&orderByAuthor=true&messic_token=" + Configuration.getLastToken();
             downloading=true;
-            RestJSONClient.get( baseURL, MDMAlbum[].class, new RestJSONClient.RestListener<MDMAlbum[]>()
+            UtilRestJSONClient.get( baseURL, MDMAlbum[].class, new UtilRestJSONClient.RestListener<MDMAlbum[]>()
             {
                 public void response( MDMAlbum[] response )
                 {

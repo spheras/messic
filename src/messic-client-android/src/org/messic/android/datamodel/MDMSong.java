@@ -18,12 +18,10 @@
  */
 package org.messic.android.datamodel;
 
-import java.io.File;
 import java.io.Serializable;
 
 import org.messic.android.controllers.Configuration;
 import org.messic.android.datamodel.dao.DAOAlbum;
-import org.messic.android.util.FileUtil;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -43,7 +41,9 @@ public class MDMSong
 
     public static final String COLUMN_RATE = "rate";
 
-    public static final String COLUMN_FILENAME = "filename";
+    public static final String COLUMN_SERVER_FILENAME = "sfilename";
+
+    public static final String COLUMN_LOCAL_FILENAME = "lfilename";
 
     public static final String COLUMN_FK_ALBUM = "fk_album";
 
@@ -51,13 +51,13 @@ public class MDMSong
 
     public static final String TABLE_CREATE = "create table " + TABLE_NAME + "(" + COLUMN_LOCAL_SID
         + " integer primary key autoincrement, " + COLUMN_SERVER_SID + " integer not null, " + COLUMN_TRACK
-        + " integer not null," + COLUMN_NAME + " text not null," + COLUMN_RATE + " integer," + COLUMN_FILENAME
-        + " text not null," + COLUMN_FK_ALBUM + " integer not null" + ");";
+        + " integer not null," + COLUMN_NAME + " text not null," + COLUMN_RATE + " integer," + COLUMN_SERVER_FILENAME
+        + " text not null," + COLUMN_LOCAL_FILENAME + " text," + COLUMN_FK_ALBUM + " integer not null" + ");";
 
     public static String[] getColumns()
     {
         return new String[] { COLUMN_LOCAL_SID, COLUMN_SERVER_SID, COLUMN_TRACK, COLUMN_NAME, COLUMN_RATE,
-            COLUMN_FILENAME, COLUMN_FK_ALBUM };
+            COLUMN_SERVER_FILENAME, COLUMN_LOCAL_FILENAME, COLUMN_FK_ALBUM };
     }
 
     public MDMSong( Cursor cursor, Context context, boolean loadAlbum )
@@ -68,9 +68,10 @@ public class MDMSong
         this.name = cursor.getString( 3 );
         this.rate = cursor.getInt( 4 );
         this.fileName = cursor.getString( 5 );
+        this.lfileName = cursor.getString( 6 );
         DAOAlbum daoalbum = new DAOAlbum( context );
         daoalbum.open();
-        int sidAlbum = cursor.getInt( 6 );
+        int sidAlbum = cursor.getInt( 7 );
         if ( loadAlbum )
         {
             Cursor cAlbum = daoalbum._get( sidAlbum );

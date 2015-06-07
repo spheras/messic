@@ -32,13 +32,14 @@ public class MDMFile
 
     protected String code;
 
+    /** the server filename */
     protected String fileName;
+
+    protected String lfileName;
 
     protected long size;
 
     protected MDMAlbum album;
-
-    protected boolean downloaded;
 
     /**
      * default constructor
@@ -56,16 +57,6 @@ public class MDMFile
     public final void setAlbum( MDMAlbum album )
     {
         this.album = album;
-    }
-
-    public String getFileName()
-    {
-        return fileName;
-    }
-
-    public void setFileName( String fileName )
-    {
-        this.fileName = fileName;
     }
 
     public String getCode()
@@ -99,18 +90,35 @@ public class MDMFile
     }
 
     /**
-     * @return the downloaded
+     * @return the lfileName
      */
-    public boolean isDownloaded()
+    public String getLfileName()
     {
-        return downloaded;
+        return lfileName;
     }
 
     /**
-     * @param downloaded the downloaded to set
+     * @param lfileName the lfileName to set
      */
-    public void setDownloaded( boolean downloaded )
+    public void setLfileName( String lfileName )
     {
-        this.downloaded = downloaded;
+        this.lfileName = lfileName;
     }
+
+    /**
+     * @return the fileName
+     */
+    public String getFileName()
+    {
+        return fileName;
+    }
+
+    /**
+     * @param fileName the fileName to set
+     */
+    public void setFileName( String fileName )
+    {
+        this.fileName = fileName;
+    }
+
 }

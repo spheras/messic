@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Background gradient start color for tabs in an unpressed state. -->
+    <color name="tab_background_gradient_start_color">#333333</color>
+    <!-- Background gradient end color for tabs in an unpressed state. -->
+    <color name="tab_background_gradient_end_color">#444444</color>
+    <!-- Background gradient start color for tabs in a pressed state. -->
+    <color name="tab_background_gradient_start_pressed_color">#c4c4c4</color>
+    <!-- Background gradient end color for tabs in a pressed state. -->
+    <color name="tab_background_gradient_end_pressed_color">#dedede</color>
+    <!-- Color of the underline for a tab which is selected. -->
+    <color name="tab_underline_selected_color">#00FF00</color>
+    <!-- Color of the underline for a tab which is not selected. -->
+    <color name="tab_underline_color">#333333</color>
+    <!-- Color of the selection indicator for a tab which is selected. -->
+    <color name="tab_selected_color">#00FF00</color>
+    <!-- Color of tab text. -->
+    <color name="tab_text_color">#FFFFFF</color>
+    <color name="white">#ffffffff</color>
+    <color name="green">#ff00ff00</color>
+    <color name="black">#ff000000</color>
+    <color name="dark_gray">#ff1f1f1f</color>
+    <color name="gray_25">#ff3f3f3f</color>
+    <color name="gray_50">#ff7f7f7f</color>
+    <color name="gray_75">#ffbfbfbf</color>
+    <color name="light_gray">#ffdfdfdf</color>
+    <color name="light_light_gray">#ffefefef</color>
+    <color name="red">#ffff0000</color>
+    <color name="pale_blue">#ffcee2ff</color>
+    <color name="blue">#ff0000ff</color>
+    <color name="dark_blue">#ff000077</color>
+    <color name="purple">#ff551a8b</color>
+    <color name="arrow_red">#ffff8a63</color>
+    <color name="arrow_blue">#ff9494ff</color>
+    <color name="arrow_gray">#ffc0c0c0</color>
+    <color name="medium_pale_yellow">#ffffff99</color>
+
+</resources>

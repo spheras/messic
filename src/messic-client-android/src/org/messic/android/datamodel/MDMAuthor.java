@@ -22,13 +22,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.messic.android.download.DownloadManagerService;
-import org.messic.android.util.FileUtil;
+import org.messic.android.util.UtilFile;
 
 import android.database.Cursor;
-import android.os.Environment;
 
 public class MDMAuthor
+    extends MDMFile
     implements Serializable
 {
     public static final String COLUMN_LOCAL_SID = "lsid";
@@ -37,15 +36,20 @@ public class MDMAuthor
 
     public static final String COLUMN_NAME = "name";
 
+    public static final String COLUMN_SERVER_FILENAME = "sfilename";
+
+    public static final String COLUMN_LOCAL_FILENAME = "lfilename";
+
     public static final String TABLE_NAME = "authors";
 
     public static final String TABLE_CREATE = "create table " + TABLE_NAME + "(" + COLUMN_LOCAL_SID
         + " integer primary key autoincrement, " + COLUMN_SERVER_SID + " integer not null, " + COLUMN_NAME
-        + " text not null" + ");";
+        + " text not null," + COLUMN_LOCAL_FILENAME + " text," + COLUMN_SERVER_FILENAME + " text)";
 
     public static String[] getColumns()
     {
-        return new String[] { COLUMN_LOCAL_SID, COLUMN_SERVER_SID, COLUMN_NAME };
+        return new String[] { COLUMN_LOCAL_SID, COLUMN_SERVER_SID, COLUMN_NAME, COLUMN_LOCAL_FILENAME,
+            COLUMN_SERVER_FILENAME };
     }
 
     /**
@@ -66,6 +70,8 @@ public class MDMAuthor
         this.lsid = cursor.getInt( 0 );
         this.sid = cursor.getInt( 1 );
         this.name = cursor.getString( 2 );
+        this.lfileName = cursor.getString( 3 );
+        this.fileName = cursor.getString( 4 );
     }
 
     /**
@@ -117,10 +123,7 @@ public class MDMAuthor
 
     public String calculateExternalStorageFolder()
     {
-        String sdfolder = Environment.getExternalStorageDirectory().getAbsolutePath();
-        String folder = sdfolder + DownloadManagerService.DESTINATION_FOLDER + "/" + "a" + getSid(); // FileUtil.replaceIllegalFilenameCharacters(
-                                                                                                     // this.getName()
-                                                                                                     // );
+        String folder = UtilFile.getMessicFolderAbsolutePath() + "/" + "a" + getSid();
         return folder;
     }
 

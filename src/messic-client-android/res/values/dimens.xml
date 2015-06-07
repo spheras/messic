@@ -4,4 +4,13 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- Height of the underline of a tab. -->
+    <dimen name="tab_underline_height">2dp</dimen>
+    <!-- Height of the selection indicator of a tab. -->
+    <dimen name="tab_selection_height">7.7dp</dimen>
+    <!-- Padding above and below the divider line of a tab. -->
+    <dimen name="tab_divider_padding">12dp</dimen>
+    <!-- Size of text in tabs. -->
+    <dimen name="tab_text_size">12sp</dimen>
+
 </resources>

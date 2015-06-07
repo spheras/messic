@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.messic.android.R;
 import org.messic.android.datamodel.MDMMessicServerInstance;
-import org.messic.android.util.Network;
+import org.messic.android.util.UtilNetwork;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -134,7 +134,7 @@ public class SearchMessicServiceAdapter
         final View parentView = counterView;
 
         // start checking the availability
-        Network.MessicServerStatusListener listener = new Network.MessicServerStatusListener()
+        UtilNetwork.MessicServerStatusListener listener = new UtilNetwork.MessicServerStatusListener()
         {
             public void setResponse( final boolean reachable, final boolean running )
             {
@@ -156,7 +156,7 @@ public class SearchMessicServiceAdapter
                 } );
             }
         };
-        Network.checkMessicServerUpAndRunning( msi, listener );
+        UtilNetwork.checkMessicServerUpAndRunning( msi, listener );
 
         return counterView;
     }

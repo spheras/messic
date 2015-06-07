@@ -25,18 +25,12 @@ import org.messic.android.controllers.AlbumController;
 import org.messic.android.controllers.PlaylistController;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.player.MessicPlayerService;
-import org.messic.android.player.MessicPlayerService.MusicBinder;
+import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.Fragment;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,12 +42,6 @@ public class PlaylistFragment
     extends Fragment
 {
     private PlaylistController controller = new PlaylistController();
-
-    private Intent playIntent;
-
-    private MessicPlayerService musicSrv;
-
-    private boolean musicBound = false;
 
     private PlaylistAdapter sa = null;
 
@@ -80,19 +68,19 @@ public class PlaylistFragment
 
                 public void textTouch( MDMSong song, int index )
                 {
-                    AlbumController.getAlbumInfo( PlaylistFragment.this.getActivity(), song.getAlbum().getSid() );
+                    AlbumController.getAlbumInfoOnline( PlaylistFragment.this.getActivity(), song.getAlbum().getSid() );
                 }
 
                 public void coverTouch( MDMSong song, int index )
                 {
-                    musicSrv.getPlayer().addSong( song );
+                    UtilMusicPlayer.addSong( getActivity(), song );
                     Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + song.getName(),
                                     Toast.LENGTH_SHORT ).show();
                 }
 
                 public void coverLongTouch( MDMSong song, int index )
                 {
-                    musicSrv.getPlayer().addAndPlay( song );
+                    UtilMusicPlayer.addSongAndPlay( getActivity(), song );
                 }
 
                 public void elementRemove( MDMSong song, int index )
@@ -102,7 +90,7 @@ public class PlaylistFragment
 
                 public void playlistTouch( MDMPlaylist playlist, int index )
                 {
-                    musicSrv.getPlayer().addPlaylist( playlist );
+                    UtilMusicPlayer.addPlaylist( getActivity(), playlist );
                     Toast.makeText( getActivity(),
                                     getResources().getText( R.string.player_added ) + playlist.getName(),
                                     Toast.LENGTH_SHORT ).show();
@@ -156,30 +144,7 @@ public class PlaylistFragment
 
     private void getMessicService()
     {
-        if ( playIntent == null )
-        {
-            playIntent = new Intent( getActivity(), MessicPlayerService.class );
-            getActivity().bindService( playIntent, musicConnection, Context.BIND_AUTO_CREATE );
-            getActivity().startService( playIntent );
-        }
+        UtilMusicPlayer.getMessicPlayerService( this.getActivity() );
     }
 
-    // connect to the service
-    private ServiceConnection musicConnection = new ServiceConnection()
-    {
-        public void onServiceConnected( ComponentName name, IBinder service )
-        {
-            MusicBinder binder = (MusicBinder) service;
-            // get service
-            musicSrv = binder.getService();
-            // pass list
-            // musicSrv.setList( songList );
-            musicBound = true;
-        }
-
-        public void onServiceDisconnected( ComponentName name )
-        {
-            musicBound = false;
-        }
-    };
 }

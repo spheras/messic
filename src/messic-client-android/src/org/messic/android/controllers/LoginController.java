@@ -23,9 +23,13 @@ import java.net.URL;
 
 import org.messic.android.activities.BaseActivity;
 import org.messic.android.datamodel.MDMLogin;
+import org.messic.android.datamodel.dao.DAOSong;
+import org.messic.android.player.MessicPlayerService;
+import org.messic.android.util.UtilFile;
 import org.messic.android.util.MessicPreferences;
-import org.messic.android.util.Network;
-import org.messic.android.util.RestJSONClient;
+import org.messic.android.util.UtilMusicPlayer;
+import org.messic.android.util.UtilNetwork;
+import org.messic.android.util.UtilRestJSONClient;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -38,6 +42,29 @@ import android.widget.Toast;
 
 public class LoginController
 {
+
+    public void startMessicMusicService( Context context )
+    {
+        UtilMusicPlayer.startMessicMusicService( context );
+    }
+
+    /**
+     * Check if the database is empty
+     * 
+     * @param context {@link Context}
+     * @return boolean true->isempty
+     */
+    public boolean checkEmptyDatabase( Context context )
+    {
+        DAOSong ds = new DAOSong( context );
+        boolean empty = ( ds.countDownloaded() <= 0 );
+        if ( empty )
+        {
+            // if the database is empty we should remove the whole offline messic folder
+            UtilFile.emptyMessicFolder();
+        }
+        return empty;
+    }
 
     public boolean check( final Context context )
     {
@@ -58,7 +85,7 @@ public class LoginController
                        final ProgressDialog pd )
         throws Exception
     {
-        Network.nukeNetwork();
+        UtilNetwork.nukeNetwork();
 
         final String baseURL = Configuration.getBaseUrl() + "/messiclogin";
         MultiValueMap<String, Object> formData = new LinkedMultiValueMap<String, Object>();
@@ -66,7 +93,7 @@ public class LoginController
         formData.add( "j_password", password );
         try
         {
-            RestJSONClient.post( baseURL, formData, MDMLogin.class, new RestJSONClient.RestListener<MDMLogin>()
+            UtilRestJSONClient.post( baseURL, formData, MDMLogin.class, new UtilRestJSONClient.RestListener<MDMLogin>()
             {
                 public void response( MDMLogin response )
                 {
@@ -75,6 +102,7 @@ public class LoginController
                     Configuration.setToken( response.getMessic_token() );
 
                     pd.dismiss();
+                    Configuration.setOffline( false );
                     Intent ssa = new Intent( context, BaseActivity.class );
                     context.startActivity( ssa );
                 }

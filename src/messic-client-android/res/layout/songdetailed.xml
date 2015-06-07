@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    
     tools:context="${relativePackage}.${activityClass}" >
 
     <ImageView
@@ -14,8 +13,8 @@
         android:layout_height="120dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/messic_button" />
+        android:background="@color/black"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/songdetailed_tauthor"
@@ -64,22 +63,21 @@
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/songdetailed_icover"
-        android:layout_alignLeft="@+id/songdetailed_icover"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="45dp"
-        android:src="@drawable/miniplay_w_40" />
-
-    <ImageView
         android:id="@+id/songdetailed_ivremove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:background="#EEEEEE"
-        android:src="@drawable/close_r" />
+        android:src="@drawable/ic_close_black_24dp" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/songdetailed_tsong"
+        android:layout_alignLeft="@+id/songdetailed_icover"
+        android:layout_marginLeft="35dp"
+        android:src="@drawable/ic_play_circle_outline_white_48dp" />
 
 </RelativeLayout>

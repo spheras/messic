@@ -26,9 +26,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.messic.android.R;
 import org.messic.android.datamodel.MDMAlbum;
+import org.messic.android.datamodel.MDMAuthor;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.datamodel.dao.DAOAlbum;
+import org.messic.android.datamodel.dao.DAOAuthor;
 import org.messic.android.datamodel.dao.DAOSong;
 import org.messic.android.util.AlbumCoverCache;
 
@@ -40,13 +43,14 @@ import android.graphics.Bitmap;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 public class DownloadManagerService
     extends Service
 {
     private final IBinder downloadManagerBind = new DownloadManagerBinder();
 
-    public static final String DESTINATION_FOLDER = "/messic/offline";
+    private DownloadNotification notification = new DownloadNotification( this );
 
     public void onCreate()
     {
@@ -57,32 +61,64 @@ public class DownloadManagerService
     {
 
         DAOSong daosong = new DAOSong( this.getApplicationContext() );
-        Cursor csong=daosong._getByServerSid( song.getSid() );
-        if(csong.moveToFirst()){
-            //the song exist, so, we only need to updatesdfsdfs
-        }
-asdfasf        
-
-        song.getAlbum();
-        DAOAlbum daoalbum = new DAOAlbum( this.getApplicationContext() );
-        daoalbum.open();
-        Cursor cAlbum = daoalbum._get( song.getAlbum().getLsid() );
-        if ( cAlbum.moveToFirst() )
+        daosong.open();
+        Cursor csong = daosong._getByServerSid( song.getSid() );
+        if ( csong.moveToFirst() )
         {
-            // the album exist previously, lets get the song
+            // the song exist, so, we only need to update the info
+            MDMSong rsong = new MDMSong( csong, this.getApplicationContext(), true );
+            rsong.setLfileName( song.getLfileName() );
+            daosong.save( rsong );
         }
-
-        daoalbum.save( song.getAlbum(), true );
+        else
+        {
+            // the song doesn't exist... maybe the album exist?
+            // song.getAlbum();
+            DAOAlbum daoalbum = new DAOAlbum( this.getApplicationContext() );
+            daoalbum.open();
+            Cursor cAlbum = daoalbum._getByServerSid( song.getAlbum().getSid() );
+            if ( cAlbum.moveToFirst() )
+            {
+                // the album exist previously, lets add the song?
+                MDMAlbum album = new MDMAlbum( cAlbum, getApplicationContext(), true );
+                song.setAlbum( album );
+                daosong.save( song );
+            }
+            else
+            {
+                // the album doesn't exist...maybe the author exist?
+                DAOAuthor daoauthor = new DAOAuthor( this.getApplicationContext() );
+                daoauthor.open();
+                Cursor cAuthor = daoauthor._getByServerSid( song.getAlbum().getAuthor().getSid() );
+                if ( cAuthor.moveToFirst() )
+                {
+                    // the author exist previously, lets add the album?
+                    MDMAuthor author = new MDMAuthor( cAuthor );
+                    song.getAlbum().setAuthor( author );
+                    daoalbum.save( song.getAlbum(), true );
+                }
+                else
+                {
+                    // the author doesn't exist previously... lets save everything!
+                    MDMAuthor author = song.getAlbum().getAuthor();
+                    author.addAlbum( song.getAlbum() );
+                    daoauthor.save( this.getApplicationContext(), author, true );
+                }
+                daoauthor.close();
+            }
+            daoalbum.close();
+        }
+        daosong.close();
     }
 
     private void saveCover( MDMSong song )
     {
         String folder = song.getAlbum().calculateExternalStorageFolder();
-        String scover = folder + "/cover.jpg";
+        String scover = folder + "/" + AlbumCoverCache.COVER_OFFLINE_FILENAME;
         final File fcover = new File( scover );
         if ( !fcover.exists() )
         {
-            Bitmap cover = AlbumCoverCache.getCover( song.getAlbum().getSid(), new AlbumCoverCache.CoverListener()
+            Bitmap cover = AlbumCoverCache.getCover( song.getAlbum(), new AlbumCoverCache.CoverListener()
             {
 
                 public void setCover( Bitmap bitmap )
@@ -131,6 +167,9 @@ asdfasf
 
     public void addDownload( MDMSong song, Context context )
     {
+        Toast.makeText( context, getResources().getText( R.string.download_added ) + song.getName(), Toast.LENGTH_SHORT ).show();
+        notification.downloadAdded( song );
+
         String path = song.calculateExternalStorageFolder();
         File fpath = new File( path );
         fpath.mkdirs();
@@ -140,8 +179,17 @@ asdfasf
             {
                 public void received( MDMSong song, File fdownloaded )
                 {
+                    notification.downloadFinished( song );
+                    song.setLfileName( fdownloaded.getAbsolutePath() );
+                    song.getAlbum().setLfileName( song.getAlbum().calculateExternalStorageFolder() );
+                    song.getAlbum().getAuthor().setLfileName( song.getAlbum().getAuthor().calculateExternalStorageFolder() );
                     saveCover( song );
                     saveDatabase( song );
+                }
+
+                public void started( MDMSong song )
+                {
+                    notification.downloadStarted( song );
                 }
             };
 
@@ -181,5 +229,4 @@ asdfasf
     {
         return false;
     }
-
 }

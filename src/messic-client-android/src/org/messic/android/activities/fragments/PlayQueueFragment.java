@@ -22,22 +22,19 @@ import org.messic.android.R;
 import org.messic.android.activities.adapters.SongAdapter;
 import org.messic.android.activities.adapters.SongAdapter.SongAdapterType;
 import org.messic.android.controllers.AlbumController;
+import org.messic.android.controllers.Configuration;
 import org.messic.android.controllers.QueueController;
+import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.player.MessicPlayerService;
-import org.messic.android.player.MessicPlayerService.MusicBinder;
 import org.messic.android.player.PlayerEventListener;
+import org.messic.android.util.UtilMusicPlayer;
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,14 +43,9 @@ import android.widget.ListView;
 
 public class PlayQueueFragment
     extends Fragment
+    implements PlayerEventListener
 {
     private QueueController controller = new QueueController();
-
-    private Intent playIntent;
-
-    private MessicPlayerService musicSrv;
-
-    private boolean musicBound = false;
 
     private SongAdapter sa = null;
 
@@ -61,16 +53,13 @@ public class PlayQueueFragment
     public void onStart()
     {
         super.onStart();
-        getActivity().findViewById( R.id.queue_progress ).setVisibility( View.VISIBLE );
-        update();
+        controller.getQueueSongs( sa, getActivity(), this, false, null );
     }
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
     {
         View rootView = inflater.inflate( R.layout.fragment_queue, container, false );
-
-        getMessicService();
 
         ListView gv = (ListView) rootView.findViewById( R.id.queue_lvitems );
         if ( sa == null )
@@ -80,25 +69,38 @@ public class PlayQueueFragment
 
                 public void textTouch( MDMSong song, int index )
                 {
-                    AlbumController.getAlbumInfo( PlayQueueFragment.this.getActivity(), song.getAlbum().getSid() );
+                    if ( Configuration.isOffline() )
+                    {
+                        AlbumController.getAlbumInfoOffline( PlayQueueFragment.this.getActivity(), song.getAlbum() );
+                    }
+                    else
+                    {
+                        AlbumController.getAlbumInfoOnline( PlayQueueFragment.this.getActivity(),
+                                                            song.getAlbum().getSid() );
+                    }
                 }
 
                 public void coverTouch( MDMSong song, int index )
                 {
-                    musicSrv.getPlayer().setSong( index );
-                    musicSrv.getPlayer().playSong();
+                    UtilMusicPlayer.setSong( PlayQueueFragment.this.getActivity(), index );
+                    UtilMusicPlayer.playSong( PlayQueueFragment.this.getActivity() );
                 }
 
                 public void coverLongTouch( MDMSong song, int index )
                 {
-                    musicSrv.getPlayer().setSong( index );
-                    musicSrv.getPlayer().playSong();
+                    UtilMusicPlayer.setSong( PlayQueueFragment.this.getActivity(), index );
+                    UtilMusicPlayer.playSong( PlayQueueFragment.this.getActivity() );
                 }
 
                 public void elementRemove( MDMSong song, int index )
                 {
                     sa.removeElement( index );
-                    musicSrv.getPlayer().removeSong( index );
+                    UtilMusicPlayer.removeSong( PlayQueueFragment.this.getActivity(), index );
+                    if ( index < sa.getCurrentSong() )
+                    {
+                        sa.setCurrentSong( sa.getCurrentSong() - 1 );
+                    }
+
                     getActivity().runOnUiThread( new Runnable()
                     {
                         public void run()
@@ -115,10 +117,8 @@ public class PlayQueueFragment
 
                 }
             }, SongAdapterType.detailed );
-            if ( musicSrv != null )
-            {
-                sa.setCurrentSong( musicSrv.getPlayer().getCursor() );
-            }
+
+            sa.setCurrentSong( UtilMusicPlayer.getCursor( this.getActivity() ) );
         }
         gv.setAdapter( sa );
 
@@ -133,11 +133,13 @@ public class PlayQueueFragment
                     public void run()
                     {
                         getActivity().findViewById( R.id.queue_progress ).setVisibility( View.VISIBLE );
-                        controller.getQueueSongs( sa, getActivity(), PlayQueueFragment.this, true, srl, musicSrv );
+                        controller.getQueueSongs( sa, getActivity(), PlayQueueFragment.this, true, srl );
                     }
                 } );
             }
         } );
+
+        UtilMusicPlayer.addListener( this.getActivity(), this );
 
         return rootView;
     }
@@ -152,36 +154,36 @@ public class PlayQueueFragment
 
             public void run()
             {
-                getActivity().findViewById( R.id.queue_progress ).setVisibility( View.GONE );
+                Activity activity = getActivity();
+                if ( activity != null )
+                {
+                    View qp = activity.findViewById( R.id.queue_progress );
+                    if ( qp != null )
+                    {
+                        qp.setVisibility( View.GONE );
+                    }
+                }
+
             }
         } );
     }
 
-    private void getMessicService()
+    public void update()
     {
-        if ( playIntent == null )
-        {
-            playIntent = new Intent( getActivity(), MessicPlayerService.class );
-            getActivity().bindService( playIntent, musicConnection, Context.BIND_AUTO_CREATE );
-            getActivity().startService( playIntent );
-        }
+        controller.getQueueSongs( sa, getActivity(), this, true, null );
     }
 
-    private void update()
+    public void paused( MDMSong song, int index )
     {
-        if ( this.musicSrv != null )
-            controller.getQueueSongs( sa, getActivity(), this, false, null, musicSrv );
+        // TODO Auto-generated method stub
+
     }
 
-    // connect to the service
-    private ServiceConnection musicConnection = new ServiceConnection()
+    public void playing( MDMSong song, boolean resumed, int index )
     {
-        public void onServiceConnected( ComponentName name, IBinder service )
+        sa.setCurrentSong( index );
+        if ( !resumed && isVisible() )
         {
-            MusicBinder binder = (MusicBinder) service;
-            // get service
-            musicSrv = binder.getService();
-            sa.setCurrentSong( musicSrv.getPlayer().getCursor() );
             getActivity().runOnUiThread( new Runnable()
             {
                 public void run()
@@ -189,41 +191,55 @@ public class PlayQueueFragment
                     sa.notifyDataSetChanged();
                 }
             } );
+        }
+    }
 
-            musicSrv.getPlayer().addListener( new PlayerEventListener()
+    public void completed( int index )
+    {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void added( MDMSong song )
+    {
+        update();
+
+    }
+
+    public void added( MDMAlbum album )
+    {
+        update();
+
+    }
+
+    public void added( MDMPlaylist playlist )
+    {
+        update();
+
+    }
+
+    public void connected()
+    {
+
+        sa.setCurrentSong( UtilMusicPlayer.getCursor( PlayQueueFragment.this.getActivity() ) );
+        Activity activity = getActivity();
+        if ( activity != null )
+        {
+            activity.runOnUiThread( new Runnable()
             {
-                public void playing( MDMSong song, boolean resumed, int index )
+                public void run()
                 {
-                    sa.setCurrentSong( index );
-                    if ( !resumed && isVisible() )
-                    {
-                        getActivity().runOnUiThread( new Runnable()
-                        {
-                            public void run()
-                            {
-                                sa.notifyDataSetChanged();
-                            }
-                        } );
-                    }
-                }
-
-                public void paused( MDMSong song, int index )
-                {
-                }
-
-                public void completed( int index )
-                {
+                    sa.notifyDataSetChanged();
                 }
             } );
-            // pass list
-            // musicSrv.setList( songList );
-            musicBound = true;
-            update();
         }
 
-        public void onServiceDisconnected( ComponentName name )
-        {
-            musicBound = false;
-        }
-    };
+        update();
+    }
+
+    public void disconnected()
+    {
+        // TODO Auto-generated method stub
+
+    }
 }

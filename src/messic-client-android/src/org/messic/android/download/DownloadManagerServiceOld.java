@@ -95,7 +95,7 @@ public class DownloadManagerServiceOld
         final File fcover = new File( scover );
         if ( !fcover.exists() )
         {
-            Bitmap cover = AlbumCoverCache.getCover( song.getAlbum().getSid(), new AlbumCoverCache.CoverListener()
+            Bitmap cover = AlbumCoverCache.getCover( song.getAlbum(), new AlbumCoverCache.CoverListener()
             {
 
                 public void setCover( Bitmap bitmap )

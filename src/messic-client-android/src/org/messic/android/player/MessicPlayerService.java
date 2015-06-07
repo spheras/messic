@@ -18,6 +18,8 @@
  */
 package org.messic.android.player;
 
+import java.util.List;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
@@ -32,23 +34,9 @@ public class MessicPlayerService
 
     private MessicPlayerNotification playernotification = null;
 
-    public void onCreate()
-    {
-        super.onCreate();
-        this.playerqueue = new MessicPlayerQueue( this );
-        this.playernotification = new MessicPlayerNotification( this, this.playerqueue );
-        this.playerqueue.addListener( this.playernotification );
-    }
-
     public MessicPlayerQueue getPlayer()
     {
         return this.playerqueue;
-    }
-
-    @Override
-    public int onStartCommand( Intent intent, int flags, int startId )
-    {
-        return super.onStartCommand( intent, flags, startId );
     }
 
     public class MusicBinder
@@ -63,6 +51,11 @@ public class MessicPlayerService
     @Override
     public IBinder onBind( Intent intent )
     {
+
+        this.playerqueue = new MessicPlayerQueue( this );
+        this.playernotification = new MessicPlayerNotification( this, this.playerqueue );
+        this.playerqueue.addListener( this.playernotification );
+
         return musicBind;
     }
 
@@ -70,7 +63,15 @@ public class MessicPlayerService
     public boolean onUnbind( Intent intent )
     {
         playerqueue.stop();
+
+        List<PlayerEventListener> listeners = this.playerqueue.getListeners();
+        for ( PlayerEventListener listener : listeners )
+        {
+            listener.disconnected();
+        }
+
         playerqueue = null;
+
         return false;
     }
 

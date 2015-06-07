@@ -24,18 +24,12 @@ import org.messic.android.controllers.AlbumController;
 import org.messic.android.controllers.RandomController;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.player.MessicPlayerService;
-import org.messic.android.player.MessicPlayerService.MusicBinder;
+import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.Fragment;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,12 +41,6 @@ public class RandomFragment
     extends Fragment
 {
     private RandomController controller = new RandomController();
-
-    private Intent playIntent;
-
-    private MessicPlayerService musicSrv;
-
-    private boolean musicBound = false;
 
     private SongAdapter sa = null;
 
@@ -69,7 +57,7 @@ public class RandomFragment
     {
         View rootView = inflater.inflate( R.layout.fragment_random, container, false );
 
-        getMessicService();
+        UtilMusicPlayer.getMessicPlayerService( getActivity() );
 
         GridView gv = (GridView) rootView.findViewById( R.id.random_gvitems );
         sa = new SongAdapter( getActivity(), new SongAdapter.EventListener()
@@ -77,19 +65,19 @@ public class RandomFragment
 
             public void textTouch( MDMSong song, int index )
             {
-                AlbumController.getAlbumInfo( RandomFragment.this.getActivity(), song.getAlbum().getSid() );
+                AlbumController.getAlbumInfoOnline( RandomFragment.this.getActivity(), song.getAlbum().getSid() );
             }
 
             public void coverTouch( MDMSong song, int index )
             {
-                musicSrv.getPlayer().addSong( song );
+                UtilMusicPlayer.addSong( getActivity(), song );
                 Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + song.getName(),
                                 Toast.LENGTH_SHORT ).show();
             }
 
             public void coverLongTouch( MDMSong song, int index )
             {
-                musicSrv.getPlayer().addAndPlay( song );
+                UtilMusicPlayer.addSongAndPlay( getActivity(), song );
             }
 
             public void elementRemove( MDMSong song, int index )
@@ -156,32 +144,4 @@ public class RandomFragment
         } );
     }
 
-    private void getMessicService()
-    {
-        if ( playIntent == null )
-        {
-            playIntent = new Intent( getActivity(), MessicPlayerService.class );
-            getActivity().bindService( playIntent, musicConnection, Context.BIND_AUTO_CREATE );
-            getActivity().startService( playIntent );
-        }
-    }
-
-    // connect to the service
-    private ServiceConnection musicConnection = new ServiceConnection()
-    {
-        public void onServiceConnected( ComponentName name, IBinder service )
-        {
-            MusicBinder binder = (MusicBinder) service;
-            // get service
-            musicSrv = binder.getService();
-            // pass list
-            // musicSrv.setList( songList );
-            musicBound = true;
-        }
-
-        public void onServiceDisconnected( ComponentName name )
-        {
-            musicBound = false;
-        }
-    };
 }

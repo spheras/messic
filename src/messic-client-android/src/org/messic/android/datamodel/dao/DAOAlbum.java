@@ -40,24 +40,26 @@ public class DAOAlbum
     public MDMAlbum save( MDMAlbum album, boolean saveSongs )
     {
         open();
-        ContentValues cv = new ContentValues();
-        cv.put( MDMAlbum.COLUMN_COMMENTS, album.getComments() );
-        cv.put( MDMAlbum.COLUMN_FILENAME, album.getFileName() );
-        cv.put( MDMAlbum.COLUMN_NAME, album.getName() );
-        cv.put( MDMAlbum.COLUMN_YEAR, album.getYear() );
-        cv.put( MDMAlbum.COLUMN_SERVER_SID, album.getSid() );
+        ContentValues albumCV = new ContentValues();
+        albumCV.put( MDMAlbum.COLUMN_COMMENTS, album.getComments() );
+        albumCV.put( MDMAlbum.COLUMN_SERVER_FILENAME, album.getFileName() );
+        albumCV.put( MDMAlbum.COLUMN_LOCAL_FILENAME, album.getLfileName() );
+        albumCV.put( MDMAlbum.COLUMN_NAME, album.getName() );
+        albumCV.put( MDMAlbum.COLUMN_YEAR, album.getYear() );
+        albumCV.put( MDMAlbum.COLUMN_SERVER_SID, album.getSid() );
 
+        // lets save the genre
         if ( album.getGenre() == null )
         {
             // there is no genre to link! :(
-            cv.put( MDMAlbum.COLUMN_FK_GENRE, 0 );
+            albumCV.put( MDMAlbum.COLUMN_FK_GENRE, 0 );
         }
         else
         {
             if ( album.getGenre().getLsid() > 0 )
             {
                 // it has a local sid, so it is an existen album from the database, linking!
-                cv.put( MDMAlbum.COLUMN_FK_GENRE, album.getGenre().getLsid() );
+                albumCV.put( MDMAlbum.COLUMN_FK_GENRE, album.getGenre().getLsid() );
             }
             else
             {
@@ -69,29 +71,31 @@ public class DAOAlbum
                 {
                     // it exist at the database!, so, just linking to it
                     MDMGenre genre = new MDMGenre( cGenre );
-                    cv.put( MDMAlbum.COLUMN_FK_GENRE, genre.getLsid() );
+                    albumCV.put( MDMAlbum.COLUMN_FK_GENRE, genre.getLsid() );
                 }
                 else
                 {
                     // it doesn't exists at the database, we need to create it previously
                     MDMGenre genre = daogenre.save( album.getGenre() );
-                    cv.put( MDMAlbum.COLUMN_FK_GENRE, genre.getLsid() );
+                    albumCV.put( MDMAlbum.COLUMN_FK_GENRE, genre.getLsid() );
                 }
                 daogenre.close();
 
             }
         }
+
+        // lets save the author
         if ( album.getAuthor() == null )
         {
             // there is no author to link! :(
-            cv.put( MDMAlbum.COLUMN_FK_AUTHOR, 0 );
+            albumCV.put( MDMAlbum.COLUMN_FK_AUTHOR, 0 );
         }
         else
         {
-            if ( album.getGenre().getLsid() > 0 )
+            if ( album.getAuthor().getLsid() > 0 )
             {
                 // it has a local sid, so it is an existen album from the database, linking!
-                cv.put( MDMAlbum.COLUMN_FK_AUTHOR, album.getAuthor().getLsid() );
+                albumCV.put( MDMAlbum.COLUMN_FK_AUTHOR, album.getAuthor().getLsid() );
             }
             else
             {
@@ -103,13 +107,13 @@ public class DAOAlbum
                 {
                     // it exist at the database!, so, just linking to it
                     MDMAuthor author = new MDMAuthor( cAuthor );
-                    cv.put( MDMAlbum.COLUMN_FK_AUTHOR, author.getLsid() );
+                    albumCV.put( MDMAlbum.COLUMN_FK_AUTHOR, author.getLsid() );
                 }
                 else
                 {
                     // it doesn't exists at the database, we need to create it previously
-                    MDMAuthor author = daoauthor.save( album.getAuthor() );
-                    cv.put( MDMAlbum.COLUMN_FK_AUTHOR, author.getLsid() );
+                    MDMAuthor author = daoauthor.save( getContext(), album.getAuthor(), false );
+                    albumCV.put( MDMAlbum.COLUMN_FK_AUTHOR, author.getLsid() );
                 }
                 daoauthor.close();
 
@@ -119,12 +123,12 @@ public class DAOAlbum
         Cursor c = null;
         if ( album.getLsid() > 0 )
         {
-            cv.put( MDMAuthor.COLUMN_LOCAL_SID, album.getLsid() );
-            c = super._update( cv, album.getLsid() );
+            albumCV.put( MDMAuthor.COLUMN_LOCAL_SID, album.getLsid() );
+            c = super._update( albumCV, album.getLsid() );
         }
         else
         {
-            c = super._save( cv );
+            c = super._save( albumCV );
         }
 
         // we save the albums

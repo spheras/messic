@@ -24,7 +24,7 @@ import org.messic.android.activities.adapters.SongAdapter;
 import org.messic.android.activities.fragments.RandomFragment;
 import org.messic.android.datamodel.MDMRandomList;
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.util.RestJSONClient;
+import org.messic.android.util.UtilRestJSONClient;
 
 import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -45,7 +45,7 @@ public class RandomController
                 Configuration.getBaseUrl()
                     + "/services/randomlists?filterRandomListName=RandomListName-Random&messic_token="
                     + Configuration.getLastToken();
-            RestJSONClient.get( baseURL, MDMRandomList[].class, new RestJSONClient.RestListener<MDMRandomList[]>()
+            UtilRestJSONClient.get( baseURL, MDMRandomList[].class, new UtilRestJSONClient.RestListener<MDMRandomList[]>()
             {
                 public void response( MDMRandomList[] response )
                 {

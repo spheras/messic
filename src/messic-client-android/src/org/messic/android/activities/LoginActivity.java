@@ -22,13 +22,11 @@ import org.messic.android.R;
 import org.messic.android.controllers.Configuration;
 import org.messic.android.controllers.LoginController;
 import org.messic.android.datamodel.MDMMessicServerInstance;
-import org.messic.android.datamodel.dao.DAOSong;
 import org.messic.android.util.MessicPreferences;
-import org.messic.android.util.Network;
+import org.messic.android.util.UtilNetwork;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -79,15 +77,27 @@ public class LoginActivity
 
     private void showLoginOffline( boolean show )
     {
-        findViewById( R.id.login_boffline ).setVisibility( ( show ? View.VISIBLE : View.GONE ) );
+        View v = findViewById( R.id.login_boffline );
+        v.setVisibility( ( show ? View.VISIBLE : View.GONE ) );
         if ( show )
         {
-            // TODO
+            v.setOnClickListener( new View.OnClickListener()
+            {
+                public void onClick( View v )
+                {
+                    Configuration.setOffline( true );
+                    Intent ssa = new Intent( LoginActivity.this, BaseActivity.class );
+                    LoginActivity.this.startActivity( ssa );
+                }
+            } );
         }
     }
 
     private void layoutScreen()
     {
+        boolean flagShowOnline = false;
+        boolean flagShowOffline = false;
+
         // 1. is there a last messic server used?
         MDMMessicServerInstance prefferedServer = Configuration.getLastMessicServerUsed( this );
         if ( prefferedServer != null && prefferedServer.ip.trim().length() > 0 )
@@ -95,10 +105,10 @@ public class LoginActivity
             // we show the online login against this last server
             showSearchOnline( false );
             showLoginOnline( true );
+            flagShowOnline = true;
 
             // 1.1 Is this last server used online?
-            final Context context = this;
-            Network.MessicServerStatusListener mssl = new Network.MessicServerStatusListener()
+            UtilNetwork.MessicServerStatusListener mssl = new UtilNetwork.MessicServerStatusListener()
             {
                 public void setResponse( boolean reachable, boolean running )
                 {
@@ -126,7 +136,7 @@ public class LoginActivity
                     }
                 }
             };
-            Network.checkMessicServerUpAndRunning( prefferedServer, mssl );
+            UtilNetwork.checkMessicServerUpAndRunning( prefferedServer, mssl );
         }
         else
         {
@@ -135,18 +145,25 @@ public class LoginActivity
         }
 
         // 2. is there offline music available?
-        DAOSong ds = new DAOSong( this );
-        if ( ds.countDownloaded() > 0 )
+        if ( controller.checkEmptyDatabase( this.getApplicationContext() ) )
         {
-            // yes!, let's show the offline button
-            showLoginOffline( true );
+            // yes! no offline option to play music
+            showLoginOffline( false );
         }
         else
         {
-            // no! no offline option to play music
-            showLoginOffline( false );
+            // no!, let's show the offline button
+            showLoginOffline( true );
+            flagShowOffline = true;
         }
 
+        if ( !flagShowOffline && !flagShowOnline )
+        {
+            // then the user should first go to search a valid messic service
+            Intent ssa = new Intent( LoginActivity.this, SearchMessicServiceActivity.class );
+            LoginActivity.this.startActivity( ssa );
+            finish();
+        }
     }
 
     /**
@@ -219,6 +236,9 @@ public class LoginActivity
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
+
+        this.controller.startMessicMusicService( this );
+
         setContentView( R.layout.activity_login );
 
         // put the layout considering the situation
@@ -248,7 +268,7 @@ public class LoginActivity
     public boolean onCreateOptionsMenu( Menu menu )
     {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate( R.menu.login, menu );
+        getMenuInflater().inflate( R.menu.login_activity_actions, menu );
         return true;
     }
 

@@ -14,7 +14,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/messic_button" />
+        android:background="@color/black"
+        />
 
     <TextView
         android:id="@+id/album_tauthor"
@@ -52,8 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/album_icover"
         android:layout_alignTop="@+id/album_icover"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/miniplay_w_40" />
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="34dp"
+        android:src="@drawable/ic_play_circle_outline_white_48dp" />
 
 </RelativeLayout>

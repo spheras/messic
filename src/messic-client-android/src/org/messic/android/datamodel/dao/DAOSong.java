@@ -82,7 +82,8 @@ public class DAOSong
 
         ContentValues cv = new ContentValues();
         cv.put( MDMSong.COLUMN_TRACK, song.getTrack() );
-        cv.put( MDMSong.COLUMN_FILENAME, song.getFileName() );
+        cv.put( MDMSong.COLUMN_SERVER_FILENAME, song.getFileName() );
+        cv.put( MDMSong.COLUMN_LOCAL_FILENAME, song.getLfileName() );
         cv.put( MDMSong.COLUMN_NAME, song.getName() );
         cv.put( MDMSong.COLUMN_RATE, song.getRate() );
         cv.put( MDMSong.COLUMN_SERVER_SID, song.getSid() );

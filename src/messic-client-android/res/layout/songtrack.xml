@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/miniplay_w_40" />
+        android:src="@drawable/ic_play_arrow_black_24dp" />
 
     <ImageView
         android:id="@+id/songtrack_ivdownload"
@@ -65,6 +65,6 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="5dp"
         android:layout_toLeftOf="@+id/songtrack_ivplay"
-        android:src="@drawable/miniplay_w_40" />
+        android:src="@drawable/ic_cloud_download_black_24dp" />
 
 </RelativeLayout>

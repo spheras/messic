@@ -7,26 +7,15 @@
     android:padding="10dp"
     tools:context="${relativePackage}.${activityClass}" >
 
-    
-
     <ImageView
         android:id="@+id/albuminfo_icover"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/messic_button" />
+        android:background="@color/black"
+        android:contentDescription="@string/app_name" />
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/album_icover"
-        android:layout_alignTop="@+id/album_icover"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/miniplay_w_40" />
     <TextView
         android:id="@+id/albuminfo_tauthor"
         android:layout_width="wrap_content"
@@ -65,5 +54,15 @@
         android:layout_below="@+id/albuminfo_icover"
         android:layout_marginTop="10dp" >
     </ListView>
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/albuminfo_icover"
+        android:layout_alignTop="@+id/albuminfo_icover"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="34dp"
+        android:src="@drawable/ic_play_circle_outline_white_48dp" />
 
 </RelativeLayout>

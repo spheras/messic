@@ -18,9 +18,11 @@
  */
 package org.messic.android.player;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.messic.android.controllers.Configuration;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
@@ -107,7 +109,7 @@ public class MessicPlayerQueue
 
     public void addAndPlay( MDMSong song )
     {
-        this.queue.add( cursor + 1, song );
+        this.queue.add( cursor, song );
         playSong();
 
         for ( PlayerEventListener eventListener : listeners )
@@ -146,6 +148,7 @@ public class MessicPlayerQueue
     {
         List<MDMSong> songs = playlist.getSongs();
         int playSong = -1;
+        boolean flagSomethingAdded = false;
         if ( this.queue.size() == 0 || !this.player.isPlaying() )
         {
             playSong = this.queue.size();
@@ -153,12 +156,25 @@ public class MessicPlayerQueue
         for ( int i = 0; i < songs.size(); i++ )
         {
             MDMSong song = songs.get( i );
-            this.queue.add( song );
+            if ( !Configuration.isOffline()
+                || ( song.getLfileName() != null && new File( song.getLfileName() ).exists() ) )
+            {
+                this.queue.add( song );
+                flagSomethingAdded = true;
+            }
         }
         if ( playSong != -1 )
         {
             this.cursor = playSong;
             playSong();
+        }
+
+        if ( flagSomethingAdded )
+        {
+            for ( PlayerEventListener eventListener : listeners )
+            {
+                eventListener.added( playlist );
+            }
         }
     }
 
@@ -166,6 +182,7 @@ public class MessicPlayerQueue
     {
         List<MDMSong> songs = album.getSongs();
         int playSong = -1;
+        boolean flagSomethingAdded = false;
         if ( this.queue.size() == 0 || !this.player.isPlaying() )
         {
             playSong = this.queue.size();
@@ -173,31 +190,51 @@ public class MessicPlayerQueue
         for ( int i = 0; i < songs.size(); i++ )
         {
             MDMSong song = songs.get( i );
-            song.setAlbum( album );
-            this.queue.add( song );
+            if ( !Configuration.isOffline()
+                || ( song.getLfileName() != null && new File( song.getLfileName() ).exists() ) )
+            {
+                song.setAlbum( album );
+                this.queue.add( song );
+                flagSomethingAdded = true;
+            }
         }
         if ( playSong != -1 )
         {
             this.cursor = playSong;
             playSong();
         }
+
+        if ( flagSomethingAdded )
+        {
+            for ( PlayerEventListener eventListener : listeners )
+            {
+                eventListener.added( album );
+            }
+        }
     }
 
     public void addSong( MDMSong song )
     {
-        this.queue.add( song );
-        if ( this.queue.size() == 1 )
+        if ( !Configuration.isOffline() || ( song.getLfileName() != null && new File( song.getLfileName() ).exists() ) )
         {
-            playSong();
-        }
-        else if ( !this.player.isPlaying() )
-        {
-            nextSong();
-        }
-        else
-        {
-            // String message = getString( R.string.player_added ) + " " + song.getName();
-            // Toast.makeText( getApplicationContext(), message, Toast.LENGTH_SHORT ).show();
+            this.queue.add( song );
+            if ( this.queue.size() == 1 )
+            {
+                playSong();
+            }
+            else if ( !this.player.isPlaying() )
+            {
+                nextSong();
+            }
+            else
+            {
+                // String message = getString( R.string.player_added ) + " " + song.getName();
+                // Toast.makeText( getApplicationContext(), message, Toast.LENGTH_SHORT ).show();
+            }
+            for ( PlayerEventListener eventListener : listeners )
+            {
+                eventListener.added( song );
+            }
         }
     }
 
@@ -266,7 +303,19 @@ public class MessicPlayerQueue
             // }
             // else
             // {
-            player.setDataSource( playSong.getURL() );
+            if ( playSong.getLfileName() != null && new File( playSong.getLfileName() ).exists() )
+            {
+                player.setDataSource( playSong.getLfileName() );
+                player.prepareAsync();
+            }
+            else
+            {
+                if ( !Configuration.isOffline() )
+                {
+                    player.setDataSource( playSong.getURL() );
+                    player.prepareAsync();
+                }
+            }
             // }
         }
         catch ( Exception e )
@@ -274,7 +323,6 @@ public class MessicPlayerQueue
             Log.e( "MUSIC SERVICE", "Error setting data source", e );
         }
 
-        player.prepareAsync();
     }
 
     public void stop()
@@ -353,5 +401,21 @@ public class MessicPlayerQueue
             eventListener.playing( playSong, true, cursor );
         }
 
+    }
+
+    /**
+     * @return the listeners
+     */
+    public List<PlayerEventListener> getListeners()
+    {
+        return listeners;
+    }
+
+    /**
+     * @param listeners the listeners to set
+     */
+    public void setListeners( List<PlayerEventListener> listeners )
+    {
+        this.listeners = listeners;
     }
 }

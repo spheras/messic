@@ -13,8 +13,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/messic_button" />
+        android:layout_alignParentTop="true" />
 
     <TextView
         android:id="@+id/base_tvcurrent_author"
@@ -48,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/base_ivplaypause"
-        android:src="@drawable/mininext_w_30" />
+        android:src="@drawable/ic_skip_next_white_24dp" />
 
     <ImageView
         android:id="@+id/base_ivplaypause"
@@ -56,8 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/base_ivback"
         android:layout_marginRight="14dp"
-        android:layout_toLeftOf="@+id/base_ivnext"
-        android:src="@drawable/messic_button" />
+        android:layout_toLeftOf="@+id/base_ivnext" />
 
     <ImageView
         android:id="@+id/base_ivback"
@@ -66,6 +64,6 @@
         android:layout_alignTop="@+id/base_tvcurrent_author"
         android:layout_marginRight="14dp"
         android:layout_toLeftOf="@+id/base_ivplaypause"
-        android:src="@drawable/miniback_w_30" />
+        android:src="@drawable/ic_skip_previous_white_24dp" />
 
 </RelativeLayout>

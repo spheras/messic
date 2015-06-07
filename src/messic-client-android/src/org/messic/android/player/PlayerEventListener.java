@@ -18,6 +18,8 @@
  */
 package org.messic.android.player;
 
+import org.messic.android.datamodel.MDMAlbum;
+import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
 
 /**
@@ -33,4 +35,19 @@ public interface PlayerEventListener
 
     /** The queue have been finished */
     void completed( int index );
+
+    /** song added to the queue */
+    void added( MDMSong song );
+
+    /** album added to the queue */
+    void added( MDMAlbum album );
+
+    /** playlist added to the queue */
+    void added( MDMPlaylist playlist );
+
+    /** the player service has been connected */
+    void connected();
+
+    /** the player service has been disconected */
+    void disconnected();
 }

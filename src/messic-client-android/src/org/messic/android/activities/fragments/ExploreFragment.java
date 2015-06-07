@@ -26,18 +26,12 @@ import org.messic.android.controllers.AlbumController;
 import org.messic.android.controllers.ExploreController;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.player.MessicPlayerService;
-import org.messic.android.player.MessicPlayerService.MusicBinder;
+import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.Fragment;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,12 +44,6 @@ public class ExploreFragment
     extends Fragment
 {
     private ExploreController controller = new ExploreController();
-
-    private Intent playIntent;
-
-    private MessicPlayerService musicSrv;
-
-    private boolean musicBound = false;
 
     private AlbumAdapter sa = null;
 
@@ -82,12 +70,12 @@ public class ExploreFragment
             public void textTouch( MDMAlbum album )
             {
                 // AlbumController.getAlbumInfo( ExploreFragment.this.getActivity(), album.getSid() );
-                AlbumController.getAlbumInfo( ExploreFragment.this.getActivity(), album );
+                AlbumController.getAlbumInfoOffline( ExploreFragment.this.getActivity(), album );
             }
 
             public void coverTouch( MDMAlbum album )
             {
-                musicSrv.getPlayer().addAlbum( album );
+                UtilMusicPlayer.addAlbum( getActivity(), album );
                 Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + album.getName(),
                                 Toast.LENGTH_SHORT ).show();
             }
@@ -99,7 +87,7 @@ public class ExploreFragment
                 {
                     MDMSong song = songs.get( i );
                     song.setAlbum( album );
-                    musicSrv.getPlayer().addSong( song );
+                    UtilMusicPlayer.addSong( getActivity(), song );
                 }
             }
         } );
@@ -178,30 +166,7 @@ public class ExploreFragment
 
     private void getMessicService()
     {
-        if ( playIntent == null )
-        {
-            playIntent = new Intent( getActivity(), MessicPlayerService.class );
-            getActivity().bindService( playIntent, musicConnection, Context.BIND_AUTO_CREATE );
-            getActivity().startService( playIntent );
-        }
+        UtilMusicPlayer.getMessicPlayerService( getActivity() );
     }
 
-    // connect to the service
-    private ServiceConnection musicConnection = new ServiceConnection()
-    {
-        public void onServiceConnected( ComponentName name, IBinder service )
-        {
-            MusicBinder binder = (MusicBinder) service;
-            // get service
-            musicSrv = binder.getService();
-            // pass list
-            // musicSrv.setList( songList );
-            musicBound = true;
-        }
-
-        public void onServiceDisconnected( ComponentName name )
-        {
-            musicBound = false;
-        }
-    };
 }

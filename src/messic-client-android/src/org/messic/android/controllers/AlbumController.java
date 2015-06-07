@@ -21,7 +21,7 @@ package org.messic.android.controllers;
 import org.messic.android.R;
 import org.messic.android.activities.AlbumInfoActivity;
 import org.messic.android.datamodel.MDMAlbum;
-import org.messic.android.util.RestJSONClient;
+import org.messic.android.util.UtilRestJSONClient;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -31,14 +31,14 @@ import android.widget.Toast;
 
 public class AlbumController
 {
-    public static void getAlbumInfo( final Activity originActivity, MDMAlbum album )
+    public static void getAlbumInfoOffline( final Activity originActivity, MDMAlbum album )
     {
         Intent ssa = new Intent( originActivity, AlbumInfoActivity.class );
         ssa.putExtra( AlbumInfoActivity.EXTRA_ALBUM_SID, album );
         originActivity.startActivity( ssa );
     }
 
-    public static void getAlbumInfo( final Activity originActivity, long sid )
+    public static void getAlbumInfoOnline( final Activity originActivity, long sid )
     {
         final ProgressDialog dialog =
             ProgressDialog.show( originActivity, originActivity.getResources().getString( R.string.albuminfo_loading ),
@@ -48,7 +48,7 @@ public class AlbumController
         final String baseURL =
             Configuration.getBaseUrl() + "/services/albums/" + sid + "?songsInfo=true&authorInfo=true&messic_token="
                 + Configuration.getLastToken();
-        RestJSONClient.get( baseURL, MDMAlbum.class, new RestJSONClient.RestListener<MDMAlbum>()
+        UtilRestJSONClient.get( baseURL, MDMAlbum.class, new UtilRestJSONClient.RestListener<MDMAlbum>()
         {
             public void response( MDMAlbum response )
             {

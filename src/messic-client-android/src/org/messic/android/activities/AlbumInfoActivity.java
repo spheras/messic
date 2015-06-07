@@ -25,18 +25,12 @@ import org.messic.android.controllers.AlbumController;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.player.MessicPlayerService;
-import org.messic.android.player.MessicPlayerService.MusicBinder;
 import org.messic.android.util.AlbumCoverCache;
+import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -53,10 +47,6 @@ public class AlbumInfoActivity
     private AlbumController controller = new AlbumController();
 
     private SongAdapter adapter;
-
-    private MessicPlayerService musicSrv;
-
-    private Intent playIntent;
 
     private MDMAlbum album;
 
@@ -89,7 +79,7 @@ public class AlbumInfoActivity
 
                 public void coverTouch( MDMSong song, int index )
                 {
-                    musicSrv.getPlayer().addSong( song );
+                    UtilMusicPlayer.addSong( AlbumInfoActivity.this, song );
                     Toast.makeText( AlbumInfoActivity.this,
                                     getResources().getText( R.string.player_added ) + song.getName(),
                                     Toast.LENGTH_SHORT ).show();
@@ -110,7 +100,7 @@ public class AlbumInfoActivity
             {
                 if ( album != null )
                 {
-                    musicSrv.getPlayer().addAlbum( album );
+                    UtilMusicPlayer.addAlbum( AlbumInfoActivity.this, album );
                     Toast.makeText( AlbumInfoActivity.this,
                                     getResources().getText( R.string.player_added ) + album.getName(),
                                     Toast.LENGTH_SHORT ).show();
@@ -121,9 +111,9 @@ public class AlbumInfoActivity
         eventAlbumInfoLoaded( album );
     }
 
-    public void eventAlbumInfoLoaded( final MDMAlbum response )
+    public void eventAlbumInfoLoaded( final MDMAlbum album )
     {
-        this.album = response;
+        this.album = album;
         adapter.clear();
         runOnUiThread( new Runnable()
         {
@@ -134,10 +124,10 @@ public class AlbumInfoActivity
                 TextView tvalbum = (TextView) findViewById( R.id.albuminfo_talbum );
                 final ImageView ivcover = (ImageView) findViewById( R.id.albuminfo_icover );
 
-                tvauthor.setText( response.getAuthor().getName() );
-                tvalbum.setText( response.getName() );
+                tvauthor.setText( album.getAuthor().getName() );
+                tvalbum.setText( album.getName() );
                 ivcover.setImageResource( android.R.color.white );
-                Bitmap bm = AlbumCoverCache.getCover( response.getSid(), new AlbumCoverCache.CoverListener()
+                Bitmap bm = AlbumCoverCache.getCover( album, new AlbumCoverCache.CoverListener()
                 {
                     public void setCover( final Bitmap bitmap )
                     {
@@ -162,11 +152,11 @@ public class AlbumInfoActivity
                     ivcover.setImageBitmap( bm );
                 }
 
-                for ( int i = 0; i < response.getSongs().size(); i++ )
+                for ( int i = 0; i < album.getSongs().size(); i++ )
                 {
-                    MDMSong song = response.getSongs().get( i );
-                    song.setAlbum( response );
-                    adapter.addSong( response.getSongs().get( i ) );
+                    MDMSong song = album.getSongs().get( i );
+                    song.setAlbum( album );
+                    adapter.addSong( album.getSongs().get( i ) );
                 }
 
                 adapter.notifyDataSetChanged();
@@ -176,30 +166,9 @@ public class AlbumInfoActivity
 
     }
 
-    // connect to the service
-    private ServiceConnection musicConnection = new ServiceConnection()
-    {
-        public void onServiceConnected( ComponentName name, IBinder service )
-        {
-            MusicBinder binder = (MusicBinder) service;
-            // get service
-            musicSrv = binder.getService();
-            // pass list
-        }
-
-        public void onServiceDisconnected( ComponentName name )
-        {
-        }
-    };
-
     private void getMessicService()
     {
-        if ( playIntent == null )
-        {
-            playIntent = new Intent( this, MessicPlayerService.class );
-            this.bindService( playIntent, musicConnection, Context.BIND_AUTO_CREATE );
-            this.startService( playIntent );
-        }
+        UtilMusicPlayer.getMessicPlayerService( this );
     }
 
 }

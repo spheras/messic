@@ -13,13 +13,11 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -143,7 +141,7 @@ public class PlaylistAdapter
             }
         } );
 
-        Bitmap bm = AlbumCoverCache.getCover( song.getAlbum().getSid(), new AlbumCoverCache.CoverListener()
+        Bitmap bm = AlbumCoverCache.getCover( song.getAlbum(), new AlbumCoverCache.CoverListener()
         {
             public void setCover( final Bitmap bitmap )
             {

@@ -43,7 +43,9 @@ public class MDMAlbum
 
     public static final String COLUMN_COMMENTS = "comments";
 
-    public static final String COLUMN_FILENAME = "filename";
+    public static final String COLUMN_SERVER_FILENAME = "sfilename";
+
+    public static final String COLUMN_LOCAL_FILENAME = "lfilename";
 
     public static final String COLUMN_FK_AUTHOR = "fk_author";
 
@@ -53,13 +55,14 @@ public class MDMAlbum
 
     public static final String TABLE_CREATE = "create table " + TABLE_NAME + "(" + COLUMN_LOCAL_SID
         + " integer primary key autoincrement, " + COLUMN_SERVER_SID + " integer not null, " + COLUMN_NAME
-        + " text not null," + COLUMN_YEAR + " integer," + COLUMN_COMMENTS + " text," + COLUMN_FILENAME
-        + " text not null," + COLUMN_FK_AUTHOR + " integer not null," + COLUMN_FK_GENRE + " integer" + ");";
+        + " text not null," + COLUMN_YEAR + " integer," + COLUMN_COMMENTS + " text," + COLUMN_LOCAL_FILENAME + " text,"
+        + COLUMN_SERVER_FILENAME + " text," + COLUMN_FK_AUTHOR + " integer not null," + COLUMN_FK_GENRE
+        + " integer" + ");";
 
     public static String[] getColumns()
     {
         return new String[] { COLUMN_LOCAL_SID, COLUMN_SERVER_SID, COLUMN_NAME, COLUMN_YEAR, COLUMN_COMMENTS,
-            COLUMN_FILENAME, COLUMN_FK_AUTHOR, COLUMN_FK_GENRE };
+            COLUMN_LOCAL_FILENAME, COLUMN_SERVER_FILENAME, COLUMN_FK_AUTHOR, COLUMN_FK_GENRE };
     }
 
     public MDMAlbum( Cursor cursor, Context context, boolean loadSongs )
@@ -69,15 +72,16 @@ public class MDMAlbum
         this.name = cursor.getString( 2 );
         this.year = cursor.getInt( 3 );
         this.comments = cursor.getString( 4 );
-        this.fileName = cursor.getString( 5 );
+        this.lfileName = cursor.getString( 5 );
+        this.fileName = cursor.getString( 6 );
         DAOGenre daogenre = new DAOGenre( context );
         daogenre.open();
-        int sidGenre = cursor.getInt( 7 );
+        int sidGenre = cursor.getInt( 8 );
         Cursor cGenre = daogenre._get( sidGenre );
         this.genre = new MDMGenre( cGenre );
         DAOAuthor daoauthor = new DAOAuthor( context );
         daoauthor.open();
-        int sidAuthor = cursor.getInt( 6 );
+        int sidAuthor = cursor.getInt( 7 );
         Cursor cAuthor = daoauthor._get( sidAuthor );
         this.author = new MDMAuthor( cAuthor );
         daoauthor.close();
@@ -86,7 +90,7 @@ public class MDMAlbum
         if ( loadSongs )
         {
             DAOSong daoSong = new DAOSong( context );
-            List<MDMSong> songs=daoSong.getSongs( this.lsid );
+            List<MDMSong> songs = daoSong.getSongs( this.lsid );
             setSongs( songs );
         }
     }

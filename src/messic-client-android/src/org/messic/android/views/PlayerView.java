@@ -1,22 +1,16 @@
 package org.messic.android.views;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.messic.android.R;
+import org.messic.android.datamodel.MDMAlbum;
+import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.player.MessicPlayerService;
-import org.messic.android.player.MessicPlayerService.MusicBinder;
 import org.messic.android.player.PlayerEventListener;
 import org.messic.android.util.AlbumCoverCache;
+import org.messic.android.util.UtilMusicPlayer;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.IBinder;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,12 +22,6 @@ public class PlayerView
     extends RelativeLayout
     implements PlayerEventListener
 {
-    private Intent playIntent;
-
-    public static MessicPlayerService musicSrv;
-
-    private static boolean musicBound = false;
-
     public PlayerView( Context context )
     {
         super( context );
@@ -58,22 +46,17 @@ public class PlayerView
 
         LayoutInflater inflater = LayoutInflater.from( getContext() );
         View v = inflater.inflate( R.layout.player_layout, this, true );
-        if ( playIntent == null )
-        {
-            playIntent = new Intent( getContext(), MessicPlayerService.class );
-            getContext().bindService( playIntent, musicConnection, Context.BIND_AUTO_CREATE );
-            getContext().startService( playIntent );
-        }
+
         fillData( null );
 
-        addListener( this );
+        addListener( this.getContext(), this );
 
         final ImageView ivprevsong = (ImageView) v.findViewById( R.id.base_ivback );
         ivprevsong.setOnClickListener( new View.OnClickListener()
         {
             public void onClick( View v )
             {
-                musicSrv.getPlayer().prevSong();
+                UtilMusicPlayer.prevSong( PlayerView.this.getContext() );
             }
 
         } );
@@ -82,7 +65,7 @@ public class PlayerView
         {
             public void onClick( View v )
             {
-                musicSrv.getPlayer().nextSong();
+                UtilMusicPlayer.nextSong( PlayerView.this.getContext() );
             }
 
         } );
@@ -95,25 +78,22 @@ public class PlayerView
             {
                 if ( ivplaypause.getTag().equals( STATUS_PLAY ) )
                 {
-                    musicSrv.getPlayer().resumeSong();
+                    UtilMusicPlayer.resumeSong( PlayerView.this.getContext() );
                 }
                 else
                 {
-                    musicSrv.getPlayer().pauseSong();
+                    UtilMusicPlayer.pauseSong( PlayerView.this.getContext() );
                 }
             }
         } );
 
-        if ( musicSrv != null )
-        {
-            update();
-        }
+        update();
     }
 
     private void update()
     {
-        MDMSong song = musicSrv.getPlayer().getCurrentSong();
-        if ( song != null && musicSrv.getPlayer().isPlaying() )
+        MDMSong song = UtilMusicPlayer.getCurrentSong( PlayerView.this.getContext() );
+        if ( song != null && UtilMusicPlayer.isPlaying( PlayerView.this.getContext() ) )
         {
             playing( song, false, 0 );
         }
@@ -135,7 +115,7 @@ public class PlayerView
         if ( song != null )
         {
             final ImageView ivcover = (ImageView) findViewById( R.id.base_ivcurrent_cover );
-            Bitmap bm = AlbumCoverCache.getCover( song.getAlbum().getSid(), new AlbumCoverCache.CoverListener()
+            Bitmap bm = AlbumCoverCache.getCover( song.getAlbum(), new AlbumCoverCache.CoverListener()
             {
 
                 public void setCover( final Bitmap bitmap )
@@ -170,66 +150,17 @@ public class PlayerView
         }
     }
 
-    private static List<PlayerEventListener> listeners = new ArrayList<PlayerEventListener>();
-
-    public static void addListener( PlayerEventListener listener )
+    public static void addListener( Context ctx, PlayerEventListener listener )
     {
-        if ( musicSrv != null )
-        {
-            musicSrv.getPlayer().addListener( listener );
-        }
-        else
-        {
-            listeners.add( listener );
-        }
+        UtilMusicPlayer.addListener( ctx, listener );
     }
-
-    // connect to the service
-    private static ServiceConnection musicConnection = new ServiceConnection()
-    {
-
-        public void onServiceConnected( ComponentName name, IBinder service )
-        {
-            MusicBinder binder = (MusicBinder) service;
-            // get service
-            musicSrv = binder.getService();
-            // pass list
-            // musicSrv.setList( songList );
-            musicBound = true;
-
-            for ( int i = 0; i < listeners.size(); i++ )
-            {
-                musicSrv.getPlayer().addListener( listeners.get( i ) );
-
-                MDMSong song = musicSrv.getPlayer().getCurrentSong();
-                if(song!=null){
-                    if ( musicSrv.getPlayer().isPlaying() )
-                    {
-                        listeners.get( i ).playing( song, false, 0 );
-                    }
-                    else
-                    {
-                        listeners.get( i ).playing( song, false, 0 );
-                        listeners.get( i ).paused( song, 0 );
-                    }
-                }
-            }
-            listeners.clear();
-
-        }
-
-        public void onServiceDisconnected( ComponentName name )
-        {
-            musicBound = false;
-        }
-    };
 
     public void paused( MDMSong song, int index )
     {
         this.setVisibility( View.VISIBLE );
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PLAY );
-        ivplaypause.setBackgroundResource( R.drawable.miniplay_w_30 );
+        ivplaypause.setBackgroundResource( R.drawable.ic_play_arrow_white_24dp );
         ivplaypause.invalidate();
     }
 
@@ -238,7 +169,7 @@ public class PlayerView
         this.setVisibility( View.VISIBLE );
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PAUSE );
-        ivplaypause.setBackgroundResource( R.drawable.minipause_w_30 );
+        ivplaypause.setBackgroundResource( R.drawable.ic_pause_white_24dp );
         ivplaypause.invalidate();
         if ( !resumed )
         {
@@ -255,8 +186,33 @@ public class PlayerView
         this.setVisibility( View.VISIBLE );
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PLAY );
-        ivplaypause.setBackgroundResource( R.drawable.miniplay_w_30 );
+        ivplaypause.setBackgroundResource( R.drawable.ic_play_arrow_white_24dp );
         ivplaypause.invalidate();
+    }
+
+    public void added( MDMSong song )
+    {
+        // nothing to do
+    }
+
+    public void added( MDMAlbum album )
+    {
+        // nothing to do
+    }
+
+    public void added( MDMPlaylist playlist )
+    {
+        // nothing to do
+    }
+
+    public void disconnected()
+    {
+        // nothing to do
+    }
+
+    public void connected()
+    {
+        // nothing to do
     }
 
 }

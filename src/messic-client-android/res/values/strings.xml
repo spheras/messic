@@ -3,13 +3,14 @@
 
     <string name="app_name">messic</string>
     <string name="action_settings">Settings</string>
-    <string name="searchMessicService_explanation">You must search a valid messic service at your network. Press the button to start searching messic services</string>
-    <string name="searchMessicService_searchaction">Search messic service</string>
+    <string name="searchMessicService_explanation_title">Search messic Service</string>
+    <string name="searchMessicService_explanation">You must search a valid messic service at your network. Press the button to start searching messic services in your network.</string>
+    <string name="searchMessicService_searchaction">Search messic Services</string>
     <string name="searchMessicService_countdown_searching">searching</string>
     <string name="searchMessicService_countdown_seconds">sec</string>
     <string name="searchMessicService_results">Messic Services Found List</string>
     <string name="searchMessicService_manual">... or Manual Search</string>
-    <string name="searchMessicService_empty">Empty</string>
+    <string name="searchMessicService_empty">(empty)</string>
     <string name="title_activity_base">messic</string>
     <string name="title_section_random">Random Music</string>
     <string name="title_section_explore">Explore</string>
@@ -22,5 +23,15 @@
     <string name="albuminfo_wait">Please wait...</string>
     <string name="login_offline">... or play offline music</string>
     <string name="login_searchonline">Search an Online Messic Service</string>
+    <string name="download_added">downloading:</string>
     
+	<string name="action_scan">Scan</string>    
+	<string name="action_search">Search</string>    
+	
+    <string name="bignotification_player_cover_contentdescription">Cover</string>
+    <string name="bignotification_player_back_contentdescription">Back</string>
+    <string name="bignotification_player_next_contentdescription">Next</string>
+    <string name="bignotification_player_play_contentdescription">Play</string>
+    <string name="bignotification_player_pause_contentdescription">Pause</string>
+    <string name="bignotification_player_close_contentdescription">Close</string>
 </resources>

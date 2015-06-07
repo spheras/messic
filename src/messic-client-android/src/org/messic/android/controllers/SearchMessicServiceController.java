@@ -37,6 +37,7 @@ public class SearchMessicServiceController
     {
         /**
          * send the instance found
+         * 
          * @param md {@link MDMMessicServerInstance} instance found
          * @return if the search service should be cancelled or not
          */
@@ -53,6 +54,7 @@ public class SearchMessicServiceController
     {
         DAOServerInstance dao = new DAOServerInstance( context );
         List<MDMMessicServerInstance> servers = dao.getAll();
+
         for ( MDMMessicServerInstance instance : servers )
         {
             adapter.addInstance( instance );

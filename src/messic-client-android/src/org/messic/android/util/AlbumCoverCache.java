@@ -1,17 +1,24 @@
 package org.messic.android.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 
 import org.messic.android.controllers.Configuration;
+import org.messic.android.datamodel.MDMAlbum;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.LruCache;
 
 public class AlbumCoverCache
 {
     private static LruCache<String, Bitmap> mMemoryCache;
+
+    public static String COVER_OFFLINE_FILENAME = "cover.jpg";
 
     static
     {
@@ -42,43 +49,64 @@ public class AlbumCoverCache
         void failed( Exception e );
     }
 
-    public static Bitmap getCover( final long albumSid, final CoverListener listener )
+    public static Bitmap getCover( final MDMAlbum album, final CoverListener listener )
     {
-        Bitmap result = getBitmapFromMemCache( "" + albumSid );
+        Bitmap result = getBitmapFromMemCache( "" + album.getSid() );
         if ( result != null )
         {
             return result;
         }
         else
         {
-            AsyncTask<Void, Void, Void> at = new AsyncTask<Void, Void, Void>()
+            if ( Configuration.isOffline() )
             {
-                @Override
-                protected Void doInBackground( Void... params )
+                String albumPath = album.getLfileName();
+                File coverPath = new File( albumPath + "/" + COVER_OFFLINE_FILENAME );
+                if ( coverPath.exists() )
                 {
+                    Bitmap bmp;
                     try
                     {
-//                        Resources res = context.getResources();
-//                        int height = (int) res.getDimension( android.R.dimen.notification_large_icon_height );
-//                        int width = (int) res.getDimension( android.R.dimen.notification_large_icon_width );
-
-                        String baseURL =
-                            Configuration.getBaseUrl() + "/services/albums/" + albumSid + "/cover?preferredWidth=100&preferredHeight=100&messic_token="
-                                + Configuration.getLastToken();
-                        System.gc();
-                        Bitmap bmp = BitmapFactory.decodeStream( new URL( baseURL ).openConnection().getInputStream() );
-                        addBitmapToMemoryCache( "" + albumSid, bmp );
-                        listener.setCover( bmp );
+                        bmp = BitmapFactory.decodeStream( new FileInputStream( coverPath ) );
+                        addBitmapToMemoryCache( "" + album.getSid(), bmp );
+                        return bmp;
                     }
-                    catch ( Exception e )
+                    catch ( FileNotFoundException e )
                     {
-                        listener.failed( e );
+                        Log.e( "AlbumCoverCache", e.getMessage(), e );
+                        e.printStackTrace();
                     }
-                    return null;
                 }
+            }
+            else
+            {
+                AsyncTask<Void, Void, Void> at = new AsyncTask<Void, Void, Void>()
+                {
+                    @Override
+                    protected Void doInBackground( Void... params )
+                    {
+                        try
+                        {
+                            String baseURL =
+                                Configuration.getBaseUrl() + "/services/albums/" + album.getSid()
+                                    + "/cover?preferredWidth=100&preferredHeight=100&messic_token="
+                                    + Configuration.getLastToken();
+                            System.gc();
+                            Bitmap bmp =
+                                BitmapFactory.decodeStream( new URL( baseURL ).openConnection().getInputStream() );
+                            addBitmapToMemoryCache( "" + album.getSid(), bmp );
+                            listener.setCover( bmp );
+                        }
+                        catch ( Exception e )
+                        {
+                            listener.failed( e );
+                        }
+                        return null;
+                    }
 
-            };
-            at.execute();
+                };
+                at.execute();
+            }
             return null;
         }
     }

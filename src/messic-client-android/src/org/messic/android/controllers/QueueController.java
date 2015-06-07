@@ -20,47 +20,61 @@ package org.messic.android.controllers;
 
 import java.util.List;
 
+import org.messic.android.R;
 import org.messic.android.activities.adapters.SongAdapter;
 import org.messic.android.activities.fragments.PlayQueueFragment;
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.player.MessicPlayerService;
+import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
 
 public class QueueController
 {
 
+    private List<MDMSong> queueSongs = null;
+
     public void getQueueSongs( final SongAdapter adapter, final Activity activity, final PlayQueueFragment rf,
-                               boolean refresh, final SwipeRefreshLayout srl, MessicPlayerService mps )
+                               boolean refresh, final SwipeRefreshLayout srl )
     {
-        List<MDMSong> queue = mps.getPlayer().getQueue();
-
-        adapter.clear();
-        activity.runOnUiThread( new Runnable()
+        if ( activity != null )
         {
-            public void run()
+            if ( queueSongs == null || refresh )
             {
-                adapter.notifyDataSetChanged();
-            }
-        } );
+                activity.findViewById( R.id.queue_progress ).setVisibility( View.VISIBLE );
+                List<MDMSong> queue = UtilMusicPlayer.getQueue( activity );
+                queueSongs = queue;
+                adapter.clear();
+                activity.runOnUiThread( new Runnable()
+                {
+                    public void run()
+                    {
+                        adapter.notifyDataSetChanged();
+                    }
+                } );
 
-        for ( int i = 0; i < queue.size(); i++ )
-        {
-            MDMSong song = queue.get( i );
-            adapter.addSong( song );
+                if ( queue != null )
+                {
+                    for ( int i = 0; i < queue.size(); i++ )
+                    {
+                        MDMSong song = queue.get( i );
+                        adapter.addSong( song );
+                    }
+                }
+                rf.eventRandomInfoLoaded();
+                activity.runOnUiThread( new Runnable()
+                {
+                    public void run()
+                    {
+                        adapter.notifyDataSetChanged();
+                    }
+                } );
+
+                if ( srl != null )
+                    srl.setRefreshing( false );
+            }
         }
-        rf.eventRandomInfoLoaded();
-        activity.runOnUiThread( new Runnable()
-        {
-            public void run()
-            {
-                adapter.notifyDataSetChanged();
-            }
-        } );
-
-        if ( srl != null )
-            srl.setRefreshing( false );
 
     }
 }

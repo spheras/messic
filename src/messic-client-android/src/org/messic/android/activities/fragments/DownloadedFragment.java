@@ -18,37 +18,29 @@
  */
 package org.messic.android.activities.fragments;
 
+import java.io.File;
 import java.util.List;
 
 import org.messic.android.R;
-import org.messic.android.activities.SearchMessicServiceActivity;
 import org.messic.android.activities.adapters.AlbumAdapter;
 import org.messic.android.activities.swipedismiss.SwipeDismissListViewTouchListener;
 import org.messic.android.controllers.AlbumController;
 import org.messic.android.controllers.DownloadedController;
 import org.messic.android.datamodel.MDMAlbum;
-import org.messic.android.datamodel.MDMMessicServerInstance;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.datamodel.dao.DAOAlbum;
-import org.messic.android.player.MessicPlayerService;
-import org.messic.android.player.MessicPlayerService.MusicBinder;
+import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -56,12 +48,6 @@ public class DownloadedFragment
     extends Fragment
 {
     private DownloadedController controller = new DownloadedController();
-
-    private Intent playIntent;
-
-    private MessicPlayerService musicSrv;
-
-    private boolean musicBound = false;
 
     private AlbumAdapter sa = null;
 
@@ -87,12 +73,12 @@ public class DownloadedFragment
 
             public void textTouch( MDMAlbum album )
             {
-                AlbumController.getAlbumInfo( DownloadedFragment.this.getActivity(), album );
+                AlbumController.getAlbumInfoOffline( DownloadedFragment.this.getActivity(), album );
             }
 
             public void coverTouch( MDMAlbum album )
             {
-                musicSrv.getPlayer().addAlbum( album );
+                UtilMusicPlayer.addAlbum( getActivity(), album );
                 Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + album.getName(),
                                 Toast.LENGTH_SHORT ).show();
             }
@@ -104,7 +90,14 @@ public class DownloadedFragment
                 {
                     MDMSong song = songs.get( i );
                     song.setAlbum( album );
-                    musicSrv.getPlayer().addSong( song );
+                    if ( song.getLfileName() != null )
+                    {
+                        File fe = new File( song.getLfileName() );
+                        if ( fe.exists() )
+                        {
+                            UtilMusicPlayer.addSong( getActivity(), song );
+                        }
+                    }
                 }
             }
         } );
@@ -209,30 +202,6 @@ public class DownloadedFragment
 
     private void getMessicService()
     {
-        if ( playIntent == null )
-        {
-            playIntent = new Intent( getActivity(), MessicPlayerService.class );
-            getActivity().bindService( playIntent, musicConnection, Context.BIND_AUTO_CREATE );
-            getActivity().startService( playIntent );
-        }
+        UtilMusicPlayer.getMessicPlayerService( getActivity() );
     }
-
-    // connect to the service
-    private ServiceConnection musicConnection = new ServiceConnection()
-    {
-        public void onServiceConnected( ComponentName name, IBinder service )
-        {
-            MusicBinder binder = (MusicBinder) service;
-            // get service
-            musicSrv = binder.getService();
-            // pass list
-            // musicSrv.setList( songList );
-            musicBound = true;
-        }
-
-        public void onServiceDisconnected( ComponentName name )
-        {
-            musicBound = false;
-        }
-    };
 }

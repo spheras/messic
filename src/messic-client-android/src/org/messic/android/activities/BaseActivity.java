@@ -26,6 +26,7 @@ import org.messic.android.activities.fragments.ExploreFragment;
 import org.messic.android.activities.fragments.PlayQueueFragment;
 import org.messic.android.activities.fragments.PlaylistFragment;
 import org.messic.android.activities.fragments.RandomFragment;
+import org.messic.android.controllers.Configuration;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -37,6 +38,7 @@ import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,23 +104,28 @@ public class BaseActivity
     @Override
     public boolean onCreateOptionsMenu( Menu menu )
     {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate( R.menu.base2, menu );
-        return true;
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate( R.menu.base_activity_actions, menu );
+        return super.onCreateOptionsMenu( menu );
     }
 
     @Override
     public boolean onOptionsItemSelected( MenuItem item )
     {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if ( id == R.id.action_settings )
+        // Handle presses on the action bar items
+        switch ( item.getItemId() )
         {
-            return true;
+            case R.id.action_search:
+                // openSearch();
+                return true;
+            case R.id.action_settings:
+                // openSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected( item );
         }
-        return super.onOptionsItemSelected( item );
+
     }
 
     public void onTabSelected( ActionBar.Tab tab, FragmentTransaction fragmentTransaction )
@@ -151,25 +158,39 @@ public class BaseActivity
         @Override
         public Fragment getItem( int position )
         {
-            if ( position == 0 )
+            if ( Configuration.isOffline() )
             {
-                return new RandomFragment();
+                if ( position == 0 )
+                {
+                    return new DownloadedFragment();
+                }
+                else if ( position == 1 )
+                {
+                    return new PlayQueueFragment();
+                }
             }
-            else if ( position == 1 )
+            else
             {
-                return new ExploreFragment();
-            }
-            else if ( position == 2 )
-            {
-                return new PlaylistFragment();
-            }
-            else if ( position == 3 )
-            {
-                return new DownloadedFragment();
-            }
-            else if ( position == 4 )
-            {
-                return new PlayQueueFragment();
+                if ( position == 0 )
+                {
+                    return new RandomFragment();
+                }
+                else if ( position == 1 )
+                {
+                    return new ExploreFragment();
+                }
+                else if ( position == 2 )
+                {
+                    return new PlaylistFragment();
+                }
+                else if ( position == 3 )
+                {
+                    return new DownloadedFragment();
+                }
+                else if ( position == 4 )
+                {
+                    return new PlayQueueFragment();
+                }
             }
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
@@ -179,26 +200,39 @@ public class BaseActivity
         @Override
         public int getCount()
         {
-            // Show 5 total pages.
-            return 5;
+            return ( Configuration.isOffline() ? 2 : 5 );
         }
 
         @Override
         public CharSequence getPageTitle( int position )
         {
             Locale l = Locale.getDefault();
-            switch ( position )
+            if ( Configuration.isOffline() )
             {
-                case 0:
-                    return getString( R.string.title_section_random ).toUpperCase( l );
-                case 1:
-                    return getString( R.string.title_section_explore ).toUpperCase( l );
-                case 2:
-                    return getString( R.string.title_section_playlist ).toUpperCase( l );
-                case 3:
-                    return getString( R.string.title_section_downloaded ).toUpperCase( l );
-                case 4:
-                    return getString( R.string.title_section_queue ).toUpperCase( l );
+                switch ( position )
+                {
+                    case 0:
+                        return getString( R.string.title_section_downloaded ).toUpperCase( l );
+                    case 1:
+                        return getString( R.string.title_section_queue ).toUpperCase( l );
+                }
+
+            }
+            else
+            {
+                switch ( position )
+                {
+                    case 0:
+                        return getString( R.string.title_section_random ).toUpperCase( l );
+                    case 1:
+                        return getString( R.string.title_section_explore ).toUpperCase( l );
+                    case 2:
+                        return getString( R.string.title_section_playlist ).toUpperCase( l );
+                    case 3:
+                        return getString( R.string.title_section_downloaded ).toUpperCase( l );
+                    case 4:
+                        return getString( R.string.title_section_queue ).toUpperCase( l );
+                }
             }
             return null;
         }

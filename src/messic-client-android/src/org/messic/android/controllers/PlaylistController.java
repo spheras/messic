@@ -21,7 +21,7 @@ package org.messic.android.controllers;
 import org.messic.android.activities.adapters.PlaylistAdapter;
 import org.messic.android.activities.fragments.PlaylistFragment;
 import org.messic.android.datamodel.MDMPlaylist;
-import org.messic.android.util.RestJSONClient;
+import org.messic.android.util.UtilRestJSONClient;
 
 import android.app.Activity;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -41,7 +41,7 @@ public class PlaylistController
             final String baseURL =
                 Configuration.getBaseUrl() + "/services/playlists?songsInfo=true&messic_token="
                     + Configuration.getLastToken();
-            RestJSONClient.get( baseURL, MDMPlaylist[].class, new RestJSONClient.RestListener<MDMPlaylist[]>()
+            UtilRestJSONClient.get( baseURL, MDMPlaylist[].class, new UtilRestJSONClient.RestListener<MDMPlaylist[]>()
             {
                 public void response( MDMPlaylist[] response )
                 {

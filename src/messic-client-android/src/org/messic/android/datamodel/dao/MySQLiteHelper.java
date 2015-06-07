@@ -17,7 +17,7 @@ public class MySQLiteHelper
 
     private static final String DATABASE_NAME = "messic.db";
 
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 12;
 
     public MySQLiteHelper( Context context )
     {

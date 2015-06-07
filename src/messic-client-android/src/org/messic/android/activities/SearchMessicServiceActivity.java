@@ -51,6 +51,10 @@ public class SearchMessicServiceActivity
         controller.getSavedSessions( this, adapter );
         ListView lv = (ListView) findViewById( R.id.searchmessicservice_lvresults );
         lv.setAdapter( adapter );
+        if ( adapter.getInstances().size() > 0 )
+        {
+            findViewById( R.id.searchmessicservice_lempty ).setVisibility( View.GONE );
+        }
 
         // Create a ListView-specific touch listener. ListViews are given special treatment because
         // by default they handle touches for their list items... i.e. they're in charge of drawing
@@ -173,6 +177,15 @@ public class SearchMessicServiceActivity
 
             }
         } );
-        ;
+
+        findViewById( R.id.searchmessicservice_offline ).setOnClickListener( new View.OnClickListener()
+        {
+            public void onClick( View v )
+            {
+                Configuration.setOffline( true );
+                Intent ssa = new Intent( SearchMessicServiceActivity.this, BaseActivity.class );
+                SearchMessicServiceActivity.this.startActivity( ssa );
+            }
+        } );
     }
 }

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.messic.android.R;
+import org.messic.android.controllers.Configuration;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.download.DownloadManagerService;
@@ -184,6 +185,9 @@ public class SongAdapter
         TextView talbum = null;
         TextView tsongtrack = null;
 
+        boolean playableSong =
+            ( ( Configuration.isOffline() && song.getLfileName() != null ) || !Configuration.isOffline() );
+
         if ( type == SongAdapterType.cover )
         {
             icover = (ImageView) counterView.findViewById( R.id.song_icover );
@@ -203,23 +207,39 @@ public class SongAdapter
             tsongname = (TextView) counterView.findViewById( R.id.songtrack_tsongname );
             tsongtrack = (TextView) counterView.findViewById( R.id.songtrack_ttrack );
             final ImageView ivplay = (ImageView) counterView.findViewById( R.id.songtrack_ivplay );
-            ivplay.setOnClickListener( new View.OnClickListener()
-            {
-                public void onClick( View v )
-                {
-                    ivplay.startAnimation( anim );
-                    listener.coverTouch( song, position );
-                }
-            } );
 
-            ImageView ivdownload = (ImageView) counterView.findViewById( R.id.songtrack_ivdownload );
-            ivdownload.setOnClickListener( new View.OnClickListener()
+            if ( playableSong )
             {
-                public void onClick( View v )
+                ivplay.setOnClickListener( new View.OnClickListener()
                 {
-                    downloadService.addDownload( song, SongAdapter.this.activity );
-                }
-            } );
+                    public void onClick( View v )
+                    {
+                        ivplay.startAnimation( anim );
+                        listener.coverTouch( song, position );
+                    }
+                } );
+                counterView.findViewById( R.id.songtrack_ivplay ).setVisibility( View.VISIBLE );
+            }
+            else
+            {
+                counterView.findViewById( R.id.songtrack_ivplay ).setVisibility( View.GONE );
+            }
+
+            if ( !Configuration.isOffline() )
+            {
+                ImageView ivdownload = (ImageView) counterView.findViewById( R.id.songtrack_ivdownload );
+                ivdownload.setOnClickListener( new View.OnClickListener()
+                {
+                    public void onClick( View v )
+                    {
+                        downloadService.addDownload( song, SongAdapter.this.activity );
+                    }
+                } );
+            }
+            else
+            {
+                counterView.findViewById( R.id.songtrack_ivdownload ).setVisibility( View.GONE );
+            }
         }
 
         final ImageView ficover = icover;
@@ -227,47 +247,59 @@ public class SongAdapter
         if ( tauthor != null )
         {
             tauthor.setText( song.getAlbum().getAuthor().getName() );
-            tauthor.setOnClickListener( new View.OnClickListener()
+            if ( playableSong )
             {
-                public void onClick( View v )
+                tauthor.setOnClickListener( new View.OnClickListener()
                 {
-                    listener.textTouch( song, position );
-                }
-            } );
+                    public void onClick( View v )
+                    {
+                        listener.textTouch( song, position );
+                    }
+                } );
+            }
         }
         if ( talbum != null )
         {
             talbum.setText( song.getAlbum().getName() );
-            talbum.setPaintFlags( talbum.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG );
-            talbum.setOnClickListener( new View.OnClickListener()
+            if ( playableSong )
             {
-                public void onClick( View v )
+                talbum.setPaintFlags( talbum.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG );
+                talbum.setOnClickListener( new View.OnClickListener()
                 {
-                    listener.textTouch( song, position );
-                }
-            } );
+                    public void onClick( View v )
+                    {
+                        listener.textTouch( song, position );
+                    }
+                } );
+            }
         }
         if ( tsongname != null )
         {
             tsongname.setText( song.getName() );
-            tsongname.setOnClickListener( new View.OnClickListener()
+            if ( playableSong )
             {
-                public void onClick( View v )
+                tsongname.setOnClickListener( new View.OnClickListener()
                 {
-                    listener.textTouch( song, position );
-                }
-            } );
+                    public void onClick( View v )
+                    {
+                        listener.textTouch( song, position );
+                    }
+                } );
+            }
         }
         if ( tsongtrack != null )
         {
             tsongtrack.setText( "" + song.getTrack() );
-            tsongtrack.setOnClickListener( new View.OnClickListener()
+            if ( playableSong )
             {
-                public void onClick( View v )
+                tsongtrack.setOnClickListener( new View.OnClickListener()
                 {
-                    listener.textTouch( song, position );
-                }
-            } );
+                    public void onClick( View v )
+                    {
+                        listener.textTouch( song, position );
+                    }
+                } );
+            }
         }
         if ( icover != null )
         {
@@ -295,7 +327,7 @@ public class SongAdapter
             final int fposition = position;
             final View fCounterView = counterView;
 
-            Bitmap bm = AlbumCoverCache.getCover( song.getAlbum().getSid(), new AlbumCoverCache.CoverListener()
+            Bitmap bm = AlbumCoverCache.getCover( song.getAlbum(), new AlbumCoverCache.CoverListener()
             {
                 public void setCover( final Bitmap bitmap )
                 {
@@ -350,6 +382,16 @@ public class SongAdapter
             v.setBackgroundColor( 0x00FFFFFF );
         }
 
+        if ( !playableSong )
+        {
+            counterView.setAlpha( 0.4f );
+            counterView.setEnabled( false );
+        }
+        else
+        {
+            counterView.setAlpha( 1f );
+            counterView.setEnabled( true );
+        }
         return counterView;
     }
 

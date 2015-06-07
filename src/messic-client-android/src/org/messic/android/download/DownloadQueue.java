@@ -8,13 +8,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.util.FileUtil;
+import org.messic.android.util.UtilFile;
 
 import android.util.SparseArray;
 
 public class DownloadQueue
 {
-    private static ExecutorService threadPoolExecutor = Executors.newFixedThreadPool( 3 );
+    /**
+     * if there is more than 1 thread, the notification service could have problems showing the current downloading song
+     */
+    private static ExecutorService threadPoolExecutor = Executors.newFixedThreadPool( 1 );
 
     private static SparseArray<MDMSong> pendingSongs = new SparseArray<MDMSong>();
 
@@ -23,6 +26,8 @@ public class DownloadQueue
     public interface DownloadQueueListener
     {
         void received( MDMSong song, File fdownloaded );
+
+        void started( MDMSong song );
     }
 
     public static void addDownload( final URL url, final MDMSong song, final DownloadQueueListener listener )
@@ -35,16 +40,18 @@ public class DownloadQueue
             {
                 try
                 {
+                    listener.started( song );
+
                     String folderPath = song.calculateExternalStorageFolder();
                     String filePath = folderPath + "/" + song.calculateExternalFilename();
                     File fFolderPath = new File( folderPath );
                     fFolderPath.mkdirs();
                     File fDestination = new File( filePath );
                     InputStream is = url.openConnection().getInputStream();
-                    FileUtil.saveToFile( fDestination, is );
+                    UtilFile.saveToFile( fDestination, is );
 
-                    song.setFileName( fDestination.getAbsolutePath() );
-                    song.getAlbum().setFileName( folderPath );
+                    song.setLfileName( fDestination.getAbsolutePath() );
+                    song.getAlbum().setLfileName( folderPath );
 
                     downloadedSongs.append( (int) song.getSid(), song );
                     pendingSongs.remove( (int) song.getSid() );
