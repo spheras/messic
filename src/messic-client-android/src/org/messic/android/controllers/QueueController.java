@@ -42,7 +42,9 @@ public class QueueController
         {
             if ( queueSongs == null || refresh )
             {
-                activity.findViewById( R.id.queue_progress ).setVisibility( View.VISIBLE );
+                View vqueueprogress = activity.findViewById( R.id.queue_progress );
+                if ( vqueueprogress != null )
+                    vqueueprogress.setVisibility( View.VISIBLE );
                 List<MDMSong> queue = UtilMusicPlayer.getQueue( activity );
                 queueSongs = queue;
                 adapter.clear();

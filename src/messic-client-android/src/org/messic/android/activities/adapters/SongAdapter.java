@@ -18,6 +18,7 @@
  */
 package org.messic.android.activities.adapters;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,19 +26,14 @@ import org.messic.android.R;
 import org.messic.android.controllers.Configuration;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
-import org.messic.android.download.DownloadManagerService;
-import org.messic.android.download.DownloadManagerService.DownloadManagerBinder;
+import org.messic.android.download.DownloadListener;
 import org.messic.android.util.AlbumCoverCache;
+import org.messic.android.util.UtilDownloadService;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +92,6 @@ public class SongAdapter
         this.listener = listener;
         this.type = type;
         this.anim = AnimationUtils.loadAnimation( activity, android.R.anim.fade_in );
-        getDownloadService();
     }
 
     public void clear()
@@ -126,37 +121,11 @@ public class SongAdapter
 
     public void removeElement( int index )
     {
-        this.songs.remove( index );
-    }
-
-    private Intent downloadIntent;
-
-    private DownloadManagerService downloadService;
-
-    private void getDownloadService()
-    {
-        if ( downloadIntent == null )
+        if ( this.songs.size() > index )
         {
-            downloadIntent = new Intent( activity, DownloadManagerService.class );
-            activity.bindService( downloadIntent, dowloadConnection, Context.BIND_AUTO_CREATE );
-            activity.startService( downloadIntent );
+            this.songs.remove( index );
         }
     }
-
-    // connect to the service
-    private ServiceConnection dowloadConnection = new ServiceConnection()
-    {
-        public void onServiceConnected( ComponentName name, IBinder service )
-        {
-            DownloadManagerBinder binder = (DownloadManagerBinder) service;
-            // get service
-            downloadService = binder.getService();
-        }
-
-        public void onServiceDisconnected( ComponentName name )
-        {
-        }
-    };
 
     @SuppressLint( "InflateParams" )
     public View getView( final int position, View counterView, ViewGroup parent )
@@ -166,7 +135,7 @@ public class SongAdapter
             switch ( type )
             {
                 case cover:
-                    counterView = this.inflater.inflate( R.layout.songcover, null );
+                    counterView = this.inflater.inflate( R.layout.songtrack_detailed, null );
                     break;
                 case detailed:
                     counterView = this.inflater.inflate( R.layout.songdetailed, null );
@@ -186,7 +155,7 @@ public class SongAdapter
         TextView tsongtrack = null;
 
         boolean playableSong =
-            ( ( Configuration.isOffline() && song.getLfileName() != null ) || !Configuration.isOffline() );
+            ( ( Configuration.isOffline() && song.isDownloaded( activity ) ) || !Configuration.isOffline() );
 
         if ( type == SongAdapterType.cover )
         {
@@ -200,7 +169,7 @@ public class SongAdapter
             icover = (ImageView) counterView.findViewById( R.id.songdetailed_icover );
             tauthor = (TextView) counterView.findViewById( R.id.songdetailed_tauthor );
             talbum = (TextView) counterView.findViewById( R.id.songdetailed_talbum );
-            tsongname = (TextView) counterView.findViewById( R.id.songdetailed_tsong );
+            tsongname = (TextView) counterView.findViewById( R.id.songdetaileddd_tsong );
         }
         else if ( type == SongAdapterType.track )
         {
@@ -228,17 +197,78 @@ public class SongAdapter
             if ( !Configuration.isOffline() )
             {
                 ImageView ivdownload = (ImageView) counterView.findViewById( R.id.songtrack_ivdownload );
-                ivdownload.setOnClickListener( new View.OnClickListener()
+                ImageView ivremove = (ImageView) counterView.findViewById( R.id.songtrack_ivremove );
+                if ( song.isDownloaded( activity ) )
                 {
-                    public void onClick( View v )
+                    ivdownload.setVisibility( View.GONE );
+                    ivremove.setVisibility( View.VISIBLE );
+                    counterView.setBackgroundResource( R.color.dowloaded_song_background );
+                    ivremove.setOnClickListener( new View.OnClickListener()
                     {
-                        downloadService.addDownload( song, SongAdapter.this.activity );
-                    }
-                } );
+                        public void onClick( View v )
+                        {
+                            listener.elementRemove( song, position );
+                        }
+                    } );
+                }
+                else
+                {
+                    ivdownload.setVisibility( View.VISIBLE );
+                    ivremove.setVisibility( View.GONE );
+                    counterView.setBackgroundResource( R.color.dowloaded_false_song_background );
+                    ivdownload.setOnClickListener( new View.OnClickListener()
+                    {
+                        public void onClick( View v )
+                        {
+                            UtilDownloadService.addDownload( SongAdapter.this.activity, song, new DownloadListener()
+                            {
+                                public void downloadUpdated( MDMSong song, float percent )
+                                {
+                                }
+
+                                public void downloadStarted( MDMSong song )
+                                {
+                                }
+
+                                public void downloadFinished( MDMSong song, File fdownloaded )
+                                {
+                                    activity.runOnUiThread( new Runnable()
+                                    {
+
+                                        public void run()
+                                        {
+                                            SongAdapter.this.notifyDataSetChanged();
+                                        }
+                                    } );
+                                }
+
+                                public void downloadAdded( MDMSong song )
+                                {
+                                }
+
+                                public void disconnected()
+                                {
+                                }
+
+                                public void connected()
+                                {
+                                }
+                            } );
+                        }
+                    } );
+                }
             }
             else
             {
                 counterView.findViewById( R.id.songtrack_ivdownload ).setVisibility( View.GONE );
+                if ( playableSong )
+                {
+                    counterView.findViewById( R.id.songtrack_ivremove ).setVisibility( View.VISIBLE );
+                }
+                else
+                {
+                    counterView.findViewById( R.id.songtrack_ivremove ).setVisibility( View.GONE );
+                }
             }
         }
 
@@ -275,7 +305,14 @@ public class SongAdapter
         }
         if ( tsongname != null )
         {
-            tsongname.setText( song.getName() );
+            if ( type == SongAdapterType.cover )
+            {
+                tsongname.setText( song.getTrack() + "-" + song.getName() );
+            }
+            else
+            {
+                tsongname.setText( song.getName() );
+            }
             if ( playableSong )
             {
                 tsongname.setOnClickListener( new View.OnClickListener()
@@ -303,8 +340,7 @@ public class SongAdapter
         }
         if ( icover != null )
         {
-            icover.setImageResource( android.R.color.white );
-            icover.setOnClickListener( new View.OnClickListener()
+            View.OnClickListener playListener = new View.OnClickListener()
             {
 
                 public void onClick( View v )
@@ -312,7 +348,15 @@ public class SongAdapter
                     ficover.startAnimation( anim );
                     listener.coverTouch( song, position );
                 }
-            } );
+            };
+            icover.setImageResource( android.R.color.white );
+            icover.setOnClickListener( playListener );
+            final View vtemp = counterView.findViewById( R.id.songtrack_detailed_playcontent );
+            if ( vtemp != null )
+            {
+                vtemp.setOnClickListener( playListener );
+            }
+
             icover.setOnLongClickListener( new View.OnLongClickListener()
             {
 
@@ -371,15 +415,27 @@ public class SongAdapter
                 }
             } );
         }
+        if ( type == SongAdapterType.track )
+        {
+            ImageView ivremove = (ImageView) counterView.findViewById( R.id.songtrack_ivremove );
+            ivremove.setOnClickListener( new View.OnClickListener()
+            {
+
+                public void onClick( View v )
+                {
+                    listener.elementRemove( song, position );
+                }
+            } );
+        }
 
         View v = counterView.findViewById( R.id.songdetailed_rlbase );
         if ( v != null && position == getCurrentSong() )
         {
-            v.setBackgroundColor( 0x66FF0000 );
+            v.setBackgroundResource( R.color.queue_current_song_background );
         }
         else if ( v != null )
         {
-            v.setBackgroundColor( 0x00FFFFFF );
+            v.setBackgroundResource( R.drawable.listitem_gradient );
         }
 
         if ( !playableSong )

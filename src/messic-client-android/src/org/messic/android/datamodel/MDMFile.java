@@ -41,6 +41,9 @@ public class MDMFile
 
     protected MDMAlbum album;
 
+    /** flag to know if the entity has been recovered from database or from cloud json entity */
+    private boolean flagFromLocalDatabase;
+
     /**
      * default constructor
      */
@@ -95,6 +98,22 @@ public class MDMFile
     public String getLfileName()
     {
         return lfileName;
+    }
+
+    /**
+     * @return the flagFromLocalDatabase
+     */
+    public boolean isFlagFromLocalDatabase()
+    {
+        return flagFromLocalDatabase;
+    }
+
+    /**
+     * @param flagFromLocalDatabase the flagFromLocalDatabase to set
+     */
+    public void setFlagFromLocalDatabase( boolean flagFromLocalDatabase )
+    {
+        this.flagFromLocalDatabase = flagFromLocalDatabase;
     }
 
     /**

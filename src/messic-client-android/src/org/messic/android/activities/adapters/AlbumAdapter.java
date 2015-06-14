@@ -50,11 +50,13 @@ public class AlbumAdapter
 
     public interface EventListener
     {
-        void coverTouch( MDMAlbum song );
+        void coverTouch( MDMAlbum album );
 
-        void coverLongTouch( MDMAlbum song );
+        void coverLongTouch( MDMAlbum album );
 
-        void textTouch( MDMAlbum song );
+        void textTouch( MDMAlbum album );
+
+        void moreTouch( MDMAlbum album, View anchor, int index );
     }
 
     public AlbumAdapter( Activity activity, EventListener listener )
@@ -62,6 +64,11 @@ public class AlbumAdapter
         this.inflater = LayoutInflater.from( activity );
         this.activity = activity;
         this.listener = listener;
+    }
+
+    public void remove( int index )
+    {
+        this.albums.remove( index );
     }
 
     public void clear()
@@ -95,7 +102,7 @@ public class AlbumAdapter
     }
 
     @SuppressLint( "InflateParams" )
-    public View getView( int position, View counterView, ViewGroup parent )
+    public View getView( final int position, View counterView, ViewGroup parent )
     {
         if ( counterView == null )
         {
@@ -104,6 +111,7 @@ public class AlbumAdapter
 
         final MDMAlbum album = this.albums.get( position );
 
+        final ImageView imore = (ImageView) counterView.findViewById( R.id.album_ivmore );
         final ImageView icover = (ImageView) counterView.findViewById( R.id.album_icover );
         TextView tauthor = (TextView) counterView.findViewById( R.id.album_tauthor );
         TextView talbum = (TextView) counterView.findViewById( R.id.album_talbum );
@@ -115,6 +123,13 @@ public class AlbumAdapter
         final int fposition = position;
         final View fCounterView = counterView;
 
+        imore.setOnClickListener( new View.OnClickListener()
+        {
+            public void onClick( View v )
+            {
+                listener.moreTouch( album, v, position );
+            }
+        } );
         tauthor.setOnClickListener( new View.OnClickListener()
         {
             public void onClick( View v )

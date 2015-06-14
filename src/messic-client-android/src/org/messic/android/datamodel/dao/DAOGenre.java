@@ -1,7 +1,6 @@
 package org.messic.android.datamodel.dao;
 
 import org.messic.android.datamodel.MDMGenre;
-import org.messic.android.datamodel.MDMSong;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -14,6 +13,11 @@ public class DAOGenre
     public DAOGenre( Context context )
     {
         super( context, MDMGenre.TABLE_NAME, MDMGenre.getColumns() );
+    }
+
+    public void create()
+    {
+        getDatabase().execSQL( MDMGenre.TABLE_CREATE );
     }
 
     public MDMGenre save( MDMGenre genre )

@@ -83,7 +83,7 @@ public class PlaylistAdapter
         icover = (ImageView) convertView.findViewById( R.id.songdetailed_icover );
         tauthor = (TextView) convertView.findViewById( R.id.songdetailed_tauthor );
         talbum = (TextView) convertView.findViewById( R.id.songdetailed_talbum );
-        tsongname = (TextView) convertView.findViewById( R.id.songdetailed_tsong );
+        tsongname = (TextView) convertView.findViewById( R.id.songdetaileddd_tsong );
 
         final ImageView ficover = icover;
 

@@ -112,11 +112,12 @@ public class MusicInfoWikipediaPlugin
         String country = locale.getLanguage();
         String nquery = normalizeQuery( query );
         String surl =
-            "http://" + country.toLowerCase() + ".wikipedia.org/w/api.php?format=xml&action=query&titles=" + nquery
+            "https://" + country.toLowerCase() + ".wikipedia.org/w/api.php?format=xml&action=query&titles=" + nquery
                 + "&prop=revisions&rvprop=content&rvparse";
         URL url = new URL( surl );
         Proxy proxy = getProxy();
         URLConnection connection = ( proxy != null ? url.openConnection( proxy ) : url.openConnection() );
+
         InputStream is = connection.getInputStream();
         byte[] readed = readInputStream( is );
         String result = new String( readed, "UTF8" );

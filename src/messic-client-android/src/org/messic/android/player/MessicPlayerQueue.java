@@ -119,6 +119,24 @@ public class MessicPlayerQueue
 
     }
 
+    public void addAndPlay( List<MDMSong> songs )
+    {
+
+        for ( int i = 0; i < songs.size(); i++ )
+        {
+            MDMSong song = songs.get( i );
+            this.queue.add( cursor + i, song );
+        }
+        playSong();
+
+        for ( PlayerEventListener eventListener : listeners )
+        {
+            eventListener.added( songs.get( 0 ) );
+            eventListener.playing( songs.get( 0 ), false, cursor );
+        }
+
+    }
+
     public void nextSong()
     {
         if ( cursor < this.queue.size() - 1 )
@@ -359,10 +377,14 @@ public class MessicPlayerQueue
     {
         if ( index < this.queue.size() )
         {
-            this.queue.remove( index );
+            MDMSong sremoved = this.queue.remove( index );
             if ( this.queue.size() <= 0 )
             {
                 stop();
+                for ( PlayerEventListener eventListener : listeners )
+                {
+                    eventListener.empty();
+                }
                 return;
             }
 
@@ -383,6 +405,15 @@ public class MessicPlayerQueue
                     this.playSong();
                 }
             }
+            else if ( index < this.cursor )
+            {
+                this.cursor = this.cursor - 1;
+            }
+
+            for ( PlayerEventListener eventListener : listeners )
+            {
+                eventListener.removed( sremoved );
+            }
         }
     }
 
@@ -401,6 +432,16 @@ public class MessicPlayerQueue
             eventListener.playing( playSong, true, cursor );
         }
 
+    }
+
+    public void clearQueue()
+    {
+        this.stop();
+        this.queue.clear();
+        for ( PlayerEventListener eventListener : listeners )
+        {
+            eventListener.empty();
+        }
     }
 
     /**

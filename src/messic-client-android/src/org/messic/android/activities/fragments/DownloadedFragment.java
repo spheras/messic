@@ -18,7 +18,7 @@
  */
 package org.messic.android.activities.fragments;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.messic.android.R;
@@ -29,6 +29,7 @@ import org.messic.android.controllers.DownloadedController;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMSong;
 import org.messic.android.datamodel.dao.DAOAlbum;
+import org.messic.android.util.UtilDownloadService;
 import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.AlertDialog;
@@ -39,17 +40,39 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 public class DownloadedFragment
     extends Fragment
+    implements TitleFragment
 {
     private DownloadedController controller = new DownloadedController();
 
     private AlbumAdapter sa = null;
+
+    private String title;
+
+    public DownloadedFragment( String title )
+    {
+        super();
+        this.title = title;
+    }
+
+    public DownloadedFragment()
+    {
+        super();
+        this.title = "";
+    }
+
+    public String getTitle()
+    {
+        return this.title;
+    }
 
     @Override
     public void onStart()
@@ -78,27 +101,45 @@ public class DownloadedFragment
 
             public void coverTouch( MDMAlbum album )
             {
-                UtilMusicPlayer.addAlbum( getActivity(), album );
-                Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + album.getName(),
-                                Toast.LENGTH_SHORT ).show();
+                addDownloadedAlbum( album );
             }
 
             public void coverLongTouch( MDMAlbum album )
             {
-                List<MDMSong> songs = album.getSongs();
-                for ( int i = 0; i < songs.size(); i++ )
+                playNowDownloadedAlbum( album );
+            }
+
+            public void moreTouch( final MDMAlbum album, View anchor, final int index )
+            {
+                // Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu( DownloadedFragment.this.getActivity(), anchor );
+
+                // Inflating the Popup using xml file
+                popup.getMenuInflater().inflate( R.menu.menu_album, popup.getMenu() );
+                popup.getMenu().removeItem( R.id.menu_album_item_download );
+
+                // registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener()
                 {
-                    MDMSong song = songs.get( i );
-                    song.setAlbum( album );
-                    if ( song.getLfileName() != null )
+                    public boolean onMenuItemClick( MenuItem item )
                     {
-                        File fe = new File( song.getLfileName() );
-                        if ( fe.exists() )
+                        switch ( item.getItemId() )
                         {
-                            UtilMusicPlayer.addSong( getActivity(), song );
+                            case R.id.menu_album_item_play:
+                                addDownloadedAlbum( album );
+                                break;
+                            case R.id.menu_album_item_playnow:
+                                playNowDownloadedAlbum( album );
+                                break;
+                            case R.id.menu_album_item_remove:
+                                removeDownloadedAlbum( album, index );
+                                break;
                         }
+                        return true;
                     }
-                }
+                } );
+
+                popup.show();// showing popup menu
             }
         } );
         gv.setAdapter( sa );
@@ -183,25 +224,91 @@ public class DownloadedFragment
      */
     public void eventDownloadedInfoLoaded()
     {
-        getActivity().runOnUiThread( new Runnable()
+        if ( getActivity() != null )
         {
-
-            public void run()
+            getActivity().runOnUiThread( new Runnable()
             {
-                if ( getActivity() != null )
+
+                public void run()
                 {
-                    View progress = getActivity().findViewById( R.id.download_progress );
-                    if ( progress != null )
+                    if ( getActivity() != null )
                     {
-                        progress.setVisibility( View.GONE );
+                        View progress = getActivity().findViewById( R.id.download_progress );
+                        if ( progress != null )
+                        {
+                            progress.setVisibility( View.GONE );
+                        }
                     }
                 }
-            }
-        } );
+            } );
+        }
     }
 
     private void getMessicService()
     {
         UtilMusicPlayer.getMessicPlayerService( getActivity() );
     }
+
+    /**
+     * Play a downloaded album
+     * 
+     * @param album
+     */
+    private void playNowDownloadedAlbum( MDMAlbum album )
+    {
+        List<MDMSong> songs = album.getSongs();
+        List<MDMSong> fsongs = new ArrayList<MDMSong>();
+        for ( int i = 0; i < songs.size(); i++ )
+        {
+            if ( songs.get( i ).isDownloaded( getActivity() ) )
+            {
+                MDMSong song = songs.get( i );
+                song.setAlbum( album );
+                fsongs.add( songs.get( i ) );
+            }
+        }
+
+        UtilMusicPlayer.addSongsAndPlay( getActivity(), fsongs );
+    }
+
+    private void addDownloadedAlbum( MDMAlbum album )
+    {
+        UtilMusicPlayer.addAlbum( getActivity(), album );
+        Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + album.getName(),
+                        Toast.LENGTH_SHORT ).show();
+
+    }
+
+    private void removeDownloadedAlbum( final MDMAlbum album, final int index )
+    {
+
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+        {
+            public void onClick( DialogInterface dialog, int which )
+            {
+                switch ( which )
+                {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        UtilDownloadService.removeAlbum( getActivity(), album );
+                        sa.remove( index );
+                        getActivity().runOnUiThread( new Runnable()
+                        {
+                            public void run()
+                            {
+                                sa.notifyDataSetChanged();
+                            }
+                        } );
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        // No button clicked
+                        break;
+                }
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
+        builder.setMessage( getString( R.string.action_remove_local_album ) ).setPositiveButton( getString( R.string.yes ),
+                                                                                                 dialogClickListener ).setNegativeButton( getString( R.string.no ),
+                                                                                                                                          dialogClickListener ).show();
+    }
+
 }

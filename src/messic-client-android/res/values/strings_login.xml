@@ -6,5 +6,7 @@
     <string name="login_passwordhint">password</string>
     <string name="login_loginaction">Sign in</string>
     <string name="login_sonline">Online</string>
+    <string name="login_server_offline">The last messic server doesn\'t seem to be online now. Press Search button to find another messic server in your network</string>
+    <string name="login_explanation">Put here your login credentials to start playing your messic server online.</string>
 
 </resources>

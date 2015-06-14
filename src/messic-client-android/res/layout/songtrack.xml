@@ -17,7 +17,7 @@
         android:scrollHorizontally="true"
         android:singleLine="true"
         android:text="101"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#444444" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:scrollHorizontally="true"
         android:singleLine="false"
         android:text="Small Text"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#444444" />
 
     <TextView
@@ -40,15 +40,15 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/songtrack_tsongname"
         android:layout_alignBottom="@+id/songtrack_tsongname"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
         android:layout_toRightOf="@+id/songtrack_ttrack"
         android:ellipsize="end"
         android:lines="1"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:layout_marginLeft="1dp"
-        android:layout_marginRight="1dp"
         android:text="-"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="#444444" />
 
     <ImageView
@@ -66,5 +66,13 @@
         android:layout_marginRight="5dp"
         android:layout_toLeftOf="@+id/songtrack_ivplay"
         android:src="@drawable/ic_cloud_download_black_24dp" />
+
+    <ImageView
+        android:id="@+id/songtrack_ivremove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/songtrack_ivplay"
+        android:src="@drawable/ic_delete_black_24dp" />
 
 </RelativeLayout>

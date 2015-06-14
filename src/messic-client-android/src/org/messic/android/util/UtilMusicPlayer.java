@@ -3,6 +3,7 @@ package org.messic.android.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.messic.android.controllers.Configuration;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
@@ -24,37 +25,6 @@ public class UtilMusicPlayer
 
     /** listener list to store there the pending listeners to notify to the music service while connecting */
     private static List<PlayerEventListener> pendingListeners = new ArrayList<PlayerEventListener>();
-
-    public static void startMessicMusicService( Context context )
-    {
-        Context appctx = context.getApplicationContext();
-        Intent messicPlayerIntent = new Intent( appctx, MessicPlayerService.class );
-        context.bindService( messicPlayerIntent, messicPlayerConnection, Context.BIND_AUTO_CREATE );
-        context.startService( messicPlayerIntent );
-    }
-
-    public static MessicPlayerService getMessicPlayerService( Context ctx )
-    {
-        if ( musicBound )
-        {
-            return musicService;
-        }
-        else
-        {
-            startMessicMusicService( ctx );
-            return null;
-        }
-    }
-
-    public static void clearAndStopAll( Context ctx )
-    {
-        MessicPlayerService mps = getMessicPlayerService( ctx );
-        if ( mps != null && mps.getPlayer() != null )
-        {
-            mps.getPlayer().stop();
-            android.os.Process.killProcess( android.os.Process.myPid() );
-        }
-    }
 
     // connect to the service
     private static ServiceConnection messicPlayerConnection = new ServiceConnection()
@@ -103,6 +73,63 @@ public class UtilMusicPlayer
 
     };
 
+    public static void startMessicMusicService( Context context )
+    {
+        if ( !musicBound )
+        {
+            // first we start the service (if it is not started yet)
+            Context appctx = context.getApplicationContext();
+            Intent messicPlayerIntent = new Intent( appctx, MessicPlayerService.class );
+            appctx.startService( messicPlayerIntent );
+
+            // and we bind the service to interact with it
+            appctx.bindService( messicPlayerIntent, messicPlayerConnection, Context.BIND_AUTO_CREATE );
+        }
+    }
+
+    public static void stopMessicMusicService( Context context )
+    {
+        if ( musicBound )
+        {
+            // we unbind the service to interact with it
+            Context appctx = context.getApplicationContext();
+            appctx.unbindService( messicPlayerConnection );
+        }
+    }
+
+    public static MessicPlayerService getMessicPlayerService( Context ctx )
+    {
+        if ( musicBound )
+        {
+            return musicService;
+        }
+        else
+        {
+            startMessicMusicService( ctx );
+            return null;
+        }
+    }
+
+    public static void clearQueue( Context ctx )
+    {
+        MessicPlayerService mps = getMessicPlayerService( ctx );
+        if ( mps != null && mps.getPlayer() != null )
+        {
+            mps.getPlayer().clearQueue();
+        }
+
+    }
+
+    public static void clearAndStopAll( Context ctx )
+    {
+        MessicPlayerService mps = getMessicPlayerService( ctx );
+        if ( mps != null && mps.getPlayer() != null )
+        {
+            mps.getPlayer().stop();
+            android.os.Process.killProcess( android.os.Process.myPid() );
+        }
+    }
+
     public static boolean prevSong( Context ctx )
     {
         MessicPlayerService mps = getMessicPlayerService( ctx );
@@ -131,6 +158,39 @@ public class UtilMusicPlayer
         if ( mps != null && mps.getPlayer() != null )
         {
             mps.getPlayer().addPlaylist( playlist );
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean addSongsAndPlay( Context ctx, List<MDMSong> songs )
+    {
+        MessicPlayerService mps = getMessicPlayerService( ctx );
+        if ( mps != null && mps.getPlayer() != null )
+        {
+            if ( Configuration.isOffline() )
+            {
+                List<MDMSong> fsongs = new ArrayList<MDMSong>();
+                for ( int i = 0; i < songs.size(); i++ )
+                {
+                    MDMSong song = songs.get( i );
+                    if ( song.isDownloaded( ctx ) )
+                    {
+                        fsongs.add( song );
+                    }
+                }
+
+                if ( fsongs.size() > 0 )
+                {
+                    mps.getPlayer().addAndPlay( fsongs );
+                }
+
+            }
+            else
+            {
+                mps.getPlayer().addAndPlay( songs );
+            }
+
             return true;
         }
         return false;

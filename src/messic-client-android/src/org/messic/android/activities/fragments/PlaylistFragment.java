@@ -40,10 +40,30 @@ import android.widget.Toast;
 
 public class PlaylistFragment
     extends Fragment
+    implements TitleFragment
 {
     private PlaylistController controller = new PlaylistController();
 
     private PlaylistAdapter sa = null;
+
+    private String title;
+
+    public PlaylistFragment( String title )
+    {
+        super();
+        this.title = title;
+    }
+
+    public PlaylistFragment()
+    {
+        super();
+        this.title = "";
+    }
+
+    public String getTitle()
+    {
+        return this.title;
+    }
 
     @Override
     public void onStart()
@@ -125,21 +145,24 @@ public class PlaylistFragment
      */
     public void eventPlaylistInfoLoaded()
     {
-        getActivity().runOnUiThread( new Runnable()
+        if ( getActivity() != null )
         {
-
-            public void run()
+            getActivity().runOnUiThread( new Runnable()
             {
-                if ( getActivity() != null )
+
+                public void run()
                 {
-                    View rp = getActivity().findViewById( R.id.playlist_progress );
-                    if ( rp != null )
+                    if ( getActivity() != null )
                     {
-                        rp.setVisibility( View.GONE );
+                        View rp = getActivity().findViewById( R.id.playlist_progress );
+                        if ( rp != null )
+                        {
+                            rp.setVisibility( View.GONE );
+                        }
                     }
                 }
-            }
-        } );
+            } );
+        }
     }
 
     private void getMessicService()

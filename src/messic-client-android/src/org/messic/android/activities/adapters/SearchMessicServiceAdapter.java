@@ -82,11 +82,14 @@ public class SearchMessicServiceAdapter
     {
         for ( MDMMessicServerInstance i : instances )
         {
-            if ( i.ip.equalsIgnoreCase( instance.ip ) && i.description.equalsIgnoreCase( instance.description )
-                && i.name.equalsIgnoreCase( instance.name ) && i.version.equalsIgnoreCase( instance.version )
-                && i.port == instance.port && i.secured == instance.secured )
+            if ( i.lastCheckedStatus == MDMMessicServerInstance.STATUS_RUNNING )
             {
-                return true;
+                if ( i.ip.equalsIgnoreCase( instance.ip ) && i.name.equalsIgnoreCase( instance.name )
+                    && i.version.equalsIgnoreCase( instance.version ) && i.port == instance.port
+                    && i.secured == instance.secured )
+                {
+                    return true;
+                }
             }
         }
 
@@ -105,7 +108,16 @@ public class SearchMessicServiceAdapter
             MDMMessicServerInstance md = instances.get( i );
             if ( md.ip.equals( instance.ip ) && md.port == instance.port && md.secured == instance.secured )
             {
-                return false;
+                if ( md.lastCheckedStatus == MDMMessicServerInstance.STATUS_RUNNING )
+                {
+                    return false;
+                }
+                else
+                {
+                    md.setLastCheckedStatus( MDMMessicServerInstance.STATUS_RUNNING );
+                    notifyDataSetChanged();
+                    return false;
+                }
             }
         }
         this.instances.add( instance );

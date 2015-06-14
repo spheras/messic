@@ -43,11 +43,30 @@ import android.widget.ListView;
 
 public class PlayQueueFragment
     extends Fragment
-    implements PlayerEventListener
+    implements PlayerEventListener, TitleFragment
 {
     private QueueController controller = new QueueController();
 
     private SongAdapter sa = null;
+
+    private String title;
+
+    public PlayQueueFragment( String title )
+    {
+        super();
+        this.title = title;
+    }
+
+    public PlayQueueFragment()
+    {
+        super();
+        this.title = "";
+    }
+
+    public String getTitle()
+    {
+        return this.title;
+    }
 
     @Override
     public void onStart()
@@ -60,6 +79,8 @@ public class PlayQueueFragment
     public View onCreateView( LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState )
     {
         View rootView = inflater.inflate( R.layout.fragment_queue, container, false );
+
+        rootView.findViewById( R.id.queue_progress ).setVisibility( View.GONE );
 
         ListView gv = (ListView) rootView.findViewById( R.id.queue_lvitems );
         if ( sa == null )
@@ -149,23 +170,27 @@ public class PlayQueueFragment
      */
     public void eventRandomInfoLoaded()
     {
-        getActivity().runOnUiThread( new Runnable()
+        if ( getActivity() != null )
         {
-
-            public void run()
+            getActivity().runOnUiThread( new Runnable()
             {
-                Activity activity = getActivity();
-                if ( activity != null )
-                {
-                    View qp = activity.findViewById( R.id.queue_progress );
-                    if ( qp != null )
-                    {
-                        qp.setVisibility( View.GONE );
-                    }
-                }
 
-            }
-        } );
+                public void run()
+                {
+                    Activity activity = getActivity();
+                    if ( activity != null )
+                    {
+                        View qp = activity.findViewById( R.id.queue_progress );
+                        if ( qp != null )
+                        {
+                            qp.setVisibility( View.GONE );
+                        }
+                    }
+
+                }
+            } );
+
+        }
     }
 
     public void update()
@@ -239,7 +264,16 @@ public class PlayQueueFragment
 
     public void disconnected()
     {
-        // TODO Auto-generated method stub
+        // nothing to do
+    }
 
+    public void removed( MDMSong song )
+    {
+        // nothing to do
+    }
+
+    public void empty()
+    {
+        update();
     }
 }

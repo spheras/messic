@@ -32,6 +32,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 public class UtilRestJSONClient
 {
@@ -123,6 +124,8 @@ public class UtilRestJSONClient
                 }
                 catch ( Exception e )
                 {
+                    Log.e( "UtilRestJSONClient", e.getMessage(), e );
+                    e.printStackTrace();
                     rl.fail( e );
                 }
                 return null;

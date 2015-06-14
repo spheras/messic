@@ -81,9 +81,34 @@ public abstract class DAO
         this.database = database;
     }
 
+    public abstract void create();
+
+    public void _recreate()
+    {
+        open();
+        _drop();
+        create();
+        close();
+    }
+
+    public void _drop()
+    {
+        database.execSQL( "DROP TABLE IF EXISTS " + getTableName() );
+    }
+
     public Cursor _getAll()
     {
-        Cursor cursor = database.query( this.tableName, this.columns, null, null, null, null, null );
+        return _getAll( null );
+    }
+
+    public Cursor _getAll( String orderBy )
+    {
+        return _getAll( null, orderBy );
+    }
+
+    public Cursor _getAll( String where, String orderBy )
+    {
+        Cursor cursor = database.query( this.tableName, this.columns, where, null, null, null, orderBy, null );
         cursor.moveToFirst();
         return cursor;
     }

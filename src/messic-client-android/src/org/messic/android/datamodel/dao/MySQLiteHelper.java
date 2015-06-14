@@ -1,10 +1,14 @@
 package org.messic.android.datamodel.dao;
 
+import java.io.File;
+
+import org.messic.android.controllers.Configuration;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMAuthor;
 import org.messic.android.datamodel.MDMGenre;
 import org.messic.android.datamodel.MDMMessicServerInstance;
 import org.messic.android.datamodel.MDMSong;
+import org.messic.android.util.UtilFile;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,7 +21,7 @@ public class MySQLiteHelper
 
     private static final String DATABASE_NAME = "messic.db";
 
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 1;
 
     public MySQLiteHelper( Context context )
     {
@@ -27,6 +31,14 @@ public class MySQLiteHelper
     @Override
     public void onCreate( SQLiteDatabase database )
     {
+        Configuration.setFirstTime( true );
+
+        File fbase = new File( UtilFile.getMessicFolderAbsolutePath() );
+        if ( fbase.exists() )
+        {
+            UtilFile.deleteDirectory( fbase );
+        }
+
         database.execSQL( MDMMessicServerInstance.TABLE_CREATE );
         database.execSQL( MDMGenre.TABLE_CREATE );
         database.execSQL( MDMAuthor.TABLE_CREATE );

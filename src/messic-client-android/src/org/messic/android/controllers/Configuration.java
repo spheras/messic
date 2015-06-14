@@ -32,6 +32,8 @@ public class Configuration
 
     private static boolean offline = false;
 
+    private static boolean firstTime = false;
+
     public static String getLastToken()
     {
         return lastToken;
@@ -108,6 +110,22 @@ public class Configuration
     public static void setOffline( boolean offline )
     {
         Configuration.offline = offline;
+    }
+
+    /**
+     * @return the firstTime
+     */
+    public static boolean isFirstTime()
+    {
+        return firstTime;
+    }
+
+    /**
+     * @param firstTime the firstTime to set
+     */
+    public static void setFirstTime( boolean firstTime )
+    {
+        Configuration.firstTime = firstTime;
     }
 
 }

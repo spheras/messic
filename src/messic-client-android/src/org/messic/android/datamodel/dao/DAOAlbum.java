@@ -6,6 +6,7 @@ import java.util.List;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMAuthor;
 import org.messic.android.datamodel.MDMGenre;
+import org.messic.android.datamodel.MDMSong;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,24 +16,104 @@ public class DAOAlbum
     extends DAO
 {
 
+    public interface AlbumPublisher
+    {
+        void publish( MDMAlbum album );
+    }
+
     public DAOAlbum( Context context )
     {
         super( context, MDMAlbum.TABLE_NAME, MDMAlbum.getColumns() );
     }
 
-    public List<MDMAlbum> getAll()
+    public void create()
+    {
+        getDatabase().execSQL( MDMAlbum.TABLE_CREATE );
+    }
+
+    public List<MDMAlbum> getAllByAlbum()
     {
         open();
         List<MDMAlbum> result = new ArrayList<MDMAlbum>();
-        Cursor cursor = super._getAll();
+        Cursor cursor = super._getAll( MDMAlbum.COLUMN_NAME );
         while ( !cursor.isAfterLast() )
         {
-            MDMAlbum msi = new MDMAlbum( cursor, getContext(), true );
+            MDMAlbum msi = new MDMAlbum( cursor, getContext(), true, false );
             result.add( msi );
             cursor.moveToNext();
         }
 
         cursor.close();
+        close();
+        return result;
+    }
+
+    public void removeAlbum( int lsid )
+    {
+        open();
+
+        Cursor c = _get( lsid );
+        if ( c.moveToFirst() )
+        {
+            MDMAlbum album = new MDMAlbum( c, getContext(), true, false );
+            _delete( album.getLsid() );
+            List<MDMSong> songs = album.getSongs();
+            DAOSong daosong = new DAOSong( getContext() );
+            daosong.open();
+            for ( MDMSong mdmSong : songs )
+            {
+                daosong._delete( mdmSong.getLsid() );
+            }
+            daosong.close();
+        }
+        c.close();
+        close();
+    }
+
+    public List<MDMAlbum> getAllByAuthor( AlbumPublisher publisher )
+    {
+        List<MDMAlbum> result = new ArrayList<MDMAlbum>();
+
+        open();
+
+        String query =
+            "SELECT a.* FROM " + MDMAlbum.TABLE_NAME + " as a," + MDMAuthor.TABLE_NAME + " as au WHERE a."
+                + MDMAlbum.COLUMN_FK_AUTHOR + "=au." + MDMAuthor.COLUMN_LOCAL_SID + " ORDER BY au."
+                + MDMAuthor.COLUMN_NAME;
+        Cursor c = getDatabase().rawQuery( query, null );
+
+        if ( c != null && c.moveToFirst() )
+        {
+            do
+            {
+                MDMAlbum album = new MDMAlbum( c, getContext(), true, false );
+                result.add( album );
+                if ( publisher != null )
+                {
+                    publisher.publish( album );
+                }
+            }
+            while ( c.moveToNext() );
+        }
+
+        c.close();
+        close();
+        return result;
+    }
+
+    public List<MDMAlbum> getAllByAuthorLSid( int authorLSid, boolean loadSongs )
+    {
+        open();
+        List<MDMAlbum> result = new ArrayList<MDMAlbum>();
+
+        Cursor c = _getAll( MDMAlbum.COLUMN_FK_AUTHOR + "=" + authorLSid, MDMAlbum.COLUMN_NAME );
+        if ( c.moveToFirst() )
+        {
+            MDMAlbum album = new MDMAlbum( c, getContext(), loadSongs, false );
+            result.add( album );
+            c.moveToNext();
+        }
+        c.close();
         close();
         return result;
     }
@@ -142,7 +223,7 @@ public class DAOAlbum
         }
 
         c.moveToFirst();
-        MDMAlbum msi = new MDMAlbum( c, this.getContext(), true );
+        MDMAlbum msi = new MDMAlbum( c, this.getContext(), true, false );
         c.close();
         close();
         return msi;

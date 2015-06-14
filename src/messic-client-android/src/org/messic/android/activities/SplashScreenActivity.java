@@ -4,6 +4,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.messic.android.R;
+import org.messic.android.util.UtilDownloadService;
+import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,13 +24,15 @@ public class SplashScreenActivity
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
-
         // Set portrait orientation
         setRequestedOrientation( ActivityInfo.SCREEN_ORIENTATION_PORTRAIT );
         // Hide title bar
         requestWindowFeature( Window.FEATURE_NO_TITLE );
 
         setContentView( R.layout.activity_splash );
+
+        UtilMusicPlayer.startMessicMusicService( this );
+        UtilDownloadService.startDownloadService( this );
 
         TimerTask task = new TimerTask()
         {

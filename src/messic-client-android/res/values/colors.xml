@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Background colors for tracks that has been downloaded or not. -->
+    <color name="dowloaded_song_background">#88FF88</color>
+    <color name="dowloaded_false_song_background">#FFFFFF</color>
+    <!-- background colors for tracks at the queue that are being played or not -->
+    <color name="queue_current_song_background">#88FF88</color>
+    <color name="queue_current_song_normal">#FFFFFF</color>
+
     <!-- Background gradient start color for tabs in an unpressed state. -->
     <color name="tab_background_gradient_start_color">#333333</color>
     <!-- Background gradient end color for tabs in an unpressed state. -->
@@ -34,6 +41,8 @@
     <color name="arrow_red">#ffff8a63</color>
     <color name="arrow_blue">#ff9494ff</color>
     <color name="arrow_gray">#ffc0c0c0</color>
+    <color name="yellow">#FFFFFF00</color>
+    <color name="transparent">#00000000</color>
     <color name="medium_pale_yellow">#ffffff99</color>
 
 </resources>

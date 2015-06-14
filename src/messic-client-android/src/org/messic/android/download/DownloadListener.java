@@ -1,5 +1,7 @@
 package org.messic.android.download;
 
+import java.io.File;
+
 import org.messic.android.datamodel.MDMSong;
 
 public interface DownloadListener
@@ -8,8 +10,11 @@ public interface DownloadListener
 
     void downloadUpdated( MDMSong song, float percent );
 
-    void downloadFinished( MDMSong song );
+    void downloadFinished( MDMSong song, File fdownloaded );
 
     void downloadStarted( MDMSong song );
 
+    void connected();
+
+    void disconnected();
 }

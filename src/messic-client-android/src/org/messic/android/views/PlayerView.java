@@ -1,6 +1,8 @@
 package org.messic.android.views;
 
 import org.messic.android.R;
+import org.messic.android.controllers.AlbumController;
+import org.messic.android.controllers.Configuration;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
@@ -8,6 +10,7 @@ import org.messic.android.player.PlayerEventListener;
 import org.messic.android.util.AlbumCoverCache;
 import org.messic.android.util.UtilMusicPlayer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -42,52 +45,75 @@ public class PlayerView
 
     private void init()
     {
-        this.setVisibility( View.GONE );
-
         LayoutInflater inflater = LayoutInflater.from( getContext() );
         View v = inflater.inflate( R.layout.player_layout, this, true );
 
-        fillData( null );
-
-        addListener( this.getContext(), this );
-
-        final ImageView ivprevsong = (ImageView) v.findViewById( R.id.base_ivback );
-        ivprevsong.setOnClickListener( new View.OnClickListener()
+        if ( !isInEditMode() )
         {
-            public void onClick( View v )
+            fillData( null );
+
+            addListener( this.getContext(), this );
+
+            final ImageView ivprevsong = (ImageView) v.findViewById( R.id.base_ivback );
+            ivprevsong.setOnClickListener( new View.OnClickListener()
             {
-                UtilMusicPlayer.prevSong( PlayerView.this.getContext() );
-            }
-
-        } );
-        final ImageView ivnextsong = (ImageView) v.findViewById( R.id.base_ivnext );
-        ivnextsong.setOnClickListener( new View.OnClickListener()
-        {
-            public void onClick( View v )
-            {
-                UtilMusicPlayer.nextSong( PlayerView.this.getContext() );
-            }
-
-        } );
-
-        final ImageView ivplaypause = (ImageView) v.findViewById( R.id.base_ivplaypause );
-        ivplaypause.setOnClickListener( new View.OnClickListener()
-        {
-
-            public void onClick( View v )
-            {
-                if ( ivplaypause.getTag().equals( STATUS_PLAY ) )
+                public void onClick( View v )
                 {
-                    UtilMusicPlayer.resumeSong( PlayerView.this.getContext() );
+                    UtilMusicPlayer.prevSong( PlayerView.this.getContext() );
+                }
+
+            } );
+            final ImageView ivnextsong = (ImageView) v.findViewById( R.id.base_ivnext );
+            ivnextsong.setOnClickListener( new View.OnClickListener()
+            {
+                public void onClick( View v )
+                {
+                    UtilMusicPlayer.nextSong( PlayerView.this.getContext() );
+                }
+
+            } );
+
+            final ImageView ivplaypause = (ImageView) v.findViewById( R.id.base_ivplaypause );
+            ivplaypause.setOnClickListener( new View.OnClickListener()
+            {
+
+                public void onClick( View v )
+                {
+                    if ( ivplaypause.getTag().equals( STATUS_PLAY ) )
+                    {
+                        UtilMusicPlayer.resumeSong( PlayerView.this.getContext() );
+                    }
+                    else
+                    {
+                        UtilMusicPlayer.pauseSong( PlayerView.this.getContext() );
+                    }
+                }
+            } );
+
+            update();
+        }
+
+        View vcover = findViewById( R.id.base_ivcurrent_cover );
+        View vtvauthor = findViewById( R.id.base_tvcurrent_author );
+        View vtvsong = findViewById( R.id.base_tvcurrent_song );
+        View.OnClickListener vlistener = new View.OnClickListener()
+        {
+            public void onClick( View v )
+            {
+                MDMSong song = UtilMusicPlayer.getCurrentSong( PlayerView.this.getContext() );
+                if ( Configuration.isOffline() )
+                {
+                    AlbumController.getAlbumInfoOffline( getContext(), song.getAlbum() );
                 }
                 else
                 {
-                    UtilMusicPlayer.pauseSong( PlayerView.this.getContext() );
+                    AlbumController.getAlbumInfoOnline( (Activity) getContext(), song.getAlbum().getSid() );
                 }
             }
-        } );
-
-        update();
+        };
+        vcover.setOnClickListener( vlistener );
+        vtvauthor.setOnClickListener( vlistener );
+        vtvsong.setOnClickListener( vlistener );
     }
 
     private void update()
@@ -99,8 +125,30 @@ public class PlayerView
         }
         else
         {
-            playing( song, false, 0 );
-            paused( song, 0 );
+            if ( song != null )
+            {
+                playing( song, false, 0 );
+                paused( song, 0 );
+                post( new Runnable()
+                {
+                    public void run()
+                    {
+                        setVisibility( View.VISIBLE );
+                        invalidate();
+                    }
+                } );
+            }
+            else
+            {
+                post( new Runnable()
+                {
+                    public void run()
+                    {
+                        setVisibility( View.GONE );
+                        invalidate();
+                    }
+                } );
+            }
         }
     }
 
@@ -157,19 +205,33 @@ public class PlayerView
 
     public void paused( MDMSong song, int index )
     {
-        this.setVisibility( View.VISIBLE );
+        post( new Runnable()
+        {
+            public void run()
+            {
+                setVisibility( View.VISIBLE );
+                invalidate();
+            }
+        } );
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PLAY );
-        ivplaypause.setBackgroundResource( R.drawable.ic_play_arrow_white_24dp );
+        ivplaypause.setBackgroundResource( R.drawable.ic_play_arrow_white_36dp );
         ivplaypause.invalidate();
     }
 
     public void playing( MDMSong song, boolean resumed, int index )
     {
-        this.setVisibility( View.VISIBLE );
+        post( new Runnable()
+        {
+            public void run()
+            {
+                setVisibility( View.VISIBLE );
+                invalidate();
+            }
+        } );
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PAUSE );
-        ivplaypause.setBackgroundResource( R.drawable.ic_pause_white_24dp );
+        ivplaypause.setBackgroundResource( R.drawable.ic_pause_white_36dp );
         ivplaypause.invalidate();
         if ( !resumed )
         {
@@ -186,7 +248,7 @@ public class PlayerView
         this.setVisibility( View.VISIBLE );
         ImageView ivplaypause = (ImageView) findViewById( R.id.base_ivplaypause );
         ivplaypause.setTag( STATUS_PLAY );
-        ivplaypause.setBackgroundResource( R.drawable.ic_play_arrow_white_24dp );
+        ivplaypause.setBackgroundResource( R.drawable.ic_play_arrow_white_36dp );
         ivplaypause.invalidate();
     }
 
@@ -213,6 +275,38 @@ public class PlayerView
     public void connected()
     {
         // nothing to do
+    }
+
+    public void removed( MDMSong song )
+    {
+        MDMSong newsong = UtilMusicPlayer.getCurrentSong( PlayerView.this.getContext() );
+        if ( newsong != null )
+        {
+            post( new Runnable()
+            {
+                public void run()
+                {
+                    setVisibility( View.VISIBLE );
+                    invalidate();
+                }
+            } );
+        }
+        else
+        {
+            post( new Runnable()
+            {
+                public void run()
+                {
+                    setVisibility( View.GONE );
+                    invalidate();
+                }
+            } );
+        }
+    }
+
+    public void empty()
+    {
+        removed( null );
     }
 
 }

@@ -8,42 +8,57 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="org.messic.android.activities.LoginActivity" >
 
-    <View
-        android:id="@+id/login_online_status"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:background="#FFFF00"
-        android:visibility="visible" />
-
     <TextView
-        android:id="@+id/login_online_thostname_ip"
+        android:id="@+id/login_offline_description"
+        style="@style/messic_description_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/login_online_thostname"
-        android:layout_below="@+id/login_online_thostname"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:visibility="visible" />
+        android:text="@string/login_server_offline"
+        android:textAppearance="?android:attr/textAppearance" />
 
-    <TextView
-        android:id="@+id/login_online_thostname"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/login_status"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/login_online_status"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@+id/login_online_status"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:visibility="visible" />
+        android:layout_below="@+id/login_offline_description" >
+
+        <View
+            android:id="@+id/login_online_status"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="#FFFF00"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/login_online_thostname_ip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/login_online_thostname"
+            android:layout_below="@+id/login_online_thostname"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/login_online_thostname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/login_online_status"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/login_online_status"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="visible" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/login_online_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/login_online_status"
-        android:layout_below="@+id/login_online_status"
+        android:layout_alignRight="@+id/login_status"
+        android:layout_below="@+id/login_status"
         android:layout_marginTop="16dp"
         android:orientation="vertical"
         android:visibility="visible" >

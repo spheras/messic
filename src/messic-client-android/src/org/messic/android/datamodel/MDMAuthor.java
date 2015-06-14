@@ -30,6 +30,8 @@ public class MDMAuthor
     extends MDMFile
     implements Serializable
 {
+    public static int COLUMN_LOCAL_SID_INDEX = 0;
+
     public static final String COLUMN_LOCAL_SID = "lsid";
 
     public static final String COLUMN_SERVER_SID = "sid";
@@ -67,7 +69,7 @@ public class MDMAuthor
 
     public MDMAuthor( Cursor cursor )
     {
-        this.lsid = cursor.getInt( 0 );
+        this.lsid = cursor.getInt( COLUMN_LOCAL_SID_INDEX );
         this.sid = cursor.getInt( 1 );
         this.name = cursor.getString( 2 );
         this.lfileName = cursor.getString( 3 );

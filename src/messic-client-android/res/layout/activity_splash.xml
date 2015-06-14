@@ -19,10 +19,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/splash_logo"
         android:layout_centerHorizontal="true"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:textSize="40sp"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="13"
         android:text="messic"
-         />
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

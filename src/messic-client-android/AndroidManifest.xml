@@ -29,11 +29,20 @@
         </activity>
         <activity android:name=".activities.SearchMessicServiceActivity" >
         </activity>
+        <activity android:name=".activities.WelcomeActivity" >
+        </activity>
         <activity
             android:name="org.messic.android.activities.BaseActivity"
             android:label="@string/title_activity_base" >
         </activity>
-        <activity android:name="org.messic.android.activities.AlbumInfoActivity" >
+        <activity
+            android:name="org.messic.android.activities.AlbumInfoActivity"
+            android:parentActivityName="org.messic.android.activities.BaseActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.messic.android.activities.BaseActivity" />
         </activity>
 
         <service

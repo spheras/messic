@@ -24,10 +24,12 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
+import android.util.Log;
 
 public class MessicPlayerService
     extends Service
 {
+
     private MessicPlayerQueue playerqueue = null;
 
     private final IBinder musicBind = new MusicBinder();
@@ -49,8 +51,34 @@ public class MessicPlayerService
     }
 
     @Override
+    public void onCreate()
+    {
+        Log.d( "MessicPlayerService", "onCreate" );
+        // Toast.makeText( this, "onCreate", Toast.LENGTH_SHORT ).show();
+        super.onCreate();
+    }
+
+    @Override
+    public void onDestroy()
+    {
+        Log.d( "MessicPlayerService", "onDestroy" );
+        // Toast.makeText( this, "onDestroy", Toast.LENGTH_SHORT ).show();
+        super.onDestroy();
+    }
+
+    @Override
+    public int onStartCommand( Intent intent, int flags, int startId )
+    {
+        Log.d( "MessicPlayerService", "onStartCommands" );
+        // Toast.makeText( this, "onStartCommands", Toast.LENGTH_SHORT ).show();
+        return super.onStartCommand( intent, flags, startId );
+    }
+
+    @Override
     public IBinder onBind( Intent intent )
     {
+        Log.d( "MessicPlayerService", "onBind" );
+        // Toast.makeText( this, "onBind", Toast.LENGTH_SHORT ).show();
 
         this.playerqueue = new MessicPlayerQueue( this );
         this.playernotification = new MessicPlayerNotification( this, this.playerqueue );
@@ -62,6 +90,9 @@ public class MessicPlayerService
     @Override
     public boolean onUnbind( Intent intent )
     {
+        Log.d( "MessicPlayerService", "onUnbind" );
+        // Toast.makeText( this, "onUnbind", Toast.LENGTH_SHORT ).show();
+
         playerqueue.stop();
 
         List<PlayerEventListener> listeners = this.playerqueue.getListeners();

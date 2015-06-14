@@ -4,65 +4,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context="${relativePackage}.${activityClass}" >
 
-    <ImageView
-        android:id="@+id/albuminfo_icover"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/black"
-        android:contentDescription="@string/app_name" />
-
-    <TextView
-        android:id="@+id/albuminfo_tauthor"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/albuminfo_header"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/albuminfo_icover"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/albuminfo_icover"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:scrollHorizontally="true"
-        android:text="Small Text with some appareances of the test"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#444444"
-        android:textStyle="bold" />
+        android:background="@drawable/listitem_gradient"
+        android:padding="10dp" >
 
-    <TextView
-        android:id="@+id/albuminfo_talbum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/albuminfo_tauthor"
-        android:layout_alignRight="@+id/albuminfo_tauthor"
-        android:layout_below="@+id/albuminfo_tauthor"
-        android:ellipsize="end"
-        android:lines="3"
-        android:scrollHorizontally="true"
-        android:text="Small Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#4444FF" />
+        <ImageView
+            android:id="@+id/albuminfo_icover"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/black"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:id="@+id/albuminfo_tauthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/albuminfo_icover"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/albuminfo_icover"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:scrollHorizontally="true"
+            android:text="Small Text with some appareances of the test"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#444444"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/albuminfo_talbum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/albuminfo_tauthor"
+            android:layout_alignRight="@+id/albuminfo_tauthor"
+            android:layout_below="@+id/albuminfo_tauthor"
+            android:ellipsize="end"
+            android:lines="3"
+            android:scrollHorizontally="true"
+            android:text="Small Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#4444FF" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/albuminfo_icover"
+            android:layout_alignTop="@+id/albuminfo_icover"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="34dp"
+            android:src="@drawable/ic_play_circle_outline_white_48dp" />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/albuminfo_lvsongs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/albuminfo_icover"
-        android:layout_below="@+id/albuminfo_icover"
+        android:layout_alignLeft="@+id/albuminfo_header"
+        android:layout_below="@+id/albuminfo_header"
         android:layout_marginTop="10dp" >
     </ListView>
-
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/albuminfo_icover"
-        android:layout_alignTop="@+id/albuminfo_icover"
-        android:layout_marginLeft="35dp"
-        android:layout_marginTop="34dp"
-        android:src="@drawable/ic_play_circle_outline_white_48dp" />
 
 </RelativeLayout>

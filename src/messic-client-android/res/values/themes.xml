@@ -6,10 +6,12 @@
         <item name="android:windowBackground">@color/white</item>
         <item name="android:actionBarTabTextStyle">@style/messicActionBarTabText</item>
         <item name="android:actionBarTabStyle">@style/messicActionBarTabs</item>
+        <item name="android:cacheColorHint">@color/green</item>
     </style>
 
     <!-- ActionBar tabs styles -->
     <style name="messicActionBarTabs" parent="@android:style/Widget.Holo.ActionBar.TabView">
+
         <!-- tab indicator -->
         <item name="android:background">@drawable/actionbar_tab_indicator</item>
     </style>

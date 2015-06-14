@@ -18,6 +18,8 @@
  */
 package org.messic.android.activities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import org.messic.android.R;
@@ -26,13 +28,22 @@ import org.messic.android.activities.fragments.ExploreFragment;
 import org.messic.android.activities.fragments.PlayQueueFragment;
 import org.messic.android.activities.fragments.PlaylistFragment;
 import org.messic.android.activities.fragments.RandomFragment;
+import org.messic.android.activities.fragments.SearchFragment;
+import org.messic.android.activities.fragments.TitleFragment;
 import org.messic.android.controllers.Configuration;
+import org.messic.android.controllers.LoginController;
+import org.messic.android.util.UtilDownloadService;
+import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -42,10 +53,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.Toast;
 
 public class BaseActivity
     extends Activity
-    implements ActionBar.TabListener
+    implements ActionBar.TabListener, OnQueryTextListener
 {
 
     /**
@@ -53,12 +68,16 @@ public class BaseActivity
      * {@link FragmentPagerAdapter} derivative, which will keep every loaded fragment in memory. If this becomes too
      * memory intensive, it may be best to switch to a {@link android.support.v13.app.FragmentStatePagerAdapter}.
      */
-    SectionsPagerAdapter mSectionsPagerAdapter;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    ViewPager mViewPager;
+    private ViewPager mViewPager;
+
+    private List<Fragment> fragments = new ArrayList<Fragment>();
+
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate( Bundle savedInstanceState )
@@ -107,7 +126,14 @@ public class BaseActivity
         // Inflate the menu items for use in the action bar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate( R.menu.base_activity_actions, menu );
+
+        MenuItem searchItem = menu.findItem( R.id.action_search );
+        mSearchView = (SearchView) searchItem.getActionView();
+        mSearchView.setQueryHint( getString( R.string.action_search_hint ) );
+        mSearchView.setOnQueryTextListener( this );
+
         return super.onCreateOptionsMenu( menu );
+
     }
 
     @Override
@@ -120,11 +146,77 @@ public class BaseActivity
                 // openSearch();
                 return true;
             case R.id.action_settings:
-                // openSettings();
+                openSettings();
                 return true;
             default:
                 return super.onOptionsItemSelected( item );
         }
+
+    }
+
+    private void openSettings()
+    {
+        View anchor = findViewById( R.id.action_settings );
+
+        // Creating the instance of PopupMenu
+        PopupMenu popup = new PopupMenu( this, anchor );
+
+        // Inflating the Popup using xml file
+        popup.getMenuInflater().inflate( R.menu.menu_base, popup.getMenu() );
+
+        // registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener()
+        {
+            public boolean onMenuItemClick( MenuItem item )
+            {
+                switch ( item.getItemId() )
+                {
+                    case R.id.menu_base_item_removedatabase:
+                        emptyDatabase();
+                        break;
+                    case R.id.menu_base_item_logout:
+                        logout();
+                        break;
+                    case R.id.menu_base_item_clearplaylist:
+                        UtilMusicPlayer.clearQueue( BaseActivity.this );
+                        break;
+                    case R.id.menu_base_item_showlicense:
+                        Intent browserIntent =
+                            new Intent( Intent.ACTION_VIEW,
+                                        Uri.parse( "http://www.gnu.org/licenses/gpl-3.0-standalone.html" ) );
+                        startActivity( browserIntent );
+
+                        break;
+                }
+                return true;
+            }
+        } );
+
+        popup.show();// showing popup menu
+    }
+
+    private void emptyDatabase()
+    {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+        {
+            public void onClick( DialogInterface dialog, int which )
+            {
+                switch ( which )
+                {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        UtilDownloadService.emptyLocal( BaseActivity.this );
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        // No button clicked
+                        break;
+                }
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder( this );
+        builder.setMessage( getString( R.string.action_empty_localdatabase ) );
+        builder.setPositiveButton( getString( R.string.yes ), dialogClickListener );
+        builder.setNegativeButton( getString( R.string.no ), dialogClickListener );
+        builder.show();
 
     }
 
@@ -150,91 +242,51 @@ public class BaseActivity
         extends FragmentPagerAdapter
     {
 
+        private void createBasicFragments()
+        {
+            Locale l = Locale.getDefault();
+            if ( Configuration.isOffline() )
+            {
+                fragments.add( new DownloadedFragment( getString( R.string.title_section_downloaded ).toUpperCase( l ) ) );
+                fragments.add( new PlayQueueFragment( getString( R.string.title_section_queue ).toUpperCase( l ) ) );
+            }
+            else
+            {
+                fragments.add( new RandomFragment( getString( R.string.title_section_random ).toUpperCase( l ) ) );
+                fragments.add( new ExploreFragment( getString( R.string.title_section_explore ).toUpperCase( l ) ) );
+                fragments.add( new PlaylistFragment( getString( R.string.title_section_playlist ).toUpperCase( l ) ) );
+                fragments.add( new DownloadedFragment( getString( R.string.title_section_downloaded ).toUpperCase( l ) ) );
+                fragments.add( new PlayQueueFragment( getString( R.string.title_section_queue ).toUpperCase( l ) ) );
+
+            }
+
+        }
+
         public SectionsPagerAdapter( FragmentManager fm )
         {
             super( fm );
+            createBasicFragments();
         }
 
         @Override
         public Fragment getItem( int position )
         {
-            if ( Configuration.isOffline() )
-            {
-                if ( position == 0 )
-                {
-                    return new DownloadedFragment();
-                }
-                else if ( position == 1 )
-                {
-                    return new PlayQueueFragment();
-                }
-            }
-            else
-            {
-                if ( position == 0 )
-                {
-                    return new RandomFragment();
-                }
-                else if ( position == 1 )
-                {
-                    return new ExploreFragment();
-                }
-                else if ( position == 2 )
-                {
-                    return new PlaylistFragment();
-                }
-                else if ( position == 3 )
-                {
-                    return new DownloadedFragment();
-                }
-                else if ( position == 4 )
-                {
-                    return new PlayQueueFragment();
-                }
-            }
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance( position + 1 );
+            return fragments.get( position );
+            // // getItem is called to instantiate the fragment for the given page.
+            // // Return a PlaceholderFragment (defined as a static inner class below).
+            // return PlaceholderFragment.newInstance( position + 1 );
         }
 
         @Override
         public int getCount()
         {
-            return ( Configuration.isOffline() ? 2 : 5 );
+            return fragments.size();
         }
 
         @Override
         public CharSequence getPageTitle( int position )
         {
-            Locale l = Locale.getDefault();
-            if ( Configuration.isOffline() )
-            {
-                switch ( position )
-                {
-                    case 0:
-                        return getString( R.string.title_section_downloaded ).toUpperCase( l );
-                    case 1:
-                        return getString( R.string.title_section_queue ).toUpperCase( l );
-                }
-
-            }
-            else
-            {
-                switch ( position )
-                {
-                    case 0:
-                        return getString( R.string.title_section_random ).toUpperCase( l );
-                    case 1:
-                        return getString( R.string.title_section_explore ).toUpperCase( l );
-                    case 2:
-                        return getString( R.string.title_section_playlist ).toUpperCase( l );
-                    case 3:
-                        return getString( R.string.title_section_downloaded ).toUpperCase( l );
-                    case 4:
-                        return getString( R.string.title_section_queue ).toUpperCase( l );
-                }
-            }
-            return null;
+            return ( (TitleFragment) fragments.get( position ) ).getTitle();
         }
     }
 
@@ -273,4 +325,48 @@ public class BaseActivity
         }
     }
 
+    public boolean onQueryTextChange( String newText )
+    {
+        // Toast.makeText( this, newText, Toast.LENGTH_SHORT ).show();
+        return false;
+    }
+
+    public boolean onQueryTextSubmit( String text )
+    {
+
+        Toast.makeText( this, getString( R.string.action_searchmusic_toast ) + " " + text, Toast.LENGTH_LONG ).show();
+        ActionBar actionBar = getActionBar();
+        int i = fragments.size();
+        fragments.add( new SearchFragment( getString( R.string.title_section_search ), text, i ) );
+        actionBar.addTab( actionBar.newTab().setText( mSectionsPagerAdapter.getPageTitle( i ) ).setTabListener( this ) );
+
+        mSectionsPagerAdapter.notifyDataSetChanged();
+
+        actionBar.setSelectedNavigationItem( i );
+
+        mSearchView.clearFocus();
+        return true;
+    }
+
+    public void removeSearchTab( int index, SearchFragment fragment )
+    {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction trans = manager.beginTransaction();
+        trans.remove( fragment );
+        trans.commit();
+
+        getActionBar().removeTabAt( index );
+        fragments.remove( index );
+        mSectionsPagerAdapter.notifyDataSetChanged();
+        mViewPager.setAdapter( null );
+        mSectionsPagerAdapter.notifyDataSetChanged();
+        mViewPager.setAdapter( mSectionsPagerAdapter );
+        mSectionsPagerAdapter.notifyDataSetChanged();
+    }
+
+    private void logout()
+    {
+        LoginController lc = new LoginController();
+        lc.logout( this );
+    }
 }

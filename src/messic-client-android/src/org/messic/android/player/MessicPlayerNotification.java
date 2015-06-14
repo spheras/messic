@@ -124,12 +124,16 @@ public class MessicPlayerNotification
                 }
                 else if ( intent.getAction().equals( ACTION_ALBUM ) )
                 {
+                    Intent it = new Intent( Intent.ACTION_CLOSE_SYSTEM_DIALOGS );
+                    context.sendBroadcast( it );
+
                     Intent ssa = new Intent( MessicPlayerNotification.this.service, AlbumInfoActivity.class );
                     ssa.putExtra( AlbumInfoActivity.EXTRA_ALBUM_SID, player.getCurrentSong().getAlbum() );
                     ssa.addFlags( Intent.FLAG_ACTIVITY_NEW_TASK );
                     ssa.addFlags( Intent.FLAG_ACTIVITY_SINGLE_TOP );
 
                     MessicPlayerNotification.this.service.getApplication().startActivity( ssa );
+
                 }
             }
         };
@@ -155,25 +159,25 @@ public class MessicPlayerNotification
 
         Intent intentClose = new Intent( ACTION_CLOSE );
         PendingIntent pintentClose = PendingIntent.getBroadcast( this.service, 0, intentClose, 0 );
-        contentView.setOnClickPendingIntent( R.id.base_ivclose, pintentClose );
+        contentView.setOnClickPendingIntent( R.id.bignotification_ivclose, pintentClose );
         Intent intentBack = new Intent( ACTION_BACK );
         PendingIntent pintentBack = PendingIntent.getBroadcast( this.service, 0, intentBack, 0 );
-        contentView.setOnClickPendingIntent( R.id.base_ivback, pintentBack );
+        contentView.setOnClickPendingIntent( R.id.bignotification_ivback, pintentBack );
         Intent intentPlay = new Intent( ACTION_PLAY );
         PendingIntent pintentPlay = PendingIntent.getBroadcast( this.service, 0, intentPlay, 0 );
-        contentView.setOnClickPendingIntent( R.id.base_ivplay, pintentPlay );
+        contentView.setOnClickPendingIntent( R.id.bignotification_ivplay, pintentPlay );
         Intent intentPause = new Intent( ACTION_PAUSE );
         PendingIntent pintentPause = PendingIntent.getBroadcast( this.service, 0, intentPause, 0 );
-        contentView.setOnClickPendingIntent( R.id.base_ivpause, pintentPause );
+        contentView.setOnClickPendingIntent( R.id.bignotification_ivpause, pintentPause );
         Intent intentNext = new Intent( ACTION_NEXT );
         PendingIntent pintentNext = PendingIntent.getBroadcast( this.service, 0, intentNext, 0 );
-        contentView.setOnClickPendingIntent( R.id.base_ivnext, pintentNext );
+        contentView.setOnClickPendingIntent( R.id.bignotification_ivnext, pintentNext );
         Intent intentAlbum = new Intent( ACTION_ALBUM );
         PendingIntent pintentAlbum =
             PendingIntent.getBroadcast( this.service, 0, intentAlbum, PendingIntent.FLAG_CANCEL_CURRENT );
-        contentView.setOnClickPendingIntent( R.id.base_ivcurrent_cover, pintentAlbum );
-        contentView.setOnClickPendingIntent( R.id.base_tvcurrent_author, pintentAlbum );
-        contentView.setOnClickPendingIntent( R.id.base_tvcurrent_song, pintentAlbum );
+        contentView.setOnClickPendingIntent( R.id.bignotification_ivcurrent_cover, pintentAlbum );
+        contentView.setOnClickPendingIntent( R.id.bignotification_tvcurrent_author, pintentAlbum );
+        contentView.setOnClickPendingIntent( R.id.bignotification_tvcurrent_song, pintentAlbum );
 
         this.notification = n;
         this.service.startForeground( ONGOING_NOTIFICATION_ID, notification );
@@ -183,9 +187,9 @@ public class MessicPlayerNotification
     private void refreshContentData( MDMSong song )
     {
         createNotification();
-        this.notification.bigContentView.setTextViewText( R.id.base_tvcurrent_author,
+        this.notification.bigContentView.setTextViewText( R.id.bignotification_tvcurrent_author,
                                                           song.getAlbum().getAuthor().getName() );
-        this.notification.bigContentView.setTextViewText( R.id.base_tvcurrent_song, song.getName() );
+        this.notification.bigContentView.setTextViewText( R.id.bignotification_tvcurrent_song, song.getName() );
         constructNotificationCover( song );
         mNotificationManager.notify( ONGOING_NOTIFICATION_ID, this.notification );
     }
@@ -193,8 +197,8 @@ public class MessicPlayerNotification
     public void paused( MDMSong song, int index )
     {
         createNotification();
-        this.notification.bigContentView.setViewVisibility( R.id.base_ivplay, View.VISIBLE );
-        this.notification.bigContentView.setViewVisibility( R.id.base_ivpause, View.INVISIBLE );
+        this.notification.bigContentView.setViewVisibility( R.id.bignotification_ivplay, View.VISIBLE );
+        this.notification.bigContentView.setViewVisibility( R.id.bignotification_ivpause, View.INVISIBLE );
         refreshContentData( song );
     }
 
@@ -205,8 +209,8 @@ public class MessicPlayerNotification
         {
             this.currentNotificationCover = null;
         }
-        this.notification.bigContentView.setViewVisibility( R.id.base_ivplay, View.INVISIBLE );
-        this.notification.bigContentView.setViewVisibility( R.id.base_ivpause, View.VISIBLE );
+        this.notification.bigContentView.setViewVisibility( R.id.bignotification_ivplay, View.INVISIBLE );
+        this.notification.bigContentView.setViewVisibility( R.id.bignotification_ivpause, View.VISIBLE );
         refreshContentData( song );
     }
 
@@ -236,12 +240,13 @@ public class MessicPlayerNotification
                     RemoteViews contentView =
                         new RemoteViews( service.getPackageName(), R.layout.bignotification_player_layout );
                     notification.bigContentView = contentView;
-                    notification.bigContentView.setTextViewText( R.id.base_tvcurrent_author,
+                    notification.bigContentView.setTextViewText( R.id.bignotification_tvcurrent_author,
                                                                  playSong.getAlbum().getAuthor().getName() );
-                    notification.bigContentView.setTextViewText( R.id.base_tvcurrent_song, playSong.getName() );
+                    notification.bigContentView.setTextViewText( R.id.bignotification_tvcurrent_song,
+                                                                 playSong.getName() );
 
                     Bitmap cover = UtilImage.resizeToNotificationImageSize( service.getApplicationContext(), bitmap );
-                    notification.bigContentView.setImageViewBitmap( R.id.base_ivcurrent_cover, cover );
+                    notification.bigContentView.setImageViewBitmap( R.id.bignotification_ivcurrent_cover, cover );
                     currentNotificationCover = cover;
                     mNotificationManager.notify( ONGOING_NOTIFICATION_ID, notification );
                 }
@@ -259,17 +264,19 @@ public class MessicPlayerNotification
                 RemoteViews contentView =
                     new RemoteViews( this.service.getPackageName(), R.layout.bignotification_player_layout );
                 notification.bigContentView = contentView;
-                this.notification.bigContentView.setTextViewText( R.id.base_tvcurrent_author,
+                this.notification.bigContentView.setTextViewText( R.id.bignotification_tvcurrent_author,
                                                                   playSong.getAlbum().getAuthor().getName() );
-                this.notification.bigContentView.setTextViewText( R.id.base_tvcurrent_song, playSong.getName() );
+                this.notification.bigContentView.setTextViewText( R.id.bignotification_tvcurrent_song,
+                                                                  playSong.getName() );
 
                 cover = UtilImage.resizeToNotificationImageSize( this.service.getApplicationContext(), cover );
-                notification.bigContentView.setImageViewBitmap( R.id.base_ivcurrent_cover, cover );
+                notification.bigContentView.setImageViewBitmap( R.id.bignotification_ivcurrent_cover, cover );
                 this.currentNotificationCover = cover;
             }
             else
             {
-                notification.bigContentView.setImageViewResource( R.id.base_ivcurrent_cover, R.drawable.ic_launcher );
+                notification.bigContentView.setImageViewResource( R.id.bignotification_ivcurrent_cover,
+                                                                  R.drawable.ic_launcher );
             }
         }
     }
@@ -297,5 +304,15 @@ public class MessicPlayerNotification
     public void connected()
     {
         // nothing to do
+    }
+
+    public void removed( MDMSong song )
+    {
+        // TODO
+    }
+
+    public void empty()
+    {
+        // TODO
     }
 }

@@ -18,6 +18,11 @@ public class DAOServerInstance
         super( context, MDMMessicServerInstance.TABLE_NAME, MDMMessicServerInstance.getColumns() );
     }
 
+    public void create()
+    {
+        getDatabase().execSQL( MDMMessicServerInstance.TABLE_CREATE );
+    }
+
     public List<MDMMessicServerInstance> getAll()
     {
         open();

@@ -22,12 +22,11 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.messic.android.activities.BaseActivity;
+import org.messic.android.activities.LoginActivity;
 import org.messic.android.datamodel.MDMLogin;
 import org.messic.android.datamodel.dao.DAOSong;
-import org.messic.android.player.MessicPlayerService;
-import org.messic.android.util.UtilFile;
 import org.messic.android.util.MessicPreferences;
-import org.messic.android.util.UtilMusicPlayer;
+import org.messic.android.util.UtilFile;
 import org.messic.android.util.UtilNetwork;
 import org.messic.android.util.UtilRestJSONClient;
 import org.springframework.util.LinkedMultiValueMap;
@@ -43,9 +42,13 @@ import android.widget.Toast;
 public class LoginController
 {
 
-    public void startMessicMusicService( Context context )
+    public void logout( Activity context )
     {
-        UtilMusicPlayer.startMessicMusicService( context );
+        Configuration.setToken( null );
+        Intent intent = new Intent( context, LoginActivity.class );
+        intent.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK );
+        context.startActivity( intent );
+        context.finish(); // call this to finish the current activity
     }
 
     /**
@@ -54,7 +57,7 @@ public class LoginController
      * @param context {@link Context}
      * @return boolean true->isempty
      */
-    public boolean checkEmptyDatabase( Context context )
+    public static boolean checkEmptyDatabase( Context context )
     {
         DAOSong ds = new DAOSong( context );
         boolean empty = ( ds.countDownloaded() <= 0 );

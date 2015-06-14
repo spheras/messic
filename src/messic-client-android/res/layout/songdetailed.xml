@@ -3,14 +3,18 @@
     android:id="@+id/songdetailed_rlbase"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/listitem_gradient"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="2dp"
+    android:paddingTop="5dp"
     tools:context="${relativePackage}.${activityClass}" >
 
     <ImageView
         android:id="@+id/songdetailed_icover"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@color/black"
@@ -21,8 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/songdetailed_talbum"
-        android:layout_alignParentRight="true"
         android:layout_marginLeft="2dp"
+        android:layout_toLeftOf="@+id/songdetailed_ivremove"
         android:ellipsize="end"
         android:maxLines="2"
         android:scrollHorizontally="true"
@@ -47,7 +51,7 @@
         android:textColor="#4444FF" />
 
     <TextView
-        android:id="@+id/songdetailed_tsong"
+        android:id="@+id/songdetaileddd_tsong"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignLeft="@+id/songdetailed_talbum"
@@ -68,16 +72,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="#EEEEEE"
         android:src="@drawable/ic_close_black_24dp" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/songdetailed_tsong"
-        android:layout_alignLeft="@+id/songdetailed_icover"
-        android:layout_marginLeft="35dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
         android:src="@drawable/ic_play_circle_outline_white_48dp" />
 
 </RelativeLayout>

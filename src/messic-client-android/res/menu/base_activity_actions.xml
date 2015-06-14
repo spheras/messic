@@ -3,6 +3,7 @@
     <!-- Search, should appear as action button -->
     <item
         android:id="@+id/action_search"
+        android:actionViewClass="android.widget.SearchView"
         android:icon="@drawable/ic_search_white_24dp"
         android:showAsAction="ifRoom"
         android:title="@string/action_search"/>

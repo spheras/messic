@@ -23,12 +23,13 @@ import org.messic.android.controllers.Configuration;
 import org.messic.android.controllers.LoginController;
 import org.messic.android.datamodel.MDMMessicServerInstance;
 import org.messic.android.util.MessicPreferences;
+import org.messic.android.util.UtilDownloadService;
+import org.messic.android.util.UtilMusicPlayer;
 import org.messic.android.util.UtilNetwork;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -115,22 +116,27 @@ public class LoginActivity
                     if ( reachable && running )
                     {
                         final View vStatus = findViewById( R.id.login_online_status );
+                        final TextView vStatusOffline = (TextView) findViewById( R.id.login_offline_description );
                         vStatus.post( new Runnable()
                         {
                             public void run()
                             {
-                                vStatus.setBackgroundColor( Color.GREEN );
+                                vStatus.setBackgroundResource( R.drawable.ic_check_circle_green_24dp );
+                                vStatusOffline.setText( getString( R.string.login_explanation ) );
                             }
                         } );
                     }
                     else
                     {
                         final View vStatus = findViewById( R.id.login_online_status );
+                        final TextView vStatusOffline = (TextView) findViewById( R.id.login_offline_description );
+
                         vStatus.post( new Runnable()
                         {
                             public void run()
                             {
-                                vStatus.setBackgroundColor( Color.RED );
+                                vStatus.setBackgroundResource( R.drawable.ic_highlight_off_red_24dp );
+                                vStatusOffline.setText( getString( R.string.login_server_offline ) );
                             }
                         } );
                     }
@@ -145,7 +151,7 @@ public class LoginActivity
         }
 
         // 2. is there offline music available?
-        if ( controller.checkEmptyDatabase( this.getApplicationContext() ) )
+        if ( LoginController.checkEmptyDatabase( this.getApplicationContext() ) )
         {
             // yes! no offline option to play music
             showLoginOffline( false );
@@ -233,16 +239,32 @@ public class LoginActivity
     }
 
     @Override
+    protected void onStart()
+    {
+        super.onStart();
+        if ( Configuration.isFirstTime() )
+        {
+            Configuration.setFirstTime( false );
+            Intent ssa = new Intent( LoginActivity.this, WelcomeActivity.class );
+            LoginActivity.this.startActivity( ssa );
+        }
+        else
+        {
+
+            // put the layout considering the situation
+            layoutScreen();
+        }
+    }
+
+    @Override
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
-
-        this.controller.startMessicMusicService( this );
-
         setContentView( R.layout.activity_login );
 
-        // put the layout considering the situation
-        layoutScreen();
+        UtilMusicPlayer.startMessicMusicService( this );
+        UtilDownloadService.startDownloadService( this );
+
     }
 
     /**
@@ -255,7 +277,9 @@ public class LoginActivity
         boolean remember = ( (CheckBox) findViewById( R.id.login_online_cbremember ) ).isChecked();
         try
         {
-            ProgressDialog dialog = ProgressDialog.show( LoginActivity.this, "Loading", "Please wait...", true );
+            ProgressDialog dialog =
+                ProgressDialog.show( LoginActivity.this, getString( R.string.login_title ),
+                                     getString( R.string.login_message ), true );
             controller.login( LoginActivity.this, remember, username, password, dialog );
         }
         catch ( Exception e )
@@ -283,6 +307,14 @@ public class LoginActivity
         {
             return true;
         }
+        else if ( id == R.id.action_scan )
+        {
+            Intent ssa = new Intent( LoginActivity.this, SearchMessicServiceActivity.class );
+            LoginActivity.this.startActivity( ssa );
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected( item );
     }
+
 }

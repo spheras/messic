@@ -80,7 +80,7 @@ public class DownloadManagerService
             if ( cAlbum.moveToFirst() )
             {
                 // the album exist previously, lets add the song?
-                MDMAlbum album = new MDMAlbum( cAlbum, getApplicationContext(), true );
+                MDMAlbum album = new MDMAlbum( cAlbum, getApplicationContext(), true, false );
                 song.setAlbum( album );
                 daosong.save( song );
             }
@@ -156,18 +156,24 @@ public class DownloadManagerService
         }
     }
 
-    public void addDownload( MDMAlbum album, Context context )
+    public void addDownload( MDMAlbum album, Context context, DownloadListener olistener )
     {
         List<MDMSong> songs = album.getSongs();
         for ( MDMSong mdmSong : songs )
         {
-            addDownload( mdmSong, context );
+            addDownload( mdmSong, context, olistener, false );
         }
+        Toast.makeText( context, getResources().getText( R.string.download_added ) + album.getName(),
+                        Toast.LENGTH_SHORT ).show();
     }
 
-    public void addDownload( MDMSong song, Context context )
+    public void addDownload( MDMSong song, Context context, final DownloadListener olistener, boolean toast )
     {
-        Toast.makeText( context, getResources().getText( R.string.download_added ) + song.getName(), Toast.LENGTH_SHORT ).show();
+        if ( toast )
+        {
+            Toast.makeText( context, getResources().getText( R.string.download_added ) + song.getName(),
+                            Toast.LENGTH_SHORT ).show();
+        }
         notification.downloadAdded( song );
 
         String path = song.calculateExternalStorageFolder();
@@ -179,12 +185,16 @@ public class DownloadManagerService
             {
                 public void received( MDMSong song, File fdownloaded )
                 {
-                    notification.downloadFinished( song );
+                    notification.downloadFinished( song, fdownloaded );
                     song.setLfileName( fdownloaded.getAbsolutePath() );
                     song.getAlbum().setLfileName( song.getAlbum().calculateExternalStorageFolder() );
                     song.getAlbum().getAuthor().setLfileName( song.getAlbum().getAuthor().calculateExternalStorageFolder() );
                     saveCover( song );
                     saveDatabase( song );
+                    if ( olistener != null )
+                    {
+                        olistener.downloadFinished( song, fdownloaded );
+                    }
                 }
 
                 public void started( MDMSong song )

@@ -33,6 +33,8 @@ public class MDMAlbum
     extends MDMFile
     implements Serializable
 {
+    public static int COLUMN_LOCAL_SID_INDEX = 0;
+
     public static final String COLUMN_LOCAL_SID = "lsid";
 
     public static final String COLUMN_SERVER_SID = "sid";
@@ -56,8 +58,8 @@ public class MDMAlbum
     public static final String TABLE_CREATE = "create table " + TABLE_NAME + "(" + COLUMN_LOCAL_SID
         + " integer primary key autoincrement, " + COLUMN_SERVER_SID + " integer not null, " + COLUMN_NAME
         + " text not null," + COLUMN_YEAR + " integer," + COLUMN_COMMENTS + " text," + COLUMN_LOCAL_FILENAME + " text,"
-        + COLUMN_SERVER_FILENAME + " text," + COLUMN_FK_AUTHOR + " integer not null," + COLUMN_FK_GENRE
-        + " integer" + ");";
+        + COLUMN_SERVER_FILENAME + " text," + COLUMN_FK_AUTHOR + " integer not null," + COLUMN_FK_GENRE + " integer"
+        + ");";
 
     public static String[] getColumns()
     {
@@ -65,9 +67,9 @@ public class MDMAlbum
             COLUMN_LOCAL_FILENAME, COLUMN_SERVER_FILENAME, COLUMN_FK_AUTHOR, COLUMN_FK_GENRE };
     }
 
-    public MDMAlbum( Cursor cursor, Context context, boolean loadSongs )
+    public MDMAlbum( Cursor cursor, Context context, boolean loadSongs, boolean downloadedOnly )
     {
-        this.lsid = cursor.getInt( 0 );
+        this.lsid = cursor.getInt( MDMAlbum.COLUMN_LOCAL_SID_INDEX );
         this.sid = cursor.getInt( 1 );
         this.name = cursor.getString( 2 );
         this.year = cursor.getInt( 3 );
@@ -90,7 +92,7 @@ public class MDMAlbum
         if ( loadSongs )
         {
             DAOSong daoSong = new DAOSong( context );
-            List<MDMSong> songs = daoSong.getSongs( this.lsid );
+            List<MDMSong> songs = daoSong.getSongsByAlbum( this.lsid, downloadedOnly, null );
             setSongs( songs );
         }
     }

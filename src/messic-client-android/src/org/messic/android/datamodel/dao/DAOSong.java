@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.messic.android.datamodel.MDMAlbum;
+import org.messic.android.datamodel.MDMAuthor;
 import org.messic.android.datamodel.MDMSong;
 
 import android.content.ContentValues;
@@ -13,6 +14,16 @@ import android.database.Cursor;
 public class DAOSong
     extends DAO
 {
+
+    public interface SongPublisher
+    {
+        void publish( MDMSong song );
+    }
+
+    public void create()
+    {
+        getDatabase().execSQL( MDMSong.TABLE_CREATE );
+    }
 
     public DAOSong( Context context )
     {
@@ -53,20 +64,184 @@ public class DAOSong
         return result;
     }
 
-    public List<MDMSong> getSongs( int albumSid )
+    public List<MDMSong> searchByAuthor( String text, SongPublisher sp )
+    {
+        List<MDMSong> result = new ArrayList<MDMSong>();
+        open();
+
+        DAOAuthor daoAuthor = new DAOAuthor( getContext() );
+        daoAuthor.open();
+        Cursor c =
+            daoAuthor._getAll( MDMAuthor.COLUMN_NAME + " LIKE '%" + text + "%' COLLATE NOCASE", MDMAuthor.COLUMN_NAME );
+        if ( c.moveToFirst() )
+        {
+            do
+            {
+                int lsid = c.getInt( MDMAuthor.COLUMN_LOCAL_SID_INDEX );
+                result.addAll( getSongsByAuthor( lsid, true, sp ) );
+            }
+            while ( c.moveToNext() );
+        }
+        daoAuthor.close();
+
+        close();
+
+        return result;
+    }
+
+    public List<MDMSong> searchByName( String text, SongPublisher sp )
+    {
+        List<MDMSong> result = new ArrayList<MDMSong>();
+        open();
+
+        String where =
+            MDMSong.COLUMN_LOCAL_FILENAME + " IS NOT NULL AND " + MDMSong.COLUMN_NAME + " LIKE '%" + text
+                + "%' COLLATE NOCASE";
+
+        Cursor c = _getAll( where, MDMSong.COLUMN_NAME );
+        if ( c.moveToFirst() )
+        {
+            do
+            {
+                MDMSong song = new MDMSong( c, getContext(), true );
+                if ( song.isDownloaded( getContext() ) )
+                {
+                    if ( sp != null )
+                    {
+                        sp.publish( song );
+                    }
+                    result.add( song );
+                }
+            }
+            while ( c.moveToNext() );
+        }
+
+        close();
+
+        return result;
+    }
+
+    public List<MDMSong> searchByAlbum( String text, SongPublisher sp )
+    {
+        List<MDMSong> result = new ArrayList<MDMSong>();
+        open();
+
+        DAOAlbum daoAlbum = new DAOAlbum( getContext() );
+        daoAlbum.open();
+        Cursor c =
+            daoAlbum._getAll( MDMAlbum.COLUMN_NAME + " LIKE '%" + text + "%' COLLATE NOCASE", MDMAlbum.COLUMN_NAME );
+        if ( c.moveToFirst() )
+        {
+            do
+            {
+                int lsid = c.getInt( MDMAlbum.COLUMN_LOCAL_SID_INDEX );
+                result.addAll( getSongsByAlbum( lsid, true, sp ) );
+            }
+            while ( c.moveToNext() );
+        }
+        daoAlbum.close();
+
+        close();
+
+        return result;
+    }
+
+    /**
+     * Get all the songs of a certain author (of all the albums found)
+     * 
+     * @param authorLSid
+     * @return
+     */
+    public List<MDMSong> getSongsByAuthor( int authorLSid, boolean downloadedOnly, SongPublisher publisher )
     {
         List<MDMSong> result = new ArrayList<MDMSong>();
 
         open();
 
-        Cursor c = getDatabase().rawQuery( "SELECT * FROM " + getTableName() + " WHERE fk_album=" + albumSid, null );
+        String query =
+            "SELECT s.* FROM " + MDMSong.TABLE_NAME + " as s," + MDMAlbum.TABLE_NAME + " as a WHERE s."
+                + MDMSong.COLUMN_FK_ALBUM + "=a." + MDMAlbum.COLUMN_LOCAL_SID + " AND a." + MDMAlbum.COLUMN_FK_AUTHOR
+                + "=" + authorLSid;
+
+        if ( downloadedOnly )
+        {
+            query = query + " AND s." + MDMSong.COLUMN_LOCAL_FILENAME + " IS NOT NULL";
+        }
+
+        // query = query + " ORDER BY S." + MDMSong.COLUMN_NAME;
+
+        Cursor c = getDatabase().rawQuery( query, null );
 
         if ( c != null && c.moveToFirst() )
         {
             do
             {
-                MDMSong song = new MDMSong( c, getContext(), false );
-                result.add( song );
+                MDMSong song = new MDMSong( c, getContext(), true );
+                if ( downloadedOnly )
+                {
+                    if ( song.isDownloaded( getContext() ) )
+                    {
+                        if ( publisher != null )
+                        {
+                            publisher.publish( song );
+                        }
+                        result.add( song );
+                    }
+                }
+                else
+                {
+                    if ( publisher != null )
+                    {
+                        publisher.publish( song );
+                    }
+                    result.add( song );
+                }
+            }
+            while ( c.moveToNext() );
+        }
+
+        c.close();
+        close();
+        return result;
+    }
+
+    public List<MDMSong> getSongsByAlbum( int albumSid, boolean downloadedOnly, SongPublisher sp )
+    {
+        List<MDMSong> result = new ArrayList<MDMSong>();
+
+        open();
+
+        String query = "SELECT * FROM " + getTableName() + " WHERE fk_album=" + albumSid;
+        if ( downloadedOnly )
+        {
+            query = query + " AND " + MDMSong.COLUMN_LOCAL_FILENAME + " IS NOT NULL";
+        }
+        Cursor c = getDatabase().rawQuery( query, null );
+
+        if ( c != null && c.moveToFirst() )
+        {
+            do
+            {
+                MDMSong song = new MDMSong( c, getContext(), true );
+                if ( downloadedOnly )
+                {
+                    if ( song.isDownloaded( getContext() ) )
+                    {
+                        if ( sp != null )
+                        {
+                            sp.publish( song );
+                        }
+                        result.add( song );
+                    }
+                }
+                else
+                {
+                    if ( sp != null )
+                    {
+                        sp.publish( song );
+                    }
+                    result.add( song );
+                }
             }
             while ( c.moveToNext() );
         }
@@ -97,7 +272,7 @@ public class DAOSong
         {
             if ( song.getAlbum().getLsid() > 0 )
             {
-                // it has a local sid, so it is an existen album from the database, linking!
+                // it has a local sid, so it is an existen song from the database, linking!
                 cv.put( MDMSong.COLUMN_FK_ALBUM, song.getAlbum().getLsid() );
             }
             else
@@ -109,7 +284,7 @@ public class DAOSong
                 if ( cAlbum.getCount() > 0 )
                 {
                     // it exist at the database!, so, just linking to it
-                    MDMAlbum album = new MDMAlbum( cAlbum, getContext(), false );
+                    MDMAlbum album = new MDMAlbum( cAlbum, getContext(), false, true );
                     cv.put( MDMSong.COLUMN_FK_ALBUM, album.getLsid() );
                 }
                 else

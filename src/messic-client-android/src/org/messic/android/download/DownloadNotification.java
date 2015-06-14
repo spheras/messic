@@ -1,11 +1,15 @@
 package org.messic.android.download;
 
+import java.io.File;
+
 import org.messic.android.R;
 import org.messic.android.datamodel.MDMSong;
 
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.util.LongSparseArray;
 
@@ -35,7 +39,9 @@ public class DownloadNotification
     {
         mNotifyManager = (NotificationManager) this.service.getSystemService( Context.NOTIFICATION_SERVICE );
         mBuilder = new NotificationCompat.Builder( this.service );
-        mBuilder.setContentTitle( title ).setContentText( subtitle ).setSmallIcon( R.drawable.ic_launcher );
+        Bitmap licon = BitmapFactory.decodeResource( this.service.getResources(), R.drawable.downloading );
+        mBuilder.setContentTitle( title ).setContentText( subtitle ).setSmallIcon( R.drawable.downloading ).setLargeIcon( licon );
+        mBuilder.setTicker( "" );
         mBuilder.setProgress( 0, 0, true );
         mNotifyManager.notify( ONGOING_NOTIFICATION_ID, mBuilder.build() );
         // // Start a lengthy operation in a background thread
@@ -81,7 +87,7 @@ public class DownloadNotification
         pendingDownloads.append( song.getSid(), song );
         if ( mNotifyManager == null )
         {
-            String title = "messic Downloads (" + this.pendingDownloads.size() + ")";
+            String title = "mownloads (" + this.pendingDownloads.size() + ")";
             String subtitle = song.getAlbum().getName() + " - " + song.getName();
             createNotification( title, subtitle );
         }
@@ -102,7 +108,7 @@ public class DownloadNotification
         update();
     }
 
-    public void downloadFinished( MDMSong song )
+    public void downloadFinished( MDMSong song, File fdownloaded )
     {
         pendingDownloads.remove( song.getSid() );
         if ( song.getSid() == this.currentDownloadingSong.getSid() )
@@ -122,9 +128,11 @@ public class DownloadNotification
         if ( pendingDownloads.size() == 0 )
         {
             String title = "Download Completed";
-            mBuilder.setContentTitle( title )
+            Bitmap licon = BitmapFactory.decodeResource( this.service.getResources(), R.drawable.dowloading_07 );
+            mBuilder.setContentTitle( title ).setSmallIcon( R.drawable.downloading_mini_07 ).setLargeIcon( licon )
             // Removes the progress bar
             .setProgress( 0, 0, false );
+
             mNotifyManager.notify( ONGOING_NOTIFICATION_ID, mBuilder.build() );
         }
         else
@@ -132,10 +140,12 @@ public class DownloadNotification
             if ( this.currentDownloadingSong != null )
             {
                 // When the loop is finished, updates the notification
-                String title = "messic Downloads (" + this.pendingDownloads.size() + ")";
+                String title = "downloads (" + this.pendingDownloads.size() + ")";
                 String subtitle =
                     this.currentDownloadingSong.getAlbum().getName() + " - " + this.currentDownloadingSong.getName();
-                mBuilder.setContentTitle( title ).setContentText( subtitle ).setProgress( 0, 0, true );
+
+                Bitmap licon = BitmapFactory.decodeResource( this.service.getResources(), R.drawable.downloading );
+                mBuilder.setContentTitle( title ).setContentText( subtitle ).setProgress( 0, 0, true ).setSmallIcon( R.drawable.downloading_mini ).setLargeIcon( licon ).setTicker( "" );
                 mNotifyManager.notify( ONGOING_NOTIFICATION_ID, mBuilder.build() );
             }
             else
@@ -144,5 +154,15 @@ public class DownloadNotification
             }
         }
 
+    }
+
+    public void connected()
+    {
+        // Nothing to do
+    }
+
+    public void disconnected()
+    {
+        // Nothing to do
     }
 }

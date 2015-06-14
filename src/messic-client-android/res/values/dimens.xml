@@ -3,6 +3,9 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <!-- notification cover size -->
+    <dimen name="bignotification_cover_width">120dp</dimen>
+    <dimen name="bignotification_cover_height">110dp</dimen>
 
     <!-- Height of the underline of a tab. -->
     <dimen name="tab_underline_height">2dp</dimen>

@@ -45,6 +45,12 @@ public interface PlayerEventListener
     /** playlist added to the queue */
     void added( MDMPlaylist playlist );
 
+    /** song removed from queue */
+    void removed( MDMSong song );
+
+    /** the queue has been empty */
+    void empty();
+
     /** the player service has been connected */
     void connected();
 

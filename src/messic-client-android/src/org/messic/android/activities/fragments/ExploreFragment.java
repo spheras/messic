@@ -21,31 +21,56 @@ package org.messic.android.activities.fragments;
 import java.util.List;
 
 import org.messic.android.R;
+import org.messic.android.activities.AlbumInfoActivity;
 import org.messic.android.activities.adapters.AlbumAdapter;
 import org.messic.android.controllers.AlbumController;
 import org.messic.android.controllers.ExploreController;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMSong;
+import org.messic.android.util.UtilDownloadService;
 import org.messic.android.util.UtilMusicPlayer;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 public class ExploreFragment
     extends Fragment
+    implements TitleFragment
 {
     private ExploreController controller = new ExploreController();
 
     private AlbumAdapter sa = null;
+
+    private String title;
+
+    public ExploreFragment( String title )
+    {
+        super();
+        this.title = title;
+    }
+
+    public ExploreFragment()
+    {
+        super();
+        this.title = "";
+    }
+
+    public String getTitle()
+    {
+        return this.title;
+    }
 
     @Override
     public void onStart()
@@ -75,21 +100,50 @@ public class ExploreFragment
 
             public void coverTouch( MDMAlbum album )
             {
-                UtilMusicPlayer.addAlbum( getActivity(), album );
-                Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + album.getName(),
-                                Toast.LENGTH_SHORT ).show();
+                addAlbum( album );
             }
 
             public void coverLongTouch( MDMAlbum album )
             {
-                List<MDMSong> songs = album.getSongs();
-                for ( int i = 0; i < songs.size(); i++ )
-                {
-                    MDMSong song = songs.get( i );
-                    song.setAlbum( album );
-                    UtilMusicPlayer.addSong( getActivity(), song );
-                }
+                playNowAlbum( album );
             }
+
+            public void moreTouch( final MDMAlbum album, View anchor, final int index )
+            {
+                // Creating the instance of PopupMenu
+                PopupMenu popup = new PopupMenu( ExploreFragment.this.getActivity(), anchor );
+
+                // Inflating the Popup using xml file
+                popup.getMenuInflater().inflate( R.menu.menu_album, popup.getMenu() );
+
+                // registering popup with OnMenuItemClickListener
+                popup.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener()
+                {
+                    public boolean onMenuItemClick( MenuItem item )
+                    {
+                        switch ( item.getItemId() )
+                        {
+                            case R.id.menu_album_item_download:
+                                downloadAlbum( album );
+                                break;
+                            case R.id.menu_album_item_play:
+                                addAlbum( album );
+                                break;
+                            case R.id.menu_album_item_playnow:
+                                playNowAlbum( album );
+                                break;
+                            case R.id.menu_album_item_remove:
+                                AlbumInfoActivity.removeAlbum( getActivity(), album );
+                                break;
+                        }
+                        return true;
+                    }
+
+                } );
+
+                popup.show();// showing popup menu
+            }
+
         } );
         gv.setAdapter( sa );
 
@@ -147,21 +201,25 @@ public class ExploreFragment
      */
     public void eventExploreInfoLoaded()
     {
-        getActivity().runOnUiThread( new Runnable()
+        final Activity act = getActivity();
+        if ( act != null )
         {
-
-            public void run()
+            act.runOnUiThread( new Runnable()
             {
-                if ( getActivity() != null )
+
+                public void run()
                 {
-                    View progress = getActivity().findViewById( R.id.explore_progress );
-                    if ( progress != null )
+                    if ( act != null )
                     {
-                        progress.setVisibility( View.GONE );
+                        View progress = act.findViewById( R.id.explore_progress );
+                        if ( progress != null )
+                        {
+                            progress.setVisibility( View.GONE );
+                        }
                     }
                 }
-            }
-        } );
+            } );
+        }
     }
 
     private void getMessicService()
@@ -169,4 +227,34 @@ public class ExploreFragment
         UtilMusicPlayer.getMessicPlayerService( getActivity() );
     }
 
+    private void downloadAlbum( MDMAlbum album )
+    {
+        List<MDMSong> songs = album.getSongs();
+        for ( int i = 0; i < songs.size(); i++ )
+        {
+            MDMSong song = songs.get( i );
+            song.setAlbum( album );
+        }
+
+        UtilDownloadService.addDownload( getActivity(), album, null );
+    }
+
+    private void playNowAlbum( MDMAlbum album )
+    {
+        List<MDMSong> songs = album.getSongs();
+        for ( int i = 0; i < songs.size(); i++ )
+        {
+            MDMSong song = songs.get( i );
+            song.setAlbum( album );
+        }
+
+        UtilMusicPlayer.addSongsAndPlay( getActivity(), album.getSongs() );
+    }
+
+    private void addAlbum( MDMAlbum album )
+    {
+        UtilMusicPlayer.addAlbum( getActivity(), album );
+        Toast.makeText( getActivity(), getResources().getText( R.string.player_added ) + album.getName(),
+                        Toast.LENGTH_SHORT ).show();
+    }
 }

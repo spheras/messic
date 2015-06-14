@@ -18,23 +18,36 @@
  */
 package org.messic.android.activities;
 
+import java.io.File;
+import java.util.List;
+
 import org.messic.android.R;
 import org.messic.android.activities.adapters.SongAdapter;
 import org.messic.android.activities.adapters.SongAdapter.SongAdapterType;
 import org.messic.android.controllers.AlbumController;
+import org.messic.android.controllers.Configuration;
 import org.messic.android.datamodel.MDMAlbum;
 import org.messic.android.datamodel.MDMPlaylist;
 import org.messic.android.datamodel.MDMSong;
+import org.messic.android.download.DownloadListener;
 import org.messic.android.util.AlbumCoverCache;
+import org.messic.android.util.UtilDownloadService;
 import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,12 +64,33 @@ public class AlbumInfoActivity
     private MDMAlbum album;
 
     @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+
+    }
+
+    @Override
     protected void onCreate( Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
+        getActionBar().setDisplayHomeAsUpEnabled( true );
+
         setContentView( R.layout.albuminfo );
 
         this.album = (MDMAlbum) getIntent().getExtras().get( EXTRA_ALBUM_SID );
+
+        if ( this.album.getSongs() == null || this.album.getSongs().size() == 0 )
+        {
+            if ( !Configuration.isOffline() )
+            {
+                AlbumController.getAlbumInfoOnline( this, this.album.getSid() );
+            }
+            else
+            {
+                AlbumController.getAlbumInfoOffline( this, this.album );
+            }
+        }
 
         getMessicService();
 
@@ -73,8 +107,34 @@ public class AlbumInfoActivity
                 {
                 }
 
-                public void elementRemove( MDMSong song, int index )
+                public void elementRemove( final MDMSong song, int index )
                 {
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+                    {
+                        public void onClick( DialogInterface dialog, int which )
+                        {
+                            switch ( which )
+                            {
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    UtilDownloadService.removeSong( AlbumInfoActivity.this, song );
+                                    runOnUiThread( new Runnable()
+                                    {
+                                        public void run()
+                                        {
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    } );
+                                    break;
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    // No button clicked
+                                    break;
+                            }
+                        }
+                    };
+                    AlertDialog.Builder builder = new AlertDialog.Builder( AlbumInfoActivity.this );
+                    builder.setMessage( getString( R.string.action_remove_local_song ) ).setPositiveButton( getString( R.string.yes ),
+                                                                                                            dialogClickListener ).setNegativeButton( getString( R.string.no ),
+                                                                                                                                                     dialogClickListener ).show();
                 }
 
                 public void coverTouch( MDMSong song, int index )
@@ -169,6 +229,152 @@ public class AlbumInfoActivity
     private void getMessicService()
     {
         UtilMusicPlayer.getMessicPlayerService( this );
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu( Menu menu )
+    {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate( R.menu.albuminfo_activity_actions, menu );
+
+        return super.onCreateOptionsMenu( menu );
+    }
+
+    @Override
+    public boolean onOptionsItemSelected( MenuItem item )
+    {
+        // Handle presses on the action bar items
+        switch ( item.getItemId() )
+        {
+            case R.id.action_settings:
+                openSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected( item );
+        }
+
+    }
+
+    private void openSettings()
+    {
+        View anchor = findViewById( R.id.action_settings );
+
+        // Creating the instance of PopupMenu
+        PopupMenu popup = new PopupMenu( this, anchor );
+
+        // Inflating the Popup using xml file
+        popup.getMenuInflater().inflate( R.menu.menu_album, popup.getMenu() );
+        if ( Configuration.isOffline() )
+        {
+            popup.getMenu().removeItem( R.id.menu_album_item_download );
+        }
+
+        // registering popup with OnMenuItemClickListener
+        popup.setOnMenuItemClickListener( new PopupMenu.OnMenuItemClickListener()
+        {
+            public boolean onMenuItemClick( MenuItem item )
+            {
+                switch ( item.getItemId() )
+                {
+                    case R.id.menu_album_item_download:
+                        downloadAlbum();
+                        break;
+                    case R.id.menu_album_item_play:
+                        UtilMusicPlayer.addAlbum( AlbumInfoActivity.this, album );
+                        break;
+                    case R.id.menu_album_item_playnow:
+                        UtilMusicPlayer.addSongsAndPlay( AlbumInfoActivity.this, album.getSongs() );
+                        break;
+                    case R.id.menu_album_item_remove:
+                        removeAlbum( AlbumInfoActivity.this, album );
+                        break;
+                }
+                return true;
+            }
+        } );
+
+        popup.show();// showing popup menu
+    }
+
+    private void downloadAlbum()
+    {
+        UtilDownloadService.addDownload( this, album, new DownloadListener()
+        {
+
+            public void downloadUpdated( MDMSong song, float percent )
+            {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void downloadStarted( MDMSong song )
+            {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void downloadFinished( MDMSong song, File fdownloaded )
+            {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void downloadAdded( MDMSong song )
+            {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void disconnected()
+            {
+                // TODO Auto-generated method stub
+
+            }
+
+            public void connected()
+            {
+                // TODO Auto-generated method stub
+
+            }
+        } );
+    }
+
+    public static void removeAlbum( final Context ctx, final MDMAlbum album )
+    {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+        {
+            public void onClick( DialogInterface dialog, int which )
+            {
+                switch ( which )
+                {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        boolean result = UtilDownloadService.removeAlbum( ctx, album );
+                        if ( result )
+                        {
+                            List<MDMSong> songs = album.getSongs();
+                            for ( int i = 0; i < songs.size(); i++ )
+                            {
+                                MDMSong song = songs.get( i );
+                                song.setLfileName( null );
+                            }
+                        }
+
+                        Toast.makeText( ctx, ctx.getString( R.string.action_local_album_removed ) + album.getName(),
+                                        Toast.LENGTH_SHORT ).show();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        // No button clicked
+                        break;
+                }
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder( ctx );
+        builder.setMessage( ctx.getString( R.string.action_remove_local_album ) );
+        builder.setPositiveButton( ctx.getString( R.string.yes ), dialogClickListener );
+        builder.setNegativeButton( ctx.getString( R.string.no ), dialogClickListener );
+        builder.show();
+
     }
 
 }

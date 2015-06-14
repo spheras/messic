@@ -22,9 +22,12 @@ import org.messic.android.R;
 import org.messic.android.activities.adapters.SearchMessicServiceAdapter;
 import org.messic.android.activities.swipedismiss.SwipeDismissListViewTouchListener;
 import org.messic.android.controllers.Configuration;
+import org.messic.android.controllers.LoginController;
 import org.messic.android.controllers.SearchMessicServiceController;
 import org.messic.android.datamodel.MDMMessicServerInstance;
 import org.messic.android.datamodel.dao.DAOServerInstance;
+import org.messic.android.util.UtilDownloadService;
+import org.messic.android.util.UtilMusicPlayer;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -46,6 +49,9 @@ public class SearchMessicServiceActivity
     {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_search_messic_service );
+
+        UtilMusicPlayer.startMessicMusicService( this );
+        UtilDownloadService.startDownloadService( this );
 
         final SearchMessicServiceAdapter adapter = new SearchMessicServiceAdapter( this );
         controller.getSavedSessions( this, adapter );
@@ -106,8 +112,8 @@ public class SearchMessicServiceActivity
                 }
                 else
                 {
-                    Toast.makeText( SearchMessicServiceActivity.this, "This instance is not available now!",
-                                    Toast.LENGTH_LONG ).show();
+                    Toast.makeText( SearchMessicServiceActivity.this,
+                                    getString( R.string.searchMessicService_notavailable ), Toast.LENGTH_LONG ).show();
                 }
             }
         } );
@@ -120,7 +126,7 @@ public class SearchMessicServiceActivity
                 final Button b = ( (Button) findViewById( R.id.searchmessicservice_bsearch ) );
                 b.setEnabled( false );
 
-                final CountDownTimer cdt = new CountDownTimer( 30000, 1000 )
+                final CountDownTimer cdt = new CountDownTimer( 15000, 1000 )
                 {
                     @Override
                     public void onTick( long millisUntilFinished )
@@ -178,14 +184,22 @@ public class SearchMessicServiceActivity
             }
         } );
 
-        findViewById( R.id.searchmessicservice_offline ).setOnClickListener( new View.OnClickListener()
+        View voffline = findViewById( R.id.searchmessicservice_offline );
+        if ( LoginController.checkEmptyDatabase( this ) )
         {
-            public void onClick( View v )
+            voffline.setVisibility( View.GONE );
+        }
+        else
+        {
+            voffline.setOnClickListener( new View.OnClickListener()
             {
-                Configuration.setOffline( true );
-                Intent ssa = new Intent( SearchMessicServiceActivity.this, BaseActivity.class );
-                SearchMessicServiceActivity.this.startActivity( ssa );
-            }
-        } );
+                public void onClick( View v )
+                {
+                    Configuration.setOffline( true );
+                    Intent ssa = new Intent( SearchMessicServiceActivity.this, BaseActivity.class );
+                    SearchMessicServiceActivity.this.startActivity( ssa );
+                }
+            } );
+        }
     }
 }

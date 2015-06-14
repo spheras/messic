@@ -25,17 +25,26 @@ import org.messic.android.util.UtilRestJSONClient;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
 public class AlbumController
 {
-    public static void getAlbumInfoOffline( final Activity originActivity, MDMAlbum album )
+    public static void getAlbumInfoOffline( final Context originActivity, MDMAlbum album )
     {
-        Intent ssa = new Intent( originActivity, AlbumInfoActivity.class );
-        ssa.putExtra( AlbumInfoActivity.EXTRA_ALBUM_SID, album );
-        originActivity.startActivity( ssa );
+        if ( originActivity instanceof AlbumInfoActivity )
+        {
+            AlbumInfoActivity aia = (AlbumInfoActivity) originActivity;
+            aia.eventAlbumInfoLoaded( album );
+        }
+        else
+        {
+            Intent ssa = new Intent( originActivity, AlbumInfoActivity.class );
+            ssa.putExtra( AlbumInfoActivity.EXTRA_ALBUM_SID, album );
+            originActivity.startActivity( ssa );
+        }
     }
 
     public static void getAlbumInfoOnline( final Activity originActivity, long sid )
@@ -52,9 +61,17 @@ public class AlbumController
         {
             public void response( MDMAlbum response )
             {
-                Intent ssa = new Intent( originActivity, AlbumInfoActivity.class );
-                ssa.putExtra( AlbumInfoActivity.EXTRA_ALBUM_SID, response );
-                originActivity.startActivity( ssa );
+                if ( originActivity instanceof AlbumInfoActivity )
+                {
+                    AlbumInfoActivity aia = (AlbumInfoActivity) originActivity;
+                    aia.eventAlbumInfoLoaded( response );
+                }
+                else
+                {
+                    Intent ssa = new Intent( originActivity, AlbumInfoActivity.class );
+                    ssa.putExtra( AlbumInfoActivity.EXTRA_ALBUM_SID, response );
+                    originActivity.startActivity( ssa );
+                }
                 dialog.dismiss();
             }
 

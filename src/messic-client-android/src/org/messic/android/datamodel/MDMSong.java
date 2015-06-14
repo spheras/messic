@@ -22,9 +22,11 @@ import java.io.Serializable;
 
 import org.messic.android.controllers.Configuration;
 import org.messic.android.datamodel.dao.DAOAlbum;
+import org.messic.android.datamodel.dao.DAOSong;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 public class MDMSong
     extends MDMFile
@@ -49,6 +51,8 @@ public class MDMSong
 
     public static final String TABLE_NAME = "songs";
 
+    public static final int COLUMN_LFILENAME_INDEX = 6;
+
     public static final String TABLE_CREATE = "create table " + TABLE_NAME + "(" + COLUMN_LOCAL_SID
         + " integer primary key autoincrement, " + COLUMN_SERVER_SID + " integer not null, " + COLUMN_TRACK
         + " integer not null," + COLUMN_NAME + " text not null," + COLUMN_RATE + " integer," + COLUMN_SERVER_FILENAME
@@ -62,20 +66,28 @@ public class MDMSong
 
     public MDMSong( Cursor cursor, Context context, boolean loadAlbum )
     {
+        this.setFlagFromLocalDatabase( true );
         this.lsid = cursor.getInt( 0 );
         this.sid = cursor.getInt( 1 );
         this.track = cursor.getInt( 2 );
         this.name = cursor.getString( 3 );
         this.rate = cursor.getInt( 4 );
         this.fileName = cursor.getString( 5 );
-        this.lfileName = cursor.getString( 6 );
+        this.lfileName = cursor.getString( COLUMN_LFILENAME_INDEX );
         DAOAlbum daoalbum = new DAOAlbum( context );
         daoalbum.open();
         int sidAlbum = cursor.getInt( 7 );
         if ( loadAlbum )
         {
             Cursor cAlbum = daoalbum._get( sidAlbum );
-            this.album = new MDMAlbum( cAlbum, context, false );
+            if ( cAlbum.moveToFirst() )
+            {
+                this.album = new MDMAlbum( cAlbum, context, false, true );
+            }
+            else
+            {
+                Log.w( "MDMSong", "song without album!??:" + this.name );
+            }
         }
         daoalbum.close();
     }
@@ -196,4 +208,33 @@ public class MDMSong
         this.lsid = lsid;
     }
 
+    /**
+     * Check if the song is downloaded or not
+     * 
+     * @return
+     */
+    public boolean isDownloaded( Context context )
+    {
+        if ( getLfileName() == null && !isFlagFromLocalDatabase() )
+        {
+            // we should contrast against the database if the file is or not
+            DAOSong daosong = new DAOSong( context );
+            daosong.open();
+            Cursor c = daosong._getByServerSid( getSid() );
+            if ( c.moveToFirst() )
+            {
+                this.lfileName = c.getString( COLUMN_LFILENAME_INDEX );
+                daosong.close();
+                return ( getLfileName() != null && getLfileName().length() > 0 );
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return ( getLfileName() != null && getLfileName().length() > 0 );
+        }
+    }
 }

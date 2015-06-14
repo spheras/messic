@@ -16,6 +16,11 @@ public class DAOAuthor
         super( context, MDMAuthor.TABLE_NAME, MDMAuthor.getColumns() );
     }
 
+    public void create()
+    {
+        getDatabase().execSQL( MDMAuthor.TABLE_CREATE );
+    }
+
     public MDMAuthor save( Context context, MDMAuthor author, boolean saveAlbums )
     {
         open();

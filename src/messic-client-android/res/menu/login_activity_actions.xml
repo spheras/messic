@@ -7,11 +7,13 @@
         android:icon="@drawable/ic_wifi_white_24dp"
         android:showAsAction="ifRoom"
         android:title="@string/action_scan"/>
+    <!--
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_more_vert_white_24dp"
         android:orderInCategory="100"
         android:showAsAction="ifRoom"
         android:title="@string/action_settings"/>
+    -->
 
 </menu>

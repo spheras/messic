@@ -35,14 +35,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class RandomFragment
     extends Fragment
+    implements TitleFragment
 {
     private RandomController controller = new RandomController();
 
     private SongAdapter sa = null;
+
+    private String title;
+
+    public RandomFragment( String title )
+    {
+        super();
+        this.title = title;
+    }
+
+    public RandomFragment()
+    {
+        super();
+        this.title = "";
+    }
+
+    public String getTitle()
+    {
+        return this.title;
+    }
 
     @Override
     public void onStart()
@@ -59,7 +80,7 @@ public class RandomFragment
 
         UtilMusicPlayer.getMessicPlayerService( getActivity() );
 
-        GridView gv = (GridView) rootView.findViewById( R.id.random_gvitems );
+        ListView gv = (ListView) rootView.findViewById( R.id.random_gvitems );
         sa = new SongAdapter( getActivity(), new SongAdapter.EventListener()
         {
 
@@ -127,21 +148,25 @@ public class RandomFragment
      */
     public void eventRandomInfoLoaded()
     {
-        getActivity().runOnUiThread( new Runnable()
+        if ( getActivity() != null )
         {
-
-            public void run()
+            getActivity().runOnUiThread( new Runnable()
             {
-                if ( getActivity() != null )
+
+                public void run()
                 {
-                    View rp = getActivity().findViewById( R.id.random_progress );
-                    if ( rp != null )
+                    if ( getActivity() != null )
                     {
-                        rp.setVisibility( View.GONE );
+                        View rp = getActivity().findViewById( R.id.random_progress );
+                        if ( rp != null )
+                        {
+                            rp.setVisibility( View.GONE );
+                        }
                     }
                 }
-            }
-        } );
+            } );
+
+        }
     }
 
 }

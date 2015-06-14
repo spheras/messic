@@ -14,14 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <GridView
+        <ListView
             android:id="@+id/random_gvitems"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:numColumns="3" >
-        </GridView>
+            android:layout_alignParentRight="true" >
+        </ListView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
