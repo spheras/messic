@@ -88,6 +88,24 @@
             $(this).jPlayer("pauseOthers");
         });
 
+        $(this.cssSelector.jPlayer).bind($.jPlayer.event.error, function (event) {
+            //alert("Error Event: type = " + event.jPlayer.error.type); // The actual error code string. Eg., "e_url" for $.jPlayer.error.URL error.
+            switch (event.jPlayer.error.type) {
+            case $.jPlayer.error.URL:
+                //reportBrokenMedia(event.jPlayer.error); // A function you might create to report the broken link to a server log.
+                UtilShowInfo(messicLang.playlistError1 + self.playlist[self.current].song + "     " + messicLang.playlistError2);
+                    
+                self.next();
+                $(this).blur();
+
+                break;
+            case $.jPlayer.error.NO_SOLUTION:
+                // Do something
+                break;
+            }
+        });
+
+
         // Create a resize event handler to show the title in full screen mode.
         $(this.cssSelector.jPlayer).bind($.jPlayer.event.resize, function (event) {
             if (event.jPlayer.options.fullScreen) {

@@ -165,6 +165,8 @@ messicLang = {
 	playlistSelectNone: '<fmt:message key="js-playlist-selectnone-title" bundle="${message}"/>',
 	playlistmoreoptions: '<fmt:message key="js-playlist-moreoptions-title" bundle="${message}"/>',
 	playlistAddToPlaylist: '<fmt:message key="album-addplaylist-title" bundle="${message}"/>',
+	playlistError1: '<fmt:message key="js-playlist-error1" bundle="${message}"/>',
+	playlistError2: '<fmt:message key="js-playlist-error2" bundle="${message}"/>',
 	
 	messicerror: '<fmt:message key="js-messic-error" bundle="${message}"/>',
 	messicservicedown: '<fmt:message key="js-messic-service-down" bundle="${message}"/>',
