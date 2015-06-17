@@ -7,7 +7,7 @@
 		<format>tar.gz</format>
 		<format>dir</format>
 	</formats>
-	
+
 	<fileSets>
 		<!-- Files from Messic-Service -->
 		<fileSet>
@@ -41,8 +41,7 @@
 		<fileSet>
 			<directory>${project.basedir}/bin</directory>
 			<outputDirectory>/bin</outputDirectory>
-			<includes>
-				<include>messicservice.sh</include>
+			<includes>		<!-- <include>messicservice.sh</include> -->
 				<include>messic-icon.png</include>
 			</includes>
 			<fileMode>777</fileMode>
@@ -74,29 +73,17 @@
 	</fileSets>
 	<files>
 		<file>
-			<source>./bin/messic-linux.sh</source>
+			<source>./bin/linux/messic-linux.sh</source>
 			<outputDirectory>./bin/</outputDirectory>
 			<destName>messic.sh</destName>
 			<fileMode>777</fileMode>
 		</file>
-		<!-- 
+		<!-- <file> <source>./bin/messicservice-linux.sh</source> <outputDirectory>./bin/</outputDirectory> 
+			<destName>messicservice.sh</destName> <fileMode>777</fileMode> </file> -->
+		<!-- <file> <source>./bin/messic.sh.x64</source> <outputDirectory>./</outputDirectory> 
+			<destName>messic-x64bits</destName> <fileMode>777</fileMode> </file> -->
 		<file>
-			<source>./bin/messicservice-linux.sh</source>
-			<outputDirectory>./bin/</outputDirectory>
-			<destName>messicservice.sh</destName>
-			<fileMode>777</fileMode>
-		</file>
-		 -->
-		<!--  
-		<file>
-			<source>./bin/messic.sh.x64</source>
-			<outputDirectory>./</outputDirectory>
-			<destName>messic-x64bits</destName>
-			<fileMode>777</fileMode>
-		</file>
-		-->
-		<file>
-			<source>./bin/messic.sh.x32</source>
+			<source>./bin/linux/messic.sh.x32</source>
 			<outputDirectory>./</outputDirectory>
 			<destName>messic.x</destName>
 			<fileMode>777</fileMode>

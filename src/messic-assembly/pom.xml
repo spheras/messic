@@ -60,7 +60,7 @@
 								<!-- after the assemblies, we need to decompress jvm for windows, 
 									and then generate the final .zip -->
 								<unzip src="${project.basedir}/jvm/jre-8u45-windows-i586.zip"
-									dest="${project.basedir}/target/messic-${project.version}.app-windows/messic-${project.version}.app/bin" />
+									dest="${project.basedir}/target/messic-${project.version}.app-windows/messic-${project.version}.app/bin/jre1.8.0_45" />
 								<zip
 									basedir="${project.basedir}/target/messic-${project.version}.app-windows"
 									destfile="${project.basedir}/target/messic-${project.version}.app-windows.zip" />

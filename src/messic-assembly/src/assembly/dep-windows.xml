@@ -38,7 +38,7 @@
 			<fileMode>777</fileMode>
 		</fileSet>
 		<fileSet>
-			<directory>${project.basedir}/bin</directory>
+			<directory>${project.basedir}/bin/windows</directory>
 			<outputDirectory>/bin</outputDirectory>
 			<includes>
 				<include>messic.properties</include>
@@ -65,13 +65,13 @@
 
 	<files>
 		<file>
-			<source>./bin/messic.exe</source>
+			<source>./bin/windows/messic.exe</source>
 			<outputDirectory>./</outputDirectory>
 			<destName>messic.exe</destName>
 		</file>
 		<file>
 			<!--  messic with admin privileges -->
-			<source>./bin/messic_admin.exe</source>
+			<source>./bin/windows/messic_admin.exe</source>
 			<outputDirectory>./</outputDirectory>
 			<destName>messic_admin.exe</destName>
 		</file>

@@ -32,7 +32,7 @@
 			</includes>
 		</fileSet>
 		<fileSet>
-			<directory>${project.basedir}/bin/messic.app/Contents</directory>
+			<directory>${project.basedir}/bin/mac/messic.app/Contents</directory>
 			<outputDirectory>/Contents</outputDirectory>
 		</fileSet>
 
@@ -69,13 +69,13 @@
 	</fileSets>
 	<files>
 		<file>
-			<source>./bin/messic-macapp.sh</source>
+			<source>./bin/mac/messic-macapp.sh</source>
 			<outputDirectory>./Contents/MacOS</outputDirectory>
 			<destName>messic</destName>
 			<fileMode>777</fileMode>
 		</file>
 		<file>
-			<source>./bin/messic-mac.sh</source>
+			<source>./bin/mac/messic-mac.sh</source>
 			<outputDirectory>./bin/</outputDirectory>
 			<destName>messic.sh</destName>
 			<fileMode>777</fileMode>
