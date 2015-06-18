@@ -106,17 +106,21 @@ nav,
 section {
     display: block;
 }
+
 body {
     line-height: 1;
 }
+
 ol,
 ul {
     list-style: none;
 }
+
 blockquote,
 q {
     quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -124,6 +128,7 @@ q:after {
     content: '';
     content: none;
 }
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -138,12 +143,15 @@ body {
     font-weight: 400;
     color: #666;
 }
+
 a {
     color: #2879d0;
 }
+
 a:hover {
     color: #2268b2;
 }
+
 header h1 {
     color: #fff;
     font-family: source-sans-pro, sans-serif;
@@ -154,6 +162,7 @@ header h1 {
     text-shadow: 1px 1px 1px rgba(80, 80, 80, 0.5);
     width: 540px;
 }
+
 header h2 {
     color: #dddddd;
     font-size: 26px;
@@ -164,22 +173,27 @@ header h2 {
     text-shadow: 1px 1px 1px rgba(80, 80, 80, 0.5);
     width: 540px;
 }
+
 .inner {
     position: relative;
     width: 1020px;
     margin: 0 auto;
 }
+
 #content-wrapper {
     border-top: solid 1px #fff;
     padding-top: 30px;
 }
+
 #main-content {
     width: 690px;
     float: left;
 }
+
 #main-content img {
     max-width: 100%;
 }
+
 aside#sidebar {
     width: 300px;
     padding-left: 20px;
@@ -189,13 +203,16 @@ aside#sidebar {
     font-size: 12px;
     line-height: 1.3;
 }
+
 aside#sidebar p.repo-owner,
 aside#sidebar p.repo-owner a {
     font-weight: bold;
 }
+
 #downloads {
     margin-bottom: 40px;
 }
+
 a.button {
     width: 134px;
     height: 58px;
@@ -206,22 +223,26 @@ a.button {
     padding-top: 22px;
     font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
 }
+
 a.button small {
     display: block;
     font-size: 11px;
 }
+
 header a.button {
     background: url("../images/github-button.png") no-repeat scroll 0 0 transparent;
     position: absolute;
     right: 5px;
     top: 5px;
 }
+
 header a.button:hover {
     background-color: #77ffff;
     border-radius: 9px;
     -webkit-box-shadow: 0 0 19px rgba(100, 255, 255, 1);
     box-shadow: 0 0 19px rgba(100, 255, 255, 1);
 }
+
 aside a.button:hover {
     background-color: #aaffff;
     border-color: blue;
@@ -229,6 +250,7 @@ aside a.button:hover {
     box-shadow: 0 0 13px rgba(100, 100, 255, 0.99);
     color: blue;
 }
+
 aside a.button:hover:before {
     height: 70px;
     -webkit-transition-duration: 0.2s;
@@ -237,6 +259,7 @@ aside a.button:hover:before {
     transition-property: width, height;
     width: 70px;
 }
+
 aside a.button:before {
     content: "";
     display: block;
@@ -246,15 +269,23 @@ aside a.button:before {
     margin-top: -17px;
     width: 64px;
 }
+
 aside a.button.windows:before {
     background: url("../images/Windows-icon.png") repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
 }
+
 aside a.button.linux:before {
     background: url("../images/Linux-icon.png") repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
 }
+
 aside a.button.mac:before {
     background: url("../images/Apple-Blue-icon.png") repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
 }
+
+aside a.button.android:before {
+    background: url("../images/android_logo@2x.png") repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+}
+
 aside a.button {
     background: none repeat scroll 0 0 #5555ff;
     border: 4px solid #aaaaff;
@@ -267,6 +298,7 @@ aside a.button {
     padding-top: 4px;
     width: 192px;
 }
+
 code,
 pre {
     font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
@@ -274,11 +306,13 @@ pre {
     margin-bottom: 30px;
     font-size: 13px;
 }
+
 code {
     background-color: #f2f8fc;
     border: solid 1px #dbe7f3;
     padding: 0 3px;
 }
+
 pre {
     padding: 20px;
     background: #fff;
@@ -286,12 +320,14 @@ pre {
     overflow: auto;
     border: solid 1px #f2f2f2;
 }
+
 pre code {
     color: #2879d0;
     background-color: #fff;
     border: none;
     padding: 0;
 }
+
 ul,
 ol,
 dl {
@@ -307,18 +343,22 @@ hr {
     border: none;
     background: transparent url('../images/hr.png') 0 0 no-repeat;
 }
+
 table {
     width: 100%;
     border: 1px solid #ebebeb;
 }
+
 th {
     font-weight: 500;
 }
+
 td {
     border: 1px solid #ebebeb;
     text-align: center;
     font-weight: 300;
 }
+
 form {
     background: #f2f2f2;
     padding: 20px;
@@ -330,24 +370,28 @@ form {
     letter-spacing: -1px;
     color: #474747;
 }
+
 #main-content h1:before {
     content: "/";
     color: #9ddcff;
     padding-right: 0.3em;
     margin-left: -0.9em;
 }
+
 #main-content h2 {
     font-size: 22px;
     font-weight: bold;
     margin-bottom: 8px;
     color: #474747;
 }
+
 #main-content h2:before {
     content: "//";
     color: #9ddcff;
     padding-right: 0.3em;
     margin-left: -1.5em;
 }
+
 #main-content h3 {
     font-size: 18px;
     font-weight: bold;
@@ -355,73 +399,88 @@ form {
     margin-bottom: 8px;
     color: #474747;
 }
+
 #main-content h3:before {
     content: "///";
     color: #9ddcff;
     padding-right: 0.3em;
     margin-left: -2em;
 }
+
 #main-content h4 {
     font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
     font-size: 15px;
     font-weight: bold;
     color: #474747;
 }
+
 h4:before {
     content: "////";
     color: #9ddcff;
     padding-right: 0.3em;
     margin-left: -2.8em;
 }
+
 #main-content h5 {
     font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
     font-size: 14px;
     color: #474747;
 }
+
 h5:before {
     content: "/////";
     color: #9ddcff;
     padding-right: 0.3em;
     margin-left: -3.2em;
 }
+
 #main-content h6 {
     font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
     font-size: .8em;
     color: #474747;
 }
+
 h6:before {
     content: "//////";
     color: #9ddcff;
     padding-right: 0.3em;
     margin-left: -3.7em;
 }
+
 p {
     margin-bottom: 20px;
 }
+
 a {
     text-decoration: none;
 }
+
 p a {
     font-weight: 400;
 }
+
 blockquote {
     font-size: 1.6em;
     border-left: 10px solid #e9e9e9;
     margin-bottom: 20px;
     padding: 0 0 0 30px;
 }
+
 ul {
     list-style: disc inside;
     padding-left: 20px;
 }
+
 ol {
     list-style: decimal inside;
     padding-left: 3px;
 }
+
 dl dd {
     font-style: italic;
     font-weight: 100;
 }
+
 footer {
     background: transparent url('../images/hr.png') 0 0 no-repeat;
     margin-top: 40px;
@@ -430,9 +489,11 @@ footer {
     font-size: 13px;
     color: #aaa;
 }
+
 footer a {
     color: #666;
 }
+
 footer a:hover {
     color: #444;
 }
@@ -445,18 +506,20 @@ footer a:hover {
     visibility: hidden;
     height: 0;
 }
+
 .clearfix {
     display: inline-block;
 }
+
 * html .clearfix {
     height: 1%;
 }
+
 .clearfix {
     display: block;
 }
 /* #Media Queries
 ================================================== */
-
 /* Smaller than standard 960 (devices and browsers) */
 
 @media only screen and (max-width: 959px) {}
@@ -493,6 +556,7 @@ footer a:hover {
         display: none;
     }
 }
+
 @media only screen and (max-width: 767px) {
     .inner {
         width: 93%;
@@ -575,6 +639,7 @@ footer a:hover {
     position:absolute;
     width:200px;
 }
+
 .messic-header1 {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.9);
     -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -586,6 +651,7 @@ footer a:hover {
     width: 100%;
     z-index: 2147483647;
 }
+
 .messic-header1 > div {
     height: 100%;
     margin-left: auto;
@@ -595,6 +661,7 @@ footer a:hover {
     width: 100%;
     overflow: hidden;
 }
+
 .messic-logo-mini:before {
     background: url("../images/messic-icon.png") no-repeat scroll 0 0 / 100% auto rgba(0, 0, 0, 0);
     content: "";
@@ -605,6 +672,7 @@ footer a:hover {
     margin-top: 8px;
     width: 25px;
 }
+
 .messic-logo-mini {
     color: #444444;
     font-family: source-sans-pro, sans-serif;
@@ -614,16 +682,20 @@ footer a:hover {
     float: left;
     cursor: pointer;
 }
+
 .messic-menu {
     float: left;
     margin-top: 11px;
 }
+
 .messic-menu > a {
     margin-left: 30px;
 }
+
 .messic-menu > a:hover {
     text-decoration: underline;
 }
+
 .messic-social.svg a {
     border: 1px solid #cccccc;
     margin-left: 13px;
@@ -633,18 +705,22 @@ footer a:hover {
     -webkit-transition-property: opacity, margin;
     transition-property: opacity;
 }
+
 .messic-social.svg a:hover {
     opacity: 1;
 }
+
 .messic-social.svg {
     float: right;
     margin-right: 18px;
     margin-top: 5px;
 }
+
 .messic-header2.messic-header2-min {
     height: 80px;
     min-height: 80px;
 }
+
 .messic-header2 {
     position: relative;
     overflow: hidden;
@@ -677,26 +753,32 @@ footer a:hover {
     padding-left: 5px;
     padding-top: 5px;
 }
+
 .messic-menu-contribute {
     -webkit-animation-delay: 0s;
     animation-delay: 0s;
 }
+
 .messic-menu-api {
     -webkit-animation-delay: 0.2s;
     animation-delay: 0.2s;
 }
+
 .messic-menu-wiki {
     -webkit-animation-delay: 0.4s;
     animation-delay: 0.4s;
 }
+
 .messic-menu-download {
     -webkit-animation-delay: 0.6s;
     animation-delay: 0.6s;
 }
+
 .messic-menu-faq {
     -webkit-animation-delay: 0.6s;
     animation-delay: 0.8s;
 }
+
 @-webkit-keyframes headeranim {
     0% {
         background-color: #2e7bcf;
@@ -732,6 +814,7 @@ footer a:hover {
         background-color: 2e7bcf;
     }
 }
+
 @keyframes headeranim {
     0% {
         background-color: #2e7bcf;
@@ -767,9 +850,11 @@ footer a:hover {
         background-color: 2e7bcf;
     }
 }
+
 strong {
     font-weight: bold;
 }
+
 .inner.animated.fadeIn strong {
     color: red;
     cursor: pointer;
@@ -784,10 +869,12 @@ strong {
     -webkit-transition-property: -webkit-transform;
     transition-property: transform;
 }
+
 .inner.animated.fadeIn h2:hover {
     color: white;
     cursor: pointer;
 }
+
 .inner.animated.fadeIn h2:hover strong {
     margin-right: 63px;
     margin-top: 0;
@@ -795,14 +882,17 @@ strong {
     -ms-transform: scale(2);
     transform: scale(2);
 }
+
 love {
     display: inline-block;
 }
+
 @media only screen and (max-width: 959px) {
     #galleria {
         display: none;
     }
 }
+
 #galleria {
     bottom: 50px;
     height: 340px;
@@ -815,22 +905,28 @@ love {
     -webkit-transition-duration: 1s;
     transition-duration: 1s;
 }
+
 #galleria:hover {
     opacity: 1;
 }
+
 .galleria-stage .galleria-image>img {
     border-radius: 9px;
 }
+
 #main-content > ul.faq {
     list-style: none;
 }
+
 #main-content ul.faq li {
     margin-top: 20px;
 }
+
 .svg .webicon.huboard {
     background: url("../images/huboard.ico") no-repeat;
     background-position: center center;
 }
+/*
 .messic-version:after {
     background: url("../images/beta.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     -webkit-background-size: 100% 100%;
@@ -857,6 +953,8 @@ love {
     -webkit-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
 }
+*/
+
 .messic-version {
     color: white;
     font-size: 1.5em;
