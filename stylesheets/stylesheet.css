@@ -283,7 +283,9 @@ aside a.button.mac:before {
 }
 
 aside a.button.android:before {
-    background: url("../images/android_logo@2x.png") repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+    background: url("../images/Android_Robot_100.png") repeat scroll 0 0 / 100% 100% rgba(0, 0, 0, 0);
+    height: 66px;
+    width: 60px;
 }
 
 aside a.button {
