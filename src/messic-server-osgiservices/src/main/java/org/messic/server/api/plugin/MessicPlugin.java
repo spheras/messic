@@ -28,6 +28,7 @@ public interface MessicPlugin {
 	
     public static final String CONFIG_PROXY_URL="proxy-url";
     public static final String CONFIG_PROXY_PORT="proxy-port";
+    public static final String CONFIG_SECUREPROTOCOL = "messic-secure";
     
 	/**
 	 * Return the version of the plugin, like 2.15

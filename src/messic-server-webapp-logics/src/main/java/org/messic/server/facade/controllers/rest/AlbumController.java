@@ -93,7 +93,7 @@ public class AlbumController
     @Autowired
     public APITagWizard wizardAPI;
 
-    @ApiMethod( path = "/services/albums?filterGenreSid=xxxx&filterAuthorSid=xxxx&filterName=xxxx&songsInfo=true|false&authorInfo=true|false&pageFromResult=xxxx&pageMaxResults=xxxxx&orderDesc=false&orderByAuthor=true", verb = ApiVerb.GET, description = "Get all albums. They can be filtered by authorSid or by genreSid (not combined). You can also espcify what information should be returned (with songs information or not, for exmaple)", produces = {
+    @ApiMethod( path = "/services/albums?filterGenreSid=xxxx&filterAuthorSid=xxxx&filterName=xxxx&songsInfo=true|false&authorInfo=true|false&pageFromResult=xxxx&pageMaxResults=xxxxx&orderDesc=false&orderByAuthor=true&user={userLogin}", verb = ApiVerb.GET, description = "Get all albums. They can be filtered by authorSid or by genreSid (not combined). You can also espicify what information should be returned (with songs information or not, for exmaple).  You can switch to a concrete desired user info (only administrators users can do this)", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ) } )
@@ -113,10 +113,26 @@ public class AlbumController
                                @RequestParam( value = "songsInfo", required = false ) @ApiParam( name = "songsInfo", description = "flag to return also the songs info of the albums or not. By default, false", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
                                    "true", "false" }, format = "Boolean" ) Boolean songsInfo,
                                @RequestParam( value = "resourcesInfo", required = false ) @ApiParam( name = "resourcesInfo", description = "flag to return also the artworks and others info of the albums or not. By default, the same value of songsInfo", paramType = ApiParamType.QUERY, required = false, allowedvalues = {
-                                   "true", "false" }, format = "Boolean" ) Boolean resourcesInfo )
+                                   "true", "false" }, format = "Boolean" ) Boolean resourcesInfo,
+                               @RequestParam( value = "user", required = false ) @ApiParam( name = "user", description = "user from which we want the information.. if not comming, then the current user.  (this option can be done only by administrators)", paramType = ApiParamType.QUERY, required = false ) String user )
         throws UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
-        User user = SecurityUtil.getCurrentUser();
+        User currentUser = SecurityUtil.getCurrentUser();
+        MDOUser mdoCurrentUser = userDAO.getUserByLogin( currentUser.getLogin() );
+        MDOUser mdoAskedUser = mdoCurrentUser;
+
+        if ( user != null )
+        {
+            if ( mdoCurrentUser.getAdministrator() )
+            {
+                mdoAskedUser = userDAO.getUserByLogin( user );
+            }
+            else
+            {
+                // only administrators can switch users
+                throw new NotAuthorizedMessicRESTException( new Exception() );
+            }
+        }
 
         try
         {
@@ -124,43 +140,50 @@ public class AlbumController
             if ( filterAuthorSid == null && filterName == null & filterGenreSid == null )
             {
                 albums =
-                    albumAPI.getAll( user, ( authorInfo != null ? authorInfo : true ), ( songsInfo != null ? songsInfo
-                                                     : false ), ( resourcesInfo != null ? resourcesInfo
+                    albumAPI.getAll( mdoAskedUser, ( authorInfo != null ? authorInfo : true ),
+                                     ( songsInfo != null ? songsInfo : false ), ( resourcesInfo != null ? resourcesInfo
                                                      : ( songsInfo != null ? songsInfo : false ) ),
                                      ( pageFromResult != null ? pageFromResult : -1 ),
-                                     ( pageMaxResults != null ? pageMaxResults : -1 ), orderDesc, orderByAuthor );
+                                     ( pageMaxResults != null ? pageMaxResults : -1 ), ( orderDesc != null ? orderDesc
+                                                     : false ), ( orderByAuthor != null ? orderByAuthor : false ) );
             }
             else
             {
                 if ( filterAuthorSid != null && filterName == null )
                 {
                     albums =
-                        albumAPI.getAll( user, filterAuthorSid, ( authorInfo != null ? authorInfo : true ),
+                        albumAPI.getAll( mdoAskedUser, filterAuthorSid, ( authorInfo != null ? authorInfo : true ),
                                          ( songsInfo != null ? songsInfo : false ),
                                          ( resourcesInfo != null ? resourcesInfo : ( songsInfo != null ? songsInfo
                                                          : false ) ), ( pageFromResult != null ? pageFromResult : -1 ),
-                                         ( pageMaxResults != null ? pageMaxResults : -1 ), orderDesc, orderByAuthor );
+                                         ( pageMaxResults != null ? pageMaxResults : -1 ),
+                                         ( orderDesc != null ? orderDesc : false ),
+                                         ( orderByAuthor != null ? orderByAuthor : false ) );
                 }
                 if ( filterGenreSid != null )
                 {
                     albums =
-                        albumAPI.getAllOfGenre( user, filterGenreSid, ( authorInfo != null ? authorInfo : true ),
+                        albumAPI.getAllOfGenre( mdoAskedUser, filterGenreSid,
+                                                ( authorInfo != null ? authorInfo : true ),
                                                 ( songsInfo != null ? songsInfo : false ),
                                                 ( resourcesInfo != null ? resourcesInfo
                                                                 : ( songsInfo != null ? songsInfo : false ) ),
                                                 ( pageFromResult != null ? pageFromResult : -1 ),
-                                                ( pageMaxResults != null ? pageMaxResults : -1 ), orderDesc,
-                                                orderByAuthor );
+                                                ( pageMaxResults != null ? pageMaxResults : -1 ),
+                                                ( orderDesc != null ? orderDesc : false ),
+                                                ( orderByAuthor != null ? orderByAuthor : false ) );
                 }
                 else
                 {
                     albums =
-                        albumAPI.findSimilar( user, filterAuthorSid, filterName, ( authorInfo != null ? authorInfo
-                                                              : true ), ( songsInfo != null ? songsInfo : false ),
+                        albumAPI.findSimilar( mdoAskedUser, filterAuthorSid, filterName,
+                                              ( authorInfo != null ? authorInfo : true ),
+                                              ( songsInfo != null ? songsInfo : false ),
                                               ( resourcesInfo != null ? resourcesInfo : ( songsInfo != null ? songsInfo
                                                               : false ) ), ( pageFromResult != null ? pageFromResult
                                                               : -1 ), ( pageMaxResults != null ? pageMaxResults : -1 ),
-                                              orderDesc, orderByAuthor );
+                                              ( orderDesc != null ? orderDesc : false ),
+                                              ( orderByAuthor != null ? orderByAuthor : false ) );
                 }
             }
 
@@ -543,7 +566,7 @@ public class AlbumController
         }
     }
 
-    @ApiMethod( path = "/services/albums/checkConsistency/{albumSid}", verb = ApiVerb.POST, description = "Check the consistency of the database en resource files", produces = {
+    @ApiMethod( path = "/services/albums/checkConsistency/{albumSid}?user={login}", verb = ApiVerb.POST, description = "Check the consistency of the database en resource files.  This operation need to be done only by administrators. You can select the user from which you need this check", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = {
         @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
@@ -553,17 +576,25 @@ public class AlbumController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    protected AlbumConsistency checkConsistency( @ApiParam( name = "albumSid", description = "Sid of the album to check", paramType = ApiParamType.PATH, required = true ) @PathVariable Long albumSid )
+    protected AlbumConsistency checkConsistency( @ApiParam( name = "albumSid", description = "Sid of the album to check", paramType = ApiParamType.PATH, required = true ) @PathVariable Long albumSid,
+                                                 @RequestParam( value = "user", required = false ) @ApiParam( name = "user", description = "user scope to check the consistency", paramType = ApiParamType.QUERY, required = false ) String user )
         throws NotAuthorizedMessicRESTException, UnknownMessicRESTException,
         org.messic.server.facade.controllers.rest.exceptions.CheckConsistencyMessicException
     {
         try
         {
-            User user = SecurityUtil.getCurrentUser();
-            MDOUser mdoUser = userDAO.getUserByLogin( user.getLogin() );
-            if ( mdoUser != null && mdoUser.getAdministrator() )
+            User cuser = SecurityUtil.getCurrentUser();
+            MDOUser mdoCurrentUser = userDAO.getUserByLogin( cuser.getLogin() );
+
+            if ( mdoCurrentUser != null && mdoCurrentUser.getAdministrator() )
             {
-                return albumAPI.checkConsistency( user, albumSid );
+                MDOUser askedUser = mdoCurrentUser;
+                if ( user != null )
+                {
+                    askedUser = userDAO.getUserByLogin( user );
+                }
+
+                return albumAPI.checkConsistency( askedUser, albumSid );
             }
             else
             {

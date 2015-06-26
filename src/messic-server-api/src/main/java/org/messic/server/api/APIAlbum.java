@@ -161,8 +161,8 @@ public class APIAlbum
     }
 
     @Transactional
-    public List<Album> getAll( User user, boolean authorInfo, boolean songsInfo, boolean resourcesInfo, int fromResult,
-                               int maxResults, boolean orderDesc, boolean orderByAuthor )
+    public List<Album> getAll( MDOUser user, boolean authorInfo, boolean songsInfo, boolean resourcesInfo,
+                               int fromResult, int maxResults, boolean orderDesc, boolean orderByAuthor )
     {
         List<MDOAlbum> albums =
             this.daoAlbum.getAll( user.getLogin(), fromResult, maxResults, orderDesc, orderByAuthor );
@@ -170,8 +170,9 @@ public class APIAlbum
     }
 
     @Transactional
-    public List<Album> getAll( User user, long authorSid, boolean authorInfo, boolean songsInfo, boolean resourcesInfo,
-                               int fromResult, int maxResults, boolean orderDesc, boolean orderByAuthor )
+    public List<Album> getAll( MDOUser user, long authorSid, boolean authorInfo, boolean songsInfo,
+                               boolean resourcesInfo, int fromResult, int maxResults, boolean orderDesc,
+                               boolean orderByAuthor )
     {
         List<MDOAlbum> albums =
             daoAlbum.getAll( authorSid, user.getLogin(), fromResult, maxResults, orderDesc, orderByAuthor );
@@ -179,7 +180,7 @@ public class APIAlbum
     }
 
     @Transactional
-    public List<Album> getAllOfGenre( User user, long genreSid, boolean authorInfo, boolean songsInfo,
+    public List<Album> getAllOfGenre( MDOUser user, long genreSid, boolean authorInfo, boolean songsInfo,
                                       boolean resourcesInfo, int fromResult, int maxResults, boolean orderDesc,
                                       boolean orderByAuthor )
     {
@@ -204,9 +205,9 @@ public class APIAlbum
     }
 
     @Transactional
-    public List<Album> findSimilar( User user, int authorSid, String albumName, boolean authorInfo, boolean songsInfo,
-                                    boolean resourcesInfo, int fromResult, int maxResults, boolean orderDesc,
-                                    boolean orderByAuthor )
+    public List<Album> findSimilar( MDOUser user, int authorSid, String albumName, boolean authorInfo,
+                                    boolean songsInfo, boolean resourcesInfo, int fromResult, int maxResults,
+                                    boolean orderDesc, boolean orderByAuthor )
     {
         List<MDOAlbum> albums =
             daoAlbum.findSimilarAlbums( authorSid, albumName, user.getLogin(), fromResult, maxResults, orderDesc,
@@ -1067,7 +1068,7 @@ public class APIAlbum
      * @throws CheckConsistencyMessicException
      */
     @Transactional
-    public AlbumConsistency checkConsistency( User user, long albumSid )
+    public AlbumConsistency checkConsistency( MDOUser user, long albumSid )
         throws CheckConsistencyMessicException
     {
         AlbumConsistency ac = new AlbumConsistency();

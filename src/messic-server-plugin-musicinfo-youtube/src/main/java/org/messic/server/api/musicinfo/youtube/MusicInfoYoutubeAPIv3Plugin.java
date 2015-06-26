@@ -51,6 +51,33 @@ public class MusicInfoYoutubeAPIv3Plugin
     /** configuration for the plugin */
     private Properties configuration;
 
+    /**
+     * Return if messic is configured to use a secure protocol
+     * 
+     * @return
+     */
+    private boolean isMessicSecureProtocol()
+    {
+        if ( this.configuration != null )
+        {
+            String messicSecure = this.configuration.getProperty( MessicPlugin.CONFIG_SECUREPROTOCOL );
+            try
+            {
+                boolean secure = Boolean.valueOf( messicSecure );
+                return secure;
+            }
+            catch ( Exception e )
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
     private Proxy getProxy()
     {
         if ( this.configuration != null )
@@ -99,8 +126,9 @@ public class MusicInfoYoutubeAPIv3Plugin
         YoutubeSearch ys = new YoutubeSearch();
         List<YoutubeInfo> results = ys.search( search, proxy );
         String htmlCode = "";
-        if(results.size()>0){
-            htmlCode = htmlCode+ "<script type=\"text/javascript\">";
+        if ( results.size() > 0 )
+        {
+            htmlCode = htmlCode + "<script type=\"text/javascript\">";
             htmlCode = htmlCode + "  function musicInfoYoutubeDestroy(){";
             htmlCode = htmlCode + "       $('.messic-musicinfo-youtube-overlay').remove();";
             htmlCode = htmlCode + "       $('.messic-musicinfo-youtube-iframe').remove();";
@@ -110,11 +138,12 @@ public class MusicInfoYoutubeAPIv3Plugin
                 htmlCode
                     + "      var code='<div class=\"messic-musicinfo-youtube-overlay\" onclick=\"musicInfoYoutubeDestroy()\"></div>';";
             htmlCode =
-                htmlCode
-                    + "      code=code+'<iframe class=\"messic-musicinfo-youtube-iframe\" src=\"http://www.youtube.com/embed/'+id+'\" frameborder=\"0\" allowfullscreen></iframe>';";
+                htmlCode + "      code=code+'<iframe class=\"messic-musicinfo-youtube-iframe\" src=\""
+                    + ( isMessicSecureProtocol() ? "https" : "http" )
+                    + "://www.youtube.com/embed/'+id+'\" frameborder=\"0\" allowfullscreen></iframe>';";
             htmlCode = htmlCode + "      $(code).hide().appendTo('body').fadeIn();";
             htmlCode = htmlCode + "  }";
-            htmlCode = htmlCode + "</script>";            
+            htmlCode = htmlCode + "</script>";
         }
         for ( YoutubeInfo youtubeInfo : results )
         {

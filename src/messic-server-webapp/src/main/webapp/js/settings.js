@@ -68,7 +68,7 @@ function initSettings(flagNewUser) {
 
 
 /** make a check of the filesystem against the database, it is considered a deep check */
-function checkDeepConsistency() {
+function checkDeepConsistency(userLogin) {
     var stopButton = $("#messic-settings-consistency-stop");
     stopButton.data("pressed", "0");
     var divta = $("#messic-settings-consistency-details");
@@ -77,11 +77,20 @@ function checkDeepConsistency() {
 
     //first we obtain the list of author folders
     divta.val("**** FOLDER VALIDATION **** \n" + divta.val());
+    
+    
+    var urluserAnd="";
+    var urluserInt="";
+    if(userLogin){
+        urluserAnd="&user="+userLogin;
+        urluserInt="?user="+userLogin;
+    }
+    
     $.ajax({
         type: "GET",
         dataType: 'json',
         async: false,
-        url: "services/authors/getAuthorFolders",
+        url: "services/authors/getAuthorFolders"+urluserInt,
         success: function (data) {
 
             //create a pool to make all the petitions
@@ -89,7 +98,7 @@ function checkDeepConsistency() {
             ajaxpool.setMaxElements = 5;
             var endf = function () {
                 //at the end we start the 'light' consistency check
-                checkLightConsistency();
+                checkLightConsistency(userLogin);
             };
             ajaxpool.setEndFunction(endf);
 
@@ -136,7 +145,7 @@ function checkDeepConsistency() {
                     divta.val("FAILED!!!->" + request.responseText + "\n" + divta.val());
                 };
 
-                ajaxpool.addProcess("POST", "json", "services/authors/checkAuthorFolderConsistency/" + folderName, successFunction, errorFunction);
+                ajaxpool.addProcess("POST", "json", "services/authors/checkAuthorFolderConsistency/" + folderName+urluserInt, successFunction, errorFunction);
             }
 
             ajaxpool.start();
@@ -148,15 +157,23 @@ function checkDeepConsistency() {
 }
 
 /* check the 'light' consistency */
-function checkLightConsistency() {
+function checkLightConsistency(userLogin) {
     var stopButton = $("#messic-settings-consistency-stop");
     stopButton.data("pressed", "0");
     var divta = $("#messic-settings-consistency-details");
 
     divta.val("**** ALBUM VALIDATION **** \n" + divta.val());
+    
+    var urluserAnd="";
+    var urluserInt="";
+    if(userLogin){
+        urluserAnd="&user="+userLogin;
+        urluserInt="?user="+userLogin;
+    }
+    
     //after we check the consistency of each album
     $.ajax({
-        url: "services/albums?songsInfo=false&authorInfo=false",
+        url: "services/albums?songsInfo=false&authorInfo=false"+urluserAnd,
         dataType: 'json',
         async: false,
         success: function (dataAlbums) {
@@ -222,7 +239,7 @@ function checkLightConsistency() {
                 }
 
 
-                ajaxpool.addProcess("POST", "json", "services/albums/checkConsistency/" + album.sid, successFunction, errorFunction);
+                ajaxpool.addProcess("POST", "json", "services/albums/checkConsistency/" + album.sid+urluserInt, successFunction, errorFunction);
             }
 
 
@@ -234,11 +251,14 @@ function checkLightConsistency() {
 /**
  * Show the consistency panel
  */
-function showConsistencyPanel() {
+function showConsistencyPanel(userLogin, userName) {
     var code = "";
     code = code + "<div id=\"messic-settings-consistency-overlay\">";
     code = code + "  <div id=\"messic-settings-consistency-container\">";
     code = code + "    <p class=\"messic-settings-consistency-title\">" + messicLang.settingsConsistencyTitle + "</p>";
+    if(userName){
+        code = code + "    <p class=\"messic-settings-consistency-user\">" + userName + "</p>";
+    }
     code = code + "    <p class=\"messic-settings-consistency-desc\">" + messicLang.settingsConsistencyDesc + "</p>";
     code = code + "    <div class=\"messic-settings-consistency-progress\"><div class=\"messic-settings-consistency-progressbar\"></div></div>";
     code = code + "    <textarea id=\"messic-settings-consistency-details\" readonly=\"true\"></textarea>";
@@ -260,6 +280,11 @@ function showConsistencyPanel() {
 
     $code.find("#messic-settings-consistency-stop").click(function () {
         $(this).data("pressed", "1"); //set a flag to a pressed value, to stop the process
+        
+        $("#messic-settings-consistency-start").show();
+        $("#messic-settings-consistency-cancel").show();
+        $("#messic-settings-consistency-working").hide();
+        $("#messic-settings-consistency-stop").hide();
     });
 
     $code.find("#messic-settings-consistency-start").click(function () {
@@ -270,9 +295,9 @@ function showConsistencyPanel() {
 
         if ($("#messic-settings-consistency-deep").is(':checked')) {
             //deep search
-            checkDeepConsistency();
+            checkDeepConsistency(userLogin);
         } else {
-            checkLightConsistency();
+            checkLightConsistency(userLogin);
         }
     });
 }
@@ -700,7 +725,7 @@ function initSettingsNewUser() {
             }
         } else if (selected.id == 'messic-user-settings-content-admin') {
             if (settings_validator_admin.validate()) {
-                $("#accept-button").text('Aceptar');
+                $("#accept-button").text(messicLang.settingsCreateSave);
                 selectTab($("#messic-user-settings-menu-music"), $("#messic-user-settings-content-music"));
             }
         } else if (selected.id == 'messic-user-settings-content-music') {

@@ -56,6 +56,10 @@ public class SettingsViewController
             {
                 user.setAdministrator( true );
             }
+            else if ( !daoUser.existAdminUser() )
+            {
+                user.setAdministrator( true );
+            }
 
             if ( settings.isAllowUserCreation() || user.getAdministrator() )
             {
@@ -64,7 +68,8 @@ public class SettingsViewController
             else
             {
                 // TODO take note
-                throw new Exception( "Creation Users NOT ALLOWED! Who are you?" );
+                throw new Exception(
+                                     "Creation Users NOT ALLOWED! Who the hell are you? ...mmmm.. taking note: not to allow bad people like this guy to messic" );
             }
         }
         else

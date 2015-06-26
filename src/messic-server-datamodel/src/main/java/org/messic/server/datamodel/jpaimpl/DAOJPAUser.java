@@ -43,6 +43,21 @@ public class DAOJPAUser
     }
 
     /**
+     * Check if exist any admin user at the database
+     * 
+     * @return boolean true->yes there is at least one admin user
+     */
+    @Override
+    @Transactional
+    public boolean existAdminUser()
+    {
+        Query query = entityManager.createQuery( "from MDOUser as p where p.administrator = true" );
+        @SuppressWarnings( "unchecked" )
+        List<MDOUser> results = query.getResultList();
+        return ( results.size() > 0 );
+    }
+
+    /**
      * Get User by username, null if not found
      * 
      * @param username {@link String} username to find

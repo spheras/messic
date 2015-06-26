@@ -121,7 +121,7 @@ public class APIPlayLists
         {
             m3u.writeTo( baos, "UTF8" );
             // song not repeated
-            ZipEntry ze = new ZipEntry( mdoplaylist.getName()+".m3u" );
+            ZipEntry ze = new ZipEntry( mdoplaylist.getName() + ".m3u" );
             zos.putNextEntry( ze );
             byte[] bytes = baos.toByteArray();
             zos.write( bytes, 0, bytes.length );
@@ -170,7 +170,19 @@ public class APIPlayLists
             MDOSong mdoSong = daoSong.get( user.getLogin(), song.getSid() );
             if ( mdoSong != null )
             {
-                songs.add( mdoSong );
+                boolean found = false;
+                for ( int j = 0; j < songs.size(); j++ )
+                {
+                    if ( songs.get( j ).getSid() == mdoSong.getSid() )
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if ( !found )
+                {
+                    songs.add( mdoSong );
+                }
             }
             else
             {

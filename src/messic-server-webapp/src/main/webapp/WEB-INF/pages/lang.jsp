@@ -148,6 +148,8 @@ messicLang = {
     settingsConsistencyDeep:	 '<fmt:message key="js-settings-consistency-deep" bundle="${message}"/>',
     settingsConsistencyDeepWait: '<fmt:message key="js-settings-consistency-deepwait" bundle="${message}"/>',
     settingsConsistencyStopped: '<fmt:message key="js-settings-consistency-stopped" bundle="${message}"/>',
+    
+    settingsCreateSave: '<fmt:message key="js-settings-create-save" bundle="${message}"/>',
 	
 	playlistMustHaveName:	 '<fmt:message key="js-playlist-musthavename" bundle="${message}"/>',
 	playlistCreatedSucessfully:	 '<fmt:message key="js-playlist-createdsucessfully" bundle="${message}"/>',

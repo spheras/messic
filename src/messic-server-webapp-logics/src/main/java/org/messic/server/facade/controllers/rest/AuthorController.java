@@ -165,25 +165,35 @@ public class AuthorController
         }
     }
 
-    @ApiMethod( path = "/services/authors/checkAuthorFolderConsistency/{authorFolder}", verb = ApiVerb.POST, description = "Check the consistency general consistency of the database against the file system... check if there are empty folders, without defined entities at the database, and so on", produces = {
+    @ApiMethod( path = "/services/authors/checkAuthorFolderConsistency/{authorFolder}?user={userLogin}", verb = ApiVerb.POST, description = "Check the consistency general consistency of the database against the file system... check if there are empty folders, without defined entities at the database, and so on. By default of the current user (you can select the user). Need to be administrator.", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized remove this user" ) } )
-    @RequestMapping( value = "/checkAuthorFolderConsistency/{authorFolder}", method = RequestMethod.POST )
+    @RequestMapping( value = "/checkAuthorFolderConsistency/{authorFolder:.+}", method = RequestMethod.POST )
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    protected List<FolderResourceConsistency> checkAuthorFolderConsistency( @ApiParam( name = "authorFolder", description = "name of the folder at the author level", paramType = ApiParamType.PATH, required = true ) @PathVariable String authorFolder )
+    protected List<FolderResourceConsistency> checkAuthorFolderConsistency( @ApiParam( name = "authorFolder", description = "name of the folder at the author level", paramType = ApiParamType.PATH, required = true ) @PathVariable String authorFolder,
+                                                                            @RequestParam( value = "user", required = false ) @ApiParam( name = "user", description = "user from which we want the information.. if not comming, then the current user", paramType = ApiParamType.QUERY, required = false ) String user )
         throws NotAuthorizedMessicRESTException, UnknownMessicRESTException
     {
         try
         {
-            User user = SecurityUtil.getCurrentUser();
-            MDOUser mdoUser = userDAO.getUserByLogin( user.getLogin() );
-            if ( mdoUser != null && mdoUser.getAdministrator() )
+
+            User cuser = SecurityUtil.getCurrentUser();
+            MDOUser mdoCurrentUser = userDAO.getUserByLogin( cuser.getLogin() );
+
+            if ( mdoCurrentUser != null && mdoCurrentUser.getAdministrator() )
             {
-                String userPath = mdoUser.calculateAbsolutePath( daoSettings.getSettings() );
-                return authorAPI.checkConsistencyFolder( user, new File( userPath + File.separatorChar + authorFolder ) );
+                MDOUser askedUser = mdoCurrentUser;
+                if ( user != null )
+                {
+                    askedUser = userDAO.getUserByLogin( user );
+                }
+
+                String userPath = askedUser.calculateAbsolutePath( daoSettings.getSettings() );
+                return authorAPI.checkConsistencyFolder( askedUser, new File( userPath + File.separatorChar
+                    + authorFolder ) );
             }
             else
             {
@@ -197,7 +207,7 @@ public class AuthorController
 
     }
 
-    @ApiMethod( path = "/services/authors/getAuthorFolders", verb = ApiVerb.GET, description = "get a list with all the folders at the author messic music folder", produces = {
+    @ApiMethod( path = "/services/authors/getAuthorFolders?user={login}", verb = ApiVerb.GET, description = "get a list with all the folders at the author messic music folder. You can send the login of the user which are inspecting.. if not comming this info, then the current user (need to be administrator)", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Not authorized remove this user" ) } )
@@ -205,16 +215,23 @@ public class AuthorController
     @ResponseStatus( HttpStatus.OK )
     @ResponseBody
     @ApiResponseObject
-    protected List<String> getAuthorFolders()
+    protected List<String> getAuthorFolders( @RequestParam( value = "user", required = false ) @ApiParam( name = "user", description = "user from which we want the information.. if not comming, then the current user", paramType = ApiParamType.QUERY, required = false ) String user )
         throws NotAuthorizedMessicRESTException, UnknownMessicRESTException
     {
         try
         {
-            User user = SecurityUtil.getCurrentUser();
-            MDOUser mdoUser = userDAO.getUserByLogin( user.getLogin() );
-            if ( mdoUser != null && mdoUser.getAdministrator() )
+            User cuser = SecurityUtil.getCurrentUser();
+            MDOUser mdoCurrentUser = userDAO.getUserByLogin( cuser.getLogin() );
+
+            if ( mdoCurrentUser != null && mdoCurrentUser.getAdministrator() )
             {
-                return authorAPI.getAuthorFolders( user );
+                MDOUser askedUser = mdoCurrentUser;
+                if ( user != null )
+                {
+                    askedUser = userDAO.getUserByLogin( user );
+                }
+
+                return authorAPI.getAuthorFolders( askedUser );
             }
             else
             {

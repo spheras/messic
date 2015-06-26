@@ -107,7 +107,7 @@ public class APIAuthor
      *         OK.
      */
     @Transactional
-    public List<FolderResourceConsistency> checkConsistencyFolder( User user, File faufolder )
+    public List<FolderResourceConsistency> checkConsistencyFolder( MDOUser user, File faufolder )
     {
         List<FolderResourceConsistency> result = new ArrayList<FolderResourceConsistency>();
 
@@ -206,10 +206,11 @@ public class APIAuthor
             }
 
         }
-        
-        if(result.isEmpty()){
+
+        if ( result.isEmpty() )
+        {
             FolderResourceConsistency frc = new FolderResourceConsistency();
-            result.add(frc);            
+            result.add( frc );
         }
         return result;
     }
@@ -221,11 +222,10 @@ public class APIAuthor
      * @return
      */
     @Transactional
-    public List<FolderResourceConsistency> checkConsistency( User user )
+    public List<FolderResourceConsistency> checkConsistency( MDOUser user )
     {
         List<FolderResourceConsistency> result = new ArrayList<FolderResourceConsistency>();
-        MDOUser mdoUser = daoUser.getUserByLogin( user.getLogin() );
-        String userPath = mdoUser.calculateAbsolutePath( daoSettings.getSettings() );
+        String userPath = user.calculateAbsolutePath( daoSettings.getSettings() );
         File fuserPath = new File( userPath );
         File[] authorFolders = fuserPath.listFiles();
         for ( File faufolder : authorFolders )
@@ -243,18 +243,24 @@ public class APIAuthor
      * @param user {@link User} scope
      * @return {@link List}<{@link String}/> List of folders at the messic music folder
      */
-    public List<String> getAuthorFolders( User user )
+    public List<String> getAuthorFolders( MDOUser user )
     {
-        MDOUser mdoUser = daoUser.getUserByLogin( user.getLogin() );
-        String userPath = mdoUser.calculateAbsolutePath( daoSettings.getSettings() );
+        String userPath = user.calculateAbsolutePath( daoSettings.getSettings() );
         File fuserPath = new File( userPath );
-        String[] list = fuserPath.list();
-        List<String> rlist = new ArrayList<String>();
-        for ( String string : list )
+        if ( fuserPath.exists() )
         {
-            rlist.add( string );
+            String[] list = fuserPath.list();
+            List<String> rlist = new ArrayList<String>();
+            for ( String string : list )
+            {
+                rlist.add( string );
+            }
+            return rlist;
         }
-        return rlist;
+        else
+        {
+            return new ArrayList<String>();
+        }
 
     }
 }

@@ -30,6 +30,14 @@ import org.springframework.transaction.annotation.Transactional;
 public interface DAOUser
     extends DAO<MDOUser>
 {
+
+    /**
+     * Check if exist any admin user at the database
+     * 
+     * @return boolean true->yes there is at least one admin user
+     */
+    boolean existAdminUser();
+
     /**
      * Obtain an user by its login
      * 

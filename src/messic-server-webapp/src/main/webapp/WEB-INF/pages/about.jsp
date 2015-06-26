@@ -14,17 +14,17 @@
             </c:if>
 
             <div id="content">
-                <label class="messic-about-version">Messic Version: ${version}</label>
+                <label class="messic-about-version">messic Version: ${version}</label>
                 <div id="messic-about-version" class="messic-about-title" onclick="aboutShowMessicVersion();">
-                    <div class="messic-about-title-title">About Messic</div>
+                    <div class="messic-about-title-title">About messic</div>
                 </div>
                 <div id="messic-about-faq" class="messic-about-title">
                     <div onclick="aboutExpandMenu($(this).parent())" class="messic-about-title-title">FAQ</div>
                     <p>This are some of our frequent asked questions. You can find a more complete vision at the <a href="https://github.com/spheras/messic/wiki/FAQ" target="_blank">github wiki</a>.</p>
                     <ul>
                         <li>
-                            <h1>What is Messic</h1>
-                            Messic comes from the union of two words:
+                            <h1>What is messic</h1>
+                            messic comes from the union of two words:
                             <ul>
                                 <li>
                                     <b>Mess</b>: A dirty or untidy state of things or of a place
@@ -61,7 +61,7 @@
                             We are working to improve compatibility, but please, please, update your navigator always you can. 
                         </li>
                         <li>
-                            <h1>Does Messic use a secure protocol SSL/TLS?</h1>
+                            <h1>Does messic use a secure protocol SSL/TLS?</h1>
                             Initially no, because it's intended to be at your home, inside your home network. But if you need, you can do it by modifying the configuration.
                             <br>Just open the messic monitor and open the configuration section. From there you can modify a set of options, and also to enable the security (also you can specify the https protocol).
                             <br>After a restart of the messic service, the connections will be done through the new https port, and probably your navigator will advise you because the messic certificate doesn't correspond to the url, and so on. This is normal, but if you want also to fix it, you only need to go to the folder [messic_folder]/jetty/etc/ and you will find there all the jetty configuration. Just touch the jetty-selector-ssl.xml file with your own configuration.
@@ -71,7 +71,7 @@
                             We need a lot of help. For example, translations of messic to other languages. At this time, we have not defined a protocol for external helps, but we will do. I think that the best way could be forking the project and pull request. You have a guide <a href="https://guides.github.com/activities/contributing-to-open-source/" target="_blank">here</a>.
                         </li>
                         <li>
-                            <h1>Can I use Messic for free?</h1>
+                            <h1>Can I use messic for free?</h1>
                             Yes, its free in both senses. It has a GPLv3 license.
                         </li>
                         <li>
@@ -88,19 +88,26 @@
                         </li>
                         <li>
                             <h1>Can I see messic from my mobile phone or tablet?</h1>
-                            It depends. We have tested some cases and usually it works, not perfectly, but works.  The best is to try and tell us your experience. We are working in this area, and also thinking to build native applications for android and ios.</a>.
+                            NEWS!: We have a new android native application for messic. More instructions <a href="http://spheras.github.io/messic/index.html#android" target="_blank">here</a>.
+                            For other platforms, it depends. We have tested some cases and usually it works, not perfectly, but works.  The best is to try and tell us your experience. We are working in this area, and also thinking to build native applications.</a>.
                         </li>
                     </ul>
                     <p>
                     </p>
                 </div>
                 <div id="messic-about-update" class="messic-about-title">
-                    <div onclick="aboutCheckUpdate()" class="messic-about-title-title">Messic Check Update</div>
+                    <div onclick="aboutCheckUpdate()" class="messic-about-title-title">messic Check Update</div>
+                </div>
+                <div id="messic-about-android" class="messic-about-title">
+                    <div onclick="aboutExpandMenu($(this).parent())" class="messic-about-title-title">messic 4 android</div>
+                    <p>
+                        It is available now a native app for android. This application will allow you to play music online and offline. You can find instructions <a href="http://spheras.github.io/messic/index.html#android" target="_blank">here</a> to install it at your mobile device.
+                    </p>
                 </div>
                 <div id="messic-about-contributors" class="messic-about-title">
                     <div onclick="aboutExpandMenu($(this).parent())" class="messic-about-title-title">Contributors</div>
                     <p>
-                        Messic is an open source GPLv3 project, but it has been build thanks to the support of a lot of existing libraries and graphical resources which are also open sources. This project is the way to say to all these people, thanks! At the current state of the project, there are not a significant number of contributors, but we hope to grown in the future. So please, If you can help us to improve, don't lost time and contact with us (see FAQ).
+                        messic is an open source GPLv3 project, but it has been build thanks to the support of a lot of existing libraries and graphical resources which are also open sources. This project is the way to say to all these people, thanks! At the current state of the project, there are not a significant number of contributors, but we hope to grown in the future. So please, If you can help us to improve, don't lost time and contact with us (see FAQ).
                     </p>
                     <p>
                         Here is the list of the current contributors:
@@ -113,7 +120,7 @@
                         </ul>
                     </p>
                     <p>
-                        Graphical resources used by the Messic UI from third parties:
+                        Graphical resources used by the messic UI from third parties:
                         <br>
                         <ul>
                             <li>A lot of graphical resources from <a href="http://freepsdfiles.net" target="_blank">Free PSD Files</a>
@@ -129,6 +136,7 @@
                             </li>
                             <li>Some fonts from <a href="http://www.google.com/fonts" target="_blank">Google Fonts</a>
                             </li>
+                            <li>The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the Creative Commons 3.0 Attribution License.</li>
                             <li>Some icons by <a href="http://tatice.deviantart.com/" target="_blank">Tatice</a>
                             </li>
                         </ul>

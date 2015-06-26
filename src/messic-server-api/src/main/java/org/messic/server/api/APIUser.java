@@ -78,8 +78,8 @@ public class APIUser
             }
 
             // first we remove genres of the user
-            //daoGenre.removeAllGenres( mdoUserToRemove.getLogin() );
-            //daoGenre.flush();
+            // daoGenre.removeAllGenres( mdoUserToRemove.getLogin() );
+            // daoGenre.flush();
             // finally we remove the user
             daoUser.remove( mdoUserToRemove );
         }
@@ -129,7 +129,7 @@ public class APIUser
 
     public User createUser( User user )
     {
-        boolean existAdministrator = daoUser.existUsers();
+        boolean existAdministrator = daoUser.existAdminUser();
         if ( !existAdministrator )
         {
             user.setAdministrator( Boolean.TRUE );

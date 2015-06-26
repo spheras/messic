@@ -315,6 +315,7 @@
     margin-left: 15px;
     cursor: pointer;
 }
+/*	http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/128/Places-user-trash-icon.png */
 
 .messic-user-settings-content-users-resetpassword:active {
     background-position: -26px 1px;
@@ -323,7 +324,27 @@
 .messic-user-settings-content-users-resetpassword:hover {
     background-position: -26px 0;
 }
+
+
+
+.messic-user-settings-content-users-checkconsistency {
+    background: url("user/checkconsistency.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    height: 32px;
+    width: 26px;
+    float: left;
+    margin-left: 15px;
+    margin-top: 5px;
+    cursor: pointer;
+}
 /*	http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/128/Places-user-trash-icon.png */
+
+.messic-user-settings-content-users-checkconsistency:active {
+    background-position: -26px 1px;
+}
+
+.messic-user-settings-content-users-checkconsistency:hover {
+    background-position: -26px 0;
+}
 
 #messic-user-settings-removeaccount {
     background: url("user/Places-user-trash-icon.png") no-repeat scroll center center / 90px auto rgba(200, 200, 200, 0.31);
@@ -493,6 +514,17 @@
     width: 500px;
 }
 
+.messic-settings-consistency-user {
+    color: #00caca;
+    font-family: Roboto-bold;
+    font-size: 25px;
+    font-weight: bold;
+    margin-right: 20px;
+    position: absolute;
+    right: 0;
+    text-shadow: 1px 0 0 #008989;
+    top: -19px;
+}
 .messic-settings-consistency-title {
     color: #666666;
     font-family: Amaranth;

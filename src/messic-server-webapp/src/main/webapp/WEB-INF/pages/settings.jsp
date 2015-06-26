@@ -24,9 +24,13 @@
 					<div class="messic-user-settings-menu-container">
 						<%
 						boolean creation=(Boolean)request.getAttribute("creation");
+		                User user = (User) request.getAttribute("user");
+                           
 						if(!creation){
 						%>
-						<div onclick="removeAccount(100)" id="messic-user-settings-removeaccount" title="<fmt:message key="settings-remove-account-title" bundle="${ message }"/>"></div>
+                            
+						<div onclick="removeAccount(<%=user.getSid()%>)" id="messic-user-settings-removeaccount" title="<fmt:message key="settings-remove-account-title" bundle="${ message }"/>"></div>
+                            
 						<%
 						}
 						%>
@@ -38,7 +42,6 @@
 							<label class="messic-user-settings-menu-option-subtitle"><fmt:message key="settings-menu-basic-description" bundle="${ message }"/></label>
 						</div>
 						<%
-						   User user = (User) request.getAttribute("user");
 						   if(user.getAdministrator()){ 
 						%>
 						<div id="messic-user-settings-menu-admin" class="messic-user-settings-menu-option-unselected">
@@ -146,13 +149,21 @@
 										<div class="divclearer"></div>
 									</li>
 									<li>
+                                    <%
+                                    if(!creation){
+                                    %>
                                         <!-- button to check the consistency of the database and resource files -->
                                         <button id="messic-user-settings-admin-checkconsistency" class="button checkconsistency" onclick="showConsistencyPanel()"><fmt:message key="settings-content-admin-checkconsistency" bundle="${ message }"/></button>
+                                    <%
+                                    }
+                                    %>                                        
                                     </li>
 								</ul>
+                                        
 									<%
-									List<User> users=(List<User>)request.getAttribute("users");
-									if(users!=null){
+            						if(!creation){
+                                       List<User> users=(List<User>)request.getAttribute("users");
+									   if(users!=null){
 									%>
 										<label><fmt:message key="settings-content-admin-users-title" bundle="${ message }"/></label>
 										<table id="messic-user-settings-content-users-table">
@@ -167,19 +178,23 @@
 											<tbody>
 											<%for(int i=0;i<users.size( );i++){
 												User useri=users.get(i);
+                                                String username=useri.getName();
 											%>
 												<tr>
 													<td><%=useri.getName()%></td>
 													<td><%=useri.getLogin()%></td>
 													<td class="messic-user-settings-users-col-actions">
 														<div id="messic-user-settings-content-users-remove" class="messic-user-settings-content-users-remove" title="<fmt:message key="settings-content-admin-users-action-remove" bundle="${ message }"/>" onclick="settingsRemoveUser(<%=useri.getSid()%>,'${messic:escapeAll(useri.name)}',$(this).parent().parent())"></div>
-														<div id="messic-user-settings-content-users-resetpassword" class="messic-user-settings-content-users-resetpassword" title="<fmt:message key="settings-content-admin-users-action-resetpassword" bundle="${ message }"/>" onclick="settingsResetPassword(<%=useri.getSid()%>,'${messic:escapeAll(useri.name)}')"></div>
+														<div id="messic-user-settings-content-users-resetpassword" class="messic-user-settings-content-users-resetpassword" title="<fmt:message key="settings-content-admin-users-action-resetpassword" bundle="${ message }"/>" onclick="settingsResetPassword(<%=useri.getSid()%>,'${messic:escapeAll(username)}')"></div>
+														<div id="messic-user-settings-content-users-checkconsistency" class="messic-user-settings-content-users-checkconsistency" title="<fmt:message key="settings-content-admin-users-action-checkconsistency" bundle="${ message }"/>" onclick="showConsistencyPanel('<%=useri.getLogin()%>','<%=useri.getName()%>')"></div>
 													</td>
 												</tr>
 											<%}%>
 											</tbody>
 										</table>
-										<%}%>
+								    <%
+                                        }
+                                    }%>
 							</div>
 							<%}%>
 							<div id="messic-user-settings-content-music" class="messic-user-settings-container messic-user-settings-menu-notvisible">

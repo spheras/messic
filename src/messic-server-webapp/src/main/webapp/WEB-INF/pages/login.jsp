@@ -12,8 +12,8 @@
         <head>
             <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-            <title>Messic</title>
-            <meta name="description" content="Messic for the music mess">
+            <title>messic</title>
+            <meta name="description" content="messic for the music mess">
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
             <link rel="shortcut icon" href="img/messic-icon.png" type="image/png">
@@ -71,6 +71,10 @@
 	            <p class="browsehappy"><fmt:message key="login-outdated" bundle="${message}"/></p>
 	        <![endif]-->
 	        
+            <div id="messic-login-android-container">
+                <div id="messic-login-android-logo"></div>
+                <div id="messic-login-android-explanation"><fmt:message key="login-android" bundle="${message}" /></div>
+            </div>
 	        
             <label class="messic-login-version">${version}</label>
             <div id="messic-login-window" style="display:none">

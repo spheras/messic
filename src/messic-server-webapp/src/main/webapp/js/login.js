@@ -46,8 +46,14 @@ function loginSucessfull(messic_token) {
         type: "GET",
         url: "main.do",
         success: function (data) {
+
             $("#messic-logo1").attr("class", "messic-main");
             $("#messic-logo2").attr("class", "messic-main");
+
+            //removing android note
+            $("#messic-login-android-container").fadeOut(1000, function () {
+                $(this).remove();
+            });
 
             //let's hide and remove the login window!
             $("#messic-login-window").fadeOut(1000, function () {
