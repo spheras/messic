@@ -288,6 +288,23 @@ aside a.button.android:before {
     width: 60px;
 }
 
+aside a.googleplay {
+    background: rgba(0, 0, 0, 0) url("../images/en_app_rgb_wo_60.png") repeat scroll 0 0 / 100% 100%;
+    display: block;
+    height: 60px;
+    margin-bottom: 18px;
+    width: 172px;
+}
+
+aside a.amazonapps {
+    background: rgba(0, 0, 0, 0) url("../images/amazon-apps-store-us-black.png") repeat scroll 0 0 / 100% 100%;
+    display: block;
+    height: 60px;
+    margin-bottom: 50px;
+    width: 172px;
+}
+
+
 aside a.button {
     background: none repeat scroll 0 0 #5555ff;
     border: 4px solid #aaaaff;
