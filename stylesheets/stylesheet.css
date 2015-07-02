@@ -984,3 +984,22 @@ love {
     position: absolute;
     right: 0px;
 }
+
+
+#langs {
+    height: 20px;
+    width: 100%;
+}
+
+
+#langs > p {
+    float: left;
+    width: 129px;
+}
+#lang_spanish {
+    background: rgba(0, 0, 0, 0) url("../images/spain_fluttering_flag_64.png") no-repeat scroll 0 0 / 32px 25px;
+    float: left;
+    height: 28px;
+    width: 34px;
+    cursor: pointer;
+}

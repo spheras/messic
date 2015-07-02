@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name="Description" CONTENT="Music Catalog and Player">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="stylesheets/webicons.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/animate.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/api.css" media="screen">
+    <link rel="shortcut icon" href="images/messic-icon.png" type="image/png">
+
+    <!--[if lt IE 11]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+    <title>messic</title>
+</head>
+
+<body>
+    <header class="messic-header1">
+        <div>
+            <div class="messic-logo-mini animated bounceIn" onclick="window.location.reload();window.scrollTo(0,0);">messic</div>
+            <div class="messic-menu">
+                <a href="https://github.com/spheras/messic/issues" target="_blank" class="animated fadeInDown messic-menu-contribute">Incidencias</a>
+                <a href="#api" class="animated fadeInDown messic-menu-api">API Docs</a>
+                <a href="https://github.com/spheras/messic/wiki/" target="_blank" class="animated fadeInDown messic-menu-wiki">Wiki</a>
+                <a href="#android" class="animated fadeInDown messic-menu-download">Android</a>
+                <a href="#downloads" class="animated fadeInDown messic-menu-download">Descargas</a>
+                <a href="#faq" class="animated fadeInDown messic-menu-faq">FAQ</a>
+            </div>
+
+            <div class="messic-social svg">
+                <a title="GitHub" href="http://www.github.com/spheras/messic" class="webicon github" target="_blank"></a>
+                <a title="Google Groups" href="http://groups.google.com/group/messic" class="webicon mail" target="_blank"></a>
+                <a title="Twitter" href="http://twitter.com/messicapp" class="webicon twitter" target="_blank"></a>
+                <a title="Huboard" href="https://huboard.com/spheras/messic" class="webicon huboard" target="_blank"></a>
+            </div>
+
+        </div>
+    </header>
+    <header class="messic-header2">
+        <div class="messic-monster"></div>
+        <div class="inner animated fadeIn">
+            <h1>mes<love>s</love>ic</h1>
+            <h2>Organizador y reproductor de música con <strong>♥</strong></h2>
+        </div>
+        <div id="galleria">
+            <a href="images/gallery/image1.png">
+                <img src="images/gallery/image1.png" , data-big="images/gallery/image1.png" data-title="Login" data-description="Login page for the multiuser purposes.">
+            </a>
+            <a href="images/gallery/image2.png">
+                <img src="images/gallery/image2.png" , data-big="images/gallery/image2.png" data-title="Random Playlists" data-description="Automatic lists of music.">
+            </a>
+            <a href="images/gallery/image3.png">
+                <img src="images/gallery/image3.png" , data-big="images/gallery/image3.png" data-title="Album catalog" data-description="Album catalog filtered by date, genre, authors, ...">
+            </a>
+            <a href="images/gallery/image4.png">
+                <img src="images/gallery/image4.png" , data-big="images/gallery/image4.png" data-title="User Playlists" data-description="User playlists.">
+            </a>
+        </div>
+        <div class="messic-version">1.0.1</div>
+
+    </header>
+
+    <div id="content-wrapper">
+        <div class="inner clearfix">
+            <section id="main-content">
+                <h3>
+<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Bienvenido a la página web de messic.</h3>
+                <p>
+                    el nombre de messic proviene de la unión de dos palabras (en inglés):
+                    <ul>
+                        <li>
+                            <strong>Mess</strong>: Confusión y alteración del orden.
+                        </li>
+                        <li>
+                            <strong>Music</strong>: Melodía, ritmo y armonía, combinados.
+                        </li>
+                    </ul>
+
+                    El objetivo del proyecto es convertir este desorden de tu catálogo de música en una discoteca ordenada, permitiendo su reproducción y búsqueda de una manera sencilla y amable. Las principales características son:
+                    <br>
+                    <br>
+                    <ul>
+                        <li>
+                            ¡Totalmente <strong>GRATUITO</strong> y <strong>OPEN SOURCE</strong>! el proyecto messic no busca ningún beneficio personal, es un bien cultural.
+                        </li>
+                        <li>
+                            Ordena tu catálogo de música de la forma más automática posible, y tú música es siempre tuya.  Tu música NO se sube a la nube, sino en tu casa en el directorio que hayas elegido para guardarla y reproducirla.
+                        </li>
+                        <li>
+                            Reproduce la música en un sistema muy sencillo y agradable de usar, con una bonita interfaz.
+                        </li>
+                        <li>
+                            Messic es consultado principalmente vía web, por tanto podemos publicar el servicio en cualquier PC de nuestro hogar y consumirlo desde cualquier otro dispositivo de nuestra red con tan sólo un navegador.
+                        </li>
+                        <li>
+                            Es multiusuario, con cuentas independientes.
+                        </li>
+                        <li>
+                            Está centrado en nuestro catálogo personal de música. La idea es administrar y escuchar nuestro propio catálogo personal de música, desde casa y sin subir nada a internet.
+                        </li>
+                    </ul>
+                </p>
+
+                <h3>
+<a id="downloads" name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Download and Install</h3>
+
+                <p>Puedes descargar messic desde los links de la sección de descargas. Allí encontrarás links de messic para Linux, Mac y Windows. Selecciona la vesión más apropiada para tu sistema e instálalo.</p>
+                <ul>
+                    <li><a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-windows.exe" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-windows.exe'); return false;">messic 1.0.1</a> Instalador Windows
+                    </li>
+                    <li><a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-windows.zip" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-windows.zip'); return false;">messic 1.0.1</a> Zip Windows
+                    </li>
+                    <li><a class="button-linux" href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.tar.gz" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.tar.gz'); return false;">messic 1.0.1</a> Linux .Gz
+                    </li>
+                    <li><a class="button-linux" href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.rpm" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.rpm'); return false;">messic 1.0.1</a> Linux RPM
+                    </li>
+                    <li><a class="button-linux" href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.deb" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.deb'); return false;">messic 1.0.1</a> Linux DEB
+                    </li>
+                    <li><a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-mac.tar.gz" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-mac.tar.gz'); return false;">messic 1.0.1</a> Mac .Gz
+                    </li>
+                    <li><a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-mac.dmg" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-mac.dmg'); return false;">messic 1.0.1</a> Mac Installer DMG
+                    </li>
+                </ul>
+                <p><b>Nuevo!</b> Ahora puedes escuchar la música de tu servidor messic en un cliente nativo Android, como tu teléfono móvil. Vea más detalles <a href="#android">aquí</a></p>
+
+                <a name="designer-templates" id="android" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>&nbsp;</h3>
+                <h3>
+                </span></a>Nuevo! Cliente android</h3>
+
+                <p>Desde hace poco messic dispone también de un cliente Android nativo. Gracias a este cliente te podrás conectar a tu servidor messic de una forma sencilla, reproduciendo todo tu material de una manera online o descargando tu música a tu dispositivo para escucharla más tarde.</p>
+                <p>Puedes descargar la app desde tu almacén de aplicaciones favorito (mira los links a la derecha), o si lo prefieres, puedes descargar directamente el fichero APK e instalarlo manualmente en tu dispositivo:</p>
+                <ul>
+                    <li>Desde tu dispositivo android, ve a Configuración(Settings), navega hacia abajo hasta Seguridad(Security), y selecciona Fuentes Desconocidas(Unknown sources).</li>
+                    <li>Descarga <a href="https://github.com/spheras/messic-android/releases/download/v1.0.2/messic-client-android_v1.0.2_signed.apk" onclick="trackOutboundLink('https://github.com/spheras/messic-android/releases/download/v1.0.2/messic-client-android_v1.0.2_signed.apk'); return false;">el fichero APK</a> desde tu dispositivo (o copialo a tu dispositivo).</li>
+                    <li>Una vez que el fichero APK está dentro de tu dispositivo tan sólo necesitas buscarlo (quizás necesites para esto algún explorador de ficheros, o ir a la sección de descargas).</li>
+                    <li>Instala la app haciendo click en el fichero APK.</li>
+                </ul>
+
+                <h3>
+<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Última version inestable</h3>
+
+                <p>Nuestra recomendación es descargar sólo la última versión estable, pero si te gusta vivir al filo de la navaja y necesitas tener la última versión de messic, siempre puedes descargarlo directamente de github.  Por el momento necesitarás compilarlo, pero esperamos tener pronto "night builds" disponibles.</p>
+
+                <h3>
+<a name="designer-templates" id="faq" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>FAQ</h3>
+
+                <ul class="faq">
+                    <li>
+                        <h4>¿Qué navegadores son compatibles?</h4> Esencialmente todos aquellos compatibles con html5 y css3, pero no es cierto realmente.  Por favor, actualiza tu navegador preferido a la última versión y probablemente no tengas problemas.  Navegadores que están bastante testeados son Firefox y Chrome.
+                        <br>
+                        <br>Si estás utilizando Microsoft Internet Explorer... bueno, buena suerte (parece que la última versión es más o menos estable). Hemos probado con google chrome (algunas versiones de chromium para linux parecen tener problemas reproduciendo ficheros mp3 de forma nativa), firefox, safari (desde la versión 6.1).. Konkeror parece que tiene problemas :(
+                        <br>Puedes ver en la <a href="https://github.com/spheras/messic/wiki/Navigator-Compatibility-Table" target="_blank">wiki</a> una tabla con los resultados de los usuarios lanzando messic desde diferentes navegadores.  Cualquier ayuda rellenando esta tabla con información real es más que bienvenida.
+                        <br>
+                        <br>Estamos trabajando para mejorar nuestra compatibilidad, pero <strong>por favor, por favor, actualiza tu navegador siempre que puedas</strong>.
+                    </li>
+                    <li>
+                        <h4>¿Puedo compartir la música que tengo en messic a través del protocolo DLNA con otros dispositivos?</h4> ¡Sí!, puedes hacerlo. Para ello necesitas activar la compartición DLNA en la página de configuración de messic. Hay dos cosas que necesitar activar. La primera es que la configuración general permita DLNA.  Esto sólo lo puede hacer el administrador de messic.  Si está habilitado, entonces cada usuario puede habilitar o desabilitar la compartición DLNA de su música desde la sección de música.
+                        <br>
+                        <br>Por favor, ten en cuenta que el protocolo DLNA no provee de mecanismos de seguridad, por lo tanto, si permites la compartición DLNA, cualquier dispositivo de tu hogar podría obtener información de messic.  Esto no debería ser un problema si tienes controlado los dispositivos que acceden a tu red, pero tenlo en cuenta.
+                        <br>Hemos probado conectando algunos dispositivos DLNA a messic, pero hay una gran varidad en el mercado.  Estamos trabajando construyendo una tabla con información obtenida de los usuarios. <a href="https://github.com/spheras/messic/wiki/DLNA-Compatibility-Table" target="_blank">Consúltala para ver si tu dispositivo ha sido probado</a>. Cualquier información sobre la compatibilidad DLNA de messic es más que bienvenida.
+                    </li>
+                    <li>
+                        <h4>¿messic usa un protocolo seguro SSL/TLS para las comunicaciones?</h4> Inicialmente no, porque la intención de messic es ser usado en tu hogar, dentro de la seguridad de tu red, donde se supone que no hay nada malicioso. Pero, si lo necesitas, puedes activar la seguridad modificando la configuración de messic en la consola de inicio.
+                        <br>
+                        <br>Tan sólo necesitas abrir el monitor de messic y abrir la sección de configuración.  Desde allí puedes modificar un conjunto de opciones, y puedes habilitar también la seguridad (incluso puedes especificar el puerto https)
+                        <br>
+                        <br>Después de reiniciar el servicio de messic, las conexiones se realizarán a través del puerto https, y probablemente tu navegador te avise porque el certificado de messic no corresponde con la url.. Esta situación es normal, pero si quieres también puedes solucionarlo.  Lo único que necesitas hacer es ir a la carpeta [messic_folder]/jetty/etc/ y allí encontrarás toda la configuración de jetty.  Tan sólo edita el fichero jetty-selector-ssl.xml con la configuración que necesitas.
+                        <br>Otra importante cuestión es la imposibilidad de compartir contenido sobre DLNA cuando la seguridad está activada.  Esto es debido realmente a los problemas de la validación del certificado genérico proporcionado.
+                    </li>
+                    <li>
+                        <h4>¿Cómo puedo ayudar en el proyecto?</h4> Necesitamos un montón de ayuda.  Por ejemplo, traducciones de messic a otros lenguajes.  En este momento no tenemos definido un protocolo para ayudas externas, pero lo haremos con el tiempo.  Para nosotros es muy útil si nos notificas y describes los problemas que encuentres en messic.  Nos ayuda mucho a mejorar la aplicación.  También nos puedes decir cuáles serían tus mejoras deseadas para la siguiente version.
+                        <br>
+                        <br>Realmente necesitamos mucha ayuda, como diseñadores gráficos, programadores, etc.. quizás, si quieres trabajar seriamente con nosotros, la mejor manera sea crear un fork del proyecto y hacer un petición de pull. <a href="https://guides.github.com/activities/contributing-to-open-source/" target="_blank">Aquí</a> tienes una guía de cómo hacerlo.
+                    </li>
+                    <li>
+                        <h4>¿Puedo usar messic de manera gratuita?</h4> ¡Sí!, messic es totalmente gratuito y libre. Tiene una licencia GPLv3.
+                    </li>
+                    <li>
+                        <h4>¿Dónde está el código fuente?</h4> Aquí: <a href="https://github.com/spheras/messic" target="_blank">https://github.com/spheras/messic</a>
+                    </li>
+                    <li>
+                        <h4>Quiero mover mi carpeta de música a otro lugar. ¿Cómo puedo hacerlo?</h4> De acuerdo, es muy sencillo.  Toda la información de messic está contenida dentro de la carpeta de música (incluida la base de datos).  Por lo tanto, tan sólo necesitas parar el servicio de messic, mover TODA la carpeta (la que está configurada en el monitor de messic).  Después de eso, abre el monitor de messic y actualiza la configuración a la nueva localización en la sección de configuración.  Finalmente, puedes lanzar el servicio de messic de nuevo con esta nueva localización.
+
+                    </li>
+                    <li>
+                        <h4>Algunas páginas de messic aparecen descuadradas. ¿Qué puedo hacer?</h4> Bien, en la mayoría de casos, debes actualizar tu navegador.  En el caso de que utilices Internet Explorer, bueno... es mejor que cambies de navegador!  Dale una oportunidad a otros navegadores como <a href="https://www.mozilla.org" target="_blank">firefox</a> o <a href="http://www.google.com/intl/en/chrome/" target="_blank">chrome</a>.
+                    </li>
+                    <li>
+                        <h4>¿Puedo ver messic desde mi móvil o tablet?</h4> ¡NUEVO!: Ahora puedes descargar una aplicación nativa para Android!!. Más información <a href="#android">aquí</a>.  En general puedes abrir la página web de messic desde cualquier navegador de tu dispositivo.  Hemos probado algunos casos y normalmente funciona, aunque no perfectamente... pero funciona.  Lo mejor es que lo intentes y nos cuentes tu experiencia.  Estamos trabajando en este área, y también pensando en crear otras aplicaciones nativas.</a>.
+                    </li>
+                </ul>
+
+                <a id="api" name="api" href="#api"></a>
+                <br>
+                <br>
+                <h3><span class="octicon octicon-link"></span>API</h3>
+                <div class="apisection"></div>
+            </section>
+
+            <aside id="sidebar">
+                <a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-windows.exe" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-windows.exe'); return false;" class="button windows">
+                    <small>Descargar messic 1.0.1</small> Installer version
+                </a>
+                <a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-windows.zip" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-windows.zip’); return false;" class="button windows">
+                    <small>Descargar messic 1.0.1</small> .Zip version
+                </a>
+                <a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-mac.tar.gz" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-mac.tar.gz'); return false;" class="button mac">
+                    <small>Descargar messic 1.0.1</small> .Gz version
+                </a>
+                <a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-mac.dmg" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-mac.dmg'); return false;" class="button mac">
+                    <small>Descargar messic 1.0.1</small> Installer DMG version
+                </a>
+                <a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.tar.gz" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.tar.gz'); return false;" class="button linux">
+                    <small>Descargar messic 1.0.1</small> .Gz version
+                </a>
+                <a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.rpm" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.rpm'); return false;" class="button linux">
+                    <small>Descargar messic 1.0.1</small> RPM version
+                </a>
+                <a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.deb" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.deb'); return false;" class="button linux">
+                    <small>Descargar messic 1.0.1</small> DEB version
+                </a>
+                <a href="https://github.com/spheras/messic-android/releases/download/v1.0.2/messic-client-android_v1.0.2_signed.apk" onclick="trackOutboundLink('https://github.com/spheras/messic-android/releases/download/v1.0.2/messic-client-android_v1.0.2_signed.apk'); return false;" class="button android">
+                    <small>Descargar Android messic APK</small> Android version
+                </a>
+                <a href="https://play.google.com/store/apps/details?id=org.messic.android" target="_blank" onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=org.messic.android'); return false;" class="googleplay"></a>
+                <a href="http://www.amazon.com/gp/product/B010LXOPB0/ref=mas_pm_messic" target="_blank" onclick="trackOutboundLink('http://www.amazon.com/gp/product/B010LXOPB0/ref=mas_pm_messic'); return false;" class="amazonapps"></a>
+
+                <p>Esta página fue parcialmente generada por <a href="https://pages.github.com">GitHub Pages</a> usando el tema  Architect de <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+            </aside>
+        </div>
+    </div>
+
+
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="javascripts/galleria-1.4.2.min.js"></script>
+    <script src="javascripts/main.js"></script>
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-53893780-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+
+</html>
