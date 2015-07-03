@@ -1003,3 +1003,8 @@ love {
     width: 34px;
     cursor: pointer;
 }
+
+p.comnents {
+    clear: both;
+    width: 100%;
+}
