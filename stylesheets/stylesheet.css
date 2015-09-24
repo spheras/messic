@@ -165,7 +165,7 @@ header h1 {
 
 header h2 {
     color: #dddddd;
-    font-size: 26px;
+    font-size: 22px;
     font-weight: bold;
     letter-spacing: 0;
     line-height: 1.3;
@@ -1017,4 +1017,13 @@ love {
 p.comnents {
     clear: both;
     width: 100%;
+}
+
+p.news_date {
+    font-family: "verdana";
+    font-size: 10px;
+    margin: 1px;
+    margin-top: -11px;
+    margin-left: -13px;
+    color: darkgrey;
 }
