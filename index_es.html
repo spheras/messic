@@ -71,7 +71,15 @@
     <div id="content-wrapper">
         <div class="inner clearfix">
             <section id="main-content">
+                
+                <div id="langs">
+                <p>Otros Idiomas: <div id="lang_english" onclick="document.location.href='index.html'"></div></p>
+                </div>
                 <p class="comnents"> Por favor, deja <a href="discus.html">aquí</a> tus comentarios sobre messic</p>
+
+            <h3><a name="new-1.0.2_version" class="anchor" href="#new-1.0.2_version"><span class="octicon octicon-link"></span></a>¡Buenas Noticias! Versión 1.0.1 publicada.</h3>
+                <p>Después de varios arreglos menores por fin tenemos disponible la primera versión de messic que consideramos estable. Esperamos que la disfruten y nos informéis si localizais problemas así como de todas las ideas que se ocurran para decidir el futuro de messic. <strong>¡Recuerda! Necesitamos tu ayuda para seguir mejorando messic</strong></p>
+
                 <h3>
 <a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Bienvenido a la página web de messic.</h3>
                 <p>
@@ -105,13 +113,22 @@
                             Es multiusuario, con cuentas independientes.
                         </li>
                         <li>
-                            Está centrado en nuestro catálogo personal de música. La idea es administrar y escuchar nuestro propio catálogo personal de música, desde casa y sin subir nada a internet.
+                            Está centrado en tu catálogo personal de música. La idea es administrar y escuchar tu propio catálogo personal de música, desde casa y sin subir nada a internet.
                         </li>
                     </ul>
                 </p>
 
                 <h3>
-<a id="downloads" name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Download and Install</h3>
+<a id="detail" name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>No lo he entendido bien ¿Para qué sirve messic y cómo funciona?</h3>
+        <p>Imaginemos que aprecias la música que escuchas hasta el punto que quieres coleccionarla y tenerla fácilmente accesible y ordenada para poder escucharla en cualquier momento. Imagina además que los servicios de música en la nube (tipo spotify) no ofrecen todo el catálogo de música que a tí te gusta, o es incompleto, o no está bien organizado en algunos casos, o simplemente no crees en un servicio que te puede dejar tirado algún día, o prefieres ser dueño de la música que compras y no tener un simple derecho de alquiler que ni siquiera pueden heredar tus hijos, ...  Si ese es tu caso, <strong>messic está hecho para tí</strong>.</p>
+<p>Tan sólo tienes que descargar el servicio messic para la plataforma que desees (windows, mac o linux) e instalarlo en un equipo cualquiera de tu hogar.  Una vez instalado, podrás levantar y parar el servicio cada vez que lo desees.  Este servicio te proveerá un acceso web a la <strong>interfaz web de messic</strong>, es decir, desde ese mismo pc o cualquier otro (incluso desde tus dispositivos Android o IOS) podrás ver la web de messic tan sólo abriendo un navegador y colocando la url del equipo en el que lo has instalado (probablemente algo parecido a http://192.168.1.X:8080/messic. Esta url dependerá del equipo donde lo hayas instalado dentro de tu red.. <strong>no te preocupes, el servicio messic te dirá cuál es tu URL cuando lo ejecutes</strong>).
+</p>
+        <p>
+        Es decir, ya has instalado el servicio messic en un pc de tu hogar y ahora, desde ese mismo equipo, o cualquier otro, te dispones a acceder a su interfaz web para empezar a administrar tu música.  Accedes a la web de messic (recuerda que esto es parte de tu red, no está en internet) y por ejemplo te dispones a subir música.  Para ello seleccionas los ficheros de audio que quieras, adjuntando además portadas del album y cualquier otro recurso que quieras como lyrics, etc..  Podrás colocar la información extra del disco que estás subiendo como año de publicación, nombre de las canciones, etc.. o apoyarte en messic para descubrir esta información de los Tags de los mp3 que has adjuntado, o bien usando otros servicios como freedb o discogs que te proporciona messic.  Por supuesto puedes utilizar esta misma interfaz para escuchar tu música siempre que desees, o incluso activar la opción de compartición por el protocolo DLNA con otros dispositivos de tu casa.
+        </p>
+        <p>Toda esa música que estás subiendo se va guardando de manera ordenada en la carpeta que has elegido durante la instalación del servicio messic, de manera que puedas acceder a ella directamente sin necesidad del servicio messic, <strong>haciendo que no tengas una dependencia con messic para seguir disfrutando de tu música ordenada en el futuro</strong>. Por otra parte, si el servicio está instalado en tu casa, en tu red y no quieres publicarlo hacia internet, puedes hacer uso del cliente Android para tu smartphone.  Desde este cliente te puedes conectar al servicio y disfrutar de la música que tengas allí alojada, así como descargar toda aquella música que quieras a tu terminal para poder disfrutarla en cualquier sitio, <strong>sin necesidad de conexión con tu servicio messic</strong>.</p>
+                <h3>
+<a id="downloads" name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Descargar e Instalar</h3>
 
                 <p>Puedes descargar messic desde los links de la sección de descargas. Allí encontrarás links de messic para Linux, Mac y Windows. Selecciona la vesión más apropiada para tu sistema e instálalo.</p>
                 <ul>
@@ -130,11 +147,18 @@
                     <li><a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-mac.dmg" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-mac.dmg'); return false;">messic 1.0.1</a> Mac Installer DMG
                     </li>
                 </ul>
-                <p><b>Nuevo!</b> Ahora puedes escuchar la música de tu servidor messic en un cliente nativo Android, como tu teléfono móvil. Vea más detalles <a href="#android">aquí</a></p>
-
+            
+            <p>Además ahora está disponible las versiones cliente (no el servicio messic) para smartphones Android y Android TV</p>
+        
+                <ul>
+                    <li><a href="https://github.com/spheras/messic-android/releases/download/v1.0.2/messic-client-android_v1.0.2_signed.apk" onclick="trackOutboundLink('https://github.com/spheras/messic-android/releases/download/v1.0.2/messic-client-android_v1.0.2_signed.apk'); return false;">messic Android Smartphone APK - Client 1.0.2</a></li>
+                    <li><a href="https://play.google.com/store/apps/details?id=org.messic.android" onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=org.messic.android'); return false;">messic Android Smartphone on Google Play - Client 1.0.2</a></li>
+                    <li><a href="https://play.google.com/store/apps/details?id=org.messic.android.messic_tv" onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=org.messic.android.messic_tv'); return false;">messic Android TV - Client 1.0.2</a></li>
+                </ul>
+            
                 <a name="designer-templates" id="android" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>&nbsp;</h3>
                 <h3>
-                </span></a>Nuevo! Cliente android</h3>
+                </span></a>¡Noticia! Cliente android</h3>
 
                 <p>Desde hace poco messic dispone también de un cliente Android nativo. Gracias a este cliente te podrás conectar a tu servidor messic de una forma sencilla, reproduciendo todo tu material de una manera online o descargando tu música a tu dispositivo para escucharla más tarde.</p>
                 <p>Puedes descargar la app desde tu almacén de aplicaciones favorito (mira los links a la derecha), o si lo prefieres, puedes descargar directamente el fichero APK e instalarlo manualmente en tu dispositivo:</p>
@@ -228,12 +252,18 @@
                 <a href="https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.deb" onclick="trackOutboundLink('https://github.com/spheras/messic/releases/download/v1.0.1/messic-1.0.1.app-linux.deb'); return false;" class="button linux">
                     <small>Descargar messic 1.0.1</small> DEB version
                 </a>
-                <a href="https://github.com/spheras/messic-android/releases/download/v1.0.2/messic-client-android_v1.0.2_signed.apk" onclick="trackOutboundLink('https://github.com/spheras/messic-android/releases/download/v1.0.2/messic-client-android_v1.0.2_signed.apk'); return false;" class="button android">
-                    <small>Descargar Android messic APK</small> Android version
-                </a>
+                <br>
+                <br>
+                <p><strong>¡Atención!</strong> Las versiones cliente para Android Smartphones y Android TV no contienen el servicio messic. Son sólo clientes del servicio que debe estar instalado en otro equipo</p>
                 <a href="https://play.google.com/store/apps/details?id=org.messic.android" target="_blank" onclick="trackOutboundLink('https://play.google.com/store/apps/details?id=org.messic.android'); return false;" class="googleplay"></a>
                 <a href="http://www.amazon.com/gp/product/B010LXOPB0/ref=mas_pm_messic" target="_blank" onclick="trackOutboundLink('http://www.amazon.com/gp/product/B010LXOPB0/ref=mas_pm_messic'); return false;" class="amazonapps"></a>
 
+                <p>En el caso de que prefieras instalar el fichero APK directamente en tu teléfono, lo puedes descargar aquí:</p>
+                <a href="https://github.com/spheras/messic-android/releases/download/v1.0.2/messic-client-android_v1.0.2_signed.apk" onclick="trackOutboundLink('https://github.com/spheras/messic-android/releases/download/v1.0.2/messic-client-android_v1.0.2_signed.apk'); return false;" class="button android">
+                    <small>Cliente Android messic APK</small> Android version
+                </a>
+
+                </br></br></br>
                 <p>Esta página fue parcialmente generada por <a href="https://pages.github.com">GitHub Pages</a> usando el tema  Architect de <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
             </aside>
         </div>

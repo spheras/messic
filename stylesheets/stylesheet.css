@@ -987,8 +987,10 @@ love {
 
 
 #langs {
-    height: 20px;
     width: 100%;
+    height: 30px;
+    width: 100%;
+    overflow: hidden;
 }
 
 
@@ -998,6 +1000,14 @@ love {
 }
 #lang_spanish {
     background: rgba(0, 0, 0, 0) url("../images/spain_fluttering_flag_64.png") no-repeat scroll 0 0 / 32px 25px;
+    float: left;
+    height: 28px;
+    width: 34px;
+    cursor: pointer;
+}
+
+#lang_english {
+    background: rgba(0, 0, 0, 0) url("../images/united_kingdom_fluttering_flag_64.png") no-repeat scroll 0 0 / 32px 25px;
     float: left;
     height: 28px;
     width: 34px;
