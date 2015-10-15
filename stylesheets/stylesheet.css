@@ -91,6 +91,8 @@ video {
     font: inherit;
     vertical-align: baseline;
 }
+
+
 /* HTML5 display-role reset for older browsers */
 
 article,
@@ -133,6 +135,8 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
+
 /* LAYOUT STYLES */
 
 body {
@@ -304,7 +308,6 @@ aside a.amazonapps {
     width: 172px;
 }
 
-
 aside a.button {
     background: none repeat scroll 0 0 #5555ff;
     border: 4px solid #aaaaff;
@@ -352,6 +355,8 @@ ol,
 dl {
     margin-bottom: 20px;
 }
+
+
 /* COMMON STYLES */
 
 hr {
@@ -382,6 +387,8 @@ form {
     background: #f2f2f2;
     padding: 20px;
 }
+
+
 /* GENERAL ELEMENT TYPE STYLES */
 
 #main-content h1 {
@@ -516,6 +523,8 @@ footer a {
 footer a:hover {
     color: #444;
 }
+
+
 /* MISC */
 
 .clearfix:after {
@@ -537,11 +546,17 @@ footer a:hover {
 .clearfix {
     display: block;
 }
+
+
 /* #Media Queries
 ================================================== */
+
+
 /* Smaller than standard 960 (devices and browsers) */
 
 @media only screen and (max-width: 959px) {}
+
+
 /* Tablet Portrait size to standard 960 (devices and browsers) */
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {
@@ -568,6 +583,8 @@ footer a:hover {
         margin-left: 0;
     }
 }
+
+
 /* All Mobile Sizes (devices and browser) */
 
 @media only screen and (max-width: 650px) {
@@ -638,25 +655,28 @@ footer a:hover {
         margin-left: 0;
     }
 }
+
+
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {}
+
+
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 
 @media only screen and (max-width: 479px) {}
+
+
 /* messic monster */
 
 .messic-monster {
-    background:url("../images/messic.png") repeat scroll 0 0 rgba(0,
-    0,
-    0,
-    0);
-    -webkit-background-size:100% 100%;
-    background-size:100% 100%;
-    height:300px;
-    left:5px;
-    position:absolute;
-    width:200px;
+    background: url("../images/messic.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+    height: 300px;
+    left: 5px;
+    position: absolute;
+    width: 200px;
 }
 
 .messic-header1 {
@@ -913,16 +933,18 @@ love {
 }
 
 #galleria {
-    bottom: 50px;
+    bottom: 30px;
     height: 340px;
     position: absolute;
     right: 50px;
-    width: 650px;
+    width: 605px;
     opacity: 1;
     -webkit-transition-property: opacity;
     transition-property: opacity;
     -webkit-transition-duration: 1s;
     transition-duration: 1s;
+    border-radius: 13px;
+    overflow: hidden;
 }
 
 #galleria:hover {
@@ -945,6 +967,8 @@ love {
     background: url("../images/huboard.ico") no-repeat;
     background-position: center center;
 }
+
+
 /*
 .messic-version:after {
     background: url("../images/beta.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -985,7 +1009,6 @@ love {
     right: 0px;
 }
 
-
 #langs {
     width: 100%;
     height: 30px;
@@ -993,11 +1016,11 @@ love {
     overflow: hidden;
 }
 
-
 #langs > p {
     float: left;
     width: 129px;
 }
+
 #lang_spanish {
     background: rgba(0, 0, 0, 0) url("../images/spain_fluttering_flag_64.png") no-repeat scroll 0 0 / 32px 25px;
     float: left;
