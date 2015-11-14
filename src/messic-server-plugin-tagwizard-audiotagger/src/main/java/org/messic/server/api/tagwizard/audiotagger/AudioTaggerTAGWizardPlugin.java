@@ -183,11 +183,11 @@ public class AudioTaggerTAGWizardPlugin
 
     public List<SongTags> getTags( Album album, File[] files, Song[] songsWizard, Properties indexProp )
     {
-        // first, obtain the tags 
+        // first, obtain the tags
         ArrayList<SongTags> tags = new ArrayList<SongTags>();
         for ( int i = 0; i < files.length; i++ )
         {
-            if ( files[i].getName().equals( "index.tmp.properties" ) )
+            if ( files[i].isDirectory() || files[i].getName().equals( "index.tmp.properties" ) )
             {
                 continue;
             }

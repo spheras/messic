@@ -34,8 +34,32 @@ function aboutShowMessicVersion() {
         var posts = $($.parseHTML(data)).filter('#content').children();
         $("body").append(posts);
     });
-
 }
+
+/**
+ * Show the about messic splash
+ */
+function aboutShowChanges() {
+    $.get("aboutchanges.do", function (data) {
+        var posts = $($.parseHTML(data)).filter('#content').children();
+        $("body").append(posts);
+
+        $("#messic-about-changes-window").dialog({
+            modal: true,
+            closeOnEscape: true,
+            title: "messic History Changes",
+            width: 600,
+            maxHeight: 400,
+            buttons: {
+                Ok: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+    });
+}
+
 
 /**
  * expand or contract a menu, just changing the css (the style will decide what to do)

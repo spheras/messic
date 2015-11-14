@@ -1,4 +1,3 @@
-
 /**
  * @source: https://github.com/spheras/messic
  *
@@ -49,7 +48,7 @@ function initAlbum() {
                             'title': messicLang.confirmationNo,
                             'class': 'gray',
                             'action': function () {} // Nothing to do in this case. You can as
-                            // well omit the action property.
+                                // well omit the action property.
                         }
                     }
                 });
@@ -64,14 +63,8 @@ function initAlbum() {
         $("#messic-playlist-background").removeClass("interesting");
     });
 
-    $("#messic-album-songs-head-songaction-add").click(function () {
-        $("#messic-album-songs-head-songaction-addinput").click();
-    });
-    // event change for the input type file hidden
-    $("#messic-album-songs-head-songaction-addinput").change(function (evt) {
-        var files = evt.target.files; // FileList object
-        albumAddFiles(files);
-    });
+
+    updateInputEvents();
 
     VAR_AlbumCode = UtilGetGUID();
 
@@ -86,43 +79,58 @@ function initAlbum() {
 
         })
     });
-    
-    
-    
-        $('.messic-album-songs-body-songaction-play').longpress(function (e) {
-            if (e) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            var $div = $(e.target);
-            var authorSid = $div.data("authorsid");
-            var albumSid = $div.data("albumsid");
-            var songSid = $div.data("songsid");
-            var songName = $div.data("songname");
-            var albumName = $div.data("albumname");
-            var authorName = $div.data("authorname");
-            var songRate = $div.data("songrate");
-            addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate, true);
 
 
-            //alert('You just longpressed something.');
-        }, function (e) {
-            if (e) {
-                e.stopPropagation();
-                e.preventDefault();
-            }
-            var $div = $(e.target);
-            var authorSid = $div.data("authorsid");
-            var albumSid = $div.data("albumsid");
-            var songSid = $div.data("songsid");
-            var songName = $div.data("songname");
-            var albumName = $div.data("albumname");
-            var authorName = $div.data("authorname");
-            var songRate = $div.data("songrate");
-            addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate);
 
-            //alert('You released before longpress duration and that\'s why its a shortpress now.');
-        });
+    $('.messic-album-songs-body-songaction-play').longpress(function (e) {
+        if (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        var $div = $(e.target);
+        var authorSid = $div.data("authorsid");
+        var albumSid = $div.data("albumsid");
+        var songSid = $div.data("songsid");
+        var songName = $div.data("songname");
+        var albumName = $div.data("albumname");
+        var authorName = $div.data("authorname");
+        var songRate = $div.data("songrate");
+        addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate, true);
+
+
+        //alert('You just longpressed something.');
+    }, function (e) {
+        if (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+        var $div = $(e.target);
+        var authorSid = $div.data("authorsid");
+        var albumSid = $div.data("albumsid");
+        var songSid = $div.data("songsid");
+        var songName = $div.data("songname");
+        var albumName = $div.data("albumname");
+        var authorName = $div.data("authorname");
+        var songRate = $div.data("songrate");
+        addSong('raro', authorSid, UtilEscapeHTML(authorName), albumSid, UtilEscapeHTML(albumName), songSid, UtilEscapeHTML(songName), songRate);
+
+        //alert('You released before longpress duration and that\'s why its a shortpress now.');
+    });
+
+
+    $("#messic-album-songs-container-tabs").tabs();
+}
+
+/* resync all the input events to add album resources */
+function updateInputEvents() {
+    $(".messic-album-songs-head-songaction-add").click(function () {
+        $(this).parent().find(".messic-album-songs-head-songaction-addinput").click();
+    });
+    // event change for the input type file hidden
+    $(".messic-album-songs-head-songaction-addinput").change(function (evt) {
+        var files = evt.target.files; // FileList object
+        albumAddFiles(files, $(this).parent().parent().parent());
+    });
 
 }
 
@@ -154,20 +162,60 @@ function albumTitleEdit() {
     albumEditStatus();
     var div = $("#messic-album-name");
     var text = div.text().trim();
-    var code = "<input type=\"text\" id=\"messic-album-name-textedit\" name=\"Name\" class=\"k-textbox\" value=\"" + text + "\" required/>";
+    var code = "<input type=\"text\" id=\"messic-album-name-textedit\" name=\"Name\" value=\"" + text + "\" required/>";
     div.empty();
     div.append($(code));
     $("#messic-album-name input").focus();
     $("#messic-album-name input").select();
     $("#messic-album-name").removeClass("messic-album-editable")
     $("#messic-album-name").addClass("messic-album-editing")
+
+
+    //album name combobox
+    $("#messic-album-name input").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "services/albums",
+                dataType: "json",
+                data: {
+                    term: request.term
+                },
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.name,
+                            id: item.sid,
+                            abbrev: item.name
+                        };
+                    }));
+                },
+                select: function (event, ui) {
+                    $('.tags_id').val(mapping[ui.item.value]);
+                }
+            });
+        },
+        minLength: 1,
+        select: function (event, ui) {
+            if (ui.item) {
+                $("#messic-album-author input").data("itemValue", ui.item.value);
+                $("#messic-album-author input").data("itemId", ui.item.id);
+            } else {
+                $("#messic-album-author input").data("itemValue", "");
+                $("#messic-album-author input").data("itemId", "");
+            }
+
+            /*console.log(ui.item ?
+                "Selected: " + ui.item.value + " aka " + ui.item.id :
+                "Nothing selected, input was " + this.value);*/
+        }
+    });
 }
 /* function to start editing the year of the album */
 function albumYearEdit() {
     albumEditStatus();
     var div = $("#messic-album-year");
-    var text = div.contents(':not(div)').text().trim();
-    var code = "<input type=\"text\" id=\"messic-album-year-textedit\" name=\"Year\" class=\"k-textbox\" value=\"" + text + "\" required/>";
+    var text = div.clone().find('*').remove().end().text().trim(); //div.contents(':not(div)').text().trim();
+    var code = "<input type=\"number\" id=\"messic-album-year-textedit\" name=\"Year\" value=\"" + text + "\" required/>";
     div.empty();
     div.append($(code));
     $("#messic-album-year input").focus();
@@ -175,22 +223,91 @@ function albumYearEdit() {
     $("#messic-album-year").removeClass("messic-album-editable")
     $("#messic-album-year").addClass("messic-album-editing")
 
-    $("#messic-album-year input").kendoNumericTextBox({
-        placeholder: messicLang.uploadYearPlaceholder,
-        format: "#0",
-        decimals: 0,
+    //year spinner
+    /*
+    $("#messic-album-year input").spinner({
         max: 2100,
-        min: 1500,
-        spinners: true,
-        step: 1
+        min: 1500
     });
+    */
 }
+/* function to start editing the volumes of the album */
+function albumVolumesEdit() {
+    albumEditStatus();
+    var div = $("#messic-album-volumes");
+    var text = div.clone().find('*').remove().end().text().trim(); //div.contents(':not(div)').text().trim();
+    var code = "<input type=\"number\" id=\"messic-album-volumes-textedit\" name=\"Volumes\" value=\"" + text + "\" required/>";
+    div.empty();
+    div.append($(code));
+    $("#messic-album-volumes input").focus();
+    $("#messic-album-vollumes input").select();
+    $("#messic-album-volumes").removeClass("messic-album-editable")
+    $("#messic-album-volumes").addClass("messic-album-editing")
+
+
+    $("#messic-album-volumes-textedit").bind('keyup mouseup', function () {
+        albumOnVolumesChange($("#messic-album-volumes-textedit").val());
+    });
+
+    //volumes spinner
+    /*
+    $("#messic-album-volumes input").spinner({
+        max: 100,
+        min: 1
+    });
+    */
+}
+
+
+/** function to synchronized the ammount of volumes for the album... increasing or decreasing the number */
+function albumOnVolumesChange(volumes) {
+
+    if (volumes < 1) {
+        $("#messic-album-volumes-textedit").val("1");
+        return;
+    }
+
+    var containers = $(".messic-album-songs-container");
+    var tabs = $("#messic-album-songs-tabs li");
+    if (containers.length != volumes) {
+        //there are a different number, we should create or remove volumes
+        if (volumes > containers.length) {
+            //we should create new containers for the volumes
+            var lastContainer = containers[containers.length - 1];
+            for (i = containers.length; i < volumes; i++) {
+                var $cloned = $(lastContainer).clone();
+                $cloned.attr("id", "messic-album-songs-container-tab" + (i + 1));
+                $cloned.attr("data-volume", (i + 1));
+                $(lastContainer).after($cloned);
+                lastContainer = $cloned;
+                lastContainer.find("#messic-album-songs-body").empty();
+
+                $(tabs[i - 1]).after($("<li><a href=\"#messic-album-songs-container-tab" + (i + 1) + "\">Vol." + (i + 1) + "</a></li>"));
+            }
+
+            updateInputEvents();
+        } else {
+            //then we should remove existing containers of volumes
+            for (i = volumes; i < containers.length; i++) {
+                $(containers[i]).remove();
+                $(tabs[i]).remove();
+            }
+        }
+
+        $("#messic-album-songs-container-tabs").tabs("refresh");
+
+
+
+        UtilShowInfo(messicLang.uploadVolumesUpdated);
+    }
+}
+
 /* function to start editing the genre of the album */
 function albumGenreEdit() {
     albumEditStatus();
     var div = $("#messic-album-genre");
-    var text = div.contents(':not(div)').text().trim();
-    var code = "<input type=\"text\" id=\"messic-album-genre-textedit\" name=\"Genre\" class=\"k-textbox\" value=\"" + text + "\" required/>";
+    var text = div.clone().find('*').remove().end().text().trim(); //div.contents(':not(div)').text().trim();
+    var code = "<input type=\"text\" id=\"messic-album-genre-textedit\" name=\"Genre\" value=\"" + text + "\" required/>";
     div.empty();
     div.append($(code));
     $("#messic-album-genre input").focus();
@@ -198,39 +315,51 @@ function albumGenreEdit() {
     $("#messic-album-genre").removeClass("messic-album-editable")
     $("#messic-album-genre").addClass("messic-album-editing")
 
-    $("#messic-album-genre input").kendoComboBox({
-        placeholder: messicLang.uploadGenrePlaceholder,
-        dataTextField: "name",
-        dataValueField: "sid",
-        filter: "contains",
-        autoBind: false,
-        minLength: 1,
-        dataSource: {
-            transport: {
-                read: {
-                    url: "services/genres",
-                    type: "GET",
-                    dataType: "json"
-                }
-            },
-            schema: {
-                data: function (response) {
-                    return response;
+    //genre combobox
+    $("#messic-album-genre input").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "services/genres",
+                dataType: "json",
+                data: {
+                    term: request.term
                 },
-                model: {
-                    id: "sid"
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.name,
+                            id: item.sid,
+                            abbrev: item.name
+                        };
+                    }));
                 }
+            });
+        },
+        minLength: 1,
+        select: function (event, ui) {
+            if (ui.item) {
+                $("#messic-album-author input").data("itemValue", ui.item.value);
+                $("#messic-album-author input").data("itemId", ui.item.id);
+            } else {
+                $("#messic-album-author input").data("itemValue", "");
+                $("#messic-album-author input").data("itemId", "");
             }
+            /*
+            console.log(ui.item ?
+                "Selected: " + ui.item.value + " aka " + ui.item.id :
+                "Nothing selected, input was " + this.value);
+                */
         }
     });
+
 }
 
 /* function to start editing the comments of the album */
 function albumCommentsEdit() {
     albumEditStatus();
     var div = $("#messic-album-comments");
-    var text = div.contents(':not(div)').text().trim();
-    var code = "<textarea id=\"messic-album-comments-textedit\" name=\"Comments\" class=\"k-textbox\">" + text + "</textarea>";
+    var text = div.clone().find('*').remove().end().text().trim(); //div.contents(':not(div)').text().trim();
+    var code = "<textarea id=\"messic-album-comments-textedit\" name=\"Comments\" >" + text + "</textarea>";
     div.empty();
     div.append($(code));
     $("#messic-album-comments input").focus();
@@ -244,7 +373,7 @@ function albumAuthorEdit() {
     albumEditStatus();
     var div = $("#messic-album-author");
     var text = div.text().trim();
-    var code = "<input type=\"text\" id=\"messic-album-author-textedit\" name=\"Name\" class=\"k-textbox\" value=\"" + text + "\" required/>";
+    var code = "<input type=\"text\" id=\"messic-album-author-textedit\" name=\"Name\" value=\"" + text + "\" required/>";
     div.empty();
     div.append($(code));
     $("#messic-album-author input").focus();
@@ -252,34 +381,44 @@ function albumAuthorEdit() {
     $("#messic-album-author").removeClass("messic-album-editable");
     $("#messic-album-author").addClass("messic-album-editing");
 
-    $("#messic-album-author input").kendoComboBox({
-        placeholder: messicLang.uploadAuthorPlaceholder,
-        dataTextField: "name",
-        dataValueField: "sid",
-        filter: "contains",
-        autoBind: false,
-        minLength: 1,
-        change: function () {
-
-        },
-        dataSource: {
-            transport: {
-                read: {
-                    url: "services/authors",
-                    type: "GET",
-                    dataType: "json"
-                }
-            },
-            schema: {
-                data: function (response) {
-                    return response;
+    //author combobox
+    $("#messic-album-author input").autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: "services/authors",
+                dataType: "json",
+                data: {
+                    term: request.term
                 },
-                model: {
-                    id: "sid"
+                success: function (data) {
+                    response($.map(data, function (item) {
+                        return {
+                            label: item.name,
+                            id: item.sid,
+                            abbrev: item.name
+                        };
+                    }));
+                },
+                select: function (event, ui) {
+                    $('.tags_id').val(mapping[ui.item.value]);
                 }
+            });
+        },
+        minLength: 1,
+        select: function (event, ui) {
+            if (ui.item) {
+                $("#messic-album-author input").data("itemValue", ui.item.value);
+                $("#messic-album-author input").data("itemId", ui.item.id);
+            } else {
+                $("#messic-album-author input").data("itemValue", "");
+                $("#messic-album-author input").data("itemId", "");
             }
+            /*console.log(ui.item ?
+                "Selected: " + ui.item.value + " aka " + ui.item.id :
+                "Nothing selected, input was " + this.value);*/
         }
     });
+
 
     $("#messic-album-author input").click(function (event) {
         event.stopPropagation();
@@ -380,8 +519,11 @@ function albumSaveChangesDefinitely(albumSid) {
             data.code = VAR_AlbumCode;
 
             //edit the author name? or changing the author of this album
-            var authordiv = $("#messic-album-author-textedit").data("kendoComboBox");
+            var authordiv = $("#messic-album-author-textedit");
             if (authordiv) {
+                data.author.sid = -1;
+                data.author.name = authordiv.val();
+                /*
                 var autorSid = 0;
                 if (authordiv.value() != authordiv.text()) {
                     //the authorHasBeenChanged?!
@@ -391,11 +533,11 @@ function albumSaveChangesDefinitely(albumSid) {
                 } else {
                     // WE DON'T DIFFERENTIATE ANYMORE BETWEEN CREATING OR RENAMING.. ALWAYS CREATING A NEW AUTHOR O ASSIGNING TO AN EXISTING ONE
                     //if (authorCreation && data.author.name.toUpperCase() != authordiv.text()) {
-                        data.author.sid = -1;
+                    data.author.sid = -1;
                     //}
                     data.author.name = authordiv.text();
                 }
-
+                */
             }
 
             //edit of album name
@@ -411,22 +553,34 @@ function albumSaveChangesDefinitely(albumSid) {
             }
 
             //edit genre of the album
-            var genrediv = $("#messic-album-genre-textedit").data("kendoComboBox");
+            var genrediv = $("#messic-album-genre-textedit");
             if (genrediv) {
-                var genreSid = 0;
-                if (genrediv.value() != genrediv.text()) {
-                    genreSid = genrediv.value();
-                }
                 data.genre = {
-                    name: genrediv.text(),
-                    sid: genreSid,
-                }
+                        name: genrediv.val(),
+                        sid: -1,
+                    }
+                    /*
+                    var genreSid = 0;
+                    if (genrediv.value() != genrediv.text()) {
+                        genreSid = genrediv.value();
+                    }
+                    data.genre = {
+                        name: genrediv.text(),
+                        sid: genreSid,
+                    }
+                    */
             }
 
             //edit of album name
             var commentsdiv = $("#messic-album-comments-textedit");
             if (commentsdiv && commentsdiv.length > 0) {
                 data.comments = commentsdiv.val();
+            }
+
+            //edit volumes of the album
+            var volumesdiv = $("#messic-album-volumes-textedit");
+            if (volumesdiv.length > 0) {
+                data.volumes = volumesdiv.val();
             }
 
             //new songs
@@ -441,6 +595,7 @@ function albumSaveChangesDefinitely(albumSid) {
                 data.songs.push({
                     sid: songSid,
                     track: songTrack,
+                    volume: $(this).parent().parent().data("volume"),
                     name: songName,
                     fileName: songFileName,
                 });
@@ -457,6 +612,7 @@ function albumSaveChangesDefinitely(albumSid) {
                 data.songs.push({
                     sid: songSid,
                     track: songTrack,
+                    volume: $(this).parent().parent().data("volume"),
                     name: songName
                 });
             });
@@ -470,6 +626,7 @@ function albumSaveChangesDefinitely(albumSid) {
                 }
                 data.artworks.push({
                     sid: artworkSid,
+                    volume: $(this).parent().parent().data("volume"),
                     fileName: artworkName
                 });
             });
@@ -483,6 +640,7 @@ function albumSaveChangesDefinitely(albumSid) {
                 }
                 data.artworks.push({
                     sid: artworkSid,
+                    volume: $(this).parent().parent().data("volume"),
                     fileName: artworkName
                 });
             });
@@ -496,6 +654,7 @@ function albumSaveChangesDefinitely(albumSid) {
                 }
                 data.others.push({
                     sid: otherSid,
+                    volume: $(this).parent().parent().data("volume"),
                     fileName: otherName
                 });
             });
@@ -509,6 +668,7 @@ function albumSaveChangesDefinitely(albumSid) {
                 }
                 data.others.push({
                     sid: otherSid,
+                    volume: $(this).parent().parent().data("volume"),
                     fileName: otherName
                 });
             });
@@ -534,16 +694,16 @@ function albumSaveChangesDefinitely(albumSid) {
  * function that add the selected files by the user to the webpage of the album
  * (need to be saved)
  */
-function albumAddFiles(files) {
+function albumAddFiles(files, parent) {
     albumEditStatus();
 
     for (var i = 0, f; f = files[i]; i++) {
         if (f.type.match('image*')) {
-            albumAddFileImage(f);
+            albumAddFileImage(f, parent);
         } else if (f.type.match('audio.*')) {
-            albumAddFileAudio(f);
+            albumAddFileAudio(f, parent);
         } else {
-            albumAddFileOther(f);
+            albumAddFileOther(f, parent);
         }
     }
 }
@@ -612,7 +772,7 @@ function albumEditOther(sid, name, divButton) {
 }
 
 /* function to add an audio file to the album */
-function albumAddFileAudio(file) {
+function albumAddFileAudio(file, parent) {
     $.getJSON(
         "services/songs/" + file.name + "/wizard",
         function (data) {
@@ -628,16 +788,16 @@ function albumAddFileAudio(file) {
             code = code + "</div>";
 
             var newelement = $(code);
-            $("#messic-album-songs-body").prepend(newelement);
+            parent.find("#messic-album-songs-body").prepend(newelement);
             var percentdiv = $(newelement).find(
                 ".messic-album-songs-uploading-percent");
 
-            uploadResource(percentdiv, file);
+            uploadResource(percentdiv, file, $(parent).data("volume"));
         }
     );
 }
 
-function uploadResource(percentdiv, file) {
+function uploadResource(percentdiv, file, volume) {
     // reading the file to show the image
     var reader = new FileReader();
     // Closure to capture the file information.
@@ -645,7 +805,7 @@ function uploadResource(percentdiv, file) {
         var fsend = function (e) {
             var bin = e.target.result;
             $.ajax({
-                url: 'services/albums/' + VAR_AlbumCode + "?fileName=" + encodeURIComponent(file.name),
+                url: 'services/albums/' + VAR_AlbumCode + "?fileName=" + encodeURIComponent(file.name) + "&volume=" + volume,
                 type: 'PUT',
                 // Ajax events
                 success: (function () {
@@ -673,15 +833,9 @@ function uploadResource(percentdiv, file) {
                             function (evt) {
                                 if (evt.lengthComputable) {
                                     var percentComplete = evt.loaded / evt.total;
-                                    // Do
-                                    // something
-                                    // with
-                                    // upload
-                                    // progress
-                                    console
-                                        .log(percentComplete);
-                                    eldiv
-                                        .width((percentComplete * 100) + '%');
+                                    // Do something with upload progress
+                                    //console.log(percentComplete);
+                                    eldiv.width((percentComplete * 100) + '%');
                                 }
                             }, false);
                     return xhr;
@@ -704,7 +858,7 @@ function albumRemoveLocalResource(div) {
 }
 
 /* function to add an image file to the album */
-function albumAddFileImage(file) {
+function albumAddFileImage(file, parent) {
     var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork messic-album-songs-bodyrow-artwork-new\"  onclick=\"albumRowSelected(this);\">";
     code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-artwork\" onclick=\"albumShowLocalArtwork($(this).parent())\"></div>";
     code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-artworkname\">" + file.name + "</div>";
@@ -717,7 +871,7 @@ function albumAddFileImage(file) {
     code = code + "</div>";
 
     var newelement = $(code);
-    $("#messic-album-songs-body").prepend(newelement);
+    parent.find("#messic-album-songs-body").prepend(newelement);
 
     // reading the file to show the image
     var reader = new FileReader();
@@ -741,11 +895,11 @@ function albumAddFileImage(file) {
 
 
     var percentdiv = $(newelement).find(".messic-album-songs-uploading-percent");
-    uploadResource(percentdiv, file);
+    uploadResource(percentdiv, file, $(parent).data("volume"));
 
 }
 /* function to add an other file to the album */
-function albumAddFileOther(file) {
+function albumAddFileOther(file, parent) {
     var code = "<div class=\"messic-album-songs-bodyrow messic-album-songs-bodyrow-other messic-album-songs-bodyrow-other-new\"  onclick=\"albumRowSelected(this);\">";
     code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-otherfile\">...</div>";
     code = code + "  <div class=\"messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-othername\">" + file.name + "</div>";
@@ -757,9 +911,9 @@ function albumAddFileOther(file) {
     code = code + "</div>";
 
     var newelement = $(code);
-    $("#messic-album-songs-body").prepend(newelement);
+    parent.find("#messic-album-songs-body").prepend(newelement);
     var percentdiv = $(newelement).find(".messic-album-songs-uploading-percent");
-    uploadResource(percentdiv, file);
+    uploadResource(percentdiv, file, $(parent).data("volume"));
 }
 
 function albumShowArtworkDestroy() {
@@ -940,7 +1094,7 @@ function albumRemove(albumSid) {
                                 "explore.do",
                                 function (data) {
                                     $(
-                                        "#messic-page-content")
+                                            "#messic-page-content")
                                         .empty();
                                     var posts = $($.parseHTML(data)).filter('#content').children();
                                     $("#messic-page-content").append(posts);
@@ -958,9 +1112,9 @@ function albumRemove(albumSid) {
                 'title': messicLang.confirmationNo,
                 'class': 'gray',
                 'action': function () {
-                    UtilShowInfo(messicLang.albumRemoveCancel);
-                } // Nothing to do in this case. You can as well omit
-                // the action property.
+                        UtilShowInfo(messicLang.albumRemoveCancel);
+                    } // Nothing to do in this case. You can as well omit
+                    // the action property.
             }
         }
     });

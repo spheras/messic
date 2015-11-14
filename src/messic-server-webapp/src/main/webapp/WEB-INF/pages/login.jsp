@@ -31,11 +31,9 @@
             <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png">
 
 
-            <!-- Kendo styles -->
-            <!--
-		<link href="css/kendoui/kendo.common.min.css?timestamp=${timestamp}" rel="stylesheet" />
-		<link href="css/kendoui/kendo.default.min.css?timestamp=${timestamp}" rel="stylesheet" />
-		-->
+            <!-- jquery-ui styles -->
+            <link rel="stylesheet" href="css/themes/hansv2/jquery-ui/jquery-ui.css?timestamp=${timestamp}">
+            <link rel="stylesheet" href="css/themes/hansv2/jquery.confirm.css?timestamp=${timestamp}">
 
             <!-- normalization -->
             <link rel="stylesheet" href="css/normalize.min.css?timestamp=${timestamp}">
@@ -50,13 +48,15 @@
             <link rel="stylesheet" href="css/themes/hansv2/about.css?timestamp=${timestamp}">
             <link rel="stylesheet" href="css/themes/hansv2/upload.css?timestamp=${timestamp}">
             <link rel="stylesheet" href="css/themes/hansv2/settings.css?timestamp=${timestamp}">
-            <link rel="stylesheet" href="css/themes/hansv2/kendo.css?timestamp=${timestamp}">
-            <link rel="stylesheet" href="css/themes/hansv2/jquery.confirm.css?timestamp=${timestamp}">
+            <link rel="stylesheet" href="css/themes/hansv2/base.css?timestamp=${timestamp}">
             <link rel="stylesheet" href="css/themes/hansv2/api.css?timestamp=${timestamp}">
             <link rel="stylesheet" href="css/themes/hansv2/explore.css?timestamp=${timestamp}">
             <link rel="stylesheet" href="css/themes/hansv2/album.css?timestamp=${timestamp}">
             <link rel="stylesheet" href="css/themes/hansv2/author.css?timestamp=${timestamp}">
+
+            <!-- other css -->
             <link rel="stylesheet" href="css/themes/hansv2/animate.css?timestamp=${timestamp}">
+
 
             <!-- modernizr -->
             <script src="js/vendor/modernizr-2.6.2.min.js?timestamp=${timestamp}"></script>
@@ -70,12 +70,12 @@
             <!--[if lt IE 11]>
 	            <p class="browsehappy"><fmt:message key="login-outdated" bundle="${message}"/></p>
 	        <![endif]-->
-	        
+
             <div id="messic-login-android-container">
-                <div id="messic-login-android-logo"></div>
-                <div id="messic-login-android-explanation"><fmt:message key="login-android" bundle="${message}" /></div>
+                <a href="https://play.google.com/store/apps/details?id=org.messic.android" target="_blank" id="messic-login-android-logo-googleplay"></a>
+                <a href="http://www.amazon.com/gp/product/B010LXOPB0/ref=mas_pm_messic" target="_blank" id="messic-login-android-logo-amazon"></a>
             </div>
-	        
+
             <label class="messic-login-version">${version}</label>
             <div id="messic-login-window" style="display:none">
                 <div class="messic-login-form-container">
@@ -135,14 +135,25 @@
                 </div>
             </div>
 
-            <script src="js/vendor/jquery/jquery-1.9.1.min.js?timestamp=${timestamp}"></script>
-            <script src="js/vendor/jquery/jquery-ui.js?timestamp=${timestamp}"></script>
-            <script src="js/vendor/kendoui/kendo.web.min.js?timestamp=${timestamp}"></script>
+            <!-- JQUERY -->
+            <script src="js/vendor/jquery/jquery-1.11.3.min.js?timestamp=${timestamp}"></script>
+            <script src="js/vendor/jquery/jquery-ui-1.11.14.min.js?timestamp=${timestamp}"></script>
+            <script src="js/vendor/jquery/jquery.validate-1.14.0.min.js?timestamp=${timestamp}"></script>
+
+            <!-- jplayer -->
             <script src="js/vendor/jplayer/jquery.jplayer.min.js?timestamp=${timestamp}"></script>
-            <script src="js/vendor/jquery.tinyscrollbar.2.1.8.js?timestamp=${timestamp}"></script>
-            <!-- <script src="js/vendor/jquery.tinycarousel.min.js?timestamp=${timestamp}"></script> -->
-            <script src="js/vendor/jquery.tinycarousel.js?timestamp=${timestamp}"></script>
             <script src="js/jplayer.playlist.messic.js?timestamp=${timestamp}"></script>
+            <script src="js/jplayer-hack-drag.js?timestamp=${timestamp}"></script>
+
+            <!-- jquery plugins -->
+            <script src="js/jquery.confirm.js?timestamp=${timestamp}"></script>
+            <script src="js/jquery.longpress.js?timestamp=${timestamp}"></script>
+
+            <!-- tiny scrollbar and tinycarousel -->
+            <script src="js/vendor/jquery.tinyscrollbar.2.1.8.js?timestamp=${timestamp}"></script>
+            <script src="js/vendor/jquery.tinycarousel.js?timestamp=${timestamp}"></script>
+
+            <!-- internal messic js -->
             <script src="lang.do?timestamp=${timestamp}"></script>
             <script src="js/utils.js?timestamp=${timestamp}"></script>
             <script src="js/plugins.js?timestamp=${timestamp}"></script>
@@ -156,14 +167,13 @@
             <script src="js/uploadresource.js?timestamp=${timestamp}"></script>
             <script src="js/uploadalbum.js?timestamp=${timestamp}"></script>
             <script src="js/uploadprocess.js?timestamp=${timestamp}"></script>
-            <script src="js/uploadPool.js?timestamp=${timestamp}"></script>
-            <script src="js/wizardMatcher.js?timestamp=${timestamp}"></script>
+            <script src="js/uploadpool.js?timestamp=${timestamp}"></script>
+            <script src="js/uploadvolume.js?timestamp=${timestamp}"></script>
+            <script src="js/uploadwizard.js?timestamp=${timestamp}"></script>
+            <script src="js/uploadwizardmatcher.js?timestamp=${timestamp}"></script>
             <script src="js/settings.js?timestamp=${timestamp}"></script>
             <script src="js/apidoc.js?timestamp=${timestamp}"></script>
-            <script src="js/jquery.confirm.js?timestamp=${timestamp}"></script>
             <script src="js/about.js?timestamp=${timestamp}"></script>
-            <script src="js/jquery.longpress.js?timestamp=${timestamp}"></script>
-            <script src="js/jplayer-hack-drag.js?timestamp=${timestamp}"></script>
             <script src="js/utilajaxpool.js?timestamp=${timestamp}"></script>
 
             <% boolean firstTime=(Boolean)request.getAttribute( "firstTime"); if(firstTime){%>

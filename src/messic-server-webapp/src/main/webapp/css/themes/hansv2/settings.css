@@ -20,7 +20,6 @@
 .messic-user-settings-menu-container {
     background: #E9E9E9;
     /* Old browsers */
-    
     background: -webkit-gradient(linear, left top, right top, color-stop(6%, rgba(255, 255, 255, 0)), to(#E9E9E9)) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 6%, #E9E9E9 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(to right, rgba(255, 255, 255, 0) 6%, #E9E9E9 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -43,10 +42,8 @@
     /* Firefox */
     /* WebKit */
     /* Opera */
-    
     width: -o-calc(100% - 190px);
     /* Standard */
-    
     width: calc(100% - 190px);
 }
 
@@ -88,10 +85,8 @@
     /* Firefox */
     /* WebKit */
     /* Opera */
-    
     width: -o-calc(100% - 235px);
     /* Standard */
-    
     width: calc(100% - 235px);
 }
 
@@ -163,6 +158,7 @@
 #messic-user-settings-content ul {
     list-style: none outside none;
     padding-left: 0px;
+    margin-bottom: 15px;
 }
 
 #messic-user-settings-content li {
@@ -188,6 +184,7 @@
 .messic-user-settings-basic-data-container {
     float: left;
     width: 360px;
+    margin-bottom: 15px;
 }
 
 .messic-user-settings-buttons {
@@ -315,6 +312,8 @@
     margin-left: 15px;
     cursor: pointer;
 }
+
+
 /*	http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/128/Places-user-trash-icon.png */
 
 .messic-user-settings-content-users-resetpassword:active {
@@ -325,8 +324,6 @@
     background-position: -26px 0;
 }
 
-
-
 .messic-user-settings-content-users-checkconsistency {
     background: url("user/checkconsistency.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     height: 32px;
@@ -336,6 +333,8 @@
     margin-top: 5px;
     cursor: pointer;
 }
+
+
 /*	http://icons.iconarchive.com/icons/oxygen-icons.org/oxygen/128/Places-user-trash-icon.png */
 
 .messic-user-settings-content-users-checkconsistency:active {
@@ -525,6 +524,7 @@
     text-shadow: 1px 0 0 #008989;
     top: -19px;
 }
+
 .messic-settings-consistency-title {
     color: #666666;
     font-family: Amaranth;
@@ -570,7 +570,6 @@
 .messic-settings-consistency-progressbar {
     background: #00CACA;
     /* Old browsers */
-    
     background: -webkit-gradient(linear, left top, left bottom, from(#00BABA), to(#00CACA)) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: -webkit-linear-gradient(#00BABA, #00CACA) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(#00BABA, #00CACA) repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -606,4 +605,21 @@
 
 #messic-settings-consistency-stop:hover {
     background: red;
+}
+
+label.error::before {
+    background: rgba(0, 0, 0, 0) url("upload/dialog_warning.png") no-repeat scroll 0 0 / 20px 20px;
+    content: "";
+    height: 20px;
+    margin-left: -21px;
+    margin-top: -5px;
+    position: absolute;
+    width: 20px;
+}
+
+label.error {
+    color: red;
+    font-family: Roboto;
+    font-size: 11px;
+    padding-left: 12px;
 }

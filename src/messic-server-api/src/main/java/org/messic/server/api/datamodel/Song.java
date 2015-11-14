@@ -49,13 +49,15 @@ public class Song
      * @param track int track of the song
      * @param name {@link String} name of the song
      * @param rate int rate of the song
+     * @param volume int volume of the song
      */
-    public Song( long sid, int track, String name, int rate )
+    public Song( long sid, int track, String name, int rate, int volume )
     {
         this.sid = sid;
         this.track = track;
         this.name = name;
         this.rate = rate;
+        setVolume( volume );
     }
 
     /**
@@ -80,6 +82,7 @@ public class Song
         setAlbum( album );
         setFileName( mdosong.getLocation() );
         setRate( mdosong.getRate() );
+        setVolume( mdosong.getVolume() );
     }
 
     /**
@@ -94,6 +97,7 @@ public class Song
             setSid( mdosong.getSid() );
             setTrack( mdosong.getTrack() );
             setName( mdosong.getName() );
+            setVolume( mdosong.getVolume() );
             if ( includeAlbumInfo )
             {
                 Album album = new Album( mdosong.getAlbum(), includeAuthorInfo, false, false );
@@ -149,4 +153,5 @@ public class Song
     {
         this.rate = rate;
     }
+
 }

@@ -39,20 +39,91 @@ public class DAOJPAAlbumResource
         super( MDOAlbumResource.class );
     }
 
-
     @Override
     @Transactional
-    public MDOAlbumResource get(String username, long sid) {
-        Query query = entityManager.createQuery( "from MDOAlbumResource as a where (a.owner.login = :userName AND a.sid = :sid)" );
-        query.setParameter( "userName", username);
-        query.setParameter( "sid",sid);
-        
+    public MDOAlbumResource get( String username, long sid )
+    {
+        String squery = "from MDOAlbumResource as a where (a.owner.login = :userName AND a.sid = :sid)";
+        Query query = entityManager.createQuery( squery );
+        query.setParameter( "userName", username );
+        query.setParameter( "sid", sid );
+
         @SuppressWarnings( "unchecked" )
         List<MDOAlbumResource> results = query.getResultList();
-        if(results!=null && results.size()>0){
-            return results.get(0);
+        if ( results != null && results.size() > 0 )
+        {
+            return results.get( 0 );
         }
         return null;
+    }
+
+    public void removeVolumeAlbumResources( String username, long albumSid, int volume )
+    {
+
+        // sorry, but h2 doesn't support JOINS AND CROSS under delete statemente, and the followng sentence will be
+        // converted in
+        // DELETE FROM GENRE CROSS[*] JOIN USERS MDOUSER1_ WHERE LOGIN=?
+        // Query query = entityManager.createQuery( "delete from MDOGenre as g where (g.owner.login = :userName)" );
+        // https://code.google.com/p/h2database/issues/detail?id=504
+
+        // Query query =
+        // entityManager.createQuery(
+        // "delete MDOAlbumResource as a where (a.owner.login= :username AND a.album.sid = :albumsid AND a.volume = :volume)"
+        // );
+        // query.setParameter( "userName", username );
+        // query.setParameter( "albumsid", albumSid );
+        // query.setParameter( "volume", volume );
+        //
+        // query.executeUpdate();
+
+        String squery =
+            "from MDOSong as a where (a.owner.login= :username AND a.volume = :volume AND a.album.sid = :albumsid)";
+
+        Query query = entityManager.createQuery( squery );
+        query.setParameter( "username", username );
+        query.setParameter( "albumsid", albumSid );
+        query.setParameter( "volume", volume );
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbumResource> results1 = query.getResultList();
+        if ( results1 != null && results1.size() > 0 )
+        {
+            for ( MDOAlbumResource mdoAlbumResource : results1 )
+            {
+                remove( mdoAlbumResource );
+            }
+        }
+
+        squery =
+            "from MDOArtwork as a where (a.owner.login= :username AND a.volume = :volume AND a.album.sid = :albumsid)";
+        query = entityManager.createQuery( squery );
+        query.setParameter( "username", username );
+        query.setParameter( "albumsid", albumSid );
+        query.setParameter( "volume", volume );
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbumResource> results2 = query.getResultList();
+        if ( results2 != null && results2.size() > 0 )
+        {
+            for ( MDOAlbumResource mdoAlbumResource : results2 )
+            {
+                remove( mdoAlbumResource );
+            }
+        }
+
+        squery =
+            "from MDOOtherResource as a where (a.owner.login= :username AND a.volume = :volume AND a.album.sid = :albumsid)";
+        query = entityManager.createQuery( squery );
+        query.setParameter( "username", username );
+        query.setParameter( "albumsid", albumSid );
+        query.setParameter( "volume", volume );
+        @SuppressWarnings( "unchecked" )
+        List<MDOAlbumResource> results3 = query.getResultList();
+        if ( results3 != null && results3.size() > 0 )
+        {
+            for ( MDOAlbumResource mdoAlbumResource : results3 )
+            {
+                remove( mdoAlbumResource );
+            }
+        }
     }
 
 }

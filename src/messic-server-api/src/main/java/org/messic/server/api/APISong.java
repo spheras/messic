@@ -404,14 +404,15 @@ public class APISong
                 {
                     // maybe there is no separator!???
                 }
-                
-                if ( parts!=null && parts.length <= 1 )
+
+                if ( parts != null && parts.length <= 1 )
                 {
                     separator = ' ';
                     parts = fileName.split( "" + separator );
                 }
-                
-                if(parts==null || parts.length<=1){
+
+                if ( parts == null || parts.length <= 1 )
+                {
                     // maybe there is no separator!???
                     int firstNotNumber = indexOfFirstNotNumber( fileName );
                     if ( firstNotNumber >= 0 )
@@ -422,7 +423,7 @@ public class APISong
                         separator = '-';
                     }
                 }
-                
+
                 for ( int i = 0; i < parts.length - 1; i++ )
                 {
                     if ( Util.areThereNumbers( parts[i] ) >= 0 )
@@ -436,7 +437,7 @@ public class APISong
                             {
                                 trackName = trackName.substring( 0, wheredot );
                             }
-                            return new Song( 0, trackn, trackName.trim(), 0 );
+                            return new Song( 0, trackn, trackName.trim(), 0, 0 );
                         }
                         catch ( Exception e )
                         {
@@ -480,7 +481,7 @@ public class APISong
                     {
                         trackName = trackName.substring( 0, wheredot );
                     }
-                    return new Song( 0, Integer.valueOf( trackn ), trackName.trim(), 0 );
+                    return new Song( 0, Integer.valueOf( trackn ), trackName.trim(), 0, 0 );
                 }
             }
         }
@@ -491,7 +492,7 @@ public class APISong
         {
             trackName = trackName.substring( 0, wheredot );
         }
-        return new Song( -1, -1, trackName, 0 );
+        return new Song( -1, -1, trackName, 0, 0 );
     }
 
 }

@@ -6,7 +6,7 @@
 	<description>messic parent pom</description>
 	<!-- When changing version, it's important to also change the messic.version 
 		property -->
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 
 	<groupId>org.messic</groupId>
 	<artifactId>messic</artifactId>
@@ -25,7 +25,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
 		<org.springframework.security.version>3.2.0.RELEASE</org.springframework.security.version>
-		<messic.version>1.0.1</messic.version>
+		<messic.version>1.1.0</messic.version>
 	</properties>
 
 	<modules>
@@ -47,6 +47,7 @@
 		<module>../messic-server-plugin-musicinfo-duckduckgoimages</module>
 		<module>../messic-server-plugin-internationalization-en</module>
 		<module>../messic-server-plugin-internationalization-es</module>
+		<module>../messic-server-plugin-radio-icecast2</module>
 		<module>../messic-updater-bundle</module>
 		<module>../messic-service</module>
 		<module>../messic-starter</module>

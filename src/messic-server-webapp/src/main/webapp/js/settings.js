@@ -23,14 +23,10 @@
  *
  */
 
-/** validators for settings  */
-var settings_validator_basic = null;
-var settings_validator_music = null;
-var settings_validator_admin = null;
-var settings_validator_stats = null;
 
 /** id of the captcha to be validated after */
 var messic_user_settings_captcha_id = "";
+var messic_user_settings_new_user = false;
 
 
 function initSettings(flagNewUser) {
@@ -38,8 +34,6 @@ function initSettings(flagNewUser) {
     $("#messic-user-settings-captcha-reload").click(function () {
         getCaptchaImage();
     });
-
-    settingsLoadValidators();
 
     $(".messic-user-settings-basic-avatar-container").click(function (event) {
         event.stopPropagation();
@@ -57,6 +51,9 @@ function initSettings(flagNewUser) {
         reader.readAsDataURL(file);
 
     });
+
+    messic_user_settings_new_user = flagNewUser;
+    settingsLoadValidation();
 
     if (flagNewUser) {
         initSettingsNewUser();
@@ -77,20 +74,20 @@ function checkDeepConsistency(userLogin) {
 
     //first we obtain the list of author folders
     divta.val("**** FOLDER VALIDATION **** \n" + divta.val());
-    
-    
-    var urluserAnd="";
-    var urluserInt="";
-    if(userLogin){
-        urluserAnd="&user="+userLogin;
-        urluserInt="?user="+userLogin;
+
+
+    var urluserAnd = "";
+    var urluserInt = "";
+    if (userLogin) {
+        urluserAnd = "&user=" + userLogin;
+        urluserInt = "?user=" + userLogin;
     }
-    
+
     $.ajax({
         type: "GET",
         dataType: 'json',
         async: false,
-        url: "services/authors/getAuthorFolders"+urluserInt,
+        url: "services/authors/getAuthorFolders" + urluserInt,
         success: function (data) {
 
             //create a pool to make all the petitions
@@ -145,7 +142,7 @@ function checkDeepConsistency(userLogin) {
                     divta.val("FAILED!!!->" + request.responseText + "\n" + divta.val());
                 };
 
-                ajaxpool.addProcess("POST", "json", "services/authors/checkAuthorFolderConsistency/" + folderName+urluserInt, successFunction, errorFunction);
+                ajaxpool.addProcess("POST", "json", "services/authors/checkAuthorFolderConsistency/" + folderName + urluserInt, successFunction, errorFunction);
             }
 
             ajaxpool.start();
@@ -163,17 +160,17 @@ function checkLightConsistency(userLogin) {
     var divta = $("#messic-settings-consistency-details");
 
     divta.val("**** ALBUM VALIDATION **** \n" + divta.val());
-    
-    var urluserAnd="";
-    var urluserInt="";
-    if(userLogin){
-        urluserAnd="&user="+userLogin;
-        urluserInt="?user="+userLogin;
+
+    var urluserAnd = "";
+    var urluserInt = "";
+    if (userLogin) {
+        urluserAnd = "&user=" + userLogin;
+        urluserInt = "?user=" + userLogin;
     }
-    
+
     //after we check the consistency of each album
     $.ajax({
-        url: "services/albums?songsInfo=false&authorInfo=false"+urluserAnd,
+        url: "services/albums?songsInfo=false&authorInfo=false" + urluserAnd,
         dataType: 'json',
         async: false,
         success: function (dataAlbums) {
@@ -239,7 +236,7 @@ function checkLightConsistency(userLogin) {
                 }
 
 
-                ajaxpool.addProcess("POST", "json", "services/albums/checkConsistency/" + album.sid+urluserInt, successFunction, errorFunction);
+                ajaxpool.addProcess("POST", "json", "services/albums/checkConsistency/" + album.sid + urluserInt, successFunction, errorFunction);
             }
 
 
@@ -256,7 +253,7 @@ function showConsistencyPanel(userLogin, userName) {
     code = code + "<div id=\"messic-settings-consistency-overlay\">";
     code = code + "  <div id=\"messic-settings-consistency-container\">";
     code = code + "    <p class=\"messic-settings-consistency-title\">" + messicLang.settingsConsistencyTitle + "</p>";
-    if(userName){
+    if (userName) {
         code = code + "    <p class=\"messic-settings-consistency-user\">" + userName + "</p>";
     }
     code = code + "    <p class=\"messic-settings-consistency-desc\">" + messicLang.settingsConsistencyDesc + "</p>";
@@ -280,7 +277,7 @@ function showConsistencyPanel(userLogin, userName) {
 
     $code.find("#messic-settings-consistency-stop").click(function () {
         $(this).data("pressed", "1"); //set a flag to a pressed value, to stop the process
-        
+
         $("#messic-settings-consistency-start").show();
         $("#messic-settings-consistency-cancel").show();
         $("#messic-settings-consistency-working").hide();
@@ -622,72 +619,148 @@ function settingsResetPassword(sid, name) {
 
 }
 
-/** function to load the validators */
-function settingsLoadValidators() {
-    settings_validator_basic = $(".messic-user-settings-basic-data-container").kendoValidator({
+/** function to check if is valid */
+function settingsValidateForms(formname) {
+    if (!formname) {
+        //validate everything
+        if ($("#messic-user-settings-content-basic").valid()) {
+            if ($("#messic-user-settings-content-music").valid()) {
+                if ($("#messic-user-settings-content-admin").length == 0 || $("#messic-user-settings-content-admin").valid()) {
+                    return $("#messic-user-settings-content-stats").valid();
+                }
+            }
+        }
+    } else {
+        if (formname == "basic") {
+            return $("#messic-user-settings-content-basic").valid();
+        } else if (formname = "music") {
+            return $("#messic-user-settings-content-music").valid();
+        } else if (formname = "admin") {
+            return $("#messic-user-settings-content-admin").valid();
+        } else if (formname = "stats") {
+            return $("#messic-user-settings-content-stats").valid();
+        } else {
+            return false;
+        }
+    }
+
+    return false;
+}
+
+
+
+/** function to load validations */
+function settingsLoadValidation() {
+
+    var validator = {
+        onkeyup: function (element) {
+            // we don't want to validate user/captcha on key up events
+            if ($(element).attr('name') != 'user' && $(element).attr('name') != 'captcha') {
+                $.validator.defaults.onkeyup.apply(this, arguments);
+            }
+        },
         rules: {
-            validUser: function (input) {
-                if (input.is("[name=login]")) {
-                    var resultAjax = false;
-                    $.ajax({
-                        type: "POST",
-                        async: false,
-                        url: "services/settings/" + encodeURIComponent($("#messic-user-settings-user").val()) + "/validate",
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            resultAjax = false;
-                        },
-                        success: function (data) {
-                            resultAjax = true;
-                        }
-                    });
-                    return resultAjax;
-                }
-                return true;
+            user: {
+                required: true,
+                usernameValidation: true
             },
-            passwordLength: function (input) {
-                if (input.is("[name=password]")) {
-                    return input.val().length >= 5;
-                }
-                return true;
+            password: {
+                required: true,
+                minlength: 5
             },
-            validPassword: function (input) {
-                if (input.is("[name=password]")) {
-                    var pass1 = $("#messic-user-settings-password").val();
-                    var pass2 = $("#messic-user-settings-password-confirm").val();
-                    return pass1 == pass2;
-                }
-                return true;
+            confirm: {
+                required: true,
+                minlength: 5,
+                equalTo: "#messic-user-settings-password"
             },
-            validCaptcha: function (input) {
-                if (input.is("[name=captcha]")) {
-                    var resultAjax = false;
-                    $.ajax({
-                        type: "GET",
-                        async: false,
-                        url: "services/captcha/validate?id=" + messic_user_settings_captcha_id + "&response=" + input.val(),
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            getCaptchaImage();
-                            resultAjax = false;
-                        },
-                        success: function (data) {
-                            resultAjax = true;
-                        }
-                    });
-                    return resultAjax;
-                }
-                return true;
+            name: {
+                required: true
+            },
+            email: {
+                required: false,
+                email: true
+            },
+            captcha: {
+                required: true,
+                captchaValidation: true
             }
         },
         messages: {
-            validUser: messicLang.settingsValidUser,
-            validPassword: messicLang.settingsValidPassword,
-            passwordLength: messicLang.settingsValidPasswordLength,
-            validCaptcha: messicLang.settingsValidCaptcha
+            user: {
+                required: messicLang.validationRequired,
+                usernameValidation: messicLang.settingsValidUser
+            },
+            password: {
+                required: messicLang.validationRequired,
+                minlength: messicLang.settingsValidPasswordLength,
+            },
+            confirm: {
+                required: messicLang.validationRequired,
+                minlength: messicLang.settingsValidPasswordLength,
+                equalTo: messicLang.settingsValidPassword
+            },
+            name: messicLang.validationRequired,
+            email: {
+                required: messicLang.validationRequired,
+                email: messicLang.settingsValidEmail
+            },
+            captcha: {
+                required: messicLang.validationRequired,
+                captchaValidation: messicLang.settingsValidCaptcha
+            }
         }
-    }).data("kendoValidator");
-    settings_validator_music = $("#messic-user-settings-content-music").kendoValidator().data("kendoValidator");
-    settings_validator_admin = $("#messic-user-settings-content-admin").kendoValidator().data("kendoValidator");
-    settings_validator_stats = $("#messic-user-settings-content-stats").kendoValidator().data("kendoValidator");
+    };
+
+    //A validation method for the username
+    jQuery.validator.addMethod("usernameValidation", function (value, element) {
+        if (messic_user_settings_new_user) {
+            var resultAjax = false;
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "services/settings/" + encodeURIComponent($("#messic-user-settings-user").val()) + "/validate",
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    resultAjax = false;
+                },
+                success: function (data) {
+                    resultAjax = true;
+                }
+            });
+            return resultAjax;
+        } else {
+            //not validation if not creating a new user
+            return true;
+        }
+    }, messicLang.settingsValidUser);
+
+    //A validation method for the captcha entered
+    jQuery.validator.addMethod("captchaValidation", function (value, element) {
+        if (messic_user_settings_new_user) {
+            var resultAjax = false;
+            $.ajax({
+                type: "GET",
+                async: false,
+                url: "services/captcha/validate?id=" + messic_user_settings_captcha_id + "&response=" + $(element).val(),
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    getCaptchaImage();
+                    resultAjax = false;
+                },
+                success: function (data) {
+                    resultAjax = true;
+                }
+            });
+            return resultAjax;
+        } else {
+            //not validation if not creating a new user
+            return true;
+        }
+    }, messicLang.settingsValidCaptcha);
+
+    $("#messic-user-settings-content-basic").validate(validator);
+    $("#messic-user-settings-content-music").validate(validator);
+    $("#messic-user-settings-content-admin").validate(validator);
+    $("#messic-user-settings-content-stats").validate(validator);
+
 }
 
 /** Init settings page for a new User */
@@ -714,8 +787,7 @@ function initSettingsNewUser() {
     $("#messic-user-settings-button-accept").click(function () {
         var selected = $(".messic-user-settings-menu-visible")[0];
         if (selected.id == 'messic-user-settings-content-basic') {
-            if (settings_validator_basic.validate()) {
-
+            if (settingsValidateForms("basic")) {
                 $("#messic-user-settings-button-previous").show();
                 if ($("#messic-user-settings-menu-admin").size() > 0) {
                     selectTab($("#messic-user-settings-menu-admin"), $("#messic-user-settings-content-admin"));
@@ -724,16 +796,16 @@ function initSettingsNewUser() {
                 }
             }
         } else if (selected.id == 'messic-user-settings-content-admin') {
-            if (settings_validator_admin.validate()) {
+            if (settingsValidateForms("admin")) {
                 $("#accept-button").text(messicLang.settingsCreateSave);
                 selectTab($("#messic-user-settings-menu-music"), $("#messic-user-settings-content-music"));
             }
         } else if (selected.id == 'messic-user-settings-content-music') {
-            if (settings_validator_music.validate()) {
+            if (settingsValidateForms("music")) {
                 selectTab($("#messic-user-settings-menu-stats"), $("#messic-user-settings-content-stats"));
             }
         } else {
-            if (settings_validator_stats.validate()) {
+            if (settingsValidateForms("stats")) {
                 createUser();
             }
         }
@@ -770,6 +842,7 @@ function initSettingsNewUser() {
 function settingsChangeSection(nextFunction) {
     var visible = $("#messic-user-settings-button-savechanges").is(':visible');
     if (visible) {
+
         $.confirm({
             'title': messicLang.settingsChangeSectionTitle,
             'message': messicLang.settingsChangeSectionMessage,
@@ -835,20 +908,29 @@ function initSettingsExistingUser() {
     });
 
     $("#messic-user-settings-menu-basic").click(function () {
-        selectTab($("#messic-user-settings-menu-basic"), $("#messic-user-settings-content-basic"));
+        if (settingsValidateForms()) {
+            selectTab($("#messic-user-settings-menu-basic"), $("#messic-user-settings-content-basic"));
+        }
     });
 
     $("#messic-user-settings-menu-admin").click(function () {
-        selectTab($("#messic-user-settings-menu-admin"), $("#messic-user-settings-content-admin"));
+        if (settingsValidateForms()) {
+            selectTab($("#messic-user-settings-menu-admin"), $("#messic-user-settings-content-admin"));
+        }
     });
 
     $("#messic-user-settings-menu-music").click(function () {
-        selectTab($("#messic-user-settings-menu-music"), $("#messic-user-settings-content-music"));
+        if (settingsValidateForms()) {
+            selectTab($("#messic-user-settings-menu-music"), $("#messic-user-settings-content-music"));
+        }
     });
 
     $("#messic-user-settings-menu-stats").click(function () {
-        selectTab($("#messic-user-settings-menu-stats"), $("#messic-user-settings-content-stats"));
+        if (settingsValidateForms()) {
+            selectTab($("#messic-user-settings-menu-stats"), $("#messic-user-settings-content-stats"));
+        }
     });
+
 
 }
 
@@ -947,6 +1029,10 @@ function continueSendData(flagNewUser, userData) {
 }
 
 function saveChanges() {
+    if (!settingsValidateForms()) {
+        return;
+    }
+
     $.confirm({
         'title': messicLang.settingsUserSavedTitle,
         'message': messicLang.settingsUserSavedMessage,

@@ -27,6 +27,7 @@ public class Album{
             public String author="";
             public List<Song> songs=new ArrayList<Song>();
             public String genre="";
+            public Integer volumes=1;
             public String comments="";
 }
 

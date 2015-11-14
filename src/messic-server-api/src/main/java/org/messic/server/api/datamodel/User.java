@@ -56,6 +56,9 @@ public class User
     @ApiObjectField( description = "flag to know the user content is allowed to be shared by a DLNA protocol" )
     private Boolean allowDLNA = true; // true by default
 
+    @ApiObjectField( description = "flag to know if the user was notified about the udpate version" )
+    private Boolean versionUpdatedNotified = false; // false by default
+
     /**
      * Default constructor
      */
@@ -94,6 +97,7 @@ public class User
         mdouser.setEmail( getEmail() );
         mdouser.setLogin( getLogin() );
         mdouser.setName( getName() );
+        mdouser.setVersionUpdatedNotified( getVersionUpdatedNotified().booleanValue() );
         // mdouser.setPassword( getPassword() ); we can't set the password, because it need to be hashed
 
         return mdouser;
@@ -126,6 +130,7 @@ public class User
             this.setSid( mdoUser.getSid() );
             this.setAllowStatistics( mdoUser.getAllowStatistics() );
             this.setAllowDLNA( mdoUser.getAllowDLNA() );
+            this.setVersionUpdatedNotified( mdoUser.isVersionUpdatedNotified() );
         }
     }
 
@@ -247,6 +252,22 @@ public class User
     public void setAllowDLNA( Boolean allowDLNA )
     {
         this.allowDLNA = allowDLNA;
+    }
+
+    /**
+     * @return the versionUpdatedNotified
+     */
+    public Boolean getVersionUpdatedNotified()
+    {
+        return versionUpdatedNotified;
+    }
+
+    /**
+     * @param versionUpdatedNotified the versionUpdatedNotified to set
+     */
+    public void setVersionUpdatedNotified( Boolean versionUpdatedNotified )
+    {
+        this.versionUpdatedNotified = versionUpdatedNotified;
     }
 
 }

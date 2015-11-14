@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.messic</groupId>
 		<artifactId>messic</artifactId>
-		<version>1.0.1</version>
+		<version>1.1.0</version>
 		<relativePath>../messic/pom.xml</relativePath>
 	</parent>
 
@@ -53,7 +53,7 @@
 						<Embed-Transitive>true</Embed-Transitive>
 
 						<Import-Package>*;resolution:=optional,org.eclipse.jetty.webapp</Import-Package>
-						<Export-Package>org.messic.server.api.tagwizard.service,org.messic.server.api.musicinfo.service</Export-Package>
+						<Export-Package>org.messic.server.api.tagwizard.service,org.messic.server.api.musicinfo.service,org.messic.server.api.plugin.radio</Export-Package>
 
 						<_wab>src/main/webapp</_wab>
 						<Web-ContextPath>/messic</Web-ContextPath>
@@ -83,7 +83,8 @@
 
 						<echo message="Copying bundle to the starter project" />
 						<copy file="${project.build.directory}/${project.build.finalName}.jar"
-							tofile="../messic-service/bundles/03-messic/01-${project.build.finalName}.bnd" failOnError="false" />
+							tofile="../messic-service/bundles/03-messic/01-${project.build.finalName}.bnd"
+							failOnError="false" />
 					</tasks>
 				</configuration>
 				<executions>

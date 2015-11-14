@@ -41,7 +41,7 @@ public class Login
 
     @ApiObjectField( description = "user name" )
     private String userId;
-
+    
     /**
      * Default constructor
      */

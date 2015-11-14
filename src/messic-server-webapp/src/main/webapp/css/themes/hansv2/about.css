@@ -1,4 +1,3 @@
-
 #messic-about-contributors a {
     color: blue;
     font-size: 1em;
@@ -14,6 +13,7 @@
     position: absolute;
     width: 14px;
 }
+
 .messic-about-title {
     background: none repeat scroll 0 0 #eeeeee;
     border-bottom: 1px solid #aaaaaa;
@@ -33,25 +33,29 @@
     border-radius: 4px;
     margin-bottom: 30px;
 }
+
 .messic-about-title-title {
     font-family: roboto-bold;
     font-size: 1.2em;
 }
+
 .messic-about-title:hover {
     background: none repeat scroll 0 0 #88eeee;
 }
+
 .messic-about-title.messic-about-title-expanded:before {
     -webkit-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
 }
+
 .messic-about-title.messic-about-title-expanded {
     background: none repeat scroll 0 0 white;
     border: 4px dashed #555555;
     height: auto;
 }
 
-#messic-about-tape{
+#messic-about-tape {
     /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
     -webkit-animation: 1.5s ease 0s normal none 1 messic-about-tape-comein;
     animation: 1.5s ease 0s normal none 1 messic-about-tape-comein;
@@ -67,7 +71,8 @@
     width: 546px;
     z-index: 2;
 }
-#messic-about-close{
+
+#messic-about-close {
     background: url("playlist/remove-vinyl.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     cursor: pointer;
     height: 26px;
@@ -84,7 +89,8 @@
     -ms-transform: scale(0);
     transform: scale(0);
 }
-#messic-about-window{
+
+#messic-about-window {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0.70);
     height: 100%;
     left: 0;
@@ -95,55 +101,83 @@
     z-index: 99999;
 }
 
-@-webkit-keyframes messic-about-tape-comein{
-	from { -webkit-transform:scale(3.5); transform:scale(3.5); opacity:0;}
-	to { -webkit-transform: scale(0.8); transform: scale(0.8); opacity:1;}
+@-webkit-keyframes messic-about-tape-comein {
+    from {
+        -webkit-transform: scale(3.5);
+        transform: scale(3.5);
+        opacity: 0;
+    }
+    to {
+        -webkit-transform: scale(0.8);
+        transform: scale(0.8);
+        opacity: 1;
+    }
 }
 
-@keyframes messic-about-tape-comein{
-	from { -webkit-transform:scale(3.5); transform:scale(3.5); opacity:0;}
-	to { -webkit-transform: scale(0.8); transform: scale(0.8); opacity:1;}
+@keyframes messic-about-tape-comein {
+    from {
+        -webkit-transform: scale(3.5);
+        transform: scale(3.5);
+        opacity: 0;
+    }
+    to {
+        -webkit-transform: scale(0.8);
+        transform: scale(0.8);
+        opacity: 1;
+    }
 }
 
-
-#messic-about-tape .messic-tape-wheel{
-	width: 58px;
-	height: 58px;
-	position: absolute;
+#messic-about-tape .messic-tape-wheel {
+    width: 58px;
+    height: 58px;
+    position: absolute;
 }
 
-#messic-about-tape #messic-tape-leftwheel{
+#messic-about-tape #messic-tape-leftwheel {
     /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
-	background: url("about/tape-left-wheel.png") repeat scroll 0 0 transparent;
-	left: 125px;
-	top: 125px;
-	-webkit-animation: tape-wheel-anim 1.5s infinite;
-	animation: tape-wheel-anim 1.5s infinite;
-	-webkit-animation-timing-function: linear;
-	animation-timing-function: linear;
+    background: url("about/tape-left-wheel.png") repeat scroll 0 0 transparent;
+    left: 125px;
+    top: 125px;
+    -webkit-animation: tape-wheel-anim 1.5s infinite;
+    animation: tape-wheel-anim 1.5s infinite;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
 }
-#messic-about-tape #messic-tape-rightwheel{
+
+#messic-about-tape #messic-tape-rightwheel {
     /* http://freepsdfiles.net/graphics/free-psd-retro-audio-tape/ */
     background: url("about/tape-right-wheel.png") repeat scroll 0 0 transparent;
-	left: 350px;
-	top: 125px;
-	-webkit-animation: tape-wheel-anim 2s infinite;
-	animation: tape-wheel-anim 2s infinite;
-	-webkit-animation-timing-function: linear;
-	animation-timing-function: linear;
+    left: 350px;
+    top: 125px;
+    -webkit-animation: tape-wheel-anim 2s infinite;
+    animation: tape-wheel-anim 2s infinite;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
 }
 
-@-webkit-keyframes tape-wheel-anim{
-	from { -webkit-transform:rotate(0deg); transform:rotate(0deg);}
-	to { -webkit-transform: rotate(360deg); transform: rotate(360deg);}
+@-webkit-keyframes tape-wheel-anim {
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
-@keyframes tape-wheel-anim{
-	from { -webkit-transform:rotate(0deg); transform:rotate(0deg);}
-	to { -webkit-transform: rotate(360deg); transform: rotate(360deg);}
+@keyframes tape-wheel-anim {
+    from {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }
 
-#messic-about-page{
+#messic-about-page {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.25);
     border-bottom-left-radius: 50px;
     color: #FFFFFF;
@@ -158,7 +192,8 @@
     width: 381px;
     z-index: 1;
 }
-#messic-about-page-content{
+
+#messic-about-page-content {
     -webkit-animation: 1400s ease 1.5s normal none infinite messic-about-page-scroll, 1s ease 1s normal none 1 messic-about-page-fadein;
     animation: 1400s ease 1.5s normal none infinite messic-about-page-scroll, 1s ease 1s normal none 1 messic-about-page-fadein;
     border-radius: 14px;
@@ -167,33 +202,81 @@
     position: relative;
     width: 100%;
 }
-@-webkit-keyframes messic-about-page-fadein{
-	from { opacity: 0; }
-	to { opacity: 1; }
+
+@-webkit-keyframes messic-about-page-fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
-@keyframes messic-about-page-fadein{
-	from { opacity: 0; }
-	to { opacity: 1; }
+
+@keyframes messic-about-page-fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
-@-webkit-keyframes messic-about-page-scroll{
-	from { opacity:1; top:0px;}
-	to { opacity:1; top: -10000px;}
+
+@-webkit-keyframes messic-about-page-scroll {
+    from {
+        opacity: 1;
+        top: 0px;
+    }
+    to {
+        opacity: 1;
+        top: -10000px;
+    }
 }
-@keyframes messic-about-page-scroll{
-	from { opacity:1; top:0px;}
-	to { opacity:1; top: -10000px;}
+
+@keyframes messic-about-page-scroll {
+    from {
+        opacity: 1;
+        top: 0px;
+    }
+    to {
+        opacity: 1;
+        top: -10000px;
+    }
 }
 
 #messic-about-faq > ul {
     list-style: none outside none;
-	margin-right: 40px;
+    margin-right: 40px;
 }
-
 
 #messic-about-page-content > a {
     color: white;
 }
 
+div#messic-about-changes-window {
+    overflow: hidden;
+    font-family: Roboto;
+    font-size: 14px;
+    overflow-y: scroll;
+}
+
+#messic-about-changes-window h4 {
+    color: #4444FF;
+    margin-bottom: 1px;
+    font-weight: bold;
+    font-family: roboto-bold;
+}
+
+#messic-about-changes-window h3 {
+    color: #333333;
+    font-family: roboto-bold;
+    font-size: 23px;
+    margin: 0px;
+    text-shadow: 0px 0px 0px #444444;
+    background: #EEEEEE;
+    padding-left: 13px;
+    box-shadow: 1px 1px 2px #AAAAAA;
+    margin-bottom: -12px;
+}
 
 #messic-about-faq h1 {
     background: none repeat scroll 0 0 #ddffff;

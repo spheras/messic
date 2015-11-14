@@ -19,13 +19,11 @@
 package org.messic.server.api;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Properties;
 
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.User;
@@ -124,19 +122,11 @@ public class APITagWizard
 
         String basePath = mdouser.calculateTmpPath( daoSettings.getSettings(), albumCode );
         File tmpPath = new File( basePath );
-        File[] files = tmpPath.listFiles();
+        
 
-        Properties indexProps = new Properties();
-        File findex = new File( basePath + File.separatorChar + APIAlbum.INDEX_TMP_PROPERTIES_FILENAME );
-        if ( findex.exists() )
-        {
-            FileInputStream fisIndex = new FileInputStream( findex );
-            indexProps.load( fisIndex );
-            fisIndex.close();
-        }
 
         org.messic.server.api.datamodel.TAGWizardPlugin basicPlugin =
-            this.tagWizard.getAlbumWizard( user, null, files, indexProps );
+            this.tagWizard.getAlbumWizard( user,(Album)null,tmpPath );
         result.add( 0, basicPlugin );
 
         return result;

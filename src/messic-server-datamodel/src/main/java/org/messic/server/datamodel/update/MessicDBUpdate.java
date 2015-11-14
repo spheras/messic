@@ -2,6 +2,7 @@ package org.messic.server.datamodel.update;
 
 import org.messic.server.datamodel.MDOMessicSettings;
 import org.messic.server.datamodel.dao.DAOMessicSettings;
+import org.messic.server.datamodel.dao.DAOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,9 @@ public class MessicDBUpdate
 
     @Autowired
     private DAOMessicSettings daoSettings;
+
+    @Autowired
+    private DAOUser daoUser;
 
     /**
      * update the current database to the new version
@@ -31,6 +35,8 @@ public class MessicDBUpdate
             MDOMessicSettings mms = daoSettings.getSettings();
             mms.setVersion( sversion );
             daoSettings.saveSettings( mms );
+
+            daoUser.usersNotifyMessicUpdate();
         }
     }
 

@@ -21,11 +21,14 @@ package org.messic.server.datamodel;
 import java.io.File;
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+
+import org.messic.server.Util;
 
 @Entity
 @Table( name = "ALBUM_RESOURCES" )
@@ -35,12 +38,18 @@ public class MDOAlbumResource
     extends MDOPhysicalResource
     implements MDO, Serializable
 {
+    public static final String VOLUME_FOLDER_PRENAME = "vol";
+
+    private static final int DEFAULT_VOLUME = 0;
 
     public static final String SONG = "SONG";
 
     public static final String ARTWORK = "ARTWORK";
 
     public static final String OTHER = "OTHER";
+
+    @Column( name = "VOLUME", nullable = true )
+    private Integer volume;
 
     /**
 	 * 
@@ -89,7 +98,72 @@ public class MDOAlbumResource
      */
     public String calculateAbsolutePath( String albumPath )
     {
-        return albumPath + File.separatorChar + getLocation();
+        return albumPath + calculateVolumePath() + File.separatorChar + getLocation();
+    }
+
+    /**
+     * Return the absolute (relative from author folder) location to this resource
+     * 
+     * @param albumPath {@link String} path of the album (resources are supposed to be under the album folder)
+     * @param oldVolumes int old amount of volumes for the album
+     * @return String path
+     */
+    public String calculateAbsolutePath( String albumPath, int oldVolumes )
+    {
+        return albumPath + calculateVolumePath( oldVolumes, getVolume() ) + File.separatorChar + getLocation();
+    }
+
+    /**
+     * Function to calculate the volume path for the album resources
+     * 
+     * @param totalVolumes int total volumes for the album
+     * @param volumeNumber int volume number that we need to calculate
+     * @return {@link String} the path to the volume
+     */
+    public static String calculateVolumePath( int totalVolumes, int volumeNumber )
+    {
+        String volumePath =
+            ( totalVolumes > 1 ? "" + File.separatorChar + VOLUME_FOLDER_PRENAME
+                + Util.leftZeroPadding( volumeNumber, 2 ) : "" );
+
+        return volumePath;
+    }
+
+    /**
+     * Function to calculate the volume path for the album resources, ie: /vol01
+     * 
+     * @return {@link String} the path to the volume
+     */
+    public String calculateVolumePath()
+    {
+        String volumePath =
+            ( getAlbum().getVolumes() > 1 ? "" + File.separatorChar + VOLUME_FOLDER_PRENAME
+                + Util.leftZeroPadding( getVolume(), 2 ) : "" );
+
+        return volumePath;
+    }
+
+    /**
+     * @return the volume
+     */
+    public Integer getVolume()
+    {
+        if ( volume == null )
+        {
+            return DEFAULT_VOLUME;
+        }
+        else
+        {
+            return volume;
+        }
+    }
+
+    /**
+     * @param volume the volume to set
+     */
+    public void setVolume( Integer volume )
+    {
+        this.volume = volume;
     }
 
 }

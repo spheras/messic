@@ -119,6 +119,11 @@ public class AuthorController
             }
             else
             {
+                if ( contains == null )
+                {
+                    contains = true;
+                }
+
                 authors =
                     authorAPI.findSimilar( user, filterName, contains, ( albumsInfo != null ? albumsInfo : false ),
                                            ( albumsInfo != null && songsInfo != null && albumsInfo == true ? songsInfo

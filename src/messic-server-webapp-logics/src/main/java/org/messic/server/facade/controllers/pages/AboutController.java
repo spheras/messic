@@ -57,4 +57,14 @@ public class AboutController
 
         return model;
     }
+
+    @RequestMapping( "/aboutchanges.do" )
+    protected ModelAndView aboutchanges( HttpServletRequest arg0, HttpServletResponse arg1 )
+        throws Exception
+    {
+        ModelAndView model = new ModelAndView( "aboutchanges" );
+
+        return model;
+    }
+
 }

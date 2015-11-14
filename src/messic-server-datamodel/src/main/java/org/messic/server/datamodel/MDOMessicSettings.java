@@ -63,6 +63,7 @@ public class MDOMessicSettings
     @Column( name = "ALLOWDLNA", nullable = false )
     /* flag to know is allowed the DLNA share content */
     private boolean allowDLNA = true;
+    
 
     private static final boolean DEFAULT_ALLOWMESSICDISCOVERING = true;
 

@@ -7,6 +7,7 @@
 </c:if>
 		    
 messicLang = {
+    validationRequired: '<fmt:message key="js-validation-required" bundle="${message}"/>', 
 	uploadImageRemoved : '<fmt:message key="js-upload-imageremoved" bundle="${message}"/>',
 	uploadCoverSelected : '<fmt:message key="js-upload-coverselected" bundle="${message}"/>',
 	uploadTrackRemoved : '<fmt:message key="js-upload-trackremoved" bundle="${message}"/>',
@@ -42,8 +43,10 @@ messicLang = {
 	uploadYearTitle: '<fmt:message key="upload-year" bundle="${message}"/>',
 	uploadGenreTitle: '<fmt:message key="upload-genre" bundle="${message}"/>',
 	uploadCommentsTitle: '<fmt:message key="upload-comments" bundle="${message}"/>',
-	uploadWizardChooseThis: '<fmt:message key="js-upload-wizard-choosethis" bundle="${message}"/>',
+	uploadWizardChooseHead: '<fmt:message key="js-upload-wizard-choosehead" bundle="${message}"/>',
+	uploadWizardChooseBody: '<fmt:message key="js-upload-wizard-choosebody" bundle="${message}"/>',
 	uploadWizardCancel: '<fmt:message key="js-upload-wizard-cancel" bundle="${message}"/>',
+    uploadWizardOk: '<fmt:message key="js-upload-wizard-ok" bundle="${message}"/>',
 	uploadWizardResultsFromProvider: '<fmt:message key="js-upload-wizard-resultsfromprovider" bundle="${message}"/>',
 	uploadErrorTracksWithoutName: '<fmt:message key="js-upload-error-trackswithoutname" bundle="${message}"/>',
 	uploadErrorTrackWithoutNumber: '<fmt:message key="js-upload-error-trackwithoutnumber" bundle="${message}"/>',
@@ -51,6 +54,8 @@ messicLang = {
 	uploadWizardRemove: '<fmt:message key="js-upload-wizard-remove" bundle="${message}"/>',
 	uploadWizardPluginWarning: '<fmt:message key="js-upload-wizard-pluginwarning" bundle="${message}"/>',
 	uploadWizardSavingWait:'<fmt:message key="js-upload-saving-wait" bundle="${message}"/>',
+	uploadVolumesUpdated:'<fmt:message key="js-upload-volumes-updated" bundle="${message}"/>',
+	
 	
 	confirmationYes: '<fmt:message key="js-confirmation-yes" bundle="${message}"/>',
 	confirmationNo: '<fmt:message key="js-confirmation-no" bundle="${message}"/>',
@@ -103,6 +108,7 @@ messicLang = {
 	settingsValidPassword:  '<fmt:message key="js-settings-valid-password" bundle="${message}"/>',
 	settingsValidPasswordLength:  '<fmt:message key="js-settings-valid-password-length" bundle="${message}"/>',
 	settingsValidCaptcha:  '<fmt:message key="js-settings-valid-captcha" bundle="${message}"/>',
+    settingsValidEmail:  '<fmt:message key="js-settings-valid-email" bundle="${message}"/>',
 	settingsNewUserTitle:  '<fmt:message key="js-settings-newuser-title" bundle="${message}"/>',
 	settingsExistingUserTitle:  '<fmt:message key="js-settings-existinguser-title" bundle="${message}"/>',
 	settingsChangeSectionTitle: '<fmt:message key="js-settings-changesection-title" bundle="${message}"/>',

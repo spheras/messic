@@ -53,7 +53,26 @@ function mainCheckUpdate() {
     });
 }
 
+function mainCheckNotifyHistoryChanges() {
+    $.getJSON("services/settings", function (data) {
+        if (!data.versionUpdatedNotified) {
+
+            aboutShowChanges();
+
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "services/settings/updateNotified",
+                contentType: "application/json"
+            });
+
+        }
+    });
+}
+
 function initMessic() {
+
+    mainCheckNotifyHistoryChanges();
 
     (function ($) {
         var playlist = $("#messic-playlist");
@@ -75,9 +94,9 @@ function initMessic() {
 
 
     //TEMPORAL
-//    var codec = (new Audio().canPlayType('audio/mpeg; codecs="mp3"') ? 'audio/mpeg; codecs="mp3"' : 'audio/mpeg');
-//    alert(codec);
-    
+    //    var codec = (new Audio().canPlayType('audio/mpeg; codecs="mp3"') ? 'audio/mpeg; codecs="mp3"' : 'audio/mpeg');
+    //    alert(codec);
+
     playlist = new jPlayerPlaylist({
         jPlayer: "#jquery_jplayer",
         cssSelectorAncestor: "#jquery_jplayer_content",
@@ -350,7 +369,7 @@ function mainSearch() {
                     e.preventDefault();
                 }
                 var $div = $(e.target).parent();
-                var authorSid= $div.data("authorsid");
+                var authorSid = $div.data("authorsid");
                 var albumSid = $div.data("albumsid");
                 var songSid = $div.data("songsid");
                 var songName = $div.data("songname");
@@ -367,7 +386,7 @@ function mainSearch() {
                     e.preventDefault();
                 }
                 var $div = $(e.target).parent();
-                var authorSid= $div.data("authorsid");
+                var authorSid = $div.data("authorsid");
                 var albumSid = $div.data("albumsid");
                 var songSid = $div.data("songsid");
                 var songName = $div.data("songname");
@@ -421,6 +440,10 @@ function mainPlayRandomList(div) {
 
 //Creates the randomlist divs
 function mainCreateRandomList(randomlist, lastTitleType) {
+
+    if (!randomlist) {
+        return;
+    }
 
     var code = "<div class=\"messic-main-randomlist\">";
     code = code + "  <div class=\"messic-main-randomlist-name ";
@@ -878,4 +901,14 @@ function mainPinPlaylist() {
         }
     }
 
+}
+
+
+function radioStart() {
+    $.ajax({
+        type: "PUT",
+        async: false,
+        url: "services/radio/start",
+        contentType: "application/json"
+    });
 }

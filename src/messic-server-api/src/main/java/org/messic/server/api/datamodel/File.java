@@ -44,6 +44,9 @@ public class File
     @ApiObjectField( description = "Size of the file" )
     private long size;
 
+    @ApiObjectField( description = "volume of the album in which this resource is linked" )
+    private int volume;
+
     @ApiObjectField( description = "Owner album of the resource" )
     private Album album;
 
@@ -59,11 +62,13 @@ public class File
      * copy constructor
      * 
      * @param mdosong {@link MDOSong}
+     * @param volume int volume where is stored the resource
      * @param album {@link Album} this is not an {@link MDOAlbum} to avoid cross references
      */
-    public File( MDOPhysicalResource mdopr, Album album )
+    public File( MDOPhysicalResource mdopr, int volume, Album album )
     {
         setFileName( mdopr.getLocation() );
+        setVolume( volume );
         setAlbum( album );
         setSid( mdopr.getSid() );
     }
@@ -146,5 +151,21 @@ public class File
     public void setSize( long size )
     {
         this.size = size;
+    }
+
+    /**
+     * @return the volume
+     */
+    public int getVolume()
+    {
+        return volume;
+    }
+
+    /**
+     * @param volume the volume to set
+     */
+    public void setVolume( int volume )
+    {
+        this.volume = volume;
     }
 }

@@ -21,20 +21,31 @@ package org.messic.server.datamodel.dao;
 import org.messic.server.datamodel.MDOAlbumResource;
 import org.springframework.transaction.annotation.Transactional;
 
-
-
 /**
  * DAO for PhysicalResource table
  */
 @Transactional
-public interface DAOAlbumResource extends DAO<MDOAlbumResource>
+public interface DAOAlbumResource
+    extends DAO<MDOAlbumResource>
 {
     /**
      * Obtain an albumresource with the sid, only search in the scope of the username
+     * 
      * @param username {@link String} user scope
      * @param sid long sid of the resource
      * @return {@link MDOAlbumResource}
      */
     @Transactional
-    MDOAlbumResource get(String username, long sid);	
+    MDOAlbumResource get( String username, long sid );
+
+    /**
+     * Remove all the album resources for a certain album, for a certain volume
+     * 
+     * @param username {@link String} user scope
+     * @param albumSid sid of the album to remove
+     * @param volume int volume number resources to be deleted
+     */
+    @Transactional
+    void removeVolumeAlbumResources( String username, long albumSid, int volume );
+
 }

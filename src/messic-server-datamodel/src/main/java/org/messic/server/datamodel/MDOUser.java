@@ -90,9 +90,13 @@ public class MDOUser
     @OneToMany( mappedBy = "owner", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY )
     private List<MDOGenre> genres;
 
-    //TODO pending to be linked!!
-    //@OneToMany( mappedBy = "owner", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY )
-    //private List<MDOMessage> messages;
+    @Column( name = "VERSIONUPDATENOTIFIED", nullable = true )
+    /* flag to know if the user was notified that the messic version was updated */
+    private Boolean versionUpdatedNotified = false;
+
+    // TODO pending to be linked!!
+    // @OneToMany( mappedBy = "owner", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY )
+    // private List<MDOMessage> messages;
 
     /**
      * @constructor
@@ -272,5 +276,25 @@ public class MDOUser
         this.genres = genres;
     }
 
+    /**
+     * @return the versionUpdatedNotified
+     */
+    public boolean isVersionUpdatedNotified()
+    {
+        if ( this.versionUpdatedNotified == null )
+        {
+            setVersionUpdatedNotified( false );
+        }
+
+        return versionUpdatedNotified;
+    }
+
+    /**
+     * @param versionUpdatedNotified the versionUpdatedNotified to set
+     */
+    public void setVersionUpdatedNotified( boolean versionUpdatedNotified )
+    {
+        this.versionUpdatedNotified = versionUpdatedNotified;
+    }
 
 }

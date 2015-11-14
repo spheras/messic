@@ -19,8 +19,10 @@
 package org.messic.server.api.tagwizard;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.messic.configuration.MessicConfig;
+import org.messic.server.api.APIAlbum;
 import org.messic.server.api.APISong;
 import org.messic.server.api.datamodel.Album;
 import org.messic.server.api.datamodel.Author;
@@ -178,11 +181,221 @@ public class TAGWizard
 
     }
 
-    public org.messic.server.api.datamodel.TAGWizardPlugin getAlbumWizard( User user, Album albumHelpInfo,
-                                                                           File[] files, Properties indexProps )
+    public org.messic.server.api.datamodel.TAGWizardPlugin getAlbumWizard( User user, Album albumHelpInfo, File basePath )
+        throws IOException
+    {
+
+        // lets get results for each volume (if exist)
+        Album baseAlbum = getAlbumInfoFromTags( user, albumHelpInfo, 0, basePath );
+        List<Album> volumeAlbums = new ArrayList<Album>();
+        File[] files = basePath.listFiles();
+        Arrays.sort(files);
+        for ( File file : files )
+        {
+            if ( file.isDirectory() )
+            {
+                // a volume
+                Album album =
+                    getAlbumInfoFromTags( user, albumHelpInfo, Integer.valueOf( file.getName() ),
+                                          new File( file.getAbsolutePath() ) );
+                volumeAlbums.add( album );
+            }
+        }
+
+        // adding all the songs to the same album (but differents volumes!)
+        for ( int i = 0; i < volumeAlbums.size(); i++ )
+        {
+            List<Song> songs = volumeAlbums.get( i ).getSongs();
+            for ( int j = 0; j < songs.size(); j++ )
+            {
+                baseAlbum.addSong( songs.get( j ) );
+            }
+        }
+
+        // and now lets see the best album info
+        if ( volumeAlbums.size() > 0 )
+        {
+            Album bestAlbum = getBestAlbumInfoFromVolumes( volumeAlbums );
+            baseAlbum.setAuthor( bestAlbum.getAuthor() );
+            baseAlbum.setComments( bestAlbum.getComments() );
+            baseAlbum.setName( bestAlbum.getName() );
+            baseAlbum.setGenre( bestAlbum.getGenre() );
+            baseAlbum.setYear( bestAlbum.getYear() );
+        }
+
+        org.messic.server.api.datamodel.TAGWizardPlugin twp =
+            new org.messic.server.api.datamodel.TAGWizardPlugin( AudioTaggerTAGWizardPlugin.NAME, baseAlbum );
+        return twp;
+    }
+
+    /**
+     * Due we have different Album info obtained from different volumes, now we need to get the best option as the Album
+     * info
+     * 
+     * @return Album info
+     */
+    private Album getBestAlbumInfoFromVolumes( List<Album> volumeAlbums )
+    {
+        // and now lets see the best album info
+        if ( volumeAlbums.size() > 0 )
+        {
+            Album definitiveAlbum = new Album();
+            definitiveAlbum.setAuthor( new Author() );
+            definitiveAlbum.setGenre( new Genre() );
+
+            int repeatedMax = 0;
+
+            // BEST AUTHOR NAME
+            for ( Album album : volumeAlbums )
+            {
+                int repeated = 0;
+                String authorName = album.getAuthor().getName();
+                if ( authorName != null )
+                {
+                    for ( int i = 0; i < volumeAlbums.size(); i++ )
+                    {
+                        if ( authorName.equalsIgnoreCase( volumeAlbums.get( i ).getAuthor().getName() ) )
+                        {
+                            repeated++;
+                        }
+                    }
+                }
+                if ( repeated > repeatedMax )
+                {
+                    repeatedMax = repeated;
+                    definitiveAlbum.getAuthor().setName( authorName );
+                }
+            }
+
+            // BEST COMMENTS
+            repeatedMax = 0;
+            for ( Album album : volumeAlbums )
+            {
+                int repeated = 0;
+                String comments = album.getComments();
+                if ( comments != null )
+                {
+                    for ( int i = 0; i < volumeAlbums.size(); i++ )
+                    {
+                        if ( comments.equalsIgnoreCase( volumeAlbums.get( i ).getComments() ) )
+                        {
+                            repeated++;
+                        }
+                    }
+                }
+                if ( repeated > repeatedMax )
+                {
+                    repeatedMax = repeated;
+                    definitiveAlbum.setComments( comments );
+                }
+            }
+
+            // BEST ALBUM NAME
+            repeatedMax = 0;
+            for ( Album album : volumeAlbums )
+            {
+                int repeated = 0;
+                String name = album.getName();
+                if ( name != null )
+                {
+                    for ( int i = 0; i < volumeAlbums.size(); i++ )
+                    {
+                        if ( name.equalsIgnoreCase( volumeAlbums.get( i ).getName() ) )
+                        {
+                            repeated++;
+                        }
+                    }
+                }
+                if ( repeated > repeatedMax )
+                {
+                    repeatedMax = repeated;
+                    definitiveAlbum.setName( name );
+                }
+            }
+
+            // BEST ALBUM YEAR
+            repeatedMax = 0;
+            for ( Album album : volumeAlbums )
+            {
+                int repeated = 0;
+                int year = album.getYear();
+                if ( year != 0 )
+                {
+                    for ( int i = 0; i < volumeAlbums.size(); i++ )
+                    {
+                        if ( year == volumeAlbums.get( i ).getYear() )
+                        {
+                            repeated++;
+                        }
+                    }
+                }
+                if ( repeated > repeatedMax )
+                {
+                    repeatedMax = repeated;
+                    definitiveAlbum.setYear( year );
+                }
+            }
+
+            // BEST ALBUM GENRE
+            repeatedMax = 0;
+            for ( Album album : volumeAlbums )
+            {
+                int repeated = 0;
+                String name = album.getGenre().getName();
+                if ( name != null )
+                {
+                    for ( int i = 0; i < volumeAlbums.size(); i++ )
+                    {
+                        if ( name.equalsIgnoreCase( volumeAlbums.get( i ).getGenre().getName() ) )
+                        {
+                            repeated++;
+                        }
+                    }
+                }
+                if ( repeated > repeatedMax )
+                {
+                    repeatedMax = repeated;
+                    definitiveAlbum.getGenre().setName( name );
+                }
+            }
+
+            return definitiveAlbum;
+        }
+        else
+        {
+            return null;
+        }
+
+    }
+
+    /**
+     * Get the Album Info from Tags of the different mp3
+     * 
+     * @param user User scope
+     * @param albumHelpInfo
+     * @param volume volume for these files
+     * @param basePath base path to obtain the files
+     * @return {@link Album} album info
+     * @throws IOException
+     */
+    private Album getAlbumInfoFromTags( User user, Album albumHelpInfo, int volume, File basePath )
         throws IOException
     {
         AudioTaggerTAGWizardPlugin plugin = new AudioTaggerTAGWizardPlugin();
+
+        File[] files = basePath.listFiles();
+
+        Properties indexProps = new Properties();
+        File findex =
+            new File( basePath.getAbsolutePath() + File.separatorChar + APIAlbum.INDEX_TMP_PROPERTIES_FILENAME );
+        if ( findex.exists() )
+        {
+            FileInputStream fisIndex = new FileInputStream( findex );
+            indexProps.load( fisIndex );
+            fisIndex.close();
+        }else{
+            return new Album();
+        }
 
         org.messic.server.api.tagwizard.service.Song[] ssongs =
             new org.messic.server.api.tagwizard.service.Song[files.length];
@@ -191,6 +404,7 @@ public class TAGWizard
             Song sdiscovered = apiSong.getSongInfoFromFileName( files[i].getName() );
             org.messic.server.api.tagwizard.service.Song sservice = new org.messic.server.api.tagwizard.service.Song();
             sservice.track = sdiscovered.getTrack();
+            sservice.volume = volume;
             sservice.name = sdiscovered.getName();
             ssongs[i] = sservice;
         }
@@ -255,6 +469,7 @@ public class TAGWizard
             }
             song.setTrack( trackNumber );
             song.setName( tagInfo.title );
+            song.setVolume( volume );
             song.setFileName( tagInfo.filename );
             album.addSong( song );
         }
@@ -274,13 +489,12 @@ public class TAGWizard
 
             for ( int i = 0; i < album.getSongs().size(); i++ )
             {
-                album.getSongs().get( i ).setTrack( i+1 );
+                album.getSongs().get( i ).setTrack( i + 1 );
             }
         }
 
-        org.messic.server.api.datamodel.TAGWizardPlugin twp =
-            new org.messic.server.api.datamodel.TAGWizardPlugin( AudioTaggerTAGWizardPlugin.NAME, album );
-        return twp;
+        return album;
+
     }
 
     /**

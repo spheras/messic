@@ -117,5 +117,12 @@ public interface DAOUser
      */
     @Transactional
     MDOUser saveUser( MDOUser user, boolean updatePassword, String newPassword );
+    
+    /**
+     *update all the users to notify the new messic update version 
+     */
+    @Transactional
+    void usersNotifyMessicUpdate();
+
 
 }
