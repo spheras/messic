@@ -170,7 +170,7 @@ public class DAOJPASong
         List<MDOSong> results = query.getResultList();
         return results;
     }
-
+    
     @Override
     @Transactional
     public List<MDOSong> getAllOrderByLessPlayed( String username, int max )

@@ -1,4 +1,5 @@
 <%@page import="java.util.Date"%>
+<%@ page import="org.messic.server.api.datamodel.Album" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="messic" uri="/WEB-INF/functions.tld" %>
@@ -50,67 +51,93 @@
 					<div id="messic-album-genre-edit" class="messic-album-editbutton" onclick="albumGenreEdit()"></div>
 					${messic:escapeHTML(album.genre.name)}&nbsp;
 				</div>
+				<div id="messic-album-volumes" class="messic-album-predata messic-album-editable">
+					<div><fmt:message key="album-volumes-title" bundle="${message}"/></div>
+					<div id="messic-album-volumes-edit" class="messic-album-editbutton" onclick="albumVolumesEdit()"></div>
+					${messic:escapeHTML(album.volumes)}&nbsp;
+				</div>
+				
 				<div id="messic-album-comments" class="messic-album-predata messic-album-editable">
 					<div><fmt:message key="album-comments-title" bundle="${message}"/></div>
 					<div id="messic-album-comments-edit" class="messic-album-editbutton" onclick="albumCommentsEdit()"></div>
 					${messic:escapeHTML(album.comments)}&nbsp;
 				</div>
+
+
 				
-				<div id="messic-album-songs-container">
+			<div id="messic-album-songs-container-tabs">
+                <ul id="messic-album-songs-tabs">
+				<c:forEach var="volume" begin="1" end="${album.volumes}">
+                    <li><a href="#messic-album-songs-container-tab${volume}">Vol.${volume}</a></li>
+                </c:forEach>
+                </ul>
+				<c:forEach var="volume" begin="1" end="${album.volumes}">
+				<div id="messic-album-songs-container-tab${volume}" class="messic-album-songs-container" data-volume="${volume}">
 					<div id="messic-album-songs-head">
 						<div id="messic-album-songs-head-songtrack" class="messic-album-songs-headfield"><fmt:message key="album-songtrack-title" bundle="${message}"/></div>
 						<div id="messic-album-songs-head-songname" class="messic-album-songs-headfield"><fmt:message key="album-songname-title" bundle="${message}"/></div>
 						<div id="messic-album-songs-head-songaction" class="messic-album-songs-headfield">
-							<div id="messic-album-songs-head-songaction-add" onaction="albumAddSong()"></div>
-							<input id="messic-album-songs-head-songaction-addinput" type="file" multiple>
+							<div class="messic-album-songs-head-songaction-add" onaction="albumAddSong()"></div>
+							<input class="messic-album-songs-head-songaction-addinput" type="file" multiple>
 						</div>
 						<div class="divclearer"></div>
 					</div>
 					<div id="messic-album-songs-body">
+						
 						<c:forEach var="song" items="${album.songs}">
-							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-rate${song.rate}" onclick="albumRowSelected(this);">
-								<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-songtrack">${messic:escapeHTML(song.track)}</div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-songname">${messic:escapeHTML(song.name)}</div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-songaction">
-									<div title="<fmt:message key="album-addplaylist-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-addtoplaylist" onclick="albumAddSongToPlaylist('${messic:escapeAll(song.sid)}')"></div>
-                                    
-									<div title="<fmt:message key="album-songplay-title" bundle="${message}"/>" data-authorsid="${messic:escapeHTML(album.author.sid)}" data-albumsid="${messic:escapeHTML(album.sid)}" data-songsid="${messic:escapeHTML(song.sid)}" data-songname="${messic:escapeHTML(song.name)}" data-albumname="${messic:escapeHTML(album.name)}" data-authorname="${messic:escapeHTML(album.author.name)}" data-songrate="${messic:escapeHTML(song.rate)}" class="messic-album-songs-body-songaction-play"></div>
-                                    
-									<div title="<fmt:message key="album-songedit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditSong(${messic:escapeAll(song.sid)},'${messic:escapeAll(song.track)}','${messic:escapeAll(song.name)}','${messic:escapeAll(song.album.author.name)}','${messic:escapeAll(song.album.name)}',this,${messic:escapeAll(song.rate)})"></div>
-									<div title="<fmt:message key="album-songdownload-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-download" onclick="albumDownloadSong(${messic:escapeAll(song.sid)})"></div>
-									<div title="<fmt:message key="album-songdelete-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveSong('${messic:escapeAll(song.sid)}','${messic:escapeAll(song.track)}-${messic:escapeAll(song.name)}',$(this).parent().parent())"></div>
+							<c:if test="${song.volume==volume}">
+								<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-rate${song.rate}" onclick="albumRowSelected(this);">
+									<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-songtrack">${messic:escapeHTML(song.track)}</div>
+									<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-songname">${messic:escapeHTML(song.name)}</div>
+									<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-songaction">
+										<div title="<fmt:message key="album-addplaylist-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-addtoplaylist" onclick="albumAddSongToPlaylist('${messic:escapeAll(song.sid)}')"></div>
+	                                    
+										<div title="<fmt:message key="album-songplay-title" bundle="${message}"/>" data-authorsid="${messic:escapeHTML(album.author.sid)}" data-albumsid="${messic:escapeHTML(album.sid)}" data-songsid="${messic:escapeHTML(song.sid)}" data-songname="${messic:escapeHTML(song.name)}" data-albumname="${messic:escapeHTML(album.name)}" data-authorname="${messic:escapeHTML(album.author.name)}" data-songrate="${messic:escapeHTML(song.rate)}" class="messic-album-songs-body-songaction-play"></div>
+	                                    
+										<div title="<fmt:message key="album-songedit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditSong(${messic:escapeAll(song.sid)},'${messic:escapeAll(song.track)}','${messic:escapeAll(song.name)}','${messic:escapeAll(song.album.author.name)}','${messic:escapeAll(song.album.name)}',this,${messic:escapeAll(song.rate)})"></div>
+										<div title="<fmt:message key="album-songdownload-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-download" onclick="albumDownloadSong(${messic:escapeAll(song.sid)})"></div>
+										<div title="<fmt:message key="album-songdelete-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveSong('${messic:escapeAll(song.sid)}','${messic:escapeAll(song.track)}-${messic:escapeAll(song.name)}',$(this).parent().parent())"></div>
+									</div>
+									<div class="divclearer"></div>
 								</div>
-								<div class="divclearer"></div>
-							</div>
+							</c:if>
 						</c:forEach>				
 						<c:forEach var="artwork" items="${album.artworks}">
-							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork" onclick="albumRowSelected(this);">
-								<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-artwork"><img src="services/albums/${messic:escapeHTML(artwork.sid)}/resource?messic_token=${token}" onclick="albumShowArtwork('${messic:escapeAll(album.sid)}','${messic:escapeAll(artwork.sid)}')"/></div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-artworkname">${messic:escapeHTML(artwork.fileName)}</div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-artworkaction">
-									<div title="<fmt:message key="album-artworkcover-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-cover" onclick="albumCoverArtwork('${messic:escapeAll(album.sid)}','${messic:escapeAll(artwork.sid)}', $(this).parent().parent().find('img'))"></div>
-									<div title="<fmt:message key="album-artworkshow-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-show" onclick="albumShowArtwork('${messic:escapeAll(album.sid)}','${messic:escapeAll(artwork.sid)}')"></div>
-									<div title="<fmt:message key="album-artworkedit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditArtwork(${messic:escapeAll(artwork.sid)},'${messic:escapeAll(artwork.fileName)}',this)"></div>
-									<div title="<fmt:message key="album-artworkremove-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveResource(${messic:escapeAll(artwork.sid)},$(this).parent().parent())"></div>
+							<c:if test="${artwork.volume==volume}">
+								<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-artwork" onclick="albumRowSelected(this);">
+									<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-artwork"><img src="services/albums/${messic:escapeHTML(artwork.sid)}/resource?messic_token=${token}" onclick="albumShowArtwork('${messic:escapeAll(album.sid)}','${messic:escapeAll(artwork.sid)}')"/></div>
+									<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-artworkname">${messic:escapeHTML(artwork.fileName)}</div>
+									<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-artworkaction">
+										<div title="<fmt:message key="album-artworkcover-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-cover" onclick="albumCoverArtwork('${messic:escapeAll(album.sid)}','${messic:escapeAll(artwork.sid)}', $(this).parent().parent().find('img'))"></div>
+										<div title="<fmt:message key="album-artworkshow-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-show" onclick="albumShowArtwork('${messic:escapeAll(album.sid)}','${messic:escapeAll(artwork.sid)}')"></div>
+										<div title="<fmt:message key="album-artworkedit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditArtwork(${messic:escapeAll(artwork.sid)},'${messic:escapeAll(artwork.fileName)}',this)"></div>
+										<div title="<fmt:message key="album-artworkremove-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveResource(${messic:escapeAll(artwork.sid)},$(this).parent().parent())"></div>
+									</div>
+									<div class="divclearer"></div>
 								</div>
-								<div class="divclearer"></div>
-							</div>
+							</c:if>
 						</c:forEach>
 						<c:forEach var="other" items="${album.others}">
-							<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-other" onclick="albumRowSelected(this);">
-								<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-otherfile">..</div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-othername">${messic:escapeHTML(other.fileName)}</div>
-								<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-otheraction">
-									<div title="<fmt:message key="album-otheredit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditOther(${messic:escapeAll(other.sid)},'${messic:escapeAll(other.fileName)}',this)"></div>
-									<div title="<fmt:message key="album-otherdownload-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-download" onclick="albumDownloadResource(${messic:escapeAll(other.sid)})"></div>
-									<div title="<fmt:message key="album-otherremove-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveResource(${messic:escapeAll(other.sid)},$(this).parent().parent())"></div>
+							<c:if test="${other.volume==volume}">
+								<div class="messic-album-songs-bodyrow messic-album-songs-bodyrow-other" onclick="albumRowSelected(this);">
+									<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-first messic-album-songs-body-otherfile">..</div>
+									<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-second messic-album-songs-body-othername">${messic:escapeHTML(other.fileName)}</div>
+									<div class="messic-album-songs-bodyfield messic-album-songs-bodyfield-third messic-album-songs-body-otheraction">
+										<div title="<fmt:message key="album-otheredit-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-edit" onclick="albumEditOther(${messic:escapeAll(other.sid)},'${messic:escapeAll(other.fileName)}',this)"></div>
+										<div title="<fmt:message key="album-otherdownload-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-download" onclick="albumDownloadResource(${messic:escapeAll(other.sid)})"></div>
+										<div title="<fmt:message key="album-otherremove-title" bundle="${message}"/>" class="messic-album-songs-body-songaction-remove" onclick="albumRemoveResource(${messic:escapeAll(other.sid)},$(this).parent().parent())"></div>
+									</div>
+									<div class="divclearer"></div>
 								</div>
-								<div class="divclearer"></div>
-							</div>
+							</c:if>
 						</c:forEach>				
 					</div>
 				</div>
+			</c:forEach>
+		</div>
+			
 			</div>
+					
 			<div id="messic-album-plugincontainer">
 				<ul class="messic-album-plugincontainer-menu">
 					<c:forEach var="plugin" items="${plugins}">

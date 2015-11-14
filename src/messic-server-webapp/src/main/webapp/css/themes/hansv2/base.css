@@ -33,17 +33,26 @@
         opacity: 0;
     }
 }
+
+
 /* -------------------------------*/
+
+
 /* FONTS AMARANTH */
+
+
 /* Designed by:	Gesine Todt */
+
+
 /* http://www.gesine-todt.de/ */
+
+
 /* -------------------------------*/
 
 @font-face {
     /*http://www.fontsquirrel.com/fonts/amaranth*/
     /* Designed by:	Gesine Todt */
     /* http://www.gesine-todt.de/ */
-    
     font-family: Amaranth;
     src: url(fonts/Amaranth-webfont.woff);
 }
@@ -52,7 +61,6 @@
     /*http://www.fontsquirrel.com/fonts/amaranth*/
     /* Designed by:	Gesine Todt */
     /* http://www.gesine-todt.de/ */
-    
     font-family: Amaranth-bold;
     src: url(fonts/Amaranth-Bold-webfont.woff);
 }
@@ -61,7 +69,6 @@
     /*http://www.fontsquirrel.com/fonts/amaranth*/
     /* Designed by:	Gesine Todt */
     /* http://www.gesine-todt.de/ */
-    
     font-family: Amaranth-italic;
     src: url(fonts/Amaranth-Italic-webfont.woff);
 }
@@ -70,20 +77,28 @@
     /*http://www.fontsquirrel.com/fonts/amaranth*/
     /* Designed by:	Gesine Todt */
     /* http://www.gesine-todt.de/ */
-    
     font-family: Amaranth-bold-italic;
     src: url(fonts/Amaranth-BoldItalic-webfont.woff);
 }
+
+
 /* -------------------------------*/
+
+
 /* FONTS ROBOTO */
+
+
 /*http://www.fontsquirrel.com/fonts/roboto?q=roboto*/
+
+
 /* Designed by:	Christian Robertson */
+
+
 /* -------------------------------*/
 
 @font-face {
     /*http://www.fontsquirrel.com/fonts/roboto?q=roboto*/
     /* Designed by:	Christian Robertson */
-    
     font-family: Roboto;
     src: url(fonts/Roboto-Regular-webfont.woff);
 }
@@ -91,7 +106,6 @@
 @font-face {
     /*http://www.fontsquirrel.com/fonts/roboto?q=roboto*/
     /* Designed by:	Christian Robertson */
-    
     font-family: Roboto-bold;
     src: url(fonts/Roboto-Bold-webfont.woff);
 }
@@ -99,7 +113,6 @@
 @font-face {
     /*http://www.fontsquirrel.com/fonts/roboto?q=roboto*/
     /* Designed by:	Christian Robertson */
-    
     font-family: Roboto-italic;
     src: url(fonts/Roboto-Italic-webfont.woff);
 }
@@ -107,10 +120,11 @@
 @font-face {
     /*http://www.fontsquirrel.com/fonts/roboto?q=roboto*/
     /* Designed by:	Christian Robertson */
-    
     font-family: Roboto-black;
     src: url(fonts/Roboto-Black-webfont.woff);
 }
+
+
 /*  
 Google font
 http://www.google.com/fonts/specimen/Sigmar+One
@@ -122,9 +136,17 @@ http://www.google.com/fonts/specimen/Sigmar+One
     font-weight: 400;
     src: url(fonts/SigmarOne.woff) format('woff');
 }
+
+
 /* Icons based on texts */
+
+
 /* http://www.paulund.co.uk/css-buttons-with-icons-but-no-images */
+
+
 /* Hexadecimal entities for the icons */
+
+
 /*Forms*/
 
 .button.add:before {
@@ -150,6 +172,8 @@ http://www.google.com/fonts/specimen/Sigmar+One
 .button.cross:before {
     content: "\2716";
 }
+
+
 /*Currency*/
 
 .button.dollar:before {
@@ -167,6 +191,8 @@ http://www.google.com/fonts/specimen/Sigmar+One
 .button.cent:before {
     content: "\20B5";
 }
+
+
 /*Temp*/
 
 .button.celsius:before {
@@ -176,6 +202,8 @@ http://www.google.com/fonts/specimen/Sigmar+One
 .button.fahrenheit:before {
     content: "\2109";
 }
+
+
 /*Math & Factions*/
 
 .button.pi:before {
@@ -241,6 +269,8 @@ http://www.google.com/fonts/specimen/Sigmar+One
 .button.three_quarter:before {
     content: "\00BE";
 }
+
+
 /*Arrows*/
 
 .button.next:before {
@@ -278,6 +308,8 @@ http://www.google.com/fonts/specimen/Sigmar+One
 .button.down_right_arrow:before {
     content: "\2198";
 }
+
+
 /*Symbols*/
 
 .button.like:before {
@@ -412,7 +444,11 @@ http://www.google.com/fonts/specimen/Sigmar+One
 .button.snow:before {
     content: "\2042";
 }
+
+
 /* body of messic */
+
+
 /* ------------------------------------------------------------ */
 
 html {
@@ -428,7 +464,6 @@ body {
     width: 100%;
     height: 100%;
     /* http://subtlepatterns.com/dotnoise-light-grey/ */
-    
     background: url("textures/bgnoise_lg.png") repeat 0 0 fixed;
 }
 
@@ -453,18 +488,26 @@ input[type="number"],
 input[type="password"],
 input[type="email"],
 textarea {
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    color: #444444;
+    font-family: Roboto;
+    font-size: 0.8em;
+    line-height: normal;
+    padding: 3px 0;
+    text-indent: 4px;
+    /*
     background: none repeat scroll 0 0 #FFFFFF;
-    border-color: #CCCCCC;
     border-radius: 3px 3px 3px 3px;
     padding: 3px 0 3px 0px;
     text-indent: 4px;
     font-family: Roboto;
     font-size: 0.8em;
-    border-style: solid;
     border-width: 1px;
     outline: 0 none;
     line-height: normal;
     color: #444444;
+    */
 }
 
 input[type="text"]:focus,
@@ -472,10 +515,30 @@ input[type="number"]:focus,
 input[type="password"]:focus,
 input[type="email"]:focus,
 textarea:focus {
+    border-color: #44aaaa;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 0 3px #44ffff;
+    -webkit-box-shadow: 0 0 3px #44ffff;
+    color: #00baba;
+    /*
     border-color: #AAAAAA;
     border-style: dashed;
     border-width: 1px;
     color: #00BABA;
+    */
+}
+
+.ui-spinner.ui-widget:hover {
+    box-shadow: 0 0 6px #44ffff;
+}
+
+.ui-spinner.ui-widget:focus {
+    border-color: #44aaaa;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 0 3px #44ffff;
+    color: #00baba;
 }
 
 input[type="text"]:hover,
@@ -483,9 +546,14 @@ input[type="number"]:hover,
 input[type="password"]:hover,
 input[type="email"]:hover,
 textarea:hover {
+    /*
     -webkit-box-shadow: 0 0 3px rgba(0, 139, 139, 0.4);
     box-shadow: 0 0 3px rgba(0, 139, 139, 0.4);
     border-color: rgba(0, 139, 139, 0.5);
+    */
+    border-color: #44ffff;
+    box-shadow: 0 0 6px #44ffff;
+    -webkit-box-shadow: 0 0 6px #44ffff;
 }
 
 .checkboxcontainer > input {
@@ -508,7 +576,6 @@ button {
     background: #dedede;
     /* Old browsers */
     /* generated here: http://css3buttongenerator.com/ */
-    
     background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#cccccc));
     background: -webkit-linear-gradient(#ffffff, #cccccc);
     background: linear-gradient(#ffffff, #cccccc);
@@ -541,7 +608,6 @@ button:focus {
 button:hover {
     background: #DEDEDE;
     /* Old browsers */
-    
     background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#DDDDDD));
     background: -webkit-linear-gradient(#FFFFFF, #DDDDDD);
     background: linear-gradient(#FFFFFF, #DDDDDD);
@@ -688,11 +754,12 @@ p strong {
         opacity: 0;
     }
 }
+
+
 /* ----------------------------------------------------------------- */
 
 #messic-background {
     /* http://freepsdfiles.net/silhouettes/crowd-silhouettes-set/ */
-    
     background: url("base/people.png") bottom left repeat-x;
     bottom: -67px;
     width: 100%;
@@ -773,7 +840,11 @@ p strong {
     top: 68px;
     width: 79px;
 }
+
+
 /* MESSIC MENU BUTTONS */
+
+
 /* -------------------- */
 
 #messic-menu {
@@ -821,7 +892,11 @@ p strong {
     width: 99px;
     height: 99px;
 }
+
+
 /* icons of the main menu */
+
+
 /* ---------------------------- */
 
 #messic-menu li.messic-menu-icon-selected {
@@ -831,7 +906,6 @@ p strong {
 
 #messic-menu li.messic-menu-icon:after {
     /* commons properties for all icons */
-    
     content: "";
     display: block;
     height: 99px;
@@ -881,6 +955,8 @@ p strong {
 #messic-menu-upload:after {
     background: url("base/mainmenu-buttons-icons.png") no-repeat scroll -198px -99px transparent;
 }
+
+
 /* The help info over the buttons */
 
 #messic-menu div:after {
@@ -924,6 +1000,8 @@ p strong {
     visibility: visible;
     text-shadow: 0 0 2px rgba(0, 0, 0, 0.67);
 }
+
+
 /* ------------------------------------------------ */
 
 #messic-search-text {
@@ -940,6 +1018,10 @@ p strong {
 
 #messic-search-text:hover {
     -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+#messic-search-text:focus {
     box-shadow: none;
 }
 
@@ -1012,6 +1094,8 @@ p strong {
     content: ' ';
     position: absolute;
 }
+
+
 /* To fill the content of the page */
 
 #messic-page-border:before {
@@ -1034,6 +1118,8 @@ p strong {
     margin-bottom: 25px;
     margin-right: 32px;
 }
+
+
 /** fill for the content... the bottom part is the player, 
 so we need space enough to show the last content.. 
 this fill enables enough scroll to show the last element */
@@ -1047,6 +1133,8 @@ this fill enables enough scroll to show the last element */
     width: extend-to-zoom;
     zoom: 1.0;
 }
+
+
 /* Start by setting display:none to make this hidden.
    Then we position it in relation to the viewport window
    with position:fixed. Width, height, top and left speak
@@ -1067,7 +1155,6 @@ this fill enables enough scroll to show the last element */
 #messic-wait-box {
     background: #F0F0F0;
     /* Old browsers */
-    
     background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0.8)), to(rgba(200, 200, 200, 0.8))) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: -webkit-linear-gradient(rgba(255, 255, 255, 0.8), rgba(200, 200, 200, 0.8)) repeat scroll 0 0 rgba(0, 0, 0, 0);
     background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(200, 200, 200, 0.8)) repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -1089,7 +1176,6 @@ this fill enables enough scroll to show the last element */
 
 #messic-wait-box:before {
     /*http://preloaders.net/en/search/circle */
-    
     background: url("base/339.GIF") repeat scroll 0 0 rgba(0, 0, 0, 0);
     content: "";
     display: block;
@@ -1114,12 +1200,16 @@ this fill enables enough scroll to show the last element */
     text-shadow: 0 0 10px #FFFFFF;
     width: 228px;
 }
+
+
 /* When the body has the loading class, we turn
    the scrollbar off with overflow:hidden */
 
 body.loading {
     overflow: hidden;
 }
+
+
 /* Anytime the body has the loading class, our
    modal element will be visible */
 
@@ -1163,7 +1253,6 @@ body.loading .modal {
 #messicAvatar {
     background: url("base/messic.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
     /* important, safari doesn't understand background-size inside the background property */
-    
     -webkit-background-size: 100% 100%;
     background-size: 100% 100%;
     height: 124px;
@@ -1234,6 +1323,8 @@ body.loading .modal {
     -webkit-transition-property: -webkit-transform;
     transition-property: transform;
 }
+
+
 /* http://johnsardine.com/freebies/dl-html-css/simple-little-tab/ */
 
 table a:link {
@@ -1346,4 +1437,51 @@ table td {
 
 .messic-shutdown-overlay a:hover {
     color: white;
+}
+
+
+/* jquery ui personalization */
+
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+    opacity: 1;
+}
+
+.ui-tabs .ui-tabs-nav li {
+    opacity: 0.32;
+}
+
+.ui-tabs .ui-tabs-nav li:hover {
+    opacity: 1;
+}
+
+
+/* these are for the jquery ui menu item (dropbox and general menu item maybe) */
+
+ul.ui-menu.ui-autocomplete.ui-front.ui-menu.ui-widget.ui-widget-content {
+    background: #f8f8f8 none repeat scroll 0 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-color: #cccccc;
+    border-style: none solid solid;
+    border-width: medium 2px 2px;
+    box-shadow: 0 4px 3px #aaaaaa;
+    font-family: roboto-bold;
+    font-size: 13px;
+    min-height: 106px;
+}
+
+ul > li.ui-menu-item.ui-state-focus {
+    background: #dedede none repeat scroll 0 0;
+    border: medium none;
+    color: #444444;
+    font-family: roboto;
+    font-size: 13px;
+    font-weight: bold;
 }

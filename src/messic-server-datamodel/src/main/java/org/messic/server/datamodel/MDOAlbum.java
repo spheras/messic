@@ -43,6 +43,9 @@ public class MDOAlbum
     implements MDO, Serializable
 {
 
+    // Default number of volumes for any album
+    private static final int DEFAULT_VOLUMES = 1;
+
     private static final long serialVersionUID = 8792913920714652055L;
 
     @Column( name = "CREATED", nullable = true )
@@ -66,6 +69,9 @@ public class MDOAlbum
     @ManyToOne( fetch = FetchType.EAGER )
     @JoinColumn( name = "GENRE", nullable = true )
     private MDOGenre genre;
+
+    @Column( name = "VOLUMES", nullable = true )
+    private Integer volumes;
 
     @OneToMany( mappedBy = "album", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY )
     @OrderBy( "TRACK" )
@@ -288,6 +294,35 @@ public class MDOAlbum
     public void setExtraTags( List<MDOGenericTAG> extraTags )
     {
         this.extraTags = extraTags;
+    }
+
+    /**
+     * @return the volumes
+     */
+    public Integer getVolumes()
+    {
+        // as this is a change for version 1.2, it is possible to find albums with a null value
+        if ( this.volumes == null )
+        {
+            this.volumes = DEFAULT_VOLUMES;
+        }
+
+        return volumes;
+    }
+
+    /**
+     * @param volumes the volumes to set
+     */
+    public void setVolumes( Integer volumes )
+    {
+        if ( volumes == null )
+        {
+            this.volumes = DEFAULT_VOLUMES;
+        }
+        else
+        {
+            this.volumes = volumes;
+        }
     }
 
 }

@@ -177,6 +177,15 @@ public class DAOJPAUser
 
     @Override
     @Transactional
+    public void usersNotifyMessicUpdate()
+    {
+        String squery = "update MDOUser set versionUpdatedNotified=false";
+        Query query = entityManager.createQuery( squery );
+        query.executeUpdate();
+    }
+
+    @Override
+    @Transactional
     public void removeUser( Long userSid )
     {
         MDOUser user = get( userSid );

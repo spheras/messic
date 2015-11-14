@@ -176,8 +176,8 @@ public class AlbumController
                 else
                 {
                     albums =
-                        albumAPI.findSimilar( mdoAskedUser, filterAuthorSid, filterName,
-                                              ( authorInfo != null ? authorInfo : true ),
+                        albumAPI.findSimilar( mdoAskedUser, ( filterAuthorSid != null ? filterAuthorSid : 0 ),
+                                              filterName, ( authorInfo != null ? authorInfo : true ),
                                               ( songsInfo != null ? songsInfo : false ),
                                               ( resourcesInfo != null ? resourcesInfo : ( songsInfo != null ? songsInfo
                                                               : false ) ), ( pageFromResult != null ? pageFromResult
@@ -452,7 +452,7 @@ public class AlbumController
 
     }
 
-    @ApiMethod( path = "/services/albums/{albumCode}?fileName=xxxxx", verb = ApiVerb.PUT, description = "Upload a resource for an album. This resources are stored at the temporal folder, waiting until save Album process. The client must post the binary content of the resource.", produces = {
+    @ApiMethod( path = "/services/albums/{albumCode}?fileName=xxxxx&volume=x", verb = ApiVerb.PUT, description = "Upload a resource for an album. This resources are stored at the temporal folder, waiting until save Album process. The client must post the binary content of the resource.", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE }, consumes = { MediaType.APPLICATION_OCTET_STREAM_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
         @ApiError( code = NotAuthorizedMessicRESTException.VALUE, description = "Forbidden access" ),
@@ -465,7 +465,8 @@ public class AlbumController
                                                   HttpServletResponse response,
                                                   HttpSession session,
                                                   @ApiParam( name = "albumCode", description = "code for the album owner of the resource.. This code is the reference for others resources that could be uploaded, and so on", paramType = ApiParamType.PATH, required = true ) @PathVariable String albumCode,
-                                                  @ApiParam( name = "fileName", description = "file name of the resource", paramType = ApiParamType.QUERY, required = true ) @RequestParam( "fileName" ) String fileName )
+                                                  @ApiParam( name = "fileName", description = "file name of the resource", paramType = ApiParamType.QUERY, required = true ) @RequestParam( "fileName" ) String fileName,
+                                                  @ApiParam( name = "volume", description = "volume number. If not coming this parameter, it is the default volume", paramType = ApiParamType.QUERY, required = false ) @RequestParam( "volume" ) Integer volume )
         throws IOMessicRESTException, UnknownMessicRESTException, NotAuthorizedMessicRESTException
     {
 
@@ -473,7 +474,8 @@ public class AlbumController
         try
         {
             byte[] payload = requestEntity.getBody();
-            albumAPI.uploadResource( user, albumCode, HtmlUtils.htmlUnescape( fileName ), payload );
+            albumAPI.uploadResource( user, albumCode, HtmlUtils.htmlUnescape( fileName ),
+                                     ( volume == null ? 0 : volume ), payload );
         }
         catch ( IOException ioe )
         {

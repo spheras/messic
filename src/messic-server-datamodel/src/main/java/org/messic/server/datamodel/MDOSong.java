@@ -45,6 +45,7 @@ public class MDOSong
     implements MDO, Serializable
 {
 
+
     private static final long serialVersionUID = 8792913920714652055L;
 
     @Column( name = "NAME", nullable = false )
@@ -194,5 +195,6 @@ public class MDOSong
     {
         this.statistics = statistics;
     }
+
 
 }

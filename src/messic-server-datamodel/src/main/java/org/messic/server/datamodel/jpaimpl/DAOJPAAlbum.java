@@ -301,7 +301,8 @@ public class DAOJPAAlbum
                                              int maxResults, boolean orderDesc, boolean orderByAuthor )
     {
         String squery =
-            "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName) AND (a.author.sid = :authorSid) ORDER BY";
+            "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName)"
+                + ( authorSid > 0 ? " AND (a.author.sid = :authorSid)" : "" ) + " ORDER BY";
         if ( orderByAuthor )
         {
             squery = squery + " UPPER(a.author.name)";
@@ -318,7 +319,10 @@ public class DAOJPAAlbum
         Query query = entityManager.createQuery( squery );
         query.setParameter( "albumName", "%" + albumName + "%" );
         query.setParameter( "userName", username );
-        query.setParameter( "authorSid", authorSid );
+        if ( authorSid > 0 )
+        {
+            query.setParameter( "authorSid", authorSid );
+        }
         if ( firstResult >= 0 )
         {
             query.setFirstResult( firstResult );

@@ -77,6 +77,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Component
 public class APIAlbum
 {
+
     public static final String INDEX_TMP_PROPERTIES_FILENAME = "index.tmp.properties";
 
     private Logger log = Logger.getLogger( APIAlbum.class );
@@ -274,6 +275,7 @@ public class APIAlbum
         {
             org.messic.server.api.datamodel.File f = new org.messic.server.api.datamodel.File();
             f.setFileName( existingFiles.get( i ).getName() );
+            // f.setVolume( volume ); ???
             f.setSize( existingFiles.get( i ).length() );
             result.add( f );
         }
@@ -347,15 +349,18 @@ public class APIAlbum
      * @throws IOException
      * @throws Exception
      */
-    public void uploadResource( User user, String albumCode, String fileName, byte[] payload )
+    public void uploadResource( User user, String albumCode, String fileName, Integer volume, byte[] payload )
         throws IOException
     {
         MDOUser mdouser = daoUser.getUserByLogin( user.getLogin() );
-        File basePath = new File( mdouser.calculateTmpPath( daoSettings.getSettings(), albumCode ) );
+        File basePath =
+            new File( mdouser.calculateTmpPath( daoSettings.getSettings(), albumCode )
+                + ( volume != null ? File.separatorChar + "" + volume : "" ) );
         basePath.mkdirs();
 
         org.messic.server.api.datamodel.File f = new org.messic.server.api.datamodel.File();
         f.setFileName( fileName );
+        f.setVolume( volume );
         String secureFileName = f.calculateSecureFileName( daoSettings.getSettings().getIllegalCharacterReplacement() );
         FileOutputStream fos =
             new FileOutputStream( new File( basePath.getAbsolutePath() + File.separatorChar + secureFileName ) );
@@ -568,6 +573,12 @@ public class APIAlbum
             // trying by sid
             mdoAuthor = daoAuthor.get( user.getLogin(), album.getAuthor().getSid() );
         }
+        else if ( album.getSid() > 0 && oldAuthor != null )
+        {
+            // if the author is not defined, but the album is defined, then we use the old Author
+            mdoAuthor = oldAuthor;
+        }
+
         if ( mdoAuthor == null )
         {
             // trying by name
@@ -631,7 +642,7 @@ public class APIAlbum
 
         // if its an existing author and the name of the author has changed...wow!! we must do more things
         if ( flagExistingAuthor
-            && !album.getAuthor().getName().trim().toUpperCase().equals( mdoAuthor.getName().trim().toUpperCase() ) )
+            && ( album.getAuthor() != null && album.getAuthor().getName() != null && !album.getAuthor().getName().trim().toUpperCase().equals( mdoAuthor.getName().trim().toUpperCase() ) ) )
         {
             // the name of the author has changed!!!
             flagAuthorNameChanged = true;
@@ -640,11 +651,19 @@ public class APIAlbum
                                                                              replacementChar ) );
         }
 
+        // we save the old volumes number, maybe we have added or removed volumes!
+        int oldVolumes = album.getVolumes();
+        if ( flagExistingAlbum )
+        {
+            oldVolumes = mdoAlbum.getVolumes();
+        }
+
         mdoAlbum.setName( album.getName() );
         mdoAlbum.setLocation( album.getYear() + "-"
             + Util.replaceIllegalFilenameCharactersNew( album.getName(), replacementChar ) );
         mdoAlbum.setAuthor( mdoAuthor );
         mdoAlbum.setComments( album.getComments() );
+        mdoAlbum.setVolumes( album.getVolumes() );
         mdoAlbum.setGenre( mdoGenre );
         mdoAlbum.setOwner( mdouser );
         mdoAlbum.setYear( album.getYear() );
@@ -701,20 +720,26 @@ public class APIAlbum
                         String theoricalFileName =
                             mdoSong.calculateSongTheoricalFileName( secureExtension, replacementChar );
                         mdoSong.setLocation( theoricalFileName );
+                        mdoSong.setVolume( song.getVolume() );
+                        mdoSong.setOwner( mdouser );
+                        mdoSong.setAlbum( mdoAlbum );
 
-                        // moving resource to the new location
+                        // moving resource to the new location, note: ALL the tmp resources are under a volume folder.
                         File tmpRes =
-                            new File( userTmpPath + File.separatorChar + song.calculateSecureFileName( replacementChar ) );
-                        fnew = new File( currentAlbumPath + File.separatorChar + mdoSong.getLocation() );
+                            new File( userTmpPath + File.separatorChar + song.getVolume() + File.separatorChar
+                                + song.calculateSecureFileName( replacementChar ) );
+                        fnew =
+                            new File( currentAlbumPath + mdoSong.calculateVolumePath() + File.separatorChar
+                                + mdoSong.getLocation() );
 
                         if ( fnew.exists() )
                         {
                             checkResourceLocation( mdoAlbum, mdoSong, -1 );
-                            fnew = new File( currentAlbumPath + File.separatorChar + mdoSong.getLocation() );
+                            fnew =
+                                new File( currentAlbumPath + mdoSong.calculateVolumePath() + File.separatorChar
+                                    + mdoSong.getLocation() );
                         }
 
-                        mdoSong.setOwner( mdouser );
-                        mdoSong.setAlbum( mdoAlbum );
                         daoSong.save( mdoSong );
 
                         FileUtils.moveFile( tmpRes, fnew );
@@ -727,12 +752,16 @@ public class APIAlbum
                         {
                             mdoSong.setTrack( song.getTrack() );
                             mdoSong.setName( song.getName() );
+
                             String oldLocation =
-                                ( flagExistingAlbum ? mdoSong.calculateAbsolutePath( oldAlbumPath )
+                                ( flagExistingAlbum ? mdoSong.calculateAbsolutePath( oldAlbumPath, oldVolumes )
                                                 : mdoSong.calculateAbsolutePath( settings ) );
                             String theoricalFileName =
                                 mdoSong.calculateSongTheoricalFileName( mdoSong.getExtension(), replacementChar );
                             mdoSong.setLocation( theoricalFileName );
+
+                            // last, we set the volume number (we need the old volume number to calculate old paths)
+                            mdoSong.setVolume( song.getVolume() );
                             daoSong.save( mdoSong );
 
                             File fold = new File( oldLocation );
@@ -744,53 +773,9 @@ public class APIAlbum
                         }
                     }
 
-                    // AudioTaggerTAGWizardPlugin atp = new AudioTaggerTAGWizardPlugin();
-                    // org.messic.server.api.tagwizard.service.Album salbum =
-                    // new org.messic.server.api.tagwizard.service.Album();
-                    // salbum.author = mdoAlbum.getAuthor().getName();
-                    // salbum.name = mdoAlbum.getName();
-                    // if ( mdoAlbum.getComments() != null )
-                    // salbum.comments = mdoAlbum.getComments();
-                    // if ( mdoAlbum.getGenre() != null )
-                    // salbum.genre = mdoAlbum.getGenre().getName();
-                    // salbum.year = mdoAlbum.getYear();
-                    //
-                    // org.messic.server.api.tagwizard.service.Song ssong = new
-                    // org.messic.server.api.tagwizard.service.Song();
-                    // ssong.track = mdoSong.getTrack();
-                    // ssong.name = mdoSong.getName();
-                    // try
-                    // {
-                    // atp.saveTags( salbum, ssong, fnew );
-                    // }
-                    // catch ( CannotReadException e )
-                    // {
-                    // log.error( e );
-                    // // throw new IOException( e.getMessage(), e.getCause() );
-                    // }
-                    // catch ( TagException e )
-                    // {
-                    // log.error( e );
-                    // // throw new IOException( e.getMessage(), e.getCause() );
-                    // }
-                    // catch ( ReadOnlyFileException e )
-                    // {
-                    // log.error( e );
-                    // // throw new IOException( e.getMessage(), e.getCause() );
-                    // }
-                    // catch ( InvalidAudioFrameException e )
-                    // {
-                    // log.error( e );
-                    // // throw new IOException( e.getMessage(), e.getCause() );
-                    // }
-                    // catch ( CannotWriteException e )
-                    // {
-                    // log.error( e );
-                    // // throw new IOException( e.getMessage(), e.getCause() );
-                    // }
-
                 }
             }
+
             // 7.2 - Artwork resources
             if ( album.getArtworks() != null && album.getArtworks().size() > 0 )
             {
@@ -804,6 +789,7 @@ public class APIAlbum
                         MDOArtwork mdopr = new MDOArtwork();
                         mdopr.setLocation( file.calculateSecureFileName( replacementChar ) );
                         mdopr.setOwner( mdouser );
+                        mdopr.setVolume( file.getVolume() );
                         mdopr.setAlbum( mdoAlbum );
 
                         org.messic.server.api.datamodel.File fcover = album.getCover();
@@ -826,13 +812,18 @@ public class APIAlbum
                         }
 
                         File tmpRes =
-                            new File( userTmpPath + File.separatorChar + file.calculateSecureFileName( replacementChar ) );
-                        File newFile = new File( currentAlbumPath + File.separatorChar + mdopr.getLocation() );
+                            new File( userTmpPath + File.separatorChar + file.getVolume() + File.separatorChar
+                                + file.calculateSecureFileName( replacementChar ) );
+                        File newFile =
+                            new File( currentAlbumPath + mdopr.calculateVolumePath() + File.separatorChar
+                                + mdopr.getLocation() );
 
                         if ( newFile.exists() )
                         {
                             checkResourceLocation( mdoAlbum, mdopr, -1 );
-                            newFile = new File( currentAlbumPath + File.separatorChar + mdopr.getLocation() );
+                            newFile =
+                                new File( currentAlbumPath + mdopr.calculateVolumePath() + File.separatorChar
+                                    + mdopr.getLocation() );
                         }
 
                         daoPhysicalResource.save( mdopr );
@@ -849,9 +840,12 @@ public class APIAlbum
                         if ( resource != null )
                         {
                             String oldLocation =
-                                ( flagExistingAlbum ? resource.calculateAbsolutePath( oldAlbumPath )
+                                ( flagExistingAlbum ? resource.calculateAbsolutePath( oldAlbumPath, oldVolumes )
                                                 : resource.calculateAbsolutePath( settings ) );
                             resource.setLocation( file.calculateSecureFileName( replacementChar ) );
+
+                            // last, we set the volume (we need the old volume number to find the old path)
+                            resource.setVolume( file.getVolume() );
                             daoAlbumResource.save( resource );
 
                             File fold = new File( oldLocation );
@@ -878,16 +872,22 @@ public class APIAlbum
                         MDOOtherResource mdopr = new MDOOtherResource();
                         mdopr.setLocation( file.calculateSecureFileName( replacementChar ) );
                         mdopr.setOwner( mdouser );
+                        mdopr.setVolume( file.getVolume() );
                         mdopr.setAlbum( mdoAlbum );
 
                         File tmpRes =
-                            new File( userTmpPath + File.separatorChar + file.calculateSecureFileName( replacementChar ) );
-                        File newFile = new File( currentAlbumPath + File.separatorChar + mdopr.getLocation() );
+                            new File( userTmpPath + File.separatorChar + file.getVolume() + File.separatorChar
+                                + file.calculateSecureFileName( replacementChar ) );
+                        File newFile =
+                            new File( currentAlbumPath + mdopr.calculateVolumePath() + File.separatorChar
+                                + mdopr.getLocation() );
 
                         if ( newFile.exists() )
                         {
                             checkResourceLocation( mdoAlbum, mdopr, -1 );
-                            newFile = new File( currentAlbumPath + File.separatorChar + mdopr.getLocation() );
+                            newFile =
+                                new File( currentAlbumPath + mdopr.calculateVolumePath() + File.separatorChar
+                                    + mdopr.getLocation() );
                         }
 
                         daoPhysicalResource.save( mdopr );
@@ -904,9 +904,10 @@ public class APIAlbum
                         if ( resource != null )
                         {
                             String oldLocation =
-                                ( flagExistingAlbum ? resource.calculateAbsolutePath( oldAlbumPath )
+                                ( flagExistingAlbum ? resource.calculateAbsolutePath( oldAlbumPath, oldVolumes )
                                                 : resource.calculateAbsolutePath( settings ) );
                             resource.setLocation( file.calculateSecureFileName( replacementChar ) );
+                            resource.setVolume( file.getVolume() );
                             daoAlbumResource.save( resource );
 
                             File fold = new File( oldLocation );
@@ -930,7 +931,8 @@ public class APIAlbum
                 {
                     MDOAlbumResource resource = resources.get( i );
                     String resourceNewPath = resource.calculateAbsolutePath( settings );
-                    String resourceCurrentPath = oldAlbumPath + File.separatorChar + resource.getLocation();
+                    String resourceCurrentPath =
+                        oldAlbumPath + resource.calculateVolumePath() + File.separatorChar + resource.getLocation();
                     File fnewPath = new File( resourceNewPath );
                     File foldPath = new File( resourceCurrentPath );
                     if ( foldPath.exists() )
@@ -963,11 +965,90 @@ public class APIAlbum
                 }
             }
 
+            // checking if the volume number has change
             if ( flagExistingAlbum )
             {
-                // the last thing, and very important, is to synchronize the tags of the mp3 files
-                synchronizeTags( mdoAlbum );
+                String albumPath = mdoAlbum.calculateAbsolutePath( settings );
+                // we have decreased the volumes!
+                if ( oldVolumes > mdoAlbum.getVolumes() )
+                {
+                    // the volume number has change, we need to remove volume folders
+                    for ( int i = mdoAlbum.getVolumes() + 1; i <= oldVolumes; i++ )
+                    {
+                        String volumePath = albumPath + MDOAlbumResource.calculateVolumePath( oldVolumes, i );
+                        File fvolumePath = new File( volumePath );
+                        if ( fvolumePath.exists() )
+                        {
+                            FileUtils.deleteDirectory( fvolumePath );
+                        }
+
+                        this.daoAlbumResource.removeVolumeAlbumResources( user.getLogin(), mdoAlbum.getSid(), i );
+                    }
+
+                    // finally, if the new volume number is just 1, then we need to move the resources to the plain
+                    // path, without a volume subfolder
+                    if ( mdoAlbum.getVolumes() == 1 )
+                    {
+                        String firstVolumePath = albumPath + MDOAlbumResource.calculateVolumePath( oldVolumes, 1 );
+                        File ffirstVolumePath = new File( firstVolumePath );
+                        File[] files = ffirstVolumePath.listFiles();
+                        File falbumPath = new File( albumPath );
+                        for ( File file : files )
+                        {
+                            FileUtils.moveFileToDirectory( file, falbumPath, false );
+                        }
+
+                        FileUtils.deleteDirectory( ffirstVolumePath );
+                        // done!
+                    }
+                }
+                else if ( oldVolumes < mdoAlbum.getVolumes() && oldVolumes == 1 )
+                {
+                    // we have increased the volumes, and now we have more than 1 volume, we need to create a subfolders
+                    // for the first volume
+                    String newfirstVolumePath =
+                        albumPath + MDOAlbumResource.calculateVolumePath( mdoAlbum.getVolumes(), 1 );
+
+                    for ( int i = 0; i < mdoAlbum.getSongs().size(); i++ )
+                    {
+                        MDOAlbumResource resource = mdoAlbum.getSongs().get( i );
+                        if ( resource.getVolume() == 1 )
+                        {
+                            FileUtils.moveFile( new File( albumPath + File.separatorChar + resource.getLocation() ),
+                                                new File( newfirstVolumePath + File.separatorChar
+                                                    + resource.getLocation() ) );
+                        }
+                    }
+                    for ( int i = 0; i < mdoAlbum.getArtworks().size(); i++ )
+                    {
+                        MDOAlbumResource resource = mdoAlbum.getArtworks().get( i );
+                        if ( resource.getVolume() == 1 )
+                        {
+                            FileUtils.moveFile( new File( albumPath + File.separatorChar + resource.getLocation() ),
+                                                new File( newfirstVolumePath + File.separatorChar
+                                                    + resource.getLocation() ) );
+                        }
+                    }
+                    for ( int i = 0; i < mdoAlbum.getOthers().size(); i++ )
+                    {
+                        MDOAlbumResource resource = mdoAlbum.getOthers().get( i );
+                        if ( resource.getVolume() == 1 )
+                        {
+                            FileUtils.moveFile( new File( albumPath + File.separatorChar + resource.getLocation() ),
+                                                new File( newfirstVolumePath + File.separatorChar
+                                                    + resource.getLocation() ) );
+                        }
+                    }
+
+                    // done!
+                }
             }
+
+            // if ( flagExistingAlbum )
+            // {
+            // the last thing, and very important, is to synchronize the tags of the mp3 files
+            synchronizeTags( mdoAlbum );
+            // }
 
             if ( oldAuthor != null )
             {

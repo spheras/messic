@@ -18,6 +18,9 @@
                 <div id="messic-about-version" class="messic-about-title" onclick="aboutShowMessicVersion();">
                     <div class="messic-about-title-title">About messic</div>
                 </div>
+                <div id="messic-about-changes" class="messic-about-title" onclick="aboutShowChanges();">
+                    <div class="messic-about-title-title">Version History</div>
+                </div>
                 <div id="messic-about-faq" class="messic-about-title">
                     <div onclick="aboutExpandMenu($(this).parent())" class="messic-about-title-title">FAQ</div>
                     <p>This are some of our frequent asked questions. You can find a more complete vision at the <a href="https://github.com/spheras/messic/wiki/FAQ" target="_blank">github wiki</a>.</p>
@@ -167,7 +170,7 @@
                             <li><a href="http://jplayer.org/" target="_blank">JPlayer</a> by happyworm</li>
                             <li>Tinyscrollbar and Tinycarousel by <a href="https://github.com/wieringen" target="_blank">Maarten Baijs</a>
                             </li>
-                            <li><a href="http://www.telerik.com/kendo-ui" target="_blank">Kendo UI</a>
+                            <li><a href="https://jqueryui.com/" target="_blank">jQuery UI</a>
                             </li>
                             <li><a href="http://devwizard.free.fr/html/en/JavaExe.html" target="_blank">JavaExe</a> by DevWizard</li>
                             <li><a href="https://github.com/vaidik/jquery-longpress" target="_blank">Longpress</a> jquery plugin by vaidik</li>

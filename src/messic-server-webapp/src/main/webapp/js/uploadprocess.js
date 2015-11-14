@@ -46,17 +46,14 @@ var UploadAlbumProcess = function (album) {
         this.sate = 1;
 
         //cleaning form data and creating uploading form
-        var authorCombo = $("#messic-upload-album-author").data("kendoComboBox");
-        var titleCombo = $("#messic-upload-album-title").data("kendoComboBox");
-        var genreCombo = $("#messic-upload-album-genre").data("kendoComboBox");
-        var yearEdit = $("#messic-upload-album-year").data("kendoNumericTextBox");
-        authorCombo.value("");
-        authorCombo.text("");
-        titleCombo.value("");
-        titleCombo.text("");
-        genreCombo.value("");
-        genreCombo.text("");
-        yearEdit.value(1900);
+        var authorCombo = $("#messic-upload-album-author");
+        var titleCombo = $("#messic-upload-album-title");
+        var genreCombo = $("#messic-upload-album-genre");
+        var yearEdit = $("#messic-upload-album-year");
+        authorCombo.val("");
+        titleCombo.val("");
+        genreCombo.val("");
+        yearEdit.val(1900);
         $("#messic-upload-album-comments").text("");
         $('#messic-upload-song-content-songs').val('');
         $("#messic-upload-album-editnew").attr('class', 'messic-upload-album-new');
@@ -89,9 +86,11 @@ var UploadAlbumProcess = function (album) {
         $("#messic-page-content").prepend(domElement);
 
         //Start uploading resources
-        this.uploadAll(this.album.audioResources);
-        this.uploadAll(this.album.imageResources);
-        this.uploadAll(this.album.otherResources);
+        for (var i = 0; i < this.album.volumes.length; i++) {
+            this.uploadAll(this.album.volumes[i].audioResources);
+            this.uploadAll(this.album.volumes[i].imageResources);
+            this.uploadAll(this.album.volumes[i].otherResources);
+        }
 
         //checking if ended
         if (resourceRestToUpload == 0) {
@@ -154,7 +153,7 @@ var UploadAlbumProcess = function (album) {
                     return myfunction;
                 }(resources[i], this.album, this);
 
-                up.addUpload(this.album.code, resources[i].file, successFunction, errorFunction, xhrFunction);
+                up.addUpload(this.album.code, resources[i], successFunction, errorFunction, xhrFunction);
 
             } else {
                 resourceRestToUpload = resourceRestToUpload - 1;

@@ -127,6 +127,27 @@ public class SettingsController
         }
     }
 
+    @ApiMethod( path = "/services/settings/updateNotified", verb = ApiVerb.POST, description = "Set the notified flag to the user specified by the userSid. It means that the users has been notified about a new version of messic, changes history, and so on", produces = {
+        MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
+    @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ) } )
+    @RequestMapping( value = "/updateNotified", method = RequestMethod.POST )
+    @ResponseStatus( HttpStatus.OK )
+    @ResponseBody
+    protected void updateNotified()
+        throws NotAuthorizedMessicRESTException, UnknownMessicRESTException
+    {
+        try
+        {
+            User result = userAPI.getUserByLogin( SecurityUtil.getCurrentUser().getLogin() );
+            result.setVersionUpdatedNotified( true );
+            userAPI.updateUser( result );
+        }
+        catch ( Exception e )
+        {
+            throw new UnknownMessicRESTException( e );
+        }
+    }
+
     @ApiMethod( path = "/services/settings/${userSid}/resetPassword", verb = ApiVerb.POST, description = "Reset the password of an existing user to 123456", produces = {
         MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE } )
     @ApiErrors( apierrors = { @ApiError( code = UnknownMessicRESTException.VALUE, description = "Unknown error" ),
@@ -316,7 +337,5 @@ public class SettingsController
     {
         binder.registerCustomEditor( byte[].class, new ByteArrayMultipartFileEditor() );
     }
-
-
 
 }

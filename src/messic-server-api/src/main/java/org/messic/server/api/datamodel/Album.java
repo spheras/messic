@@ -53,14 +53,17 @@ public class Album
     @ApiObjectField( description = "Cover image for the album" )
     private File cover;
 
+    @ApiObjectField( description = "ammount of volumes of the album... by default only 1" )
+    private Integer volumes = 1;
+
     @ApiObjectField( description = "List of songs of the album" )
-    private List<Song> songs=new ArrayList<Song>();
+    private List<Song> songs = new ArrayList<Song>();
 
     @ApiObjectField( description = "List of artworks for the album" )
-    private List<File> artworks=new ArrayList<File>();
+    private List<File> artworks = new ArrayList<File>();
 
     @ApiObjectField( description = "Other resources of the album" )
-    private List<File> others=new ArrayList<File>();
+    private List<File> others = new ArrayList<File>();
 
     @ApiObjectField( description = "Genre of the album" )
     private Genre genre;
@@ -77,6 +80,7 @@ public class Album
         album.comments = salbum.comments;
         album.genre = new Genre();
         album.genre.setName( salbum.genre );
+        album.volumes = salbum.volumes;
         album.name = salbum.name;
         album.year = salbum.year;
         album.songs = new ArrayList<Song>();
@@ -108,6 +112,7 @@ public class Album
             }
             salbum.name = album.getName();
             salbum.year = album.getYear();
+            salbum.volumes = album.getVolumes();
             salbum.songs = new ArrayList<org.messic.server.api.tagwizard.service.Song>();
             if ( album.getSongs() != null )
             {
@@ -190,9 +195,11 @@ public class Album
         {
             setAuthor( new Author( mdoalbum.getAuthor(), false, false ) );
         }
-        if(mdoalbum.getGenre()!=null){
+        if ( mdoalbum.getGenre() != null )
+        {
             setGenre( new Genre( mdoalbum.getGenre() ) );
         }
+        setVolumes( mdoalbum.getVolumes() );
         if ( copySongs )
         {
             Iterator<MDOSong> mdosongs = mdoalbum.getSongs().iterator();
@@ -207,13 +214,15 @@ public class Album
             Iterator<MDOArtwork> mdoartworks = mdoalbum.getArtworks().iterator();
             while ( mdoartworks.hasNext() )
             {
-                File file = new File( mdoartworks.next(), null );
+                MDOArtwork artwork = mdoartworks.next();
+                File file = new File( artwork, artwork.getVolume(), null );
                 addArtwork( file );
             }
             Iterator<MDOOtherResource> mdoothers = mdoalbum.getOthers().iterator();
             while ( mdoothers.hasNext() )
             {
-                File file = new File( mdoothers.next(), null );
+                MDOOtherResource other = mdoothers.next();
+                File file = new File( other, other.getVolume(), null );
                 addOther( file );
             }
         }
@@ -232,10 +241,12 @@ public class Album
         setName( mdoalbum.getName() );
         setYear( mdoalbum.getYear() );
         setAuthor( author );
-        if(mdoalbum.getGenre()!=null){
+        if ( mdoalbum.getGenre() != null )
+        {
             setGenre( new Genre( mdoalbum.getGenre() ) );
         }
         setComments( mdoalbum.getComments() );
+        setVolumes( mdoalbum.getVolumes() );
         if ( copySongs )
         {
             Iterator<MDOSong> mdosongs = mdoalbum.getSongs().iterator();
@@ -382,5 +393,21 @@ public class Album
     public void setCover( File cover )
     {
         this.cover = cover;
+    }
+
+    /**
+     * @return the volumes
+     */
+    public Integer getVolumes()
+    {
+        return volumes;
+    }
+
+    /**
+     * @param volumes the volumes to set
+     */
+    public void setVolumes( Integer volumes )
+    {
+        this.volumes = volumes;
     }
 }
