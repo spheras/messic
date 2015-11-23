@@ -59,7 +59,13 @@ public class Libshout
     public static Libshout getInstance()
         throws IOException
     {
-        if ( instance == null )
+        return getInstance( false );
+    }
+
+    public static Libshout getInstance( boolean reinit )
+        throws IOException
+    {
+        if ( instance == null || reinit )
         {
             instance = new Libshout();
         }
@@ -90,7 +96,7 @@ public class Libshout
         {
             shout_free( this.native_instance );
         }
-        // shout_shutdown();
+        shout_shutdown();
     }
 
     /**

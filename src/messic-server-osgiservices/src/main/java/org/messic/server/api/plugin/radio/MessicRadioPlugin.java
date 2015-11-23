@@ -9,8 +9,15 @@ public interface MessicRadioPlugin
 {
     static final String MESSIC_RADIO_PLUGIN_NAME = "MessicRadio";
 
-    void startCast()
-        throws IOException;
+    void startCast();
+
+    void stopCast();
 
     MessicRadioStatus getStatus();
+    
+    MessicRadioInfo getInfo();
+
+    void castSong( MessicRadioSong song )
+        throws IOException;
+
 }

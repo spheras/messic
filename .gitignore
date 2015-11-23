@@ -20,4 +20,4 @@ src/messic-client-android/assets
 src/messic-client-android/bin
 src/messic-client-android/gen
 src/messic-client-android/target
-
+src/messic-service/libs_so

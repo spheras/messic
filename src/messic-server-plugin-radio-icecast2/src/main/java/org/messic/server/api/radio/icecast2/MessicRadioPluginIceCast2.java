@@ -8,7 +8,9 @@ import java.util.Locale;
 import java.util.Properties;
 
 import org.messic.server.api.plugin.MessicPlugin;
+import org.messic.server.api.plugin.radio.MessicRadioInfo;
 import org.messic.server.api.plugin.radio.MessicRadioPlugin;
+import org.messic.server.api.plugin.radio.MessicRadioSong;
 import org.messic.server.api.plugin.radio.MessicRadioStatus;
 
 import com.gmail.kunicins.olegs.libshout.Libshout;
@@ -32,12 +34,22 @@ public class MessicRadioPluginIceCast2
 
     public static final String PARAMETER_PASSWORD = "plugin-radio-icecast2-password";
 
+    public static final String PARAMETER_USER = "plugin-radio-icecast2-user";
+
     public static final String PARAMETER_MOUNT = "plugin-radio-icecast2-mount";
 
-    private MessicRadioStatus status = MessicRadioStatus.NONE;
+    private MessicRadioInfo info = new MessicRadioInfo();
+
+    private String host;
+
+    private int port;
+
+    private String mount;
 
     /** configuration for the plugin */
     private Properties configuration;
+
+    private MRPCastThread thread = null;
 
     protected Proxy getProxy()
     {
@@ -55,18 +67,137 @@ public class MessicRadioPluginIceCast2
         return null;
     }
 
-    public void startCast()
+    private void checkConnection()
+    {
+        if ( isEnabled() )
+        {
+            if ( isStarted() )
+            {
+                Libshout icecast;
+                try
+                {
+                    icecast = Libshout.getInstance();
+                    if ( !icecast.isConnected() )
+                    {
+                        this.info.status = MessicRadioStatus.NOT_STARTED;
+                    }
+                }
+                catch ( IOException e )
+                {
+                    e.printStackTrace();
+                    this.info.status = MessicRadioStatus.NOT_STARTED;
+                }
+
+            }
+        }
+    }
+
+    /**
+     * Flag to know if it is the first time we try to connect with the server
+     */
+    private static boolean flagFirstTime = true;
+
+    @Override
+    public synchronized void startCast()
+    {
+        checkConnection();
+
+        if ( isEnabled() && !isStarted() )
+        {
+            try
+            {
+                if ( !flagFirstTime )
+                {
+                    Libshout icecast = Libshout.getInstance();
+                    icecast.close();
+                    if ( thread != null )
+                    {
+                        thread.stopCast();
+                    }
+                    icecast = Libshout.getInstance( true );
+                }
+                else
+                {
+                    flagFirstTime = false;
+                }
+
+                Libshout icecast = Libshout.getInstance();
+                host = (String) getConfiguration().get( PARAMETER_HOST );
+                port = Integer.valueOf( (String) getConfiguration().get( PARAMETER_PORT ) );
+                mount = (String) getConfiguration().getProperty( PARAMETER_MOUNT );
+
+                icecast.setHost( host );
+                icecast.setPort( port );
+                icecast.setProtocol( Libshout.PROTOCOL_HTTP );
+                icecast.setUser( (String) getConfiguration().getProperty( PARAMETER_USER ) );
+                icecast.setPassword( (String) getConfiguration().getProperty( PARAMETER_PASSWORD ) );
+                icecast.setMount( mount );
+                icecast.setFormat( Libshout.FORMAT_MP3 );
+
+                // icecast.setDescription( currentFile.albumComments );
+                // icecast.setGenre( currentFile.albumGenre );
+                // icecast.setInfo( "testkey", "testvalue" );
+                // icecast.setInfo( "testkey2", "testvalue2" );
+                // icecast.setMeta( "meta1", "value1" );
+                // icecast.setMeta( "meta2", "value2" );
+                // icecast.setName( currentFile.songName );
+                // icecast.setUrl( "http://wwww.messic.com/test" );
+
+                icecast.open();
+
+                // we start the thread to send music to the cast server
+                thread = new MRPCastThread();
+                thread.start();
+
+                // the status is started
+                this.info.status = MessicRadioStatus.STARTED;
+                this.info.radioURL = "http://" + host + ":" + port + mount;
+
+            }
+            catch ( Exception e )
+            {
+                e.printStackTrace();
+                this.info.status = MessicRadioStatus.NOT_AVAILABLE;
+            }
+
+        }
+    }
+
+    public synchronized void castSong( MessicRadioSong mp3song )
         throws IOException
     {
-        Libshout icecast = Libshout.getInstance();
-        icecast.setHost( (String) getConfiguration().get( PARAMETER_HOST ) );
-        icecast.setPort( Integer.valueOf( (String) getConfiguration().get( PARAMETER_PORT ) ) );
-        icecast.setProtocol( Libshout.PROTOCOL_HTTP );
-        icecast.setPassword( (String) getConfiguration().getProperty( PARAMETER_PASSWORD ) );
-        icecast.setMount( (String) getConfiguration().getProperty( PARAMETER_MOUNT ) );
-        icecast.setFormat( Libshout.FORMAT_MP3 );
-        icecast.open();
+        if ( isEnabled() && isStarted() )
+        {
+            thread.setNextFile( mp3song );
+        }
+    }
 
+    public synchronized void stopCast()
+    {
+        if ( isEnabled() && isStarted() )
+        {
+            try
+            {
+                thread.stopCast();
+                Thread.sleep( 1000 );
+            }
+            catch ( InterruptedException e )
+            {
+                e.printStackTrace();
+            }
+            this.info.status = MessicRadioStatus.STARTED;
+
+            try
+            {
+                Libshout.getInstance().close();
+            }
+            catch ( IOException e )
+            {
+                e.printStackTrace();
+            }
+            this.info.status = MessicRadioStatus.NOT_STARTED;
+
+        }
     }
 
     @Override
@@ -108,7 +239,7 @@ public class MessicRadioPluginIceCast2
         {
             if ( !isEnabled() )
             {
-                this.status = MessicRadioStatus.NOT_ENABLED;
+                this.info.status = MessicRadioStatus.NOT_ENABLED;
             }
         }
     }
@@ -127,10 +258,31 @@ public class MessicRadioPluginIceCast2
 
     }
 
+    public boolean isStarted()
+    {
+        return this.info.status == MessicRadioStatus.STARTED;
+    }
+
     @Override
     public MessicRadioStatus getStatus()
     {
-        return this.status;
+        if ( this.info.status == MessicRadioStatus.NONE )
+        {
+            if ( isEnabled() )
+            {
+                this.info.status = MessicRadioStatus.ENABLED;
+            }
+            else
+            {
+                this.info.status = MessicRadioStatus.NOT_ENABLED;
+            }
+        }
+        return this.info.status;
     }
 
+    @Override
+    public MessicRadioInfo getInfo()
+    {
+        return this.info;
+    }
 }

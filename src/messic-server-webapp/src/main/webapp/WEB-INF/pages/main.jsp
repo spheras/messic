@@ -78,15 +78,24 @@
 
                     <div id="messic-playlist-actions">
                         <div id="messic-playlist-action-clear" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-clear" bundle="${message}"/>" onclick="clearPlaylist()"></div>
+                        <c:if test="${radioStatus==true}">
+                        <div id="messic-playlist-action-radio" class="messic-playlist-action" title="radio" onclick="mainRadioButton()"></div>
+                        </c:if>
                         <div id="messic-playlist-action-fx" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-fx" bundle="${message}"/>" onclick="showFx()"></div>
                         <div id="messic-playlist-action-download" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-download" bundle="${message}"/>" onclick="downloadCurrentPlaylist()"></div>
                         <div id="messic-playlist-action-love" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-love" bundle="${message}"/>" onclick="loveCurrentPlaylist()"></div>
                         <div id="messic-playlist-action-pin" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-pin" bundle="${message}"/>" onclick="mainPinPlaylist()"></div>
-                        <div id="messic-playlist-action-radio" class="messic-playlist-action" title="radio" onclick="radioStart()"></div>
                     </div>
 
 
                     <div id="jquery_jplayer" class="jp-jplayer"></div>
+                    <audio id="messic_radio_player" preload="none" controls="">
+						<!-- <source type="audio/ogg; codecs="opus"" src="http://localhost:8000/mymount"></source> -->
+						<p>Your browser doesn't support HTML audio. Sorry.</p>
+						<!--onloadedmetadata="displayData(event)>" -->
+					</audio>
+                    
+                    
                     <div class="jp-audio" id="jquery_jplayer_content">
                         <div class="jp-type-playlist">
                             <div class="jp-gui jp-interface">
@@ -107,6 +116,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="jp-volume-bar">
                                     <div class="jp-volume-bar-line">
                                         <div class="jp-volume-bar-value">
@@ -114,6 +124,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                                                
                                 <div class="jp-time-holder"> <span class="jp-current-time">00:00</span><span class="jp-duration">04:27</span> 
                                 </div>
                                 <ul class="jp-toggles">

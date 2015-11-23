@@ -21,6 +21,8 @@ package org.messic.server.facade.controllers.pages;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.messic.server.api.APIRadio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,11 +31,26 @@ import org.springframework.web.servlet.ModelAndView;
 public class MainController
 {
 
-	@RequestMapping("/main.do")
+    @Autowired
+    private APIRadio apiradio;
+
+    @RequestMapping( "/main.do" )
     protected ModelAndView main( HttpServletRequest arg0, HttpServletResponse arg1 )
         throws Exception
     {
         ModelAndView model = new ModelAndView( "main" );
+
+        // checking radio availability
+        switch ( apiradio.getStatus() )
+        {
+            case NONE:
+            case NOT_AVAILABLE:
+            case NOT_ENABLED:
+                model.addObject( "radioStatus", false );
+                break;
+            default:
+                model.addObject( "radioStatus", true );
+        }
 
         return model;
     }

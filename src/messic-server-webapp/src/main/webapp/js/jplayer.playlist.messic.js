@@ -1,6 +1,6 @@
 /*
  * ······················································
- * ·Fork of the jplayer.playlist for Messic requirements·
+ * ·Fork of the jplayer.playlist for messic requirements·
  * ·following, the original version author:
  * ······················································
  *
@@ -94,7 +94,7 @@
             case $.jPlayer.error.URL:
                 //reportBrokenMedia(event.jPlayer.error); // A function you might create to report the broken link to a server log.
                 UtilShowInfo(messicLang.playlistError1 + self.playlist[self.current].song + "     " + messicLang.playlistError2);
-                    
+
                 self.next();
                 $(this).blur();
 
@@ -482,6 +482,7 @@
                 this.current = index;
                 playVinyl(index);
                 this._highlight(index);
+
                 $(this.cssSelector.jPlayer).jPlayer("setMedia", this.playlist[this.current]);
             } else {
                 this.current = 0;
