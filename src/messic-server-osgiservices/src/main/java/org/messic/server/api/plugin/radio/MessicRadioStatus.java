@@ -8,26 +8,24 @@ public enum MessicRadioStatus
      */
     NONE,
     /**
-     * the service is not available
-     */
-    NOT_AVAILABLE,
-    /**
-     * the service is available but the plugin has not been enabled by configuration
+     * the service has not been enabled by configuration
      */
     NOT_ENABLED,
     /**
-     * The service has not been started
+     * the service is enabled but it is can't available on this server
+     */
+    NOT_AVAILABLE,
+    /**
+     * The service is enabled and available but has not been started yet
      */
     NOT_STARTED,
     /**
-     * The service is available and enabled
-     */
-    ENABLED,
-    /**
      * The service is started, and waiting content to be casted
      */
-    STARTED;
-
-
+    WAITING,
+    /**
+     * The service is started, and playing music
+     */
+    PLAYING;
 
 }

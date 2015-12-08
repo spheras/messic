@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.messic.server.api.plugin.MessicPlugin;
 import org.messic.server.api.radio.icecast2.MessicRadioPluginIceCast2;
 
-public class MusicInfoDiscogsTagWizardPluginTest
+public class MessicRadioPluginIceCast2Test
 {
 
     @Test

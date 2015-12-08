@@ -91,17 +91,17 @@
         $(this.cssSelector.jPlayer).bind($.jPlayer.event.error, function (event) {
             //alert("Error Event: type = " + event.jPlayer.error.type); // The actual error code string. Eg., "e_url" for $.jPlayer.error.URL error.
             switch (event.jPlayer.error.type) {
-            case $.jPlayer.error.URL:
-                //reportBrokenMedia(event.jPlayer.error); // A function you might create to report the broken link to a server log.
-                UtilShowInfo(messicLang.playlistError1 + self.playlist[self.current].song + "     " + messicLang.playlistError2);
+                case $.jPlayer.error.URL:
+                    //reportBrokenMedia(event.jPlayer.error); // A function you might create to report the broken link to a server log.
+                    UtilShowInfo(messicLang.playlistError1 + self.playlist[self.current].song + "     " + messicLang.playlistError2);
 
-                self.next();
-                $(this).blur();
+                    self.next();
+                    $(this).blur();
 
-                break;
-            case $.jPlayer.error.NO_SOLUTION:
-                // Do something
-                break;
+                    break;
+                case $.jPlayer.error.NO_SOLUTION:
+                    // Do something
+                    break;
             }
         });
 
@@ -181,16 +181,16 @@
             this.options.playlistOptions[option] = value;
 
             switch (option) {
-            case "enableRemoveControls":
-                this._updateControls();
-                break;
-            case "itemClass":
-            case "freeGroupClass":
-            case "freeItemClass":
-            case "removeItemClass":
-                this._refresh(true); // Instant
-                this._createItemHandlers();
-                break;
+                case "enableRemoveControls":
+                    this._updateControls();
+                    break;
+                case "itemClass":
+                case "freeGroupClass":
+                case "freeItemClass":
+                case "removeItemClass":
+                    this._refresh(true); // Instant
+                    this._createItemHandlers();
+                    break;
             }
             return this;
         },
@@ -263,7 +263,7 @@
 
             /* This is the original jplayer.playlist structure
 
-			// Create remove control
+			// Create remove control 
 			listItem += "<a href='javascript:;' class='" + this.options.playlistOptions.removeItemClass + "'>&times;</a>";
 
 			// Create links to free media
@@ -289,6 +289,7 @@
 
             //let's modify it for messic
             listItem += "  <div class=\"jplayer-playlist-vinyl-container\" data-albumSid=\"" + media.albumSid + "\" data-songSid=\"" + media.songSid + "\" >";
+            listItem += "    <div class=\"jplayer-playlist-radio animated rubberBand infinite\"></div>";
             listItem += "    <div class=\"jplayer-playlist-vinyl jplayer-playlist-vinylHide";
 
             if (media.songRate == 2) {
@@ -348,6 +349,9 @@
             $(this.cssSelector.playlist).off("click", "a." + this.options.playlistOptions.removeItemClass).on("click", "a." + this.options.playlistOptions.removeItemClass, function () {
                 var index = $(this).parent().parent().index();
                 self.remove(index);
+                if (mainMessicRadio) {
+                    mainMessicRadio.messicRadioRemovedSong(index);
+                }
                 $(this).blur();
                 return false;
             });

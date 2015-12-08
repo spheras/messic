@@ -64,6 +64,13 @@
                 </div>
 
 
+                <div id="messic_radio_player_container" class="animated lightSpeedIn" style="display:none">
+	                <label>Radio Player</label>
+	                <audio id="messic_radio_player">
+						<p>Your browser doesn't support HTML audio. Sorry.</p>
+					</audio>
+				</div>
+
 
                 <div id="messic-page-border">
                     <div id="messic-page-content">
@@ -79,7 +86,7 @@
                     <div id="messic-playlist-actions">
                         <div id="messic-playlist-action-clear" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-clear" bundle="${message}"/>" onclick="clearPlaylist()"></div>
                         <c:if test="${radioStatus==true}">
-                        <div id="messic-playlist-action-radio" class="messic-playlist-action" title="radio" onclick="mainRadioButton()"></div>
+                        <div id="messic-playlist-action-radio" class="messic-playlist-action" title="radio"></div>
                         </c:if>
                         <div id="messic-playlist-action-fx" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-fx" bundle="${message}"/>" onclick="showFx()"></div>
                         <div id="messic-playlist-action-download" class="messic-playlist-action" title="<fmt:message key="main-currentplaylist-action-download" bundle="${message}"/>" onclick="downloadCurrentPlaylist()"></div>
@@ -89,12 +96,6 @@
 
 
                     <div id="jquery_jplayer" class="jp-jplayer"></div>
-                    <audio id="messic_radio_player" preload="none" controls="">
-						<!-- <source type="audio/ogg; codecs="opus"" src="http://localhost:8000/mymount"></source> -->
-						<p>Your browser doesn't support HTML audio. Sorry.</p>
-						<!--onloadedmetadata="displayData(event)>" -->
-					</audio>
-                    
                     
                     <div class="jp-audio" id="jquery_jplayer_content">
                         <div class="jp-type-playlist">

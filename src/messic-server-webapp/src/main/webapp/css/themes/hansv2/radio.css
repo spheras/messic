@@ -1,0 +1,196 @@
+#audio {
+    background: #FF0000;
+}
+#jquery_jplayer_content.messic_radio_player_alone {
+    animation-name: hola;
+    bottom: unset;
+    display: block;
+    opacity: 1;
+    top: 100px;
+}
+#messic_radio_alone_description_container {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("playlist/actions-base_2.png");
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: repeat;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 1px 2px 7px black;
+    height: 200px;
+    margin-left: -45px;
+    margin-top: -1px;
+    width: calc(100% + 90px);
+}
+#messic_radio_alone_description_container label {
+    background: rgba(200, 200, 200, 0.5) none repeat scroll 0 0;
+    border-radius: 6px;
+    color: #ffffff;
+    font-family: roboto-bold;
+    font-size: 14px;
+    height: 69%;
+    margin-left: 5%;
+    margin-top: 8%;
+    overflow-y: scroll;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 0;
+    position: absolute;
+    width: 109%;
+}
+#messic-background.messic-background-radio {
+    animation-delay: 0s;
+    animation-direction: alternate;
+    animation-duration: 120s;
+    animation-iteration-count: infinite;
+    animation-name: headeranim;
+    animation-play-state: running;
+    animation-timing-function: linear;
+    transition-duration: 0.5s;
+    transition-property: min-height;
+    transition-timing-function: ease-out;
+    height: 100%;
+    bottom: 0px;
+    opacity: .3;
+}
+@-webkit-keyframes headeranim {
+    0% {
+        background-color: #2e7bcf;
+    }
+    15% {
+        background-color: #0056b2;
+    }
+    20% {
+        background-color: green;
+    }
+    35% {
+        background-color: #42ad42;
+    }
+    40% {
+        background-color: yellow;
+    }
+    55% {
+        background-color: #ffffc1;
+    }
+    60% {
+        background-color: blue;
+    }
+    75% {
+        background-color: #000076;
+    }
+    80% {
+        background-color: pink;
+    }
+    95% {
+        background-color: #d47474;
+    }
+    100% {
+        background-color: 2e7bcf;
+    }
+}
+@keyframes headeranim {
+    0% {
+        background-color: #2e7bcf;
+    }
+    15% {
+        background-color: #0056b2;
+    }
+    20% {
+        background-color: green;
+    }
+    35% {
+        background-color: #42ad42;
+    }
+    40% {
+        background-color: yellow;
+    }
+    55% {
+        background-color: #ffffc1;
+    }
+    60% {
+        background-color: blue;
+    }
+    75% {
+        background-color: #000076;
+    }
+    80% {
+        background-color: pink;
+    }
+    95% {
+        background-color: #d47474;
+    }
+    100% {
+        background-color: 2e7bcf;
+    }
+}
+.messic_radio_player_alone .jp-toggles {
+    z-index: 9;
+}
+.messic_radio_player_alone .jp-interface:after {
+    z-index: 1;
+}
+.messic_radio_alone_noradio {
+    background: rgba(200, 255, 255, 0.7) none repeat scroll 0 0;
+    border-radius: 50px;
+    box-shadow: 0 0 33px rgba(200, 255, 255, 1);
+    font-family: roboto;
+    font-size: 40px;
+    left: 50%;
+    margin-left: -450px;
+    margin-top: -70px;
+    padding: 50px;
+    position: absolute;
+    top: 50%;
+}
+.messic_radio_alone_noradio > label {
+    text-align: center;
+}
+#messic_radio_false {
+    background: rgba(0, 0, 0, 0) url("radio/messic.png") no-repeat scroll 0 0 / 465px auto;
+    height: 603px;
+    width: 465px;
+}
+.messic_radio_alone_noradio > label b {
+    color: #ff00ff;
+    font-size: 55px;
+}
+#messic_radio_alone_description_container label b {
+    color: #ffaaff;
+    font-size: 25px;
+}
+p.messic_radio_alone_visit {
+    color: #888888;
+    font-size: 20px;
+    margin-right: 50px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.messic_radio_player_alone div.jp-progress {
+    border-radius: 20px;
+    box-shadow: 1px 1px 3px black inset;
+}
+.messic_radio_player_alone div.jp-seek-bar {
+    display: none;
+}
+#messic_radio_alone_description_container a {
+    color: #88ffff;
+    font-size: 1em;
+}
+#messic_radio_alone_description_container #messic_radio_alone_showinfo {
+    right: 4px;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.2);
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 4px;
+    border-top-right-radius: 28px;
+    color: #AAAAAA;
+    text-decoration: unset;
+}
+#messic_radio_alone_description_container #messic_radio_alone_showinfo:hover {
+    background: rgba(255, 255, 255, 0.5);
+    color: #555555;
+}

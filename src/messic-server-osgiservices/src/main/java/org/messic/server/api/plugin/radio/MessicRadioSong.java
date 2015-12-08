@@ -22,7 +22,9 @@ public class MessicRadioSong
     public int trackNumber;
 
     public String songName;
-    
+
+    public long songSid;
+
     public int clientQueuePosition;
 
 }

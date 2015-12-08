@@ -158,6 +158,7 @@
             <script src="js/utils.js?timestamp=${timestamp}"></script>
             <script src="js/plugins.js?timestamp=${timestamp}"></script>
             <script src="js/login.js?timestamp=${timestamp}"></script>
+            <script src="js/radio.js?timestamp=${timestamp}"></script>
             <script src="js/main.js?timestamp=${timestamp}"></script>
             <script src="js/upload.js?timestamp=${timestamp}"></script>
             <script src="js/explore.js?timestamp=${timestamp}"></script>

@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.IOException;
 
 import org.messic.configuration.MessicConfig;
+import org.messic.server.api.datamodel.User;
+import org.messic.server.api.exceptions.ResourceNotFoundMessicException;
+import org.messic.server.api.exceptions.SidNotFoundMessicException;
 import org.messic.server.api.plugin.radio.MessicRadioInfo;
 import org.messic.server.api.plugin.radio.MessicRadioPlugin;
 import org.messic.server.api.plugin.radio.MessicRadioSong;
@@ -33,6 +36,26 @@ public class APIRadio
 
     @Autowired
     private DAOMessicSettings daoSettings;
+
+    @Autowired
+    private APIAlbum apialbum;
+
+    public byte[] getAlbumCover( Integer preferredWidth, Integer preferredHeight )
+        throws SidNotFoundMessicException, ResourceNotFoundMessicException, IOException
+    {
+
+        long songSid = getInfo().songSid;
+        if ( songSid > 0 )
+        {
+            MDOSong song = daoSong.get( songSid );
+            if ( song != null )
+            {
+                return apialbum.getAlbumCover( new User( song.getOwner() ), song.getAlbum().getSid(), preferredWidth,
+                                               preferredHeight );
+            }
+        }
+        return null;
+    }
 
     private static MessicRadioPlugin getPlugin()
     {
@@ -125,6 +148,7 @@ public class APIRadio
                 {
                     mrs.coverImage = new File( mar.calculateAbsolutePath( daoSettings.getSettings() ) );
                 }
+                mrs.songSid = song.getSid();
                 mrs.songName = song.getName();
                 mrs.trackNumber = song.getTrack();
                 mrs.albumGenre = ( song.getAlbum().getGenre() != null ? song.getAlbum().getGenre().getName() : "" );
@@ -142,13 +166,11 @@ public class APIRadio
         if ( mrp != null )
         {
             mrp.startCast();
-            if ( mrp.getStatus() != MessicRadioStatus.STARTED )
-            {
-                throw new Exception( "Radio Not available" );
-            }
-            return;
-        }
 
-        throw new Exception( "Not available" );
+        }
+        else
+        {
+            throw new Exception( "Not available" );
+        }
     }
 }

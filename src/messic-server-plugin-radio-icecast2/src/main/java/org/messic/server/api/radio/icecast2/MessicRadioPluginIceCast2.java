@@ -3,6 +3,7 @@ package org.messic.server.api.radio.icecast2;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.Locale;
 import java.util.Properties;
@@ -29,6 +30,12 @@ public class MessicRadioPluginIceCast2
     public static final String PARAMETER_ENABLE = "plugin-radio-icecast2";
 
     public static final String PARAMETER_HOST = "plugin-radio-icecast2-host";
+
+    public static final String PARAMETER_PUBLIC_HOST = "plugin-radio-icecast2-publichost";
+
+    public static final String PARAMETER_PUBLIC_PORT = "plugin-radio-icecast2-publicport";
+
+    public static final String PARAMETER_PUBLIC_URLPATH = "plugin-radio-icecast2-publicurlpath";
 
     public static final String PARAMETER_PORT = "plugin-radio-icecast2-port";
 
@@ -90,6 +97,10 @@ public class MessicRadioPluginIceCast2
 
             }
         }
+        else
+        {
+            this.info.status = MessicRadioStatus.NOT_ENABLED;
+        }
     }
 
     /**
@@ -133,25 +144,44 @@ public class MessicRadioPluginIceCast2
                 icecast.setPassword( (String) getConfiguration().getProperty( PARAMETER_PASSWORD ) );
                 icecast.setMount( mount );
                 icecast.setFormat( Libshout.FORMAT_MP3 );
+                icecast.setInfo( "bitrate", "192" );
+                icecast.setInfo( "samplerate", "44100" );
+                icecast.setInfo( "channels", "2" );
 
-                // icecast.setDescription( currentFile.albumComments );
+                icecast.setDescription( "messic radio service" );
                 // icecast.setGenre( currentFile.albumGenre );
                 // icecast.setInfo( "testkey", "testvalue" );
                 // icecast.setInfo( "testkey2", "testvalue2" );
                 // icecast.setMeta( "meta1", "value1" );
                 // icecast.setMeta( "meta2", "value2" );
-                // icecast.setName( currentFile.songName );
+                icecast.setName( "messic radio" );
                 // icecast.setUrl( "http://wwww.messic.com/test" );
 
                 icecast.open();
+                // just to be sure...
+                if ( !icecast.isConnected() || !checkIcecast2PortListening( host, port ) )
+                {
+                    throw new Exception( "ICECAST SERVER Not connected!" );
+                }
 
                 // we start the thread to send music to the cast server
-                thread = new MRPCastThread();
+                // this.info.status = MessicRadioStatus.WAITING; //we cannot do this yet
+                thread = new MRPCastThread( this.getInfo() );
                 thread.start();
 
                 // the status is started
-                this.info.status = MessicRadioStatus.STARTED;
-                this.info.radioURL = "http://" + host + ":" + port + mount;
+                this.info.publicURLHost = (String) getConfiguration().get( PARAMETER_PUBLIC_HOST );
+                try
+                {
+                    this.info.publicURLPort =
+                        Integer.valueOf( (String) getConfiguration().get( PARAMETER_PUBLIC_PORT ) );
+                }
+                catch ( Exception e )
+                {
+                    e.printStackTrace();
+                    this.info.publicURLPort = 80;
+                }
+                this.info.publicURLPath = (String) getConfiguration().get( PARAMETER_PUBLIC_URLPATH );
 
             }
             catch ( Exception e )
@@ -160,6 +190,28 @@ public class MessicRadioPluginIceCast2
                 this.info.status = MessicRadioStatus.NOT_AVAILABLE;
             }
 
+        }
+    }
+
+    /**
+     * Check if the icecast2 server is listening at the hostname and port specified
+     * 
+     * @param hostname {@link String} hostname to check
+     * @param port int port to check
+     * @return boolean true->if it is listening
+     */
+    private boolean checkIcecast2PortListening( String hostname, int port )
+    {
+        try
+        {
+            Socket socket = new Socket();
+            socket.connect( new InetSocketAddress( hostname, port ), 3000 );
+            socket.close();
+            return true;
+        }
+        catch ( Exception e )
+        {
+            return false;
         }
     }
 
@@ -185,7 +237,7 @@ public class MessicRadioPluginIceCast2
             {
                 e.printStackTrace();
             }
-            this.info.status = MessicRadioStatus.STARTED;
+            this.info.status = MessicRadioStatus.NOT_STARTED;
 
             try
             {
@@ -241,6 +293,16 @@ public class MessicRadioPluginIceCast2
             {
                 this.info.status = MessicRadioStatus.NOT_ENABLED;
             }
+            else
+            {
+                switch ( this.info.status )
+                {
+                    case NONE:
+                        this.info.status = MessicRadioStatus.NOT_STARTED;
+                        break;
+                    default:
+                }
+            }
         }
     }
 
@@ -260,23 +322,21 @@ public class MessicRadioPluginIceCast2
 
     public boolean isStarted()
     {
-        return this.info.status == MessicRadioStatus.STARTED;
+        switch ( this.info.status )
+        {
+            case NONE:
+            case NOT_AVAILABLE:
+            case NOT_ENABLED:
+            case NOT_STARTED:
+                return false;
+            default:
+                return true;
+        }
     }
 
     @Override
     public MessicRadioStatus getStatus()
     {
-        if ( this.info.status == MessicRadioStatus.NONE )
-        {
-            if ( isEnabled() )
-            {
-                this.info.status = MessicRadioStatus.ENABLED;
-            }
-            else
-            {
-                this.info.status = MessicRadioStatus.NOT_ENABLED;
-            }
-        }
         return this.info.status;
     }
 

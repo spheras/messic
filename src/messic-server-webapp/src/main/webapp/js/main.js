@@ -29,6 +29,8 @@ var VAR_changeSection = function (nextFunction) {
     //this function should be overwritten by each module in order to be checked
 }
 
+//the messic radio is undefined by default... if it is available, it will be filled with the current radio object
+var mainMessicRadio = undefined;
 
 //Select a menu
 function selectOption(optionSelected) {
@@ -73,6 +75,12 @@ function mainCheckNotifyHistoryChanges() {
 function initMessic() {
 
     mainCheckNotifyHistoryChanges();
+
+    //messic radio... if available
+    mainMessicRadio = new MessicRadio();
+    $("#messic_radio_player_container").draggable({
+        handle: "label"
+    });
 
     (function ($) {
         var playlist = $("#messic-playlist");
@@ -455,27 +463,27 @@ function mainCreateRandomList(randomlist, lastTitleType) {
     lastTitleType = titleType;
 
     switch (titleType) {
-    case 1:
-        code = code + "blue";
-        break;
-    case 2:
-        code = code + "green";
-        break;
-    case 3:
-        code = code + "orange";
-        break;
-    case 4:
-        code = code + "pink";
-        break;
-    case 5:
-        code = code + "purple";
-        break;
-    case 6:
-        code = code + "red";
-        break;
-    case 7:
-        code = code + "yellow";
-        break;
+        case 1:
+            code = code + "blue";
+            break;
+        case 2:
+            code = code + "green";
+            break;
+        case 3:
+            code = code + "orange";
+            break;
+        case 4:
+            code = code + "pink";
+            break;
+        case 5:
+            code = code + "purple";
+            break;
+        case 6:
+            code = code + "red";
+            break;
+        case 7:
+            code = code + "yellow";
+            break;
     }
 
     code = code + "\">" + messicLang.search(randomlist.name);
@@ -651,6 +659,9 @@ function addSong(titleA, authorSid, authorName, albumSid, albumName, songSid, so
 /* clear the current playlist */
 function clearPlaylist() {
     playlist.remove();
+    if (mainMessicRadio) {
+        mainMessicRadio.messicRadioRemovedSong(99999);
+    }
     $("#messic-playlist").data("plugin_tinyscrollbar").update('right');
 }
 
@@ -901,108 +912,4 @@ function mainPinPlaylist() {
         }
     }
 
-}
-
-/**
- * Start the radio streaming cast, if available
- */
-function mainRadioStart() {
-    var divradio = $("#messic-playlist-action-radio");
-
-    $.ajax({
-        type: "PUT",
-        async: false,
-        url: "services/radio/start",
-        contentType: "application/json",
-        error: function (jqXHR, textStatus, errorThrown) {
-            divradio.removeClass("messic-playlist-action-radio-on");
-            UtilShowInfo("@TODO Error: The radio service plugin is not configured correctly. It is not available at this moment. Please, check the current configuration of the plugin");
-        },
-        success: function (data, textStatus, jqXHR) {
-            divradio.addClass("messic-playlist-action-radio-on");
-
-            mainRadioPoll();
-
-            //UtilShowInfo("@TODO The radio service will start RUNNING with the following song at the playlist.  You can disable again pressing again this button.");
-        },
-    });
-}
-
-/**
- * Stop the radio streaming cast
- */
-function mainRadioStop() {
-    var divradio = $("#messic-playlist-action-radio");
-
-    $.ajax({
-        type: "PUT",
-        async: false,
-        url: "services/radio/stop",
-        contentType: "application/json",
-        error: function (jqXHR, textStatus, errorThrown) {
-            divradio.removeClass("messic-playlist-action-radio-on");
-        },
-        success: function (data, textStatus, jqXHR) {
-            divradio.removeClass("messic-playlist-action-radio-on");
-        },
-    });
-}
-
-
-/**
- * Radio button click
- */
-function mainRadioButton() {
-    var divradio = $("#messic-playlist-action-radio");
-
-    if (divradio.hasClass("messic-playlist-action-radio-on")) {
-        mainRadioStop();
-    } else {
-        mainRadioStart();
-    }
-}
-
-/**
- * function fo know if the radio is on or o not
- */
-function mainIsRadioOn() {
-    var divradio = $("#messic-playlist-action-radio");
-    if (divradio.length > 0) {
-        return divradio.hasClass("messic-playlist-action-radio-on");
-    } else {
-        return false;
-    }
-}
-
-/**
- * function to poll the server in order to watch what is being played on the radio
- */
-function mainRadioPoll() {
-    $.ajax({
-        type: "GET",
-        url: "services/radio/status",
-        contentType: "application/json",
-        success: function (data) {
-            //Update your playlist radio status
-            console.log("testttt");
-
-            /*
-            if (mainIsRadioOn()) {
-                $.ajax({
-                    type: "POST",
-                    async: false,
-                    url: "services/radio/" + this.playlist[this.current].songSid,
-                    contentType: "application/json",
-                });
-            }
-            */
-        },
-        dataType: "json",
-        complete: function () {
-            if (mainIsRadioOn()) {
-                //we continue polling
-                setTimeout(mainRadioPoll, 5500);
-            }
-        }
-    });
 }

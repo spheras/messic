@@ -489,14 +489,18 @@ public class Libshout
         throws IOException
     {
         long instanceMeta = shout_metadata_new();
-        if ( shout_set_metadata( this.native_instance, instanceMeta ) != SUCCESS )
-        {
-            throw new IOException( shout_get_error( this.native_instance ) );
-        }
-        if ( shout_metadata_add( instanceMeta, key, value ) != SUCCESS )
-        {
-            throw new IOException( shout_get_error( this.native_instance ) );
-        }
+        
+            shout_set_metadata( this.native_instance, instanceMeta );
+            shout_metadata_add( instanceMeta, key, value );
+        
+//        if ( shout_set_metadata( this.native_instance, instanceMeta ) != SUCCESS )
+//        {
+//            throw new IOException( shout_get_error( this.native_instance ) );
+//        }
+//        if ( shout_metadata_add( instanceMeta, key, value ) != SUCCESS )
+//        {
+//            throw new IOException( shout_get_error( this.native_instance ) );
+//        }
     }
 
     /**

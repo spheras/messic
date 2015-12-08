@@ -5,10 +5,23 @@ public class MessicRadioInfo
 
     public MessicRadioStatus status = MessicRadioStatus.NONE;
 
-    public String radioURL;
+    // this is the port where the music is being cast
+    public int publicURLPort;
 
-    public long songSid=-1l;
+    // this is the public URL where the client should connect (empty if the same as the messic server)
+    public String publicURLHost;
 
-    public int songQueuePosition=-1;
+    // this is the last part of the URL, like /mymount
+    public String publicURLPath;
+
+    public long songSid = -1l;
+
+    public int songQueuePosition = -1;
+
+    public String songName;
+
+    public String authorName;
+
+    public String albumName;
 
 }
