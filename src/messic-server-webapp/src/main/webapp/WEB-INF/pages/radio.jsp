@@ -72,10 +72,14 @@
             
             
             <!-- radio -->
+            <script src="js/main.js?timestamp=${timestamp}"></script>
+            <script src="js/utils.js?timestamp=${timestamp}"></script>
             <script src="js/radio.js?timestamp=${timestamp}"></script>
             
             <c:if test="${radioStatus==true}">
             	<div id="messic-background" class="messic-background-radio"></div>
+            	<div id="messic_radio_logo"><a href="http://spheras.github.io/messic/" target="_blank">messic</a></div>
+	        	<p class="messic_radio_alone_visit"><fmt:message key="radio-advisory-visitus" bundle="${message}"/> <a href="http://spheras.github.io/messic/" target="_blank">messic</a></p>
 				
 					<div id="jquery_jplayer" class="jp-jplayer"></div>
 				
@@ -133,12 +137,17 @@
 	                    		<div id="messic_radio_alone_author"></div>
 	                    		<div id="messic_radio_alone_album"></div>
 	                    		<div id="messic_radio_alone_song"></div>
+	                    		<div id="messic_radio_alone_actions">
+	                    			<div id="messic_radio_alone_action_wikipedia"></div>
+	                    			<div id="messic_radio_alone_action_youtube"></div>
+	                    			<div id="messic_radio_alone_action_fx"></div>
+	                    		</div>
 	                    	</div>
 	                    	<label>
-	                    	<a id="messic_radio_alone_showinfo" href="#">continue and show music info</a><br>
+	                    	<a id="messic_radio_alone_showinfo" href="#" class="animated bounceInLeft"><fmt:message key="radio-message-continue" bundle="${message}"/></a><br>
 	                    	<center>
-	                    		<b><u>Welcome to messic Radio</b></u>
-	                    		<p>This is the messic radio place. Here you can listen to the music played your host. messic is a open sourcce GPLv3. Help us to improve it. You can download it from the <a href="http://spheras.github.io/messic/">messic web page</a>.</p>
+	                    		<b><u><fmt:message key="radio-message-title" bundle="${message}"/></b></u>
+	                    		<p><fmt:message key="radio-message-content" bundle="${message}"/><a href="http://spheras.github.io/messic/"><fmt:message key="radio-message-content-messicwebpage" bundle="${message}"/></a>.</p>
 	                    	</center></label>
 	                    	
 	                    </div>
@@ -147,8 +156,8 @@
            </c:if> 
 	        <c:if test="${radioStatus==false}">
 	        	<div id="messic_radio_false"></div>
-	        	<div class="messic_radio_alone_noradio"><label>There is no radio at this moment... <br><u><b>come back later</b></u></label></div>
-	        	<p class="messic_radio_alone_visit">visit us at <a href="http://spheras.github.io/messic/" target="_blank">messic</a></p>
+	        	<div class="messic_radio_alone_noradio"><label><fmt:message key="radio-message-noradio" bundle="${message}"/> <br><u><b><fmt:message key="radio-message-noradio-comeback" bundle="${message}"/></b></u></label></div>
+	        	<p class="messic_radio_alone_visit"><fmt:message key="radio-advisory-visitus" bundle="${message}"/> <a href="http://spheras.github.io/messic/" target="_blank">messic</a></p>
 	        </c:if>
         </body>
         

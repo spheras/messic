@@ -54,6 +54,7 @@ messicLang = {
 	uploadWizardRemove: '<fmt:message key="js-upload-wizard-remove" bundle="${message}"/>',
 	uploadWizardPluginWarning: '<fmt:message key="js-upload-wizard-pluginwarning" bundle="${message}"/>',
 	uploadWizardSavingWait:'<fmt:message key="js-upload-saving-wait" bundle="${message}"/>',
+	uploadWizardInfoUpdated:'<fmt:message key="js-upload-wizard-updated" bundle="${message}"/>',
 	uploadVolumesUpdated:'<fmt:message key="js-upload-volumes-updated" bundle="${message}"/>',
 	
 	
@@ -175,6 +176,8 @@ messicLang = {
 	playlistAddToPlaylist: '<fmt:message key="album-addplaylist-title" bundle="${message}"/>',
 	playlistError1: '<fmt:message key="js-playlist-error1" bundle="${message}"/>',
 	playlistError2: '<fmt:message key="js-playlist-error2" bundle="${message}"/>',
+	
+	radioError: '<fmt:message key="js-messic-radio-error" bundle="${message}"/>',
 	
 	messicerror: '<fmt:message key="js-messic-error" bundle="${message}"/>',
 	messicservicedown: '<fmt:message key="js-messic-service-down" bundle="${message}"/>',

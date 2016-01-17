@@ -109,7 +109,9 @@ public class DAOJPASong
             String sql = "from MDOSong as a WHERE (a.owner.login = :userName) AND (";
             sql = sql + "(UPPER(a.name) LIKE :what) OR ";
             sql = sql + "(UPPER(a.album.name) LIKE :what) OR ";
-            sql = sql + "(UPPER(a.album.genre.name) LIKE :what) OR ";
+
+            // sql = sql + "(a.album.genre is not null AND UPPER(a.album.genre.name) LIKE :what) OR ";
+            // sql = sql + "(UPPER(a.album.genre.name) LIKE :what) OR ";
             try
             {
                 Integer.parseInt( content );
@@ -118,7 +120,9 @@ public class DAOJPASong
             catch ( NumberFormatException nfe )
             {
             }
-            sql = sql + "(UPPER(a.album.comments) LIKE :what) OR ";
+
+            sql = sql + "(a.album.comments is not null AND UPPER(a.album.comments) LIKE :what) OR ";
+            // sql = sql + "(UPPER(a.album.comments) LIKE :what) OR ";
             sql = sql + "(UPPER(a.album.author.name) LIKE :what)";
             sql = sql + ")";
 
@@ -170,7 +174,7 @@ public class DAOJPASong
         List<MDOSong> results = query.getResultList();
         return results;
     }
-    
+
     @Override
     @Transactional
     public List<MDOSong> getAllOrderByLessPlayed( String username, int max )

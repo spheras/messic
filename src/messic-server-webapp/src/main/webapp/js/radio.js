@@ -71,7 +71,7 @@ var MessicRadio = function () {
 
                 divradio.removeClass("messic-playlist-action-radio-on");
                 divradioplayer.hide();
-                UtilShowInfo("@TODO Error: The radio service plugin is not configured correctly. It is not available at this moment. Please, check the current configuration of the plugin");
+                UtilShowInfo(messicLang.radioError);
 
             },
             success: function (data, textStatus, jqXHR) {
@@ -102,7 +102,8 @@ var MessicRadio = function () {
 
 
                 $("#jquery_jplayer").jPlayer("volume", 0); // 0.0 - 1.0
-
+                $("#jquery_jplayer").jPlayer("pause");
+                mainPauseCurrentVinyl();
 
                 //UtilShowInfo("@TODO The radio service will start RUNNING with the following song at the playlist.  You can disable again pressing again this button.");
             },
@@ -126,6 +127,7 @@ var MessicRadio = function () {
                 divradio.removeClass("messic-playlist-action-radio-on");
                 divradioplayer.hide();
                 currentSongInPlaylistIndex = -1;
+                $("#jquery_jplayer").jPlayer("volume", 0.8);
             },
             success: function (data, textStatus, jqXHR) {
                 divradio.removeClass("messic-playlist-action-radio-on");
@@ -138,6 +140,7 @@ var MessicRadio = function () {
                 audioobj.pause();
                 currentSongInPlaylistIndex = -1;
                 $(".jplayer-playlist-radio").removeClass("jplayer-playlist-radio-on");
+                $("#jquery_jplayer").jPlayer("volume", 0.8);
             }
         });
     }
@@ -227,6 +230,22 @@ var MessicRadio = function () {
             flagForceNextSong = true;
         }
     }
+
+    /**
+     * function to know when a song has been moved in the queue playlist
+     */
+    this.messicRadioSongMoved = function (oldIndex, newIndex) {
+        if (oldIndex == currentSongInPlaylistIndex) {
+            //the current song being played in the radio has been moved to a different position!
+            currentSongInPlaylistIndex = newIndex;
+        } else if (oldIndex > currentSongInPlaylistIndex && newIndex <= currentSongInPlaylistIndex) {
+            //we need to move right the current song being played by the radio
+            currentSongInPlaylistIndex++;
+        } else if (oldIndex < currentSongInPlaylistIndex && newIndex > currentSongInPlaylistIndex) {
+            //we need to move left the current song being played by the radio
+            currentSongInPlaylistIndex--;
+        }
+    }
 }
 
 
@@ -264,9 +283,27 @@ function messicRadioPlayerLoad() {
 
     $("a#messic_radio_alone_showinfo").click(function () {
         $(this).parent().remove();
+        $("#messic_radio_alone_info").show();
     })
 
     messicRadioPlayerPollInfo();
+
+    $("#messic_radio_alone_action_wikipedia").click(function () {
+        var userLang = navigator.language || navigator.userLanguage;
+        var nquery = $("#messic_radio_alone_author").text();
+        window.open("https://" + userLang.split('-')[0].toLowerCase() + ".wikipedia.org/w/index.php?search=" + nquery + "");
+    });
+    $("#messic_radio_alone_action_youtube").click(function () {
+        var userLang = navigator.language || navigator.userLanguage;
+        var nquery = $("#messic_radio_alone_author").text();
+        window.open("https://www.youtube.com/results?search_query=" + nquery + "");
+
+    });
+
+    $("#messic_radio_alone_action_fx").click(function () {
+        showFx();
+    });
+
 }
 
 var messicRadioLastRadioInfo;

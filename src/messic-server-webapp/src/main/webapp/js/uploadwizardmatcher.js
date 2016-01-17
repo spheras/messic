@@ -157,7 +157,7 @@ var UploadWizardMatcher = function () {
 
         }
 
-        UtilShowInfo("@TODO info updated!");
+        UtilShowInfo(messicLang.uploadWizardInfoUpdated);
     }
 
     /**
@@ -280,35 +280,35 @@ var UploadWizardMatcher = function () {
         $("#messic-upload-wizard-albumcomments").addClass("messic-upload-wizard-albuminfofield-modified");
 
 
-        UtilShowInfo("@TODO info updated!");
+        UtilShowInfo(messicLang.uploadWizardInfoUpdated);
     }
 
     /* copy the author name info */
     this.uploadwizardmatchCopyAuthorName = function (selectedDiv) {
         $("#messic-upload-wizard-authorname").val(selectedDiv.find(".messic-upload-wizard-albuminfofield-author").text());
         $("#messic-upload-wizard-authorname").addClass("messic-upload-wizard-albuminfofield-modified");
-        UtilShowInfo("@TODO info updated!");
+        UtilShowInfo(messicLang.uploadWizardInfoUpdated);
     }
 
     /* copy the album title info */
     this.uploadwizardmatchCopyAlbumTitle = function (selectedDiv) {
         $("#messic-upload-wizard-albumtitle").val(selectedDiv.find(".messic-upload-wizard-albuminfofield-title").text());
         $("#messic-upload-wizard-albumtitle").addClass("messic-upload-wizard-albuminfofield-modified");
-        UtilShowInfo("@TODO info updated!");
+        UtilShowInfo(messicLang.uploadWizardInfoUpdated);
     }
 
     /* copy the album year info */
     this.uploadwizardmatchCopyAlbumYear = function (selectedDiv) {
         $("#messic-upload-wizard-albumyear").val(selectedDiv.find(".messic-upload-wizard-albuminfofield-year").text());
         $("#messic-upload-wizard-albumyear").addClass("messic-upload-wizard-albuminfofield-modified");
-        UtilShowInfo("@TODO info updated!");
+        UtilShowInfo(messicLang.uploadWizardInfoUpdated);
     }
 
     /* copy the album genre info */
     this.uploadwizardmatchCopyAlbumGenre = function (selectedDiv) {
         $("#messic-upload-wizard-genre").val(selectedDiv.find(".messic-upload-wizard-albuminfofield-genre").text());
         $("#messic-upload-wizard-genre").addClass("messic-upload-wizard-albuminfofield-modified");
-        UtilShowInfo("@TODO info updated!");
+        UtilShowInfo(messicLang.uploadWizardInfoUpdated);
     }
 
     /* copy the album comments info */
@@ -320,7 +320,7 @@ var UploadWizardMatcher = function () {
 
         $("#messic-upload-wizard-albumcomments").val(comments);
         $("#messic-upload-wizard-albumcomments").addClass("messic-upload-wizard-albuminfofield-modified");
-        UtilShowInfo("@TODO info updated!");
+        UtilShowInfo(messicLang.uploadWizardInfoUpdated);
     }
 
 }

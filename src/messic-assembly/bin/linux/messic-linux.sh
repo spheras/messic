@@ -28,17 +28,17 @@ cd ./bin
 	if [ "$(uname -m | grep '64')" != "" ]; then
 		echo "64 bits!"
 		JAVA_GZ='jre-8u45-linux-x64.tar.gz'
-        JAVA_FOLDER='jre1.8.0_45'
+        	JAVA_FOLDER='jre1.8.0_45'
 	  
 		# testing if the directory is already decompressed
-		if ! [ -d "./jre1.8.0_45-x64" ]; then
+		if ! [ -d "./jre1.8.0_45" ]; then
 			#decompressing
 			tar xzvf ../jvm/$JAVA_GZ
 		fi
 	else
 		echo "32 bits!"
 		JAVA_GZ='jre-845-linux-i586.tar.gz'
-        JAVA_FOLDER='jre1.8.0_45'
+        	JAVA_FOLDER='jre1.8.0_45'
 		
 		# testing if the directory is already decompressed
 		if ! [ -d "./jre1.8.0_45" ]; then

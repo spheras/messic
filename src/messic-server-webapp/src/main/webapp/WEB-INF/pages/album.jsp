@@ -77,7 +77,7 @@
 						<div id="messic-album-songs-head-songtrack" class="messic-album-songs-headfield"><fmt:message key="album-songtrack-title" bundle="${message}"/></div>
 						<div id="messic-album-songs-head-songname" class="messic-album-songs-headfield"><fmt:message key="album-songname-title" bundle="${message}"/></div>
 						<div id="messic-album-songs-head-songaction" class="messic-album-songs-headfield">
-							<div class="messic-album-songs-head-songaction-add" onaction="albumAddSong()"></div>
+							<div class="messic-album-songs-head-songaction-add"></div>
 							<input class="messic-album-songs-head-songaction-addinput" type="file" multiple>
 						</div>
 						<div class="divclearer"></div>

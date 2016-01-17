@@ -96,6 +96,7 @@
 	<servlet-mapping>
 		<servlet-name>messic</servlet-name>
 		<url-pattern>*.do</url-pattern>
+		<url-pattern>/radio</url-pattern>
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
 

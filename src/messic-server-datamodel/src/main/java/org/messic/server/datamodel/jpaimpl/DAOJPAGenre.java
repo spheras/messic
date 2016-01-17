@@ -72,8 +72,8 @@ public class DAOJPAGenre
     public List<MDOGenre> findSimilarGenre( String genreName, String username )
     {
         Query query =
-            entityManager.createQuery( "from MDOGenre as a where (a.owner.login = :userName) AND (a.name LIKE :genreName)" );
-        query.setParameter( "genreName", "%" + genreName + "%" );
+            entityManager.createQuery( "from MDOGenre as a where (a.owner.login = :userName) AND (UPPER(a.name) LIKE :genreName)" );
+        query.setParameter( "genreName", "%" + genreName.toUpperCase() + "%" );
         query.setParameter( "userName", username );
 
         @SuppressWarnings( "unchecked" )

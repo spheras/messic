@@ -82,7 +82,7 @@ public class RadioViewController
         return p.getProperty( "messic.timestamp" );
     }
 
-    @RequestMapping( "/radio.do" )
+    @RequestMapping( "/radio" )
     protected ModelAndView login( HttpServletRequest arg0, HttpServletResponse arg1 )
         throws Exception
     {

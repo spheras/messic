@@ -121,8 +121,8 @@ public class DAOJPAAlbum
     public List<MDOAlbum> findSimilarAlbums( String albumName, String username )
     {
         Query query =
-            entityManager.createQuery( "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName)  ORDER BY UPPER(a.name)" );
-        query.setParameter( "albumName", "%" + albumName + "%" );
+            entityManager.createQuery( "from MDOAlbum as a where (UPPER(a.name) LIKE :albumName) AND (a.owner.login = :userName)  ORDER BY UPPER(a.name)" );
+        query.setParameter( "albumName", "%" + albumName.toUpperCase() + "%" );
         query.setParameter( "userName", username );
 
         @SuppressWarnings( "unchecked" )
@@ -301,7 +301,7 @@ public class DAOJPAAlbum
                                              int maxResults, boolean orderDesc, boolean orderByAuthor )
     {
         String squery =
-            "from MDOAlbum as a where (a.name LIKE :albumName) AND (a.owner.login = :userName)"
+            "from MDOAlbum as a where (UPPER(a.name) LIKE :albumName) AND (a.owner.login = :userName)"
                 + ( authorSid > 0 ? " AND (a.author.sid = :authorSid)" : "" ) + " ORDER BY";
         if ( orderByAuthor )
         {
@@ -317,7 +317,7 @@ public class DAOJPAAlbum
         }
 
         Query query = entityManager.createQuery( squery );
-        query.setParameter( "albumName", "%" + albumName + "%" );
+        query.setParameter( "albumName", "%" + albumName.toUpperCase() + "%" );
         query.setParameter( "userName", username );
         if ( authorSid > 0 )
         {

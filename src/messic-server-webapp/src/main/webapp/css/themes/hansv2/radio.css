@@ -194,3 +194,79 @@ p.messic_radio_alone_visit {
     background: rgba(255, 255, 255, 0.5);
     color: #555555;
 }
+#messic_radio_alone_info {
+    background: rgba(150, 150, 150, 0.2) none repeat scroll 0 0;
+    border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
+    height: calc(100% - 18px);
+    padding-top: 20px;
+    display: none;
+}
+#messic_radio_alone_info > #messic_radio_alone_cover {
+    border-radius: 10px;
+    box-shadow: 0 0 8px #88ff55;
+    display: block;
+    float: right;
+    margin: 15px;
+    width: 155px;
+}
+#messic_radio_alone_info > div {
+    color: #ffffff;
+    float: right;
+    font-family: roboto-bold;
+    font-size: 23px;
+    text-align: right;
+    text-shadow: 1px 1px 2px #000000;
+    width: 52%;
+}
+#messic_radio_alone_info > #messic_radio_alone_author {
+    border-bottom: 2px solid #cccccc;
+    line-height: 27px;
+    margin-top: 14px;
+}
+#messic_radio_alone_info > #messic_radio_alone_album {
+    color: #ffaaff;
+    font-size: 17px;
+}
+#messic_radio_alone_info > #messic_radio_alone_song {
+    color: #aaffff;
+    font-size: 18px;
+}
+#messic_radio_alone_action_wikipedia {
+    background: url("radio/wikipedia.png");
+    width: 27px;
+    height: 28px;
+    background-size: 28px 28px;
+}
+#messic_radio_alone_action_fx {
+    background: url("playlist/actions-fx.png");
+    width: 27px;
+    height: 28px;
+}
+#messic_radio_alone_action_youtube {
+    background: url("radio/youtube.png");
+    width: 27px;
+    height: 28px;
+    background-size: 28px 28px;
+}
+#messic_radio_alone_actions {
+    bottom: 10px;
+    position: absolute;
+    margin-left: 10px;
+}
+#messic_radio_alone_actions > div {
+    float: left;
+    margin-right: 10px;
+    cursor: pointer;
+}
+#messic_radio_logo a:hover {
+    text-decoration: underline;
+    text-shadow: 0px 0px 1px black;
+    color: #89ff00;
+}
+#messic_radio_logo a {
+    color: white;
+    font-family: roboto-bold;
+    font-size: 53px;
+    text-decoration: none;
+}

@@ -930,9 +930,11 @@ public class APIAlbum
                 for ( int i = 0; i < resources.size(); i++ )
                 {
                     MDOAlbumResource resource = resources.get( i );
-                    String resourceNewPath = resource.calculateAbsolutePath( settings );
-                    String resourceCurrentPath =
-                        oldAlbumPath + resource.calculateVolumePath() + File.separatorChar + resource.getLocation();
+                    //warning: we need to take into account the oldVolumes number, because the old resource path could be affected by this change
+                    //If the oldVolumes is different to the new volume number, then these will be moved after
+                    String resourceNewPath = currentAlbumPath + resource.calculateVolumePath(oldVolumes) + File.separatorChar + resource.getLocation();
+                    String resourceCurrentPath = 
+                        oldAlbumPath + resource.calculateVolumePath(oldVolumes) + File.separatorChar + resource.getLocation();
                     File fnewPath = new File( resourceNewPath );
                     File foldPath = new File( resourceCurrentPath );
                     if ( foldPath.exists() )
@@ -993,9 +995,11 @@ public class APIAlbum
                         File ffirstVolumePath = new File( firstVolumePath );
                         File[] files = ffirstVolumePath.listFiles();
                         File falbumPath = new File( albumPath );
-                        for ( File file : files )
-                        {
-                            FileUtils.moveFileToDirectory( file, falbumPath, false );
+                        if(files!=null){
+                            for ( File file : files )
+                            {
+                                FileUtils.moveFileToDirectory( file, falbumPath, false );
+                            }
                         }
 
                         FileUtils.deleteDirectory( ffirstVolumePath );
@@ -1012,7 +1016,7 @@ public class APIAlbum
                     for ( int i = 0; i < mdoAlbum.getSongs().size(); i++ )
                     {
                         MDOAlbumResource resource = mdoAlbum.getSongs().get( i );
-                        if ( resource.getVolume() == 1 )
+                        if ( resource.getVolume() <= 1 )
                         {
                             FileUtils.moveFile( new File( albumPath + File.separatorChar + resource.getLocation() ),
                                                 new File( newfirstVolumePath + File.separatorChar
@@ -1022,7 +1026,7 @@ public class APIAlbum
                     for ( int i = 0; i < mdoAlbum.getArtworks().size(); i++ )
                     {
                         MDOAlbumResource resource = mdoAlbum.getArtworks().get( i );
-                        if ( resource.getVolume() == 1 )
+                        if ( resource.getVolume() <= 1 )
                         {
                             FileUtils.moveFile( new File( albumPath + File.separatorChar + resource.getLocation() ),
                                                 new File( newfirstVolumePath + File.separatorChar
@@ -1032,7 +1036,7 @@ public class APIAlbum
                     for ( int i = 0; i < mdoAlbum.getOthers().size(); i++ )
                     {
                         MDOAlbumResource resource = mdoAlbum.getOthers().get( i );
-                        if ( resource.getVolume() == 1 )
+                        if ( resource.getVolume() <= 1 )
                         {
                             FileUtils.moveFile( new File( albumPath + File.separatorChar + resource.getLocation() ),
                                                 new File( newfirstVolumePath + File.separatorChar

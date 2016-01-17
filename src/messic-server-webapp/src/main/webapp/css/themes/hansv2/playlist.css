@@ -620,6 +620,10 @@
 
 /** the vinyl disc but playing music */
 
+.jplayer-playlist-vinylPlaying.jplayer-playlist-vinylPaused {
+    -webkit-animation-name: none;
+    animation-name: none;
+}
 .jplayer-playlist-vinylPlaying {
     -webkit-animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
     animation-name: jplayer-playlist-vinylPlaying-animation, jplayer-playlist-vinylPlaying-rotate;
@@ -1168,7 +1172,7 @@
     border-radius: 8px 8px 0 0;
     box-shadow: 0 0 2px #000000;
     display: block;
-    height: 48px;
+    height: 93px;
     left: 50%;
     overflow: hidden;
     position: fixed;
@@ -1194,4 +1198,40 @@
     top: 50%;
     width: 100%;
     z-index: 9999;
+}
+#messic_radio_player_container > .messic_radio_link {
+    font-family: roboto;
+    font-size: 13px;
+    margin-top: 10px;
+    text-align: left;
+    text-shadow: 0 0 0;
+    width: 100%;
+    background: rgba(100, 100, 100, 0.12) none repeat scroll 0 0;
+}
+#messic_radio_player_container > .messic_radio_link a {
+    color: #5566ff;
+    font-family: roboto;
+    font-size: 13px;
+}
+#messic_radio_logo::before {
+    background: rgba(0, 0, 0, 0) url("radio/logotipo-512x512.png") repeat scroll 0 0 / 300px 300px;
+    content: "";
+    display: block;
+    height: 300px;
+    width: 300px;
+}
+#messic_radio_logo {
+    font-family: roboto-bold;
+    font-size: 50px;
+    margin: 30px;
+    opacity: 0.7;
+    text-align: center;
+    text-shadow: 0 0 1px rgba(50, 50, 50, 0.5);
+    width: 300px;
+}
+#messic_radio_logo a {
+    color: white;
+    font-family: roboto-bold;
+    font-size: 53px;
+    text-decoration: none;
 }

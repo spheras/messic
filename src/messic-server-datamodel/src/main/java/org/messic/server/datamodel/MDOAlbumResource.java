@@ -124,7 +124,7 @@ public class MDOAlbumResource
     {
         String volumePath =
             ( totalVolumes > 1 ? "" + File.separatorChar + VOLUME_FOLDER_PRENAME
-                + Util.leftZeroPadding( volumeNumber, 2 ) : "" );
+                + Util.leftZeroPadding( ( volumeNumber > 0 ? volumeNumber : 1 ), 2 ) : "" );
 
         return volumePath;
     }
@@ -136,9 +136,20 @@ public class MDOAlbumResource
      */
     public String calculateVolumePath()
     {
+        return calculateVolumePath( getAlbum().getVolumes() );
+    }
+
+    /**
+     * Function to calculate the volume path for the album resources, ie: /vol01
+     * 
+     * @return {@link String} the path to the volume
+     */
+    public String calculateVolumePath( int albumVolumes )
+    {
+        Integer resourceVolume = getVolume();
         String volumePath =
-            ( getAlbum().getVolumes() > 1 ? "" + File.separatorChar + VOLUME_FOLDER_PRENAME
-                + Util.leftZeroPadding( getVolume(), 2 ) : "" );
+            ( albumVolumes > 1 ? "" + File.separatorChar + VOLUME_FOLDER_PRENAME
+                + Util.leftZeroPadding( ( resourceVolume > 0 ? resourceVolume : 1 ), 2 ) : "" );
 
         return volumePath;
     }

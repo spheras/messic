@@ -158,6 +158,10 @@ public class File
      */
     public int getVolume()
     {
+        if ( volume <= 0 )
+        {
+            this.volume = 1;
+        }
         return volume;
     }
 
@@ -166,6 +170,13 @@ public class File
      */
     public void setVolume( int volume )
     {
-        this.volume = volume;
+        if ( volume <= 0 )
+        {
+            this.volume = 1;
+        }
+        else
+        {
+            this.volume = volume;
+        }
     }
 }

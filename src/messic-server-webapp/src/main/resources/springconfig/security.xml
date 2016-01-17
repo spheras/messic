@@ -22,7 +22,7 @@
 			<intercept-url pattern="/login.do" access="permitAll" />
 			
 			<!-- we need complete access for the radio services -->
-			<intercept-url pattern="/radio.do" access="permitAll" />
+			<intercept-url pattern="/radio" access="permitAll" />
 			<intercept-url pattern="/services/radio/cover" access="permitAll" />
 			<intercept-url pattern="/services/radio/status" access="permitAll" />
 												

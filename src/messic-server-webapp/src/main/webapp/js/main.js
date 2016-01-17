@@ -82,6 +82,23 @@ function initMessic() {
         handle: "label"
     });
 
+    var sortItemOriginalIndex = -1;
+    $("#messic-playlist-container").sortable({
+        start: function (event, ui) {
+            var item = ui.item;
+            sortItemOriginalIndex = item.index();
+            //console.log("original index:" + item.index());
+        },
+        stop: function (event, ui) {
+            var item = ui.item;
+            var newIndex = item.index();
+            playlist.move(sortItemOriginalIndex, newIndex);
+            mainMessicRadio.messicRadioSongMoved(sortItemOriginalIndex, newIndex);
+            //console.log("moved index:" + newIndex);
+        }
+    });
+    $("#messic-playlist-container").disableSelection();
+
     (function ($) {
         var playlist = $("#messic-playlist");
         playlist.tinyscrollbar({
@@ -371,6 +388,8 @@ function mainSearch() {
             var code = mainCreateRandomList(data);
             $("#messic-page-content").prepend($(code));
 
+            //$('.messic-randomlist-sortable').sortable().disableSelection();
+
             $('.messic-main-randomlist-add').longpress(function (e) {
                 if (e) {
                     e.stopPropagation();
@@ -504,7 +523,7 @@ function mainCreateRandomList(randomlist, lastTitleType) {
     code = code + "	 <div class=\"messic-main-randomlist-viewportcontainer\">";
     code = code + "  <a class=\"buttons prev\" href=\"#\"></a>";
     code = code + "  <div class=\"viewport\">";
-    code = code + "      <ul class=\"overview\">";
+    code = code + "      <ul class=\"overview messic-randomlist-sortable\">";
 
 
     for (var j = 0; randomlist.songs && j < randomlist.songs.length; j++) {
@@ -550,6 +569,8 @@ function mainCreateRandomLists() {
             var code = mainCreateRandomList(randomlist, lastTitleType);
             $("#messic-page-content").append($(code));
         }
+
+        //$('.messic-randomlist-sortable').sortable().disableSelection();
 
         $('.messic-main-randomlist-add').longpress(function (e) {
             if (e) {
@@ -665,18 +686,64 @@ function clearPlaylist() {
     $("#messic-playlist").data("plugin_tinyscrollbar").update('right');
 }
 
+/**
+ * function to pause the current vinyl animation
+ */
+function mainPauseCurrentVinyl(currentli) {
+    if (!currentli) {
+        currentli = $(".jp-playlist-current")
+    }
+    var vinyl = currentli.find(".jplayer-playlist-vinyl");
+    vinyl.addClass("jplayer-playlist-vinylPaused");
+}
+
+function mainStopCurrentVinyl(currentli) {
+    if (!currentli) {
+        currentli = $(".jp-playlist-current")
+    }
+
+    currentli.removeClass("jplayer-playlist-li-expanding");
+    currentli.addClass("jplayer-playlist-li");
+    currentli.find(".jplayer-playlist-vinyl").removeClass("jplayer-playlist-vinylPlaying");
+    currentli.find(".jplayer-playlist-vinyl").removeClass("jplayer-playlist-vinylPaused");
+    currentli.find(".jplayer-playlist-vinyl").addClass("jplayer-playlist-vinylHide");
+    currentli.find(".jplayer-playlist-vinylHand").removeClass("jplayer-playlist-vinylHandPlaying");
+}
+
+/**
+ * function to resume (play again) the current vinyl animation
+ */
+function mainResumeCurrentVinyl(currentli) {
+    if (!currentli) {
+        currentli = $(".jp-playlist-current");
+    }
+
+    //last, add the new player
+    var vinyl = currentli.find(".jplayer-playlist-vinyl");
+    var vinylHand = currentli.find(".jplayer-playlist-vinylHand");
+    currentli.removeClass("jplayer-playlist-li");
+    currentli.addClass("jplayer-playlist-li-expanding");
+    vinyl.removeClass("jplayer-playlist-vinylHide");
+    vinyl.addClass("jplayer-playlist-vinylPlaying");
+    vinyl.removeClass("jplayer-playlist-vinylPaused");
+    vinylHand.addClass("jplayer-playlist-vinylHandPlaying");
+}
+
+
 function playVinyl(index) {
     var newli = $("#messic-playlist-container li:nth-child(" + (index + 1) + ")");
     var oldli = $(".jp-playlist-current");
 
+    mainStopCurrentVinyl(oldli);
+    mainResumeCurrentVinyl(newli);
+
+    /*
     //first, remove the current player
     oldli.removeClass("jplayer-playlist-li-expanding");
     oldli.addClass("jplayer-playlist-li");
     oldli.find(".jplayer-playlist-vinyl").removeClass("jplayer-playlist-vinylPlaying");
     oldli.find(".jplayer-playlist-vinyl").addClass("jplayer-playlist-vinylHide");
     oldli.find(".jplayer-playlist-vinylHand").removeClass("jplayer-playlist-vinylHandPlaying");
-    //oldli.find(".jplayer-playlist-vinyl").attr("class","jplayer-playlist-vinyl jplayer-playlist-vinylHide");
-    //oldli.find(".jplayer-playlist-vinylHand").attr("class","jplayer-playlist-vinylHand");
 
     //last, add the new player
     var vinyl = newli.find(".jplayer-playlist-vinyl");
@@ -686,14 +753,7 @@ function playVinyl(index) {
     vinyl.removeClass("jplayer-playlist-vinylHide");
     vinyl.addClass("jplayer-playlist-vinylPlaying");
     vinylHand.addClass("jplayer-playlist-vinylHandPlaying");
-    //vinyl.attr("class","jplayer-playlist-vinyl jplayer-playlist-vinylPlaying");
-    //vinylHand.attr("class","jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying");
-
-    /*
-	this.parentNode.parentNode.className =\"jplayer-playlist-li-expanding\";
-	this.parentNode.children[0].className =\"jplayer-playlist-vinyl jplayer-playlist-vinylPlaying\";
-	this.parentNode.children[1].className =\"jplayer-playlist-vinylHand jplayer-playlist-vinylHandPlaying\";
-	*/
+    */
 }
 
 /* function to download the current playlist which is playing now */

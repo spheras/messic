@@ -19,6 +19,8 @@
 package org.messic.server.api.datamodel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -218,6 +220,7 @@ public class Album
                 File file = new File( artwork, artwork.getVolume(), null );
                 addArtwork( file );
             }
+
             Iterator<MDOOtherResource> mdoothers = mdoalbum.getOthers().iterator();
             while ( mdoothers.hasNext() )
             {
@@ -225,6 +228,64 @@ public class Album
                 File file = new File( other, other.getVolume(), null );
                 addOther( file );
             }
+
+        }
+
+        if ( copySongs || copyResources )
+        {
+            sortResources();
+        }
+
+    }
+
+    /**
+     * sort the resources by track & volume
+     */
+    private void sortResources()
+    {
+        // we force the order of the songs by track and volume
+        if ( getSongs() != null )
+        {
+            Collections.sort( getSongs(), new Comparator<Song>()
+            {
+                @Override
+                public int compare( Song o1, Song o2 )
+                {
+                    if ( o1.getVolume() == o2.getVolume() )
+                    {
+                        return o1.getTrack() - o2.getTrack();
+                    }
+                    else
+                    {
+                        return o1.getVolume() - o2.getVolume();
+                    }
+                }
+            } );
+        }
+        if ( getArtworks() != null )
+        {
+            // we force the order of the artworks by volume
+            Collections.sort( getArtworks(), new Comparator<File>()
+            {
+                @Override
+                public int compare( File o1, File o2 )
+                {
+                    return o1.getVolume() - o2.getVolume();
+                }
+            } );
+        }
+
+        if ( getOthers() != null )
+        {
+            // we force the order of the others resources by volume
+            Collections.sort( getOthers(), new Comparator<File>()
+            {
+                @Override
+                public int compare( File o1, File o2 )
+                {
+                    return o1.getVolume() - o2.getVolume();
+                }
+            } );
         }
     }
 
@@ -255,6 +316,8 @@ public class Album
                 Song song = new Song( mdosongs.next(), null );
                 addSong( song );
             }
+
+            sortResources();
         }
     }
 

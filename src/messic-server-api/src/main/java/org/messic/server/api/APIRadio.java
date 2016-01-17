@@ -77,7 +77,7 @@ public class APIRadio
                 return null;
             }
 
-            if ( refs.length >= 1 )
+            if (refs!=null && refs.length >= 1 )
             {
                 MessicRadioPlugin mrp = (MessicRadioPlugin) context.getService( refs[0] );
                 plugin = mrp;

@@ -123,10 +123,12 @@ function initAlbum() {
 
 /* resync all the input events to add album resources */
 function updateInputEvents() {
+    $(".messic-album-songs-head-songaction-add").unbind();
     $(".messic-album-songs-head-songaction-add").click(function () {
         $(this).parent().find(".messic-album-songs-head-songaction-addinput").click();
     });
     // event change for the input type file hidden
+    $(".messic-album-songs-head-songaction-addinput").unbind();
     $(".messic-album-songs-head-songaction-addinput").change(function (evt) {
         var files = evt.target.files; // FileList object
         albumAddFiles(files, $(this).parent().parent().parent());
@@ -178,7 +180,7 @@ function albumTitleEdit() {
                 url: "services/albums",
                 dataType: "json",
                 data: {
-                    term: request.term
+                    filterName: request.term
                 },
                 success: function (data) {
                     response($.map(data, function (item) {
@@ -322,7 +324,7 @@ function albumGenreEdit() {
                 url: "services/genres",
                 dataType: "json",
                 data: {
-                    term: request.term
+                    filterName: request.term
                 },
                 success: function (data) {
                     response($.map(data, function (item) {
@@ -388,7 +390,7 @@ function albumAuthorEdit() {
                 url: "services/authors",
                 dataType: "json",
                 data: {
-                    term: request.term
+                    filterName: request.term
                 },
                 success: function (data) {
                     response($.map(data, function (item) {
@@ -554,7 +556,7 @@ function albumSaveChangesDefinitely(albumSid) {
 
             //edit genre of the album
             var genrediv = $("#messic-album-genre-textedit");
-            if (genrediv) {
+            if (genrediv.length > 0) {
                 data.genre = {
                         name: genrediv.val(),
                         sid: -1,

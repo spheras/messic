@@ -140,7 +140,7 @@ function initUpload() {
                 url: "services/genres",
                 dataType: "json",
                 data: {
-                    term: request.term
+                    filterName: request.term
                 },
                 success: function (data) {
                     response($.map(data, function (item) {

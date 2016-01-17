@@ -69,6 +69,7 @@
 	                <audio id="messic_radio_player">
 						<p>Your browser doesn't support HTML audio. Sorry.</p>
 					</audio>
+					<label class="messic_radio_link"><a href="radio" target="_blank"><fmt:message key="main-radio-sharelink-clickhere" bundle="${message}"/></a> <fmt:message key="main-radio-sharelink" bundle="${message}"/></label>
 				</div>
 
 

@@ -86,6 +86,13 @@
         // Create a play event handler to pause other instances
         $(this.cssSelector.jPlayer).bind($.jPlayer.event.play, function () {
             $(this).jPlayer("pauseOthers");
+            //messic handle to resume any player animation
+            mainResumeCurrentVinyl();
+        });
+
+        $(this.cssSelector.jPlayer).bind($.jPlayer.event.pause, function () {
+            //messic handle to pause any player animation
+            mainPauseCurrentVinyl();
         });
 
         $(this.cssSelector.jPlayer).bind($.jPlayer.event.error, function (event) {
@@ -381,6 +388,21 @@
             this._initPlaylist(playlist);
             this._init();
         },
+        move: function (oldPos, newPos) {
+            //messic can move an existing media to a different position at the queue
+            this.playlist.splice(newPos, 0, this.playlist.splice(oldPos, 1)[0]);
+
+            if (oldPos == this.current) {
+                //we are moving the current!
+                this.current = newPos;
+            } else if (oldPos > this.current && this.current >= newPos) {
+                //we are moving a next song to an old song position, the back songs has been increased, so we need to move a position the current song.
+                this.current++;
+            } else if (oldPos < this.current && this.current <= newPos) {
+                //we are moving a back song to a next song position, the back songs has been decreased, so we need to move a position the current song
+                this.current--;
+            }
+        },
         add: function (media, playNow) {
             var at = this.playlist.length;
             if (playNow) {
@@ -512,6 +534,8 @@
         },
         pause: function () {
             $(this.cssSelector.jPlayer).jPlayer("pause");
+            //messic, we need to pause the vinyl animation (css style of course)
+            mainPauseCurrentVinyl();
         },
         next: function () {
             var index = (this.current + 1 < this.playlist.length) ? this.current + 1 : 0;
