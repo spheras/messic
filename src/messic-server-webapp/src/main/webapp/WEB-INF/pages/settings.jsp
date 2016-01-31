@@ -203,7 +203,7 @@
                                     if(!creation){
                                     %>
                                                                             <!-- button to check the consistency of the database and resource files -->
-                                                                            <button id="messic-user-settings-admin-checkconsistency" class="button checkconsistency" onclick="showConsistencyPanel()">
+                                                                            <button id="messic-user-settings-admin-checkconsistency" class="button checkconsistency" onclick="event.preventDefault();showConsistencyPanel();">
                                                                                 <fmt:message key="settings-content-admin-checkconsistency" bundle="${ message }" />
                                                                             </button>
                                                                             <%

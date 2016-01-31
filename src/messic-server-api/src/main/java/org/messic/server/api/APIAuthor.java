@@ -21,13 +21,17 @@ package org.messic.server.api;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.messic.server.Util;
 import org.messic.server.api.datamodel.Author;
 import org.messic.server.api.datamodel.FolderResourceConsistency;
 import org.messic.server.api.datamodel.User;
+import org.messic.server.api.exceptions.ResourceNotFoundMessicException;
+import org.messic.server.api.exceptions.SidNotFoundMessicException;
 import org.messic.server.datamodel.MDOAlbum;
 import org.messic.server.datamodel.MDOAlbumResource;
 import org.messic.server.datamodel.MDOAuthor;
@@ -74,6 +78,24 @@ public class APIAuthor
             daoAuthor.remove( author );
             FileUtils.deleteDirectory( new File( path ) );
         }
+    }
+
+    @Transactional
+    public byte[] getAuthorCover( User mdouser, Long authorSid, Integer preferredWidth, Integer preferredHeight )
+        throws SidNotFoundMessicException, ResourceNotFoundMessicException, IOException
+    {
+
+        MDOAuthor author = daoAuthor.get( mdouser.getLogin(), authorSid );
+        if ( author.getAlbums().size() > 0 )
+        {
+            MDOAlbum album = author.getAlbums().iterator().next();
+            return apiAlbum.getAlbumCover( mdouser, album.getSid(), preferredWidth, preferredHeight );
+        }
+        else
+        {
+            return null;
+        }
+
     }
 
     @Transactional
@@ -139,41 +161,145 @@ public class APIAuthor
 
                     if ( album != null )
                     {
-                        File[] rfiles = falfolder.listFiles();
-                        for ( File rfile : rfiles )
+                        if ( album.getVolumes() == null || album.getVolumes() <= 1 )
                         {
-                            MDOAlbumResource resource = null;
-                            List<MDOAlbumResource> resources = album.getAllResources();
-                            for ( int k = 0; k < resources.size(); k++ )
+                            // just 1 volume (no volumes)
+                            File[] rfiles = falfolder.listFiles();
+                            for ( File rfile : rfiles )
                             {
-                                resource = resources.get( k );
-                                String supposedResourcePath =
-                                    resource.calculateAbsolutePath( daoSettings.getSettings() );
-                                if ( supposedResourcePath.equals( rfile.getAbsolutePath() ) )
+                                MDOAlbumResource resource = null;
+                                List<MDOAlbumResource> resources = album.getAllResources();
+                                for ( int k = 0; k < resources.size(); k++ )
                                 {
-                                    // This is the resource
-                                    break;
+                                    resource = resources.get( k );
+                                    String supposedResourcePath =
+                                        resource.calculateAbsolutePath( daoSettings.getSettings() );
+                                    if ( supposedResourcePath.equals( rfile.getAbsolutePath() ) )
+                                    {
+                                        // This is the resource
+                                        break;
+                                    }
+                                    resource = null;
                                 }
-                                resource = null;
+
+                                if ( resource != null )
+                                {
+                                    // perfect, nothing to say
+                                }
+                                else
+                                {
+                                    // no resource found for this file!!!
+                                    FolderResourceConsistency frc = new FolderResourceConsistency();
+                                    frc.setStatus( 1 );
+                                    frc.setAbsoluteLocation( rfile.getAbsolutePath() );
+                                    frc.setRelativeLocation( faufolder.getName() + File.separatorChar
+                                        + falfolder.getName() + File.separatorChar + rfile.getName() );
+                                    frc.setAlbumResource( true );
+                                    frc.setMessage( "No resource found for the file:" + faufolder.getName()
+                                        + File.separatorChar + falfolder.getName() + File.separatorChar
+                                        + rfile.getName() );
+                                    result.add( frc );
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // we need to take into account volumes
+                            File[] ffiles = falfolder.listFiles();
+                            List<File> rfiles = new ArrayList<File>();
+                            for ( File ffile : ffiles )
+                            {
+                                rfiles.add( ffile );
+                            }
+                            Collections.sort( rfiles );
+
+                            int cvol = 1;
+                            for ( File rfile : rfiles )
+                            {
+                                if ( !rfile.isDirectory() )
+                                {
+                                    // not a directory in the root folder?? (we only expect volume folders there)
+                                    // no resource found for this file!!!
+                                    FolderResourceConsistency frc = new FolderResourceConsistency();
+                                    frc.setStatus( 1 );
+                                    frc.setAbsoluteLocation( rfile.getAbsolutePath() );
+                                    frc.setRelativeLocation( faufolder.getName() + File.separatorChar
+                                        + falfolder.getName() + File.separatorChar + rfile.getName() );
+                                    frc.setAlbumResource( true );
+                                    frc.setMessage( "File at root folder? Volume albums shouldnt have files at root folder:"
+                                        + faufolder.getName()
+                                        + File.separatorChar
+                                        + falfolder.getName()
+                                        + File.separatorChar + rfile.getName() );
+                                    result.add( frc );
+
+                                }
+                                else
+                                {
+
+                                    String expectedVol =
+                                        MDOAlbumResource.VOLUME_FOLDER_PRENAME + Util.leftZeroPadding( cvol, 2 );
+                                    if ( rfile.getName().toUpperCase().equals( expectedVol.toUpperCase() ) )
+                                    {
+
+                                        // just 1 volume (no volumes)
+                                        File[] rvolfiles = rfile.listFiles();
+                                        for ( File rvolfile : rvolfiles )
+                                        {
+                                            MDOAlbumResource resource = null;
+                                            List<MDOAlbumResource> resources = album.getAllResources();
+                                            for ( int k = 0; k < resources.size(); k++ )
+                                            {
+                                                resource = resources.get( k );
+                                                String supposedResourcePath =
+                                                    resource.calculateAbsolutePath( daoSettings.getSettings() );
+                                                if ( supposedResourcePath.equals( rvolfile.getAbsolutePath() ) )
+                                                {
+                                                    // This is the resource
+                                                    break;
+                                                }
+                                                resource = null;
+                                            }
+
+                                            if ( resource != null )
+                                            {
+                                                // perfect, nothing to say
+                                            }
+                                            else
+                                            {
+                                                // no resource found for this file!!!
+                                                FolderResourceConsistency frc = new FolderResourceConsistency();
+                                                frc.setStatus( 1 );
+                                                frc.setAbsoluteLocation( rvolfile.getAbsolutePath() );
+                                                frc.setRelativeLocation( faufolder.getName() + File.separatorChar
+                                                    + falfolder.getName() + File.separatorChar + rvolfile.getName() );
+                                                frc.setAlbumResource( true );
+                                                frc.setMessage( "No resource found for the file:" + faufolder.getName()
+                                                    + File.separatorChar + falfolder.getName() + File.separatorChar
+                                                    + rvolfile.getName() );
+                                                result.add( frc );
+                                            }
+                                        }
+
+                                        cvol++;
+                                    }
+                                    else
+                                    {
+                                        // folder name different from the vol number folder expected!
+                                        FolderResourceConsistency frc = new FolderResourceConsistency();
+                                        frc.setStatus( 1 );
+                                        frc.setAbsoluteLocation( rfile.getAbsolutePath() );
+                                        frc.setRelativeLocation( faufolder.getName() + File.separatorChar
+                                            + falfolder.getName() + File.separatorChar + rfile.getName() );
+                                        frc.setAlbumResource( true );
+                                        frc.setMessage( "No resource found for the folder:" + faufolder.getName()
+                                            + File.separatorChar + falfolder.getName() + File.separatorChar
+                                            + rfile.getName() );
+                                        result.add( frc );
+                                    }
+                                }
                             }
 
-                            if ( resource != null )
-                            {
-                                // perfect, nothing to say
-                            }
-                            else
-                            {
-                                // no resource found for this file!!!
-                                FolderResourceConsistency frc = new FolderResourceConsistency();
-                                frc.setStatus( 1 );
-                                frc.setAbsoluteLocation( rfile.getAbsolutePath() );
-                                frc.setRelativeLocation( faufolder.getName() + File.separatorChar + falfolder.getName()
-                                    + File.separatorChar + rfile.getName() );
-                                frc.setAlbumResource( true );
-                                frc.setMessage( "No resource found for the file:" + faufolder.getName()
-                                    + File.separatorChar + falfolder.getName() + File.separatorChar + rfile.getName() );
-                                result.add( frc );
-                            }
                         }
                     }
                     else

@@ -18,6 +18,7 @@
  */
 package org.messic.server.datamodel.jpaimpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -90,7 +91,19 @@ public class DAOJPAAlbum
         query.setParameter( "userName", username );
         if ( firstResult >= 0 )
         {
-            query.setFirstResult( firstResult );
+            String stempquery = "Select count (sid) from MDOAlbum as a where (a.owner.login = :userName)";
+            Query tempquery = entityManager.createQuery( stempquery );
+            tempquery.setParameter( "userName", username );
+            Long countResults = (Long) tempquery.getSingleResult();
+
+            if ( countResults >= firstResult )
+            {
+                query.setFirstResult( firstResult );
+            }
+            else
+            {
+                return new ArrayList<MDOAlbum>();
+            }
         }
         if ( maxResult >= 0 )
         {
@@ -170,7 +183,21 @@ public class DAOJPAAlbum
 
         if ( firstResult >= 0 )
         {
-            query.setFirstResult( firstResult );
+            String stempquery =
+                "Select count (sid) from MDOAlbum as a where (a.owner.login = :userName) AND (a.author.sid = :authorSid)";
+            Query tempquery = entityManager.createQuery( stempquery );
+            tempquery.setParameter( "userName", username );
+            tempquery.setParameter( "authorSid", authorSid );
+            Long countResults = (Long) tempquery.getSingleResult();
+
+            if ( countResults >= firstResult )
+            {
+                query.setFirstResult( firstResult );
+            }
+            else
+            {
+                return new ArrayList<MDOAlbum>();
+            }
         }
         if ( maxResult >= 0 )
         {
@@ -325,7 +352,22 @@ public class DAOJPAAlbum
         }
         if ( firstResult >= 0 )
         {
-            query.setFirstResult( firstResult );
+            String stempquery =
+                "Select count (sid) from MDOAlbum as a where (UPPER(a.name) LIKE :albumName) AND (a.owner.login = :userName)"
+                    + ( authorSid > 0 ? " AND (a.author.sid = :authorSid)" : "" );
+            Query tempquery = entityManager.createQuery( stempquery );
+            tempquery.setParameter( "albumName", "%" + albumName.toUpperCase() + "%" );
+            tempquery.setParameter( "userName", username );
+            Long countResults = (Long) tempquery.getSingleResult();
+
+            if ( countResults >= firstResult )
+            {
+                query.setFirstResult( firstResult );
+            }
+            else
+            {
+                return new ArrayList<MDOAlbum>();
+            }
         }
         if ( maxResults >= 0 )
         {
@@ -376,7 +418,22 @@ public class DAOJPAAlbum
         query.setParameter( "genreSid", genreSid );
         if ( firstResult >= 0 )
         {
-            query.setFirstResult( firstResult );
+            String stempquery =
+                "Select count (sid) from MDOAlbum as a where (a.owner.login = :userName) AND (a.genre.sid = :genreSid)";
+            Query tempquery = entityManager.createQuery( stempquery );
+            tempquery.setParameter( "userName", username );
+            tempquery.setParameter( "genreSid", genreSid );
+
+            Long countResults = (Long) tempquery.getSingleResult();
+
+            if ( countResults >= firstResult )
+            {
+                query.setFirstResult( firstResult );
+            }
+            else
+            {
+                return new ArrayList<MDOAlbum>();
+            }
         }
         if ( maxResults >= 0 )
         {
