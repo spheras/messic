@@ -1170,7 +1170,7 @@
 #messic_radio_player_container {
     background: #aaaaaa none repeat scroll 0 0;
     border-radius: 8px 8px 0 0;
-    box-shadow: 0 0 2px #000000;
+    box-shadow: 0 0 4px #000000;
     display: block;
     height: 93px;
     left: 50%;
@@ -1182,7 +1182,16 @@
     top: 50%;
     margin-top: -50px;
 }
-#messic_radio_player_container > label {
+.messic_radio_player_body {
+    background: #999999 none repeat scroll 0 0;
+    height: 53px;
+    padding: 10px;
+    width: 218px;
+}
+.messic_radio_player_body .jp-volume-bar {
+    float: left;
+}
+#messic_radio_player_container label {
     color: #eeeeee;
     font-family: Roboto-bold;
     font-size: 14px;
@@ -1190,25 +1199,40 @@
     text-shadow: 0 0 1px #333333;
     width: 100%;
 }
-#messic_radio_player_container > #messic_radio_player {
+#messic_radio_player_container label.messic_radio_link {
+    float: left;
+    height: 100%;
+    margin-left: 58px;
+    margin-top: 0;
+    width: 134px;
+}
+#messic_radio_player_container div.jp-volume-bar-value {
+    bottom: 3px;
+    height: 100%;
+}
+#messic_radio_player_container .jp-volume-bar-line {
+    height: 35px;
+    position: absolute;
+}
+#messic_radio_player_container #messic_radio_player {
     background: #aaaaaa none repeat scroll 0 0;
     display: block;
     height: 27px;
+    display: none;
     left: 50%;
     top: 50%;
     width: 100%;
     z-index: 9999;
 }
-#messic_radio_player_container > .messic_radio_link {
+#messic_radio_player_container .messic_radio_link {
     font-family: roboto;
     font-size: 13px;
     margin-top: 10px;
     text-align: left;
     text-shadow: 0 0 0;
     width: 100%;
-    background: rgba(100, 100, 100, 0.12) none repeat scroll 0 0;
 }
-#messic_radio_player_container > .messic_radio_link a {
+#messic_radio_player_container .messic_radio_link a {
     color: #5566ff;
     font-family: roboto;
     font-size: 13px;

@@ -144,6 +144,7 @@ function initMessic() {
 
     JPlayerHackDrag_addListeners();
 
+
     mainCreateRandomLists();
 
     mainCheckUpdate();

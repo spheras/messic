@@ -410,8 +410,8 @@ public class SongController
         }
         catch ( IOException ioe )
         {
-            log.error( "failed!", ioe );
-            throw new IOMessicRESTException( ioe );
+//            log.error( "failed!", ioe );
+//            throw new IOMessicRESTException( ioe );
         }
         catch ( Exception e )
         {

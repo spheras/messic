@@ -47,7 +47,7 @@ function JPlayerHackDrag_addListeners() {
         JPlayerHackDrag_divMove, true);
     window.addEventListener('mouseup', JPlayerHackDrag_mouseUp, false);
 
-    $('.jp-volume-bar').mousedown(function () {
+    $('.jp-audio .jp-volume-bar').mousedown(function () {
         var parentOffset = $(this).offset(),
             height = $(this).height();
         $(window).mouseup(function (e) {
@@ -96,11 +96,8 @@ function JPlayerHackDrag_mouseDown(e) {
 }
 
 function JPlayerHackDrag_divMove(e) {
-    var div = document.getElementById('jp-play-bar'); // Set this to the play
-    // bar
-    var container = document.getElementById('jp-seek-bar'); // Set this to the
-    // seek
-    // bar
+    var div = document.getElementById('jp-play-bar'); //Set this to the play bar
+    var container = document.getElementById('jp-seek-bar'); //Set this to the seek bar
     var offset = $(container).offset().left;
     var maxwidth = (container.offsetWidth);
 

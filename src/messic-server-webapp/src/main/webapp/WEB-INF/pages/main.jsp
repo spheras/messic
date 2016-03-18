@@ -66,10 +66,21 @@
 
                 <div id="messic_radio_player_container" class="animated lightSpeedIn" style="display:none">
 	                <label>Radio Player</label>
-	                <audio id="messic_radio_player">
-						<p>Your browser doesn't support HTML audio. Sorry.</p>
-					</audio>
-					<label class="messic_radio_link"><a href="radio" target="_blank"><fmt:message key="main-radio-sharelink-clickhere" bundle="${message}"/></a> <fmt:message key="main-radio-sharelink" bundle="${message}"/></label>
+	                <div class="messic_radio_player_body">
+		                <div class="jp-volume-bar">
+	                        <div class="jp-volume-bar-line">
+	                            <div class="jp-volume-bar-value" style="height: 100%;">
+	                                <div class="jp-volume-marker"></div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <!--
+		                <audio id="messic_radio_player">
+							<p>Your browser doesn't support HTML audio. Sorry.</p>
+						</audio>
+						-->
+						<label class="messic_radio_link"><a href="radio" target="_blank"><fmt:message key="main-radio-sharelink-clickhere" bundle="${message}"/></a> <fmt:message key="main-radio-sharelink" bundle="${message}"/></label>
+					</div>
 				</div>
 
 

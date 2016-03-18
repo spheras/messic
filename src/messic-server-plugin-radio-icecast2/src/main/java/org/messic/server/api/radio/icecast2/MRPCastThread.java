@@ -8,8 +8,7 @@ import java.io.InputStream;
 import org.messic.server.api.plugin.radio.MessicRadioInfo;
 import org.messic.server.api.plugin.radio.MessicRadioSong;
 import org.messic.server.api.plugin.radio.MessicRadioStatus;
-
-import com.gmail.kunicins.olegs.libshout.Libshout;
+import org.messic.server.api.radio.icecast2.libshout.LibShout;
 
 public class MRPCastThread
     extends Thread
@@ -20,8 +19,6 @@ public class MRPCastThread
     private MessicRadioSong currentFile = null;
 
     private MessicRadioSong nextFile = null;
-
-    private InputStream mp3is = null;
 
     private MessicRadioInfo info;
 
@@ -55,37 +52,54 @@ public class MRPCastThread
     @Override
     public void run()
     {
+        LibShout icecast = LibShout.get();
+        String snoise = "/org/messic/server/api/radio/icecast2/noise.mp3";
+        InputStream noisemp3is = new BufferedInputStream( MRPCastThread.class.getResourceAsStream( snoise ) );
+        noisemp3is.mark( 1 << 32 );
+        InputStream mp3is = null;
+
         try
         {
-            Libshout icecast = Libshout.getInstance();
+
             flagStop = false;
             while ( !flagStop )
             {
 
                 this.getInfo().status = MessicRadioStatus.WAITING;
 
+                this.getInfo().albumName = "";
+                this.getInfo().authorName = "";
+                this.getInfo().songName = "";
+                this.getInfo().songSid = -1;
+                // noise mp3
+                icecast.setMeta( null );
+
                 // while nothing to be played, we send a noise to the buffer
                 while ( nextFile == null && flagStop == false )
                 {
-                    this.getInfo().albumName = "";
-                    this.getInfo().authorName = "";
-                    this.getInfo().songName = "";
-                    this.getInfo().songSid = -1;
-                    // noise mp3
-                    String snoise = "/org/messic/server/api/radio/icecast2/noise.mp3";
-                    mp3is = new BufferedInputStream( MRPCastThread.class.getResourceAsStream( snoise ) );
-                    byte[] buffer = new byte[1024];
-                    int read = mp3is.read( buffer );
+                    byte[] buffer = new byte[512];
+                    noisemp3is.reset();
+                    int read = noisemp3is.read( buffer );
 
                     while ( read > 0 && flagStop == false && nextFile == null )
                     {
                         synchronized ( this )
                         {
                             icecast.send( buffer, read );
-                            read = mp3is.read( buffer );
+                            read = noisemp3is.read( buffer );
+                            icecast.sync();
                         }
                     }
-                    mp3is.close();
+
+                    // if we must go to another file on the playlist
+                    if ( nextFile != null )
+                    {
+                        // we send a last stream to prepare the next song
+                        noisemp3is.reset();
+                        buffer = new byte[1024];
+                        read = noisemp3is.read( buffer );
+                        icecast.send( buffer, read, false );
+                    }
                 }
 
                 if ( flagStop == false )
@@ -102,9 +116,10 @@ public class MRPCastThread
                     byte[] buffer = new byte[1024];
 
                     mp3is = new BufferedInputStream( new FileInputStream( currentFile.songFile ) );
-                    icecast.setMeta( "song", currentFile.authorName + " - " + currentFile.songName );
+                    icecast.setMeta( currentFile );
 
                     int read = mp3is.read( buffer );
+                    icecast.sync();// sync before starting sending
                     while ( read > 0 && !flagStop && nextFile == null )
                     {
                         icecast.send( buffer, read );
@@ -120,17 +135,33 @@ public class MRPCastThread
         catch ( Exception e )
         {
             e.printStackTrace();
-
-            if ( mp3is != null )
+        }
+        finally
+        {
+            try
             {
-                try
+                if ( mp3is != null )
                 {
                     mp3is.close();
                 }
-                catch ( IOException e1 )
+            }
+            catch ( IOException e )
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            try
+            {
+                if ( noisemp3is != null )
                 {
-                    e1.printStackTrace();
+                    noisemp3is.close();
                 }
+            }
+            catch ( IOException e )
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
 

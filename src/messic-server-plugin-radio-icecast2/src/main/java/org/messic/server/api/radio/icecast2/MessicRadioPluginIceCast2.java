@@ -13,8 +13,9 @@ import org.messic.server.api.plugin.radio.MessicRadioInfo;
 import org.messic.server.api.plugin.radio.MessicRadioPlugin;
 import org.messic.server.api.plugin.radio.MessicRadioSong;
 import org.messic.server.api.plugin.radio.MessicRadioStatus;
-
-import com.gmail.kunicins.olegs.libshout.Libshout;
+import org.messic.server.api.radio.icecast2.libshout.LibShout;
+import org.messic.server.api.radio.icecast2.libshout.LibShoutFormat;
+import org.messic.server.api.radio.icecast2.libshout.LibShoutProtocol;
 
 public class MessicRadioPluginIceCast2
     implements MessicRadioPlugin
@@ -80,21 +81,10 @@ public class MessicRadioPluginIceCast2
         {
             if ( isStarted() )
             {
-                Libshout icecast;
-                try
+                if ( !LibShout.get().isConnected() )
                 {
-                    icecast = Libshout.getInstance();
-                    if ( !icecast.isConnected() )
-                    {
-                        this.info.status = MessicRadioStatus.NOT_STARTED;
-                    }
-                }
-                catch ( IOException e )
-                {
-                    e.printStackTrace();
                     this.info.status = MessicRadioStatus.NOT_STARTED;
                 }
-
             }
         }
         else
@@ -119,45 +109,33 @@ public class MessicRadioPluginIceCast2
             {
                 if ( !flagFirstTime )
                 {
-                    Libshout icecast = Libshout.getInstance();
-                    icecast.close();
+                    LibShout.get().close();
                     if ( thread != null )
                     {
                         thread.stopCast();
                     }
-                    icecast = Libshout.getInstance( true );
+                    LibShout.get().reinit();
                 }
                 else
                 {
                     flagFirstTime = false;
                 }
 
-                Libshout icecast = Libshout.getInstance();
                 host = (String) getConfiguration().get( PARAMETER_HOST );
                 port = Integer.valueOf( (String) getConfiguration().get( PARAMETER_PORT ) );
                 mount = (String) getConfiguration().getProperty( PARAMETER_MOUNT );
 
+                LibShout icecast = LibShout.get();
                 icecast.setHost( host );
                 icecast.setPort( port );
-                icecast.setProtocol( Libshout.PROTOCOL_HTTP );
+                icecast.setProtocol( LibShoutProtocol.SHOUT_PROTOCOL_HTTP );
                 icecast.setUser( (String) getConfiguration().getProperty( PARAMETER_USER ) );
                 icecast.setPassword( (String) getConfiguration().getProperty( PARAMETER_PASSWORD ) );
                 icecast.setMount( mount );
-                icecast.setFormat( Libshout.FORMAT_MP3 );
-                icecast.setInfo( "bitrate", "192" );
-                icecast.setInfo( "samplerate", "44100" );
-                icecast.setInfo( "channels", "2" );
 
-                icecast.setDescription( "messic radio service" );
-                // icecast.setGenre( currentFile.albumGenre );
-                // icecast.setInfo( "testkey", "testvalue" );
-                // icecast.setInfo( "testkey2", "testvalue2" );
-                // icecast.setMeta( "meta1", "value1" );
-                // icecast.setMeta( "meta2", "value2" );
-                icecast.setName( "messic radio" );
-                // icecast.setUrl( "http://wwww.messic.com/test" );
-
+                icecast.setFormat( LibShoutFormat.SHOUT_FORMAT_MP3 );
                 icecast.open();
+
                 // just to be sure...
                 if ( !icecast.isConnected() || !checkIcecast2PortListening( host, port ) )
                 {
@@ -241,9 +219,10 @@ public class MessicRadioPluginIceCast2
 
             try
             {
-                Libshout.getInstance().close();
+                LibShout.get().close();
+                LibShout.get().shutdown();
             }
-            catch ( IOException e )
+            catch ( Exception e )
             {
                 e.printStackTrace();
             }

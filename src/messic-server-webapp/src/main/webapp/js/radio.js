@@ -79,6 +79,11 @@ var MessicRadio = function () {
                 divradioplayer.show();
                 self.messicRadioPoll();
 
+                //creating the audio component
+                $("#messic_radio_player").remove();
+                var audioCode = "<audio id=\"messic_radio_player\"><p>Your browser doesn't support HTML audio. Sorry.</p></audio>";
+                $(".messic_radio_player_body").append($(audioCode));
+
                 var $audio = $("#messic_radio_player");
                 var audioobj = $audio[0];
                 var serverurl = data;
@@ -99,11 +104,19 @@ var MessicRadio = function () {
                 audioobj.oncanplaythrough = audioobj.play();
                 audioobj.controls = true;
                 audioobj.controls = true;
+                audioobj.onended = audioobj.onerror = function () {
+                    audioobj.src = audioobj.currentSrc;
+                    audioobj.play();
+                };
+                radiodj_addListeners();
+
 
 
                 $("#jquery_jplayer").jPlayer("volume", 0); // 0.0 - 1.0
                 $("#jquery_jplayer").jPlayer("pause");
                 mainPauseCurrentVinyl();
+
+
 
                 //UtilShowInfo("@TODO The radio service will start RUNNING with the following song at the playlist.  You can disable again pressing again this button.");
             },
@@ -135,9 +148,11 @@ var MessicRadio = function () {
 
                 var $audio = $("#messic_radio_player");
                 var audioobj = $audio[0];
-                $audio.attr("src", "");
-                $audio.attr("type", "audio/mp3")
                 audioobj.pause();
+                //$audio.attr("src", "");
+                //$audio.attr("type", "audio/mp3")
+                $audio.remove();
+
                 currentSongInPlaylistIndex = -1;
                 $(".jplayer-playlist-radio").removeClass("jplayer-playlist-radio-on");
                 $("#jquery_jplayer").jPlayer("volume", 0.8);
@@ -329,7 +344,56 @@ function messicRadioPlayerPollInfo() {
             setTimeout(messicRadioPlayerPollInfo, 2000);
         }
     });
+}
 
 
+function radiodj_addListeners() {
 
+    var audioElement = $("#messic_radio_player_container audio")[0];
+    audioElement.onended = audioElement.onerror = function () {
+        audioElement.src = audioElement.currentSrc;
+        audioElement.play();
+    };
+
+    /* Hide Chrome's annoying text-select-on-drag cursor */
+    document.onselectstart = function () {
+        return false;
+    }
+
+    $('#messic_radio_player_container .jp-volume-bar').mousedown(function () {
+        var parentOffset = $(this).offset(),
+            height = $(this).height();
+        $(window).mouseup(function (e) {
+            $(window).unbind("mousemove");
+            $(window).unbind("mouseup");
+        });
+
+        $(window).mousemove(function (e) {
+            if (true || vertical) {
+                var y = e.pageY - parentOffset.top,
+                    volume = 1 - (y / height)
+                if (volume > 1) {
+                    volume = 1;
+                } else if (volume <= 0) {
+                    volume = 0;
+                }
+                audioElement.volume = volume;
+                $("#messic_radio_player_container .jp-volume-bar-value").height((volume * 100) + "%");
+            } else {
+                var x = e.pageX - parentOffset.left,
+                    volume = x / width
+                if (volume > 1) {
+                    volume = 1;
+                } else if (volume <= 0) {
+                    volume = 0;
+                }
+                audioElement.volume = volume;
+                $("#messic_radio_player_container .jp-volume-bar-value").height((volume * 100) + "%");
+            }
+        });
+        return false;
+    }).mouseup(function () {
+        $(window).unbind("mousemove");
+        $(window).unbind("mouseup");
+    });
 }
