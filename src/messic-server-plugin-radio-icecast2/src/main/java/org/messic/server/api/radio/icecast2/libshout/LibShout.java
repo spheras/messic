@@ -32,16 +32,14 @@ public class LibShout
 
     private LibShout()
     {
-        getLib().shout_init();
-        this.shout_t = getLib().shout_new();
+        reinit();
     }
 
     public void shutdown()
-        throws IOException
     {
         getLib().shout_free( shout_t );
         getLib().shout_shutdown();
-
+        shout_t = null;
     }
 
     public static LibShout get()
@@ -107,10 +105,17 @@ public class LibShout
 
     /**
      * Reinit the library. It is init at the construction of this object, but you can force to reinit again.
+     * 
+     * @throws IOException
      */
     public void reinit()
     {
+        if ( this.shout_t != null )
+        {
+            shutdown();
+        }
         getLib().shout_init();
+        this.shout_t = getLib().shout_new();
     }
 
     /**
@@ -378,27 +383,28 @@ public class LibShout
             throw new IOException( getLib().shout_get_error( shout_t ) );
         }
 
-        if ( getLib().shout_metadata_add( instanceMeta, "artist",
-                                          ( song != null && song.authorName != null ? song.authorName : "messic" ) ) != LibShoutJNA.SHOUTERR_SUCCESS )
+        if ( getLib().shout_metadata_add( instanceMeta, "artist", ( song != null && song.authorName != null
+                        ? song.authorName : "messic" ) ) != LibShoutJNA.SHOUTERR_SUCCESS )
         {
             throw new IOException( getLib().shout_get_error( shout_t ) );
         }
-        if ( getLib().shout_metadata_add( instanceMeta, "title",
-                                          ( song != null && song.songName != null ? song.songName : "waiting cast..." ) ) != LibShoutJNA.SHOUTERR_SUCCESS )
+        if ( getLib().shout_metadata_add( instanceMeta, "title", ( song != null && song.songName != null ? song.songName
+                        : "waiting cast..." ) ) != LibShoutJNA.SHOUTERR_SUCCESS )
         {
             throw new IOException( getLib().shout_get_error( shout_t ) );
         }
-        if ( getLib().shout_metadata_add( instanceMeta, "song",
-                                          ( song != null && song.songName != null ? song.songName : "waiting cast..." ) ) != LibShoutJNA.SHOUTERR_SUCCESS )
+        if ( getLib().shout_metadata_add( instanceMeta, "song", ( song != null && song.songName != null ? song.songName
+                        : "waiting cast..." ) ) != LibShoutJNA.SHOUTERR_SUCCESS )
         {
             throw new IOException( getLib().shout_get_error( shout_t ) );
         }
-        if ( getLib().shout_metadata_add( instanceMeta, "genre",
-                                          ( song != null && song.albumGenre != null ? song.albumGenre : "messic genre" ) ) != LibShoutJNA.SHOUTERR_SUCCESS )
+        if ( getLib().shout_metadata_add( instanceMeta, "genre", ( song != null && song.albumGenre != null
+                        ? song.albumGenre : "messic genre" ) ) != LibShoutJNA.SHOUTERR_SUCCESS )
         {
             throw new IOException( getLib().shout_get_error( shout_t ) );
         }
-        if ( getLib().shout_metadata_add( instanceMeta, "description", "messic radio" ) != LibShoutJNA.SHOUTERR_SUCCESS )
+        if ( getLib().shout_metadata_add( instanceMeta, "description",
+                                          "messic radio" ) != LibShoutJNA.SHOUTERR_SUCCESS )
         {
             throw new IOException( getLib().shout_get_error( shout_t ) );
         }

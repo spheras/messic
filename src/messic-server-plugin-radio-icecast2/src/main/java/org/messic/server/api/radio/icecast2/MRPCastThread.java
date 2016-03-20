@@ -78,7 +78,7 @@ public class MRPCastThread
                 while ( nextFile == null && flagStop == false )
                 {
                     byte[] buffer = new byte[512];
-                    noisemp3is.reset();
+                    noisemp3is = new BufferedInputStream( MRPCastThread.class.getResourceAsStream( snoise ) );
                     int read = noisemp3is.read( buffer );
 
                     while ( read > 0 && flagStop == false && nextFile == null )
@@ -95,7 +95,7 @@ public class MRPCastThread
                     if ( nextFile != null )
                     {
                         // we send a last stream to prepare the next song
-                        noisemp3is.reset();
+                        noisemp3is = new BufferedInputStream( MRPCastThread.class.getResourceAsStream( snoise ) );
                         buffer = new byte[1024];
                         read = noisemp3is.read( buffer );
                         icecast.send( buffer, read, false );

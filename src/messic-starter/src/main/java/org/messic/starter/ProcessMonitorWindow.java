@@ -223,10 +223,9 @@ public class ProcessMonitorWindow
                     MusicFolderState mfs = Util.testIfMusicFolderIsEmpty( file.getAbsolutePath() );
                     if ( mfs.equals( MusicFolderState.EXIST_WITH_DATABASE ) )
                     {
-                        int result =
-                            JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
-                                                           ml.getProperty( "messic-selectfolder-existingdatabase" ),
-                                                           "", JOptionPane.YES_NO_OPTION );
+                        int result = JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
+                                                                    ml.getProperty( "messic-selectfolder-existingdatabase" ),
+                                                                    "", JOptionPane.YES_NO_OPTION );
                         if ( result == JOptionPane.NO_OPTION )
                         {
                             return;
@@ -234,10 +233,9 @@ public class ProcessMonitorWindow
                     }
                     else if ( mfs.equals( MusicFolderState.EXIST_WITHOUT_DATABASE ) )
                     {
-                        int result =
-                            JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
-                                                           ml.getProperty( "messic-selectfolder-notempty" ), "",
-                                                           JOptionPane.YES_NO_OPTION );
+                        int result = JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
+                                                                    ml.getProperty( "messic-selectfolder-notempty" ),
+                                                                    "", JOptionPane.YES_NO_OPTION );
                         if ( result == JOptionPane.NO_OPTION )
                         {
                             return;
@@ -265,10 +263,9 @@ public class ProcessMonitorWindow
                     MusicFolderState mfs = Util.testIfMusicFolderIsEmpty( folder );
                     if ( mfs.equals( MusicFolderState.EXIST_WITH_DATABASE ) )
                     {
-                        int result =
-                            JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
-                                                           ml.getProperty( "messic-selectfolder-existingdatabase" ),
-                                                           "", JOptionPane.YES_NO_OPTION );
+                        int result = JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
+                                                                    ml.getProperty( "messic-selectfolder-existingdatabase" ),
+                                                                    "", JOptionPane.YES_NO_OPTION );
                         if ( result == JOptionPane.NO_OPTION )
                         {
                             return;
@@ -276,10 +273,9 @@ public class ProcessMonitorWindow
                     }
                     else if ( mfs.equals( MusicFolderState.EXIST_WITHOUT_DATABASE ) )
                     {
-                        int result =
-                            JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
-                                                           ml.getProperty( "messic-selectfolder-notempty" ), "",
-                                                           JOptionPane.YES_NO_OPTION );
+                        int result = JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
+                                                                    ml.getProperty( "messic-selectfolder-notempty" ),
+                                                                    "", JOptionPane.YES_NO_OPTION );
                         if ( result == JOptionPane.NO_OPTION )
                         {
                             return;
@@ -297,7 +293,8 @@ public class ProcessMonitorWindow
                 }
 
                 p.setProperty( MessicConfig.MESSIC_PROXYURL, ( checkProxy.isSelected() ? tfProxyURL.getText() : "" ) );
-                p.setProperty( MessicConfig.MESSIC_PROXYPORT, ( checkProxy.isSelected() ? tfProxyPort.getText() : "" ) );
+                p.setProperty( MessicConfig.MESSIC_PROXYPORT,
+                               ( checkProxy.isSelected() ? tfProxyPort.getText() : "" ) );
                 p.setProperty( MessicConfig.MESSIC_TIMEOUT, tfSessionTimeout.getText() );
                 p.setProperty( MessicConfig.MESSIC_SECUREPROTOCOL, "" + chckbxSecureCommunications.isSelected() );
                 p.setProperty( MessicConfig.MESSIC_HTTPPORT, tfHTTPPort.getText() );
@@ -306,7 +303,8 @@ public class ProcessMonitorWindow
                 try
                 {
                     mc.save();
-                    JOptionPane.showMessageDialog( ProcessMonitorWindow.this, ml.getProperty( "messic-config-saveok" ) );
+                    JOptionPane.showMessageDialog( ProcessMonitorWindow.this,
+                                                   ml.getProperty( "messic-config-saveok" ) );
                 }
                 catch ( IOException e1 )
                 {
@@ -338,9 +336,8 @@ public class ProcessMonitorWindow
         panel_main.add( lblMessicServiceIs );
 
         final boolean running = Util.isMessicRunning();
-        final JLabel lblRunning =
-            new JLabel( ( running ? ml.getProperty( "messic-service-status-started" )
-                            : ml.getProperty( "messic-service-status-stopped" ) ) );
+        final JLabel lblRunning = new JLabel( ( running ? ml.getProperty( "messic-service-status-started" )
+                        : ml.getProperty( "messic-service-status-stopped" ) ) );
         lblRunning.setBounds( 369, 11, 95, 17 );
         if ( running )
         {
@@ -354,9 +351,8 @@ public class ProcessMonitorWindow
         lblRunning.setFont( new Font( "Dialog", Font.BOLD, 16 ) );
         panel_main.add( lblRunning );
 
-        final JButton btnStop =
-            new JButton(
-                         ( running ? ml.getProperty( "messic-service-stop" ) : ml.getProperty( "messic-service-start" ) ) );
+        final JButton btnStop = new JButton( ( running ? ml.getProperty( "messic-service-stop" )
+                        : ml.getProperty( "messic-service-start" ) ) );
         btnStop.setBounds( 482, 8, 95, 25 );
         panel_main.add( btnStop );
         // }
@@ -539,6 +535,10 @@ public class ProcessMonitorWindow
                 {
                     try
                     {
+                        boolean result = checkBeforeStart();
+                        if ( !result )
+                            return;
+
                         ProcessMonitorWindow.this.setCursor( Cursor.getPredefinedCursor( Cursor.WAIT_CURSOR ) );
 
                         Util.launchMessicService( new MessicLaunchedObserver()
@@ -581,6 +581,33 @@ public class ProcessMonitorWindow
         installListeners();
 
         fillConfiguration();
+
+    }
+
+    /**
+     * Do some checks before start. Return true if everything is OK. false is something is wrong and we cannot start.
+     * 
+     * @return result
+     */
+    private boolean checkBeforeStart()
+    {
+        // 1st- check if the destination folder exist
+        MessicConfig mc = new MessicConfig();
+        String paramMusicFolder = mc.getMusicFolder();
+        File fMusicFolder = new File( paramMusicFolder );
+        final Properties ml = Util.getMultilanguage();
+        if ( !fMusicFolder.exists() )
+        {
+            int result = JOptionPane.showConfirmDialog( ProcessMonitorWindow.this,
+                                                        ml.getProperty( "messic-check-musicfolder-noexist" ), "",
+                                                        JOptionPane.YES_NO_OPTION );
+            if ( result == JOptionPane.YES_OPTION )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private Point initialClick;

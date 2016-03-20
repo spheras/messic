@@ -83,8 +83,8 @@ public class Starter
                 {
                     MessicConfig mc = new MessicConfig( true );
                     Properties p = mc.getConfiguration();
-                    p.setProperty( MessicConfig.MESSIC_MUSICFOLDER, System.getProperty( "user.home" )
-                        + File.separatorChar + "messic-data" );
+                    p.setProperty( MessicConfig.MESSIC_MUSICFOLDER,
+                                   System.getProperty( "user.home" ) + File.separatorChar + "messic-data" );
                     mc.setConfiguration( p );
                     mc.save();
                     System.out.println( "The default configuration has been created at the 'conf' folder." );
@@ -139,8 +139,7 @@ public class Starter
         options.addOption( STARTER_OPTION_STOP, false, "stop the messic service" );
         options.addOption( STARTER_OPTION_HELP, false, "show this help" );
         options.addOption( STARTER_OPTION_HELP2, false, "show this help" );
-        options.addOption( STARTER_OPTION_GUI,
-                           true,
+        options.addOption( STARTER_OPTION_GUI, true,
                            "if present, it can establish if the Messic Monitor should be shown or not. (true || false).  This is not necessary when the system doesn't have any display available" );
         options.addOption( STARTER_OPTION_CREATECONFIG, false,
                            "if present, messic will delete the current config file (if exist) and create a new one with the default options" );
@@ -157,6 +156,11 @@ public class Starter
     {
         ProcessMonitorWindow pm = new ProcessMonitorWindow();
         pm.setVisible( true );
+
+        // hack for the setundecorated bug on newest gnome versions (components are not painted the first timme)
+        // this way we force to repaint all of them.
+        pm.setSize( pm.getWidth() - 1, pm.getHeight() );
+
     }
 
 }

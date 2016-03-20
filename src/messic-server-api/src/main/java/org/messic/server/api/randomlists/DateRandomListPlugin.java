@@ -43,15 +43,19 @@ public class DateRandomListPlugin
     @Override
     public RandomList getRandomList( User user )
     {
-        int year = Calendar.getInstance().get( Calendar.YEAR );
-        int fromYear = Util.randInt( daoAlbum.findOldestAlbum( user.getLogin() ), year );
-        int toYear = fromYear + 10;// Util.randInt( fromYear, year );
+        int currentYear = Calendar.getInstance().get( Calendar.YEAR );
+        int fromYear = Util.randInt( daoAlbum.findOldestAlbum( user.getLogin() ), currentYear );
+        int toYear = fromYear + Util.randInt( 1, 5 );// fromYear + 10;// Util.randInt( fromYear, year );
+        if ( toYear > currentYear )
+        {
+            toYear = currentYear;
+        }
         List<MDOAlbum> albums = daoAlbum.findAlbumsBasedOnDate( user.getLogin(), fromYear, toYear );
 
         if ( albums != null && albums.size() > 0 )
         {
             RandomList rl = new RandomList( "RandomListName-Date", "RandomListTitle-Date" );
-            rl.addDetail( fromYear + " - " + toYear );
+            rl.addDetail( fromYear + ( toYear != fromYear ? " - " + toYear : "" ) );
 
             for ( int i = 0; i < albums.size() && rl.getSongs().size() < MAX_ELEMENTS; i++ )
             {

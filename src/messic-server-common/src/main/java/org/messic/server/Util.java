@@ -311,7 +311,16 @@ public class Util
 
     }
 
-    public static void zipFolder( String folderpath, OutputStream os )
+    /**
+     * Zip folder. You can specify the baseSubfolder where everything will be compressed inside the zip. Null if you
+     * want those files directly from the zip, without subfolder
+     * 
+     * @param folderpath folder to zip
+     * @param baseSubfolder Null if you want those files directly from the zip, without subfolder
+     * @param os
+     * @throws IOException
+     */
+    public static void zipFolder( String folderpath, String baseSubfolder, OutputStream os )
         throws IOException
     {
         String sourceFolderName = folderpath;
@@ -320,12 +329,13 @@ public class Util
         // level - the compression level (0-9)
         zos.setLevel( 9 );
 
-        zipFolder2( zos, sourceFolderName, sourceFolderName );
+        zipFolder2( zos, sourceFolderName, sourceFolderName, baseSubfolder );
 
         zos.close();
     }
 
-    public static void zipFolder2( ZipOutputStream zos, String folderName, String baseFolderName )
+    private static void zipFolder2( ZipOutputStream zos, String folderName, String baseFolderName,
+                                    String headFolderName )
         throws IOException
     {
         File f = new File( folderName );
@@ -346,7 +356,7 @@ public class Util
                 File f2[] = f.listFiles();
                 for ( int i = 0; i < f2.length; i++ )
                 {
-                    zipFolder2( zos, f2[i].getAbsolutePath(), baseFolderName );
+                    zipFolder2( zos, f2[i].getAbsolutePath(), baseFolderName, headFolderName );
                 }
             }
             else
@@ -354,7 +364,7 @@ public class Util
                 // add file
                 // extract the relative name for entry purpose
                 String entryName = folderName.substring( baseFolderName.length(), folderName.length() );
-                ZipEntry ze = new ZipEntry( entryName );
+                ZipEntry ze = new ZipEntry( ( headFolderName != null ? headFolderName + "/" : "" ) + entryName );
                 zos.putNextEntry( ze );
                 FileInputStream in = new FileInputStream( folderName );
                 int len;
@@ -437,8 +447,8 @@ public class Util
      * that method is ambiguous on Linux systems. Linux systems enumerate the loopback network interface the same way as
      * regular LAN network interfaces, but the JDK <code>InetAddress.getLocalHost</code> method does not specify the
      * algorithm used to select the address returned under such circumstances, and will often return the loopback
-     * address, which is not valid for network communication. Details <a
-     * href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4665037">here</a>.
+     * address, which is not valid for network communication. Details
+     * <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4665037">here</a>.
      * <p/>
      * This method will scan all IP addresses on all network interfaces on the host machine to determine the IP address
      * most likely to be the machine's LAN address. If the machine has multiple IP addresses, this method will prefer a
