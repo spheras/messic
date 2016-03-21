@@ -45,6 +45,7 @@
 		<module>../messic-server-plugin-musicinfo-youtube</module>
 		<module>../messic-server-plugin-musicinfo-discogs</module>
 		<module>../messic-server-plugin-musicinfo-duckduckgoimages</module>
+		<module>../messic-server-plugin-internationalization-ca</module>
 		<module>../messic-server-plugin-internationalization-en</module>
 		<module>../messic-server-plugin-internationalization-es</module>
 		<module>../messic-server-plugin-radio-icecast2</module>
@@ -396,6 +397,12 @@
 				<groupId>net.coobird</groupId>
 				<artifactId>thumbnailator</artifactId>
 				<version>0.4.7</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.java.dev.jna</groupId>
+				<artifactId>jna-platform</artifactId>
+				<version>4.2.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

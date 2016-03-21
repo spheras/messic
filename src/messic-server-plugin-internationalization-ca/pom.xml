@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<name>messic-server-plugin-radio-icecast2</name>
-	<description>radio plugin to transmit music through an icecast2 server</description>
+	<name>messic-server-plugin-internationalization-ca</name>
+	<description>Fragment that host the catalan internationalization for messic</description>
 	<packaging>bundle</packaging>
 
-	<artifactId>messic-server-plugin-radio-icecast2</artifactId>
+	<artifactId>messic-server-plugin-internationalization-ca</artifactId>
 	<parent>
 		<groupId>org.messic</groupId>
 		<artifactId>messic</artifactId>
@@ -44,17 +44,12 @@
 						<Bundle-Name>${project.name}</Bundle-Name>
 						<Bundle-Version>${project.version}</Bundle-Version>
 
-						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-						<Embed-Directory>dependencies</Embed-Directory>
-						<Embed-Transitive>true</Embed-Transitive>
+						<Include-Resource>{maven-resources}</Include-Resource>
 
-						<Bundle-Activator>org.messic.server.api.radio.icecast2.Activator</Bundle-Activator>
-						<!-- Packages that are not exported but need to be included need to 
-							be listed as Private-Package -->
-						<Private-Package>org.messic.server.api.radio.icecast2,org.messic.server.api.radio.icecast2.libshout</Private-Package>
-						<!-- Automatically compute all the necessary Import-Package statements -->
-						<Import-Package>org.osgi.framework,org.messic.server.api.plugin.radio</Import-Package>
-						<!-- This bundle does not export any packages -->
+						<Fragment-Host>messic-server-webapp</Fragment-Host>
+
+						<Private-Package></Private-Package>
+						<Import-Package></Import-Package>
 						<Export-Package />
 					</instructions>
 				</configuration>
@@ -65,8 +60,10 @@
 				<configuration>
 					<failOnError>false</failOnError>
 					<tasks>
+						<!-- remember, the file destination name contains the string '-ns' 
+							to avoid starting because this is a fragment, not a bundle -->
 						<copy file="${project.build.directory}/${project.build.finalName}.jar"
-							tofile="../messic-service/bundles/04-messic-plugins/06-${project.build.finalName}.jar"
+							tofile="../messic-service/bundles/04-messic-plugins/03-ns-${project.build.finalName}.jar"
 							failOnError="false" />
 					</tasks>
 				</configuration>
@@ -81,22 +78,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<dependencies>
-		<dependency>
-			<groupId>org.messic</groupId>
-			<artifactId>messic-server-osgiservices</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.osgi</groupId>
-			<artifactId>org.osgi.core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>net.java.dev.jna</groupId>
-			<artifactId>jna-platform</artifactId>
-		</dependency>
-	</dependencies>
 
 
 </project>

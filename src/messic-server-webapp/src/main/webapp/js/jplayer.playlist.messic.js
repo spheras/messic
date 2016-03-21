@@ -334,7 +334,8 @@
             //    return false;
             //});
             //messic modification. Play button funcitonality
-            $(this.cssSelector.playlist).on("click", "div.jplayer-playlist-vinylPlayButton", function () {
+
+            $(this.cssSelector.playlist).on("mousedown", "div.jplayer-playlist-vinylPlayButton", function () {
                 var index = $(this).parent().parent().index();
                 if (self.current !== index) {
                     self.play(index);
@@ -356,6 +357,7 @@
             $(this.cssSelector.playlist).off("click", "a." + this.options.playlistOptions.removeItemClass).on("click", "a." + this.options.playlistOptions.removeItemClass, function () {
                 var index = $(this).parent().parent().index();
                 self.remove(index);
+                //messic modification, radio listening removing song
                 if (mainMessicRadio) {
                     mainMessicRadio.messicRadioRemovedSong(index);
                 }

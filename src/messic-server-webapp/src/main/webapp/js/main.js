@@ -730,31 +730,15 @@ function mainResumeCurrentVinyl(currentli) {
     vinylHand.addClass("jplayer-playlist-vinylHandPlaying");
 }
 
-
+/**
+ * function to show the animations (at least the styles) for the vinyl when playing
+ */
 function playVinyl(index) {
     var newli = $("#messic-playlist-container li:nth-child(" + (index + 1) + ")");
     var oldli = $(".jp-playlist-current");
 
     mainStopCurrentVinyl(oldli);
     mainResumeCurrentVinyl(newli);
-
-    /*
-    //first, remove the current player
-    oldli.removeClass("jplayer-playlist-li-expanding");
-    oldli.addClass("jplayer-playlist-li");
-    oldli.find(".jplayer-playlist-vinyl").removeClass("jplayer-playlist-vinylPlaying");
-    oldli.find(".jplayer-playlist-vinyl").addClass("jplayer-playlist-vinylHide");
-    oldli.find(".jplayer-playlist-vinylHand").removeClass("jplayer-playlist-vinylHandPlaying");
-
-    //last, add the new player
-    var vinyl = newli.find(".jplayer-playlist-vinyl");
-    var vinylHand = newli.find(".jplayer-playlist-vinylHand");
-    newli.removeClass("jplayer-playlist-li");
-    newli.addClass("jplayer-playlist-li-expanding");
-    vinyl.removeClass("jplayer-playlist-vinylHide");
-    vinyl.addClass("jplayer-playlist-vinylPlaying");
-    vinylHand.addClass("jplayer-playlist-vinylHandPlaying");
-    */
 }
 
 /* function to download the current playlist which is playing now */

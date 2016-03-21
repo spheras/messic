@@ -361,7 +361,7 @@ function albumCommentsEdit() {
     albumEditStatus();
     var div = $("#messic-album-comments");
     var text = div.clone().find('*').remove().end().text().trim(); //div.contents(':not(div)').text().trim();
-    var code = "<textarea id=\"messic-album-comments-textedit\" name=\"Comments\" >" + text + "</textarea>";
+    var code = "<textarea id=\"messic-album-comments-textedit\" maxlength=\"255\" name=\"Comments\" >" + text + "</textarea>";
     div.empty();
     div.append($(code));
     $("#messic-album-comments input").focus();
