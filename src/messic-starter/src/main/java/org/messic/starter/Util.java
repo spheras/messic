@@ -459,6 +459,7 @@ public class Util
     {
         Locale locale = Locale.getDefault();
         String language = locale.getLanguage();
+        // language="ca"; testing catalan language
         InputStream is = Util.class.getResourceAsStream( "/language-" + language + ".properties" );
         if ( is == null )
         {

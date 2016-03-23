@@ -13,6 +13,8 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -85,6 +87,22 @@ public class ProcessMonitorWindow
     private ImageIcon closeHover;
 
     /**
+     * method to flag all the fields and let know to the user that something was modified and must be saved or discard
+     */
+    private void configurationModified()
+    {
+        flagModified = true;
+        checkProxy.setBackground( modifiedColor );
+        tfProxyPort.setBackground( modifiedColor );
+        tfProxyURL.setBackground( modifiedColor );
+        chckbxSecureCommunications.setBackground( modifiedColor );
+        tfHTTPPort.setBackground( modifiedColor );
+        tfHTTPSPort.setBackground( modifiedColor );
+        tfSessionTimeout.setBackground( modifiedColor );
+        tfConfigMusicFolder.setBackground( modifiedColor );
+    }
+
+    /**
      * Create the frame.
      * 
      * @throws Exception
@@ -93,6 +111,34 @@ public class ProcessMonitorWindow
         throws Exception
     {
         setBackground( Color.RED );
+
+        // listeners to flag the modification done
+        ActionListener actionModifyListener = new ActionListener()
+        {
+            public void actionPerformed( ActionEvent e )
+            {
+                configurationModified();
+            }
+        };
+        KeyListener keyModifyListener = new KeyListener()
+        {
+
+            @Override
+            public void keyTyped( KeyEvent e )
+            {
+                configurationModified();
+            }
+
+            @Override
+            public void keyReleased( KeyEvent e )
+            {
+            }
+
+            @Override
+            public void keyPressed( KeyEvent e )
+            {
+            }
+        };
 
         setTitle( "Messic Monitor" );
         ArrayList<Image> icons = new ArrayList<Image>();
@@ -128,6 +174,13 @@ public class ProcessMonitorWindow
         lblMessicMonitor.setHorizontalAlignment( SwingConstants.CENTER );
         contentPanelBackground.add( lblMessicMonitor );
 
+        JLabel lblMessicVersion = new JLabel( "messic v" + MessicConfig.getCurrentVersion().sversion );
+        lblMessicVersion.setForeground( Color.WHITE );
+        lblMessicVersion.setBounds( 300, 540, 480, 36 );
+        lblMessicVersion.setFont( new Font( "Dialog", Font.BOLD, 12 ) );
+        lblMessicVersion.setHorizontalAlignment( SwingConstants.RIGHT );
+        contentPanelBackground.add( lblMessicVersion );
+
         final JPanel panel_config = new JPanel();
         panel_config.setOpaque( false );
         panel_config.setBounds( 192, 42, 584, 443 );
@@ -142,12 +195,14 @@ public class ProcessMonitorWindow
 
         tfProxyURL = new JTextField();
         tfProxyURL.setBounds( 57, 53, 196, 19 );
+        tfProxyURL.addKeyListener( keyModifyListener );
         panel_config.add( tfProxyURL );
         tfProxyURL.setColumns( 10 );
 
         checkProxy = new JCheckBox( ml.getProperty( "messic-config-proxy" ) );
         checkProxy.setOpaque( false );
         checkProxy.setBounds( 26, 8, 550, 23 );
+        checkProxy.addActionListener( actionModifyListener );
         panel_config.add( checkProxy );
 
         JLabel lblUrlProxy = new JLabel( ml.getProperty( "messic-config-urlproxy" ) );
@@ -161,11 +216,13 @@ public class ProcessMonitorWindow
         tfProxyPort = new JTextField();
         tfProxyPort.setColumns( 10 );
         tfProxyPort.setBounds( 57, 88, 196, 19 );
+        tfProxyPort.addKeyListener( keyModifyListener );
         panel_config.add( tfProxyPort );
 
         chckbxSecureCommunications = new JCheckBox( ml.getProperty( "messic-config-secure" ) );
         chckbxSecureCommunications.setOpaque( false );
         chckbxSecureCommunications.setBounds( 26, 138, 534, 23 );
+        chckbxSecureCommunications.addActionListener( actionModifyListener );
         panel_config.add( chckbxSecureCommunications );
 
         JLabel lblHttpPort = new JLabel( ml.getProperty( "messic-config-httpport" ) );
@@ -175,6 +232,7 @@ public class ProcessMonitorWindow
         tfHTTPPort = new JTextField();
         tfHTTPPort.setColumns( 10 );
         tfHTTPPort.setBounds( 26, 183, 196, 19 );
+        tfHTTPPort.addKeyListener( keyModifyListener );
         panel_config.add( tfHTTPPort );
 
         JLabel lblHttpsPort = new JLabel( ml.getProperty( "messic-config-httpsport" ) );
@@ -184,6 +242,7 @@ public class ProcessMonitorWindow
         tfHTTPSPort = new JTextField();
         tfHTTPSPort.setColumns( 10 );
         tfHTTPSPort.setBounds( 26, 228, 196, 19 );
+        tfHTTPSPort.addKeyListener( keyModifyListener );
         panel_config.add( tfHTTPSPort );
 
         JLabel lblMessicTimeout = new JLabel( ml.getProperty( "messic-config-timeout" ) );
@@ -194,6 +253,7 @@ public class ProcessMonitorWindow
         tfSessionTimeout = new JTextField();
         tfSessionTimeout.setColumns( 10 );
         tfSessionTimeout.setBounds( 26, 273, 196, 19 );
+        tfSessionTimeout.addKeyListener( keyModifyListener );
         panel_config.add( tfSessionTimeout );
 
         JLabel lblMusicFolder = new JLabel( ml.getProperty( "messic-config-musicfolder" ) );
@@ -204,6 +264,7 @@ public class ProcessMonitorWindow
         tfConfigMusicFolder = new JTextField();
         tfConfigMusicFolder.setColumns( 10 );
         tfConfigMusicFolder.setBounds( 26, 318, 510, 19 );
+        tfConfigMusicFolder.addKeyListener( keyModifyListener );
         panel_config.add( tfConfigMusicFolder );
 
         JButton btnBrowse = new JButton( "..." );
@@ -245,6 +306,7 @@ public class ProcessMonitorWindow
                     }
 
                     tfConfigMusicFolder.setText( file.getAbsolutePath() );
+                    configurationModified();
                 }
             }
         } );
@@ -306,6 +368,7 @@ public class ProcessMonitorWindow
                 try
                 {
                     mc.save();
+                    fillConfiguration();
                     JOptionPane.showMessageDialog( ProcessMonitorWindow.this, ml.getProperty( "messic-config-saveok" ) );
                 }
                 catch ( IOException e1 )
@@ -323,6 +386,14 @@ public class ProcessMonitorWindow
         JButton btnCancelChanges = new JButton( ml.getProperty( "messic-config-cancel" ) );
         btnCancelChanges.setBounds( 372, 406, 200, 25 );
         panel_config.add( btnCancelChanges );
+        btnCancelChanges.addActionListener( new ActionListener()
+        {
+            public void actionPerformed( ActionEvent e )
+            {
+                fillConfiguration();
+            }
+
+        } );
 
         final JPanel panel_main = new JPanel();
         panel_main.setBorder( null );
@@ -457,6 +528,11 @@ public class ProcessMonitorWindow
         {
             public void actionPerformed( ActionEvent e )
             {
+                if ( flagModified )
+                {
+                    JOptionPane.showMessageDialog( ProcessMonitorWindow.this, ml.getProperty( "messic-config-pending" ) );
+                    return;
+                }
                 panel_main.setVisible( true );
                 panel_config.setVisible( false );
                 btnMain.setBackground( new Color( 100, 255, 255 ) );
@@ -699,11 +775,17 @@ public class ProcessMonitorWindow
         System.exit( 0 );
     }
 
+    private Color modifiedColor = new Color( 0xFFAAAA );
+
+    private boolean flagModified = false;
+
     /**
      * fill all the config fields with teh current configuration
      */
     public void fillConfiguration()
     {
+        Color defaultColor = new Color( 0xFFFFFF );
+
         MessicConfig sc = new MessicConfig();
         String proxyURL = sc.getProxyUrl();
         String proxyPort = sc.getProxyPort();
@@ -737,5 +819,16 @@ public class ProcessMonitorWindow
         }
 
         this.tfConfigMusicFolder.setText( sc.getMusicFolder() );
+
+        // background default color for all of them (when modified it turns to other color)
+        this.checkProxy.setBackground( defaultColor );
+        this.tfProxyURL.setBackground( defaultColor );
+        this.tfProxyPort.setBackground( defaultColor );
+        this.chckbxSecureCommunications.setBackground( defaultColor );
+        this.tfHTTPPort.setBackground( defaultColor );
+        this.tfHTTPSPort.setBackground( defaultColor );
+        this.tfSessionTimeout.setBackground( defaultColor );
+        this.tfConfigMusicFolder.setBackground( defaultColor );
+        this.flagModified = false;
     }
 }
