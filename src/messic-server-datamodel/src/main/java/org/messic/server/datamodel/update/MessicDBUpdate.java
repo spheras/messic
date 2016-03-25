@@ -51,7 +51,8 @@ public class MessicDBUpdate
     @Transactional
     private void updateToVersion( int version, int revision, int compile, String semantic )
     {
-        // by the moment nothing to update at the database
+        // by the moment nothing to update manually at the database
+        //1.1.0 will create some fields automatically, that's all by the moment
     }
 
     /**

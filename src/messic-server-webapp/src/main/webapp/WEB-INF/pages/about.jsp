@@ -120,6 +120,7 @@
                             <li><u>Manuel Hans</u>, creator of the data model and security especifications</li>
                             <li><u>Francisco Javier Coira</u>, supporting tools and dynamic OSGI extensions</li>
                             <li><u>Juan Luis Casimiro</u>, security issues and linux scripts</li>
+                            <li><u>Lekspelunca & Renat M. Rius</u>, catalan translation</li>
                         </ul>
                     </p>
                     <p>

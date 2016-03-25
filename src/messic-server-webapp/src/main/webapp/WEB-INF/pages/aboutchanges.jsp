@@ -11,6 +11,7 @@
 	            		<li><h4>Android Client links:</h4>We have added some links to the android client version to easily download it.</li>
 	            		<li><h4>jQuery UI:</h4>We start using jQuery UI and validation for a set of basic components instead of using Kendo.</li>
 	            		<li><h4>Changes Info:</h4>messic shows to the user the last changes for the current version to the user</li>
+	            		<li><h4>Catalan translation by Lekspelunca & Renat M. Rius. Lot of Thanks both!!</h4>
 	            		<li><h4>Other minor changes</h4></li>
 	            		<!--
 	            		<li><h4></h4></li>
