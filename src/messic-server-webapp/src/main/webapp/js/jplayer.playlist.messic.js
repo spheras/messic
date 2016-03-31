@@ -80,6 +80,8 @@
 
         // Create an ended event handler to move to the next item
         $(this.cssSelector.jPlayer).bind($.jPlayer.event.ended, function () {
+            //messic change title
+            mainChangeTitle("messic");
             self.next();
         });
 
@@ -495,6 +497,8 @@
                                 self.current = 0;
                                 self.shuffled = false;
                                 self._updateControls();
+                                //messic change title
+                                mainChangeTitle("messic");
                             }
 
                             self.removing = false;
@@ -529,15 +533,24 @@
                     //						$(self.cssSelector.jPlayer).unbind($.jPlayer.event.playing);
                     //						sb.click();
                     //					});
+
+                    //messic change title
+                    var mediaToPlay=this.playlist[this.current];
+                    mainChangeTitle("messic - " + mediaToPlay.author + " - " + mediaToPlay.album + " - " + mediaToPlay.song );
                 }
             } else if (index === undefined) {
                 $(this.cssSelector.jPlayer).jPlayer("play");
+                //messic change title
+                var mediaToPlay=this.playlist[this.current];
+                mainChangeTitle("messic - " + mediaToPlay.author + " - " + mediaToPlay.album + " - " + mediaToPlay.song );
             }
         },
         pause: function () {
             $(this.cssSelector.jPlayer).jPlayer("pause");
             //messic, we need to pause the vinyl animation (css style of course)
             mainPauseCurrentVinyl();
+            //messic change title
+            mainChangeTitle("messic");
         },
         next: function () {
             var index = (this.current + 1 < this.playlist.length) ? this.current + 1 : 0;

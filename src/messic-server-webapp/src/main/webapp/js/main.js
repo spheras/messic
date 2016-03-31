@@ -958,3 +958,10 @@ function mainPinPlaylist() {
     }
 
 }
+
+/**
+* function to change the title
+*/
+function mainChangeTitle(newTitle){
+    $('head title', window.parent.document).text(newTitle);
+}
