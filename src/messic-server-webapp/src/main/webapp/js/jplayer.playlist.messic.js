@@ -536,13 +536,13 @@
 
                     //messic change title
                     var mediaToPlay=this.playlist[this.current];
-                    mainChangeTitle("messic - " + mediaToPlay.author + " - " + mediaToPlay.album + " - " + mediaToPlay.song );
+                    mainChangeMessicTitle(mediaToPlay.author, mediaToPlay.album, mediaToPlay.song );
                 }
             } else if (index === undefined) {
                 $(this.cssSelector.jPlayer).jPlayer("play");
                 //messic change title
                 var mediaToPlay=this.playlist[this.current];
-                mainChangeTitle("messic - " + mediaToPlay.author + " - " + mediaToPlay.album + " - " + mediaToPlay.song );
+                mainChangeMessicTitle(mediaToPlay.author, mediaToPlay.album, mediaToPlay.song );
             }
         },
         pause: function () {

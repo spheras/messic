@@ -681,6 +681,7 @@ function addSong(titleA, authorSid, authorName, albumSid, albumName, songSid, so
 /* clear the current playlist */
 function clearPlaylist() {
     playlist.remove();
+    mainChangeTitle("messic");
     if (mainMessicRadio) {
         mainMessicRadio.messicRadioRemovedSong(99999);
     }
@@ -957,6 +958,14 @@ function mainPinPlaylist() {
         }
     }
 
+}
+
+/**
+* function to change the title based on a song info
+* the result will be messic » songname - authorname [albumname]
+*/
+function mainChangeMessicTitle(authorname, albumname, songname){
+    mainChangeTitle("messic » "+ songname + " - " + authorname + " ["+albumname+"]");
 }
 
 /**
