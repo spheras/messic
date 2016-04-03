@@ -36,16 +36,28 @@ public class Activator
      **/
     public void start( BundleContext bundleContext )
     {
-        String sversion = LibShout.get().getVersion();
-        if ( !sversion.equals( "2.3.1" ) )
+        try
         {
-            logger.warn( "icecast2 version " + sversion );
-        }
-        logger.info( "Radio - Icecast2 Started" );
 
-        Hashtable<String, String> props = new Hashtable<String, String>();
-        props.put( MessicRadioPlugin.MESSIC_RADIO_PLUGIN_NAME, MessicRadioPluginIceCast2.NAME );
-        bundleContext.registerService( MessicRadioPlugin.class.getName(), new MessicRadioPluginIceCast2(), props );
+            String sversion = LibShout.get().getVersion();
+            if ( !sversion.equals( "2.3.1" ) )
+            {
+                logger.warn( "icecast2 version " + sversion );
+            }
+            logger.info( "Radio - Icecast2 Started" );
+
+            Hashtable<String, String> props = new Hashtable<String, String>();
+            props.put( MessicRadioPlugin.MESSIC_RADIO_PLUGIN_NAME, MessicRadioPluginIceCast2.NAME );
+            bundleContext.registerService( MessicRadioPlugin.class.getName(), new MessicRadioPluginIceCast2(), props );
+        }
+        catch ( Exception e )
+        {
+            logger.info( "Radio - Icecast2 Not Available" );
+        }
+        catch ( Error e )
+        {
+            logger.info( "Radio - Icecast2 Not Available" );
+        }
 
     }
 

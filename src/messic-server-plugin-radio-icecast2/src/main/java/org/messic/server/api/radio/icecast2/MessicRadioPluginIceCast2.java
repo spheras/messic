@@ -81,9 +81,20 @@ public class MessicRadioPluginIceCast2
         {
             if ( isStarted() )
             {
-                if ( !LibShout.get().isConnected() )
+                try
                 {
-                    this.info.status = MessicRadioStatus.NOT_STARTED;
+                    if ( !LibShout.get().isConnected() )
+                    {
+                        this.info.status = MessicRadioStatus.NOT_STARTED;
+                    }
+                }
+                catch ( Exception e )
+                {
+                    this.info.status = MessicRadioStatus.NOT_ENABLED;
+                }
+                catch ( Error e )
+                {
+                    this.info.status = MessicRadioStatus.NOT_ENABLED;
                 }
             }
         }

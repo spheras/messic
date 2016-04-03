@@ -75,6 +75,11 @@
 			<outputDirectory>./</outputDirectory>
 			<destName>messic_admin.exe</destName>
 		</file>
+		<file>
+			<source>./bin/windows/messic_console.exe</source>
+			<outputDirectory>./</outputDirectory>
+			<destName>messic_console.exe</destName>
+		</file>
 	</files>
 
 

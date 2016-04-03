@@ -2,6 +2,7 @@
 !addplugindir ".\Include\AccessControl\Plugins\"
 !include .\Include\ZipDLL\zipdll.nsh
 
+
 # This installs two files, app.exe and logo.ico, creates a start menu shortcut, builds an uninstaller, and
 # adds uninstall information to the registry for Add/Remove Programs
  
@@ -15,11 +16,11 @@
 !define COMPANYNAME "messic"
 !define DESCRIPTION "Music organizer and player"
 #Files to include at the installer
-!define ZIP_FILE "messic-1.0.0-beta.app.zip"
+!define ZIP_FILE "messic-1.1.0.app.zip"
 # These three must be integers
 !define VERSIONMAJOR 1
-!define VERSIONMINOR 0
-!define VERSIONBUILD 0-beta
+!define VERSIONMINOR 1
+!define VERSIONBUILD 0
 # These will be displayed by the "Click here for support information" link in "Add/Remove Programs"
 # It is possible to use "mailto:" links in here to open the email client
 !define HELPURL "http://spheras.github.io/messic/" # "Support Information" link
@@ -29,7 +30,18 @@
 # This is the size (in kB) of all the files copied into "Program Files"
 !define INSTALLSIZE 122880
  
+XPStyle on
 RequestExecutionLevel admin ;Require admin rights on NT6+ (When UAC is turned on)
+
+; First is default
+LoadLanguageFile "${NSISDIR}\Contrib\Language files\English.nlf"
+LoadLanguageFile "${NSISDIR}\Contrib\Language files\Spanish.nlf"
+LoadLanguageFile "${NSISDIR}\Contrib\Language files\Catalan.nlf"
+
+LangString uninstall_previous_message ${LANG_ENGLISH} "${APPNAME} is already installed. $\n$\nClick 'OK' to remove the previous version (remember that the uninstall DON'T remove your music folder) or `Cancel` to cancel this upgrade. $\nWARNING: before uninstall, be sure to STOP the messic service if it is running."
+LangString uninstall_previous_message ${LANG_SPANISH} "${APPNAME} ya está instalado. $\n$\nHaz Click en 'OK' para eliminar la instalación previa de messic (recuerda que la desinstalación NO elimina la carpeta de música) o 'Cancelar' para cancelar esta instalación. $\nIMPORTANTE: antes de desinstalar asegúrate de que el servicio messic está parado."
+LangString uninstall_previous_message ${LANG_CATALAN} "${APPNAME} ja està instal·lat. $\n$\nFes clic a 'OK' per eliminar la instal·lació prèvia d'messic (recorda que la desinstal·lació NO elimina la carpeta de música) o 'Cancel·la' per cancel·lar aquesta instal·lació. $\nIMPORTANT: abans de desinstal·lar assegura't que el servei messic està aturat."
+
  
 InstallDir "$PROGRAMFILES\${APPNAME}"
  
@@ -61,6 +73,42 @@ ${EndIf}
 function .onInit
 	setShellVarContext all
 	!insertmacro VerifyUserIsAdmin
+
+    ;code to uninstall previously the installed messic	
+	ReadRegStr $R0 HKLM \
+	  "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" \
+	  "UninstallString"
+	  StrCmp $R0 "" done
+	 
+	  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
+	  "$(uninstall_previous_message)" \
+	  IDOK uninst
+	  Abort
+	 
+	;Run the uninstaller
+	uninst:
+	  ClearErrors
+		;Exec $INSTDIR\uninstall.exe ; instead of the ExecWait line	  
+	  ExecWait '$R0 _?=$INSTDIR' ;Do not copy the uninstaller to a temp file
+	 
+	  IfErrors no_remove_uninstaller done
+		;You can either use Delete /REBOOTOK in the uninstaller or add some code
+		;here to remove the uninstaller. Use a registry key to check
+		;whether the user has chosen to uninstall. If you are using an uninstaller
+		;components page, make sure all sections are uninstalled.
+	  no_remove_uninstaller:
+	 
+	done:
+
+	;we check again
+	ReadRegStr $R0 HKLM \
+	  "Software\Microsoft\Windows\CurrentVersion\Uninstall\${COMPANYNAME} ${APPNAME}" \
+	  "UninstallString"
+	StrCmp $R0 "" doneagain
+	Abort
+
+	doneagain:
+	
 functionEnd
  
 section "install"
@@ -122,7 +170,6 @@ function un.onInit
 functionEnd
  
 section "uninstall"
- 
 	# Remove Start Menu launcher
 	delete "$SMPROGRAMS\${COMPANYNAME}\${APPNAME}.lnk"
 	delete "$SMPROGRAMS\${COMPANYNAME}\uninstall.lnk"
