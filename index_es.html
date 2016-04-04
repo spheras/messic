@@ -37,7 +37,8 @@
 
             <div class="messic-social svg">
                 <a title="GitHub" href="http://www.github.com/spheras/messic" class="webicon github" target="_blank"></a>
-                <a title="Google Groups" href="http://groups.google.com/group/messic" class="webicon mail" target="_blank"></a>
+                <!-- <a title="Google Groups" href="http://groups.google.com/group/messic" class="webicon mail" target="_blank"></a> -->
+                <a title="Email" href="mailto:messicapp@gmail.com" class="webicon mail" target="_blank"></a>
                 <a title="Twitter" href="http://twitter.com/messicapp" class="webicon twitter" target="_blank"></a>
                 <a title="Huboard" href="https://huboard.com/spheras/messic" class="webicon huboard" target="_blank"></a>
             </div>
@@ -52,23 +53,7 @@
         </div>
 
         <iframe id="galleria" src="https://www.youtube.com/embed/eYM_KzWhc_c" frameborder="0" allowfullscreen></iframe>
-        <!--
-        <div id="galleria">
-            <a href="images/gallery/image1.png">
-                <img src="images/gallery/image1.png" , data-big="images/gallery/image1.png" data-title="Login" data-description="Login page for the multiuser purposes.">
-            </a>
-            <a href="images/gallery/image2.png">
-                <img src="images/gallery/image2.png" , data-big="images/gallery/image2.png" data-title="Random Playlists" data-description="Automatic lists of music.">
-            </a>
-            <a href="images/gallery/image3.png">
-                <img src="images/gallery/image3.png" , data-big="images/gallery/image3.png" data-title="Album catalog" data-description="Album catalog filtered by date, genre, authors, ...">
-            </a>
-            <a href="images/gallery/image4.png">
-                <img src="images/gallery/image4.png" , data-big="images/gallery/image4.png" data-title="User Playlists" data-description="User playlists.">
-            </a>
-        </div>
-        -->
-        <div class="messic-version">1.0.1</div>
+        <div class="messic-version">1.1.0</div>
 
     </header>
 
@@ -83,13 +68,41 @@
                 </div>
                 <p class="comnents"> Por favor, deja <a href="discus.html">aquí</a> tus comentarios. Nos encantaría saber qué piensas sobre messic.</p>
 
-                <h3><a name="new-1.0.2_version" class="anchor" href="#new-1.0.2_version"><span class="octicon octicon-link"></span></a>¡Buenas Noticias! Versión 1.0.1 publicada.</h3>
-                <p class="news_date">24/09/2015</p>
-                <p>Al equipo de messic nos encanta poder anunciar por fin la liberación de <strong>la primera versión estable de messic, v1.0.1</strong>. Esperamos que la disfrutes tanto como nosotros. No dudes en reportar cualquier problema que detectes (puedes hacerlo <a href="https://github.com/spheras/messic/issues" target="_blank">aquí</a>) así como cualquier idea que tengas en la cabeza para una futura versión de messic.</p>
-                <p>No olvides dejar tus comentarios <a href="discus.html">aquí</a>, nos encanta saber que hay gente interesada en messic. <strong>¡Recuerda! Necesitamos tu ayuda para seguir mejorando messic.</strong></p>
+                <h3><a name="new-1.0.2_version" class="anchor" href="#new-1.0.2_version"><span class="octicon octicon-link"></span></a>¡Buenas Noticias! Versión 1.1.0 publicada.</h3>
+                <p class="news_date">03/04/2016</p>
+                <p>¡Buenas noticias de nuevo! Nos encanta poder anunciar por fin la liberación de <strong>la segunda versión estable de messic, v1.1.0</strong>. <a href="#link-howto-update-messic">¡Mira aquí cómo actualizar messic!</a>. Es el momento de disfrutar con sus nuevas características actualizando tu vieja versión de messic. Por favor reportanos cualquier problema que detectes (puedes hacerlo <a href="https://github.com/spheras/messic/issues" target="_blank">aquí</a>) así como cualquier idea que tengas en la cabeza para una futura versión de messic.</p>
+                <p>Estas son las principales actualizaciones:</p>
+                <ul>
+                    <li>Plugin para hacer streamcast de messic gracias a un servicio icecast y libshout -más información acerca de su configuración muy pronto-</li>
+                    <li>Albums multi volúmenes</li>
+                    <li>Lista de Reproducción arrastrable para ordenación</li>
+                    <li>El cliente de Android ha sido rediseñado</li>
+                    <li>Traducción al catalán (mil gracias a Lekspelunca &mp; Renat M. Rius)</li>
+                    <li>Un montón de bugs menores y mejoras</li>
+                </ul>
+
+                <p>No olvides dejar tus comentarios <a href="discus.html">aquí</a>, nos encanta saber que hay gente interesada en messic y que nuestro esfuerzo merece la pena. <strong>¡Recuerda! Necesitamos tu ayuda para seguir mejorando messic.</strong></p>
 
                 <p>Gracias.
                     <br>messic Team.</p>
+
+                <a name="link-howto-update-messic" class="anchor" href="#welcome-to-github-pages">&nbsp;</a>
+                <br>
+                <h3>
+<a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Cómo actualizar messic</h3>
+                <p>
+                    Esta es una pregunta muy común. Desafortunadamente messic no tiene todavía un mecanismo de actualización automático, pero es muy sencillo hacerlo manualmente.
+                    <br>Antes de nada, si tienes una versión antigua ejecutándose, asegúrate de PARAR el servicio con el monitor de messic. Antes de instalar una nueva versión es importante saber dónde está actualmente tu carpeta de música ya que será la misma carpeta que uses en la nueva versión. Por lo tanto, si no recuerdas dónde está, esta información la puedes encontrar en el monitor de messic, en la sección de configuración.
+                    <br>DESINSTALA la versión anterior de messic antes de instalar la más reciente (tranquilo, la desinstalación NO elimina tu carpeta de música).
+                    <br>Todo lo que necesitas hacer ahora es descargar la uĺtima versión de messic desde esta web e instalarla (o descomprimirla si te bajaste una versión comprimida). Cuando lances messic por primera vez te preguntará dónde está tu carpeta de música.
+                    <br>Este es el paso más importante: Debes espeicifcar que tu carpeta de música es la misma que venías usando con la versión anterior de messic. Messic detectará que en esa ruta existe una base de datos de messic. Esto es normal, sólo debes decirle que estás de acuerdo.
+                    <br>
+                    <br>
+                    <strong>Nota Importante: ¿Dónde demonios está mi carpeta de música??</strong>jeje, si no sabes donde está la carpet de música de messic lo que necesitas hacer es abrir el monitor de la antigua versión de messic. En la sección de configuración está la ruta de la carpeta de messic que has utilizado.
+                    <br>
+                    <br>
+                    <strong>Segunda Nota Importante:</strong> Debes especificar la raiz de la carpeta de música (dentro de esa carpeta hay otras como la base de datos, tu usuario de messic, tus albums, etc..). Por ejemplo, si seleccionaste la carpeta de música por defecto, esta sería algo como (ejemplo con una ruta de windows) <strong>c:\users\myuser\messic-data</strong>
+                </p>
 
                 <h3>
 <a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Bienvenido a la página web de messic.</h3>
@@ -299,9 +312,9 @@
     <script src="javascripts/main.js"></script>
 
     <script>
-        (function (i, s, o, g, r, a, m) {
+        (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
+            i[r] = i[r] || function() {
                 (i[r].q = i[r].q || []).push(arguments)
             }, i[r].l = 1 * new Date();
             a = s.createElement(o),
@@ -313,6 +326,7 @@
 
         ga('create', 'UA-53893780-1', 'auto');
         ga('send', 'pageview');
+
     </script>
 </body>
 

@@ -37,7 +37,7 @@
 
             <div class="messic-social svg">
                 <a title="GitHub" href="http://www.github.com/spheras/messic" class="webicon github" target="_blank"></a>
-                <a title="Google Groups" href="http://groups.google.com/group/messic" class="webicon mail" target="_blank"></a>
+                <!-- <a title="Google Groups" href="http://groups.google.com/group/messic" class="webicon mail" target="_blank"></a> -->
                 <a title="Twitter" href="http://twitter.com/messicapp" class="webicon twitter" target="_blank"></a>
                 <a title="Huboard" href="https://huboard.com/spheras/messic" class="webicon huboard" target="_blank"></a>
             </div>
@@ -52,23 +52,7 @@
         </div>
 
         <iframe id="galleria" src="https://www.youtube.com/embed/eYM_KzWhc_c" frameborder="0" allowfullscreen></iframe>
-        <!--
-        <div id="galleria">
-            <a href="images/gallery/image1.png">
-                <img src="images/gallery/image1.png" , data-big="images/gallery/image1.png" data-title="Login" data-description="Login page for the multiuser purposes.">
-            </a>
-            <a href="images/gallery/image2.png">
-                <img src="images/gallery/image2.png" , data-big="images/gallery/image2.png" data-title="Random Playlists" data-description="Automatic lists of music.">
-            </a>
-            <a href="images/gallery/image3.png">
-                <img src="images/gallery/image3.png" , data-big="images/gallery/image3.png" data-title="Album catalog" data-description="Album catalog filtered by date, genre, authors, ...">
-            </a>
-            <a href="images/gallery/image4.png">
-                <img src="images/gallery/image4.png" , data-big="images/gallery/image4.png" data-title="User Playlists" data-description="User playlists.">
-            </a>
-        </div>
--->
-        <div class="messic-version">1.0.1</div>
+        <div class="messic-version">1.1.0</div>
 
     </header>
 
@@ -83,12 +67,37 @@
                 </div>
                 <p class="comnents">Please, leave your comments <a href="discus.html">here</a>. We would love to hear your feedback.</p>
 
-                <h3><a name="new-1.0.2_version" class="anchor" href="#new-1.0.2_version"><span class="octicon octicon-link"></span></a>Good News! 1.0.1 version published.</h3>
-                <p class="news_date">2015/09/24</p>
-                <p>messic Team would like to announce that finally we have published the <strong>first messic version that can be considered stable, v1.0.1</strong>. We hope you enjoy it and we would like to ask you to report any problem detected (you can do it <a href="https://github.com/spheras/messic/issues" target="_blank">here</a>) as well as your ideas for future messic versions.</p>
-                <p>Don't forget to leave your comments <a href="discus.html">here</a> , we love to know that there are people who are interested in messic. <strong>Remember! We need your help in order to continue improving messic.</strong></p>
+                <h3><a name="new-1.0.2_version" class="anchor" href="#new-1.0.2_version"><span class="octicon octicon-link"></span></a>Good News! 1.1.0 version published.</h3>
+                <p class="news_date">2016/04/03</p>
+                <p>Good news again! messic Team love to announce that finally we got here the <strong>second stable release of messic, v1.1.0</strong>. <a href="#link-howto-update-messic">See here how to update messic!</a>. It is time to enjoy its new characteristics updating your old version and please report all bugs you detect (you can do it <a href="https://github.com/spheras/messic/issues" target="_blank">here</a>) as well as your ideas for future messic versions.</p>
+                <p>Here are the main updates:</p>
+                <ul>
+                    <li>Messic Radio plugin by icecast and libsout -more detailed info explaining configuration very soon-</li>
+                    <li>Multi Volume Albums</li>
+                    <li>Draggable Playlist Queue</li>
+                    <li>New Android client rework</li>
+                    <li>Catalan translation (lot of thanks to Lekspelunca &amp; Renat M. Rius)</li>
+                    <li>A lot of other minor bugs and improvements</li>
+                </ul>
+                <p>Don't forget to leave your comments <a href="discus.html">here</a> , we love to hear you and feel that our effort make sense. <strong>Remember! We need your help in order to continue improving messic.</strong></p>
                 <p>Thank you.
                     <br>messic Team.</p>
+                <a name="link-howto-update-messic" class="anchor" href="#welcome-to-github-pages">&nbsp;</a>
+                <br>
+                <h3><a name="howto-update-messic" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>How to Update messic</h3>
+                <p>
+                    This is a common question. Unfotunatelly, messic doesn't have (yet) an automatic mechanism to update your version, but it is very easy to update though.
+                    <br> First, if you have an old version running, ensure to STOP the service with the messic monitor. Before installing the new version, it is important to know where is you current messic music folder due to it will be the same for the updated version. So, if you don't know what is your folder you can get it from the messic monitor window.
+                    <br> Then, UNINSTALL your last version before install the new one (messic uninstall will NOT delete your current music folder).
+                    <br> All you need to do now is to download the last version of messic and install it (or decompress if you downloaded a compressed vesion). When running for the first time, messic will ask you where is your music folder.
+                    <br> This is the most important step: you must put there the music folder you where using with the last version. messic will detect it and warn you that at that place is an existing messic database. You only need to say it is OK.
+                    <br>
+                    <br>
+                    <strong>Important Note: Where the hell is my messic music folder??</strong> hehe, If you don't know where is your old messic music folder you just need to open your old messic version monitor. At the configuration section is the current messic music folder that you were using.
+                    <br>
+                    <br>
+                    <strong>Second Important Note:</strong> You must specify the root of your messic music folder (inside of the messic folder are others like the database, your messic user folder, your albums and so on). i.e. If you selected the default messic music folder it should be something like (windows path example) <strong>c:\users\myuser\messic-data</strong>
+                </p>
 
                 <h3>
 <a name="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages"><span class="octicon octicon-link"></span></a>Welcome to messic Web Page.</h3>
@@ -303,9 +312,9 @@
     <script src="javascripts/main.js"></script>
 
     <script>
-        (function (i, s, o, g, r, a, m) {
+        (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
+            i[r] = i[r] || function() {
                 (i[r].q = i[r].q || []).push(arguments)
             }, i[r].l = 1 * new Date();
             a = s.createElement(o),
@@ -317,6 +326,7 @@
 
         ga('create', 'UA-53893780-1', 'auto');
         ga('send', 'pageview');
+
     </script>
 </body>
 
