@@ -11,7 +11,7 @@
 	<!-- example: 1.0.5-beta.40 -->
 	<!-- means: major version is 1, minor version is 0.. -->
 	<!-- there have been applied 5 patch, and this is the beta compiled 40. -->
-	<version>1.1.0</version>
+	<version>1.1.1-alpha.1</version>
 
 	<groupId>org.messic</groupId>
 	<artifactId>messic</artifactId>
@@ -30,7 +30,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<org.springframework.version>4.0.0.RELEASE</org.springframework.version>
 		<org.springframework.security.version>3.2.0.RELEASE</org.springframework.security.version>
-		<messic.version>1.1.0</messic.version>
+		<messic.version>1.1.1-alpha.1</messic.version>
 	</properties>
 
 	<modules>
